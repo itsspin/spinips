@@ -169,6 +169,21 @@ Tuned for **running with the map open**:
 
 ---
 
+## The equipment screen
+
+![Equipment screen — Narcissus mode](docs/previews/equipment_page.png)
+
+Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 720x800):
+
+* **Two floating slot rails** — armor down the left, jewelry down the right — each slot seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
+* **Weapons row** on gold-edged hexes across the bottom center: Primary · Secondary · Range · Ammo · Power.
+* **Class crest centerpiece** — the class emblem (still a functional *drop-to-auto-equip* target) floats top-center on a gold hex.
+* **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
+* Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
+* Regenerate or tweak the composition via `tools/restyle_inventory.py` (rail order and pitch are data at the top of the file).
+
+---
+
 ## Bags, bank bags and the dock
 
 * **Inventory bags** (`BagInv1-8`) are pre-positioned to tile in **one clean row** in the bottom-right dock (under the Loremaster panel) — open all bags and they line up 8-across, no cascade mess, no overlap with any HUD element.

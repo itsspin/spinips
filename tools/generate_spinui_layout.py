@@ -135,7 +135,7 @@ PLACEMENTS: dict[str, dict] = {
     "TrackingWnd":   P(8, 120, 340, 390),                       # druid/bard tracking
 
     # --- openable windows ---------------------------------------------------
-    "InventoryWindow": P(500, 360),
+    "InventoryWindow": P(420, 140),
     "BigBankWnd":      P(1000, 330),
     "BreathWindow":    P(1661, 700),
 }
@@ -291,7 +291,7 @@ XML_SIZES = {
     "PetInfoWindow": (311, 190), "BuffWindow": (200, 712),
     "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (200, 367),
     "ShortDurationBuffWindow_13": (200, 367), "BigBankWnd": (287, 390),
-    "InventoryWindow": (504, 495), "BreathWindow": (118, 32),
+    "InventoryWindow": (720, 800), "BreathWindow": (118, 32),
     "GroupWindow": (230, 430),   # grows downward; reserve
     "CompassWindow": (460, 36),
 }
