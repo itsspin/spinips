@@ -214,8 +214,8 @@ def draw_chat(canvas, x, y, w, h, name, lines, input_line=""):
     text(canvas, (x + 16, y + 10), name, size=12, color=GOLD_BRIGHT, bold=True, anchor="lm")
     ty = y + 30
     for color, s in lines:
-        text(canvas, (x + 14, ty), s, size=13, color=color)
-        ty += 19
+        text(canvas, (x + 14, ty), s, size=14, color=color)
+        ty += 21
     # input strip
     d.rectangle([x + 8, y + h - 26, x + w - 9, y + h - 8], fill=(8, 10, 14, 255), outline=LINE_SOFT + (255,))
     if input_line:
@@ -402,39 +402,47 @@ def draw_loremaster(canvas, x, y, w, h):
     d = ImageDraw.Draw(canvas)
     d.rectangle([x, y, x + w - 1, y + h - 1], fill=GOLD + (255,))
     d.rectangle([x + 1, y + 1, x + w - 2, y + h - 2], fill=(11, 13, 18, 250))
-    rect(canvas, (x + 1, y + 1, x + w - 1, y + 25), fill=(16, 19, 27, 255))
-    text(canvas, (x + 10, y + 6), "LOREMASTER", size=12, color=GOLD_BRIGHT, bold=True)
-    text(canvas, (x + 112, y + 8), "—  Spin · 40 · Blackburrow", size=11, color=DIM)
-    text(canvas, (x + w - 12, y + 7), "—   ↺   ✕", size=12, color=DIM, anchor="ra")
-    # big numbers
-    cells = [("1,284", "FIGHT DPS", GOLD_BRIGHT), ("946", "SESSION", TEXT), ("2,105", "BEST FIGHT", CYAN)]
+    rect(canvas, (x + 1, y + 1, x + w - 1, y + 27), fill=(16, 19, 27, 255))
+    text(canvas, (x + 10, y + 7), "LOREMASTER", size=13, color=GOLD_BRIGHT, bold=True)
+    text(canvas, (x + 124, y + 9), "—  Spin · 40", size=11, color=DIM)
+    text(canvas, (x + w - 12, y + 8), "—   ↺   ✕", size=12, color=DIM, anchor="ra")
+    cells = [("1,284", "FIGHT DPS", GOLD_BRIGHT), ("946", "SESSION", TEXT), ("2,105", "BEST", CYAN)]
     cw = (w - 20) // 3
     for i, (v, lab, col) in enumerate(cells):
         cx = x + 10 + i * cw + cw // 2
-        text(canvas, (cx, y + 34), v, size=24, color=col, bold=True, anchor="ma")
-        text(canvas, (cx, y + 64), lab, size=9, color=DIM, anchor="ma")
-    d.rectangle([x + 10, y + 82, x + w - 10, y + 84], fill=GOLD + (255,))
+        text(canvas, (cx, y + 38), v, size=21, color=col, bold=True, anchor="ma")
+        text(canvas, (cx, y + 66), lab, size=10, color=DIM, anchor="ma")
+    d.rectangle([x + 10, y + 84, x + w - 10, y + 86], fill=GOLD + (255,))
     stats = [("★ Kills", "38"), ("★ XP %/hr", "14.2%"), ("★ Time to level", "3h41m"),
-             ("★ Plat/hr", "12.4p"), ("HPS", "212"), ("Dmg taken", "18.4k"),
-             ("★ Songs/min", "6.2"), ("Pets active", "1"), ("Crits", "44"), ("Deaths", "0")]
-    scw = (w - 20) // 5
+             ("★ Plat/hr", "12.4p"), ("★ Songs/min", "6.2"), ("HPS", "212"),
+             ("Dmg taken", "18.4k"), ("Pets active", "1"), ("Crits", "44"), ("Deaths", "0")]
+    scw = (w - 20) // 2
     for i, (lab, val) in enumerate(stats):
-        sx = x + 10 + (i % 5) * scw
-        sy = y + 92 + (i // 5) * 44
-        d.rectangle([sx + 2, sy, sx + scw - 2, sy + 40], fill=(16, 19, 27, 255), outline=LINE_SOFT + (255,))
-        text(canvas, (sx + 8, sy + 5), lab, size=9, color=GOLD if lab.startswith("★") else DIM)
+        sx = x + 10 + (i % 2) * scw
+        sy = y + 94 + (i // 2) * 42
+        d.rectangle([sx + 2, sy, sx + scw - 2, sy + 38], fill=(16, 19, 27, 255), outline=LINE_SOFT + (255,))
+        text(canvas, (sx + 8, sy + 4), lab, size=10, color=GOLD if lab.startswith("★") else DIM)
         text(canvas, (sx + 8, sy + 18), val, size=14, color=TEXT, bold=True)
-    ty = y + 186
-    text(canvas, (x + 10, ty), "RECENT FIGHTS", size=9, color=GOLD)
-    fights = [("a froglok shin knight", "8.4k in 7s", "1,196 dps"),
-              ("Grenkor the Mighty", "21.3k in 14s", "1,522 dps"),
-              ("a froglok tuk knight", "6.1k in 5s", "1,214 dps")]
-    for i, (nm, mid, dps) in enumerate(fights):
-        fy = ty + 14 + i * 17
-        text(canvas, (x + 10, fy), nm, size=11, color=TEXT)
-        text(canvas, (x + w - 100, fy), mid, size=10, color=DIM, anchor="ra")
-        text(canvas, (x + w - 12, fy), dps, size=11, color=GOLD_BRIGHT, anchor="ra")
+    ty = y + 94 + 5 * 42 + 8
+    text(canvas, (x + 10, ty), "RECENT FIGHTS", size=10, color=GOLD)
+    fights = [("a froglok shin knight", "1,196"),
+              ("Grenkor the Mighty", "1,522"),
+              ("a froglok tuk knight", "1,214")]
+    for i, (nm, dps) in enumerate(fights):
+        fy = ty + 16 + i * 19
+        text(canvas, (x + 10, fy), nm, size=12, color=TEXT)
+        text(canvas, (x + w - 12, fy), dps + " dps", size=12, color=GOLD_BRIGHT, anchor="ra")
     return
+
+
+def draw_bag(canvas, x, y, name):
+    std_window(canvas, x, y, 96, 194, title=name, alpha=246)
+    ic = 0
+    for r in range(4):
+        for c in range(2):
+            ic += 1
+            slot(canvas, x + 6 + c * 43, y + 22 + r * 42, 40,
+                 ICONS[(r * 2 + c + len(name)) % len(ICONS)] if ic % 3 else None)
 
 
 def draw_eqmain(canvas, x, y, w, h):
@@ -463,7 +471,7 @@ def draw_compass(canvas, x, y, w=460, h=34):
 
 
 def draw_songs(canvas, x, y):
-    draw_buffs(canvas, x, y, "Songs", 6, w=200, h=24 + 6 * 24 + 8)
+    draw_buffs(canvas, x, y, "Song Effects", 6, w=200, h=24 + 6 * 24 + 8)
 
 
 # ---------------------------------------------------------------------------
@@ -548,7 +556,7 @@ def main():
 
     # right column
     x, y, w, h = xy("BuffWindow")
-    draw_buffs(canvas, x, y, "Buffs", 18, w=200, h=712)
+    draw_buffs(canvas, x, y, "Spell Effects", 18, w=200, h=712)
     x, y, w, h = xy("ShortDurationBuffWindow")
     draw_songs(canvas, x, y)
     draw_group(canvas, *xy("GroupWindow")[:2])
@@ -559,8 +567,13 @@ def main():
     draw_compass(canvas, *xy("CompassWindow")[:2])
     draw_eqmain(canvas, 3040, 1396, 392, 36)
 
-    # Loremaster in its reserved dock
-    draw_loremaster(canvas, 2492, 1152, 940, 280)
+    # Loremaster on its shelf above the bag dock
+    draw_loremaster(canvas, 2792, 676, 400, 460)
+
+    # inventory bags tiled in the dock row
+    for i, nm in enumerate(("Backpack", "Backpack", "Large Ba", "Backpack",
+                            "Large Ba", "Bag of S", "Large Ba", "Light Bu")):
+        draw_bag(canvas, 2500 + i * 100, 1160, nm)
 
     out_full = OUT / "spinui_reloaded_3440.png"
     canvas.convert("RGB").save(out_full)

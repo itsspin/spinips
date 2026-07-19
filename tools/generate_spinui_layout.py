@@ -114,8 +114,13 @@ PLACEMENTS: dict[str, dict] = {
     "HotButtonWnd10": P(2260, 1032, 528, 56),
 
     # --- right column: buffs / songs / group --------------------------------
-    "BuffWindow":              P(3232, 8, show=1),              # 200x712 (XML)
-    "ShortDurationBuffWindow": P(3024, 8, show=1),              # 200x367 (XML)
+    # Style: LEFT-anchored static list, no numbering (variant 13) — icons sit
+    # beside names with no floating number rail.  Base variants stay hidden
+    # but keep the same position in case the player switches styles in-game.
+    "BuffWindow":                 P(3232, 8, show=0),           # 200x712 (XML)
+    "BuffWindow_13":              P(3232, 8, show=1),
+    "ShortDurationBuffWindow":    P(3024, 8, show=0),           # 200x367 (XML)
+    "ShortDurationBuffWindow_13": P(3024, 8, show=1),
     "GroupWindow":             P(3202, 728, show=1),
     "ExtendedTargetWnd":       P(3024, 728, 170, 300),          # Show per base
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
@@ -130,7 +135,7 @@ PLACEMENTS: dict[str, dict] = {
     "TrackingWnd":   P(8, 120, 340, 390),                       # druid/bard tracking
 
     # --- openable windows ---------------------------------------------------
-    "InventoryWindow": P(500, 360),
+    "InventoryWindow": P(420, 140),
     "BigBankWnd":      P(1000, 330),
     "BreathWindow":    P(1661, 700),
 }
@@ -232,7 +237,7 @@ def chat_window_block(idx, container, tab, name, container_name=None,
         f"ChatWindow{idx}_ChatChannel={chat_channel}",
         f"ChatWindow{idx}_TellTarget=",
         f"ChatWindow{idx}_Scrollbar=1",
-        f"ChatWindow{idx}_FontStyle=4",
+        f"ChatWindow{idx}_FontStyle=5",
         f"ChatWindow{idx}_Name={name}",
         f"ChatWindow{idx}_Highlight=1",
         f"ChatWindow{idx}_HighlightColor=-65536",
@@ -284,8 +289,9 @@ def rebuild_chat_manager(lines: list[str]) -> list[str]:
 XML_SIZES = {
     "PlayerWindow": (336, 193), "TargetWindow": (336, 193),
     "PetInfoWindow": (311, 190), "BuffWindow": (200, 712),
-    "ShortDurationBuffWindow": (200, 367), "BigBankWnd": (287, 390),
-    "InventoryWindow": (504, 495), "BreathWindow": (118, 32),
+    "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (200, 367),
+    "ShortDurationBuffWindow_13": (200, 367), "BigBankWnd": (287, 390),
+    "InventoryWindow": (720, 800), "BreathWindow": (118, 32),
     "GroupWindow": (230, 430),   # grows downward; reserve
     "CompassWindow": (460, 36),
 }
@@ -297,7 +303,7 @@ VISIBLE = [
     "PlayerWindow", "TargetWindow", "StanceWnd", "CastingWindow",
     "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4", "HotButtonWnd5",
     "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9",
-    "HotButtonWnd10", "BuffWindow", "ShortDurationBuffWindow", "GroupWindow",
+    "HotButtonWnd10", "BuffWindow_13", "ShortDurationBuffWindow_13", "GroupWindow",
 ]
 
 
