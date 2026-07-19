@@ -249,7 +249,7 @@ class SessionStats:
         self.fights: list[Fight] = []
         self.last_own_action: datetime | None = None
         self.last_combat_signal: datetime | None = None
-        self.damage_by_source: dict[str, int] = defaultdict(int)
+        self.damage_by_source: dict[str, dict] = defaultdict(lambda: {"t": 0, "h": 0})
         self.melee_hits = self.melee_misses = 0
         self.crits = 0
         self.enemy_misses = 0
@@ -263,6 +263,10 @@ class SessionStats:
         self.pet_names: set[str] = set()
         self.pet_last_seen: dict[str, datetime] = {}
         self.pet_damage = 0
+        self.max_hit: tuple[int, str, str] | None = None   # (dmg, source, target)
+        self.damage_taken_by: dict[str, dict] = defaultdict(lambda: {"t": 0, "h": 0})
+        self.group_kills: dict[str, int] = defaultdict(int)
+        self.zones: list[str] = []
         # kills etc.
         self.kills: dict[str, int] = defaultdict(int)
         self.deaths = 0
@@ -343,7 +347,11 @@ class SessionStats:
             self.fight = Fight(start=ts, end=ts)
         self.fight.damage += dmg
         self.fight.targets[normalize_mob(target)] += dmg
-        self.damage_by_source[source] += dmg
+        src = self.damage_by_source[source]
+        src["t"] += dmg
+        src["h"] += 1
+        if self.max_hit is None or dmg > self.max_hit[0]:
+            self.max_hit = (dmg, source, normalize_mob(target))
         if crit:
             self.crits += 1
 
@@ -369,10 +377,20 @@ class SessionStats:
             self._deal(ts, g["target"], int(g["dmg"]), "Damage shield")
 
         elif kind == "melee_in":
-            self.damage_taken += int(g["dmg"])
+            dmg = int(g["dmg"])
+            self.damage_taken += dmg
+            atk = self.damage_taken_by[normalize_mob(g["attacker"])]
+            atk["t"] += dmg
+            atk["h"] += 1
             self._own_combat(ts)
         elif kind in ("nuke_in", "dot_in", "nonmelee_in"):
-            self.damage_taken += int(g["dmg"])
+            dmg = int(g["dmg"])
+            self.damage_taken += dmg
+            who = g.get("attacker")
+            if who:
+                atk = self.damage_taken_by[normalize_mob(who)]
+                atk["t"] += dmg
+                atk["h"] += 1
             self._own_combat(ts)
         elif kind == "miss_in":
             self.enemy_misses += 1
@@ -388,6 +406,8 @@ class SessionStats:
             killer = g["killer"].strip()
             if killer == self.character or self.is_pet(killer):
                 self.kills[normalize_mob(g["target"])] += 1
+            else:
+                self.group_kills[normalize_mob(g["target"])] += 1
             self._combat_signal(ts)
 
         elif kind == "heal_out":
@@ -437,6 +457,8 @@ class SessionStats:
         elif kind == "zone":
             if not any(fp in g["zone"] for fp in ZONE_FALSE_POSITIVES):
                 self.zone = g["zone"]
+                if not self.zones or self.zones[-1] != g["zone"]:
+                    self.zones.append(g["zone"])
 
         elif kind == "tell_in":
             self.tells += 1
@@ -456,6 +478,7 @@ class SessionStats:
                 self.pet_last_seen[attacker] = ts
                 self.pet_damage += dmg
                 self._deal(ts, g["target"], dmg, f"Pet ({attacker})")
+                self.melee_hits += 0  # pet swings tracked via source hits
             else:
                 self._combat_signal(ts)
         elif kind == "miss_third":
@@ -511,7 +534,18 @@ class SessionStats:
             "combat_seconds": closed_seconds,
             "best_fight": best,
             "fights": (closed + ([live] if live else []))[-10:],
-            "damage_by_source": dict(self.damage_by_source),
+            "damage_by_source": {k: dict(v) for k, v in self.damage_by_source.items()},
+            "damage_taken_by": {k: dict(v) for k, v in self.damage_taken_by.items()},
+            "group_kills": dict(self.group_kills),
+            "zones": list(self.zones),
+            "max_hit": self.max_hit,
+            "melee_dealt": self.damage_by_source.get("Melee", {"t": 0})["t"],
+            "spell_dealt": sum(v["t"] for k, v in self.damage_by_source.items()
+                               if k.startswith(("Spell", "DoT")) or k == "Spells"),
+            "accuracy": (100.0 * self.melee_hits / (self.melee_hits + self.melee_misses)
+                         if (self.melee_hits + self.melee_misses) else None),
+            "session_start": self.session_start,
+            "copper": self.copper,
             "pet_damage": self.pet_damage,
             "active_pets": active_pets,
             "pet_names": sorted(self.pet_names),
@@ -653,6 +687,7 @@ def load_config() -> dict:
         "position": None,
         "mini_position": None,
         "starred": ["session_dps", "xp_hr", "hours_to_level", "kills"],
+        "starred_cards": ["combat", "kills", "money", "progress"],
         "alerts_enabled": True,
         "alert_sound": True,
         "alert_seconds": 4,
@@ -745,6 +780,18 @@ def fmt_dur(seconds: float) -> str:
     if s >= 60:
         return f"{s // 60}m{s % 60:02d}s"
     return f"{s}s"
+
+
+def fmt_coins(copper: int) -> str:
+    p, rem = divmod(int(copper), 1000)
+    g, rem = divmod(rem, 100)
+    sv, c = divmod(rem, 10)
+    parts = []
+    if p: parts.append(f"{p}p")
+    if g: parts.append(f"{g}g")
+    if sv: parts.append(f"{sv}s")
+    if c or not parts: parts.append(f"{c}c")
+    return " ".join(parts)
 
 
 def fmt_eta(hours: float | None) -> str:
@@ -951,7 +998,7 @@ def run_gui(args):
         pass
 
     state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time(),
-             "fights_seen": 0}
+             "fights_seen": 0, "expanded": set()}
     alerts = AlertManager(tk, root, cfg)
 
     # ---- window drag + position persistence ----
@@ -991,77 +1038,200 @@ def run_gui(args):
         return tk.Label(parent, text=text, fg=fg or T["text"], bg=bg or parent["bg"],
                         font=font, anchor=anchor, **kw)
 
+    CARDS = [
+        ("combat", "\u2694", "Combat"),
+        ("kills", "\u2620", "Kills"),
+        ("loot", "\u2691", "Loot"),
+        ("money", "\u25c9", "Money"),
+        ("progress", "\u25a6", "Progress"),
+        ("faction", "\u265c", "Faction"),
+        ("travels", "\u27a4", "Travels & Deaths"),
+    ]
+    card_widgets: dict[str, dict] = {}
+
+    def card_value(snap, key):
+        if key == "combat":
+            if snap["in_combat"]:
+                return f"{fmt_num(snap['current_dps'])} dps \u2694"
+            return f"{fmt_num(snap['session_dps'])} dps"
+        if key == "kills":
+            extra = sum(snap["group_kills"].values())
+            return f"{snap['kills']} (+{extra})" if extra else f"{snap['kills']}"
+        if key == "loot":
+            n = sum(snap["loot"].values())
+            return f"{n} item" + ("s" if n != 1 else "")
+        if key == "money":
+            return fmt_coins(snap["copper"])
+        if key == "progress":
+            if snap["xp_pct_known"]:
+                return f"{snap['xp_pct']:.1f}% xp" + (f", +{stats.levelups} lvl" if stats.levelups else "")
+            return f"{snap['xp_events']} xp gains"
+        if key == "faction":
+            return f"{len(stats.faction)} factions"
+        if key == "travels":
+            return f"{snap['deaths']} death" + ("s" if snap["deaths"] != 1 else "")
+        return ""
+
+    def card_detail(snap, key):
+        """Return [(kind, left, right)] rows; kind: 'line'|'head'|'row'."""
+        out = []
+        if key == "combat":
+            acc = f" \u00b7 {snap['accuracy']:.0f}% accuracy" if snap["accuracy"] is not None else ""
+            out.append(("line", f"Dealt {fmt_num(snap['combat_damage'])} "
+                                f"({fmt_num(snap['melee_dealt'])} melee / {fmt_num(snap['spell_dealt'])} spell)"
+                                f" \u00b7 {snap['crits']} crits{acc}", ""))
+            if snap["max_hit"]:
+                d, src, tgt = snap["max_hit"]
+                out.append(("line", f"Biggest hit: {fmt_num(d)} ({src} on {tgt})", ""))
+            out.append(("line", f"Taken {fmt_num(snap['damage_taken'])} \u00b7 avoided {snap['enemy_misses']} attacks", ""))
+            out.append(("line", f"Healing done {fmt_num(snap['healing_done'])} \u00b7 received {fmt_num(snap['heals_received'])}", ""))
+            out.append(("line", f"Fizzles {snap['fizzles']} \u00b7 resists {snap['resists']}", ""))
+            srcs = sorted(snap["damage_by_source"].items(), key=lambda kv: -kv[1]["t"])
+            if srcs:
+                out.append(("head", "Damage by attack", ""))
+                for name, v in srcs[:8]:
+                    avg = v["t"] / max(1, v["h"])
+                    out.append(("row", name, f"{fmt_num(v['t'])} \u00b7 {v['h']} hits \u00b7 avg {avg:.1f}"))
+                if len(srcs) > 8:
+                    out.append(("line", f"\u2026and {len(srcs) - 8} more", ""))
+            taken = sorted(snap["damage_taken_by"].items(), key=lambda kv: -kv[1]["t"])
+            if taken:
+                out.append(("head", "Damage taken from", ""))
+                for name, v in taken[:6]:
+                    avg = v["t"] / max(1, v["h"])
+                    out.append(("row", name, f"{fmt_num(v['t'])} \u00b7 {v['h']} hits \u00b7 avg {avg:.1f}"))
+        elif key == "kills":
+            rows = sorted(snap["kill_breakdown"].items(), key=lambda kv: -kv[1])
+            for name, n in rows[:10]:
+                out.append(("row", name, f"\u00d7{n}"))
+            if len(rows) > 10:
+                out.append(("line", f"\u2026and {len(rows) - 10} more", ""))
+            grp = sorted(snap["group_kills"].items(), key=lambda kv: -kv[1])
+            if grp:
+                out.append(("head", "Group kills", ""))
+                for name, n in grp[:5]:
+                    out.append(("row", name, f"\u00d7{n}"))
+        elif key == "loot":
+            rows = sorted(snap["loot"].items(), key=lambda kv: -kv[1])
+            for name, n in rows[:12]:
+                out.append(("row", name, f"\u00d7{n}" if n > 1 else ""))
+            if not rows:
+                out.append(("line", "Nothing looted yet", ""))
+        elif key == "money":
+            out.append(("row", "Total", fmt_coins(snap["copper"])))
+            out.append(("row", "Plat / hour", f"{snap['plat_hr']:.1f}p"))
+        elif key == "progress":
+            out.append(("row", "XP rate", f"{snap['xp_hr']:.1f}%/hr" if snap["xp_pct_known"] else "\u2014"))
+            out.append(("row", "Time to level", fmt_eta(snap["hours_to_level"])))
+            out.append(("row", "Into level", f"{snap['xp_since_level']:.1f}%" if snap["xp_pct_known"] else "\u2014"))
+            out.append(("row", "Levels this session", str(stats.levelups)))
+            out.append(("row", "AA points", str(stats.aa_points)))
+            out.append(("row", "Songs twisted", f"{snap['songs']} ({snap['songs_min']:.1f}/min)"))
+        elif key == "faction":
+            rows = sorted(stats.faction.items(), key=lambda kv: kv[1])
+            for name, d in rows[:10]:
+                out.append(("row", name, f"{d:+d}"))
+            if not rows:
+                out.append(("line", "No faction hits yet", ""))
+        elif key == "travels":
+            out.append(("row", "Deaths", str(snap["deaths"])))
+            zs = snap["zones"][-6:]
+            if zs:
+                out.append(("head", "Zones visited", ""))
+                for z in zs:
+                    out.append(("row", z, ""))
+        return out
+
+    def toggle_card(key):
+        if key in state["expanded"]:
+            state["expanded"].discard(key)
+        else:
+            state["expanded"].add(key)
+        refresh(force_detail=True)
+
+    def toggle_card_star(key):
+        starred = cfg.setdefault("starred_cards", [])
+        if key in starred:
+            starred.remove(key)
+        else:
+            starred.append(key)
+        save_config(cfg)
+        refresh(force_detail=True)
+
     def build_full():
         for w in body.winfo_children():
             w.destroy()
+        card_widgets.clear()
         head = tk.Frame(body, bg=T["panel"])
         head.pack(fill="x")
+        widgets["dot"] = L(head, "\u25cf", fg=T["green"], font=FONT_B, bg=T["panel"])
+        widgets["dot"].pack(side="left", padx=(8, 2), pady=4)
         widgets["title"] = L(head, "LOREMASTER", fg=T["gold_bright"], font=FONT_B, bg=T["panel"])
-        widgets["title"].pack(side="left", padx=8, pady=4)
-        widgets["zone"] = L(head, "", fg=T["dim"], font=FONT_S, bg=T["panel"])
-        widgets["zone"].pack(side="left", padx=4)
-        for txt, cmd in (("—", toggle_mini), ("↺", do_reset), ("✕", do_quit)):
+        widgets["title"].pack(side="left")
+        widgets["who"] = L(head, "", fg=T["dim"], font=FONT_S, bg=T["panel"])
+        widgets["who"].pack(side="left", padx=6)
+        for txt, cmd in (("\u2715", do_quit), ("\u2014", toggle_mini), ("\u21ba", do_reset)):
             b = tk.Label(head, text=txt, fg=T["dim"], bg=T["panel"], font=FONT_B, cursor="hand2")
-            b.pack(side="right", padx=6)
+            b.pack(side="right", padx=5)
             b.bind("<Button-1>", lambda _e, c=cmd: c())
+        sub = tk.Frame(body, bg=T["bg"])
+        sub.pack(fill="x", padx=8)
+        widgets["zone"] = L(sub, "", fg=T["text"], font=FONT_S)
+        widgets["zone"].pack(side="left", pady=2)
+        widgets["session"] = L(sub, "", fg=T["dim"], font=FONT_S, anchor="e")
+        widgets["session"].pack(side="right")
 
-        dps_row = tk.Frame(body, bg=T["bg"])
-        dps_row.pack(fill="x", padx=8, pady=(6, 2))
-        for key, label, color in (
-            ("current_dps", "FIGHT DPS", T["gold_bright"]),
-            ("session_dps", "SESSION", T["text"]),
-            ("best_dps", "BEST FIGHT", T["cyan"]),
-        ):
-            cell = tk.Frame(dps_row, bg=T["bg"])
-            cell.pack(side="left", expand=True, fill="x")
-            widgets[key] = L(cell, "0", fg=color, font=FONT_BIG, anchor="center")
-            widgets[key].pack(fill="x")
-            L(cell, label, fg=T["dim"], font=FONT_S, anchor="center").pack(fill="x")
+        # scrollable card stack
+        wrap = tk.Frame(body, bg=T["bg"])
+        wrap.pack(fill="both", expand=True, padx=6, pady=(2, 6))
+        canvas = tk.Canvas(wrap, bg=T["bg"], highlightthickness=0, width=396)
+        vsb = tk.Scrollbar(wrap, orient="vertical", command=canvas.yview,
+                           troughcolor=T["bg"], bg=T["raised"], width=8)
+        inner = tk.Frame(canvas, bg=T["bg"])
+        inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0, 0), window=inner, anchor="nw")
+        canvas.configure(yscrollcommand=vsb.set)
+        canvas.pack(side="left", fill="both", expand=True)
+        vsb.pack(side="right", fill="y")
+        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(-1 * (e.delta // 120), "units"))
+        canvas.bind_all("<Button-4>", lambda _e: canvas.yview_scroll(-1, "units"))
+        canvas.bind_all("<Button-5>", lambda _e: canvas.yview_scroll(1, "units"))
 
-        widgets["combat_bar"] = tk.Canvas(body, height=3, bg=T["line_soft"],
-                                          highlightthickness=0)
-        widgets["combat_bar"].pack(fill="x", padx=8, pady=3)
-
-        grid = tk.Frame(body, bg=T["bg"])
-        grid.pack(fill="x", padx=8)
-        keys = ["kills", "xp_hr", "hours_to_level", "plat_hr",
-                "hps", "damage_taken", "songs_min", "active_pets",
-                "crits", "deaths"]
-        for i, key in enumerate(keys):
-            cell = tk.Frame(grid, bg=T["panel"], padx=6, pady=3,
-                            highlightbackground=T["line_soft"], highlightthickness=1)
-            cell.grid(row=i // 5, column=i % 5, sticky="nsew", padx=2, pady=2)
-            grid.columnconfigure(i % 5, weight=1)
-            star = "★" if key in cfg["starred"] else "☆"
-            lab = L(cell, f"{star} {STAT_DEFS[key][0]}", fg=T["dim"], font=FONT_S, bg=T["panel"])
-            lab.pack(fill="x")
-            val = L(cell, "—", fg=T["text"], font=FONT_MED, bg=T["panel"])
-            val.pack(fill="x")
-            widgets[f"stat:{key}"] = val
-            widgets[f"statlab:{key}"] = lab
-            for w in (cell, lab, val):
-                w.bind("<Button-3>", lambda _e, k=key: toggle_star(k))
-
-        L(body, "RECENT FIGHTS", fg=T["gold"], font=FONT_S).pack(fill="x", padx=10, pady=(6, 0))
-        widgets["fights"] = tk.Frame(body, bg=T["bg"])
-        widgets["fights"].pack(fill="x", padx=8, pady=(0, 2))
-
-        L(body, "DAMAGE BY SOURCE", fg=T["gold"], font=FONT_S).pack(fill="x", padx=10)
-        widgets["sources"] = tk.Frame(body, bg=T["bg"])
-        widgets["sources"].pack(fill="x", padx=8, pady=(0, 6))
-
-        widgets["status"] = L(body, "Loremaster awaits your log…", fg=T["dim"], font=FONT_S)
-        widgets["status"].pack(fill="x", padx=8, pady=(0, 5))
+        for key, icon, label in CARDS:
+            card = tk.Frame(inner, bg=T["raised"], highlightbackground=T["line_soft"],
+                            highlightthickness=1)
+            card.pack(fill="x", pady=3, ipady=2)
+            row = tk.Frame(card, bg=T["raised"], cursor="hand2")
+            row.pack(fill="x", padx=8, pady=3)
+            ic = L(row, icon, fg=T["text"], font=FONT_B, bg=T["raised"])
+            ic.pack(side="left")
+            nm = L(row, label, fg=T["text"], font=FONT_B, bg=T["raised"])
+            nm.pack(side="left", padx=(8, 0))
+            chev = L(row, "\u25b8", fg=T["dim"], font=FONT_S, bg=T["raised"])
+            chev.pack(side="right")
+            star = L(row, "\u2605", fg=T["dim"], font=FONT, bg=T["raised"])
+            star.pack(side="right", padx=6)
+            star.configure(cursor="hand2")
+            val = L(row, "\u2014", fg=T["gold_bright"], font=FONT_B, bg=T["raised"], anchor="e")
+            val.pack(side="right", padx=(0, 4), fill="x", expand=True)
+            detail = tk.Frame(card, bg=T["raised"])
+            for w in (row, ic, nm, val, chev):
+                w.bind("<Button-1>", lambda _e, k=key: toggle_card(k))
+            star.bind("<Button-1>", lambda _e, k=key: toggle_card_star(k))
+            card_widgets[key] = {"value": val, "star": star, "chev": chev, "detail": detail}
+        widgets["status"] = L(body, "Loremaster awaits your log\u2026", fg=T["dim"], font=FONT_S)
+        widgets["status"].pack(fill="x", padx=10, pady=(0, 5))
         pos = cfg.get("position")
-        root.geometry(f"400x460+{pos[0]}+{pos[1]}" if pos else "400x460+2792+676")
+        root.geometry(f"420x470+{pos[0]}+{pos[1]}" if pos else "420x470+2792+676")
 
     def build_mini():
         for w in body.winfo_children():
             w.destroy()
+        card_widgets.clear()
         strip = tk.Frame(body, bg=T["bg"])
         strip.pack(fill="both", expand=True, padx=6, pady=3)
         widgets["mini_cells"] = strip
-        b = tk.Label(strip, text="▣", fg=T["dim"], bg=T["bg"], font=FONT_B, cursor="hand2")
+        b = tk.Label(strip, text="\u25a3", fg=T["dim"], bg=T["bg"], font=FONT_B, cursor="hand2")
         b.pack(side="right", padx=2)
         b.bind("<Button-1>", lambda _e: toggle_mini())
         pos = cfg.get("mini_position")
@@ -1072,17 +1242,6 @@ def run_gui(args):
         cfg["mini_mode"] = state["mini"]
         save_config(cfg)
         (build_mini if state["mini"] else build_full)()
-
-    def toggle_star(key):
-        if key in cfg["starred"]:
-            cfg["starred"].remove(key)
-        else:
-            cfg["starred"].append(key)
-        save_config(cfg)
-        lab = widgets.get(f"statlab:{key}")
-        if lab:
-            star = "★" if key in cfg["starred"] else "☆"
-            lab.configure(text=f"{star} {STAT_DEFS[key][0]}")
 
     def do_reset():
         stats.reset()
@@ -1127,7 +1286,7 @@ def run_gui(args):
             state["last_save"] = time.time()
         root.after(POLL_MS, tick)
 
-    def refresh():
+    def refresh(force_detail=False):
         snap = stats.snapshot(datetime.now())
         if state["mini"]:
             strip = widgets.get("mini_cells")
@@ -1135,73 +1294,65 @@ def run_gui(args):
                 return
             for w in list(strip.winfo_children())[:-1]:
                 w.destroy()
-            head = f"{snap['character']}"
-            tk.Label(strip, text=head, fg=THEME["gold_bright"], bg=THEME["bg"],
-                     font=FONT_B).pack(side="left", padx=(2, 8))
-            shown = [k for k in cfg["starred"] if k in STAT_DEFS] or ["session_dps"]
-            for k in shown:
-                tk.Label(strip, text=f"{STAT_DEFS[k][0]}:", fg=THEME["dim"],
-                         bg=THEME["bg"], font=FONT_S).pack(side="left")
-                tk.Label(strip, text=stat_value(snap, k), fg=THEME["text"],
-                         bg=THEME["bg"], font=FONT_B).pack(side="left", padx=(2, 8))
-            if snap["in_combat"]:
-                tk.Label(strip, text=f"⚔ {fmt_num(snap['current_dps'])}",
-                         fg=THEME["gold_bright"], bg=THEME["bg"], font=FONT_B
-                         ).pack(side="left", padx=4)
+            icons = {k: i for k, i, _l in CARDS}
+            starred = cfg.get("starred_cards") or ["combat"]
+            for k in starred:
+                if k not in icons:
+                    continue
+                tk.Label(strip, text=icons[k], fg=THEME["gold"], bg=THEME["bg"],
+                         font=FONT_B).pack(side="left", padx=(6, 2))
+                tk.Label(strip, text=card_value(snap, k), fg=THEME["text"],
+                         bg=THEME["bg"], font=FONT_B).pack(side="left")
             return
 
         title = snap["character"]
-        if snap["level"]:
-            title += f"  ·  {snap['level']}"
-        widgets["title"].configure(text=f"LOREMASTER  —  {title}")
-        widgets["zone"].configure(text=snap["zone"])
-        widgets["current_dps"].configure(
-            text=fmt_num(snap["current_dps"]),
-            fg=THEME["gold_bright"] if snap["in_combat"] else THEME["dim"])
-        widgets["session_dps"].configure(text=fmt_num(snap["session_dps"]))
-        best = snap["best_fight"]
-        widgets["best_dps"].configure(text=fmt_num(best.dps) if best else "0")
-        bar = widgets["combat_bar"]
-        bar.delete("all")
-        bar.configure(bg=THEME["gold"] if snap["in_combat"] else THEME["line_soft"])
-        for key in ("kills", "xp_hr", "hours_to_level", "plat_hr", "hps",
-                    "damage_taken", "songs_min", "active_pets", "crits", "deaths"):
-            widgets[f"stat:{key}"].configure(text=stat_value(snap, key))
-
-        rows = widgets["fights"]
-        for w in rows.winfo_children():
-            w.destroy()
-        for f in reversed(snap["fights"][-6:]):
-            r = tk.Frame(rows, bg=THEME["bg"])
-            r.pack(fill="x")
-            nm = f.name if len(f.name) < 30 else f.name[:29] + "…"
-            L(r, nm, fg=THEME["text"], font=FONT_S).pack(side="left")
-            L(r, f"{fmt_num(f.dps)} dps", fg=THEME["gold_bright"], font=FONT_S,
-              anchor="e").pack(side="right")
-            L(r, f"{fmt_num(f.damage)} in {fmt_dur(f.seconds)}", fg=THEME["dim"],
-              font=FONT_S, anchor="e").pack(side="right", padx=8)
-
-        src = widgets["sources"]
-        for w in src.winfo_children():
-            w.destroy()
-        total = sum(snap["damage_by_source"].values()) or 1
-        top = sorted(snap["damage_by_source"].items(), key=lambda kv: -kv[1])[:5]
-        for name, dmg in top:
-            r = tk.Frame(src, bg=THEME["bg"])
-            r.pack(fill="x")
-            L(r, name, fg=THEME["text"], font=FONT_S).pack(side="left")
-            L(r, f"{fmt_num(dmg)}  ({dmg * 100 // total}%)", fg=THEME["dim"],
-              font=FONT_S, anchor="e").pack(side="right")
-            c = tk.Canvas(r, width=90, height=6, bg=THEME["line_soft"], highlightthickness=0)
-            c.pack(side="right", padx=6, pady=3)
-            c.create_rectangle(0, 0, 90 * dmg / total, 6, fill=THEME["cyan"], width=0)
+        if watcher.server != "?":
+            title += f" ({watcher.server})"
+        widgets["who"].configure(text=title)
+        widgets["dot"].configure(fg=THEME["green"] if (demo or watcher.path) else THEME["dim"])
+        widgets["zone"].configure(text=snap["zone"] or "\u2014")
+        if snap["session_start"]:
+            dur = fmt_dur(snap["hours"] * 3600)
+            since = snap["session_start"].strftime("%I:%M %p").lstrip("0")
+            widgets["session"].configure(text=f"session {dur} (since {since})")
+        starred = cfg.get("starred_cards", [])
+        for key, _icon, _label in CARDS:
+            cw = card_widgets.get(key)
+            if not cw:
+                continue
+            cw["value"].configure(text=card_value(snap, key))
+            cw["star"].configure(fg=THEME["gold"] if key in starred else THEME["line"])
+            expanded = key in state["expanded"]
+            cw["chev"].configure(text="\u25be" if expanded else "\u25b8")
+            if expanded:
+                if force_detail or not cw["detail"].winfo_children() or True:
+                    for w in cw["detail"].winfo_children():
+                        w.destroy()
+                    for kind, left, right in card_detail(snap, key):
+                        r = tk.Frame(cw["detail"], bg=THEME["raised"])
+                        r.pack(fill="x", padx=14, pady=0)
+                        if kind == "head":
+                            tk.Label(r, text=left, fg=THEME["gold"], bg=THEME["raised"],
+                                     font=FONT_S, anchor="w").pack(side="left", pady=(4, 1))
+                        elif kind == "line":
+                            tk.Label(r, text=left, fg=THEME["dim"], bg=THEME["raised"],
+                                     font=FONT_S, anchor="w", justify="left"
+                                     ).pack(side="left")
+                        else:
+                            tk.Label(r, text=left, fg=THEME["text"], bg=THEME["raised"],
+                                     font=FONT_S, anchor="w").pack(side="left")
+                            tk.Label(r, text=right, fg=THEME["gold_bright"], bg=THEME["raised"],
+                                     font=FONT_S, anchor="e").pack(side="right")
+                cw["detail"].pack(fill="x", pady=(0, 4))
+            else:
+                cw["detail"].pack_forget()
 
         if demo:
-            src_txt = "demo mode — synthetic fight"
+            src_txt = "demo mode \u2014 synthetic fight"
         elif watcher.path:
             src_txt = f"tailing {watcher.path.name}"
         else:
-            src_txt = "no eqlog found — set log_dir in loremaster_config.json and /log on in game"
+            src_txt = "no eqlog found \u2014 /log on in game; set log_dir in loremaster_config.json"
         widgets["status"].configure(text=src_txt)
 
     (build_mini if state["mini"] else build_full)()
@@ -1318,6 +1469,18 @@ def selftest() -> int:
     p = parse_line(line(0, "Gkzzallk says 'My leader is Spin.'"))
     s5.apply(*p)
     assert "Gkzzallk" in s5.pet_names
+
+    # enriched engine fields (card detail views)
+    assert snap["damage_by_source"]["Pet (Gann)"]["t"] == 50
+    assert snap["damage_by_source"]["Melee"]["h"] == 3
+    assert snap["max_hit"][0] == 300 and snap["max_hit"][1] == "Melee"
+    assert snap["damage_taken_by"]["Froglok shin knight"] == {"t": 60, "h": 1}
+    assert snap["zones"] == ["Blackburrow"]
+    assert fmt_coins(2439) == "2p 4g 3s 9c" and fmt_coins(0) == "0c" and fmt_coins(1000) == "1p"
+    s6 = SessionStats("Spin")
+    pp = parse_line(line(0, "A gnoll has been slain by Grimlord!"))
+    s6.apply(*pp)
+    assert s6.group_kills["Gnoll"] == 1 and s6.kills == {}
 
     # alert engine
     cfg = {"alerts_enabled": True, "big_hit_threshold": 500,

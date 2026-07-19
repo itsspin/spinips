@@ -203,10 +203,27 @@ Built after a code review of **EQBuddy** (C#/WPF) and reimplemented as a single-
 
 ### Run it — the easy way (no install)
 
-Grab **`Loremaster.exe`** and double-click it. Done — no Python, no setup.
+1. On GitHub: **Actions tab → "Build Loremaster.exe" → newest green run → Artifacts → `Loremaster-windows`** — download, unzip, and double-click `Loremaster.exe`. No Python, no setup. (Once a release is tagged the EXE also appears on the **Releases** page.)
+2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster finds the newest `eqlog_*.txt` in the Legends `Logs` folder by itself and follows it in real time, switching automatically when you swap characters.
+3. It opens **always-on-top** on the shelf above your bag row (right side, clear of the map, group window, hotbars and chat). Drag it anywhere — the spot is remembered.
 
-* The EXE is built automatically by GitHub Actions (`.github/workflows/build-loremaster.yml`) on every change: download it from the repo's **Actions → Build Loremaster.exe → Loremaster-windows** artifact, or from the **Releases** page once a release is tagged.
-* Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
+Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
+
+### The card interface
+
+EQBuddy-style category cards, minimal by default — **click a card to expand** its detail view, click again to collapse:
+
+| Card | Collapsed | Expanded |
+|---|---|---|
+| ⚔ Combat | live/session DPS | dealt (melee/spell) · crits · accuracy · biggest hit · taken/avoided · heals · fizzles/resists · **damage by attack** (per source: total · hits · avg) · **damage taken from** |
+| ☠ Kills | `96 (+15)` yours (+group) | per-creature ×N breakdown + group kills |
+| ⚑ Loot | item count | the item list ×N |
+| ◉ Money | `2p 9g 1s 6c` | total + plat/hour |
+| ▦ Progress | `211.0% xp, +3 lvl` | XP/hr · time to level · into-level % · levels · AA · songs |
+| ♜ Faction | faction count | per-faction ± standings |
+| ➤ Travels & Deaths | deaths | zone chain + deaths |
+
+**Star a card** (★) to pin it into **mini mode** — the slim one-line strip (`☠ 96  ⚔ 9 dps  ◉ 2p 9g  ▦ 211% xp`) for pure-minimal play; the — button switches modes and both positions are remembered separately.
 
 ### Run it — from source
 
