@@ -72,11 +72,13 @@ THEME = {
     "green": "#3fbf6b",
 }
 
-# EverQuest writes eqlog_<Char>_<server>.txt into the game's ROOT directory
-# (next to eqgame.exe); some installs use a Logs subfolder.  We scan both.
+# EverQuest writes eqlog_<Character>_<server>.txt (any character, any
+# server) into the Logs folder inside the game directory; some installs
+# write to the game root instead.  Every candidate is scanned and the most
+# recently written log wins, so all players are covered automatically.
 DEFAULT_LOG_DIRS = [
-    r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends\Logs",
+    r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest\Logs",
     r"C:\Program Files (x86)\Sony\EverQuest",

@@ -204,7 +204,7 @@ Built after a code review of **EQBuddy** (C#/WPF) and reimplemented as a single-
 ### Run it — the easy way (no install)
 
 1. On GitHub: **Actions tab → "Build Loremaster.exe" → newest green run → Artifacts → `Loremaster-windows`** — download, unzip, and double-click `Loremaster.exe`. No Python, no setup. (Once a release is tagged the EXE also appears on the **Releases** page.)
-2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster scans the EverQuest Legends **root directory** (where `eqlog_<Char>_<server>.txt` lives, next to `eqgame.exe`) *and* any `Logs` subfolder, follows the newest log in real time, and switches automatically when you swap characters. A custom install path goes in `loremaster_config.json` → `log_dir`.
+2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster scans the **`Logs` folder inside the EverQuest Legends directory** (e.g. `…\EverQuest Legends\Logs\eqlog_Spin_qeynos.txt`) as well as the game root, follows whichever log is newest in real time, and works for **any character on any server** — the name and server are read straight from the filename, and it switches automatically when you swap characters. A custom install path goes in `loremaster_config.json` → `log_dir`.
 3. It opens **always-on-top** on the shelf above your bag row (right side, clear of the map, group window, hotbars and chat). Drag it anywhere — the spot is remembered.
 
 Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
