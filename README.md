@@ -204,26 +204,28 @@ Built after a code review of **EQBuddy** (C#/WPF) and reimplemented as a single-
 ### Run it — the easy way (no install)
 
 1. On GitHub: **Actions tab → "Build Loremaster.exe" → newest green run → Artifacts → `Loremaster-windows`** — download, unzip, and double-click `Loremaster.exe`. No Python, no setup. (Once a release is tagged the EXE also appears on the **Releases** page.)
-2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster finds the newest `eqlog_*.txt` in the Legends `Logs` folder by itself and follows it in real time, switching automatically when you swap characters.
+2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster scans the EverQuest Legends **root directory** (where `eqlog_<Char>_<server>.txt` lives, next to `eqgame.exe`) *and* any `Logs` subfolder, follows the newest log in real time, and switches automatically when you swap characters. A custom install path goes in `loremaster_config.json` → `log_dir`.
 3. It opens **always-on-top** on the shelf above your bag row (right side, clear of the map, group window, hotbars and chat). Drag it anywhere — the spot is remembered.
 
 Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
 
-### The card interface
+### The ledger
 
-EQBuddy-style category cards, minimal by default — **click a card to expand** its detail view, click again to collapse:
+![Loremaster — the ledger](docs/previews/loremaster_panel.png)
 
-| Card | Collapsed | Expanded |
+Loremaster's face is its own — the same design language as the rest of Spin's UI Reloaded, not a clone of any tracker: an **ember hero band** (FIGHT DPS / SESSION / BEST) up top, then **gold-ruled ledger sections** with hex bullets — the exact typography of the equipment screen. Minimal at a glance; **click a section header to unfold** its detail, click again to fold:
+
+| Section | At a glance | Unfolded |
 |---|---|---|
-| ⚔ Combat | live/session DPS | dealt (melee/spell) · crits · accuracy · biggest hit · taken/avoided · heals · fizzles/resists · **damage by attack** (per source: total · hits · avg) · **damage taken from** |
-| ☠ Kills | `96 (+15)` yours (+group) | per-creature ×N breakdown + group kills |
-| ⚑ Loot | item count | the item list ×N |
-| ◉ Money | `2p 9g 1s 6c` | total + plat/hour |
-| ▦ Progress | `211.0% xp, +3 lvl` | XP/hr · time to level · into-level % · levels · AA · songs |
-| ♜ Faction | faction count | per-faction ± standings |
-| ➤ Travels & Deaths | deaths | zone chain + deaths |
+| COMBAT | live/session DPS | dealt (melee/spell) · crits · accuracy · biggest hit · taken/avoided · heals · fizzles/resists · **damage by attack** (per source: total · hits · avg) · **damage taken from** |
+| SLAYING | `96 (+15)` yours (+group) | per-creature ×N breakdown + group kills |
+| SPOILS | item count | the loot list ×N |
+| COIN | `2p 9g 1s 6c` | total + plat/hour |
+| PROGRESSION | `14.2% xp, +1 lvl` | XP/hr · time to level · into-level % · levels · AA · songs |
+| STANDING | faction count | per-faction ± standings |
+| JOURNEY | deaths | zone chain + deaths |
 
-**Star a card** (★) to pin it into **mini mode** — the slim one-line strip (`☠ 96  ⚔ 9 dps  ◉ 2p 9g  ▦ 211% xp`) for pure-minimal play; the — button switches modes and both positions are remembered separately.
+**Pin a section** (✦) into **mini mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 96 │ COIN 2p 9g`) for pure-minimal play; the — button switches modes, both positions are remembered separately, and the window is always-on-top in either mode.
 
 ### Run it — from source
 

@@ -72,11 +72,15 @@ THEME = {
     "green": "#3fbf6b",
 }
 
+# EverQuest writes eqlog_<Char>_<server>.txt into the game's ROOT directory
+# (next to eqgame.exe); some installs use a Logs subfolder.  We scan both.
 DEFAULT_LOG_DIRS = [
+    r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends\Logs",
+    r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest\Logs",
-    r"C:\Program Files (x86)\Sony\EverQuest\Logs",
-    str(Path.home() / "EverQuest Legends" / "Logs"),
+    r"C:\Program Files (x86)\Sony\EverQuest",
+    str(Path.home() / "EverQuest Legends"),
 ]
 
 APP_DIR = Path(__file__).resolve().parent
@@ -588,30 +592,31 @@ class LogWatcher:
     """Offset-based tail of the most recently active eqlog file."""
 
     def __init__(self, log_dir: str | None, explicit_log: str | None = None):
-        self.log_dir = Path(log_dir) if log_dir else None
+        # a configured dir is searched together with its Logs/ subfolder;
+        # otherwise every existing default candidate is scanned.
+        if log_dir:
+            self.log_dirs = [Path(log_dir), Path(log_dir) / "Logs"]
+        else:
+            self.log_dirs = [Path(d) for d in DEFAULT_LOG_DIRS]
+        self.log_dirs = [d for d in self.log_dirs if d.is_dir()]
         self.explicit = Path(explicit_log) if explicit_log else None
         self.path: Path | None = None
         self.offset = 0
         self.character = "?"
         self.server = "?"
 
-    @staticmethod
-    def discover_dir() -> str | None:
-        for d in DEFAULT_LOG_DIRS:
-            if Path(d).is_dir():
-                return d
-        return None
-
     def _pick(self) -> Path | None:
         if self.explicit:
             return self.explicit if self.explicit.exists() else None
-        if not self.log_dir or not self.log_dir.is_dir():
-            return None
         best, best_m = None, -1.0
-        for p in self.log_dir.glob("eqlog_*.txt"):
-            m = p.stat().st_mtime
-            if m > best_m:
-                best, best_m = p, m
+        for d in self.log_dirs:
+            for p in d.glob("eqlog_*.txt"):
+                try:
+                    m = p.stat().st_mtime
+                except OSError:
+                    continue
+                if m > best_m:
+                    best, best_m = p, m
         return best
 
     def poll(self) -> tuple[list[str], bool]:
@@ -700,8 +705,6 @@ def load_config() -> dict:
         cfg.update(json.loads(CONFIG_PATH.read_text()))
     except (OSError, ValueError):
         pass
-    if not cfg.get("log_dir"):
-        cfg["log_dir"] = LogWatcher.discover_dir()
     return cfg
 
 
@@ -1038,16 +1041,32 @@ def run_gui(args):
         return tk.Label(parent, text=text, fg=fg or T["text"], bg=bg or parent["bg"],
                         font=font, anchor=anchor, **kw)
 
+    # Loremaster's own voice: gold-ruled ledger sections (the equipment
+    # screen's typography), hex bullets from the Spin UI crest language,
+    # and an ember hero band up top.  Interaction stays glance -> expand.
     CARDS = [
-        ("combat", "\u2694", "Combat"),
-        ("kills", "\u2620", "Kills"),
-        ("loot", "\u2691", "Loot"),
-        ("money", "\u25c9", "Money"),
-        ("progress", "\u25a6", "Progress"),
-        ("faction", "\u265c", "Faction"),
-        ("travels", "\u27a4", "Travels & Deaths"),
+        ("combat", "COMBAT"),
+        ("kills", "SLAYING"),
+        ("loot", "SPOILS"),
+        ("money", "COIN"),
+        ("progress", "PROGRESSION"),
+        ("faction", "STANDING"),
+        ("travels", "JOURNEY"),
     ]
     card_widgets: dict[str, dict] = {}
+
+    def hex_bullet(parent, size=14, color=None, bg=None):
+        c = tk.Canvas(parent, width=size, height=size, bg=bg or T["bg"],
+                      highlightthickness=0)
+        r = size / 2 - 1
+        cx = cy = size / 2
+        import math as _m
+        pts = []
+        for i in range(6):
+            a = _m.radians(90 + i * 60)
+            pts += [cx + r * _m.cos(a), cy + r * _m.sin(a)]
+        c.create_polygon(pts, outline=color or T["gold"], fill="", width=1.2)
+        return c
 
     def card_value(snap, key):
         if key == "combat":
@@ -1164,8 +1183,8 @@ def run_gui(args):
         card_widgets.clear()
         head = tk.Frame(body, bg=T["panel"])
         head.pack(fill="x")
-        widgets["dot"] = L(head, "\u25cf", fg=T["green"], font=FONT_B, bg=T["panel"])
-        widgets["dot"].pack(side="left", padx=(8, 2), pady=4)
+        hx = hex_bullet(head, size=18, color=T["gold_bright"], bg=T["panel"])
+        hx.pack(side="left", padx=(8, 4), pady=4)
         widgets["title"] = L(head, "LOREMASTER", fg=T["gold_bright"], font=FONT_B, bg=T["panel"])
         widgets["title"].pack(side="left")
         widgets["who"] = L(head, "", fg=T["dim"], font=FONT_S, bg=T["panel"])
@@ -1174,22 +1193,38 @@ def run_gui(args):
             b = tk.Label(head, text=txt, fg=T["dim"], bg=T["panel"], font=FONT_B, cursor="hand2")
             b.pack(side="right", padx=5)
             b.bind("<Button-1>", lambda _e, c=cmd: c())
+        widgets["dot"] = L(head, "\u25cf", fg=T["green"], font=FONT_S, bg=T["panel"])
+        widgets["dot"].pack(side="right", padx=2)
         sub = tk.Frame(body, bg=T["bg"])
-        sub.pack(fill="x", padx=8)
+        sub.pack(fill="x", padx=10)
         widgets["zone"] = L(sub, "", fg=T["text"], font=FONT_S)
-        widgets["zone"].pack(side="left", pady=2)
+        widgets["zone"].pack(side="left", pady=1)
         widgets["session"] = L(sub, "", fg=T["dim"], font=FONT_S, anchor="e")
         widgets["session"].pack(side="right")
 
-        # scrollable card stack
+        # ember hero band — the three numbers that matter
+        hero = tk.Frame(body, bg=T["bg"])
+        hero.pack(fill="x", padx=10, pady=(4, 2))
+        for key, label, color in (("current_dps", "FIGHT DPS", T["gold_bright"]),
+                                  ("session_dps", "SESSION", T["text"]),
+                                  ("best_dps", "BEST", T["cyan"])):
+            cell = tk.Frame(hero, bg=T["bg"])
+            cell.pack(side="left", expand=True, fill="x")
+            widgets[key] = L(cell, "0", fg=color, font=FONT_BIG, anchor="center")
+            widgets[key].pack(fill="x")
+            L(cell, label, fg=T["dim"], font=FONT_S, anchor="center").pack(fill="x")
+        rule = tk.Frame(body, bg=T["gold"], height=2)
+        rule.pack(fill="x", padx=10, pady=(3, 4))
+
+        # scrollable ledger
         wrap = tk.Frame(body, bg=T["bg"])
-        wrap.pack(fill="both", expand=True, padx=6, pady=(2, 6))
+        wrap.pack(fill="both", expand=True, padx=6, pady=(0, 4))
         canvas = tk.Canvas(wrap, bg=T["bg"], highlightthickness=0, width=396)
         vsb = tk.Scrollbar(wrap, orient="vertical", command=canvas.yview,
                            troughcolor=T["bg"], bg=T["raised"], width=8)
         inner = tk.Frame(canvas, bg=T["bg"])
         inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-        canvas.create_window((0, 0), window=inner, anchor="nw")
+        canvas.create_window((0, 0), window=inner, anchor="nw", width=386)
         canvas.configure(yscrollcommand=vsb.set)
         canvas.pack(side="left", fill="both", expand=True)
         vsb.pack(side="right", fill="y")
@@ -1197,42 +1232,49 @@ def run_gui(args):
         canvas.bind_all("<Button-4>", lambda _e: canvas.yview_scroll(-1, "units"))
         canvas.bind_all("<Button-5>", lambda _e: canvas.yview_scroll(1, "units"))
 
-        for key, icon, label in CARDS:
-            card = tk.Frame(inner, bg=T["raised"], highlightbackground=T["line_soft"],
-                            highlightthickness=1)
-            card.pack(fill="x", pady=3, ipady=2)
-            row = tk.Frame(card, bg=T["raised"], cursor="hand2")
-            row.pack(fill="x", padx=8, pady=3)
-            ic = L(row, icon, fg=T["text"], font=FONT_B, bg=T["raised"])
-            ic.pack(side="left")
-            nm = L(row, label, fg=T["text"], font=FONT_B, bg=T["raised"])
-            nm.pack(side="left", padx=(8, 0))
-            chev = L(row, "\u25b8", fg=T["dim"], font=FONT_S, bg=T["raised"])
+        for key, label in CARDS:
+            sect = tk.Frame(inner, bg=T["bg"])
+            sect.pack(fill="x", pady=(5, 0))
+            row = tk.Frame(sect, bg=T["bg"], cursor="hand2")
+            row.pack(fill="x", padx=4)
+            hb = hex_bullet(row, size=12)
+            hb.pack(side="left", pady=2)
+            nm = L(row, label, fg=T["gold"], font=FONT_S, bg=T["bg"])
+            nm.pack(side="left", padx=(6, 0))
+            chev = L(row, "\u25b8", fg=T["dim"], font=FONT_S, bg=T["bg"])
             chev.pack(side="right")
-            star = L(row, "\u2605", fg=T["dim"], font=FONT, bg=T["raised"])
+            star = L(row, "\u2726", fg=T["line"], font=FONT_S, bg=T["bg"], cursor="hand2")
             star.pack(side="right", padx=6)
-            star.configure(cursor="hand2")
-            val = L(row, "\u2014", fg=T["gold_bright"], font=FONT_B, bg=T["raised"], anchor="e")
+            val = L(row, "\u2014", fg=T["text"], font=FONT_B, bg=T["bg"], anchor="e")
             val.pack(side="right", padx=(0, 4), fill="x", expand=True)
-            detail = tk.Frame(card, bg=T["raised"])
-            for w in (row, ic, nm, val, chev):
+            # the gold rule under each section header — equipment-screen DNA
+            rl = tk.Frame(sect, bg=T["gold"], height=1)
+            rl.pack(fill="x", padx=4, pady=(1, 0))
+            rl2 = tk.Frame(sect, bg="#050609", height=1)
+            rl2.pack(fill="x", padx=4)
+            detail = tk.Frame(sect, bg=T["bg"])
+            for w in (row, hb, nm, val, chev):
                 w.bind("<Button-1>", lambda _e, k=key: toggle_card(k))
             star.bind("<Button-1>", lambda _e, k=key: toggle_card_star(k))
             card_widgets[key] = {"value": val, "star": star, "chev": chev, "detail": detail}
         widgets["status"] = L(body, "Loremaster awaits your log\u2026", fg=T["dim"], font=FONT_S)
         widgets["status"].pack(fill="x", padx=10, pady=(0, 5))
         pos = cfg.get("position")
-        root.geometry(f"420x470+{pos[0]}+{pos[1]}" if pos else "420x470+2792+676")
+        root.geometry(f"420x520+{pos[0]}+{pos[1]}" if pos else "420x520+2792+626")
 
     def build_mini():
         for w in body.winfo_children():
             w.destroy()
         card_widgets.clear()
         strip = tk.Frame(body, bg=T["bg"])
-        strip.pack(fill="both", expand=True, padx=6, pady=3)
-        widgets["mini_cells"] = strip
+        strip.pack(fill="both", expand=True)
+        cap = tk.Frame(strip, bg=T["gold"], width=3)
+        cap.pack(side="left", fill="y")
+        cells = tk.Frame(strip, bg=T["bg"])
+        cells.pack(side="left", fill="both", expand=True, padx=4, pady=3)
+        widgets["mini_cells"] = cells
         b = tk.Label(strip, text="\u25a3", fg=T["dim"], bg=T["bg"], font=FONT_B, cursor="hand2")
-        b.pack(side="right", padx=2)
+        b.pack(side="right", padx=4)
         b.bind("<Button-1>", lambda _e: toggle_mini())
         pos = cfg.get("mini_position")
         root.geometry(f"+{pos[0]}+{pos[1]}" if pos else "+2792+1118")
@@ -1292,17 +1334,17 @@ def run_gui(args):
             strip = widgets.get("mini_cells")
             if not strip:
                 return
-            for w in list(strip.winfo_children())[:-1]:
+            for w in strip.winfo_children():
                 w.destroy()
-            icons = {k: i for k, i, _l in CARDS}
-            starred = cfg.get("starred_cards") or ["combat"]
-            for k in starred:
-                if k not in icons:
-                    continue
-                tk.Label(strip, text=icons[k], fg=THEME["gold"], bg=THEME["bg"],
-                         font=FONT_B).pack(side="left", padx=(6, 2))
+            names = dict(CARDS)
+            starred = [k for k in (cfg.get("starred_cards") or ["combat"]) if k in names]
+            for i, k in enumerate(starred):
+                if i:
+                    tk.Frame(strip, bg=THEME["gold"], width=1, height=14).pack(side="left", padx=6, pady=2)
+                tk.Label(strip, text=names[k], fg=THEME["gold"], bg=THEME["bg"],
+                         font=FONT_S).pack(side="left")
                 tk.Label(strip, text=card_value(snap, k), fg=THEME["text"],
-                         bg=THEME["bg"], font=FONT_B).pack(side="left")
+                         bg=THEME["bg"], font=FONT_B).pack(side="left", padx=(4, 0))
             return
 
         title = snap["character"]
@@ -1315,13 +1357,20 @@ def run_gui(args):
             dur = fmt_dur(snap["hours"] * 3600)
             since = snap["session_start"].strftime("%I:%M %p").lstrip("0")
             widgets["session"].configure(text=f"session {dur} (since {since})")
+        widgets["current_dps"].configure(
+            text=fmt_num(snap["current_dps"]),
+            fg=THEME["gold_bright"] if snap["in_combat"] else THEME["dim"])
+        widgets["session_dps"].configure(text=fmt_num(snap["session_dps"]))
+        best = snap["best_fight"]
+        widgets["best_dps"].configure(text=fmt_num(best.dps) if best else "0")
         starred = cfg.get("starred_cards", [])
-        for key, _icon, _label in CARDS:
+        for key, _label in CARDS:
             cw = card_widgets.get(key)
             if not cw:
                 continue
             cw["value"].configure(text=card_value(snap, key))
-            cw["star"].configure(fg=THEME["gold"] if key in starred else THEME["line"])
+            cw["star"].configure(text="\u2726" if key in starred else "\u25c7",
+                                 fg=THEME["gold_bright"] if key in starred else THEME["line"])
             expanded = key in state["expanded"]
             cw["chev"].configure(text="\u25be" if expanded else "\u25b8")
             if expanded:
@@ -1329,19 +1378,19 @@ def run_gui(args):
                     for w in cw["detail"].winfo_children():
                         w.destroy()
                     for kind, left, right in card_detail(snap, key):
-                        r = tk.Frame(cw["detail"], bg=THEME["raised"])
+                        r = tk.Frame(cw["detail"], bg=THEME["bg"])
                         r.pack(fill="x", padx=14, pady=0)
                         if kind == "head":
-                            tk.Label(r, text=left, fg=THEME["gold"], bg=THEME["raised"],
+                            tk.Label(r, text=left, fg=THEME["gold"], bg=THEME["bg"],
                                      font=FONT_S, anchor="w").pack(side="left", pady=(4, 1))
                         elif kind == "line":
-                            tk.Label(r, text=left, fg=THEME["dim"], bg=THEME["raised"],
+                            tk.Label(r, text=left, fg=THEME["dim"], bg=THEME["bg"],
                                      font=FONT_S, anchor="w", justify="left"
                                      ).pack(side="left")
                         else:
-                            tk.Label(r, text=left, fg=THEME["text"], bg=THEME["raised"],
+                            tk.Label(r, text=left, fg=THEME["text"], bg=THEME["bg"],
                                      font=FONT_S, anchor="w").pack(side="left")
-                            tk.Label(r, text=right, fg=THEME["gold_bright"], bg=THEME["raised"],
+                            tk.Label(r, text=right, fg=THEME["gold_bright"], bg=THEME["bg"],
                                      font=FONT_S, anchor="e").pack(side="right")
                 cw["detail"].pack(fill="x", pady=(0, 4))
             else:
@@ -1503,6 +1552,21 @@ def selftest() -> int:
     assert any(t == "MOB CASTING" for _sev, t in a)
     assert check_alerts("summoned", {}, "", "Spin", {"alerts_enabled": False}) == []
 
+    # log discovery: newest eqlog wins across EQ root + Logs subfolder
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "Logs").mkdir()
+        older = root / "Logs" / "eqlog_Alt_qeynos.txt"
+        newer = root / "eqlog_Spin_qeynos.txt"
+        older.write_text("x")
+        newer.write_text("x")
+        os.utime(older, (1000, 1000))
+        os.utime(newer, (2000, 2000))
+        w = LogWatcher(str(root))
+        assert w._pick() == newer, w._pick()
+        os.utime(older, (3000, 3000))
+        assert w._pick() == older
     print("Loremaster selftest: ALL PASS")
     print(f"  patterns: {len(PATTERNS)}  |  fight1 dps {f1.dps:.0f}  |  "
           f"session dps {snap['session_dps']:.0f}  |  ETL {fmt_eta(snap2['hours_to_level'])}")
