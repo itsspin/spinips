@@ -36,7 +36,7 @@
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/previews/` | Rendered previews of the skin and the full-screen layout. |
 
-Design inspiration: ELVUI / TOXIC UI's bottom-anchored, flat-glass composition — translated into EverQuest's SIDL skin system.
+Design inspiration, translated into EverQuest's SIDL skin system: **ELVUI / TOXIC UI** (bottom-anchored flat-glass HUD), **Narcissus** (the cinematic equipment screen), **Details!** (Loremaster's meters), **WeakAuras / DBM** (Loremaster's alert banners), **SexyMap** (the glass map).
 
 ---
 
@@ -161,8 +161,8 @@ The presets differ only in the chat row:
 
 Tuned for **running with the map open**:
 
-* Top-right glass panel (640x520) — clear of the buff/song columns, the group window, and the whole combat cluster; your character and the world stay unobstructed.
-* **Translucent by design** (`Alpha 225`) and **fades to 150** when it isn't the active window — terrain reads through it while you navigate, and it solidifies the moment you mouse in.
+* Top-right glass panel, now **720x600** — bigger canvas, easier reading at 3440x1440 — still clear of the buff/song columns, the group window, and the whole combat cluster.
+* **Translucent by design** (`Alpha 235`) and **fades to 160** when it isn't the active window — terrain reads through it while you navigate, and it solidifies the moment you mouse in.
 * Coordinate/zone readouts recolored from black to light text so they're readable on the dark canvas.
 * Toggle it with your usual map key; the INI keeps its position and size permanently.
 * Pair with in-game Map Options → *Auto Center on Player* (and *Rotate* if you like) for the get-lost-proof experience; `/mapfilter` tunes POI density.
@@ -175,8 +175,10 @@ Tuned for **running with the map open**:
 
 Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 720x800):
 
-* **Two floating slot rails** — armor down the left, jewelry down the right — each slot seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
-* **Weapons row** on gold-edged hexes across the bottom center: Primary · Secondary · Range · Ammo · Power.
+* **Two floating slot rails** — armor down the left, jewelry (plus Power Source) down the right — every one of the **25 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
+* **Weapons row** on gold-edged hexes across the bottom center: Primary · Secondary · Range · Ammo · **Any · Any** (the two Legends flex slots, right where the live client puts them).
+* **Bags live in the window** — the ten general slots tile as two clean columns in the right sidebar under your weight, exactly like stock but themed; every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) keeps its place, right-anchored.
+* **Every stat block is intact** — Character Vitals (through Velocity, regens and all three DPS lines), Stats & Resists (incl. SV. Void), the full Additional Modifiers block (shieldings included) and Bind/Origin/Deity. The columns scroll if a future patch adds more.
 * **Class crest centerpiece** — the class emblem (still a functional *drop-to-auto-equip* target) floats top-center on a gold hex.
 * **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
 * Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
@@ -227,6 +229,30 @@ In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `e
 * **XP** — gains counted; when Legends logs percentages, you get **XP %/hr** and **estimated time to level** = remaining % ÷ %/hr (survives restarts via per-character state). Level-ups reset the bar.
 * **Everything else** — kills (per-creature), deaths, crits, HPS & overheal, damage taken, enemy misses, loot list, coin → **plat/hr**, faction hits, skill-ups, AA points, fizzles/resists/interrupts, zone.
 * **Per-character auto-tracking** — swap toons and it follows the newest log, saving each character's state to `loremaster_data/<Char>.json`. Sessions auto-reset after **60 min** idle.
+
+### Alerts — the WeakAuras/DBM layer
+
+Loremaster doubles as an alert engine: big center-screen banners (red / gold / cyan by severity) that flash over the game and fade out, with a sound cue:
+
+| Built-in trigger | Banner |
+|---|---|
+| Someone sends you a **tell** | cyan — `TELL — Stuka: port up when you are ready` |
+| **You have been summoned!** | red — the classic raid "oh no" |
+| **You die** | red, with the killer's name |
+| A **big hit** lands on you (default 800+, configurable) | gold — `BIG HIT — 1240` |
+| Your **name is called** in group/raid/guild chat | gold — `GRIMLORD CALLED YOU — Spin to the east wall` |
+| A **fight ends** | cyan toast with the fight's damage/duration/DPS |
+
+Add your own DBM-style triggers in `loremaster_config.json` — any regex over log lines:
+
+```json
+"custom_alerts": [
+  {"pattern": "begins to cast a spell", "text": "MOB CASTING", "severity": "warn"},
+  {"pattern": "Rampage", "text": "RAMPAGE", "severity": "danger"}
+]
+```
+
+`alerts_enabled`, `alert_sound`, `alert_seconds`, `big_hit_threshold` and `alert_position` are all in the same config file.
 
 ### The overlay
 
