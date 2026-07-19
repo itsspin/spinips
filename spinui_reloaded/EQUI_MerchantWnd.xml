@@ -1,0 +1,772 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item ="MW_MerchantName">
+		<ScreenID>MW_MerchantName</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<Text>Bob the Merchant</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight> -->
+	</Label>
+
+	<!-- Currently used to generate an icon for DBC, can also be used wherever we need to, to generate buttons in the window -->
+	<Button item="MW_ButtonTemplate">
+		<ScreenID>MW_ButtonTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>20</CX>
+			<CY>20</CY>
+		</Size>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>20</CX>
+			<CY>20</CY>
+		</DecalSize>
+	</Button>
+	
+	<Listbox item = "MW_ItemList">
+		<ScreenID>ItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_HScroll>true</Style_HScroll>
+		<Style_AutoHScroll>true</Style_AutoHScroll>
+		<Style_Transparency>false</Style_Transparency>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>140</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>28</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+		<Columns>
+			<Width>68</Width>
+			<Heading>Currency</Heading>
+		</Columns>
+		<Columns>
+			<Width>85</Width>
+			<Heading>Cost</Heading>
+		</Columns>
+		<Columns>
+			<Width>35</Width>
+			<Heading>Lvl</Heading>
+		</Columns>
+	</Listbox>
+
+	<Listbox item = "MW_ItemListRecovery">
+		<ScreenID>MW_ItemListRecovery</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Transparency>false</Style_Transparency>		
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>28</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Is Lore</Heading>
+		</Columns>
+		<Columns>
+			<Width>90</Width>
+			<Heading>Has Lore Aug.</Heading>
+		</Columns>
+	</Listbox>
+
+	<Listbox item = "MW_ItemListMail">
+		<ScreenID>MW_ItemListMail</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>39</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>110</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>23</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>From</Heading>
+		</Columns>
+    <Columns>
+      <Width>150</Width>
+      <Heading>Sent</Heading>
+    </Columns>
+    <Columns>
+			<Width>300</Width>
+			<Heading>Note</Heading>
+		</Columns>
+  </Listbox>
+
+	<Button item = "MW_Inspect_Button">
+		<ScreenID>MW_Inspect_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>144</LeftAnchorOffset>
+		<RightAnchorOffset>76</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to inspect the selected item. (R-Click)</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Inspect</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "MW_Preview_Button">
+		<ScreenID>MW_Preview_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>74</LeftAnchorOffset>
+		<RightAnchorOffset>6</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to preview the selected item. (Alt R-Click)</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Preview</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Editbox item="MW_ItemNameInput">
+		<ScreenID>MW_ItemNameInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TooltipReference>Search by partial item name.</TooltipReference>
+		<LeftAnchorOffset>6</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>216</RightAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	
+	<Button item = "MW_SearchItem_Button">
+		<ScreenID>MW_SearchItem_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>false</Style_Border>
+		<LeftAnchorOffset>214</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>146</RightAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Search</Text>true
+<!-- 		<BackgroundTextureTint>
+			<R>0</R>
+			<G>158</G>
+			<B>255</B>
+		</BackgroundTextureTint> -->
+		<NoWrap>true</NoWrap>
+		<DecalSize>
+			<CX>0</CX>
+			<CY>0</CY>
+		</DecalSize>
+		<DecalOffset>
+			<X>62</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<TextAlignCenter>true</TextAlignCenter>
+		<TextAlignVCenter>true</TextAlignVCenter>
+		<TextOffsetX>0</TextOffsetX>
+		<Template>BDT_FindItem</Template>
+	</Button>
+	
+	<Button item = "MW_SelectedItem">
+		<ScreenID>MW_SelectedItem</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>76</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>110</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>34</CX>
+			<CY>34</CY>
+		</DecalSize>
+	</Button>
+
+	<Label item ="MW_SelectedItemLabel">
+		<ScreenID>MW_SelectedItemLabel</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>113</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Text>Item Being Considered</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="MW_Current_Currency_Label">
+		<ScreenID>MW_Current_Currency_Label</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<Text>The amount of the current currency that is available</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight> -->
+	</Label>
+
+	<Label item ="MW_SelectedPriceLabel">
+		<ScreenID>MW_SelectedPriceLabel</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>113</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Text>Price</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "MW_Buy_Button">
+		<ScreenID>MW_Buy_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to buy the selected item</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Buy</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "MW_Buy_MarketPlace_Button">
+		<ScreenID>MW_Buy_MarketPlace_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>31</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to buy the selected item</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Buy</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "MW_Retrieve_Button">
+		<ScreenID>MW_Retrieve_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to retrieve your parcel</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Retrieve</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "MW_Retrieve_All_Button">
+		<ScreenID>MW_Retrieve_All_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>19</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to retrieve all of your parcels</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Retrieve All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "MW_Send_Button">
+		<ScreenID>MW_Send_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to send the selected item</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Send</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Label item ="MW_Send_To_Label">
+		<ScreenID>MW_Send_To_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>35</TopAnchorOffset>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<BottomAnchorOffset>14</BottomAnchorOffset>
+		<Text>To:</Text>
+	</Label>
+
+	<Editbox item="MW_Send_To_Edit">
+		<ScreenID>MW_Send_To_Edit</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<RightAnchorOffset>73</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Enter the name of the person you want the parcel sent to.</TooltipReference>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	
+	<Label item ="MW_Note_Label">
+		<ScreenID>MW_Note_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>16</TopAnchorOffset>
+		<RightAnchorOffset>45</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<Text>Note:</Text>
+	</Label>
+
+	<Editbox item="MW_Note_Edit">
+		<ScreenID>MW_Note_Edit</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>73</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Enter a note associated with the item you are sending (limited to 140 characters).</TooltipReference>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+
+	<Button item = "MW_Clear_Note_Button">
+		<ScreenID>MW_Clear_Note_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>68</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Clears text in Note: box</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Clear Note</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "MW_Done_Button">
+		<ScreenID>MW_Done_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>74</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to close the merchant window</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "MW_Adventure_Button">
+		<ScreenID>MW_Adventure_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>74</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Opens the Adventure Window</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Adventure</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "MW_Sell_Button">
+		<ScreenID>MW_Sell_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to sell the selected item</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Sell</Text>
+		<Template>BDT_Normal</Template>		
+	</Button>
+
+	<Button item = "MW_Recover_Button">
+		<ScreenID>MW_Recover_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to recover the selected previously-deleted item</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Recover</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="MW_UsableButton">
+		<ScreenID>MW_UsableButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>21</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="MW_UsableLabel">
+		<ScreenID>MW_UsableLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>26</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>218</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Show only items I can use</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Page item = "MW_PurchasePage">
+		<ScreenID>MW_PurchasePage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<!-- Pages are sized and positioned by their parent tab -->
+		<TabText>Purchase/Sell</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>MW_ItemList</Pieces>
+		<Pieces>MW_UsableButton</Pieces>
+		<Pieces>MW_UsableLabel</Pieces>
+	</Page>
+	
+	<Page item = "MW_RecoveryPage">
+		<ScreenID>MW_RecoveryPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<!-- Pages are sized and positioned by their parent tab -->
+		<TabText>Recover</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>MW_ItemListRecovery</Pieces>
+	</Page>
+
+	<Label item="MW_ParcelCountNumber">
+		<EQType>359</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>160</CX>
+			<CY>14</CY>
+		</Size>
+		<PrependText>Total Parcel Count: </PrependText>
+		<Text>0</Text>
+		<TextColor>
+			<R>232</R>
+			<G>234</G>
+			<B>240</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+	</Label>
+
+	<Page item = "MW_MailPage">
+		<ScreenID>MW_MailPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<!-- Pages are sized and positioned by their parent tab -->
+		<TabText>Parcels</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>MW_ParcelCountNumber</Pieces>
+		<Pieces>MW_ItemListMail</Pieces>
+		<Pieces>MW_Send_To_Label</Pieces>
+		<Pieces>MW_Send_To_Edit</Pieces>
+		<Pieces>MW_Note_Label</Pieces>
+		<Pieces>MW_Note_Edit</Pieces>
+		<Pieces>MW_Clear_Note_Button</Pieces>		
+	</Page>
+
+	<TabBox item = "MW_MerchantSubwindows">
+		<ScreenID>MW_MerchantSubwindows</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<!--<ShowTabs>false</ShowTabs>-->
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>36</BottomAnchorOffset>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>MW_PurchasePage</Pages>
+		<Pages>MW_RecoveryPage</Pages>
+		<Pages>MW_MailPage</Pages>
+	</TabBox>
+
+	<Screen item = "MerchantWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>437</CX>
+			<CY>515</CY>
+		</Size>
+		<Text>Merchant</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<KeepOnScreen>true</KeepOnScreen>		
+		<MinHSize>408</MinHSize>
+		<MinVSize>264</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>MW_MerchantName</Pieces>
+		<Pieces>MW_SelectedItemLabel</Pieces>
+		<Pieces>MW_SelectedPriceLabel</Pieces>
+		<Pieces>MW_SelectedItem</Pieces>
+		<Pieces>MW_Buy_Button</Pieces>
+		<Pieces>MW_Buy_MarketPlace_Button</Pieces>
+		<Pieces>MW_Current_Currency_Label</Pieces>
+		<Pieces>MW_Sell_Button</Pieces>
+		<Pieces>MW_Recover_Button</Pieces>
+		<Pieces>MW_Done_Button</Pieces>
+		<Pieces>MW_Adventure_Button</Pieces>
+		<Pieces>MW_Retrieve_Button</Pieces>
+		<Pieces>MW_Retrieve_All_Button</Pieces>
+		<Pieces>MW_ButtonTemplate</Pieces>
+		<Pieces>MW_MerchantSubwindows</Pieces>
+		<Pieces>MW_Send_Button</Pieces>		
+		<Pieces>MW_Inspect_Button</Pieces>
+		<Pieces>MW_Preview_Button</Pieces>
+		<Pieces>MW_ItemNameInput</Pieces>
+		<Pieces>MW_SearchItem_Button</Pieces>
+	</Screen>
+
+
+</XML>

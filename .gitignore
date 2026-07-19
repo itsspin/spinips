@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+loremaster/loremaster_config.json
+loremaster/loremaster_data/
