@@ -14,24 +14,23 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from restyle_inventory import (LEFT_RAIL, RIGHT_RAIL, WEAPON_ROW,  # noqa: E402
                                PITCH, PLATE, L_X, R_X, RAIL_Y, W_Y, W_X0, slot_pos)
+from spinui_theme import (BG1, BG2, CYAN, GOLD, GOLD_BRIGHT, LINE, LINE_SOFT,
+                          TEXT, TEXT_DIM)
 
 SKIN = REPO / "spinui_reloaded"
 OUT = REPO / "docs" / "previews"
 
-GOLD = (201, 162, 39)
-GOLD_BRIGHT = (232, 197, 92)
-CYAN = (65, 199, 228)
-TEXT = (232, 234, 240)
-DIM = (154, 163, 181)
-LINE = (58, 65, 82)
-LINE_SOFT = (38, 43, 56)
-BG1 = (16, 19, 27)
-
-FONT_DIR = Path("/usr/share/fonts/truetype/dejavu")
-
+DIM = TEXT_DIM
 
 def F(size, bold=False):
-    return ImageFont.truetype(str(FONT_DIR / ("DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf")), size)
+    names = (("seguisb.ttf", "segoeuib.ttf", "DejaVuSans-Bold.ttf") if bold
+             else ("segoeui.ttf", "DejaVuSans.ttf"))
+    for root in (Path("C:/Windows/Fonts"), Path("/usr/share/fonts/truetype/dejavu")):
+        for name in names:
+            path = root / name
+            if path.exists():
+                return ImageFont.truetype(str(path), size)
+    return ImageFont.load_default()
 
 
 SLOT_NAMES = {0: "Charm", 1: "Ear", 2: "Head", 3: "Face", 4: "Ear", 5: "Neck",
@@ -52,8 +51,9 @@ def main():
     d = ImageDraw.Draw(img)
 
     # window: rounded obsidian glass + titlebar
-    d.rounded_rectangle([0, 0, W - 1, H - 1], radius=6, fill=(14, 17, 24, 250), outline=LINE + (255,))
-    d.rectangle([1, 1, W - 2, 18], fill=(24, 28, 39, 255))
+    d.rounded_rectangle([0, 0, W - 1, H - 1], radius=5, fill=(9, 13, 18, 250), outline=LINE + (255,))
+    d.rectangle([1, 1, W - 2, 18], fill=(16, 22, 29, 255))
+    d.line([(1, 1), (W - 2, 1)], fill=CYAN + (225,))
     d.line([(1, 17), (W - 2, 17)], fill=GOLD + (220,))
     d.text((10, 9), "Inventory", font=F(11, True), fill=TEXT, anchor="lm")
     d.text((W - 12, 9), "—   ✕", font=F(11, True), fill=DIM, anchor="rm")
@@ -65,9 +65,11 @@ def main():
         tw = 24 + 8 * len(t)
         active = i == 0
         d.rounded_rectangle([tx, 24, tx + tw, 44], radius=4,
-                            fill=(31, 36, 50, 255) if active else (16, 19, 27, 255),
-                            outline=(GOLD if active else LINE_SOFT) + (255,))
-        d.text((tx + tw // 2, 34), t, font=F(11, active), fill=GOLD_BRIGHT if active else DIM, anchor="mm")
+                            fill=(23, 34, 42, 255) if active else BG1 + (255,),
+                            outline=(CYAN if active else LINE_SOFT) + (255,))
+        if active:
+            d.line([(tx + 4, 43), (tx + tw - 4, 43)], fill=CYAN + (255,), width=2)
+        d.text((tx + tw // 2, 34), t, font=F(11, active), fill=TEXT if active else DIM, anchor="mm")
         tx += tw + 4
 
     # right sidebar
@@ -106,16 +108,16 @@ def main():
     # buttons — the full stock set, right-anchored like the client draws them
     btns = [("Appear.", 486), ("Skills", 512), ("Alt. Adv.", 512), ("Achiev.", 538),
             ("Find Item", 538)]
-    d.rounded_rectangle([sx + 4, 486, sx + 104, 506], radius=3, fill=(24, 28, 39, 255), outline=LINE + (255,))
+    d.rounded_rectangle([sx + 4, 486, sx + 104, 506], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
     d.text((sx + 54, 496), "Appear.", font=F(10), fill=TEXT, anchor="mm")
     for i, lab in enumerate(("Skills", "Alt. Adv.", "Achiev.", "Find Item")):
         bx = sx + 4 + (i % 2) * 52
         by = 512 + (i // 2) * 26
-        d.rounded_rectangle([bx, by, bx + 48, by + 20], radius=3, fill=(24, 28, 39, 255), outline=LINE + (255,))
+        d.rounded_rectangle([bx, by, bx + 48, by + 20], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
         d.text((bx + 24, by + 10), lab, font=F(8), fill=TEXT, anchor="mm")
     d.rounded_rectangle([sx + 4, 570, sx + 104, 590], radius=3, fill=(120, 30, 30, 255), outline=LINE + (255,))
     d.text((sx + 54, 580), "Destroy", font=F(10, True), fill=TEXT, anchor="mm")
-    d.rounded_rectangle([sx + 4, 596, sx + 104, 616], radius=3, fill=(24, 28, 39, 255), outline=GOLD + (255,))
+    d.rounded_rectangle([sx + 4, 596, sx + 104, 616], radius=3, fill=BG2 + (255,), outline=GOLD + (255,))
     d.text((sx + 54, 606), "Done", font=F(10, True), fill=GOLD_BRIGHT, anchor="mm")
 
     # ---- equipment page (0,22)+(6,6) origin -> page content at (8, 50) ----

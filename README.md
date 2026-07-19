@@ -1,17 +1,25 @@
 # Spin's UI Reloaded
 
-**A complete "Obsidian & Ember" interface overhaul for EverQuest Legends, purpose-built for 3440x1440 ultrawide** — plus **Spin's Loremaster**, a zero-dependency log-reading session tracker that docks straight into the layout.
+**A complete "Obsidian, Venom & Ember" interface overhaul for EverQuest Legends, purpose-built for 3440x1440 ultrawide** — plus **Spin's Loremaster**, a zero-dependency log-reading session tracker that docks straight into the layout.
 
-![Spin's UI Reloaded — full 3440x1440 preview](docs/previews/spinui_reloaded_3440.png)
+## Screenshots
 
-*The preview above is rendered from the real skin textures at the real layout coordinates by `tools/render_preview.py`.*
+### Complete 3440x1440 HUD
+
+![Spin's UI Reloaded — complete 3440x1440 HUD](docs/previews/spinui_reloaded_3440.png)
+
+| Cinematic equipment | Spin's Loremaster |
+|:---:|:---:|
+| ![Equipment screen](docs/previews/equipment_page.png) | ![Spin's Loremaster combat ledger](docs/previews/loremaster_panel.png) |
+
+*These previews are rendered from the real skin textures and layout coordinates by the repository's rendering tools.*
 
 ---
 
 ## Contents
 
 1. [What's inside](#whats-inside)
-2. [The theme — Obsidian & Ember](#the-theme--obsidian--ember)
+2. [The theme — Obsidian, Venom & Ember](#the-theme--obsidian-venom--ember)
 3. [The 3440x1440 layout](#the-3440x1440-layout)
 4. [Installation](#installation)
 5. [Chat: three windows, three presets](#chat-three-windows-three-presets)
@@ -32,7 +40,7 @@
 | `UI_Spin_qeynos_LO1.ini` | Drop-in personal layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (combat-focus preset). |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements — pick your style. |
 | `layouts/original/` | Your pre-overhaul UI file, untouched, in case you ever want to roll back. |
-| `loremaster/` | **Spin's Loremaster** — the EQBuddy-inspired log parser / DPS tracker overlay. |
+| `loremaster/` | **Spin's Loremaster** — the real-time combat ledger, session tracker, and DPS overlay. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/previews/` | Rendered previews of the skin and the full-screen layout. |
 
@@ -40,20 +48,20 @@ Design inspiration, translated into EverQuest's SIDL skin system: **ELVUI / TOXI
 
 ---
 
-## The theme — Obsidian & Ember
+## The theme — Obsidian, Venom & Ember
 
 Every shared chrome texture was redrawn programmatically (see `tools/generate_spinui_textures.py`), so **all** windows — inventory, merchant, tradeskill, guild, raid, overseer, everything — pick up the theme automatically:
 
 | Role | Color | Where you see it |
 |---|---|---|
-| Obsidian glass | `#0B0D12 → #181C27` | window backgrounds, buttons, slots |
-| Steel line | `#3A4152` | 1px window & button outlines |
-| **Ember gold** | `#C9A227` / `#E8C55C` | titlebar base-line, pressed buttons, XP, headers |
-| **Arcane cyan** | `#41C7E4` | hover states, selections, casting, AA |
-| HP / Mana / Endurance | `#D93A3F` / `#3E7BFA` / `#D9A13A` | every vitals gauge, group rows, target HP |
-| Text | `#E8EAF0` primary / `#9AA3B5` dim | labels everywhere |
+| Matte obsidian | `#05070A → #17222A` | window backgrounds, control layers, slots |
+| Gunmetal line | `#303F4E` | crisp window, button, and content-well outlines |
+| **Ember gold** | `#DB9E2A` / `#FACD5F` | committed states, XP, records, heraldic identity |
+| **Venom arcane** | `#34DABE` | signal rails, hover/selection, casting, AA, active tabs |
+| HP / Mana / Endurance | `#DE3E48` / `#427EF4` / `#DB9E2A` | every vitals gauge, group row, target HP |
+| Text | `#EEF2F3` primary / `#92A1A9` dim | high-contrast labels and secondary data |
 
-Gauges use a neutral silver "glass" strip that the client tints per-gauge — so HP reads deep red, mana electric blue, endurance amber, XP gold, AA cyan, casting cyan, all with the same glassy sheen. Spell **gem icons are untouched** (as requested) — only the gem *sockets* got the obsidian + gold-tick treatment.
+Gauges use a compact high-contrast gradient that the client tints per gauge, so HP reads deep red, mana electric blue, endurance amber, XP gold, and casting/AA venom-teal without losing a consistent material language. Spell **gem icons are untouched**—only the sockets gain matte obsidian wells and controlled signal accents.
 
 Window XML polish applied on top (133+ verified value-level edits): vivid gauge tints in Player/Target/Group/Pet/ExtTarget/Casting/Breath/Aggro windows, readable label colors in the buff & song windows, map coordinate readouts flipped from black to light (they'd be invisible on the dark map), and target-name text bumped to a larger font.
 
@@ -113,6 +121,18 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 
 > **Golden rule: edit/copy INI files while the game is fully closed.** The client rewrites UI INIs on logout — changes made while logged in are lost.
 
+### Automatic Windows installer
+
+1. Open the GitHub **Actions** tab, choose **Build SpinUI Windows package**, open the newest green run, and download the `SpinUI-Installer` artifact. Releases carry the same `SpinUI-Installer.zip`.
+2. Extract the whole ZIP, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`.
+3. The installer always adds the skin and Loremaster. **Install the 3440x1440 layout** is deliberately unchecked so another player's arrangement is never replaced accidentally. When selected, choose the character INI to update; the original is preserved beside it as `.spinui-backup`.
+4. **Start Loremaster with Windows** is enabled by default. Its startup process remains hidden and virtually idle until `eqgame.exe` appears, then opens Loremaster in its saved dock position.
+5. In game, type `/log on` once and use `/loadskin spinui_reloaded 1` if the skin is not already selected.
+
+### Manual installation
+
+Download `SpinUI-Manual` from the same workflow run or `SpinUI-Manual.zip` from a release. It contains the UI, Loremaster, layouts, default INI, and a standalone `INSTALL.md`—there is no installer executable in this package.
+
 1. **Install the skin**
    Copy the `spinui_reloaded` folder into your EverQuest Legends `uifiles` directory:
    ```
@@ -171,8 +191,6 @@ Tuned for **running with the map open**:
 
 ## The equipment screen
 
-![Equipment screen — Narcissus mode](docs/previews/equipment_page.png)
-
 Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 720x800):
 
 * **Two floating slot rails** — armor down the left, jewelry (plus Power Source) down the right — every one of the **25 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
@@ -199,33 +217,33 @@ Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic co
 
 *The log parser — DPS, XP, pets, songs, loot, and time-to-level in one obsidian panel.*
 
-Built after a code review of **EQBuddy** (C#/WPF) and reimplemented as a single-file, standard-library-only Python app so it's hackable and install-free. Same proven engine constants; more stats.
+Loremaster is a purpose-built, single-file Python companion for Spin's UI Reloaded. It reads EverQuest logs in real time, turns combat and adventure events into a detailed live ledger, and remains standard-library-only so it is fast, transparent, and install-free.
 
-### Run it — the easy way (no install)
+### Run it — the easy way
 
-1. On GitHub: **Actions tab → "Build Loremaster.exe" → newest green run → Artifacts → `Loremaster-windows`** — download, unzip, and double-click `Loremaster.exe`. No Python, no setup. (Once a release is tagged the EXE also appears on the **Releases** page.)
-2. In game, type **`/log on`** once (per character). That's the entire hookup — Loremaster scans the **`Logs` folder inside the EverQuest Legends directory** (e.g. `…\EverQuest Legends\Logs\eqlog_Spin_qeynos.txt`) as well as the game root, follows whichever log is newest in real time, and works for **any character on any server** — the name and server are read straight from the filename, and it switches automatically when you swap characters. A custom install path goes in `loremaster_config.json` → `log_dir`.
+1. Use `SpinUIInstaller.exe` from `SpinUI-Installer.zip`, take `Loremaster.exe` from `SpinUI-Manual.zip`, or download the standalone tools artifact. No Python is required. Tagged releases contain both packages and both executables.
+2. In game, type **`/log on`** once (per character). Loremaster scans the usual Daybreak and Steam locations, follows whichever log is newest in real time, and works for **any character on any server**. If your install is elsewhere, click **LOCATE LOG** and choose either the EverQuest directory or its `Logs` folder; Loremaster reconnects immediately and remembers the choice.
 3. It opens **always-on-top** on the shelf above your bag row (right side, clear of the map, group window, hotbars and chat). Drag it anywhere — the spot is remembered.
 
 Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
 
 ### The ledger
 
-![Loremaster — the ledger](docs/previews/loremaster_panel.png)
-
-Loremaster's face is its own — the same design language as the rest of Spin's UI Reloaded, not a clone of any tracker: an **ember hero band** (FIGHT DPS / SESSION / BEST) up top, then **gold-ruled ledger sections** with hex bullets — the exact typography of the equipment screen. Minimal at a glance; **click a section header to unfold** its detail, click again to fold:
+Loremaster's face is its own — the same design language as the rest of Spin's UI Reloaded, with the information density and encounter focus of a great combat meter: an ember-edged **Adventurer's Chronicle** masthead, raised hero band, restrained runic typography, and gold-ruled ledger sections. Toggle **FIGHT / SESSION / RECORDS** to inspect the current or most recent encounter, everything since launch/reset, or the small set of permanent character records.
 
 | Section | At a glance | Unfolded |
 |---|---|---|
 | COMBAT | live/session DPS | dealt (melee/spell) · crits · accuracy · biggest hit · taken/avoided · heals · fizzles/resists · **damage by attack** (per source: total · hits · avg) · **damage taken from** |
-| SLAYING | `96 (+15)` yours (+group) | per-creature ×N breakdown + group kills |
-| SPOILS | item count | the loot list ×N |
+| SLAYING | `47 (+9)` yours (+group) | per-creature ×N breakdown + group kills |
+| SPOILS | `23 items` | the loot list ×N |
 | COIN | `2p 9g 1s 6c` | total + plat/hour |
-| PROGRESSION | `14.2% xp, +1 lvl` | XP/hr · time to level · into-level % · levels · AA · songs |
-| STANDING | faction count | per-faction ± standings |
+| PROGRESSION | `18.6% xp, +3 AA` | XP/hr · time to level · into-level % · levels · AA · songs |
+| STANDING | `7 factions` | per-faction ± standings |
 | JOURNEY | deaths | zone chain + deaths |
 
-**Pin a section** (✦) into **mini mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 96 │ COIN 2p 9g`) for pure-minimal play; the — button switches modes, both positions are remembered separately, and the window is always-on-top in either mode.
+**Fight mode** is the Details-style deep dive: total damage, DPS, duration, crits/misses, incoming damage and healing, then every ability with total/share/DPS/hits/average/max, damage by target, and recent encounters. **Session mode** aggregates combat, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed ↺. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
+
+**Pin a section** (✦) into **mini mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play; the — button switches modes, both positions are remembered separately, and the window is always-on-top in either mode.
 
 ### Run it — from source
 
@@ -235,9 +253,10 @@ cd loremaster
 Loremaster.bat            :: or:  python loremaster.py
 python loremaster.py --demo      :: instant synthetic fight, no EQ needed
 python loremaster.py --selftest  :: parser + math test suite
+python loremaster.py --wait-for-eq  :: hidden until eqgame.exe launches
 ```
 
-In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `eqlog_<Char>_<server>.txt` in the standard Legends `Logs` folder (override in `loremaster_config.json` or `--log-dir`).
+In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `eqlog_<Char>_<server>.txt`; click **LOCATE LOG** if the automatic search misses your install, or pass `--log-dir`.
 
 ### What it tracks
 
@@ -247,7 +266,7 @@ In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `e
 * **Bard songs** — songs twisted and songs/min.
 * **XP** — gains counted; when Legends logs percentages, you get **XP %/hr** and **estimated time to level** = remaining % ÷ %/hr (survives restarts via per-character state). Level-ups reset the bar.
 * **Everything else** — kills (per-creature), deaths, crits, HPS & overheal, damage taken, enemy misses, loot list, coin → **plat/hr**, faction hits, skill-ups, AA points, fizzles/resists/interrupts, zone.
-* **Per-character auto-tracking** — swap toons and it follows the newest log, saving each character's state to `loremaster_data/<Char>.json`. Sessions auto-reset after **60 min** idle.
+* **Per-character auto-tracking** — swap toons and it follows the newest log, preserving selected records for every character. Sessions last until launch, manual reset, or character switch; optional idle reset can be enabled with `auto_reset_minutes`. Packaged builds keep config and records in `%LOCALAPPDATA%\SpinsLoremaster` so updates and one-file launches cannot lose them.
 
 ### Alerts — the WeakAuras/DBM layer
 
@@ -275,9 +294,9 @@ Add your own DBM-style triggers in `loremaster_config.json` — any regex over l
 
 ### The overlay
 
-* Always-on-top, borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It defaults to the layout's reserved shelf at **2792,676** (right side, above the bag dock, clear of the map, group window and hotbars); mini mode defaults to a slim strip just above the bags.
-* **Mini mode** (— button): a slim strip showing only your **starred** stats. **Right-click any stat** to star/unstar it (★). A ⚔ live-DPS chip appears while you're in combat.
-* ↺ resets the session; config in `loremaster_config.json` (opacity, log dir, starred stats).
+* Always-on-top, borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It defaults to the layout's reserved right-side shelf, clear of the map, group window, hotbars, and bag dock.
+* **Mini mode** (— button): a slim strip showing only your pinned sections. Click ✦ beside a section to pin or unpin it.
+* **LOCATE LOG** opens a folder picker; ↺ resets only the live session. Config is materialized automatically on first run.
 
 ---
 
@@ -308,7 +327,7 @@ python3 tools/render_preview.py                   # re-render the full-screen pr
 | A window is somewhere weird | `/loadskin spinui_reloaded` **without** the `1` re-applies the skin's default 1440p layout (`default1440.ini`). |
 | Raid chat in Main instead of Social | That's the documented two-click step — see [Chat](#chat-three-windows-three-presets). |
 | Chat font too big/small | Right-click the chat window → Font. |
-| Loremaster shows "awaits your log" | `/log on` in game; check `log_dir` in `loremaster_config.json`. |
+| Loremaster shows "awaits your log" | Type `/log on` in game, then click **LOCATE LOG** and choose the EverQuest folder or its `Logs` folder. |
 | Time-to-level shows — | Needs XP % in log lines (Legends logs them) and a few minutes of kills to establish a rate. |
 | Playing at 2560x1440 | Positions are percentage-based and scale horizontally; the design target is 3440 — expect tighter gaps, no overlaps in the chat row/HUD band. |
 | Want everything locked | Right-click a window → Lock, once you're happy. |
@@ -330,8 +349,11 @@ spinips/
 ├── loremaster/
 │   ├── loremaster.py           the tracker (stdlib-only)
 │   └── Loremaster.bat          Windows launcher (from source)
+├── installer/
+│   ├── spinui_installer.py     auto-detecting Windows installer
+│   └── INSTALL-MANUAL.md       no-EXE installation guide
 ├── .github/workflows/
-│   └── build-loremaster.yml    CI: builds one-click Loremaster.exe
+│   └── build-loremaster.yml    CI: tests, builds, and zips the Windows release
 ├── tools/
 │   ├── generate_spinui_textures.py   theme painter
 │   ├── generate_spinui_layout.py     layout builder + validator
