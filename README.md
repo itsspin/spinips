@@ -123,7 +123,7 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 
 ### Automatic Windows installer
 
-1. Open the GitHub **Actions** tab, choose **Build SpinUI Windows package**, open the newest green run, and download the `SpinUI-Installer` artifact. Releases carry the same `SpinUI-Installer.zip`.
+1. Download `SpinUI-Installer.zip` from the newest entry on the GitHub **Releases** page. Maintainers can also run **Actions → Build SpinUI Windows package**: leave **Publish these builds on the GitHub Releases page** enabled and choose the release tag to create or refresh.
 2. Extract the whole ZIP, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`.
 3. The installer always adds the skin and Loremaster. **Install the 3440x1440 layout** is deliberately unchecked so another player's arrangement is never replaced accidentally. When selected, choose the character INI to update; the original is preserved beside it as `.spinui-backup`.
 4. **Start Loremaster with Windows** is enabled by default. Its startup process remains hidden and virtually idle until `eqgame.exe` appears, then opens Loremaster in its saved dock position.
