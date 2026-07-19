@@ -20,32 +20,25 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 import generate_spinui_layout as LAYOUT  # noqa: E402
+from spinui_theme import (BG1, BG2, BG3, CYAN, EMBER, ENDUR, GOLD, GOLD_BRIGHT,
+                          GREEN, HP, LINE, LINE_SOFT, MANA, PARCHMENT, PET,
+                          TEXT, TEXT_DIM, VOID)
 
 SKIN = REPO / "spinui_reloaded"
 OUT = REPO / "docs" / "previews"
 W, H = 3440, 1440
 
-# palette (matches the texture generator)
-BG1 = (16, 19, 27)
-LINE = (58, 65, 82)
-LINE_SOFT = (38, 43, 56)
-GOLD = (201, 162, 39)
-GOLD_BRIGHT = (232, 197, 92)
-CYAN = (65, 199, 228)
-TEXT = (232, 234, 240)
-DIM = (154, 163, 181)
-HP = (217, 58, 63)
-MANA = (62, 123, 250)
-ENDUR = (217, 161, 58)
-PET = (122, 140, 166)
-GREEN = (63, 191, 107)
-
-FONT_DIR = Path("/usr/share/fonts/truetype/dejavu")
-
+DIM = TEXT_DIM
 
 def F(size, bold=False):
-    name = "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf"
-    return ImageFont.truetype(str(FONT_DIR / name), size)
+    names = (("seguisb.ttf", "segoeuib.ttf", "DejaVuSans-Bold.ttf") if bold
+             else ("segoeui.ttf", "DejaVuSans.ttf"))
+    for root in (Path("C:/Windows/Fonts"), Path("/usr/share/fonts/truetype/dejavu")):
+        for name in names:
+            path = root / name
+            if path.exists():
+                return ImageFont.truetype(str(path), size)
+    return ImageFont.load_default()
 
 
 # ---------------------------------------------------------------------------
@@ -134,11 +127,15 @@ def std_window(canvas, x, y, w, h, title=None, alpha=248):
 
 
 def glass_window(canvas, x, y, w, h, alpha=235):
-    """Rounded chat-glass window (WDT_RoundedNoTitle look)."""
+    """Matte combat glass with a short, luminous signal rail."""
     win = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(win)
-    d.rounded_rectangle([0, 0, w - 1, h - 1], radius=6, fill=BG1 + (alpha,), outline=LINE + (255,))
-    d.line([(6, 1), (w - 7, 1)], fill=(255, 255, 255, 18))
+    d.rounded_rectangle([0, 0, w - 1, h - 1], radius=5,
+                        fill=BG1 + (alpha,), outline=(1, 3, 5, 255))
+    d.rounded_rectangle([1, 1, w - 2, h - 2], radius=4, outline=LINE + (245,))
+    rail_end = max(28, int(w * .24))
+    d.line([(5, 1), (rail_end, 1)], fill=CYAN + (235,), width=2)
+    d.line([(rail_end + 1, 1), (w - 6, 1)], fill=LINE_SOFT + (220,))
     canvas.alpha_composite(win, (x, y))
     return (x + 8, y + 6, x + w - 8, y + h - 6)
 
@@ -208,9 +205,10 @@ def draw_chat(canvas, x, y, w, h, name, lines, input_line=""):
     ix0, iy0, ix1, iy1 = glass_window(canvas, x, y, w, h)
     # tab
     d = ImageDraw.Draw(canvas)
-    d.rounded_rectangle([x + 8, y - 0, x + 8 + 10 + 8 * len(name), y + 20], radius=4,
-                        fill=(24, 28, 39, 255), outline=LINE + (255,))
-    d.line([(x + 10, y + 19), (x + 6 + 8 * len(name) + 10, y + 19)], fill=GOLD + (220,))
+    d.rounded_rectangle([x + 8, y, x + 8 + 10 + 8 * len(name), y + 20], radius=3,
+                        fill=(16, 22, 29, 255), outline=CYAN + (220,))
+    d.line([(x + 10, y + 19), (x + 6 + 8 * len(name) + 10, y + 19)], fill=CYAN + (245,))
+    d.line([(x + 9, y + 4), (x + 9, y + 16)], fill=GOLD + (235,), width=2)
     text(canvas, (x + 16, y + 10), name, size=12, color=GOLD_BRIGHT, bold=True, anchor="lm")
     ty = y + 30
     for color, s in lines:
@@ -263,7 +261,7 @@ def draw_stance(canvas, x, y, w, h):
         active = i == 3
         d = ImageDraw.Draw(canvas)
         d.rounded_rectangle([bx, y + 7, bx + bw - 6, y + h - 8], radius=4,
-                            fill=(31, 36, 50, 255) if active else (16, 19, 27, 255),
+                            fill=BG3 + (255,) if active else BG1 + (255,),
                             outline=(GOLD if active else LINE) + (255,))
         text(canvas, (bx + (bw - 6) // 2, y + h // 2), s, size=11,
              color=GOLD_BRIGHT if active else DIM, bold=active, anchor="mm")
@@ -400,38 +398,60 @@ def draw_tracker(canvas, x, y, w, h):
 
 def draw_loremaster(canvas, x, y, w, h):
     d = ImageDraw.Draw(canvas)
-    d.rectangle([x, y, x + w - 1, y + h - 1], fill=GOLD + (255,))
-    d.rectangle([x + 1, y + 1, x + w - 2, y + h - 2], fill=(11, 13, 18, 250))
-    rect(canvas, (x + 1, y + 1, x + w - 1, y + 27), fill=(16, 19, 27, 255))
-    text(canvas, (x + 10, y + 7), "LOREMASTER", size=13, color=GOLD_BRIGHT, bold=True)
-    text(canvas, (x + 124, y + 9), "—  Spin · 40", size=11, color=DIM)
+    d.rectangle([x, y, x + w - 1, y + h - 1], fill=LINE + (255,))
+    d.rectangle([x + 1, y + 1, x + w - 2, y + h - 2], fill=BG1 + (250,))
+    rect(canvas, (x + 1, y + 1, x + w - 1, y + 28), fill=BG2 + (255,))
+    d.line([(x + 1, y + 1), (x + 120, y + 1)], fill=CYAN + (255,), width=2)
+    d.line([(x + 1, y + 27), (x + w - 2, y + 27)], fill=EMBER + (255,), width=2)
+    text(canvas, (x + 10, y + 7), "SPIN'S LOREMASTER", size=13, color=GOLD_BRIGHT, bold=True)
     text(canvas, (x + w - 12, y + 8), "—   ↺   ✕", size=12, color=DIM, anchor="ra")
+    text(canvas, (x + 10, y + 35), "SPIN · QEYNOS", size=9, color=PARCHMENT, bold=True)
+    text(canvas, (x + w - 10, y + 35), "Blackburrow", size=10, color=DIM, anchor="ra")
+
+    tab_y = y + 51
+    tab_w = (w - 20) // 3
+    d.rectangle([x + 10, tab_y, x + w - 10, tab_y + 24], fill=VOID + (255,))
+    d.rectangle([x + 10, tab_y, x + 10 + tab_w, tab_y + 24], fill=BG3 + (255,))
+    for i, (label, color) in enumerate((("FIGHT", CYAN), ("SESSION", DIM), ("RECORDS", DIM))):
+        text(canvas, (x + 10 + i * tab_w + tab_w // 2, tab_y + 12), label,
+             size=9, color=color, bold=True, anchor="mm")
+
+    hero_y = y + 81
+    d.rectangle([x + 10, hero_y, x + w - 10, hero_y + 55], fill=BG3 + (255,))
+    d.rectangle([x + 10, hero_y, x + 12, hero_y + 55], fill=CYAN + (255,))
     cells = [("1,284", "FIGHT DPS", GOLD_BRIGHT), ("946", "SESSION", TEXT), ("2,105", "BEST", CYAN)]
     cw = (w - 20) // 3
     for i, (v, lab, col) in enumerate(cells):
         cx = x + 10 + i * cw + cw // 2
-        text(canvas, (cx, y + 38), v, size=21, color=col, bold=True, anchor="ma")
-        text(canvas, (cx, y + 66), lab, size=10, color=DIM, anchor="ma")
-    d.rectangle([x + 10, y + 84, x + w - 10, y + 86], fill=GOLD + (255,))
-    stats = [("★ Kills", "38"), ("★ XP %/hr", "14.2%"), ("★ Time to level", "3h41m"),
-             ("★ Plat/hr", "12.4p"), ("★ Songs/min", "6.2"), ("HPS", "212"),
-             ("Dmg taken", "18.4k"), ("Pets active", "1"), ("Crits", "44"), ("Deaths", "0")]
-    scw = (w - 20) // 2
-    for i, (lab, val) in enumerate(stats):
-        sx = x + 10 + (i % 2) * scw
-        sy = y + 94 + (i // 2) * 42
-        d.rectangle([sx + 2, sy, sx + scw - 2, sy + 38], fill=(16, 19, 27, 255), outline=LINE_SOFT + (255,))
-        text(canvas, (sx + 8, sy + 4), lab, size=10, color=GOLD if lab.startswith("★") else DIM)
-        text(canvas, (sx + 8, sy + 18), val, size=14, color=TEXT, bold=True)
-    ty = y + 94 + 5 * 42 + 8
-    text(canvas, (x + 10, ty), "RECENT FIGHTS", size=10, color=GOLD)
-    fights = [("a froglok shin knight", "1,196"),
-              ("Grenkor the Mighty", "1,522"),
-              ("a froglok tuk knight", "1,214")]
-    for i, (nm, dps) in enumerate(fights):
-        fy = ty + 16 + i * 19
-        text(canvas, (x + 10, fy), nm, size=12, color=TEXT)
-        text(canvas, (x + w - 12, fy), dps + " dps", size=12, color=GOLD_BRIGHT, anchor="ra")
+        text(canvas, (cx, hero_y + 10), v, size=20, color=col, bold=True, anchor="ma")
+        text(canvas, (cx, hero_y + 38), lab, size=9, color=DIM, anchor="ma")
+    d.rectangle([x + 10, hero_y + 61, x + w - 10, hero_y + 63], fill=GOLD + (255,))
+
+    cy = hero_y + 73
+    text(canvas, (x + 14, cy), "COMBAT · FROGLOK SHIN KNIGHT", size=10, color=CYAN, bold=True)
+    text(canvas, (x + w - 13, cy), "11.5k · 1,284/s", size=11, color=TEXT, bold=True, anchor="ra")
+    d.line([(x + 10, cy + 17), (x + w - 10, cy + 17)], fill=CYAN + (230,))
+    cy += 28
+    meters = [
+        ("Careless Lightning", "4,449 · 39% · 556/s", .39),
+        ("Melee", "3,347 · 29% · 418/s", .29),
+        ("Pet (Gann)", "1,541 · 13% · 193/s", .13),
+        ("DoT: Flame Lick", "672 · 6% · 84/s", .06),
+    ]
+    for name, value, share in meters:
+        d.rectangle([x + 12, cy, x + w - 12, cy + 22], fill=VOID + (255,))
+        d.rectangle([x + 12, cy, x + 12 + int((w - 24) * share), cy + 22], fill=(18, 48, 47, 255))
+        d.line([(x + 12, cy), (x + 12 + int((w - 24) * share), cy)], fill=CYAN + (190,))
+        text(canvas, (x + 16, cy + 4), name, size=10, color=TEXT)
+        text(canvas, (x + w - 16, cy + 4), value, size=10, color=GOLD_BRIGHT, anchor="ra")
+        cy += 25
+    cy += 4
+    for name, value in (("SLAYING", "47 (+9)"), ("SPOILS", "23 items"),
+                        ("COIN", "12p 4g"), ("PROGRESSION", "18.6% xp")):
+        text(canvas, (x + 14, cy), name, size=9, color=DIM, bold=True)
+        text(canvas, (x + w - 14, cy), value, size=10, color=TEXT, anchor="ra")
+        d.line([(x + 10, cy + 15), (x + w - 10, cy + 15)], fill=LINE_SOFT + (220,))
+        cy += 25
     return
 
 
@@ -453,7 +473,7 @@ def draw_eqmain(canvas, x, y, w, h):
         bx = x + 6 + i * bw
         d = ImageDraw.Draw(canvas)
         d.rounded_rectangle([bx, y + 5, bx + bw - 4, y + h - 6], radius=3,
-                            fill=(24, 28, 39, 255), outline=LINE_SOFT + (255,))
+                            fill=BG2 + (255,), outline=LINE_SOFT + (255,))
         text(canvas, (bx + (bw - 4) // 2, y + h // 2), lab, size=9, color=DIM, anchor="mm")
 
 

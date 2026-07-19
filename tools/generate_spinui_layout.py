@@ -401,7 +401,7 @@ def validate_all_presets() -> None:
         for p in problems:
             print("LAYOUT ERROR:", p)
         raise SystemExit(1)
-    print("layout validation: on-screen ✓  no HUD overlaps ✓  (all presets)")
+    print("layout validation: on-screen OK  no HUD overlaps OK  (all presets)")
 
 
 DEFAULT_PRESET = "combat-focus"

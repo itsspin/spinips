@@ -1,10 +1,15 @@
-name: Build Loremaster.exe
+name: Build SpinUI Windows package
 
 on:
   push:
-    branches: ["main", "claude/**"]
+    branches: ["main", "agent/**", "claude/**"]
     paths:
+      - "spinui_reloaded/**"
+      - "layouts/**"
       - "loremaster/**"
+      - "installer/**"
+      - "UI_Spin_qeynos_LO1.ini"
+      - "README.md"
       - ".github/workflows/build-loremaster.yml"
   workflow_dispatch:
   release:
@@ -14,7 +19,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-windows-package:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,33 +28,80 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install PyInstaller
-        run: pip install pyinstaller
+      - name: Install build tooling
+        run: python -m pip install --disable-pip-version-check pyinstaller
 
-      - name: Run Loremaster test suite
-        run: python loremaster/loremaster.py --selftest
+      - name: Run source test suites
+        run: |
+          python loremaster/loremaster.py --selftest
+          python installer/spinui_installer.py --selftest
 
-      - name: Build one-file windowed EXE
-        run: >
-          pyinstaller --onefile --windowed --name Loremaster
-          --distpath dist loremaster/loremaster.py
-
-      - name: Smoke-test the EXE (selftest mode)
+      - name: Build windowed executables
         shell: pwsh
         run: |
-          # --selftest prints to stdout; windowed EXEs detach from the console,
-          # so capture via a file redirect and check the exit code.
-          $p = Start-Process -FilePath dist/Loremaster.exe -ArgumentList '--selftest' -PassThru -Wait
-          if ($p.ExitCode -ne 0) { throw "selftest exit code $($p.ExitCode)" }
+          New-Item -ItemType Directory -Force -Path build/spec | Out-Null
+          pyinstaller --clean --noconfirm --onefile --windowed `
+            --name Loremaster --distpath dist --workpath build/loremaster `
+            --specpath build/spec loremaster/loremaster.py
+          pyinstaller --clean --noconfirm --onefile --windowed --uac-admin `
+            --name SpinUIInstaller --distpath dist --workpath build/installer `
+            --specpath build/spec installer/spinui_installer.py
 
-      - name: Upload artifact
+      - name: Smoke-test packaged executables
+        shell: pwsh
+        run: |
+          $lore = Start-Process -FilePath dist/Loremaster.exe -ArgumentList '--selftest' -PassThru -Wait
+          if ($lore.ExitCode -ne 0) { throw "Loremaster selftest exit code $($lore.ExitCode)" }
+          $installer = Start-Process -FilePath dist/SpinUIInstaller.exe -ArgumentList '--selftest' -PassThru -Wait
+          if ($installer.ExitCode -ne 0) { throw "Installer selftest exit code $($installer.ExitCode)" }
+
+      - name: Assemble installer and manual releases
+        shell: pwsh
+        run: |
+          $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
+          $manualPackage = Join-Path $PWD 'package/SpinUI-Manual'
+          New-Item -ItemType Directory -Force -Path $installerPackage, $manualPackage | Out-Null
+          foreach ($package in @($installerPackage, $manualPackage)) {
+            Copy-Item -Recurse -Force spinui_reloaded (Join-Path $package 'spinui_reloaded')
+            Copy-Item -Recurse -Force layouts (Join-Path $package 'layouts')
+            Copy-Item -Force UI_Spin_qeynos_LO1.ini $package
+            Copy-Item -Force README.md $package
+            Copy-Item -Force installer/INSTALL-MANUAL.md (Join-Path $package 'INSTALL.md')
+            Copy-Item -Force dist/Loremaster.exe $package
+          }
+          Copy-Item -Force dist/SpinUIInstaller.exe $installerPackage
+          Compress-Archive -Path "$installerPackage/*" -DestinationPath package/SpinUI-Installer.zip -CompressionLevel Optimal
+          Compress-Archive -Path "$manualPackage/*" -DestinationPath package/SpinUI-Manual.zip -CompressionLevel Optimal
+
+      - name: Upload installer package
         uses: actions/upload-artifact@v4
         with:
-          name: Loremaster-windows
-          path: dist/Loremaster.exe
+          name: SpinUI-Installer
+          path: package/SpinUI-Installer.zip
+          if-no-files-found: error
 
-      - name: Attach to release
+      - name: Upload manual package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Manual
+          path: package/SpinUI-Manual.zip
+          if-no-files-found: error
+
+      - name: Upload standalone executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Windows-tools
+          path: |
+            dist/Loremaster.exe
+            dist/SpinUIInstaller.exe
+          if-no-files-found: error
+
+      - name: Attach package to release
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" dist/Loremaster.exe --clobber
+        run: >
+          gh release upload "${{ github.event.release.tag_name }}"
+          package/SpinUI-Installer.zip package/SpinUI-Manual.zip
+          dist/Loremaster.exe dist/SpinUIInstaller.exe
+          --clobber

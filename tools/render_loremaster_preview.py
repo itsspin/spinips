@@ -1,129 +1,176 @@
 #!/usr/bin/env python3
-"""Render a static mock of Loremaster's ledger design (full + mini).
-
-Outputs docs/previews/loremaster_panel.png at 2x scale.
-Run from repo root:  python3 tools/render_loremaster_preview.py
-"""
+"""Render the current Loremaster full panel and mini strip for the README."""
 
 import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
+from spinui_theme import (BG1, BG2, BG3, CYAN, EMBER, GOLD, GOLD_BRIGHT, GREEN,
+                          LINE, PARCHMENT, TEXT, TEXT_DIM, VOID)
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "docs" / "previews"
 
-BG = (11, 13, 18)
-PANEL = (16, 19, 27)
-GOLD = (201, 162, 39)
-GOLD_BRIGHT = (232, 197, 92)
-CYAN = (65, 199, 228)
-TEXT = (232, 234, 240)
-DIM = (154, 163, 181)
-LINE = (58, 65, 82)
-GREEN = (63, 191, 107)
-
-FD = Path("/usr/share/fonts/truetype/dejavu")
+BG = BG1
+PANEL = BG2
+RAISED = BG3
+DIM = TEXT_DIM
 
 
-def F(size, bold=False):
-    return ImageFont.truetype(str(FD / ("DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf")), size)
+def font_path(*names):
+    roots = [Path("C:/Windows/Fonts"), Path("/usr/share/fonts/truetype/dejavu")]
+    for root in roots:
+        for name in names:
+            path = root / name
+            if path.exists():
+                return path
+    return None
 
 
-def hexagon(d, cx, cy, r, color, width=1):
-    pts = [(cx + r * math.cos(math.radians(90 + i * 60)),
-            cy + r * math.sin(math.radians(90 + i * 60))) for i in range(7)]
-    d.line(pts, fill=color, width=width, joint="curve")
+SANS = font_path("segoeui.ttf", "DejaVuSans.ttf")
+BOLD = font_path("seguisb.ttf", "segoeuib.ttf", "DejaVuSans-Bold.ttf")
+SERIF = font_path("georgiab.ttf", "DejaVuSerif-Bold.ttf")
+SYMBOL = font_path("seguisym.ttf", "DejaVuSans.ttf")
+
+
+def F(size, bold=False, serif=False):
+    path = SERIF if serif else (BOLD if bold else SANS)
+    return ImageFont.truetype(str(path), size) if path else ImageFont.load_default()
+
+
+def FS(size):
+    return ImageFont.truetype(str(SYMBOL), size) if SYMBOL else F(size)
+
+
+def hexagon(draw, cx, cy, radius, color, width=1, inner=False):
+    pts = [(cx + radius * math.cos(math.radians(90 + i * 60)),
+            cy + radius * math.sin(math.radians(90 + i * 60))) for i in range(7)]
+    draw.line(pts, fill=color, width=width, joint="curve")
+    if inner:
+        draw.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=EMBER)
+
+
+def section(draw, width, y, name, value, pinned, expanded=False):
+    accent = CYAN if expanded else LINE
+    hexagon(draw, 19, y + 9, 6, accent)
+    draw.text((31, y + 9), name, font=F(9, bold=True, serif=True),
+              fill=accent if expanded else TEXT_DIM, anchor="lm")
+    draw.text((width - 57, y + 9), value, font=F(11, bold=True), fill=TEXT, anchor="rm")
+    draw.text((width - 39, y + 9), "✦" if pinned else "◇", font=FS(10),
+              fill=GOLD_BRIGHT if pinned else LINE, anchor="mm")
+    draw.text((width - 18, y + 9), "▾" if expanded else "▸", font=FS(9), fill=DIM, anchor="mm")
+    draw.line([(12, y + 20), (width - 12, y + 20)], fill=accent)
+    draw.line([(12, y + 21), (width - 12, y + 21)], fill=(5, 6, 9))
+    return y + 27
 
 
 def main():
-    W, H = 420, 560
-    img = Image.new("RGB", (W, H), (26, 24, 30))
-    d = ImageDraw.Draw(img)
+    width, height = 430, 600
+    panel = Image.new("RGB", (width, height), GOLD)
+    d = ImageDraw.Draw(panel)
+    d.rectangle([1, 1, width - 2, height - 2], fill=BG)
 
-    # panel with ember frame
-    d.rectangle([0, 0, W - 1, H - 1], fill=GOLD)
-    d.rectangle([1, 1, W - 2, H - 2], fill=BG)
-    d.rectangle([2, 2, W - 3, 26], fill=PANEL)
-    hexagon(d, 14, 14, 7, GOLD_BRIGHT, 2)
-    d.text((26, 14), "LOREMASTER", font=F(12, True), fill=GOLD_BRIGHT, anchor="lm")
-    d.text((122, 15), "Spin (qeynos)", font=F(10), fill=DIM, anchor="lm")
-    d.text((W - 12, 14), "↺   —   ✕", font=F(11, True), fill=DIM, anchor="rm")
-    d.ellipse([W - 86, 10, W - 78, 18], fill=GREEN)
-    d.text((10, 36), "Blackburrow", font=F(10), fill=TEXT)
-    d.text((W - 10, 36), "session 1h44m (since 3:38 PM)", font=F(10), fill=DIM, anchor="ra")
+    # Heraldic masthead, identity, and mode switcher.
+    d.rectangle([2, 2, width - 3, 33], fill=PANEL)
+    hexagon(d, 16, 17, 8, GOLD_BRIGHT, 2, inner=True)
+    d.text((30, 17), "SPIN'S LOREMASTER", font=F(11, serif=True), fill=GOLD_BRIGHT, anchor="lm")
+    d.ellipse([width - 89, 13, width - 81, 21], fill=GREEN)
+    d.text((width - 12, 17), "↻   —   ×", font=FS(11), fill=DIM, anchor="rm")
+    d.rectangle([2, 34, width - 3, 35], fill=EMBER)
+    d.text((10, 48), "SPIN · QEYNOS", font=F(8, serif=True), fill=PARCHMENT, anchor="lm")
+    d.text((width - 10, 48), "session 1h44m · since 3:38 PM", font=F(8), fill=DIM, anchor="rm")
+    d.text((10, 64), "Blackburrow", font=F(9), fill=TEXT, anchor="lm")
+    d.text((width - 10, 64), "THE ADVENTURER'S CHRONICLE", font=F(7, serif=True), fill=LINE, anchor="rm")
 
-    # hero band
-    for i, (v, lab, col) in enumerate((("1,284", "FIGHT DPS", GOLD_BRIGHT),
-                                       ("946", "SESSION", TEXT),
-                                       ("2,105", "BEST", CYAN))):
-        cx = 10 + i * 133 + 66
-        d.text((cx, 58), v, font=F(22, True), fill=col, anchor="ma")
-        d.text((cx, 86), lab, font=F(9), fill=DIM, anchor="ma")
-    d.rectangle([10, 102, W - 10, 103], fill=GOLD)
+    d.rectangle([10, 75, width - 10, 98], fill=VOID)
+    tab_w = (width - 20) / 3
+    d.rectangle([10, 75, int(10 + tab_w), 98], fill=RAISED)
+    for i, (label, color) in enumerate((("FIGHT", CYAN), ("SESSION", DIM), ("RECORDS", DIM))):
+        d.text((10 + tab_w * (i + .5), 87), label, font=F(8, serif=True), fill=color, anchor="mm")
 
-    def section(y, name, value, pinned, expanded=False):
-        hexagon(d, 18, y + 8, 6, GOLD, 1)
-        d.text((30, y + 8), name, font=F(10, True), fill=GOLD, anchor="lm")
-        d.text((W - 56, y + 8), value, font=F(11, True), fill=TEXT, anchor="rm")
-        d.text((W - 38, y + 8), "✦" if pinned else "◇", font=F(11),
-               fill=GOLD_BRIGHT if pinned else LINE, anchor="mm")
-        d.text((W - 18, y + 8), "▾" if expanded else "▸", font=F(10), fill=DIM, anchor="mm")
-        d.line([(12, y + 18), (W - 12, y + 18)], fill=GOLD, width=1)
-        d.line([(12, y + 19), (W - 12, y + 19)], fill=(5, 6, 9), width=1)
-        return y + 24
+    # Raised three-stat hero band.
+    hero_top, hero_bottom = 103, 157
+    d.rectangle([10, hero_top, width - 10, hero_bottom], fill=RAISED)
+    d.rectangle([10, hero_top, 12, hero_bottom], fill=CYAN)
+    for x in (width // 3, 2 * width // 3):
+        d.line([(x, hero_top + 7), (x, hero_bottom - 7)], fill=LINE)
+    for i, (value, label, color) in enumerate((
+        ("1,284", "FIGHT DPS", GOLD_BRIGHT),
+        ("946", "SESSION", TEXT),
+        ("2,105", "BEST", CYAN),
+    )):
+        cx = int((i + 0.5) * width / 3)
+        d.text((cx, 120), value, font=F(20, bold=True), fill=color, anchor="ma")
+        d.text((cx, 145), label, font=F(7, serif=True), fill=DIM, anchor="ma")
+    d.rectangle([10, 162, width - 10, 163], fill=GOLD)
 
-    y = 112
-    y = section(y, "COMBAT", "1,284 dps ⚔", True, expanded=True)
-    for left, right, dimmed in (
-        ("Dealt 11.5k (5.1k melee / 6.5k spell) · 21 crits · 77% accuracy", "", True),
-        ("Biggest hit: 692 (Melee on Froglok shin knight)", "", True),
-        ("Taken 1,973 · avoided 315 attacks", "", True),
+    y = section(d, width, 171, "COMBAT", "1,284 dps", True, expanded=True)
+    for text in (
+        "Dealt 11.5k (5.1k melee / 6.5k spell) · 21 crits · 77% accuracy",
+        "Biggest hit: 692 (Melee on Froglok shin knight)",
+        "Taken 1,973 · avoided 315 attacks",
     ):
-        d.text((30, y), left, font=F(9), fill=DIM)
+        d.text((31, y), text, font=F(8), fill=DIM)
         y += 14
-    d.text((30, y + 2), "Damage by attack", font=F(9, True), fill=GOLD)
-    y += 17
-    for name, val in (("Careless Lightning", "4,449 · 117 hits · avg 38.0"),
-                      ("Melee", "3,347 · 126 hits · avg 26.6"),
-                      ("Pet (Gann)", "1,541 · 168 hits · avg 9.2"),
-                      ("DoT: Flame Lick", "672 · 21 ticks · avg 32.0")):
-        d.text((30, y), name, font=F(9), fill=TEXT)
-        d.text((W - 16, y), val, font=F(9), fill=GOLD_BRIGHT, anchor="ra")
+    d.text((31, y + 2), "Damage by attack", font=F(8, bold=True), fill=GOLD)
+    y += 18
+    for name, value, share in (
+        ("Careless Lightning", "4,449 · 39% · 556/s", .39),
+        ("Melee", "3,347 · 29% · 418/s", .29),
+        ("Pet (Gann)", "1,541 · 13% · 193/s", .13),
+        ("DoT: Flame Lick", "672 · 6% · 84/s", .06),
+    ):
+        d.rectangle([29, y - 2, width - 16, y + 11], fill=(9, 16, 20))
+        d.rectangle([29, y - 2, 29 + int((width - 45) * share), y + 11], fill=(18, 48, 47))
+        d.line([(29, y - 2), (29 + int((width - 45) * share), y - 2)], fill=(30, 116, 104))
+        d.text((31, y), name, font=F(8), fill=TEXT)
+        d.text((width - 17, y), value, font=F(8), fill=GOLD_BRIGHT, anchor="ra")
         y += 14
-    y += 6
+    y += 4
 
-    y = section(y, "SLAYING", "96 (+15)", True)
-    y = section(y, "SPOILS", "38 items", False)
-    y = section(y, "COIN", "2p 9g 1s 6c", True)
-    y = section(y, "PROGRESSION", "14.2% xp, +1 lvl", True)
-    y = section(y, "STANDING", "4 factions", False)
-    y = section(y, "JOURNEY", "0 deaths", False)
-    d.text((10, H - 18), "tailing eqlog_Spin_qeynos.txt", font=F(9), fill=DIM)
+    for name, value, pinned in (
+        ("SLAYING", "47 (+9)", True),
+        ("SPOILS", "23 items", False),
+        ("COIN", "2p 9g 1s 6c", True),
+        ("PROGRESSION", "18.6% xp, +3 AA", True),
+        ("STANDING", "7 factions", False),
+        ("JOURNEY", "0 deaths", False),
+    ):
+        y = section(d, width, y, name, value, pinned)
 
-    # mini strip
-    MW, MH = 470, 30
-    mini = Image.new("RGB", (MW, MH), (26, 24, 30))
+    # Actionable footer makes first-run setup discoverable.
+    d.rectangle([2, height - 29, width - 3, height - 3], fill=PANEL)
+    d.text((10, height - 16), "tailing eqlog_Spin_qeynos.txt", font=F(8), fill=DIM, anchor="lm")
+    d.rectangle([width - 69, height - 25, width - 8, height - 7], fill=RAISED, outline=LINE)
+    d.text((width - 38, height - 16), "CHANGE", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
+
+    # Mini mode uses the same material and the same pinned ledger vocabulary.
+    mini_w, mini_h = 520, 32
+    mini = Image.new("RGB", (mini_w, mini_h), GOLD)
     md = ImageDraw.Draw(mini)
-    md.rectangle([0, 0, MW - 1, MH - 1], fill=GOLD)
-    md.rectangle([1, 1, MW - 2, MH - 2], fill=BG)
-    md.rectangle([1, 1, 4, MH - 2], fill=GOLD)
-    mx = 14
-    for i, (nm, val) in enumerate((("COMBAT", "1,284 dps"), ("SLAYING", "96"),
-                                   ("COIN", "2p 9g"), ("PROGRESSION", "14.2% · lvl 3h41m"))):
+    md.rectangle([1, 1, mini_w - 2, mini_h - 2], fill=BG)
+    md.rectangle([1, 1, 4, mini_h - 2], fill=EMBER)
+    x = 14
+    for i, (name, value) in enumerate((
+        ("COMBAT", "1,284 dps"), ("SLAYING", "47"),
+        ("COIN", "2p 9g"), ("PROGRESSION", "18.6% · +3 AA"),
+    )):
         if i:
-            md.line([(mx, 7), (mx, MH - 8)], fill=GOLD)
-            mx += 10
-        md.text((mx, MH // 2), nm, font=F(8), fill=GOLD, anchor="lm")
-        mx += int(md.textlength(nm, font=F(8))) + 5
-        md.text((mx, MH // 2), val, font=F(10, True), fill=TEXT, anchor="lm")
-        mx += int(md.textlength(val, font=F(10, True))) + 12
-    md.text((MW - 10, MH // 2), "▣", font=F(10), fill=DIM, anchor="rm")
+            md.line([(x, 7), (x, mini_h - 8)], fill=GOLD)
+            x += 10
+        md.text((x, mini_h // 2), name, font=F(7, serif=True), fill=GOLD, anchor="lm")
+        x += int(md.textlength(name, font=F(7, serif=True))) + 5
+        md.text((x, mini_h // 2), value, font=F(9, bold=True), fill=TEXT, anchor="lm")
+        x += int(md.textlength(value, font=F(9, bold=True))) + 12
+    md.text((mini_w - 35, mini_h // 2), "LOG", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="rm")
+    md.text((mini_w - 10, mini_h // 2), "▣", font=FS(10), fill=DIM, anchor="rm")
 
     OUT.mkdir(parents=True, exist_ok=True)
-    canvas = Image.new("RGB", (W * 2 + 80, H * 2 + MH * 2 + 110), (26, 24, 30))
-    canvas.paste(img.resize((W * 2, H * 2), Image.LANCZOS), (40, 40))
-    canvas.paste(mini.resize((MW * 2, MH * 2), Image.LANCZOS), (40, H * 2 + 70))
+    canvas = Image.new("RGB", (max(width, mini_w) * 2 + 80,
+                                height * 2 + mini_h * 2 + 110), (26, 24, 30))
+    canvas.paste(panel.resize((width * 2, height * 2), Image.Resampling.LANCZOS), (40, 40))
+    canvas.paste(mini.resize((mini_w * 2, mini_h * 2), Image.Resampling.LANCZOS),
+                 (40, height * 2 + 70))
     canvas.save(OUT / "loremaster_panel.png")
     print("wrote docs/previews/loremaster_panel.png")
 
