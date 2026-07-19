@@ -23,15 +23,15 @@ XMLF = REPO / "spinui_reloaded" / "EQUI_InventoryWindow.xml"
 
 # rails: EQ slot ids in top-to-bottom order
 LEFT_RAIL = [2, 3, 5, 6, 8, 17, 7, 12, 0]      # head face neck shoulder back chest arms hands charm
-RIGHT_RAIL = [1, 4, 9, 10, 20, 18, 19, 15, 16]  # ears wrists waist legs feet rings
-WEAPON_ROW = [13, 14, 11, 22, 21]               # primary secondary range ammo power
+RIGHT_RAIL = [1, 4, 9, 10, 20, 18, 19, 15, 16, 21]  # ears wrists waist legs feet rings power
+WEAPON_ROW = [13, 14, 11, 22, 23, 24]           # primary secondary range ammo any any
 
 PITCH = 62
 PLATE = 56
 L_X, R_X = 4, 513
 RAIL_Y = 4
 W_Y = 584
-W_X0 = 134
+W_X0 = 104
 
 
 def slot_pos(slot_id):

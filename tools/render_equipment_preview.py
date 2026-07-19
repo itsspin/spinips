@@ -38,12 +38,12 @@ SLOT_NAMES = {0: "Charm", 1: "Ear", 2: "Head", 3: "Face", 4: "Ear", 5: "Neck",
               6: "Shoulders", 7: "Arms", 8: "Back", 9: "Wrist", 10: "Wrist",
               11: "Range", 12: "Hands", 13: "Primary", 14: "Secondary",
               15: "Ring", 16: "Ring", 17: "Chest", 18: "Legs", 19: "Feet",
-              20: "Waist", 21: "Power", 22: "Ammo"}
+              20: "Waist", 21: "Power", 22: "Ammo", 23: "Any", 24: "Any"}
 FILLED = {2: (96, 60, 140), 5: (60, 96, 140), 6: (140, 90, 50), 8: (60, 120, 80),
           17: (150, 60, 60), 7: (90, 70, 130), 12: (50, 110, 120), 1: (130, 90, 50),
           4: (80, 80, 120), 9: (120, 60, 60), 10: (150, 120, 50), 20: (96, 60, 40),
           18: (60, 96, 140), 19: (140, 60, 96), 13: (170, 140, 60), 14: (110, 110, 130),
-          11: (60, 140, 130), 16: (140, 100, 160)}
+          11: (60, 140, 130), 16: (140, 100, 160), 23: (150, 90, 150)}
 
 
 def main():
@@ -81,15 +81,42 @@ def main():
         d.rectangle([sx + 4, y + 11, sx + 104, y + 19], fill=(8, 10, 14, 255), outline=LINE_SOFT + (255,))
         d.rectangle([sx + 4, y + 11, sx + 4 + int(100 * pct), y + 19], fill=col + (255,))
         d.text((sx + 104, y), f"{int(pct*100)}%", font=F(8), fill=TEXT, anchor="ra")
-    d.text((sx + 4, 210), "Weight", font=F(9), fill=DIM)
-    d.text((sx + 104, 210), "86 / 196", font=F(9), fill=TEXT, anchor="ra")
+    d.text((sx + 4, 206), "Weight", font=F(9), fill=DIM)
+    d.text((sx + 104, 206), "85 / 196", font=F(9), fill=TEXT, anchor="ra")
+    d.text((sx + 4, 220), "Weight (Worn)", font=F(9), fill=DIM)
+    d.text((sx + 104, 220), "42", font=F(9), fill=TEXT, anchor="ra")
     for i, (c, amt) in enumerate((((222, 188, 96), "4,087"), ((218, 165, 32), "4,699"),
                                   ((192, 192, 200), "4,256"), ((184, 115, 51), "1,853"))):
         y = 700 + i * 22
         d.ellipse([sx + 6, y, sx + 20, y + 14], fill=c + (255,), outline=(0, 0, 0, 180))
         d.text((sx + 28, y + 2), amt, font=F(10), fill=TEXT)
-    d.rounded_rectangle([sx + 4, 640, sx + 104, 660], radius=3, fill=(120, 30, 30, 255), outline=LINE + (255,))
-    d.text((sx + 54, 650), "Destroy", font=F(10, True), fill=TEXT, anchor="mm")
+    # ten bag slots, two clean columns (the IW_Slots tile box)
+    slots_img = Image.open(SKIN / "window_pieces01.tga").convert("RGBA").crop((180, 110, 221, 151))
+    bagcols = [(150, 110, 60), (96, 70, 40), None, (120, 90, 60), (140, 100, 50),
+               None, (110, 80, 45), (150, 110, 60), None, (100, 75, 50)]
+    for i in range(10):
+        bx = sx + 8 + (i % 2) * 46
+        by = 240 + (i // 2) * 46
+        img.alpha_composite(slots_img.resize((42, 42)), (bx, by))
+        if bagcols[i]:
+            d.polygon([(bx + 21, by + 8), (bx + 33, by + 16), (bx + 33, by + 30),
+                       (bx + 21, by + 36), (bx + 9, by + 30), (bx + 9, by + 16)],
+                      fill=bagcols[i] + (255,))
+            d.ellipse([bx + 15, by + 8, bx + 27, by + 16], fill=(70, 50, 30, 255))
+    # buttons — the full stock set, right-anchored like the client draws them
+    btns = [("Appear.", 486), ("Skills", 512), ("Alt. Adv.", 512), ("Achiev.", 538),
+            ("Find Item", 538)]
+    d.rounded_rectangle([sx + 4, 486, sx + 104, 506], radius=3, fill=(24, 28, 39, 255), outline=LINE + (255,))
+    d.text((sx + 54, 496), "Appear.", font=F(10), fill=TEXT, anchor="mm")
+    for i, lab in enumerate(("Skills", "Alt. Adv.", "Achiev.", "Find Item")):
+        bx = sx + 4 + (i % 2) * 52
+        by = 512 + (i // 2) * 26
+        d.rounded_rectangle([bx, by, bx + 48, by + 20], radius=3, fill=(24, 28, 39, 255), outline=LINE + (255,))
+        d.text((bx + 24, by + 10), lab, font=F(8), fill=TEXT, anchor="mm")
+    d.rounded_rectangle([sx + 4, 570, sx + 104, 590], radius=3, fill=(120, 30, 30, 255), outline=LINE + (255,))
+    d.text((sx + 54, 580), "Destroy", font=F(10, True), fill=TEXT, anchor="mm")
+    d.rounded_rectangle([sx + 4, 596, sx + 104, 616], radius=3, fill=(24, 28, 39, 255), outline=GOLD + (255,))
+    d.text((sx + 54, 606), "Done", font=F(10, True), fill=GOLD_BRIGHT, anchor="mm")
 
     # ---- equipment page (0,22)+(6,6) origin -> page content at (8, 50) ----
     ox, oy = 8, 50
@@ -106,7 +133,7 @@ def main():
     d.text((cx + 38, cy + 37), "S", font=F(30, True), fill=GOLD_BRIGHT, anchor="mm")
     d.text((ox + 286, oy + 96), "S P I N", font=F(15, True), fill=GOLD_BRIGHT, anchor="ma")
 
-    for slot_id in range(23):
+    for slot_id in range(25):
         (px, py), gold = slot_pos(slot_id)
         plate = hex_gold if gold else hex_steel
         img.alpha_composite(plate, (ox + px, oy + py))
@@ -122,16 +149,18 @@ def main():
                    font=F(9), fill=DIM, anchor="ma")
 
     # stat columns between the rails
-    stats_l = [("Character Vitals", None), ("HP", "3,206 / 3,206"), ("Mana", "1,622 / 1,622"),
-               ("Endurance", "2,212 / 2,212"), ("AC", "348 / 388"), ("Attack", "2,961"),
-               ("Attack Speed", "113%"), ("HP Regen", "66"), ("Mana Regen", "40"),
-               ("End Regen", "36"), ("Primary DPS", "184.2"), ("Ranged DPS", "96.0")]
-    stats_r = [("Stats & Resists", None), ("Strength", "196 / 510"), ("Stamina", "183 / 510"),
-               ("Intelligence", "65 / 510"), ("Wisdom", "87 / 510"), ("Agility", "82 / 510"),
-               ("Dexterity", "120 / 510"), ("Magic", "70 / 1000"), ("Fire", "71 / 1000"),
-               ("Cold", "65 / 1000"), ("Disease", "25 / 1000"), ("Poison", "15 / 1000")]
+    stats_l = [("Character Vitals", None), ("HP", "3,025 / 3,025"), ("Mana", "1,622 / 1,622"),
+               ("End", "2,212 / 2,212"), ("AC", "337/388 | 351"), ("Attack", "296 | 511"),
+               ("Attack Speed %", "113"), ("Velocity", "0"), ("HP Regen", "112"),
+               ("Mana Regen", "20"), ("End Regen", "36"), ("Primary DPS", "184.2"),
+               ("Secondary DPS", "62.4"), ("Ranged DPS", "96.0")]
+    stats_r = [("Stats & Resists", None), ("Strength", "196/510 +0"), ("Stamina", "183/510 +0"),
+               ("Intelligence", "65/510 +0"), ("Wisdom", "87/510 +0"), ("Agility", "92/510 +0"),
+               ("Dexterity", "120/510 +0"), ("Charisma", "52/510 +0"), ("SV. Magic", "70/1000"),
+               ("SV. Fire", "71/1000"), ("SV. Cold", "25/1000"), ("SV. Disease", "25/1000"),
+               ("SV. Poison", "15/1000"), ("SV. Void", "50/1000")]
     for col, sxx in ((stats_l, ox + 92), (stats_r, ox + 302)):
-        yy = oy + 116
+        yy = oy + 112
         for lab, val in col:
             if val is None:
                 d.text((sxx, yy), lab.upper(), font=F(9, True), fill=GOLD)
@@ -142,18 +171,27 @@ def main():
                 d.text((sxx + 190, yy), val, font=F(10, True), fill=TEXT, anchor="ra")
                 yy += 19
 
-    # heroic band
-    d.text((ox + 92, oy + 420), "HEROIC MODS", font=F(9, True), fill=GOLD)
-    d.line([(ox + 92, oy + 434), (ox + 492, oy + 434)], fill=GOLD + (110,))
-    for i, (lab, val) in enumerate((("Accuracy", "+58"), ("Avoidance", "+31"), ("Combat Effects", "+44"),
-                                    ("Strikethrough", "+12"), ("Stun Resist", "+18"), ("DS Mitigation", "+9"))):
-        colx = ox + 92 + (i % 3) * 136
-        rowy = oy + 442 + (i // 3) * 19
+    # additional modifiers — the complete stock block
+    d.text((ox + 92, oy + 408), "ADDITIONAL MODIFIERS", font=F(9, True), fill=GOLD)
+    d.line([(ox + 92, oy + 422), (ox + 492, oy + 422)], fill=GOLD + (110,))
+    mods = (("Accuracy", "0/150"), ("Damage Shielding", "0/35"),
+            ("Avoidance", "0/100"), ("Damage Shield Mitig", "0/25"),
+            ("Combat Effects", "0/100"), ("DoT Shielding", "0/35"),
+            ("Strike Through", "0/35"), ("Melee Shielding", "0/35"),
+            ("Stun Resist", "0/35"), ("Spell Shielding", "0/35"))
+    for i, (lab, val) in enumerate(mods):
+        colx = ox + 92 + (i % 2) * 210
+        rowy = oy + 430 + (i // 2) * 17
         d.text((colx, rowy), lab, font=F(9), fill=DIM)
-        d.text((colx + 118, rowy), val, font=F(9, True), fill=CYAN, anchor="ra")
+        d.text((colx + 190, rowy), val, font=F(9, True), fill=CYAN, anchor="ra")
 
-    d.text((ox + 92, oy + 500), "ORIGIN  Qeynos      BIND  Blackburrow      DEITY  Tunare",
-           font=F(9), fill=DIM)
+    d.text((ox + 92, oy + 524), "ADDITIONAL INFORMATION", font=F(9, True), fill=GOLD)
+    d.line([(ox + 92, oy + 538), (ox + 492, oy + 538)], fill=GOLD + (110,))
+    for i, (lab, val) in enumerate((("Bind", "Dagnor's Cauldron"), ("Origin", "Oggok"),
+                                    ("Deity", "Agnostic"))):
+        rowy = oy + 546 + i * 16
+        d.text((ox + 92, rowy), lab, font=F(9), fill=DIM)
+        d.text((ox + 492, rowy), val, font=F(9), fill=TEXT, anchor="ra")
 
     OUT.mkdir(parents=True, exist_ok=True)
     img2 = img.resize((W * 2, H * 2), Image.LANCZOS)

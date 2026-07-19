@@ -125,10 +125,10 @@ PLACEMENTS: dict[str, dict] = {
     "ExtendedTargetWnd":       P(3024, 728, 170, 300),          # Show per base
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
     # stay open while running without hiding the HUD or the world.
-    "MapViewWnd":              P(2376, 8, 640, 520,
-                                 extra={"Alpha": "225", "FadeToAlpha": "150",
+    "MapViewWnd":              P(2296, 8, 720, 600,
+                                 extra={"Alpha": "235", "FadeToAlpha": "160",
                                         "Fades": "1"}),
-    "TargetOfTargetWindow":    P(2376, 536, 232, 100),
+    "TargetOfTargetWindow":    P(2296, 616, 232, 100),
 
     # --- top center / left utility ------------------------------------------
     "CompassWindow": P(1490, 8),
