@@ -117,10 +117,10 @@ PLACEMENTS: dict[str, dict] = {
     # Style: LEFT-anchored static list, no numbering (variant 13) — icons sit
     # beside names with no floating number rail.  Base variants stay hidden
     # but keep the same position in case the player switches styles in-game.
-    "BuffWindow":                 P(3232, 8, show=0),           # 200x712 (XML)
-    "BuffWindow_13":              P(3232, 8, show=1),
-    "ShortDurationBuffWindow":    P(3024, 8, show=0),           # 200x367 (XML)
-    "ShortDurationBuffWindow_13": P(3024, 8, show=1),
+    "BuffWindow":                 P(3232, 8),                   # 200x712 (XML)
+    "BuffWindow_13":              P(3232, 8),
+    "ShortDurationBuffWindow":    P(3024, 8),                   # 200x367 (XML)
+    "ShortDurationBuffWindow_13": P(3024, 8),
     "GroupWindow":             P(3202, 728, show=1),
     "ExtendedTargetWnd":       P(3024, 728, 170, 300),          # Show per base
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
@@ -303,7 +303,7 @@ VISIBLE = [
     "PlayerWindow", "TargetWindow", "StanceWnd", "CastingWindow",
     "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4", "HotButtonWnd5",
     "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9",
-    "HotButtonWnd10", "BuffWindow_13", "ShortDurationBuffWindow_13", "GroupWindow",
+    "HotButtonWnd10", "GroupWindow",
 ]
 
 
@@ -349,9 +349,20 @@ def preset_placements(preset: str) -> dict[str, dict]:
     return placements
 
 
-def transform(text: str, preset: str) -> str:
+def personal_placements(preset: str) -> dict[str, dict]:
+    """Minimal overlay for the player's live layout: safe fixes only, and
+    chat geometry only for the non-default presets (combat-focus keeps the
+    player's own chat row exactly as they arranged it)."""
+    placements = {k: dict(PLACEMENTS[k]) for k in PERSONAL_FIXES}
+    if preset != DEFAULT_PRESET:
+        for section, (x, w, h, y) in CHAT_PRESETS[preset].items():
+            placements[section] = P(x, y, w, h, extra=CHAT_ALPHA)
+    return placements
+
+
+def transform(text: str, preset: str, placements: dict | None = None) -> str:
     sections = parse_ini(text)
-    sections = apply_placements(sections, preset_placements(preset))
+    sections = apply_placements(sections, placements or preset_placements(preset))
     for name, lines in sections:
         if name == "ChatManager":
             lines[:] = rebuild_chat_manager(lines)
@@ -395,6 +406,18 @@ def validate_all_presets() -> None:
 
 DEFAULT_PRESET = "combat-focus"
 
+# The player's own in-game arrangement is the source of truth for the
+# personal files.  Only objectively-safe improvements are overlaid on it;
+# everything they placed by hand is preserved verbatim.
+PERSONAL_BASE = "layouts/spin-live/UI_Spin_qeynos_LO1.ini"
+PERSONAL_FIXES = [
+    "MapViewWnd",              # bigger, clearer glass map
+    "TargetOfTargetWindow",    # tidy parking spot (hidden)
+    "ExtendedTargetWnd",       # tidy parking spot (hidden)
+    "BuffWindow", "BuffWindow_13",
+    "ShortDurationBuffWindow", "ShortDurationBuffWindow_13",
+]
+
 
 def main():
     validate_all_presets()
@@ -406,11 +429,12 @@ def main():
     (SKIN / "default1440.ini").write_text(new_default)
     print("wrote spinui_reloaded/default1440.ini  (%s)" % DEFAULT_PRESET)
 
-    original = (REPO / "layouts" / "original" / "UI_Spin_qeynos_LO1.ini").read_text()
+    base = (REPO / PERSONAL_BASE).read_text()
     for preset in CHAT_PRESETS:
         out_dir = REPO / "layouts" / preset
         out_dir.mkdir(parents=True, exist_ok=True)
-        personal = merge_missing(transform(original, preset), new_default)
+        personal = merge_missing(
+            transform(base, preset, personal_placements(preset)), new_default)
         (out_dir / "UI_Spin_qeynos_LO1.ini").write_text(personal)
         print(f"wrote layouts/{preset}/UI_Spin_qeynos_LO1.ini")
 
