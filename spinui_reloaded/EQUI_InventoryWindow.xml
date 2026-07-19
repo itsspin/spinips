@@ -2,7 +2,7 @@
 <XML ID="EQInterfaceDefinitionLanguage">
 	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
 
-	<!-- SPIN-DECO: Narcissus-style equipment rails -->
+	<!-- SPIN-DECO-2: Narcissus-style equipment rails -->
 	<TextureInfo item="spin_deco.tga">
 		<Size>
 			<CX>128</CX>
@@ -447,7 +447,7 @@
 		<ScreenID>InvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>266</X>
+			<X>236</X>
 			<Y>592</Y>
 		</Location>
 		<Size>
@@ -477,7 +477,7 @@
 		<ScreenID>InvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>142</X>
+			<X>112</X>
 			<Y>592</Y>
 		</Location>
 		<Size>
@@ -492,7 +492,7 @@
 		<ScreenID>InvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>204</X>
+			<X>174</X>
 			<Y>592</Y>
 		</Location>
 		<Size>
@@ -597,8 +597,8 @@
 		<ScreenID>InvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>390</X>
-			<Y>592</Y>	
+			<X>521</X>
+			<Y>570</Y>	
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -612,7 +612,7 @@
 		<ScreenID>InvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>328</X>
+			<X>298</X>
 			<Y>592</Y>
 		</Location>
 		<Size>
@@ -769,7 +769,7 @@
 		<ScreenID>IW_HexPlate11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>258</X>
+			<X>228</X>
 			<Y>584</Y>
 		</Location>
 		<Size>
@@ -795,7 +795,7 @@
 		<ScreenID>IW_HexPlate13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>134</X>
+			<X>104</X>
 			<Y>584</Y>
 		</Location>
 		<Size>
@@ -808,7 +808,7 @@
 		<ScreenID>IW_HexPlate14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>196</X>
+			<X>166</X>
 			<Y>584</Y>
 		</Location>
 		<Size>
@@ -899,7 +899,20 @@
 		<ScreenID>IW_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>382</X>
+			<X>513</X>
+			<Y>562</Y>
+		</Location>
+		<Size>
+			<CX>56</CX>
+			<CY>56</CY>
+		</Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IW_HexPlate22">
+		<ScreenID>IW_HexPlate22</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>290</X>
 			<Y>584</Y>
 		</Location>
 		<Size>
@@ -908,11 +921,24 @@
 		</Size>
 		<Animation>A_SpinHexGold</Animation>
 	</StaticAnimation>
-	<StaticAnimation item="IW_HexPlate22">
-		<ScreenID>IW_HexPlate22</ScreenID>
+	<StaticAnimation item="IW_HexPlate23">
+		<ScreenID>IW_HexPlate23</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>320</X>
+			<X>352</X>
+			<Y>584</Y>
+		</Location>
+		<Size>
+			<CX>56</CX>
+			<CY>56</CY>
+		</Size>
+		<Animation>A_SpinHexGold</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IW_HexPlate24">
+		<ScreenID>IW_HexPlate24</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>414</X>
 			<Y>584</Y>
 		</Location>
 		<Size>
@@ -983,7 +1009,11 @@
 		<Pieces>InvSlot19</Pieces>
 		<Pieces>InvSlot20</Pieces>
 		<Pieces>InvSlot21</Pieces>
+		<Pieces>IW_HexPlate23</Pieces>
+		<Pieces>IW_HexPlate24</Pieces>
 		<Pieces>InvSlot22</Pieces>
+		<Pieces>InvSlot23</Pieces>
+		<Pieces>InvSlot24</Pieces>
 		<Pieces>Screen:IW_CharacterView</Pieces>
 	</Screen>			
 	<!-- END INVENTORY -->
@@ -9257,6 +9287,10 @@
 	<InvSlot item="InvSlot23">
 		<ScreenID>InvSlot23</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>360</X>
+			<Y>592</Y>
+		</Location>
 		<Size>
 			<CX>40</CX>
 			<CY>40</CY>
@@ -9267,6 +9301,14 @@
 	<InvSlot item="InvSlot24">
 		<ScreenID>InvSlot24</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>422</X>
+			<Y>592</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
 		<Background>A_RecessedBox</Background>
 		<EQType>inventory/Equip 24</EQType>
 	</InvSlot>
@@ -9334,13 +9376,13 @@
 	<TileLayoutBox item="IW_Slots">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>395</X>
+			<X>614</X>
 <!-- 			<Y>142</Y> -->
-			<Y>133</Y>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>85</CX>
-			<CY>256</CY>
+			<CY>440</CY>
 		</Size>
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>3</Spacing>
@@ -9349,8 +9391,6 @@
 		<AnchorToTop>true</AnchorToTop>
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>true</FirstPieceTemplate>
-		<Pieces>InvSlot23</Pieces>
-		<Pieces>InvSlot24</Pieces>
 		<Pieces>InvSlot25</Pieces>
 		<Pieces>InvSlot26</Pieces>
 		<Pieces>InvSlot27</Pieces>

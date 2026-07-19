@@ -165,6 +165,9 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     # --- pets ---
     ("pet_attack", re.compile(r"^(?P<pet>\S+) (?:tells|told) you, 'Attacking (?P<target>.+?) Master\.'$")),
     ("pet_leader", re.compile(r"^(?P<pet>\S+) says,? 'My leader is (?P<leader>\S+?)\.'$")),
+    # --- alert-worthy lines ---
+    ("tell_in", re.compile(r"^(?P<sender>[A-Za-z]+) tells you, '(?P<msg>.*)'$")),
+    ("summoned", re.compile(r"^You have been summoned!?$")),
     # --- bystanders (third party) ---
     ("melee_third", re.compile(
         rf"^(?P<attacker>.+?) (?:{MELEE_VERBS}) (?P<target>.+?) for (?P<dmg>\d+) points? of damage\.{CRIT}$")),
@@ -284,6 +287,7 @@ class SessionStats:
         self.aa_points = 0
         self.zone = ""
         self.log_lines = 0
+        self.tells = 0
 
     # -- helpers ---------------------------------------------------------
     def hours(self) -> float:
@@ -434,6 +438,10 @@ class SessionStats:
             if not any(fp in g["zone"] for fp in ZONE_FALSE_POSITIVES):
                 self.zone = g["zone"]
 
+        elif kind == "tell_in":
+            self.tells += 1
+        elif kind == "summoned":
+            pass  # alert layer handles it
         elif kind == "pet_attack":
             self._register_pet(g["pet"], ts)
             self._own_combat(ts)
@@ -605,6 +613,38 @@ class LogWatcher:
 # ---------------------------------------------------------------------------
 # Persistence
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Alerts — DBM/WeakAuras-style banners driven by log lines
+# ---------------------------------------------------------------------------
+def check_alerts(kind: str, g: dict, raw_msg: str, character: str, cfg: dict):
+    """Return a list of (severity, text) alerts for one parsed event.
+    severity: 'danger' (red), 'warn' (gold), 'info' (cyan)."""
+    if not cfg.get("alerts_enabled", True):
+        return []
+    out = []
+    if kind == "tell_in":
+        out.append(("info", f"TELL \u2014 {g['sender']}: {g['msg'][:60]}"))
+    elif kind == "summoned":
+        out.append(("danger", "YOU HAVE BEEN SUMMONED"))
+    elif kind == "death_you":
+        out.append(("danger", f"YOU DIED \u2014 {g.get('killer', '?')}"))
+    elif kind in ("melee_in", "nuke_in", "dot_in", "nonmelee_in"):
+        dmg = int(g.get("dmg", 0))
+        if dmg >= int(cfg.get("big_hit_threshold", 800)):
+            out.append(("warn", f"BIG HIT \u2014 {dmg}"))
+    if character and character != "?" and raw_msg:
+        m = re.match(r"^(?P<who>[A-Za-z]+) tells the (?:group|raid|guild), '(?P<what>.*)'$", raw_msg)
+        if m and character.lower() in m.group("what").lower() and m.group("who") != character:
+            out.append(("warn", f"{m.group('who').upper()} CALLED YOU \u2014 {m.group('what')[:60]}"))
+    for rule in cfg.get("custom_alerts", []):
+        try:
+            if re.search(rule.get("pattern", "$^"), raw_msg or ""):
+                out.append((rule.get("severity", "info"), rule.get("text", raw_msg)[:80]))
+        except re.error:
+            continue
+    return out
+
+
 def load_config() -> dict:
     cfg = {
         "log_dir": None,
@@ -613,6 +653,13 @@ def load_config() -> dict:
         "position": None,
         "mini_position": None,
         "starred": ["session_dps", "xp_hr", "hours_to_level", "kills"],
+        "alerts_enabled": True,
+        "alert_sound": True,
+        "alert_seconds": 4,
+        "big_hit_threshold": 800,
+        "alert_position": None,
+        "fight_toasts": True,
+        "custom_alerts": [],
     }
     try:
         cfg.update(json.loads(CONFIG_PATH.read_text()))
@@ -784,6 +831,10 @@ class DemoFeed:
             emit("You begin to sing Chant of Battle.")
         elif r < 0.88:
             emit(f"A froglok shin knight hits YOU for {random.randint(30, 180)} points of damage.")
+        elif r < 0.9:
+            emit("Stuka tells you, 'port up when you are ready'")
+        elif r < 0.93:
+            emit("Grimlord tells the group, 'Spin get over here!'")
         else:
             emit("You have slain a froglok shin knight!")
             emit("You gain party experience!! (0.42%)")
@@ -791,6 +842,79 @@ class DemoFeed:
             if random.random() < 0.3:
                 emit("--You have looted a Froglok Fine Mesh from a froglok shin knight's corpse.--")
         return out
+
+
+# ---------------------------------------------------------------------------
+# Alert banners — frameless topmost strips, center-top, auto-fading
+# ---------------------------------------------------------------------------
+class AlertManager:
+    COLORS = {"danger": ("#d93a3f", "#1a0d0e"), "warn": ("#c9a227", "#14110a"),
+              "info": ("#41c7e4", "#0a1214")}
+
+    def __init__(self, tk_module, root, cfg):
+        self.tk = tk_module
+        self.root = root
+        self.cfg = cfg
+        self.active = []
+
+    def _beep(self, severity):
+        if not self.cfg.get("alert_sound", True):
+            return
+        try:
+            import winsound
+            winsound.MessageBeep(
+                winsound.MB_ICONHAND if severity == "danger" else winsound.MB_ICONASTERISK)
+        except Exception:
+            try:
+                self.root.bell()
+            except Exception:
+                pass
+
+    def show(self, severity, text_msg):
+        tk = self.tk
+        if len(self.active) >= 3:
+            old_win = self.active.pop(0)
+            try:
+                old_win.destroy()
+            except Exception:
+                pass
+        edge, body = self.COLORS.get(severity, self.COLORS["info"])
+        win = tk.Toplevel(self.root)
+        win.overrideredirect(True)
+        win.attributes("-topmost", True)
+        outer = tk.Frame(win, bg=edge, padx=2, pady=2)
+        outer.pack()
+        inner = tk.Frame(outer, bg=body, padx=18, pady=8)
+        inner.pack()
+        tk.Label(inner, text=text_msg, fg="#e8eaf0", bg=body,
+                 font=("Segoe UI Semibold", 14)).pack()
+        win.update_idletasks()
+        pos = self.cfg.get("alert_position")
+        if pos:
+            ax, ay = pos
+        else:
+            ax = (win.winfo_screenwidth() - win.winfo_width()) // 2
+            ay = 64
+        win.geometry(f"+{ax}+{ay + len(self.active) * 56}")
+        self.active.append(win)
+        self._beep(severity)
+        ttl = int(self.cfg.get("alert_seconds", 4) * 1000)
+        win.after(ttl, lambda: self._dismiss(win))
+
+    def _dismiss(self, win):
+        if win in self.active:
+            self.active.remove(win)
+        try:
+            for step in range(8):
+                win.attributes("-alpha", 1.0 - step / 8)
+                win.update()
+                time.sleep(0.02)
+        except Exception:
+            pass
+        try:
+            win.destroy()
+        except Exception:
+            pass
 
 
 # ---------------------------------------------------------------------------
@@ -826,7 +950,9 @@ def run_gui(args):
     except tk.TclError:
         pass
 
-    state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time()}
+    state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time(),
+             "fights_seen": 0}
+    alerts = AlertManager(tk, root, cfg)
 
     # ---- window drag + position persistence ----
     drag = {"x": 0, "y": 0}
@@ -979,11 +1105,22 @@ def run_gui(args):
                 stats.character = watcher.character
                 restore_character_state(stats)
         for raw in lines:
+            raw_msg = raw.split("] ", 1)[1] if "] " in raw else raw
             parsed = parse_line(raw)
+            kind, groups = "", {}
             if parsed:
                 ts, kind, groups = parsed
                 stats.character = watcher.character if not demo else stats.character
                 stats.apply(ts, kind, groups)
+            for severity, text_msg in check_alerts(kind, groups, raw_msg,
+                                                   stats.character, cfg):
+                alerts.show(severity, text_msg)
+        if cfg.get("fight_toasts", True):
+            done = len(stats.fights)
+            if done > state["fights_seen"] and stats.fights:
+                f = stats.fights[-1]
+                alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  ({fmt_num(f.damage)} in {fmt_dur(f.seconds)})")
+            state["fights_seen"] = done
         refresh()
         if time.time() - state["last_save"] > 30:
             save_character_state(stats.character, stats)
@@ -1181,6 +1318,27 @@ def selftest() -> int:
     p = parse_line(line(0, "Gkzzallk says 'My leader is Spin.'"))
     s5.apply(*p)
     assert "Gkzzallk" in s5.pet_names
+
+    # alert engine
+    cfg = {"alerts_enabled": True, "big_hit_threshold": 500,
+           "custom_alerts": [{"pattern": "begins to cast a spell", "text": "MOB CASTING", "severity": "warn"}]}
+    p = parse_line(line(0, "Stuka tells you, 'any chance of a port?'"))
+    assert p and p[1] == "tell_in", p
+    a = check_alerts(p[1], p[2], "Stuka tells you, 'any chance of a port?'", "Spin", cfg)
+    assert a and a[0][0] == "info" and "Stuka" in a[0][1]
+    p = parse_line(line(0, "Gann tells you, 'Attacking a froglok shin knight Master.'"))
+    assert p and p[1] == "pet_attack", "tell_in must not swallow pet lines"
+    p = parse_line(line(0, "You have been summoned!"))
+    assert p and p[1] == "summoned"
+    assert check_alerts("summoned", {}, "", "Spin", cfg)[0][0] == "danger"
+    p = parse_line(line(0, "A froglok shin knight hits YOU for 900 points of damage."))
+    a = check_alerts(p[1], p[2], "", "Spin", cfg)
+    assert any("BIG HIT" in t for _sev, t in a)
+    a = check_alerts("", {}, "Grimlord tells the group, 'Spin to the east wall'", "Spin", cfg)
+    assert any("CALLED YOU" in t for _sev, t in a)
+    a = check_alerts("", {}, "A froglok king begins to cast a spell.", "Spin", cfg)
+    assert any(t == "MOB CASTING" for _sev, t in a)
+    assert check_alerts("summoned", {}, "", "Spin", {"alerts_enabled": False}) == []
 
     print("Loremaster selftest: ALL PASS")
     print(f"  patterns: {len(PATTERNS)}  |  fight1 dps {f1.dps:.0f}  |  "
