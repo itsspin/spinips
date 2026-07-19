@@ -347,7 +347,8 @@ def rounded_corner(img, box, corner, radius=5, alpha=242, line=LINE, body=BG1):
         "bl": [0, -R * 3 - H, W + R * 3, H - 1],
         "br": [-R * 3 - W, -R * 3 - H, W - 1, H - 1],
     }[corner]
-    d.rounded_rectangle(rect, radius=R, fill=body + (alpha,), outline=line + (255,), width=big)
+    line_rgba = line if len(line) == 4 else line + (255,)
+    d.rounded_rectangle(rect, radius=R, fill=body + (alpha,), outline=line_rgba, width=big)
     cell = cell.resize((w, h), Image.LANCZOS)
     img.paste(cell, (x0, y0))
 
@@ -356,16 +357,16 @@ def rounded_edge(img, box, orient, alpha=242, line=LINE, body=BG1):
     x0, y0, x1, y1 = box
     if orient == "top":
         fill(img, (x0, y0 + 1, x1, y1), body + (alpha,))
-        hline(img, x0, x1, y0, line, 255)
+        hline(img, x0, x1, y0, line[:3], line[3] if len(line) == 4 else 255)
     elif orient == "bottom":
         fill(img, (x0, y0, x1, y1 - 1), body + (alpha,))
-        hline(img, x0, x1, y1 - 1, line, 255)
+        hline(img, x0, x1, y1 - 1, line[:3], line[3] if len(line) == 4 else 255)
     elif orient == "left":
         fill(img, (x0 + 1, y0, x1, y1), body + (alpha,))
-        ImageDraw.Draw(img).line([(x0, y0), (x0, y1 - 1)], fill=line + (255,))
+        ImageDraw.Draw(img).line([(x0, y0), (x0, y1 - 1)], fill=(line if len(line) == 4 else line + (255,)))
     else:
         fill(img, (x0, y0, x1 - 1, y1), body + (alpha,))
-        ImageDraw.Draw(img).line([(x1 - 1, y0), (x1 - 1, y1 - 1)], fill=line + (255,))
+        ImageDraw.Draw(img).line([(x1 - 1, y0), (x1 - 1, y1 - 1)], fill=(line if len(line) == 4 else line + (255,)))
 
 
 def scroll_arrow_btn(img, box, direction, state):
@@ -445,34 +446,40 @@ def build_br_pieces(img):
 
 
 def build_br_pieces_trans(img):
-    """window_br_pieces01a.tga — translucent rounded variants (chat glass)."""
-    A = 205  # glassier
-    fill(img, (99, 110, 100, 111), LINE + (255,))
-    fill(img, (117, 110, 118, 111), LINE + (255,))
-    fill(img, (120, 110, 121, 111), LINE + (255,))
-    rounded_corner(img, (99, 113, 104, 129), "tl", radius=5, alpha=A)
+    """window_br_pieces01a.tga — the *Trans* rounded variants.
+
+    These frame the invisible wrappers around the Player/Target windows and
+    the hotbar banks (WDT_RoundedTransparent*).  They must stay whisper-thin:
+    an opaque body here reads as an empty blocky box above the vitals plates.
+    """
+    A = 40  # barely-there glass
+    SOFT = (58, 65, 82)
+    fill(img, (99, 110, 100, 111), SOFT + (140,))
+    fill(img, (117, 110, 118, 111), SOFT + (140,))
+    fill(img, (120, 110, 121, 111), SOFT + (140,))
+    rounded_corner(img, (99, 113, 104, 129), "tl", radius=5, alpha=A, line=SOFT + (150,))
     titlebar_piece(img, (103, 113, 116, 129))
     titlebar_piece(img, (117, 113, 119, 129))
     titlebar_piece(img, (120, 113, 133, 129))
-    rounded_corner(img, (132, 113, 137, 129), "tr", radius=5, alpha=A)
-    rounded_corner(img, (205, 113, 210, 129), "tr", radius=5, alpha=A)   # RightTopTransWithArrow
-    rounded_corner(img, (251, 124, 256, 130), "br", radius=5, alpha=A)   # RightBottomTransNoArrow (x=256 clamps)
-    rounded_corner(img, (179, 159, 189, 164), "tl", radius=5, alpha=A)
-    rounded_edge(img, (191, 159, 195, 164), "top", alpha=A)
-    rounded_corner(img, (201, 159, 211, 164), "tr", radius=5, alpha=A)
-    rounded_corner(img, (215, 160, 220, 165), "bl", radius=4, alpha=A)
-    rounded_corner(img, (220, 160, 225, 165), "br", radius=4, alpha=A)
-    rounded_corner(img, (206, 164, 211, 172), "tr", radius=5, alpha=A)
-    rounded_corner(img, (179, 165, 184, 171), "tl", radius=5, alpha=A)
-    rounded_edge(img, (206, 169, 211, 173), "right", alpha=A)
-    rounded_edge(img, (179, 172, 184, 176), "left", alpha=A)
-    rounded_corner(img, (100, 174, 105, 180), "br", radius=5, alpha=A)   # RightBottomTrans
-    rounded_corner(img, (206, 174, 211, 180), "br", radius=5, alpha=A)   # RightBottomTransWithArrow
-    rounded_corner(img, (99, 175, 104, 180), "bl", radius=5, alpha=A)    # LeftBottomTransWithArrow
-    rounded_corner(img, (179, 177, 184, 181), "bl", radius=5, alpha=A)
-    rounded_corner(img, (179, 182, 187, 187), "bl", radius=5, alpha=A)
-    rounded_edge(img, (190, 182, 195, 187), "bottom", alpha=A)
-    rounded_corner(img, (201, 182, 211, 187), "br", radius=5, alpha=A)
+    rounded_corner(img, (132, 113, 137, 129), "tr", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (205, 113, 210, 129), "tr", radius=5, alpha=A, line=SOFT + (150,))   # RightTopTransWithArrow
+    rounded_corner(img, (251, 124, 256, 130), "br", radius=5, alpha=A, line=SOFT + (150,))   # RightBottomTransNoArrow (x=256 clamps)
+    rounded_corner(img, (179, 159, 189, 164), "tl", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_edge(img, (191, 159, 195, 164), "top", alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (201, 159, 211, 164), "tr", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (215, 160, 220, 165), "bl", radius=4, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (220, 160, 225, 165), "br", radius=4, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (206, 164, 211, 172), "tr", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (179, 165, 184, 171), "tl", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_edge(img, (206, 169, 211, 173), "right", alpha=A, line=SOFT + (150,))
+    rounded_edge(img, (179, 172, 184, 176), "left", alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (100, 174, 105, 180), "br", radius=5, alpha=A, line=SOFT + (150,))   # RightBottomTrans
+    rounded_corner(img, (206, 174, 211, 180), "br", radius=5, alpha=A, line=SOFT + (150,))   # RightBottomTransWithArrow
+    rounded_corner(img, (99, 175, 104, 180), "bl", radius=5, alpha=A, line=SOFT + (150,))    # LeftBottomTransWithArrow
+    rounded_corner(img, (179, 177, 184, 181), "bl", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (179, 182, 187, 187), "bl", radius=5, alpha=A, line=SOFT + (150,))
+    rounded_edge(img, (190, 182, 195, 187), "bottom", alpha=A, line=SOFT + (150,))
+    rounded_corner(img, (201, 182, 211, 187), "br", radius=5, alpha=A, line=SOFT + (150,))
 
 
 def build_pieces01(img):
