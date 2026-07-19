@@ -1,0 +1,170 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<STMLbox item = "NW_NoteDisplay">
+		<ScreenID>Note</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TextColor>
+				<R>240</R>
+				<G>240</G>
+				<B>240</B>
+		</TextColor>	
+		<RelativePosition>true</RelativePosition>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_AutoHScroll>false</Style_AutoHScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+	</STMLbox>
+
+	<StaticAnimation item = "NW_BG1">
+		<ScreenID>BG1</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Animation>A_NoteBG01</Animation>
+	</StaticAnimation>
+	<StaticAnimation item = "NW_BG2">
+		<ScreenID>BG2</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>266</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Animation>A_NoteBG02</Animation>
+	</StaticAnimation>
+	<StaticAnimation item = "NW_BG3">
+		<ScreenID>BG3</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>310</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Animation>A_NoteBG03</Animation>
+	</StaticAnimation>
+	<StaticAnimation item = "NW_BG4">
+		<ScreenID>BG4</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>266</X>
+			<Y>310</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Animation>A_NoteBG04</Animation>
+	</StaticAnimation>
+
+	<Button item = "NW_DoneButton">
+		<ScreenID>DoneButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>72</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="NW_ScribeButton">
+		<ScreenID>ScribeButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<RightAnchorOffset>72</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Scribe</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="NW_CastSpellButton">
+		<ScreenID>CastSpellButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Cast Spell</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Screen item = "NoteWindow">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>80</Y>
+		</Location>
+		<Size>
+			<CX>402</CX>
+			<CY>230</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>This is an Item Display window</TooltipReference>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Text>A Note</Text>
+		<Pieces>NW_BG1</Pieces>
+		<Pieces>NW_BG2</Pieces>
+		<Pieces>NW_BG3</Pieces>
+		<Pieces>NW_BG4</Pieces>		
+		<Pieces>NW_NoteDisplay</Pieces>
+		<Pieces>NW_DoneButton</Pieces>
+		<Pieces>NW_CastSpellButton</Pieces>
+		<Pieces>NW_ScribeButton</Pieces>
+	</Screen>
+
+</XML>

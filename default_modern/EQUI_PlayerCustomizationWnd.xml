@@ -1,0 +1,792 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+	
+	<StaticAnimation item="PCW_Inv_Seperator1">
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>164</CX>
+			<CY>4</CY>
+		</Size>
+		<Animation>A_DividerMiddle</Animation>
+	</StaticAnimation>
+
+	<StaticText item="PCW_Heritage_Text">
+		<ScreenID>Heritage_Text</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>8</Y>
+		</Location>
+		<Size>
+			<CX>178</CX>
+			<CY>50</CY>
+		</Size>
+		<Text>Heritage</Text>
+		<TextColor>
+			<R>182</R>
+			<G>253</G>
+			<B>130</B>
+		</TextColor>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_ParentId_Down_Button">
+		<ScreenID>ParentId_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>29</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_ParentId_Text">
+		<ScreenID>ParentId_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>28</X>
+			<Y>27</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>PARENT ID</Text>
+		<TextColor>
+			<R>182</R>
+			<G>253</G>
+			<B>130</B>
+		</TextColor>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_ParentId_Up_Button">
+		<ScreenID>ParentId_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>147</X>
+			<Y>29</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+	</Button>
+
+	<StaticAnimation item="PCW_Inv_Seperator2">
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>43</Y>
+		</Location>
+		<Size>
+			<CX>164</CX>
+			<CY>4</CY>
+		</Size>
+		<Animation>A_DividerMiddle</Animation>
+	</StaticAnimation>
+
+	<Button item = "PCW_Face_Down_Button">
+		<ScreenID>Face_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>54</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Template>BDT_HSBLeft</Template>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+	</Button>
+
+	<StaticText item ="PCW_Face_Text">
+		<ScreenID>Face_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>52</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>FACE</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_Face_Up_Button">
+		<ScreenID>Face_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>54</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+	</Button>
+
+	<Button item = "PCW_Hair_Down_Button">
+		<ScreenID>Hair_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>74</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference/>
+		<Style_Checkbox>false</Style_Checkbox>
+		<RadioGroup/>
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_Hair_Text">
+		<ScreenID>Hair_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>72</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>HAIR</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+
+	<Button item = "PCW_Hair_Up_Button">
+		<ScreenID>Hair_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>74</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference/>
+		<Style_Checkbox>false</Style_Checkbox>
+		<RadioGroup/>
+		<Template>BDT_HSBRight</Template>
+	</Button>
+
+	<Button item = "PCW_Hair_Color_Down_Button">
+		<ScreenID>Hair_Color_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>94</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<RadioGroup/>
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_Hair_Color_Text">
+		<ScreenID>Hair_Color_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>92</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>HAIR COLOR</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_Hair_Color_Up_Button">
+		<ScreenID>Hair_Color_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>94</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+	</Button>
+
+	<Button item = "PCW_Eyes_Down_Button">
+		<ScreenID>Eyes_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>114</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_Eyes_Text">
+		<ScreenID>Eyes_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>EYES</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_Eyes_Up_Button">
+		<ScreenID>Eyes_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>114</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+	</Button>
+
+	<Button item = "PCW_Beard_Down_Button">
+		<ScreenID>Beard_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>134</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_Beard_Text">
+		<ScreenID>Beard_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>132</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>FACIAL HAIR</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+
+	<Button item = "PCW_Beard_Up_Button">
+		<ScreenID>Beard_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>134</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+	</Button>
+
+	<Button item = "PCW_Beard_Color_Down_Button">
+		<ScreenID>Beard_Color_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>154</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_Beard_Color_Text">
+		<ScreenID>Beard_Color_Text</ScreenID>
+		<!--<Font>2</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>40</X>
+			<Y>152</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>FH COLOR</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_Beard_Color_Up_Button">
+		<ScreenID>Beard_Color_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>154</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+	</Button>
+
+	<Button item = "PCW_TattooIndex_Down_Button">
+		<ScreenID>TattooIndex_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>174</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_TattooIndex_Text">
+		<ScreenID>TattooIndex_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>172</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>TATTOO</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_TattooIndex_Up_Button">
+		<ScreenID>TattooIndex_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>174</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+	</Button>
+
+		<Button item = "PCW_FacialAttachmentIndex_Down_Button">
+		<ScreenID>FacialAttachmentIndex_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>194</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="PCW_FacialAttachmentIndex_Text">
+		<ScreenID>FacialAttachmentIndex_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>45</X>
+			<Y>192</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>DETAILS</Text>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "PCW_FacialAttachmentIndex_Up_Button">
+		<ScreenID>FacialAttachmentIndex_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>133</X>
+			<Y>194</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+	</Button>
+
+	<Button item = "PCW_Random_Button">
+		<ScreenID>Random_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>54</X>
+			<Y>214</Y>
+		</Location>
+		<Size>
+			<CX>68</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Random</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "PCW_Accept_Button">
+		<ScreenID>Accept_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>214</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Accept</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+
+	<Button item = "PCW_Cancel_Button">
+		<ScreenID>Cancel_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>124</X>
+			<Y>214</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Cancel</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+
+
+	<Screen item = "PlayerCustomizationWnd">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<Text>Set Appearance</Text>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>90</Y>
+		</Location>
+		<Size>
+			<CX>184</CX>
+			<CY>258</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>PCW_Inv_Seperator1</Pieces>
+		<Pieces>PCW_Heritage_Text</Pieces>
+		<Pieces>PCW_ParentId_Down_Button</Pieces>
+		<Pieces>PCW_ParentId_Text</Pieces>
+		<Pieces>PCW_ParentId_Up_Button</Pieces>
+		<Pieces>PCW_Inv_Seperator2</Pieces>
+		<Pieces>PCW_Face_Down_Button</Pieces>
+		<Pieces>PCW_Face_Text</Pieces>
+		<Pieces>PCW_Face_Up_Button</Pieces>
+		<Pieces>PCW_Hair_Down_Button</Pieces>
+		<Pieces>PCW_Hair_Text</Pieces>
+		<Pieces>PCW_Hair_Up_Button</Pieces>
+		<Pieces>PCW_Hair_Color_Down_Button</Pieces>
+		<Pieces>PCW_Hair_Color_Text</Pieces>
+		<Pieces>PCW_Hair_Color_Up_Button</Pieces>
+		<Pieces>PCW_Eyes_Down_Button</Pieces>
+		<Pieces>PCW_Eyes_Text</Pieces>
+		<Pieces>PCW_Eyes_Up_Button</Pieces>
+		<Pieces>PCW_Beard_Down_Button</Pieces>
+		<Pieces>PCW_Beard_Text</Pieces>
+		<Pieces>PCW_Beard_Up_Button</Pieces>
+		<Pieces>PCW_Beard_Color_Down_Button</Pieces>
+		<Pieces>PCW_Beard_Color_Text</Pieces>
+		<Pieces>PCW_Beard_Color_Up_Button</Pieces>
+		<Pieces>PCW_TattooIndex_Down_Button</Pieces>
+		<Pieces>PCW_TattooIndex_Text</Pieces>
+		<Pieces>PCW_TattooIndex_Up_Button</Pieces>
+		<Pieces>PCW_FacialAttachmentIndex_Down_Button</Pieces>
+		<Pieces>PCW_FacialAttachmentIndex_Text</Pieces>
+		<Pieces>PCW_FacialAttachmentIndex_Up_Button</Pieces>
+		<Pieces>PCW_Random_Button</Pieces>
+		<Pieces>PCW_Accept_Button</Pieces>
+		<Pieces>PCW_Cancel_Button</Pieces>
+	</Screen>
+
+</XML>

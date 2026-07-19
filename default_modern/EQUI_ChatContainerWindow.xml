@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Page item="CCW_ChatPageTemplate">
+		<ScreenID>CCW_ChatPageTemplate</ScreenID>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>false</Style_Border>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TabText>Chat</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+        <RelativePosition>true</RelativePosition>
+	</Page>
+	<TabBox item="CCW_ChatWindows">
+        <ScreenID>CCW_ChatWindows</ScreenID>
+        <RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Style_Transparent>false</Style_Transparent>
+	</TabBox>
+	
+	<DragBox item="CWDragBox1">
+        <ScreenID>CWDragBox1</ScreenID>
+		<AutoStretch>true</AutoStretch>		
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>12</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+        <BackgroundTextureTint>
+            <R>255</R>
+            <G>0</G>
+            <B>0</B>
+        </BackgroundTextureTint>
+        <Style_Transparent>true</Style_Transparent>
+    </DragBox>
+
+	<DragBox item="CWDragBox2">
+        <ScreenID>CWDragBox2</ScreenID>
+		<AutoStretch>true</AutoStretch>		
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>12</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+        <BackgroundTextureTint>
+            <R>255</R>
+            <G>0</G>
+            <B>0</B>
+        </BackgroundTextureTint>
+        <Style_Transparent>true</Style_Transparent>
+    </DragBox>	
+	
+	<Screen item="ChatContainerWindow">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>95</X>
+			<Y>280</Y>
+		</Location>
+		<Size>
+			<CX>421</CX>
+			<CY>200</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Escapable>false</Escapable>
+		<Pieces>CCW_ChatWindows</Pieces>
+		<Pieces>CCW_ChatPageTemplate</Pieces>
+		<Pieces>DragBox:CWDragBox1</Pieces>	
+		<Pieces>DragBox:CWDragBox2</Pieces>			
+	</Screen>
+</XML>

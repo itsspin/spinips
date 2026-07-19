@@ -1,0 +1,292 @@
+<?xml version="1.0" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Button item="LF_CheckBoxTemplate">
+		<ScreenID>LF_CheckBoxTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>7</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item="LF_RemoveButtonTemplate">
+		<ScreenID>LF_RemoveButtonTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_CancelNormal</Normal>
+			<Pressed>A_CancelPressed</Pressed>
+			<Flyby>A_CancelFlyby</Flyby>
+			<PressedFlyby>A_CancelPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item="LF_MergeReplaceButton">
+		<ScreenID>LF_MergeReplaceButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>140</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TextColor>
+		  <R>240</R>
+		  <G>240</G>
+		  <B>240</B>
+		</TextColor>
+		<Text>Merge / Replace Filters</Text>
+		<TooltipReference>Merge or Replace filters from another character.</TooltipReference>
+		<Template>BDT_Normal</Template>		
+	</Button>
+
+	<Button item="LF_RemoveConfirmCheckbox">
+		<ScreenID>LF_RemoveConfirmCheckbox</ScreenID>
+		<Location>
+			<X>156</X>
+			<Y>26</Y>
+		</Location>
+		<Size>
+			<CX>125</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Confirm remove</Text>
+		<Font>3</Font>
+		<TooltipReference>Toggles whether removing items requires a confirmation.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>	
+	
+	<Label item="LF_SearchLimitReachedLabel">
+		<ScreenID>LF_SearchLimitReachedLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>3</TopAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<AlignRight>true</AlignRight>
+		<Text>Search Limit Reached</Text>
+		<TextColor>
+			<R>232</R>
+			<G>232</G>
+			<B>139</B>
+		</TextColor>
+	</Label>
+	<Label item="LF_SearchLimitLabel">
+		<ScreenID>LF_SearchLimitLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>45</BottomAnchorOffset>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<AlignRight>false</AlignRight>
+		<Text>Max results:</Text>
+	</Label>
+	<Editbox item="LF_SearchLimitInput">
+		<ScreenID>LF_SearchLimitInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>30</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>The maximum number of results to be shown at once.</TooltipReference>
+	</Editbox>
+	
+	<Label item="LF_FilterSearchLabel">
+		<ScreenID>LF_FilterSearchLabel</ScreenID>
+		<Location>
+			<X>3</X>
+			<Y>35</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Text>Search for item</Text>
+	</Label>
+	<Editbox item="LF_FilterInput">
+		<ScreenID>LF_FilterInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="LF_FilterSearchButton">
+		<ScreenID>LF_FilterSearchButton</ScreenID>
+		<Location>
+			<X>202</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<TextColor>
+		  <R>240</R>
+		  <G>240</G>
+		  <B>240</B>
+		</TextColor>
+		<Text>Search</Text>
+		<TooltipReference>Search for item's loot filter. Accepts partial name matches.</TooltipReference>
+		<Template>BDT_Normal</Template>		
+	</Button>
+	<Listbox item="LF_ItemOptionsList">
+		<ScreenID>LF_ItemOptionsList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>46</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TextColor>
+			<R>0</R>
+			<G>148</G>
+			<B>255</B>
+		</TextColor>
+		<Location>
+			<X>10</X>
+			<Y>115</Y>
+		</Location>
+		<Size>
+			<CX>350</CX>
+			<CY>280</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Item</Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Loot</Heading>
+			<Tooltip>Auto loot: Always loot this item.</Tooltip>
+		</Columns>	
+		<Columns>
+			<Width>40</Width>
+			<Heading>Merge</Heading>
+			<Tooltip>Auto merge: Always merge this item.</Tooltip>
+		</Columns>	
+		<Columns>
+			<Width>40</Width>
+			<Heading>Store</Heading>
+			<Tooltip>Auto store: Always store this item.</Tooltip>
+		</Columns>	
+		<Columns>
+			<Width>40</Width>
+			<Heading>Sell</Heading>
+			<Tooltip>Auto sell: Always sell this item.</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>50</Width>
+			<Heading>Remove</Heading>
+			<Tooltip>Remove this item from filters.</Tooltip>
+		</Columns>	
+		<TooltipReference>Set loot options here for each loot item.</TooltipReference>
+	</Listbox>
+	<Screen item="LootFiltersWnd">
+		<!--<ScreenID/>-->
+		<Location>
+			<X>200</X>
+			<Y>200</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>400</CY>
+		</Size>
+		<Text>Edit Loot Filters</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Edit Loot Filters</TooltipReference>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<MinHSize>415</MinHSize>
+		<MinVSize>150</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>LF_CheckBoxTemplate</Pieces>
+		<Pieces>LF_RemoveButtonTemplate</Pieces>
+		<Pieces>LF_MergeReplaceButton</Pieces>
+		<Pieces>LF_RemoveConfirmCheckbox</Pieces>
+		<Pieces>LF_SearchLimitLabel</Pieces>
+		<Pieces>LF_SearchLimitInput</Pieces>
+		<Pieces>LF_SearchLimitReachedLabel</Pieces>
+		<Pieces>LF_FilterSearchLabel</Pieces>
+		<Pieces>LF_FilterInput</Pieces>
+		<Pieces>LF_FilterSearchButton</Pieces>
+		<Pieces>LF_ItemOptionsList</Pieces>
+	</Screen>
+</XML>

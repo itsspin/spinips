@@ -1,0 +1,201 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+<!-- The switch list window -->
+<Label item = "MIZ_Label">
+	<ScreenID/>
+	<RelativePosition>true</RelativePosition>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>2</LeftAnchorOffset>
+	<TopAnchorOffset>2</TopAnchorOffset>
+	<RightAnchorOffset>2</RightAnchorOffset>
+	<BottomAnchorOffset>16</BottomAnchorOffset>
+	<TopAnchorToTop>true</TopAnchorToTop>
+	<BottomAnchorToTop>true</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+	<Text>Instances available</Text>
+	<NoWrap>true</NoWrap>
+	<AlignCenter>true</AlignCenter>
+	<AlignRight>false</AlignRight>
+</Label>
+
+<Label item = "MIZ_CurrentZone">
+	<ScreenID>MIZ_CurrentZone</ScreenID>
+	<RelativePosition>true</RelativePosition>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>2</LeftAnchorOffset>
+	<TopAnchorOffset>16</TopAnchorOffset>
+	<RightAnchorOffset>2</RightAnchorOffset>
+	<BottomAnchorOffset>44</BottomAnchorOffset>
+	<TopAnchorToTop>true</TopAnchorToTop>
+	<BottomAnchorToTop>true</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+	<Text>Current Zone:</Text>
+	<NoWrap>false</NoWrap>
+	<AlignCenter>true</AlignCenter>
+	<AlignRight>false</AlignRight>
+</Label>
+
+<Button item = "MIZ_GroupLeaderCheckBox">
+	<ScreenID>MIZ_GroupLeaderCheckBox</ScreenID>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>186</LeftAnchorOffset>
+	<TopAnchorOffset>162</TopAnchorOffset>
+	<RightAnchorOffset>290</RightAnchorOffset>
+	<BottomAnchorOffset>178</BottomAnchorOffset>
+	<TopAnchorToTop>true</TopAnchorToTop>
+	<BottomAnchorToTop>true</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>true</RightAnchorToLeft>
+	<Style_Checkbox>true</Style_Checkbox>	
+	<Text>Pick as Group</Text>
+	<DecalSize>
+		<CX>16</CX>
+		<CY>16</CY>
+	</DecalSize>
+	<NoWrap>true</NoWrap>
+	<TextOffsetX>20</TextOffsetX>
+	<TooltipReference>When checked, /pick as a group.</TooltipReference>
+	<Template>BDT_CheckboxWithText</Template>
+</Button>
+
+<Label item = "MIZ_GroupMemberNoteLabel">
+	<ScreenID>MIZ_GroupMemberNoteLabel</ScreenID>
+	<RelativePosition>true</RelativePosition>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>102</LeftAnchorOffset>
+	<TopAnchorOffset>30</TopAnchorOffset>
+	<RightAnchorOffset>102</RightAnchorOffset>
+	<BottomAnchorOffset>0</BottomAnchorOffset>
+	<TopAnchorToTop>false</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+	<Text>Note:(#) represents number of group members in instance</Text>
+	<NoWrap>false</NoWrap>
+	<AlignRight>false</AlignRight>
+	<AlignCenter>true</AlignCenter>
+</Label>
+
+<Button item = "MIZ_SelectButton">
+	<ScreenID>SelectButton</ScreenID>	
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>2</LeftAnchorOffset>
+	<TopAnchorOffset>28</TopAnchorOffset>
+	<RightAnchorOffset>100</RightAnchorOffset>
+	<BottomAnchorOffset>2</BottomAnchorOffset>
+	<TopAnchorToTop>false</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>true</RightAnchorToLeft>
+	<Style_VScroll>false</Style_VScroll>
+	<Style_HScroll>false</Style_HScroll>
+	<Style_Transparent>false</Style_Transparent>
+	<Style_Checkbox>false</Style_Checkbox>	
+	<Text>Select</Text>
+	<Template>BDT_Normal</Template>
+</Button>
+<Button item = "MIZ_QuitButton">
+	<ScreenID>MIZ_QuitButton</ScreenID>	
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>102</LeftAnchorOffset>
+	<TopAnchorOffset>28</TopAnchorOffset>
+	<RightAnchorOffset>200</RightAnchorOffset>
+	<BottomAnchorOffset>2</BottomAnchorOffset>
+	<TopAnchorToTop>false</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>true</RightAnchorToLeft>
+	<Style_VScroll>false</Style_VScroll>
+	<Style_HScroll>false</Style_HScroll>
+	<Style_Transparent>false</Style_Transparent>
+	<Style_Checkbox>false</Style_Checkbox>	
+	<Text>Quit</Text>
+	<Template>BDT_Normal</Template>
+</Button>
+<Button item = "MIZ_CancelButton">
+	<ScreenID>CancelButton</ScreenID>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>100</LeftAnchorOffset>
+	<TopAnchorOffset>28</TopAnchorOffset>
+	<RightAnchorOffset>2</RightAnchorOffset>
+	<BottomAnchorOffset>2</BottomAnchorOffset>
+	<TopAnchorToTop>false</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
+	<LeftAnchorToLeft>false</LeftAnchorToLeft>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+	<Style_VScroll>false</Style_VScroll>
+	<Style_HScroll>false</Style_HScroll>
+	<Style_Transparent>false</Style_Transparent>
+	<Style_Checkbox>false</Style_Checkbox>	
+	<Text>Cancel</Text>
+	<Template>BDT_Normal</Template>
+</Button>
+
+<Listbox item = "MIZ_ZoneList">
+	<ScreenID>ZoneList</ScreenID>
+	<DrawTemplate>WDT_Inner</DrawTemplate>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>2</LeftAnchorOffset>
+	<TopAnchorOffset>46</TopAnchorOffset>
+	<RightAnchorOffset>2</RightAnchorOffset>
+	<BottomAnchorOffset>66</BottomAnchorOffset>
+	<TopAnchorToTop>true</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+	<Style_Border>true</Style_Border>
+	<Style_VScroll>true</Style_VScroll>
+	<Columns>
+		<Width>200</Width>
+		<Heading>Zone</Heading>
+	</Columns>
+	<Columns>
+		<Width>80</Width>
+		<Heading>Players</Heading>
+	</Columns>
+	<Columns>
+		<Width>80</Width>
+		<Heading>Difficulty</Heading>
+	</Columns>
+</Listbox>
+
+<Screen item = "MIZoneSelectWnd">
+	<RelativePosition>false</RelativePosition>
+	<Location>
+		<X>100</X>
+		<Y>60</Y>
+	</Location>
+	<Size>
+		<CX>420</CX>
+		<CY>230</CY>
+	</Size>
+	<Style_VScroll>false</Style_VScroll>
+	<Style_HScroll>false</Style_HScroll>
+	<Style_Transparent>false</Style_Transparent>
+	<Text>Choose which zone to enter</Text>
+	<DrawTemplate>WDT_Rounded</DrawTemplate>
+	<Style_Titlebar>true</Style_Titlebar>
+	<Style_Closebox>true</Style_Closebox>
+	<Style_Minimizebox>true</Style_Minimizebox>
+	<Style_Border>true</Style_Border>
+	<Style_Sizable>false</Style_Sizable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>		
+	<Pieces>MIZ_Label</Pieces>
+	<Pieces>MIZ_CurrentZone</Pieces>
+	<Pieces>MIZ_GroupLeaderCheckBox</Pieces>
+<!-- 	<Pieces>MIZ_GroupMemberNoteLabel</Pieces> -->
+	<Pieces>MIZ_SelectButton</Pieces>
+	<Pieces>MIZ_QuitButton</Pieces>
+	<Pieces>MIZ_CancelButton</Pieces>
+	<Pieces>MIZ_ZoneList</Pieces>
+</Screen>
+
+
+</XML>

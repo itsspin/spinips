@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Label item="FIW_ItemNameLabel">
+		<ScreenID>FIW_ItemNameLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<BottomAnchorOffset>21</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>85</RightAnchorOffset>
+		<Text>Item Name</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="FIW_ItemNameInput">
+		<ScreenID>FIW_ItemNameInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>Search by partial item name.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+	</Editbox>
+	<Label item="FIW_ItemLocationLabel">
+		<ScreenID>FIW_ItemLocationLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>46</TopAnchorOffset>
+		<BottomAnchorOffset>61</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Location</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ItemLocationCombobox">
+		<ScreenID>FIW_ItemLocationCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<TooltipReference>List all items in a particular location.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>61</TopAnchorOffset>
+		<BottomAnchorOffset>81</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_ItemSlotLabel">
+		<ScreenID>FIW_ItemSlotLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>84</TopAnchorOffset>
+		<BottomAnchorOffset>99</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Slot</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ItemSlotCombobox">
+		<ScreenID>FIW_ItemSlotCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>List all items that can be used in this slot.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>99</TopAnchorOffset>
+		<BottomAnchorOffset>119</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_StatSlotLabel">
+		<ScreenID>FIW_StatSlotLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>126</TopAnchorOffset>
+		<BottomAnchorOffset>141</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Stat</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_StatSlotCombobox">
+		<ScreenID>FIW_StatSlotCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>List all items that have this statistic.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>141</TopAnchorOffset>
+		<BottomAnchorOffset>161</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_RaceSlotLabel">
+		<ScreenID>FIW_RaceSlotLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>168</TopAnchorOffset>
+		<BottomAnchorOffset>183</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Race</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_RaceSlotCombobox">
+		<ScreenID>FIW_RaceSlotCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>List all items that can be worn by this race.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>183</TopAnchorOffset>
+		<BottomAnchorOffset>203</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_ClassSlotLabel">
+		<ScreenID>FIW_ClassSlotLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>210</TopAnchorOffset>
+		<BottomAnchorOffset>225</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Class</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ClassSlotCombobox">
+		<ScreenID>FIW_ClassSlotCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>List all items that can be worn by this class.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>225</TopAnchorOffset>
+		<BottomAnchorOffset>245</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_ItemTypeLabel">
+		<ScreenID>FIW_ItemTypeLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>252</TopAnchorOffset>
+		<BottomAnchorOffset>266</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Type</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ItemTypeCombobox">
+		<ScreenID>FIW_ItemTypeCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>List all items of this type.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>267</TopAnchorOffset>
+		<BottomAnchorOffset>287</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_ItemPrestigeLabel">
+		<ScreenID>FIW_ItemPrestigeLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>294</TopAnchorOffset>
+		<BottomAnchorOffset>309</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Prestige</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ItemPrestigeCombobox">
+		<ScreenID>FIW_ItemPrestigeCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>Filter based on item Prestige status.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>309</TopAnchorOffset>
+		<BottomAnchorOffset>329</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_ItemAugmentLabel">
+		<ScreenID>FIW_ItemAugmentLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>336</TopAnchorOffset>
+		<BottomAnchorOffset>351</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<Text>Select By Augment Slot</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="FIW_ItemAugmentCombobox">
+		<ScreenID>FIW_ItemAugmentCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<TooltipReference>Filter based on item augment slot.</TooltipReference>
+		<AutoStretchList>true</AutoStretchList>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>351</TopAnchorOffset>
+		<BottomAnchorOffset>371</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="FIW_MaxLevelLabel">
+		<ScreenID>FIW_MaxLevelLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>378</TopAnchorOffset>
+		<BottomAnchorOffset>393</BottomAnchorOffset>
+		<LeftAnchorOffset>75</LeftAnchorOffset>
+		<RightAnchorOffset>137</RightAnchorOffset>
+		<Text>Max Level</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item="FIW_MinLevelLabel">
+		<ScreenID>FIW_MinLevelLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>378</TopAnchorOffset>
+		<BottomAnchorOffset>393</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>67</RightAnchorOffset>
+		<Text>Min Level</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="FIW_MaxLevelInput">
+		<ScreenID>FIW_MaxLevelInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>Enter a level for which items having a recommended or required level above it should not show.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>393</TopAnchorOffset>
+		<BottomAnchorOffset>413</BottomAnchorOffset>
+		<LeftAnchorOffset>72</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+	</Editbox>
+	<Editbox item="FIW_MinLevelInput">
+	<ScreenID>FIW_MinLevelInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>Enter a level for which items having a recommended or required level below it should not show.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>393</TopAnchorOffset>
+		<BottomAnchorOffset>413</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>69</RightAnchorOffset>
+	</Editbox>
+	<StaticAnimation item="FIW_ClassAnim">
+		<ScreenID>FIW_ClassAnim</ScreenID>
+		<Location>
+			<X>18</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+	</StaticAnimation>
+	<Screen item="FIW_CharacterView">
+		<ScreenID>FIW_CharacterView</ScreenID>
+<!-- 		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>15</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<TopAnchorOffset>428</TopAnchorOffset>
+		<BottomAnchorOffset>28</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop Item Here to Auto Equip</TooltipReference>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable> -->
+		<Pieces>FIW_ClassAnim</Pieces>
+	</Screen>
+	<Label item="FIW_SearchResultLabel">
+		<ScreenID>FIW_SearchResultLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>147</LeftAnchorOffset>
+		<RightAnchorOffset>240</RightAnchorOffset>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<Text>Search Results</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Listbox item="FIW_ItemList">
+		<ScreenID>FIW_ItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>136</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Heading></Heading>
+			<Width>13</Width>
+		</Columns>
+		<Columns>
+			<Heading>Item Name</Heading>
+			<Width>220</Width>
+		</Columns>
+		<Columns>
+			<Heading>Qty</Heading>
+			<Width>40</Width>
+		</Columns>
+		<Columns>
+			<Heading>Location</Heading>
+			<Width>120</Width>
+		</Columns>
+		<Columns>
+			<Heading></Heading>
+			<Width>10</Width>
+		</Columns>
+		<Columns>
+			<Heading>Stat</Heading>
+			<Width>80</Width>
+		</Columns>
+	</Listbox>
+	<Button item="FIW_Default">
+		<ScreenID>FIW_Default</ScreenID>
+		<TooltipReference>Resets search criteria to default.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Reset</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="FIW_RequestItemButton">
+		<ScreenID>FIW_RequestItemButton</ScreenID>
+		<TooltipReference>Press to inspect the selected item.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>245</LeftAnchorOffset>
+		<RightAnchorOffset>295</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<Text>Inspect</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="FIW_RequestPreviewButton">
+		<ScreenID>FIW_RequestPreviewButton</ScreenID>
+		<TooltipReference>Press to preview the selected item.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>298</LeftAnchorOffset>
+		<RightAnchorOffset>348</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<Text>Preview</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item="FIW_DragonHoardLabel">
+		<ScreenID>FIW_DragonHoardLabel</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>360</LeftAnchorOffset>
+		<RightAnchorOffset>700</RightAnchorOffset>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<Text>Not</Text>
+		<AppendText> searching your Dragon's Hoard</AppendText>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="FIW_QueryButton">
+		<ScreenID>FIW_QueryButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Find Items</Text>
+		<TooltipReference>Search for a list of items that match your search criteria.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="FIW_GrabButton">
+		<ScreenID>FIW_GrabButton</ScreenID>
+		<TooltipReference>Press to grab the selected item.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>137</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>235</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Grab Item</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="FIW_HighlightButton">
+		<ScreenID>FIW_HighlightButton</ScreenID>
+		<TooltipReference>Press to highlight the selected item.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>237</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>330</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Highlight Item</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="FIW_SearchDepotButton">
+		<ScreenID>FIW_SearchDepotButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>335</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>470</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Toggle to include your Tradeskill Depot when searching</TooltipReference>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Tradeskill Depot</Text>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="FIW_DestroyItem">
+		<ScreenID>FIW_DestroyItem</ScreenID>
+		<TooltipReference>Press to destroy currently held item.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Destroy Item</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="FindItemWnd">
+		<ScreenID />
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>700</CX>
+			<CY>600</CY>
+		</Size>
+		<MinVSize>437</MinVSize>
+		<MinHSize>645</MinHSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Find Item Window</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>FIW_ClassSlotCombobox</Pieces>
+		<Pieces>FIW_ClassSlotLabel</Pieces>
+		<Pieces>FIW_Default</Pieces>
+		<Pieces>FIW_DragonHoardLabel</Pieces>
+		<Pieces>FIW_ItemAugmentCombobox</Pieces>
+		<Pieces>FIW_ItemAugmentLabel</Pieces>
+		<Pieces>FIW_ItemLocationCombobox</Pieces>
+		<Pieces>FIW_ItemLocationLabel</Pieces>
+		<Pieces>FIW_ItemNameInput</Pieces>
+		<Pieces>FIW_ItemNameLabel</Pieces>
+		<Pieces>FIW_ItemPrestigeCombobox</Pieces>
+		<Pieces>FIW_ItemPrestigeLabel</Pieces>
+		<Pieces>FIW_ItemSlotCombobox</Pieces>
+		<Pieces>FIW_ItemSlotLabel</Pieces>
+		<Pieces>FIW_ItemTypeCombobox</Pieces>
+		<Pieces>FIW_ItemTypeLabel</Pieces>
+		<Pieces>FIW_MaxLevelInput</Pieces>
+		<Pieces>FIW_MaxLevelLabel</Pieces>
+		<Pieces>FIW_MinLevelInput</Pieces>
+		<Pieces>FIW_MinLevelLabel</Pieces>
+		<Pieces>FIW_RaceSlotCombobox</Pieces>
+		<Pieces>FIW_RaceSlotLabel</Pieces>
+		<Pieces>FIW_RequestItemButton</Pieces>
+		<Pieces>FIW_RequestPreviewButton</Pieces>
+		<Pieces>FIW_SearchResultLabel</Pieces>
+		<Pieces>FIW_StatSlotCombobox</Pieces>
+		<Pieces>FIW_StatSlotLabel</Pieces>
+		<Pieces>Screen:FIW_CharacterView</Pieces>
+		<Pieces>FIW_ItemList</Pieces>
+		<Pieces>FIW_DestroyItem</Pieces>
+		<Pieces>FIW_GrabButton</Pieces>
+		<Pieces>FIW_HighlightButton</Pieces>
+		<Pieces>FIW_SearchDepotButton</Pieces>
+		<Pieces>FIW_QueryButton</Pieces>
+	</Screen>
+</XML>

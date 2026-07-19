@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  
+<!-- Target con color square. Targetbox.tga has been edited and the game will only display the target fill -->
+  <TextureInfo item="TargetBox.tga">
+    <Size>
+      <CX>5</CX>
+      <CY>20</CY>
+    </Size>
+  </TextureInfo>
+  
+  <Ui2DAnimation item="A_TargetBoxTop">
+    <Cycle>false</Cycle>
+    <Frames>
+      <Texture>TargetBox.tga</Texture>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>1</CX>
+			<CY>1</CY>
+		</Size>
+    </Frames>
+  </Ui2DAnimation>
+  
+  <Ui2DAnimation item="A_TargetBoxBottom">
+    <Cycle>false</Cycle>
+    <Frames>
+      <Texture>TargetBox.tga</Texture>
+      <Location>
+		<X>0</X>
+		<Y>0</Y>
+      </Location>
+      <Size>
+		<CX>1</CX>
+        <CY>1</CY>
+      </Size>
+    </Frames>
+  </Ui2DAnimation>
+  
+  <Ui2DAnimation item="A_TargetBoxLeft">
+    <Cycle>false</Cycle>
+    <Frames>
+      <Texture>TargetBox.tga</Texture>
+      <Location>
+		<X>0</X>
+		<Y>0</Y>
+      </Location>
+      <Size>
+		<CX>1</CX>
+        <CY>1</CY>
+      </Size>
+    </Frames>
+  </Ui2DAnimation>
+  
+  <Ui2DAnimation item="A_TargetBoxRight">
+    <Cycle>false</Cycle>
+    <Frames>
+      <Texture>TargetBox.tga</Texture>
+      <Location>
+		<X>0</X>
+		<Y>0</Y>
+      </Location>
+      <Size>
+		<CX>1</CX>
+        <CY>1</CY>
+      </Size>
+    </Frames>
+  </Ui2DAnimation>
+  
+  <Ui2DAnimation item="A_TargetBoxFill">
+    <Cycle>false</Cycle>
+    <Frames>
+      <Texture>TargetBox.tga</Texture>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+    </Frames>
+  </Ui2DAnimation>
+  
+  <StaticAnimation item="A_TargetBoxStaticAnimTop">
+    <ScreenID>A_TargetBoxStaticAnimTop</ScreenID>
+    <Animation>A_TargetBoxTop</Animation>
+    <AutoDraw>false</AutoDraw>
+    <AutoStretch>true</AutoStretch>
+     <TopAnchorOffset>4</TopAnchorOffset>
+    <BottomAnchorOffset>5</BottomAnchorOffset>
+    <LeftAnchorOffset>1</LeftAnchorOffset>
+    <RightAnchorOffset>1</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+  </StaticAnimation>
+  
+  <StaticAnimation item="A_TargetBoxStaticAnimBottom">
+    <ScreenID>A_TargetBoxStaticAnimBottom</ScreenID>
+    <Animation>A_TargetBoxBottom</Animation>
+    <AutoDraw>false</AutoDraw>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>4</TopAnchorOffset>
+    <BottomAnchorOffset>5</BottomAnchorOffset>
+    <LeftAnchorOffset>1</LeftAnchorOffset>
+    <RightAnchorOffset>1</RightAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+  </StaticAnimation>
+  
+  <StaticAnimation item="A_TargetBoxStaticAnimLeft">
+    <ScreenID>A_TargetBoxStaticAnimLeft</ScreenID>
+    <Animation>A_TargetBoxLeft</Animation>
+    <AutoDraw>false</AutoDraw>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <BottomAnchorOffset>5</BottomAnchorOffset>
+    <LeftAnchorOffset>1</LeftAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+  </StaticAnimation>
+  
+  <StaticAnimation item="A_TargetBoxStaticAnimRight">
+    <ScreenID>A_TargetBoxStaticAnimRight</ScreenID>
+    <Animation>A_TargetBoxRight</Animation>
+    <AutoDraw>false</AutoDraw>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <BottomAnchorOffset>5</BottomAnchorOffset>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <RightAnchorOffset>1</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+  </StaticAnimation>
+  
+  <StaticAnimation item="A_TargetBoxStaticAnimFill">
+    <ScreenID>A_TargetBoxStaticAnimFill</ScreenID>
+<!--     <Animation>A_TargetBoxFill</Animation>
+	<AutoDraw>false</AutoDraw>
+	<AutoStretch>true</AutoStretch>
+	<LeftAnchorOffset>1</LeftAnchorOffset>
+	<TopAnchorOffset>15</TopAnchorOffset>
+	<RightAnchorOffset>7</RightAnchorOffset>
+	<BottomAnchorOffset>78</BottomAnchorOffset>
+	<AnchorToTop>true</AnchorToTop>
+	<BottomAnchorToTop>true</BottomAnchorToTop>
+	<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>true</RightAnchorToLeft> -->
+  </StaticAnimation>
+  
+<!--  End of target con square -->
+ 
+<!-- Aggro numbers for the player window -->
+	<Label item="Target_AggroPctPlayerLabel">
+		<ScreenID>Target_AggroPctPlayerLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<Text></Text>
+		<EQType>306</EQType>
+		<NoWrap>true</NoWrap>
+		<AutoStretch>true</AutoStretch>
+		<AlignLeft>true</AlignLeft>
+		<TopAnchorOffset>93</TopAnchorOffset>
+		<BottomAnchorOffset>105</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<FontShadow>true</FontShadow>	
+	</Label>
+	
+	<Label item="Target_AggroNameSecondaryLabel">
+		<ScreenID>Target_AggroNameSecondaryLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<Text></Text>
+		<EQType>304</EQType>
+		<NoWrap>true</NoWrap>
+		<AutoStretch>true</AutoStretch>
+		<AlignCenter>true</AlignCenter>
+		<TopAnchorOffset>93</TopAnchorOffset>
+		<LeftAnchorOffset>20</LeftAnchorOffset>
+		<RightAnchorOffset>20</RightAnchorOffset>
+		<BottomAnchorOffset>105</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>		
+		<FontShadow>true</FontShadow>	
+	</Label>
+	
+	<Label item="Target_AggroPctSecondaryLabel">
+		<ScreenID>Target_AggroPctSecondaryLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<Text></Text>
+		<EQType>308</EQType>
+		<NoWrap>true</NoWrap>
+		<AutoStretch>true</AutoStretch>
+		<AlignRight>true</AlignRight>
+		<TopAnchorOffset>93</TopAnchorOffset>
+		<BottomAnchorOffset>105</BottomAnchorOffset>
+		<LeftAnchorOffset>35</LeftAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>		
+		<FontShadow>true</FontShadow>
+	</Label>
+
+<!-- Target's gauges, class, level	 -->
+	<Gauge item="Target_HP">
+		<ScreenID>TargetHP</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<TextOffsetX>-1000</TextOffsetX>
+		<TextOffsetY>-1000</TextOffsetY>
+		<FontShadow>true</FontShadow>
+		<Font>3</Font>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference />
+		<FillTint>
+			<R>150</R>
+			<G>0</G>
+			<B>0</B>
+		</FillTint>
+		<DrawLinesFill>false</DrawLinesFill>
+		<EQType>6</EQType>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+ 
+	<Gauge item="Target_HP_NameOnly">
+		<ScreenID>TargetHP</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>-1000</GaugeOffsetY>
+		<TextOffsetX>2</TextOffsetX>
+		<TextOffsetY>3</TextOffsetY>
+		<FontShadow>true</FontShadow>
+		<Font>3</Font>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference />
+		<FillTint>
+			<R>150</R>
+			<G>0</G>
+			<B>0</B>
+		</FillTint>
+		<DrawLinesFill>false</DrawLinesFill>
+		<EQType>6</EQType>
+		<GaugeDrawTemplate>
+<!-- 			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill> -->
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>25</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+ 
+	<Label item="Target_HPLabel">
+		<ScreenID>HPLabel</ScreenID>
+		<EQType>29</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Font>4</Font>
+		<Text>100</Text>
+		<NoWrap>true</NoWrap>
+		<AlignRight>true</AlignRight>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>36</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>
+  
+	<Label item="Target_HPPercLabel">
+		<ScreenID>HPPercLabel</ScreenID>
+	</Label>
+  	
+	<Label item="Target_Class">
+		<ScreenID>Target_Class</ScreenID>
+		<EQType>1000</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Font>3</Font>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<AlignLeft>true</AlignLeft>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>-1</TopAnchorOffset>
+		<BottomAnchorOffset>14</BottomAnchorOffset>
+		<LeftAnchorOffset>20</LeftAnchorOffset>
+		<RightAnchorOffset>125</RightAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>
+	  
+	<Label item="Target_Level">
+		<ScreenID>Target_Level</ScreenID>
+		<EQType>1001</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Font>3</Font>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<AlignLeft>true</AlignLeft>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>-1</TopAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>
+<!-- End of Target's gauges, level, class -->
+
+<!-- Target of Target gauges, level, class -->
+ 	<Gauge item="TTargetOfTarget_HP">
+		<ScreenID>TTargetOfTarget_HP</ScreenID>
+		<Font>2</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<TextOffsetX>2</TextOffsetX>
+		<TextOffsetY>-2</TextOffsetY>
+		<FontShadow>true</FontShadow>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference />
+		<FillTint>
+			<R>0</R>
+			<G>100</G>
+			<B>60</B>
+		</FillTint>
+		<DrawLinesFill>false</DrawLinesFill>
+		<EQType>27</EQType>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>82</BottomAnchorOffset>
+		<LeftAnchorOffset>25</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+		
+	<Label item="TTargetOfTarget_HPLabel">
+		<ScreenID>TTargetOfTarget_HPLabel</ScreenID>
+		<EQType>120</EQType>
+		<Font>2</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Text />
+		<NoWrap>true</NoWrap>
+		<AlignRight>true</AlignRight>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>70</TopAnchorOffset>
+		<BottomAnchorOffset>85</BottomAnchorOffset>
+		<LeftAnchorOffset>30</LeftAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>
+
+	<Label item="ToT_Class">
+		<ScreenID>ToT_Class</ScreenID>
+		<EQType>1002</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<RelativePosition>true</RelativePosition>
+		<AlignLeft>true</AlignLeft>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>83</TopAnchorOffset>
+		<BottomAnchorOffset>96</BottomAnchorOffset>
+		<LeftAnchorOffset>43</LeftAnchorOffset>
+		<RightAnchorOffset>155</RightAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>
+  
+	<Label item="ToT_Level">
+		<ScreenID>ToT_Level</ScreenID>
+		<EQType>1003</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<RelativePosition>true</RelativePosition>
+		<AlignLeft>true</AlignLeft>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>83</TopAnchorOffset>
+		<BottomAnchorOffset>96</BottomAnchorOffset>
+		<LeftAnchorOffset>26</LeftAnchorOffset>
+		<RightAnchorOffset>41</RightAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>		
+	</Label>	  	
+
+	<Ui2DAnimation item="TT_Indicator">
+		<Cycle>true</Cycle>
+		<Frames>
+		  <Texture>window_fg_pieces.tga</Texture>
+		  <Location>
+			<X>0</X>
+			<Y>0</Y>
+		  </Location>
+		  <Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		  </Size>
+		  <Hotspot>
+			<X>0</X>
+			<Y>0</Y>
+		  </Hotspot>
+		  <Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+
+	<StaticAnimation item="TT_Indicator">
+		<RelativePosition>true</RelativePosition>
+		<Location>
+		  <X>1</X>
+		  <Y>69</Y>
+		</Location>
+		<Size>
+		  <CX>25</CX>
+		  <CY>25</CY>
+		</Size>
+		<Animation>TT_Indicator</Animation>
+	</StaticAnimation>
+	
+<!-- End of Target of Target gauges, level, class -->	
+
+<!-- Target mana and casting gauge	 -->
+
+	<Gauge item="Target_Mana">
+		<ScreenID>TargetMana</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<FillTint>
+			<R>0</R>
+			<G>100</G>
+			<B>200</B>
+		</FillTint>
+		<EQType>186</EQType>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>37</TopAnchorOffset>
+		<BottomAnchorOffset>54</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+	
+	<Label item="Target_MPNumbers">
+		<ScreenID>Target_MPNumbers</ScreenID>
+		<EQType>1007</EQType>
+		<Font>4</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Text>100</Text>
+		<NoWrap>true</NoWrap>
+		<AlignRight>true</AlignRight>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>37</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Tooltip>false</Style_Tooltip>
+		<FontShadow>true</FontShadow>
+	</Label>
+	
+	<Gauge item="Castspell_Gauge">
+		<ScreenID>Castspell_Gauge</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference/>
+		<FillTint>
+			<R>130</R>
+			<G>0</G>
+			<B>130</B>
+		</FillTint>
+		<DrawLinesFill>false</DrawLinesFill>
+		<EQType>187</EQType>
+		<GaugeDrawTemplate>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>37</TopAnchorOffset>
+		<BottomAnchorOffset>54</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+	
+	<Label item="Castspell_Name">
+		<ScreenID />
+		<EQType>1008</EQType>
+		<Font>2</Font>
+		<RelativePosition>true</RelativePosition>
+		<AlignLeft>true</AlignLeft>
+		<AutoStretch>true</AutoStretch>
+		<NoWrap>true</NoWrap>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<BottomAnchorOffset>51</BottomAnchorOffset>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<FontShadow>true</FontShadow>
+	</Label>	 
+
+	<Gauge item="Target_Fatigue">
+		<ScreenID>Target_Fatigue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<FillTint>
+			<R>100</R>
+			<G>100</G>
+			<B>0</B>
+		</FillTint>
+		<EQType>188</EQType>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>56</TopAnchorOffset>
+		<BottomAnchorOffset>70</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+	
+	<Label item="Target_FatigueLabel">
+		<ScreenID>Target_FatigueLabel</ScreenID>
+		<EQType>1013</EQType>
+		<Font>4</Font>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Text>100</Text>
+		<NoWrap>true</NoWrap>
+		<AlignRight>true</AlignRight>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<BottomAnchorOffset>69</BottomAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Tooltip>false</Style_Tooltip>
+		<FontShadow>true</FontShadow>
+	</Label>
+	
+<!-- End Target mana and casting gauge	 -->
+	
+<!-- Target's buffs	 -->
+	<Button item="Target_Buff_Template">
+		<ScreenID>TargetBuffSlot</ScreenID>
+		<Size>
+			<CX>23</CX>
+			<CY>23</CY>
+		</Size>
+		<Template>BDT_TargetBuff</Template>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Font>1</Font>
+		<FontShadow>true</FontShadow>	
+		<DecalOffset>
+			<X>1</X>
+			<Y>1</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>21</CX>
+			<CY>21</CY>
+		</DecalSize>
+	</Button>
+
+	<TileLayoutBox item="Target_Buttons">
+		<ScreenID>TargetBuffsButtons</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
+		<AnchorToTop>false</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<FirstPieceTemplate>true</FirstPieceTemplate>
+		<Pieces>Target_Buff_Template</Pieces>
+	</TileLayoutBox>
+	  
+	<Screen item="Target_BuffWindow">
+		<ScreenID>BuffWindow</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<TooltipReference>Buffs on your target will show here</TooltipReference>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TileLayoutBox:Target_Buttons</Pieces>
+	</Screen>	
+<!-- End of target's buffs -->
+
+	<DragBox item="TWDragBox1">
+        <ScreenID>TWDragBox1</ScreenID>
+		<AutoStretch>true</AutoStretch>		
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+        <BackgroundTextureTint>
+            <R>255</R>
+            <G>0</G>
+            <B>0</B>
+        </BackgroundTextureTint>
+        <Style_Transparent>true</Style_Transparent>
+    </DragBox>
+
+	<DragBox item="TWDragBox2">
+        <ScreenID>TWDragBox2</ScreenID>
+		<AutoStretch>true</AutoStretch>		
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+        <BackgroundTextureTint>
+            <R>255</R>
+            <G>0</G>
+            <B>0</B>
+        </BackgroundTextureTint>
+        <Style_Transparent>true</Style_Transparent>
+    </DragBox>
+	
+	<Screen item="TargetSubWindow">
+		<RelativePosition>true</RelativePosition>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>		
+		<AutoStretch>true</AutoStretch>
+		<ResizeLast>true</ResizeLast>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>-1</LeftAnchorOffset>
+		<RightAnchorOffset>-1</RightAnchorOffset>
+		<Pieces>Target_AggroPctPlayerLabel</Pieces>
+		<Pieces>Target_AggroNameSecondaryLabel</Pieces>
+		<Pieces>Target_AggroPctSecondaryLabel</Pieces>
+		<Pieces>Target_HP</Pieces>	
+		<Pieces>Target_HP_NameOnly</Pieces>
+		<Pieces>Target_HPLabel</Pieces>
+		<Pieces>Target_HPPercLabel</Pieces>
+		<Pieces>TTargetOfTarget_HP</Pieces>	
+		<Pieces>TTargetOfTarget_HPLabel</Pieces>	
+		<Pieces>TT_Indicator</Pieces>
+		<Pieces>Target_Class</Pieces>
+		<Pieces>Target_Level</Pieces>
+		<Pieces>ToT_Class</Pieces>
+		<Pieces>ToT_Level</Pieces>
+		<Pieces>Target_Mana</Pieces>
+		<Pieces>Target_MPNumbers</Pieces>
+		<Pieces>Castspell_Gauge</Pieces>
+		<Pieces>Castspell_Name</Pieces>		
+		<Pieces>Target_Fatigue</Pieces>
+		<Pieces>Target_FatigueLabel</Pieces>		
+	</Screen>	
+	<Screen item="TargetWindow">
+		<RelativePosition>false</RelativePosition>
+		<MenuName>Resizable - No Buffs</MenuName>
+		<Location>
+			<X>3</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>326</CX>
+			<CY>119</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<DrawTemplate>WDT_RoundedTransparentNoArrow</DrawTemplate>
+		<LockedDrawTemplate>WDT_RoundedTransparentNoArrow</LockedDrawTemplate>		
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<ClickThroughEmptyBuffs>true</ClickThroughEmptyBuffs>		
+		<Escapable>false</Escapable>
+		<MinHSize>188</MinHSize>
+		<MinVSize>85</MinVSize>
+		<MaxHSize>326</MaxHSize>
+		<MaxVSize>119</MaxVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-6</X>
+			<Y>-5</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>A_TargetBoxStaticAnimTop</Pieces>
+		<Pieces>A_TargetBoxStaticAnimBottom</Pieces>
+		<Pieces>A_TargetBoxStaticAnimLeft</Pieces>
+		<Pieces>A_TargetBoxStaticAnimRight</Pieces>
+		<Pieces>A_TargetBoxStaticAnimFill</Pieces>		
+		<Pieces>Screen:TargetSubWindow</Pieces>
+		<Pieces>DragBox:TWDragBox1</Pieces>
+		<Pieces>DragBox:TWDragBox2</Pieces>		
+		<Pieces>Target_BuffWindow</Pieces>			
+	</Screen>
+	
+</XML>

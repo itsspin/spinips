@@ -1,0 +1,860 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<!-- Support pieces -->
+
+	<Button item="ActionsButtonTemplate">
+		<ScreenID>ActionsButtonTemplate</ScreenID>
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Text></Text>
+		<Template>BDT_Square</Template>
+	</Button>
+
+	<Button item="ActionsDecalButtonTemplate">
+		<ScreenID>ActionsDecalButtonTemplate</ScreenID>
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>		
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+		<Text></Text>
+		<Template>BDT_Square</Template>
+	</Button>
+
+	<Button item="ActionsSpellButtonTemplate">
+		<ScreenID>ActionsSpellButtonTemplate</ScreenID>
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_BlueBuff</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>36</CX>
+			<CY>36</CY>
+		</DecalSize>
+	</Button>
+
+	<Button item="ActionsCheckBoxTemplate">
+		<ScreenID>ActionsCheckBoxTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>4</X>
+			<Y>14</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<!-- Actions Macros (Socials) Page (ACTW_MP) -->
+
+	<Label item="ACTW_MP_FilterLabel">
+		<ScreenID>ACTW_MP_FilterLabel</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>Search</Text>
+	</Label>
+
+	<Editbox item="ACTW_MP_FilterEditBox">
+		<ScreenID>ACTW_MP_FilterEditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>23</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+
+	<Button item = "ACTW_MP_NewMacroBtn">
+		<ScreenID>ACTW_MP_NewMacroBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>225</LeftAnchorOffset>
+		<RightAnchorOffset>325</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Add a new macro in the first blank slot</TooltipReference>		
+		<Text>New Macro</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ACTW_MP_ShowBlankCheckbox">
+		<ScreenID>ACTW_MP_ShowBlankCheckbox</ScreenID>
+		<Location>
+			<X>355</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>130</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show blank</Text>
+		<TooltipReference>Toggle whether you want to show blank macro slots.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
+	<Listbox item="ACTW_MP_MacrosList">
+		<ScreenID>ACTW_MP_MacrosList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>380</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>300</MinHSize>
+		<MinVSize>180</MinVSize>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<Columns>
+			<Heading>Button</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Name</Heading>
+			<Width>175</Width>
+		</Columns>
+		<Columns>
+			<Heading>Page</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Index</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Color</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>ColorIndex</Heading>
+			<Width>0</Width>
+		</Columns>
+	</Listbox>
+
+	<STMLbox item="ACTW_MP_DescriptionStmlBox">
+		<ScreenID>ACTW_MP_DescriptionStmlBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>35</CY>
+		</Size>
+		<Spacing>4</Spacing>
+		<MinHSize>300</MinHSize>
+		<MinVSize>35</MinVSize>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<Text />
+	</STMLbox>
+
+	<VerticalLayoutBox item = "ACTW_MP_Layout">
+		<ScreenID>ACTW_MP_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>ACTW_MP_MacrosList</Pieces>
+		<Pieces>ACTW_MP_DescriptionStmlBox</Pieces>
+	</VerticalLayoutBox>
+
+	<Page item = "ACTW_MacrosPage">
+		<ScreenID>ACTW_MacrosPage</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Macros</TabText>
+		<TabIcon>A_SocialsTabIcon</TabIcon>
+		<TabIconActive>A_SocialsTabActiveIcon</TabIconActive>
+		<Pieces>ACTW_MP_FilterLabel</Pieces>
+		<Pieces>ACTW_MP_FilterEditBox</Pieces>
+		<Pieces>ACTW_MP_NewMacroBtn</Pieces>
+		<Pieces>ACTW_MP_ShowBlankCheckbox</Pieces>
+		<Pieces>VerticalLayoutBox:ACTW_MP_Layout</Pieces>
+	</Page>
+
+	<!-- Actions Spells Page -->
+
+	<ButtonDrawTemplate item="BDT_BookBtnActionsWindow">
+		<Normal>A_BookBtnNormal</Normal>
+		<Pressed>A_BookBtnPressed</Pressed>
+		<Flyby>A_BookBtnFlyby</Flyby>
+		<Disabled>A_BookBtnDisabled</Disabled>
+		<PressedFlyby>A_BookBtnPressedFlyby</PressedFlyby>
+	</ButtonDrawTemplate>
+	
+	<Button item="ASP_SpellBookButton">
+		<ScreenID>ASP_SpellBookButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>Opens and closes Your Spellbook</TooltipReference>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_BookBtnActionsWindow</Template>
+		<Size>
+			<CX>20</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>5</X>
+			<Y>2</Y>
+		</Location>
+	</Button>
+
+	<Combobox item="ASP_ClassCombo">
+		<ScreenID>ASP_ClassCombo</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<Location>
+			<X>30</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>21</CY>
+		</Size>
+		<ListHeight>200</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Label item="ASP_FilterLabel">
+		<ScreenID>ASP_FilterLabel</ScreenID>
+		<Location>
+			<X>161</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>Search</Text>
+	</Label>
+
+	<Editbox item="ASP_FilterEditBox">
+		<ScreenID>ASP_FilterEditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>23</BottomAnchorOffset>
+		<LeftAnchorOffset>205</LeftAnchorOffset>
+		<RightAnchorOffset>345</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+
+	<Button item="ASP_ShowUnscribedCheckbox">
+		<ScreenID>ASP_ShowUnscribedCheckbox</ScreenID>
+		<Location>
+			<X>355</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>130</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show unscribed</Text>
+		<TooltipReference>Toggle whether you want to show unscribed instead of scribed spells.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
+	<Listbox item="ASP_SpellsList">
+		<ScreenID>ASP_SpellsList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>380</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>300</MinHSize>
+		<MinVSize>180</MinVSize>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<Columns>
+			<Heading>Gem</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Name</Heading>
+			<Width>175</Width>
+		</Columns>
+		<Columns>
+			<Heading>Level</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Category</Heading>
+			<Width>120</Width>
+		</Columns>
+		<Columns>
+			<Heading>Subcategory</Heading>
+			<Width>120</Width>
+		</Columns>
+	</Listbox>
+
+	<STMLbox item="ASP_DescriptionStmlBox">
+		<ScreenID>ASP_DescriptionStmlBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>35</CY>
+		</Size>
+		<Spacing>4</Spacing>
+		<MinHSize>300</MinHSize>
+		<MinVSize>35</MinVSize>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<Text />
+	</STMLbox>
+
+	<VerticalLayoutBox item = "ASP_Layout">
+		<ScreenID>ASP_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>ASP_SpellsList</Pieces>
+		<Pieces>ASP_DescriptionStmlBox</Pieces>
+	</VerticalLayoutBox>
+
+	<Page item = "ActionsSpellsPage">
+		<ScreenID>ActionsSpellsPage</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Spells</TabText>
+		<TabIcon>A_MainTabIcon</TabIcon>
+		<TabIconActive>A_MainTabActiveIcon</TabIconActive>
+		<Pieces>ASP_SpellBookButton</Pieces>
+		<Pieces>ASP_ClassCombo</Pieces>
+		<Pieces>ASP_FilterLabel</Pieces>
+		<Pieces>ASP_FilterEditBox</Pieces>
+		<Pieces>ASP_ShowUnscribedCheckbox</Pieces>
+		<Pieces>VerticalLayoutBox:ASP_Layout</Pieces>
+	</Page>
+
+	<!-- Actions Disciplines Page -->
+
+	<Listbox item="ADP_SkillSelectorList">
+		<ScreenID>ADP_SkillSelectorList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>300</MinHSize>
+		<MinVSize>180</MinVSize>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<Columns>
+			<Heading>Button</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Name</Heading>
+			<Width>130</Width>
+		</Columns>
+		<Columns>
+			<Heading>Level</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Cost</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Upkeep</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Target</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Duration</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Reuse</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Timer</Heading>
+			<Width>50</Width>
+		</Columns>
+	</Listbox>
+	<STMLbox item="ADP_SkillDescriptionStmlBox">
+		<ScreenID>ADP_SkillDescriptionStmlBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>35</CY>
+		</Size>
+		<Spacing>4</Spacing>
+		<MinHSize>300</MinHSize>
+		<MinVSize>35</MinVSize>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<Text />
+	</STMLbox>
+	<VerticalLayoutBox item = "ADP_Layout">
+		<ScreenID>ADP_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>ADP_SkillSelectorList</Pieces>
+		<Pieces>ADP_SkillDescriptionStmlBox</Pieces>
+	</VerticalLayoutBox>
+
+	<Page item = "ActionsDisciplinesPage">
+		<ScreenID>ActionsDisciplinesPage</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Disciplines</TabText>
+		<TabIcon>A_CombatTabIcon</TabIcon>
+		<TabIconActive>A_CombatTabActiveIcon</TabIconActive>
+		<Pieces>VerticalLayoutBox:ADP_Layout</Pieces>
+
+	</Page>
+
+	<!-- Actions Abilities Page -->
+
+	<Button item="AAP_ShowBasicCheckbox">
+		<ScreenID>AAP_ShowBasicCheckbox</ScreenID>
+		<Location>
+			<X>-1</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>130</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show basic</Text>
+		<TooltipReference>Toggles whether you want to also show basic abilities.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
+	<Button item="AAP_ShowGeneralCheckbox">
+		<ScreenID>AAP_ShowGeneralCheckbox</ScreenID>
+		<Location>
+			<X>135</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>130</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show general</Text>
+		<TooltipReference>Toggles whether you want to also show general abilities.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
+	<Listbox item="AAP_SkillSelectorList">
+		<ScreenID>AAP_SkillSelectorList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>300</MinHSize>
+		<MinVSize>180</MinVSize>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<Columns>
+			<Heading>Button</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Name</Heading>
+			<Width>130</Width>
+		</Columns>
+		<Columns>
+			<Heading>Category</Heading>
+			<Width>80</Width>
+		</Columns>
+		<Columns>
+			<Heading>Autoskill</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Reuse</Heading>
+			<Width>50</Width>
+		</Columns>
+	</Listbox>
+	<STMLbox item="AAP_SkillDescriptionStmlBox">
+		<ScreenID>AAP_SkillDescriptionStmlBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>35</CY>
+		</Size>
+		<Spacing>4</Spacing>
+		<MinHSize>300</MinHSize>
+		<MinVSize>35</MinVSize>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<Text />
+	</STMLbox>
+	<VerticalLayoutBox item = "AAP_Layout">
+		<ScreenID>AAP_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>AAP_SkillSelectorList</Pieces>
+		<Pieces>AAP_SkillDescriptionStmlBox</Pieces>
+	</VerticalLayoutBox>
+
+	<Page item = "ActionsAbilitiesPage">
+		<ScreenID>ActionsAbilitiesPage</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Abilities</TabText>
+		<TabIcon>A_AbilitiesTabIcon</TabIcon>
+		<TabIconActive>A_AbilitiesTabActiveIcon</TabIconActive>
+		<Pieces>AAP_ShowBasicCheckbox</Pieces>
+		<Pieces>AAP_ShowGeneralCheckbox</Pieces>
+		<Pieces>VerticalLayoutBox:AAP_Layout</Pieces>
+	</Page>
+
+	<!-- PortRing Tab -->
+	<Button item="ACTW_PR_SpellBookButton">
+		<ScreenID>ACTW_PR_SpellBookButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>Opens and closes Your Spellbook</TooltipReference>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_BookBtnActionsWindow</Template>
+		<Size>
+			<CX>20</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>5</X>
+			<Y>2</Y>
+		</Location>
+	</Button>
+
+	<Combobox item="ACTW_PR_ClassCombo">
+		<ScreenID>ACTW_PR_ClassCombo</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<Location>
+			<X>30</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>21</CY>
+		</Size>
+		<ListHeight>200</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Label item="ACTW_PR_FilterLabel">
+		<ScreenID>ACTW_PR_FilterLabel</ScreenID>
+		<Location>
+			<X>161</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>Search</Text>
+	</Label>
+
+	<Editbox item="ACTW_PR_FilterEditBox">
+		<ScreenID>ACTW_PR_FilterEditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>23</BottomAnchorOffset>
+		<LeftAnchorOffset>205</LeftAnchorOffset>
+		<RightAnchorOffset>345</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	
+	<Button item = "ACTW_PR_ResetBtn">
+		<ScreenID>ACTW_PR_ResetBtn</ScreenID>
+		<Font>2</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>350</LeftAnchorOffset>
+		<RightAnchorOffset>400</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Reset</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+
+	<Listbox item="ACTW_PR_ListBox">
+		<ScreenID>ACTW_PR_ListBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Heading>Gem</Heading>
+			<Width>50</Width>
+		</Columns>
+		<Columns>
+			<Heading>Name</Heading>
+			<Width>175</Width>
+		</Columns>
+		<Columns>
+			<Heading>Location</Heading>
+			<Width>300</Width>
+		</Columns>
+	</Listbox>
+	<Page item="ACTW_PortRing_Page">
+		<ScreenID>ACTW_PortRing_Page</ScreenID>		
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Rituals</TabText>
+		<TabIcon>A_MainTabIcon</TabIcon>
+		<TabIconActive>A_MainTabActiveIcon</TabIconActive>
+		<Pieces>ACTW_PR_SpellBookButton</Pieces>
+		<Pieces>ACTW_PR_ClassCombo</Pieces>
+		<Pieces>ACTW_PR_FilterLabel</Pieces>
+		<Pieces>ACTW_PR_FilterEditBox</Pieces>
+		<Pieces>ACTW_PR_ResetBtn</Pieces>
+		<Pieces>ACTW_PR_ListBox</Pieces>
+	</Page>
+
+	<!-- TabBox Brings all the Actions Pages Together -->
+
+	<TabBox item = "ACTW_ActionsSubwindows">
+		<ScreenID>ACTW_ActionsSubwindows</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>ActionsAbilitiesPage</Pages>
+		<Pages>ActionsDisciplinesPage</Pages>
+		<Pages>ActionsSpellsPage</Pages>
+		<Pages>ACTW_PortRing_Page</Pages>
+		<Pages>ACTW_MacrosPage</Pages>
+	</TabBox>
+
+	<Screen item = "ActionsWindow">
+		<RelativePosition>false</RelativePosition>
+		<MinVSize>308</MinVSize>
+		<MinHSize>500</MinHSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Actions</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Escapable>true</Escapable>
+		<Pieces>ActionsButtonTemplate</Pieces>
+		<Pieces>ActionsDecalButtonTemplate</Pieces>
+		<Pieces>ActionsSpellButtonTemplate</Pieces>
+		<Pieces>ActionsCheckBoxTemplate</Pieces>
+		<Pieces>ACTW_ActionsSubwindows</Pieces>
+	</Screen>
+
+</XML>

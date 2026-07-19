@@ -1,0 +1,538 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item="MMTW_TypeLabel">
+		<ScreenID>TypeLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Type:</Text>
+	</Label>
+
+	<Combobox item="MMTW_TypeComboBox">
+		<ScreenID>TypeComboBox</ScreenID>
+		<EQType>mercenary/MerchantWnd/TypeComboBox</EQType>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>45</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ListHeight>1000</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Listbox item="MMTW_SubtypeListBox">
+		<ScreenID>SubtypeListBox</ScreenID>
+		<EQType>mercenary/MerchantWnd/SubtypeListBox</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>180</Width>
+			<Heading>Available Mercenaries</Heading>
+		</Columns>
+	</Listbox>
+
+	<Listbox item="MMTW_StanceListBox">
+		<ScreenID>StanceListBox</ScreenID>
+		<EQType>mercenary/MerchantWnd/StanceListBox</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>180</Width>
+			<Heading>Stance</Heading>
+		</Columns>
+	</Listbox>
+
+	<VerticalLayoutBox item ="MMTW_SubtypeStanceVerticalLayout">
+		<ScreenID>SubtypeStanceVerticalLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>3</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Listbox:MMTW_SubtypeListBox</Pieces>
+		<Pieces>Listbox:MMTW_StanceListBox</Pieces>
+	</VerticalLayoutBox>
+
+	<LayoutBox item ="MMTW_SelectionLayout">
+		<ScreenID>SelectionLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>220</CX>
+			<CY>400</CY>
+		</Size>
+		<Spacing>0</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>VerticalLayoutBox:MMTW_SubtypeStanceVerticalLayout</Pieces>
+		<Pieces>Label:MMTW_TypeLabel</Pieces>
+		<Pieces>Combobox:MMTW_TypeComboBox</Pieces>
+	</LayoutBox>
+
+	<Label item="MMTW_PurchaseCostLabel">
+		<ScreenID>PurchaseCostLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Purchase Cost:</Text>
+	</Label>
+
+	<Label item="MMTW_PurchaseCostPlatText">
+		<ScreenID>PurchaseCostPlatText</ScreenID>
+		<EQType>mercenary/MerchantWnd/PurchaseCostPlatText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>92</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>42</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_PurchaseCostPlatIcon">
+		<ScreenID>PurchaseCostPlatIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/PurchaseCostPlatIcon</EQType>
+		<Location>
+			<X>141</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_PlatinumCoin</Normal>
+			<NormalDecal>A_PlatinumCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_PurchaseCostGoldText">
+		<ScreenID>PurchaseCostGoldText</ScreenID>
+		<EQType>mercenary/MerchantWnd/PurchaseCostGoldText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>160</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_PurchaseCostGoldIcon">
+		<ScreenID>PurchaseCostGoldIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/PurchaseCostGoldIcon</EQType>
+		<Location>
+			<X>177</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_AltPurchaseCostText">
+		<ScreenID>AltPurchaseCostText</ScreenID>
+		<EQType>mercenary/MerchantWnd/AltPurchaseCostText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>205</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>36</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_AltPurchaseCostIcon">
+		<ScreenID>AltPurchaseCostIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/AltPurchaseCostIcon</EQType>
+		<Location>
+			<X>247</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_UpkeepCostLabel">
+		<ScreenID>UpkeepCostLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<NoWrap>true</NoWrap>
+		<Location>
+			<X>5</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Upkeep Cost:</Text>
+	</Label>
+
+	<Label item="MMTW_UpkeepCostPlatText">
+		<ScreenID>UpkeepCostPlatText</ScreenID>
+		<EQType>mercenary/MerchantWnd/UpkeepCostPlatText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>92</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>42</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_UpkeepCostPlatIcon">
+		<ScreenID>UpkeepCostPlatIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/UpkeepCostPlatIcon</EQType>
+		<Location>
+			<X>141</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_PlatinumCoin</Normal>
+			<NormalDecal>A_PlatinumCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_UpkeepCostGoldText">
+		<ScreenID>UpkeepCostGoldText</ScreenID>
+		<EQType>mercenary/MerchantWnd/UpkeepCostGoldText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>160</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_UpkeepCostGoldIcon">
+		<ScreenID>UpkeepCostGoldIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/UpkeepCostGoldIcon</EQType>
+		<Location>
+			<X>177</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_AltUpkeepCostText">
+		<ScreenID>AltUpkeepCostText</ScreenID>
+		<EQType>mercenary/MerchantWnd/AltUpkeepCostText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>205</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>36</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MMTW_AltUpkeepCostIcon">
+		<ScreenID>AltUpkeepCostIcon</ScreenID>
+		<EQType>mercenary/MerchantWnd/AltUpkeepCostIcon</EQType>
+		<Location>
+			<X>247</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MMTW_AltCurrencyDividerText">
+		<ScreenID>AltCurrencyDividerText</ScreenID>
+		<EQType>mercenary/MerchantWnd/AltCurrencyDividerText</EQType>
+		<Location>
+			<X>200</X>
+			<Y>13</Y>
+		</Location>
+		<Size>
+			<CX>15</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>or</Text>
+	</Label>
+
+	<STMLbox item="MMTW_InfoText">
+		<ScreenID>InfoText</ScreenID>
+		<EQType>mercenary/MerchantWnd/InfoText</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>Mercenary Description</TooltipReference>
+	</STMLbox>
+
+	<STMLbox item="MMTW_StanceInfoText">
+		<ScreenID>StanceInfoText</ScreenID>
+		<EQType>mercenary/MerchantWnd/StanceInfoText</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>10</CY>
+		</Size>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>Stance Description</TooltipReference>
+	</STMLbox>
+
+	<VerticalLayoutBox item ="MMTW_InfoTextStanceTextVerticalLayout">
+		<ScreenID>InfoTextStanceTextVerticalLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>3</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>STMLbox:MMTW_InfoText</Pieces>
+		<Pieces>STMLbox:MMTW_StanceInfoText</Pieces>
+	</VerticalLayoutBox>
+
+	<LayoutBox item ="MMTW_InfoLayout">
+		<ScreenID>InfoLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>10</CY>
+		</Size>
+		<Spacing>0</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+
+		<!-- Purchasing -->
+		<Pieces>Label:MMTW_PurchaseCostLabel</Pieces>
+		<Pieces>Label:MMTW_PurchaseCostPlatText</Pieces>
+		<Pieces>Button:MMTW_PurchaseCostPlatIcon</Pieces>
+		<Pieces>Label:MMTW_PurchaseCostGoldText</Pieces>
+		<Pieces>Button:MMTW_PurchaseCostGoldIcon</Pieces>
+		<Pieces>Label:MMTW_AltPurchaseCostText</Pieces>
+		<Pieces>Button:MMTW_AltPurchaseCostIcon</Pieces>
+        <Pieces>Label:MMTW_UpkeepCostPlatText</Pieces>
+		<Pieces>Button:MMTW_UpkeepCostPlatIcon</Pieces>
+		<Pieces>Label:MMTW_UpkeepCostGoldText</Pieces>
+		<Pieces>Button:MMTW_UpkeepCostGoldIcon</Pieces>
+		<Pieces>Label:MMTW_UpkeepCostLabel</Pieces>
+        <Pieces>Label:MMTW_AltUpkeepCostText</Pieces>
+		<Pieces>Button:MMTW_AltUpkeepCostIcon</Pieces>
+		<Pieces>Label:MMTW_AltCurrencyDividerText</Pieces>
+
+		<Pieces>VerticalLayoutBox:MMTW_InfoTextStanceTextVerticalLayout</Pieces>
+	</LayoutBox>
+
+	<HorizontalLayoutBox item ="MMTW_Layout">
+		<ScreenID>Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset> 
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>3</Spacing>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>LayoutBox:MMTW_SelectionLayout</Pieces>
+		<Pieces>LayoutBox:MMTW_InfoLayout</Pieces>
+	</HorizontalLayoutBox>
+
+	<Button item="MMTW_HireButton">
+		<ScreenID>HireButton</ScreenID>
+		<EQType>mercenary/MerchantWnd/HireButton</EQType>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<RightAnchorOffset>25</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Hire</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Hire your mercenary.</TooltipReference>
+		<Template>BDT_BigNormal</Template>
+	</Button>
+
+	<VerticalLayoutBox item="MMTW_VerticalTopLayout">
+		<ScreenID>VerticalTopLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>3</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>LayoutBox:MMTW_Layout</Pieces>
+		<Pieces>Button:MMTW_HireButton</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item = "MMTW_MerchantWnd">
+		<ScreenID>MerchantWnd</ScreenID>
+		<EQType>mercenary/MerchantWnd</EQType>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>196</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>510</CX>
+			<CY>300</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Mercenary Merchant</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>MMTW_VerticalTopLayout</Pieces>
+	</Screen>
+
+</XML>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="us-ascii"?> 
+<XML ID="EQInterfaceDefinitionLanguage"> 
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Button item="SDBW_Player_Buff_Template">
+		<ScreenID>Player_Buff_Template</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Template>BDT_PlayerBuff</Template>		
+		<DecalOffset>
+			<X>1</X>
+			<Y>1</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>38</CX>
+			<CY>38</CY>
+		</DecalSize>
+	</Button>
+	<TileLayoutBox item="SDBW_Buttons">
+		<ScreenID>Buff_Buttons</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<HorizontalFirst>false</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>false</AnchorToLeft>
+		<FirstPieceTemplate>true</FirstPieceTemplate>
+		<Pieces>SDBW_Player_Buff_Template</Pieces>
+	</TileLayoutBox>
+	<Screen item="ShortDurationBuffWindow">
+		<MenuName>Legacy Style - Resizable, Large Icon, Borders</MenuName>
+		<Text></Text>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>415</X>
+			<Y>395</Y>
+		</Location>
+		<Size>
+			<CX>104</CX>
+			<CY>160</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<ClickThroughEmptyBuffs>true</ClickThroughEmptyBuffs>				
+		<KeepOnScreenOffset>
+			<X>-5</X>
+			<Y>-5</Y>
+		</KeepOnScreenOffset>		
+		<MinVSize>51</MinVSize>
+		<MinHSize>51</MinHSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>	
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>	
+		<Escapable>false</Escapable>
+		<Pieces>TileLayoutBox:SDBW_Buttons</Pieces>
+	</Screen>
+</XML>
