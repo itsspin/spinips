@@ -489,7 +489,7 @@
 	<Label item="PW_StanceInfo">
 		<ScreenID>PW_StanceInfo</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Font>2</Font>
+		<Font>3</Font>
 		<Text></Text>
 		<EQType>1026</EQType>
 		<NoWrap>true</NoWrap>
@@ -872,7 +872,7 @@
 	<Label item="PW_Level">
 		<ScreenID>LevelLabel</ScreenID>
 		<EQType>2</EQType>
-		<Font>3</Font>
+		<Font>4</Font>
 		<TextColor>
 			<R>240</R>
 			<G>240</G>
@@ -895,7 +895,7 @@
 		
 	<Label item="PW_Class">
 		<EQType>3</EQType>
-		<Font>3</Font>
+		<Font>4</Font>
 		<TextColor>
 			<R>240</R>
 			<G>240</G>
@@ -940,7 +940,7 @@
 	<Label item="PW_MPNumbers">
 		<ScreenID>PW_MPNumbers</ScreenID>
 		<EQType>1006</EQType>
-		<Font>4</Font>
+		<Font>5</Font>
 		<Text>0</Text>
 		<RelativePosition>true</RelativePosition>
 		<NoWrap>true</NoWrap>
@@ -960,7 +960,7 @@
 	<Label item="PW_ENNumbers">
 		<ScreenID>PW_ENNumbers</ScreenID>
 		<EQType>129</EQType>
-		<Font>4</Font>
+		<Font>5</Font>
 		<Text>0</Text>
 		<RelativePosition>true</RelativePosition>
 		<NoWrap>true</NoWrap>
@@ -987,9 +987,9 @@
 		<Style_Transparent>false</Style_Transparent>
 		<TooltipReference/>
 		<FillTint>
-			<R>130</R>
-			<G>0</G>
-			<B>130</B>
+			<R>65</R>
+			<G>199</G>
+			<B>228</B>
 		</FillTint>
 		<DrawLinesFill>false</DrawLinesFill>
 		<EQType>7</EQType>
@@ -1007,7 +1007,7 @@
 	<Label item="PW_Castspell_Name">
 		<ScreenID>PW_Castspell_Name</ScreenID>
 		<EQType>134</EQType>
-		<Font>2</Font>
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<AlignLeft>true</AlignLeft>
 		<AutoStretch>true</AutoStretch>
@@ -1104,7 +1104,7 @@
 		<AutoStretch>true</AutoStretch>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>
+		<Style_Transparent>true</Style_Transparent>
 		<Spacing>0</Spacing>
 		<SecondarySpacing>0</SecondarySpacing>
 		<HorizontalFirst>true</HorizontalFirst>

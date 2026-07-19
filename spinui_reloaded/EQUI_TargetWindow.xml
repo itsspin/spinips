@@ -647,7 +647,7 @@
 		<AutoStretch>true</AutoStretch>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>
+		<Style_Transparent>true</Style_Transparent>
 		<Spacing>0</Spacing>
 		<SecondarySpacing>0</SecondarySpacing>
 		<HorizontalFirst>true</HorizontalFirst>

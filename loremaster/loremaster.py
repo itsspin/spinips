@@ -40,6 +40,13 @@ import os
 import re
 import sys
 import time
+
+# In a windowed EXE (pyinstaller --windowed) there is no console; print()
+# would explode on stdout=None.  Route to devnull so --selftest still runs.
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w")
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w")
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -841,11 +848,11 @@ def run_gui(args):
     root.bind("<B1-Motion>", do_drag)
     root.bind("<ButtonRelease-1>", end_drag)
 
-    FONT = ("Segoe UI", 10)
-    FONT_S = ("Segoe UI", 8)
-    FONT_B = ("Segoe UI Semibold", 10)
-    FONT_BIG = ("Segoe UI Semibold", 17)
-    FONT_MED = ("Segoe UI Semibold", 12)
+    FONT = ("Segoe UI", 11)
+    FONT_S = ("Segoe UI", 9)
+    FONT_B = ("Segoe UI Semibold", 11)
+    FONT_BIG = ("Segoe UI Semibold", 19)
+    FONT_MED = ("Segoe UI Semibold", 13)
 
     outer = tk.Frame(root, bg=T["gold"], padx=1, pady=1)   # 1px ember frame
     outer.pack(fill="both", expand=True)
@@ -920,7 +927,7 @@ def run_gui(args):
         widgets["status"] = L(body, "Loremaster awaits your log…", fg=T["dim"], font=FONT_S)
         widgets["status"].pack(fill="x", padx=8, pady=(0, 5))
         pos = cfg.get("position")
-        root.geometry(f"430x430+{pos[0]}+{pos[1]}" if pos else "430x430+2492+1156")
+        root.geometry(f"400x460+{pos[0]}+{pos[1]}" if pos else "400x460+2792+676")
 
     def build_mini():
         for w in body.winfo_children():
@@ -932,7 +939,7 @@ def run_gui(args):
         b.pack(side="right", padx=2)
         b.bind("<Button-1>", lambda _e: toggle_mini())
         pos = cfg.get("mini_position")
-        root.geometry(f"+{pos[0]}+{pos[1]}" if pos else "+2492+1396")
+        root.geometry(f"+{pos[0]}+{pos[1]}" if pos else "+2792+1118")
 
     def toggle_mini():
         state["mini"] = not state["mini"]

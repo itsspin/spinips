@@ -85,7 +85,7 @@ Zone by zone:
 
 * **Chat row (y 1152-1432):** Main Chat, Social, and Combat side by side across the bottom — every message stream visible at once, nothing stacked or tabbed away.
 * **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; between and below them the stance bar (Legends stances), centered cast bar, and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right — nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
-* **Right column:** Buff window and Song window pinned top-right (both now **visible by default** — you're a WAR/DRU/BRD, you want your songs), Group window on the right edge below them. Extended Target keeps your "hidden" preference but has a tidy parking spot for when you enable it.
+* **Right column:** Spell Effects and Song Effects pinned top-right (both now **visible by default** — you're a WAR/DRU/BRD, you want your songs), using the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group window sits on the right edge below them. Extended Target keeps your "hidden" preference but has a tidy parking spot for when you enable it.
 * **Top-right glass:** the Map (toggleable) — see [The map](#the-map).
 * **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD — this is where **Loremaster** docks and where your **inventory bags tile** when opened.
 * **Openable windows** (inventory, bank, loot, merchant…) spawn center-left/center so they never cover the chat row or the combat cluster.
@@ -99,7 +99,10 @@ The layout is validated by script: every window fully on-screen at 3440x1440, ze
 | Buff window | hidden | **shown** (top-right) | buff awareness; `ALT+B` to toggle |
 | Song window | hidden | **shown** (under buffs) | bard songs at a glance |
 | Casting bar | hidden | **shown** (centered) | see your own cast progress |
-| Chat font | size 3 | **size 4** | 1440p readability (right-click chat → Font to change) |
+| Chat font | size 3 | **size 5** | 3440x1440 readability (right-click chat → Font to change) |
+| Buff/Song style | RIGHT + number rail | **LEFT list, no numbering** | icons beside names — clean |
+| Player/Target buff strip | opaque texture band | **transparent** | icons float on the window |
+| HUD label fonts | 2-4 | **+1 across the board** | mana/end numbers, level/class, stance, group names |
 | Chat/glass windows | opaque | soft-fade when inactive | sleekness; fades back up on hover |
 
 Everything else (pet window hidden, extended target hidden, etc.) respects your original choices — but every window has a designed position waiting for the day you enable it.
@@ -181,7 +184,14 @@ Tuned for **running with the map open**:
 
 Built after a code review of **EQBuddy** (C#/WPF) and reimplemented as a single-file, standard-library-only Python app so it's hackable and install-free. Same proven engine constants; more stats.
 
-### Run it
+### Run it — the easy way (no install)
+
+Grab **`Loremaster.exe`** and double-click it. Done — no Python, no setup.
+
+* The EXE is built automatically by GitHub Actions (`.github/workflows/build-loremaster.yml`) on every change: download it from the repo's **Actions → Build Loremaster.exe → Loremaster-windows** artifact, or from the **Releases** page once a release is tagged.
+* Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
+
+### Run it — from source
 
 ```bat
 :: needs Python 3.10+ from python.org (tkinter included)
@@ -205,7 +215,7 @@ In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `e
 
 ### The overlay
 
-* Always-on-top, borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. Default size fits the reserved dock (940x280 at 2492,1152) exactly.
+* Always-on-top, borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It defaults to the layout's reserved shelf at **2792,676** (right side, above the bag dock, clear of the map, group window and hotbars); mini mode defaults to a slim strip just above the bags.
 * **Mini mode** (— button): a slim strip showing only your **starred** stats. **Right-click any stat** to star/unstar it (★). A ⚔ live-DPS chip appears while you're in combat.
 * ↺ resets the session; config in `loremaster_config.json` (opacity, log dir, starred stats).
 
@@ -259,7 +269,9 @@ spinips/
 │   └── original/               your pre-overhaul file (rollback)
 ├── loremaster/
 │   ├── loremaster.py           the tracker (stdlib-only)
-│   └── Loremaster.bat          Windows launcher
+│   └── Loremaster.bat          Windows launcher (from source)
+├── .github/workflows/
+│   └── build-loremaster.yml    CI: builds one-click Loremaster.exe
 ├── tools/
 │   ├── generate_spinui_textures.py   theme painter
 │   ├── generate_spinui_layout.py     layout builder + validator

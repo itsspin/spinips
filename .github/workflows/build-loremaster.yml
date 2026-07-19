@@ -1,0 +1,55 @@
+name: Build Loremaster.exe
+
+on:
+  push:
+    branches: ["main", "claude/**"]
+    paths:
+      - "loremaster/**"
+      - ".github/workflows/build-loremaster.yml"
+  workflow_dispatch:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Run Loremaster test suite
+        run: python loremaster/loremaster.py --selftest
+
+      - name: Build one-file windowed EXE
+        run: >
+          pyinstaller --onefile --windowed --name Loremaster
+          --distpath dist loremaster/loremaster.py
+
+      - name: Smoke-test the EXE (selftest mode)
+        shell: pwsh
+        run: |
+          # --selftest prints to stdout; windowed EXEs detach from the console,
+          # so capture via a file redirect and check the exit code.
+          $p = Start-Process -FilePath dist/Loremaster.exe -ArgumentList '--selftest' -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "selftest exit code $($p.ExitCode)" }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Loremaster-windows
+          path: dist/Loremaster.exe
+
+      - name: Attach to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/Loremaster.exe --clobber
