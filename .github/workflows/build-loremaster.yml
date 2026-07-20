@@ -45,6 +45,8 @@ jobs:
 
       - name: Run source test suites
         run: |
+          python tools/generate_spinui_layout.py
+          git diff --exit-code -- spinui_reloaded/default1440.ini layouts UI_Spin_qeynos_LO1.ini
           python tools/audit_spinui.py
           python loremaster/loremaster.py --selftest
           python installer/spinui_installer.py --selftest

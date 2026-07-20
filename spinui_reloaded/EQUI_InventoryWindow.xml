@@ -7532,11 +7532,11 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<LeftAnchorOffset>2</LeftAnchorOffset>
-<!-- 		<TopAnchorOffset>210</TopAnchorOffset> -->
+		<LeftAnchorOffset>8</LeftAnchorOffset>
+<!-- 		<TopAnchorOffset>338</TopAnchorOffset> -->
 		<TopAnchorOffset>18</TopAnchorOffset>
-		<RightAnchorOffset>2</RightAnchorOffset>
-		<BottomAnchorOffset>304</BottomAnchorOffset>
+		<RightAnchorOffset>8</RightAnchorOffset>
+		<BottomAnchorOffset>518</BottomAnchorOffset>
 		<Style_Border>true</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -7565,10 +7565,10 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
-		<LeftAnchorOffset>142</LeftAnchorOffset>
-		<TopAnchorOffset>306</TopAnchorOffset>
-		<RightAnchorOffset>210</RightAnchorOffset>
-		<BottomAnchorOffset>326</BottomAnchorOffset>
+		<LeftAnchorOffset>176</LeftAnchorOffset>
+		<TopAnchorOffset>526</TopAnchorOffset>
+		<RightAnchorOffset>254</RightAnchorOffset>
+		<BottomAnchorOffset>550</BottomAnchorOffset>
 		<Text>Swap</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
@@ -7580,10 +7580,10 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
-		<LeftAnchorOffset>72</LeftAnchorOffset>
-		<TopAnchorOffset>306</TopAnchorOffset>
-		<RightAnchorOffset>140</RightAnchorOffset>
-		<BottomAnchorOffset>326</BottomAnchorOffset>
+		<LeftAnchorOffset>92</LeftAnchorOffset>
+		<TopAnchorOffset>526</TopAnchorOffset>
+		<RightAnchorOffset>170</RightAnchorOffset>
+		<BottomAnchorOffset>550</BottomAnchorOffset>
 		<Text>Edit</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
@@ -7595,21 +7595,21 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
-		<LeftAnchorOffset>2</LeftAnchorOffset>
-		<TopAnchorOffset>306</TopAnchorOffset>
-		<RightAnchorOffset>70</RightAnchorOffset>
-		<BottomAnchorOffset>326</BottomAnchorOffset>
+		<LeftAnchorOffset>8</LeftAnchorOffset>
+		<TopAnchorOffset>526</TopAnchorOffset>
+		<RightAnchorOffset>86</RightAnchorOffset>
+		<BottomAnchorOffset>550</BottomAnchorOffset>
 		<Text>Add</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
 	<Label item="IWP_LoadoutSwapAvailableLabel">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>214</X>
-			<Y>308</Y>
+			<X>276</X>
+			<Y>531</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
+			<CX>128</CX>
 			<CY>14</CY>
 		</Size>
 		<Font>3</Font>
@@ -7622,11 +7622,11 @@
 		<RelativePosition>true</RelativePosition>
 		<EQType>1027</EQType>
 		<Location>
-			<X>334</X>
-			<Y>308</Y>
+			<X>406</X>
+			<Y>531</Y>
 		</Location>
 		<Size>
-			<CX>25</CX>
+			<CX>40</CX>
 			<CY>14</CY>
 		</Size>
 		<Font>3</Font>
@@ -7639,11 +7639,11 @@
 	<Label item="IWP_EquipmentLabel">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>8</X>
-			<Y>2</Y>
+			<X>12</X>
+			<Y>5</Y>
 		</Location>
 		<Size>
-			<CX>200</CX>
+			<CX>220</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Character Equipment</Text>
@@ -7660,11 +7660,11 @@
 	<Label item="IWP_LoadoutLabel">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>8</X>
-			<Y>2</Y>			
+			<X>12</X>
+			<Y>320</Y>
 		</Location>
 		<Size>
-			<CX>200</CX>
+			<CX>220</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Character Loadouts</Text>
@@ -7683,8 +7683,8 @@
 		<ScreenID>PersonaInvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>259</X>
-			<Y>130</Y>
+			<X>352</X>
+			<Y>240</Y>
 		</Location>		
 		<Size>
 			<CX>40</CX>
@@ -7698,8 +7698,8 @@
 		<ScreenID>PersonaInvSlot1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>107</X>
-			<Y>1</Y>
+			<X>35</X>
+			<Y>10</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7713,8 +7713,8 @@
 		<ScreenID>PersonaInvSlot2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>236</X>
-			<Y>1</Y>
+			<X>394</X>
+			<Y>66</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7728,8 +7728,8 @@
 		<ScreenID>PersonaInvSlot3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>193</X>
-			<Y>1</Y>
+			<X>454</X>
+			<Y>10</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7743,8 +7743,8 @@
 		<ScreenID>PersonaInvSlot4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>279</X>
-			<Y>1</Y>
+			<X>394</X>
+			<Y>10</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7758,8 +7758,8 @@
 		<ScreenID>PersonaInvSlot5</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>150</X>
-			<Y>1</Y>
+			<X>95</X>
+			<Y>10</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7773,8 +7773,8 @@
 		<ScreenID>PersonaInvSlot6</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>87</X>
-			<Y>87</Y>
+			<X>35</X>
+			<Y>66</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7788,8 +7788,8 @@
 		<ScreenID>PersonaInvSlot7</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>173</X>
-			<Y>44</Y>
+			<X>95</X>
+			<Y>122</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7803,8 +7803,8 @@
 		<ScreenID>PersonaInvSlot8</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>173</X>
-			<Y>87</Y>
+			<X>95</X>
+			<Y>178</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7818,8 +7818,8 @@
 		<ScreenID>PersonaInvSlot9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>130</X>
-			<Y>44</Y>
+			<X>95</X>
+			<Y>66</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7833,8 +7833,8 @@
 		<ScreenID>PersonaInvSlot10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>259</X>
-			<Y>44</Y>
+			<X>454</X>
+			<Y>66</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7848,8 +7848,8 @@
 		<ScreenID>PersonaInvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>173</X>
-			<Y>130</Y>
+			<X>228</X>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7863,8 +7863,8 @@
 		<ScreenID>PersonaInvSlot12</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>216</X>
-			<Y>44</Y>
+			<X>454</X>
+			<Y>122</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7878,8 +7878,8 @@
 		<ScreenID>PersonaInvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>87</X>
-			<Y>130</Y>
+			<X>124</X>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7893,8 +7893,8 @@
 		<ScreenID>PersonaInvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>130</X>
-			<Y>130</Y>
+			<X>176</X>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7908,8 +7908,8 @@
 		<ScreenID>PersonaInvSlot15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>87</X>
-			<Y>44</Y>
+			<X>35</X>
+			<Y>122</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7923,8 +7923,8 @@
 		<ScreenID>PersonaInvSlot16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>302</X>
-			<Y>44</Y>		
+			<X>394</X>
+			<Y>122</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7938,8 +7938,8 @@
 		<ScreenID>PersonaInvSlot17</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>130</X>
-			<Y>87</Y>
+			<X>35</X>
+			<Y>178</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7954,8 +7954,8 @@
 
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>259</X>
-			<Y>87</Y>
+			<X>454</X>
+			<Y>178</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7969,8 +7969,8 @@
 		<ScreenID>PersonaInvSlot19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>302</X>
-			<Y>87</Y>	
+			<X>514</X>
+			<Y>178</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7984,8 +7984,8 @@
 		<ScreenID>PersonaInvSlot20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>216</X>
-			<Y>87</Y>
+			<X>394</X>
+			<Y>178</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7999,8 +7999,8 @@
 		<ScreenID>PersonaInvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>302</X>
-			<Y>130</Y>	
+			<X>404</X>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -8014,8 +8014,8 @@
 		<ScreenID>PersonaInvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>216</X>
-			<Y>130</Y>
+			<X>280</X>
+			<Y>240</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -8025,18 +8025,178 @@
 		<EQType>personaInventory/Equip 22</EQType>
 	</InvSlot>
 
+	<!-- SPIN-PERSONA: full-size persona equipment composition -->
+	<StaticAnimation item="IWP_HexPlate0">
+		<ScreenID>IWP_HexPlate0</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>344</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate1">
+		<ScreenID>IWP_HexPlate1</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>27</X><Y>2</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate2">
+		<ScreenID>IWP_HexPlate2</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>386</X><Y>58</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate3">
+		<ScreenID>IWP_HexPlate3</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>446</X><Y>2</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate4">
+		<ScreenID>IWP_HexPlate4</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>386</X><Y>2</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate5">
+		<ScreenID>IWP_HexPlate5</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>87</X><Y>2</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate6">
+		<ScreenID>IWP_HexPlate6</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>27</X><Y>58</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate7">
+		<ScreenID>IWP_HexPlate7</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>87</X><Y>114</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate8">
+		<ScreenID>IWP_HexPlate8</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>87</X><Y>170</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate9">
+		<ScreenID>IWP_HexPlate9</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>87</X><Y>58</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate10">
+		<ScreenID>IWP_HexPlate10</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>446</X><Y>58</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate11">
+		<ScreenID>IWP_HexPlate11</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>220</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHexGold</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate12">
+		<ScreenID>IWP_HexPlate12</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>446</X><Y>114</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate13">
+		<ScreenID>IWP_HexPlate13</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>116</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHexGold</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate14">
+		<ScreenID>IWP_HexPlate14</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>168</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHexGold</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate15">
+		<ScreenID>IWP_HexPlate15</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>27</X><Y>114</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate16">
+		<ScreenID>IWP_HexPlate16</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>386</X><Y>114</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate17">
+		<ScreenID>IWP_HexPlate17</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>27</X><Y>170</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate18">
+		<ScreenID>IWP_HexPlate18</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>446</X><Y>170</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate19">
+		<ScreenID>IWP_HexPlate19</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>506</X><Y>170</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate20">
+		<ScreenID>IWP_HexPlate20</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>386</X><Y>170</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate21">
+		<ScreenID>IWP_HexPlate21</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>396</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHex</Animation>
+	</StaticAnimation>
+	<StaticAnimation item="IWP_HexPlate22">
+		<ScreenID>IWP_HexPlate22</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location><X>272</X><Y>232</Y></Location>
+		<Size><CX>56</CX><CY>56</CY></Size>
+		<Animation>A_SpinHexGold</Animation>
+	</StaticAnimation>
 	<Screen item="IWP_Equipment">
 		<ScreenID>IWP_Equipment</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>8</X>
-			<Y>18</Y>
+			<Y>24</Y>
 		</Location>
 		<Size>
-<!-- 			<CX>350</CX>
-			<CY>172</CY> -->
-			<CX>0</CX>
-			<CY>0</CY>			
+			<CX>569</CX>
+			<CY>292</CY>
 		</Size>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
@@ -8044,6 +8204,29 @@
 		<Style_Minimizebox>false</Style_Minimizebox>
 		<Style_Border>false</Style_Border>
 		<Style_Transparent>true</Style_Transparent>
+		<Pieces>IWP_HexPlate0</Pieces>
+		<Pieces>IWP_HexPlate1</Pieces>
+		<Pieces>IWP_HexPlate2</Pieces>
+		<Pieces>IWP_HexPlate3</Pieces>
+		<Pieces>IWP_HexPlate4</Pieces>
+		<Pieces>IWP_HexPlate5</Pieces>
+		<Pieces>IWP_HexPlate6</Pieces>
+		<Pieces>IWP_HexPlate7</Pieces>
+		<Pieces>IWP_HexPlate8</Pieces>
+		<Pieces>IWP_HexPlate9</Pieces>
+		<Pieces>IWP_HexPlate10</Pieces>
+		<Pieces>IWP_HexPlate11</Pieces>
+		<Pieces>IWP_HexPlate12</Pieces>
+		<Pieces>IWP_HexPlate13</Pieces>
+		<Pieces>IWP_HexPlate14</Pieces>
+		<Pieces>IWP_HexPlate15</Pieces>
+		<Pieces>IWP_HexPlate16</Pieces>
+		<Pieces>IWP_HexPlate17</Pieces>
+		<Pieces>IWP_HexPlate18</Pieces>
+		<Pieces>IWP_HexPlate19</Pieces>
+		<Pieces>IWP_HexPlate20</Pieces>
+		<Pieces>IWP_HexPlate21</Pieces>
+		<Pieces>IWP_HexPlate22</Pieces>
 		<Pieces>PersonaInvSlot0</Pieces>
 		<Pieces>PersonaInvSlot1</Pieces>
 		<Pieces>PersonaInvSlot2</Pieces>
@@ -8086,8 +8269,8 @@
 		<ScreenID>IWP_CharacterView</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>0</X>
-			<Y>0</Y>
+			<X>242</X>
+			<Y>25</Y>
 		</Location>
 		<Size>
 			<CX>85</CX>
@@ -8106,11 +8289,11 @@
 	<Label item="IWP_ClassesLabel">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>8</X>
-			<Y>330</Y>
+			<X>12</X>
+			<Y>562</Y>
 		</Location>
 		<Size>
-			<CX>200</CX>
+			<CX>220</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Class Levels</Text>
@@ -8135,10 +8318,10 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<LeftAnchorOffset>2</LeftAnchorOffset>
-		<TopAnchorOffset>346</TopAnchorOffset>
-		<RightAnchorOffset>2</RightAnchorOffset>
-		<BottomAnchorOffset>421</BottomAnchorOffset>
+		<LeftAnchorOffset>8</LeftAnchorOffset>
+		<TopAnchorOffset>582</TopAnchorOffset>
+		<RightAnchorOffset>8</RightAnchorOffset>
+		<BottomAnchorOffset>710</BottomAnchorOffset>
 		<Columns>
 			<Width>260</Width>
 			<Heading>Class</Heading>
@@ -8317,8 +8500,8 @@
 		<ScreenID>IWP_CharacterLevels1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>2</X>
-			<Y>346</Y>
+			<X>98</X>
+			<Y>582</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -8509,8 +8692,8 @@
 		<ScreenID>IWP_CharacterLevels2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>94</X>
-			<Y>346</Y>
+			<X>190</X>
+			<Y>582</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -8701,8 +8884,8 @@
 		<ScreenID>IWP_CharacterLevels3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>186</X>
-			<Y>346</Y>
+			<X>282</X>
+			<Y>582</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -8893,11 +9076,11 @@
 		<ScreenID>IWP_CharacterLevels4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>278</X>
-			<Y>346</Y>
+			<X>374</X>
+			<Y>582</Y>
 		</Location>
 		<Size>
-			<CX>91</CX>
+			<CX>90</CX>
 			<CY>75</CY>
 		</Size>
 		<TooltipReference></TooltipReference>
@@ -8956,7 +9139,7 @@
 			<B>0</B>
 		</TabTextActiveColor>
 		<Style_Sizable>true</Style_Sizable>
-<!-- 		<Pieces>IWP_EquipmentLabel</Pieces>	 -->
+<Pieces>IWP_EquipmentLabel</Pieces>
 		<Pieces>Screen:IWP_Equipment</Pieces>
 		<Pieces>IWP_LoadoutLabel</Pieces>
 		<Pieces>IWP_ClassesLabel</Pieces>
@@ -8976,8 +9159,8 @@
 			<Y>22</Y>
 		</Location>
 		<Size>
-			<CX>388</CX>
-			<CY>401</CY>
+			<CX>585</CX>
+			<CY>720</CY>
 		</Size>
 	</Page>
 	

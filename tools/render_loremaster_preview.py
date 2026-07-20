@@ -65,7 +65,7 @@ def section(draw, width, y, name, value, pinned, expanded=False):
 
 
 def main():
-    width, height = 400, 520
+    width, height = 400, 680
     panel = Image.new("RGB", (width, height), GOLD)
     d = ImageDraw.Draw(panel)
     d.rectangle([1, 1, width - 2, height - 2], fill=BG)
@@ -75,7 +75,7 @@ def main():
     hexagon(d, 16, 17, 8, GOLD_BRIGHT, 2, inner=True)
     d.text((30, 17), "SPIN'S LOREMASTER", font=F(11, serif=True), fill=GOLD_BRIGHT, anchor="lm")
     d.ellipse([width - 89, 13, width - 81, 21], fill=GREEN)
-    d.text((width - 12, 17), "RESET   HUD   ×", font=F(8, bold=True), fill=DIM, anchor="rm")
+    d.text((width - 12, 17), "LOCK   RESET   HUD   ×", font=F(8, bold=True), fill=DIM, anchor="rm")
     d.rectangle([2, 34, width - 3, 35], fill=EMBER)
     d.text((10, 48), "SPIN · QEYNOS", font=F(8, serif=True), fill=PARCHMENT, anchor="lm")
     d.text((width - 10, 48), "session 1h44m · since 3:38 PM", font=F(8), fill=DIM, anchor="rm")
@@ -88,8 +88,17 @@ def main():
     for i, (label, color) in enumerate((("FIGHT", CYAN), ("SESSION", DIM), ("RECORDS", DIM))):
         d.text((10 + tab_w * (i + .5), 87), label, font=F(8, serif=True), fill=color, anchor="mm")
 
+    # Encounter browser keeps history one click away without leaving the HUD.
+    d.rectangle([10, 103, width - 10, 125], fill=BG)
+    d.rectangle([10, 103, 67, 124], fill=RAISED, outline=LINE)
+    d.text((38, 114), "‹ OLDER", font=F(7, serif=True), fill=CYAN, anchor="mm")
+    d.text((width // 2, 114), "LIVE · FROGLOK SHIN KNIGHT",
+           font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
+    d.rectangle([width - 67, 103, width - 10, 124], fill=RAISED, outline=LINE)
+    d.text((width - 38, 114), "NEWER ›", font=F(7, serif=True), fill=LINE, anchor="mm")
+
     # Raised three-stat hero band.
-    hero_top, hero_bottom = 103, 157
+    hero_top, hero_bottom = 130, 184
     d.rectangle([10, hero_top, width - 10, hero_bottom], fill=RAISED)
     d.rectangle([10, hero_top, 12, hero_bottom], fill=CYAN)
     for x in (width // 3, 2 * width // 3):
@@ -100,25 +109,41 @@ def main():
         ("2,105", "BEST", CYAN),
     )):
         cx = int((i + 0.5) * width / 3)
-        d.text((cx, 120), value, font=F(20, bold=True), fill=color, anchor="ma")
-        d.text((cx, 145), label, font=F(7, serif=True), fill=DIM, anchor="ma")
-    d.rectangle([10, 162, width - 10, 163], fill=GOLD)
+        d.text((cx, 147), value, font=F(20, bold=True), fill=color, anchor="ma")
+        d.text((cx, 172), label, font=F(7, serif=True), fill=DIM, anchor="ma")
+    d.rectangle([10, 189, width - 10, 190], fill=GOLD)
 
-    y = section(d, width, 171, "COMBAT", "1,284 dps", True, expanded=True)
+    y = section(d, width, 198, "COMBAT", "1,284 dps", True, expanded=True)
     for text in (
-        "Dealt 11.5k (5.1k melee / 6.5k spell) · 21 crits · 77% accuracy",
-        "Biggest hit: 692 (Melee on Froglok shin knight)",
-        "Taken 1,973 · avoided 315 attacks",
+        "LIVE ENCOUNTER · Froglok shin knight · 9s",
+        "11.5k damage · 1,284 dps · 21 crits · 3 misses",
+        "Taken 1,973 · healed 2,410 · received 1,235",
     ):
         d.text((31, y), text, font=F(8), fill=DIM)
         y += 14
-    d.text((31, y + 2), "Damage by attack", font=F(8, bold=True), fill=GOLD)
+    d.text((31, y + 2), "Observed encounter actors", font=F(8, bold=True), fill=GOLD)
+    d.text((width - 17, y + 2), "damage · share · dps", font=F(7), fill=GOLD_BRIGHT, anchor="ra")
+    y += 18
+    for name, value, share in (
+        ("Spin", "9,922 · 62% · 1,103/s", .62),
+        ("Aria", "3,854 · 24% · 428/s", .24),
+        ("Gann (pet)", "2,247 · 14% · 250/s", .14),
+    ):
+        d.rectangle([29, y - 2, width - 16, y + 11], fill=(9, 16, 20))
+        d.rectangle([29, y - 2, 29 + int((width - 45) * share), y + 11], fill=(18, 48, 47))
+        d.line([(29, y - 2), (29 + int((width - 45) * share), y - 2)], fill=(30, 116, 104))
+        d.text((31, y), name, font=F(8), fill=TEXT)
+        d.text((width - 17, y), value, font=F(8), fill=GOLD_BRIGHT, anchor="ra")
+        y += 14
+    d.text((31, y + 1), "Actors visible in your EQ log; not a guaranteed roster.",
+           font=F(7), fill=DIM)
+    y += 15
+    d.text((31, y + 2), "Damage by ability", font=F(8, bold=True), fill=GOLD)
     y += 18
     for name, value, share in (
         ("Careless Lightning", "4,449 · 39% · 556/s", .39),
         ("Melee", "3,347 · 29% · 418/s", .29),
         ("Pet (Gann)", "1,541 · 13% · 193/s", .13),
-        ("DoT: Flame Lick", "672 · 6% · 84/s", .06),
     ):
         d.rectangle([29, y - 2, width - 16, y + 11], fill=(9, 16, 20))
         d.rectangle([29, y - 2, 29 + int((width - 45) * share), y + 11], fill=(18, 48, 47))
@@ -141,8 +166,10 @@ def main():
     # Actionable footer makes first-run setup discoverable.
     d.rectangle([2, height - 29, width - 3, height - 3], fill=PANEL)
     d.text((10, height - 16), "live · eqlog_Spin_qeynos.txt", font=F(8), fill=GREEN, anchor="lm")
-    d.rectangle([width - 69, height - 25, width - 8, height - 7], fill=RAISED, outline=LINE)
-    d.text((width - 38, height - 16), "CHANGE", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
+    d.rectangle([width - 126, height - 25, width - 69, height - 7], fill=RAISED, outline=LINE)
+    d.text((width - 97, height - 16), "PASS", font=F(7, serif=True), fill=CYAN, anchor="mm")
+    d.rectangle([width - 65, height - 25, width - 8, height - 7], fill=RAISED, outline=LINE)
+    d.text((width - 36, height - 16), "CHANGE", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
 
     # Mini mode uses the same material and the same pinned ledger vocabulary.
     mini_w, mini_h = 600, 34
@@ -162,7 +189,9 @@ def main():
         x += int(md.textlength(name, font=F(7, serif=True))) + 5
         md.text((x, mini_h // 2), value, font=F(9, bold=True), fill=TEXT, anchor="lm")
         x += int(md.textlength(value, font=F(9, bold=True))) + 12
-    md.text((mini_w - 76, mini_h // 2), "● LIVE", font=F(7, bold=True), fill=GREEN, anchor="rm")
+    md.text((mini_w - 132, mini_h // 2), "● LIVE", font=F(7, bold=True), fill=GREEN, anchor="rm")
+    md.rectangle([mini_w - 124, 4, mini_w - 73, mini_h - 5], fill=RAISED, outline=LINE)
+    md.text((mini_w - 98, mini_h // 2), "LOCK", font=F(7, serif=True), fill=DIM, anchor="mm")
     md.rectangle([mini_w - 70, 4, mini_w - 4, mini_h - 5], fill=RAISED, outline=LINE)
     md.text((mini_w - 37, mini_h // 2), "DETAILS", font=F(7, serif=True),
             fill=CYAN, anchor="mm")

@@ -1,8 +1,9 @@
 # SpinUI manual installation
 
 This package does not require the installer. It contains the complete
-`spinui_reloaded` skin, Spin's Loremaster, the default 3440x1440 INI, and the
-alternate layout presets.
+`spinui_reloaded` skin, Spin's Loremaster, the optional 3440x1440 character
+INI, and the alternate ultrawide chat presets. The skin itself includes a
+separately generated standard 2560x1440 default.
 
 ## 1. Close EverQuest completely
 
@@ -37,7 +38,10 @@ The `1` preserves your current window positions.
 
 ## 3. Optional: install a 3440x1440 layout
 
-Skip this step if you want to keep your existing window arrangement.
+Skip this step if you want to keep your existing window arrangement or do not
+play at 3440x1440. Standard 2560x1440 players can use the skin's validated
+`default1440.ini`; the ultrawide character INI should not be squeezed onto a
+16:9 screen.
 
 Before replacing anything, make a backup of the character INI in the
 EverQuest folder. Its name follows this pattern:
@@ -61,6 +65,11 @@ Move `Loremaster.exe` anywhere you prefer, then run it. In EverQuest, type:
 Loremaster searches common Daybreak and Steam locations automatically. If it
 does not find the active log, click **LOCATE LOG** and select the EverQuest
 folder or its `Logs` folder.
+
+Drag the compact HUD into place and click **LOCK**. In the detailed panel,
+**OLDER / NEWER / LIVE** browse encounters. **PASS** enables click-through
+only if Loremaster successfully reserves the recovery shortcut; press
+**Ctrl+Alt+L** at any time to restore interaction.
 
 To start Loremaster with Windows without showing it before the game launches,
 create a shortcut in `shell:startup` whose target is:

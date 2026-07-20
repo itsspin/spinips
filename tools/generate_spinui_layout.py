@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Spin UI — 3440x1440 layout generator.
+"""SpinUI resolution-aware layout generator.
 
 Produces two files from pixel-exact placement tables:
-  * default_modern/default1440.ini   — the skin's default layout at 1440p
+  * spinui_reloaded/default1440.ini  — safe standard 2560x1440 default
   * UI_Spin_qeynos_LO1.ini           — drop-in personal layout for Spin @ qeynos
 
 Both are derived from the shipped default1440.ini / the player's uploaded
 UI file, so every key the client expects stays present; only geometry,
 visibility and the chat routing are rewritten.
 
-Anchoring: every placed window uses XRef=left / YRef=top with percentages
-computed against 3440x1440, which the client resolves back to exact pixels
-at that resolution.  EQMainWnd keeps its proven right/bottom anchoring.
+The optional personal layout remains pixel-perfect at 3440x1440.  The skin's
+generic default1440.ini is separately authored for 2560x1440 so a standard
+1440p player never inherits off-screen ultrawide coordinates.
 
 The script validates: every placed window fully on-screen, and no two
 default-visible windows overlap.
@@ -45,6 +45,23 @@ def pct_y(px: float) -> str:
 
 def P(x, y, w=None, h=None, show=None, extra=None):
     d = {"XRef": "left", "YRef": "top", "XPos": pct_x(x), "YPos": pct_y(y)}
+    if w is not None:
+        d["Width"] = str(w)
+    if h is not None:
+        d["Height"] = str(h)
+    if show is not None:
+        d["Show"] = str(show)
+    if extra:
+        d.update(extra)
+    d["_rect"] = (x, y, w, h)
+    return d
+
+
+def P_for(screen_w, screen_h, x, y, w=None, h=None, show=None, extra=None):
+    """Placement encoded for a specific resolution without mutating globals."""
+    d = {"XRef": "left", "YRef": "top",
+         "XPos": f"{x / screen_w * 100:.6f}%",
+         "YPos": f"{y / screen_h * 100:.6f}%"}
     if w is not None:
         d["Width"] = str(w)
     if h is not None:
@@ -152,6 +169,66 @@ for i in range(1, 17):
     col, row = (i - 1) % 8, (i - 1) // 8
     PLACEMENTS[f"BagBank{i}"] = P(1330 + col * 100, 330 + row * 204, 96, 194)
 
+
+def standard_1440_placements() -> dict[str, dict]:
+    """Conservative default for 2560x1440 displays.
+
+    It retains the same combat hierarchy as the ultrawide composition but
+    pulls the center cluster left, docks buffs against the real right edge,
+    and narrows the final utility hotbars so every default-visible window has
+    a deliberate non-overlapping home.
+    """
+    sw, sh = 2560, 1440
+
+    def q(x, y, w=None, h=None, show=None, extra=None):
+        return P_for(sw, sh, x, y, w, h, show, extra)
+
+    placements = {
+        "MainChat": q(8, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
+        "Chat 1": q(716, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
+        "Chat 2": q(1424, CHAT_TOP, 1128, 280, extra=CHAT_ALPHA),
+        "Chat 3": q(8, CHAT_TOP, 700, 280, show=0, extra=CHAT_ALPHA),
+        "CastSpellWnd": q(8, 521, 52, 623, show=1),
+        "HotButtonWnd": q(64, 877, 94, 267),
+        "HotButtonWnd11": q(162, 873, 98, 271),
+        "PetInfoWindow": q(632, 780),
+        "PlayerWindow": q(956, 780, show=1),
+        "TargetWindow": q(1684, 780, show=1),
+        "StanceWnd": q(956, 980, 440, 44, show=1),
+        "CastingWindow": q(1404, 980, 380, 36, show=1),
+        "AggroMeterWnd": q(1800, 976, 220, 48),
+        "HotButtonWnd4": q(956, 1032, 528, 56),
+        "HotButtonWnd5": q(1492, 1032, 528, 56),
+        "HotButtonWnd2": q(956, 1092, 528, 56),
+        "HotButtonWnd3": q(1492, 1092, 528, 56),
+        "HotButtonWnd8": q(420, 972, 528, 56),
+        "HotButtonWnd7": q(420, 1032, 528, 56),
+        "HotButtonWnd6": q(420, 1092, 528, 56),
+        "HotButtonWnd10": q(2028, 1032, 266, 56),
+        "HotButtonWnd9": q(2028, 1092, 266, 56),
+        "BuffWindow": q(2352, 8),
+        "BuffWindow_13": q(2352, 8),
+        "ShortDurationBuffWindow": q(2144, 8),
+        "ShortDurationBuffWindow_13": q(2144, 8),
+        "GroupWindow": q(2302, 714, show=1),
+        "ExtendedTargetWnd": q(2124, 728, 170, 300),
+        "MapViewWnd": q(1416, 8, 720, 600,
+                        extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
+        "TargetOfTargetWindow": q(1904, 616, 232, 100),
+        "CompassWindow": q(1050, 8),
+        "TrackingWnd": q(8, 120, 340, 390),
+        "InventoryWindow": q(300, 140),
+        "BigBankWnd": q(900, 330),
+        "BreathWindow": q(1221, 700),
+    }
+    for i in range(1, 9):
+        col, row = (i - 1) % 4, (i - 1) // 4
+        placements[f"BagInv{i}"] = q(1740 + col * 100, 740 + row * 204, 96, 194)
+    for i in range(1, 17):
+        col, row = (i - 1) % 8, (i - 1) // 8
+        placements[f"BagBank{i}"] = q(1330 + col * 100, 330 + row * 204, 96, 194)
+    return placements
+
 # Windows whose Show flag we force on (quality-of-life for a WAR/DRU/BRD).
 FORCE_SHOW_NOTES = {
     "BuffWindow": "buff icons visible (ALT+B toggles)",
@@ -197,7 +274,8 @@ def set_key(lines: list[str], key: str, value: str) -> None:
     lines.insert(idx, f"{key}={value}")
 
 
-def apply_placements(sections, placements):
+def apply_placements(sections, placements, eqmain=None):
+    eqmain = eqmain or EQMAIN
     known = {name for name, _ in sections if name}
     for name, lines in sections:
         if name in placements:
@@ -206,7 +284,7 @@ def apply_placements(sections, placements):
                     continue
                 set_key(lines, k, v)
         if name == "EQMainWnd":
-            for k, v in EQMAIN.items():
+            for k, v in eqmain.items():
                 set_key(lines, k, v)
     # append brand-new sections that the base file lacked entirely
     for name, spec in placements.items():
@@ -291,7 +369,7 @@ XML_SIZES = {
     "PetInfoWindow": (311, 190), "BuffWindow": (200, 712),
     "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (200, 367),
     "ShortDurationBuffWindow_13": (200, 367), "BigBankWnd": (287, 390),
-    "InventoryWindow": (720, 800), "BreathWindow": (118, 32),
+    "InventoryWindow": (780, 800), "BreathWindow": (118, 32),
     "GroupWindow": (230, 430),   # grows downward; reserve
     "CompassWindow": (460, 36),
 }
@@ -312,6 +390,28 @@ def rect_of(name):
     if w is None or h is None:
         w, h = XML_SIZES[name]
     return (x, y, x + w, y + h)
+
+
+def validate_profile(placements, screen_w, screen_h) -> list[str]:
+    def profile_rect(name):
+        x, y, w, h = placements[name]["_rect"]
+        if w is None or h is None:
+            w, h = XML_SIZES[name]
+        return x, y, x + w, y + h
+
+    problems = []
+    for name in placements:
+        x0, y0, x1, y1 = profile_rect(name)
+        if x0 < 0 or y0 < 0 or x1 > screen_w or y1 > screen_h:
+            problems.append(f"OFF-SCREEN {name}: {(x0, y0, x1, y1)}")
+    visible = [name for name in VISIBLE if name in placements]
+    for i, a in enumerate(visible):
+        ax0, ay0, ax1, ay1 = profile_rect(a)
+        for b in visible[i + 1:]:
+            bx0, by0, bx1, by1 = profile_rect(b)
+            if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
+                problems.append(f"OVERLAP {a} x {b}")
+    return problems
 
 
 def validate() -> list[str]:
@@ -360,9 +460,10 @@ def personal_placements(preset: str) -> dict[str, dict]:
     return placements
 
 
-def transform(text: str, preset: str, placements: dict | None = None) -> str:
+def transform(text: str, preset: str, placements: dict | None = None,
+              eqmain: dict | None = None) -> str:
     sections = parse_ini(text)
-    sections = apply_placements(sections, placements or preset_placements(preset))
+    sections = apply_placements(sections, placements or preset_placements(preset), eqmain)
     for name, lines in sections:
         if name == "ChatManager":
             lines[:] = rebuild_chat_manager(lines)
@@ -425,9 +526,21 @@ def main():
     import shutil
 
     default_src = _pristine_default1440()
-    new_default = transform(default_src, DEFAULT_PRESET)
+    standard = standard_1440_placements()
+    standard_problems = validate_profile(standard, 2560, 1440)
+    if standard_problems:
+        for problem in standard_problems:
+            print("LAYOUT ERROR: [2560x1440]", problem)
+        raise SystemExit(1)
+    standard_eqmain = {
+        "XRef": "right", "YRef": "bottom",
+        "XPos": f"{8 / 2560 * 100:.6f}%",
+        "YPos": f"{4 / 1440 * 100:.6f}%", "Show": "1",
+    }
+    new_default = transform(default_src, DEFAULT_PRESET, standard, standard_eqmain)
     (SKIN / "default1440.ini").write_text(new_default)
-    print("wrote spinui_reloaded/default1440.ini  (%s)" % DEFAULT_PRESET)
+    print("wrote spinui_reloaded/default1440.ini  (safe 2560x1440 default)")
+    print("layout validation: 2560x1440 on-screen OK  no HUD overlaps OK")
 
     base = (REPO / PERSONAL_BASE).read_text()
     for preset in CHAT_PRESETS:

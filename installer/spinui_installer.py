@@ -433,12 +433,12 @@ def run_gui() -> int:
     startup_var = tk.BooleanVar(value=True)
     desktop_var = tk.BooleanVar(value=True)
     layout_check = tk.Checkbutton(
-        content, text="Install the 3440x1440 layout (optional)", variable=layout_var,
+        content, text="Install the optional 3440x1440 character layout", variable=layout_var,
         bg=BG, activebackground=BG, fg=TEXT, activeforeground=TEXT,
         selectcolor=RAISED, font=("Segoe UI Semibold", 10), anchor="w",
     )
     layout_check.pack(fill="x", pady=(9, 0))
-    tk.Label(content, text="Unchecked by default. An existing character INI is backed up before replacement.",
+    tk.Label(content, text="Unchecked by default. Leave off at 2560x1440; existing INIs are backed up.",
              bg=BG, fg=DIM, font=("Segoe UI", 9)).pack(anchor="w", padx=23)
     layout_var_name = tk.StringVar()
     layout_combo = ttk.Combobox(content, textvariable=layout_var_name, state="disabled")
