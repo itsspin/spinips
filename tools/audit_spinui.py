@@ -165,6 +165,38 @@ def audit_inventory_geometry() -> None:
     if abs((row_left + row_right) - child_int(equipment, "Size/CX")) > 1:
         fail("bottom equipment row is no longer centered")
 
+    persona = item(root, "Screen", "IWP_Equipment")
+    persona_page = item(root, "Page", "IW_LoadoutPage")
+    persona_view = item(root, "Screen", "IWP_CharacterView")
+    persona_anim = item(root, "StaticAnimation", "PersonaAnim")
+    persona_slots = [n.text for n in persona.findall("Pieces")
+                     if n.text and n.text.startswith("PersonaInvSlot")]
+    persona_plates = [n.text for n in persona.findall("Pieces")
+                      if n.text and n.text.startswith("IWP_HexPlate")]
+    if set(persona_slots) != {f"PersonaInvSlot{i}" for i in range(23)}:
+        fail("persona equipment membership changed")
+    if set(persona_plates) != {f"IWP_HexPlate{i}" for i in range(23)}:
+        fail("persona hex plates changed")
+    if (child_int(persona_page, "Size/CX"), child_int(persona_page, "Size/CY")) != (585, 720):
+        fail("Loadouts/Personas page must use the full 585x720 tab canvas")
+    if (child_int(persona, "Size/CX"), child_int(persona, "Size/CY")) != (569, 292):
+        fail("persona equipment canvas changed")
+    if (child_int(persona_view, "Size/CX"), child_int(persona_view, "Size/CY")) != (85, 171):
+        fail("persona character viewport must remain 85x171")
+    if (child_int(persona_anim, "Size/CX"), child_int(persona_anim, "Size/CY")) != (75, 142):
+        fail("native persona artwork must remain 75x142")
+    for slot_id in range(23):
+        slot = item(root, "InvSlot", f"PersonaInvSlot{slot_id}")
+        plate = item(root, "StaticAnimation", f"IWP_HexPlate{slot_id}")
+        if (child_int(slot, "Location/X") != child_int(plate, "Location/X") + 8
+                or child_int(slot, "Location/Y") != child_int(plate, "Location/Y") + 8):
+            fail(f"persona equipment slot {slot_id} lost its hex alignment")
+        if (child_int(plate, "Location/X") < 0
+                or child_int(plate, "Location/Y") < 0
+                or child_int(plate, "Location/X") + child_int(plate, "Size/CX") > 569
+                or child_int(plate, "Location/Y") + child_int(plate, "Size/CY") > 292):
+            fail(f"persona equipment plate {slot_id} exceeds its canvas")
+
 
 def main() -> int:
     xml_files, texture_refs = audit_xml()
@@ -173,7 +205,7 @@ def main() -> int:
     print("SpinUI asset audit: ALL PASS")
     print(f"  XML {len(xml_files)} | texture refs {len(texture_refs)} | "
           f"TGA {tga_count} | DDS {dds_count} | CUR {cur_count}")
-    print("  inventory 780x800 | equipment 23 | bottom Any 2 | bags 12 | class art 75x142")
+    print("  inventory 780x800 | equipment 23 | persona 23 | bottom Any 2 | bags 12 | class art 75x142")
     return 0
 
 

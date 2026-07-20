@@ -346,6 +346,14 @@ def normalize_mob(name: str) -> str:
     return n[:1].upper() + n[1:] if n else name
 
 
+PLAYER_ACTOR_RE = re.compile(r"^[A-Z][A-Za-z'`-]{1,31}$")
+
+
+def looks_like_player_actor(name: str) -> bool:
+    """Conservatively identify player/pet-style names in third-party lines."""
+    return bool(PLAYER_ACTOR_RE.fullmatch((name or "").strip()))
+
+
 def parse_coins(text: str) -> int:
     return sum(int(n) * COIN_COPPER[unit] for n, unit in COIN_RE.findall(text))
 
@@ -378,6 +386,14 @@ class Fight:
     targets: dict = field(default_factory=lambda: defaultdict(int))
     sources: dict = field(default_factory=lambda: defaultdict(
         lambda: {"t": 0, "h": 0, "max": 0}))
+    healing_sources: dict = field(default_factory=lambda: defaultdict(
+        lambda: {"t": 0, "h": 0, "max": 0, "over": 0}))
+    actor_damage: dict = field(default_factory=lambda: defaultdict(
+        lambda: {"t": 0, "h": 0, "max": 0}))
+    actor_healing: dict = field(default_factory=lambda: defaultdict(
+        lambda: {"t": 0, "h": 0, "max": 0}))
+    kills: int = 0
+    kill_targets: dict = field(default_factory=lambda: defaultdict(int))
     damage_taken: int = 0
     healing_done: int = 0
     heals_received: int = 0
@@ -396,7 +412,12 @@ class Fight:
     def name(self) -> str:
         if not self.targets:
             return "fight"
-        return max(self.targets.items(), key=lambda kv: kv[1])[0]
+        primary = max(self.targets.items(), key=lambda kv: kv[1])[0]
+        if self.kills > 1:
+            return f"{self.kills} enemies"
+        if len(self.targets) > 1:
+            return f"{primary} +{len(self.targets) - 1} more"
+        return primary
 
 
 class SessionStats:
@@ -419,12 +440,21 @@ class SessionStats:
         self.last_combat_signal: datetime | None = None
         self.damage_by_source: dict[str, dict] = defaultdict(
             lambda: {"t": 0, "h": 0, "max": 0})
+        self.healing_by_source: dict[str, dict] = defaultdict(
+            lambda: {"t": 0, "h": 0, "max": 0, "over": 0})
+        self.actor_damage: dict[str, dict] = defaultdict(
+            lambda: {"t": 0, "h": 0, "max": 0})
+        self.actor_healing: dict[str, dict] = defaultdict(
+            lambda: {"t": 0, "h": 0, "max": 0})
         self.melee_hits = self.melee_misses = 0
         self.crits = 0
         self.enemy_misses = 0
         # defense
         self.damage_taken = 0
         self.heals_received = 0
+        self.combat_feed = deque(maxlen=80)
+        self.last_death_recap: list[tuple[datetime, str, int, str]] = []
+        self.last_death_at: datetime | None = None
         # healing
         self.healing_done = 0
         self.overheal = 0
@@ -513,7 +543,8 @@ class SessionStats:
         self.last_combat_signal = ts
 
     def _close_fight(self):
-        if self.fight and (self.fight.damage > 0 or self.fight.healing_done > 0):
+        if self.fight and (self.fight.damage > 0 or self.fight.healing_done > 0
+                           or self.fight.actor_damage):
             self.fights.append(self.fight)
             if len(self.fights) > MAX_FIGHT_HISTORY:
                 del self.fights[:100]
@@ -535,10 +566,43 @@ class SessionStats:
         if now - ref > COMBAT_GAP:
             self._close_fight()
 
-    def _deal(self, ts: datetime, target: str, dmg: int, source: str, crit: bool = False):
+    @staticmethod
+    def _add_metric(bucket: dict, key: str, amount: int, *, overheal: int = 0):
+        row = bucket[key]
+        row["t"] += amount
+        row["h"] += 1
+        row["max"] = max(row["max"], amount)
+        if "over" in row:
+            row["over"] += overheal
+
+    def _record_actor_damage(self, actor: str, dmg: int):
+        if self.fight is None:
+            return
+        self._add_metric(self.fight.actor_damage, actor, dmg)
+        self._add_metric(self.actor_damage, actor, dmg)
+
+    def _record_actor_healing(self, actor: str, amount: int):
+        if self.fight is not None:
+            self._add_metric(self.fight.actor_healing, actor, amount)
+        self._add_metric(self.actor_healing, actor, amount)
+
+    def _observe_actor_healing(self, ts: datetime, actor: str, amount: int):
+        """Record a named healer only when they are part of our live encounter."""
+        actor = actor.strip()
+        self._combat_signal(ts)
+        if self.fight is not None and looks_like_player_actor(actor):
+            self._record_actor_healing(actor, amount)
+
+    def _feed(self, ts: datetime, kind: str, amount: int, label: str):
+        """Keep a tiny bounded stream for the most recent death recap."""
+        self.combat_feed.append((ts, kind, amount, label))
+
+    def _deal(self, ts: datetime, target: str, dmg: int, source: str,
+              crit: bool = False, actor: str | None = None):
         self._own_combat(ts)
         if self.fight is None:
             self.fight = Fight(start=ts, end=ts)
+        self._record_actor_damage(actor or self.character or "You", dmg)
         self.fight.damage += dmg
         self.fight.targets[normalize_mob(target)] += dmg
         fight_src = self.fight.sources[source]
@@ -555,6 +619,17 @@ class SessionStats:
             self.max_hit = (dmg, source, normalize_mob(target))
         if crit:
             self.crits += 1
+
+    def _observe_actor_damage(self, ts: datetime, actor: str, target: str, dmg: int):
+        """Add a visible player/pet contributor without polluting self DPS."""
+        actor = actor.strip()
+        self._combat_signal(ts)
+        if self.fight is None or not looks_like_player_actor(actor):
+            return
+        known_targets = {name.casefold() for name in self.fight.targets}
+        if normalize_mob(actor).casefold() in known_targets:
+            return
+        self._record_actor_damage(actor, dmg)
 
     # -- event application ----------------------------------------------
     def apply(self, ts: datetime, kind: str, g: dict, *, count_lifetime: bool = True):
@@ -585,10 +660,12 @@ class SessionStats:
 
         elif kind == "melee_in":
             dmg = int(g["dmg"])
+            attacker = normalize_mob(g["attacker"])
             self.damage_taken += dmg
-            atk = self.damage_taken_by[normalize_mob(g["attacker"])]
+            atk = self.damage_taken_by[attacker]
             atk["t"] += dmg
             atk["h"] += 1
+            self._feed(ts, "damage", dmg, attacker)
             self._own_combat(ts)
             if self.fight:
                 self.fight.damage_taken += dmg
@@ -597,14 +674,18 @@ class SessionStats:
             self.damage_taken += dmg
             who = g.get("attacker")
             if who:
-                atk = self.damage_taken_by[normalize_mob(who)]
+                who = normalize_mob(who)
+                atk = self.damage_taken_by[who]
                 atk["t"] += dmg
                 atk["h"] += 1
+            source = g.get("spell") or g.get("how") or who or "Non-melee damage"
+            self._feed(ts, "damage", dmg, source)
             self._own_combat(ts)
             if self.fight:
                 self.fight.damage_taken += dmg
         elif kind == "miss_in":
             self.enemy_misses += 1
+            self._feed(ts, "avoid", 0, normalize_mob(g["attacker"]))
             self._own_combat(ts)
 
         elif kind == "kill_you":
@@ -614,14 +695,26 @@ class SessionStats:
                 self._lifetime_inc("kills")
                 self._lifetime_named("kill_breakdown", mob)
             self._own_combat(ts)
+            if self.fight:
+                self.fight.kills += 1
+                self.fight.kill_targets[mob] += 1
         elif kind == "death_you":
             self.deaths += 1
             if count_lifetime:
                 self._lifetime_inc("deaths")
+            self._feed(ts, "death", 0, normalize_mob(g["killer"]))
+            cutoff = ts - timedelta(seconds=20)
+            self.last_death_recap = [event for event in self.combat_feed
+                                     if event[0] >= cutoff]
+            self.last_death_at = ts
             self._close_fight()
         elif kind == "kill_other":
             killer = g["killer"].strip()
             mob = normalize_mob(g["target"])
+            self._combat_signal(ts)
+            if self.fight:
+                self.fight.kills += 1
+                self.fight.kill_targets[mob] += 1
             if killer == self.character or self.is_pet(killer):
                 self.kills[mob] += 1
                 if count_lifetime:
@@ -632,19 +725,29 @@ class SessionStats:
                 if count_lifetime:
                     self._lifetime_inc("group_kills")
                     self._lifetime_named("group_kill_breakdown", mob)
-            self._combat_signal(ts)
 
         elif kind == "heal_out":
             amt = int(g["amount"])
+            attempted = int(g.get("attempted") or amt)
+            overheal = max(0, attempted - amt)
+            spell = (g.get("spell") or "Direct healing").strip()
             self._own_combat(ts)
             self.healing_done += amt
             if self.fight:
                 self.fight.healing_done += amt
-            if g.get("attempted"):
-                self.overheal += max(0, int(g["attempted"]) - amt)
+                self._add_metric(self.fight.healing_sources, spell, amt,
+                                 overheal=overheal)
+            self._add_metric(self.healing_by_source, spell, amt, overheal=overheal)
+            self._record_actor_healing(self.character or "You", amt)
+            self.overheal += overheal
         elif kind in ("heal_in", "heal_in_named"):
             amt = int(g["amount"])
             self.heals_received += amt
+            healer = (g.get("healer") or "Unknown healer").strip()
+            spell = (g.get("spell") or healer).strip()
+            self._feed(ts, "heal", amt, spell)
+            if kind == "heal_in_named":
+                self._observe_actor_healing(ts, healer, amt)
             if self.fight:
                 self.fight.heals_received += amt
 
@@ -708,10 +811,11 @@ class SessionStats:
             if attacker and self.is_pet(attacker):
                 self.pet_last_seen[attacker] = ts
                 self.pet_damage += dmg
-                self._deal(ts, g["target"], dmg, f"Pet ({attacker})")
+                self._deal(ts, g["target"], dmg, f"Pet ({attacker})",
+                           actor=f"{attacker} (pet)")
                 self.melee_hits += 0  # pet swings tracked via source hits
             else:
-                self._combat_signal(ts)
+                self._observe_actor_damage(ts, attacker, g["target"], dmg)
         elif kind == "miss_third":
             attacker = (g.get("attacker") or "").strip()
             if attacker and self.is_pet(attacker):
@@ -733,7 +837,8 @@ class SessionStats:
             ref = self.last_combat_signal or self.fight.end
             if now - ref <= COMBAT_GAP + timedelta(seconds=2):
                 live = self.fight
-            elif self.fight.damage > 0 or self.fight.healing_done > 0:
+            elif (self.fight.damage > 0 or self.fight.healing_done > 0
+                  or self.fight.actor_damage):
                 pending = [self.fight]  # idle long enough: treat as closed
         history = self.fights[-10:] + pending
         closed_damage = self.closed_damage + sum(f.damage for f in pending)
@@ -769,8 +874,20 @@ class SessionStats:
             "fight_sources": ({k: dict(v) for k, v in shown_fight.sources.items()}
                               if shown_fight else {}),
             "fight_targets": dict(shown_fight.targets) if shown_fight else {},
+            "fight_healing_sources": (
+                {k: dict(v) for k, v in shown_fight.healing_sources.items()}
+                if shown_fight else {}),
+            "fight_actor_damage": (
+                {k: dict(v) for k, v in shown_fight.actor_damage.items()}
+                if shown_fight else {}),
+            "fight_actor_healing": (
+                {k: dict(v) for k, v in shown_fight.actor_healing.items()}
+                if shown_fight else {}),
             "fights": (history + ([live] if live else []))[-10:],
             "damage_by_source": {k: dict(v) for k, v in self.damage_by_source.items()},
+            "healing_by_source": {k: dict(v) for k, v in self.healing_by_source.items()},
+            "actor_damage": {k: dict(v) for k, v in self.actor_damage.items()},
+            "actor_healing": {k: dict(v) for k, v in self.actor_healing.items()},
             "damage_taken_by": {k: dict(v) for k, v in self.damage_taken_by.items()},
             "group_kills": dict(self.group_kills),
             "zones": list(self.zones),
@@ -795,6 +912,8 @@ class SessionStats:
             "damage_taken": self.damage_taken,
             "healing_done": self.healing_done,
             "heals_received": self.heals_received,
+            "last_death_recap": list(self.last_death_recap),
+            "last_death_at": self.last_death_at,
             "hps": self.healing_done / (closed_seconds or 1) if closed_seconds else 0.0,
             "songs": self.songs,
             "songs_min": songs_min,
@@ -993,6 +1112,7 @@ def load_config() -> dict:
         "position": None,
         "mini_position": None,
         "panel_size": [400, 480],
+        "locked": False,
         "starred": ["session_dps", "xp_hr", "hours_to_level", "kills"],
         "starred_cards": ["combat", "kills", "money", "progress"],
         "alerts_enabled": True,
@@ -1330,7 +1450,7 @@ def run_gui(args):
     root = tk.Tk()
     root.title("Spin\'s Loremaster")
     root.configure(bg=T["bg"])
-    root.overrideredirect(True)
+    root.overrideredirect(not args.windowed)
     root.attributes("-topmost", False)
     try:
         root.attributes("-alpha", cfg.get("opacity", 0.94))
@@ -1339,13 +1459,126 @@ def run_gui(args):
 
     state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time(),
              "fights_seen": 0, "expanded": {"combat"}, "scope": "fight",
-             "lifetime_cutoff": None}
+             "lifetime_cutoff": None, "selected_fight": None,
+             "locked": bool(cfg.get("locked", False)), "click_through": False}
     alerts = AlertManager(tk, root, cfg)
+
+    # Click-through is deliberately never persisted.  It can only be enabled
+    # when the process owns Ctrl+Alt+L, which always restores interaction.
+    hotkey = {"registered": False, "id": 0x534C}
+
+    def _window_handle():
+        if os.name != "nt":
+            return None
+        try:
+            import ctypes
+            from ctypes import wintypes
+            user32 = ctypes.windll.user32
+            user32.GetParent.argtypes = [wintypes.HWND]
+            user32.GetParent.restype = wintypes.HWND
+            hwnd = int(root.winfo_id())
+            parent = int(user32.GetParent(wintypes.HWND(hwnd)) or 0)
+            return parent or hwnd
+        except (AttributeError, OSError, tk.TclError, ValueError):
+            return None
+
+    def _apply_click_through():
+        hwnd = _window_handle()
+        if hwnd is None:
+            return False
+        try:
+            import ctypes
+            from ctypes import wintypes
+            user32 = ctypes.windll.user32
+            user32.GetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int]
+            user32.GetWindowLongW.restype = ctypes.c_long
+            user32.SetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int, ctypes.c_long]
+            user32.SetWindowLongW.restype = ctypes.c_long
+            user32.SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND,
+                                            ctypes.c_int, ctypes.c_int,
+                                            ctypes.c_int, ctypes.c_int, wintypes.UINT]
+            user32.SetWindowPos.restype = wintypes.BOOL
+            handle = wintypes.HWND(hwnd)
+            style = user32.GetWindowLongW(handle, -20)  # GWL_EXSTYLE
+            if state["click_through"]:
+                style |= 0x20  # WS_EX_TRANSPARENT
+            else:
+                style &= ~0x20
+            user32.SetWindowLongW(handle, -20, style)
+            user32.SetWindowPos(handle, None, 0, 0, 0, 0,
+                                0x0001 | 0x0002 | 0x0004 | 0x0020)
+            return True
+        except (AttributeError, OSError):
+            return False
+
+    def toggle_lock():
+        state["locked"] = not state["locked"]
+        cfg["locked"] = state["locked"]
+        save_config(cfg)
+        refresh(force_detail=True)
+
+    def toggle_click_through():
+        if not state["click_through"] and not hotkey["registered"]:
+            alerts.show("warn", "PASS-THROUGH UNAVAILABLE — Ctrl+Alt+L could not be reserved")
+            return
+        state["click_through"] = not state["click_through"]
+        if not _apply_click_through():
+            state["click_through"] = False
+            alerts.show("warn", "PASS-THROUGH COULD NOT BE APPLIED")
+            return
+        if not state["click_through"]:
+            try:
+                root.lift()
+            except tk.TclError:
+                pass
+        refresh(force_detail=True)
+
+    def install_recovery_hotkey():
+        if os.name != "nt":
+            return
+        try:
+            import ctypes
+            from ctypes import wintypes
+            user32 = ctypes.windll.user32
+            user32.RegisterHotKey.argtypes = [wintypes.HWND, ctypes.c_int,
+                                               wintypes.UINT, wintypes.UINT]
+            user32.RegisterHotKey.restype = wintypes.BOOL
+            # MOD_ALT | MOD_CONTROL | MOD_NOREPEAT, virtual key L
+            hotkey["registered"] = bool(user32.RegisterHotKey(
+                None, hotkey["id"], 0x0001 | 0x0002 | 0x4000, ord("L")))
+        except (AttributeError, OSError):
+            hotkey["registered"] = False
+
+    def poll_recovery_hotkey():
+        if hotkey["registered"] and os.name == "nt":
+            try:
+                import ctypes
+                from ctypes import wintypes
+                msg = wintypes.MSG()
+                while ctypes.windll.user32.PeekMessageW(
+                        ctypes.byref(msg), None, 0x0312, 0x0312, 0x0001):
+                    if int(msg.wParam) == hotkey["id"] and state["click_through"]:
+                        toggle_click_through()
+            except (AttributeError, OSError):
+                pass
+        root.after(100, poll_recovery_hotkey)
+
+    def remove_recovery_hotkey():
+        if hotkey["registered"] and os.name == "nt":
+            try:
+                import ctypes
+                ctypes.windll.user32.UnregisterHotKey(None, hotkey["id"])
+            except (AttributeError, OSError):
+                pass
+        hotkey["registered"] = False
 
     # ---- window drag + position persistence ----
     drag = {"x": 0, "y": 0, "active": False}
 
     def start_drag(e):
+        if state["locked"] or state["click_through"]:
+            drag["active"] = False
+            return
         try:
             cursor = str(e.widget.cget("cursor"))
             widget_class = e.widget.winfo_class()
@@ -1417,10 +1650,14 @@ def run_gui(args):
         return x, y
 
     def start_resize(e):
+        if state["locked"] or state["click_through"]:
+            return "break"
         resize.update(x=e.x_root, y=e.y_root, w=root.winfo_width(), h=root.winfo_height())
         return "break"
 
     def do_resize(e):
+        if state["locked"] or state["click_through"]:
+            return "break"
         width = max(360, min(680, resize["w"] + e.x_root - resize["x"]))
         height = max(360, min(900, resize["h"] + e.y_root - resize["y"]))
         root.geometry(f"{width}x{height}")
@@ -1491,9 +1728,38 @@ def run_gui(args):
         c.create_polygon(pts, outline=color or T["gold"], fill="", width=1.2)
         return c
 
+    def displayed_fight(snap):
+        selected = state.get("selected_fight")
+        if selected is not None:
+            if any(f is selected for f in snap["fights"]):
+                return selected
+            state["selected_fight"] = None
+        return snap["fight"]
+
+    def fight_is_live(snap, fight):
+        return bool(snap["in_combat"] and fight is stats.fight)
+
+    def browse_fight(direction):
+        snap = stats.snapshot(datetime.now())
+        fights = snap["fights"]
+        if not fights:
+            return
+        current = displayed_fight(snap)
+        index = next((i for i, f in enumerate(fights) if f is current), len(fights) - 1)
+        if direction < 0:
+            state["selected_fight"] = fights[max(0, index - 1)]
+        elif direction > 0:
+            next_index = min(len(fights) - 1, index + 1)
+            state["selected_fight"] = None if next_index == len(fights) - 1 else fights[next_index]
+        else:
+            state["selected_fight"] = None
+        for cw in card_widgets.values():
+            cw["detail_signature"] = None
+        refresh(force_detail=True)
+
     def card_value(snap, key):
         if not state["mini"] and state["scope"] == "fight" and key == "combat":
-            fight = snap["fight"]
+            fight = displayed_fight(snap)
             return f"{fmt_num(fight.dps)} dps" if fight else "awaiting combat"
         if not state["mini"] and state["scope"] == "records":
             life = snap["lifetime"]
@@ -1546,17 +1812,32 @@ def run_gui(args):
         """Return visual ledger rows; meter kinds embed a 0..1 bar share."""
         out = []
         if state["scope"] == "fight" and key == "combat":
-            fight = snap["fight"]
+            fight = displayed_fight(snap)
             if not fight:
                 return [("line", "Your next encounter will be recorded here in real time.", "")]
-            status = "LIVE ENCOUNTER" if snap["in_combat"] else "LAST ENCOUNTER"
+            status = "LIVE ENCOUNTER" if fight_is_live(snap, fight) else "ENCOUNTER"
             out.append(("head", f"{status} · {fight.name}", fmt_dur(fight.seconds)))
             out.append(("line", f"{fmt_num(fight.damage)} damage · {fmt_num(fight.dps)} dps · "
                                 f"{fight.crits} crits · {fight.misses} misses", ""))
+            if fight.kills or len(fight.targets) > 1:
+                kill_text = (f"{fight.kills} enem{'y' if fight.kills == 1 else 'ies'} slain"
+                             if fight.kills else "pull in progress")
+                out.append(("line", f"{kill_text} · {len(fight.targets)} target "
+                                    f"type{'s' if len(fight.targets) != 1 else ''}", ""))
             if fight.damage_taken or fight.healing_done or fight.heals_received:
                 out.append(("line", f"Taken {fmt_num(fight.damage_taken)} · healed {fmt_num(fight.healing_done)} "
                                     f"· received {fmt_num(fight.heals_received)}", ""))
-            sources = sorted(snap["fight_sources"].items(), key=lambda kv: -kv[1]["t"])
+            actors = sorted(fight.actor_damage.items(), key=lambda kv: -kv[1]["t"])
+            actor_total = sum(value["t"] for _name, value in actors)
+            if actors:
+                out.append(("head", "Observed encounter actors", "damage · share · dps"))
+                for name, value in actors[:12]:
+                    share = value["t"] / max(1, actor_total)
+                    out.append((f"meter:{share:.4f}", name,
+                                f"{fmt_num(value['t'])} · {share * 100:.0f}% · "
+                                f"{fmt_num(value['t'] / fight.seconds)}/s"))
+                out.append(("line", "Actors visible in your EQ log; not a guaranteed group roster.", ""))
+            sources = sorted(fight.sources.items(), key=lambda kv: -kv[1]["t"])
             if sources:
                 out.append(("head", "Damage by ability", "total · share · dps"))
                 for name, value in sources[:12]:
@@ -1565,7 +1846,22 @@ def run_gui(args):
                                 f"{fmt_num(value['t'])} · {share:.0f}% · {fmt_num(value['t'] / fight.seconds)}/s"))
                     out.append(("line", f"{value['h']} hits · avg {value['t'] / max(1, value['h']):.1f} "
                                         f"· max {fmt_num(value.get('max', 0))}", ""))
-            targets = sorted(snap["fight_targets"].items(), key=lambda kv: -kv[1])
+            heals = sorted(fight.healing_sources.items(), key=lambda kv: -kv[1]["t"])
+            if heals:
+                out.append(("head", "Healing by spell", "effective · overheal"))
+                healing_total = sum(value["t"] for _name, value in heals)
+                for name, value in heals[:10]:
+                    out.append((f"meter:{value['t'] / max(1, healing_total):.4f}", name,
+                                f"{fmt_num(value['t'])} · {fmt_num(value.get('over', 0))} over"))
+            healers = sorted(fight.actor_healing.items(), key=lambda kv: -kv[1]["t"])
+            healer_total = sum(value["t"] for _name, value in healers)
+            if healers:
+                out.append(("head", "Observed healing actors", "effective · share"))
+                for name, value in healers[:10]:
+                    share = value["t"] / max(1, healer_total)
+                    out.append((f"meter:{share:.4f}", name,
+                                f"{fmt_num(value['t'])} · {share * 100:.0f}%"))
+            targets = sorted(fight.targets.items(), key=lambda kv: -kv[1])
             if targets:
                 out.append(("head", "Damage by target", "total · share"))
                 for name, total in targets[:8]:
@@ -1626,6 +1922,30 @@ def run_gui(args):
                     out.append(("line", f"{v['h']} hits · avg {avg:.1f} · max {fmt_num(v.get('max', 0))}", ""))
                 if len(srcs) > 8:
                     out.append(("line", f"\u2026and {len(srcs) - 8} more", ""))
+            actors = sorted(snap["actor_damage"].items(), key=lambda kv: -kv[1]["t"])
+            actor_total = sum(value["t"] for _name, value in actors)
+            if actors:
+                out.append(("head", "Observed session actors", "damage · share"))
+                for name, value in actors[:10]:
+                    share = value["t"] / max(1, actor_total)
+                    out.append((f"meter:{share:.4f}", name,
+                                f"{fmt_num(value['t'])} · {share * 100:.0f}%"))
+                out.append(("line", "Built only from actors visible in your local EQ log.", ""))
+            heals = sorted(snap["healing_by_source"].items(), key=lambda kv: -kv[1]["t"])
+            if heals:
+                out.append(("head", "Session healing by spell", "effective · overheal"))
+                total_healing = sum(value["t"] for _name, value in heals)
+                for name, value in heals[:8]:
+                    out.append((f"meter:{value['t'] / max(1, total_healing):.4f}", name,
+                                f"{fmt_num(value['t'])} · {fmt_num(value.get('over', 0))} over"))
+            healers = sorted(snap["actor_healing"].items(), key=lambda kv: -kv[1]["t"])
+            healer_total = sum(value["t"] for _name, value in healers)
+            if healers:
+                out.append(("head", "Observed session healing actors", "effective · share"))
+                for name, value in healers[:8]:
+                    share = value["t"] / max(1, healer_total)
+                    out.append((f"meter:{share:.4f}", name,
+                                f"{fmt_num(value['t'])} · {share * 100:.0f}%"))
             taken = sorted(snap["damage_taken_by"].items(), key=lambda kv: -kv[1]["t"])
             if taken:
                 out.append(("head", "Damage taken from", ""))
@@ -1676,6 +1996,21 @@ def run_gui(args):
                 out.append(("line", "No faction hits yet", ""))
         elif key == "travels":
             out.append(("row", "Deaths", str(snap["deaths"])))
+            recap = snap.get("last_death_recap") or []
+            death_at = snap.get("last_death_at")
+            if recap and death_at:
+                out.append(("head", "Last death · final 20 seconds", ""))
+                for ts, event_kind, amount, label in recap[-12:]:
+                    seconds_before = max(0.0, (death_at - ts).total_seconds())
+                    when = "death" if event_kind == "death" else f"-{seconds_before:.0f}s"
+                    if event_kind == "damage":
+                        out.append(("row", f"{when} · {label}", f"-{fmt_num(amount)}"))
+                    elif event_kind == "heal":
+                        out.append(("row", f"{when} · {label}", f"+{fmt_num(amount)}"))
+                    elif event_kind == "avoid":
+                        out.append(("row", f"{when} · avoided {label}", ""))
+                    else:
+                        out.append(("row", f"Slain by {label}", ""))
             zs = snap["zones"][-6:]
             if zs:
                 out.append(("head", "Zones visited", ""))
@@ -1723,6 +2058,10 @@ def run_gui(args):
             b = tk.Label(head, text=txt, fg=T["dim"], bg=T["panel"], font=FONT_B, cursor="hand2")
             b.pack(side="right", padx=5)
             b.bind("<Button-1>", lambda _e, c=cmd: c())
+        widgets["lock"] = tk.Label(head, text="LOCK", fg=T["dim"], bg=T["panel"],
+                                   font=FONT_RUNE, cursor="hand2", padx=4)
+        widgets["lock"].pack(side="right", padx=2)
+        widgets["lock"].bind("<Button-1>", lambda _e: toggle_lock())
         widgets["dot"] = L(head, "\u25cf", fg=T["green"], font=FONT_S, bg=T["panel"])
         widgets["dot"].pack(side="right", padx=2)
         tk.Frame(body, bg=T["ember"], height=2).pack(fill="x")
@@ -1751,9 +2090,25 @@ def run_gui(args):
             tab.bind("<Button-1>", lambda _e, s=scope: set_scope(s))
             widgets[f"scope_{scope}"] = tab
 
+        encounter = tk.Frame(body, bg=T["bg"])
+        encounter.pack(fill="x", padx=10, pady=(2, 0))
+        widgets["encounter_nav"] = encounter
+        for name, label, direction in (("encounter_prev", "‹ OLDER", -1),
+                                       ("encounter_live", "LIVE", 0),
+                                       ("encounter_next", "NEWER ›", 1)):
+            b = tk.Label(encounter, text=label, fg=T["cyan"], bg=T["raised"],
+                         font=FONT_RUNE, cursor="hand2", padx=6, pady=2)
+            b.pack(side="left" if direction < 1 else "right")
+            b.bind("<Button-1>", lambda _e, d=direction: browse_fight(d))
+            widgets[name] = b
+        widgets["encounter_label"] = L(encounter, "AWAITING ENCOUNTER", fg=T["dim"],
+                                         font=FONT_RUNE, anchor="center")
+        widgets["encounter_label"].pack(side="left", fill="x", expand=True)
+
         # Ember hero band: live combat at a glance, or the permanent chronicle.
         hero = tk.Frame(body, bg=T["raised"])
         hero.pack(fill="x", padx=10, pady=(3, 2))
+        widgets["hero"] = hero
         tk.Frame(hero, bg=T["cyan"], width=3).pack(side="left", fill="y")
         for key, label, color in (("current_dps", "FIGHT DPS", T["gold_bright"]),
                                   ("session_dps", "SESSION", T["text"]),
@@ -1814,7 +2169,8 @@ def run_gui(args):
             star.bind("<Button-1>", lambda _e, k=key: toggle_card_star(k))
             card_widgets[key] = {"value": val, "star": star, "chev": chev,
                                  "name": nm, "hex": hb, "rule": rl,
-                                 "detail": detail, "detail_signature": None}
+                                 "detail": detail, "detail_signature": None,
+                                 "detail_controls": []}
         footer = tk.Frame(body, bg=T["panel"])
         footer.pack(fill="x")
         widgets["status"] = L(footer, "Loremaster awaits your log\u2026",
@@ -1822,6 +2178,7 @@ def run_gui(args):
         widgets["status"].pack(side="left", fill="x", expand=True, padx=(10, 4), pady=5)
         grip = tk.Label(footer, text="\u2198", fg=T["cyan"], bg=T["panel"],
                         font=FONT_B, cursor="size_nw_se")
+        widgets["grip"] = grip
         grip.pack(side="right", padx=(0, 5), pady=3)
         grip.bind("<Button-1>", start_resize)
         grip.bind("<B1-Motion>", do_resize)
@@ -1831,6 +2188,11 @@ def run_gui(args):
             font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
         widgets["locate"].pack(side="right", padx=(0, 6), pady=3)
         widgets["locate"].bind("<Button-1>", choose_log_dir)
+        widgets["pass"] = tk.Label(
+            footer, text="PASS", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
+        widgets["pass"].pack(side="right", padx=(0, 4), pady=3)
+        widgets["pass"].bind("<Button-1>", lambda _e: toggle_click_through())
         pos = cfg.get("position")
         panel_size = cfg.get("panel_size") or [400, 480]
         width = max(360, min(680, int(panel_size[0])))
@@ -1867,6 +2229,11 @@ def run_gui(args):
                            font=FONT_RUNE, cursor="hand2", padx=6)
         details.pack(side="right", padx=(3, 3), pady=3)
         details.bind("<Button-1>", lambda _e: toggle_mini())
+        widgets["mini_lock"] = tk.Label(
+            strip, text="LOCK", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=5)
+        widgets["mini_lock"].pack(side="right", pady=3)
+        widgets["mini_lock"].bind("<Button-1>", lambda _e: toggle_lock())
         widgets["mini_log"] = tk.Label(
             strip, text="\u25cf", fg=T["dim"], bg=T["bg"], font=FONT_S,
             cursor="hand2", padx=3)
@@ -1886,6 +2253,7 @@ def run_gui(args):
     def do_reset():
         stats.reset()
         state["fights_seen"] = 0
+        state["selected_fight"] = None
 
     def choose_log_dir(_event=None):
         nonlocal watcher
@@ -1910,6 +2278,10 @@ def run_gui(args):
         state["fights_seen"] = 0
 
     def do_quit():
+        if state["click_through"]:
+            state["click_through"] = False
+            _apply_click_through()
+        remove_recovery_hotkey()
         if not demo:
             save_character_state(stats.character, stats)
         save_config(cfg)
@@ -1929,6 +2301,7 @@ def run_gui(args):
                 stats.character = watcher.character
                 state["lifetime_cutoff"] = restore_character_state(stats)
                 state["fights_seen"] = 0
+                state["selected_fight"] = None
         for raw in lines:
             raw_msg = raw.split("] ", 1)[1] if "] " in raw else raw
             parsed = parse_line(raw)
@@ -1968,6 +2341,89 @@ def run_gui(args):
             return "READY", THEME["cyan"]
         return "STALE", THEME["ember"]
 
+    def _detail_kind(kind):
+        return "meter" if kind.startswith("meter:") else kind
+
+    def _set_text(label, value):
+        if label.cget("text") != value:
+            label.configure(text=value)
+
+    def _draw_detail_meter(canvas):
+        width = max(1, canvas.winfo_width())
+        pct = canvas._lore_pct
+        left = canvas._lore_left
+        right = canvas._lore_right
+        draw_state = (width, pct, left, right)
+        if getattr(canvas, "_lore_draw_state", None) == draw_state:
+            return
+        canvas._lore_draw_state = draw_state
+        canvas.delete("all")
+        edge = max(2, int(width * pct))
+        canvas.create_rectangle(0, 2, edge, 17, fill=THEME["meter"], outline="")
+        canvas.create_line(0, 2, edge, 2, fill=THEME["meter_edge"])
+        canvas.create_text(3, 10, text=left, fill=THEME["text"],
+                           font=FONT_S, anchor="w")
+        canvas.create_text(width - 3, 10, text=right, fill=THEME["gold_bright"],
+                           font=FONT_S, anchor="e")
+
+    def _build_detail_controls(cw, rows):
+        for child in cw["detail"].winfo_children():
+            child.destroy()
+        controls = []
+        for kind, _left, _right in rows:
+            base_kind = _detail_kind(kind)
+            row = tk.Frame(cw["detail"], bg=THEME["bg"])
+            row.pack(fill="x", padx=14, pady=0)
+            control = {"kind": base_kind}
+            if base_kind == "meter":
+                meter = tk.Canvas(row, height=19, bg=THEME["bg"], highlightthickness=0)
+                meter._lore_pct = 0.0
+                meter._lore_left = ""
+                meter._lore_right = ""
+                meter.pack(fill="x")
+                meter.bind("<Configure>", lambda _e, canvas=meter: _draw_detail_meter(canvas))
+                control["meter"] = meter
+            elif base_kind == "head":
+                left_label = tk.Label(row, fg=THEME["gold"], bg=THEME["bg"],
+                                      font=FONT_S, anchor="w")
+                left_label.pack(side="left", pady=(4, 1))
+                right_label = tk.Label(row, fg=THEME["gold_bright"], bg=THEME["bg"],
+                                       font=FONT_S, anchor="e")
+                right_label.pack(side="right", pady=(4, 1))
+                control.update(left=left_label, right=right_label)
+            elif base_kind == "line":
+                left_label = tk.Label(row, fg=THEME["dim"], bg=THEME["bg"],
+                                      font=FONT_S, anchor="w", justify="left")
+                left_label.pack(side="left")
+                control["left"] = left_label
+            else:
+                left_label = tk.Label(row, fg=THEME["text"], bg=THEME["bg"],
+                                      font=FONT_S, anchor="w")
+                left_label.pack(side="left")
+                right_label = tk.Label(row, fg=THEME["gold_bright"], bg=THEME["bg"],
+                                       font=FONT_S, anchor="e")
+                right_label.pack(side="right")
+                control.update(left=left_label, right=right_label)
+            controls.append(control)
+        cw["detail_controls"] = controls
+        cw["detail_signature"] = tuple(_detail_kind(kind) for kind, _left, _right in rows)
+
+    def _update_detail_controls(cw, rows):
+        signature = tuple(_detail_kind(kind) for kind, _left, _right in rows)
+        if signature != cw.get("detail_signature"):
+            _build_detail_controls(cw, rows)
+        for control, (kind, left, right) in zip(cw["detail_controls"], rows):
+            if control["kind"] == "meter":
+                meter = control["meter"]
+                meter._lore_pct = max(0.0, min(1.0, float(kind.split(":", 1)[1])))
+                meter._lore_left = left
+                meter._lore_right = right
+                _draw_detail_meter(meter)
+            else:
+                _set_text(control["left"], left)
+                if "right" in control:
+                    _set_text(control["right"], right)
+
     def refresh(force_detail=False):
         snap = stats.snapshot(datetime.now())
         if state["mini"]:
@@ -1982,6 +2438,11 @@ def run_gui(args):
             mini_log = widgets.get("mini_log")
             if mini_log:
                 mini_log.configure(text=f"\u25cf {health}", fg=color)
+            mini_lock = widgets.get("mini_lock")
+            if mini_lock:
+                mini_lock.configure(
+                    text="MOVE" if state["locked"] else "LOCK",
+                    fg=THEME["gold_bright"] if state["locked"] else THEME["dim"])
             return
 
         title = snap["character"]
@@ -2000,6 +2461,28 @@ def run_gui(args):
             widgets[f"scope_{scope}"].configure(
                 bg=THEME["raised"] if active else THEME["void"],
                 fg=THEME["cyan"] if active else THEME["dim"])
+        nav = widgets.get("encounter_nav")
+        if nav:
+            if state["scope"] == "fight":
+                if not nav.winfo_manager():
+                    nav.pack(fill="x", padx=10, pady=(2, 0), before=widgets["hero"])
+            else:
+                nav.pack_forget()
+        lock = widgets.get("lock")
+        if lock:
+            lock.configure(text="MOVE" if state["locked"] else "LOCK",
+                           fg=THEME["gold_bright"] if state["locked"] else THEME["dim"])
+        grip = widgets.get("grip")
+        if grip:
+            grip.configure(fg=THEME["line"] if state["locked"] else THEME["cyan"],
+                           cursor="arrow" if state["locked"] else "size_nw_se")
+        pass_button = widgets.get("pass")
+        if pass_button:
+            if state["click_through"]:
+                pass_button.configure(text="CTRL+ALT+L", fg=THEME["gold_bright"])
+            else:
+                pass_button.configure(text="PASS", fg=(THEME["cyan"]
+                                      if hotkey["registered"] else THEME["line"]))
         if state["scope"] == "records":
             life = snap["lifetime"]
             widgets["current_dps"].configure(text=fmt_num(life["kills"]), fg=THEME["gold_bright"])
@@ -2010,11 +2493,12 @@ def run_gui(args):
                                ("best_dps", "RECORD DPS")):
                 widgets[f"{key}_label"].configure(text=label)
         else:
-            shown = snap["fight"]
-            fight_dps = snap["current_dps"] if snap["in_combat"] else (shown.dps if shown else 0)
+            shown = displayed_fight(snap) if state["scope"] == "fight" else snap["fight"]
+            shown_live = fight_is_live(snap, shown)
+            fight_dps = snap["current_dps"] if shown_live else (shown.dps if shown else 0)
             widgets["current_dps"].configure(
                 text=fmt_num(fight_dps),
-                fg=THEME["gold_bright"] if snap["in_combat"] else THEME["dim"])
+                fg=THEME["gold_bright"] if shown_live else THEME["dim"])
             widgets["session_dps"].configure(text=fmt_num(snap["session_dps"]))
             best = snap["best_fight"]
             widgets["best_dps"].configure(text=fmt_num(best.dps) if best else "0")
@@ -2022,6 +2506,24 @@ def run_gui(args):
                                ("session_dps", "SESSION"),
                                ("best_dps", "BEST")):
                 widgets[f"{key}_label"].configure(text=label)
+        if state["scope"] == "fight":
+            fights = snap["fights"]
+            shown = displayed_fight(snap)
+            index = next((i for i, f in enumerate(fights) if f is shown), -1)
+            label = "AWAITING ENCOUNTER"
+            if shown:
+                encounter_name = shown.name.upper()
+                if len(encounter_name) > 20:
+                    encounter_name = encounter_name[:19].rstrip() + "…"
+                prefix = "" if fight_is_live(snap, shown) else f"{index + 1}/{len(fights)} · "
+                label = f"{prefix}{encounter_name}"
+            widgets["encounter_label"].configure(text=label)
+            widgets["encounter_prev"].configure(
+                fg=THEME["cyan"] if index > 0 else THEME["line"])
+            widgets["encounter_next"].configure(
+                fg=THEME["cyan"] if 0 <= index < len(fights) - 1 else THEME["line"])
+            widgets["encounter_live"].configure(
+                fg=THEME["gold_bright"] if state["selected_fight"] is None else THEME["cyan"])
         starred = cfg.get("starred_cards", [])
         for key, _label in CARDS:
             cw = card_widgets.get(key)
@@ -2040,50 +2542,7 @@ def run_gui(args):
             cw["chev"].configure(text="\u25be" if expanded else "\u25b8")
             if expanded:
                 rows = card_detail(snap, key)
-                signature = tuple(rows)
-                if (force_detail or not cw["detail"].winfo_children()
-                        or signature != cw["detail_signature"]):
-                    for w in cw["detail"].winfo_children():
-                        w.destroy()
-                    for kind, left, right in rows:
-                        r = tk.Frame(cw["detail"], bg=THEME["bg"])
-                        r.pack(fill="x", padx=14, pady=0)
-                        if kind.startswith("meter:"):
-                            proportion = max(0.0, min(1.0, float(kind.split(":", 1)[1])))
-                            meter = tk.Canvas(r, height=19, bg=THEME["bg"], highlightthickness=0)
-                            meter.pack(fill="x")
-
-                            def draw_meter(_event=None, canvas=meter, pct=proportion,
-                                           lhs=left, rhs=right):
-                                width = max(1, canvas.winfo_width())
-                                canvas.delete("all")
-                                canvas.create_rectangle(0, 2, max(2, int(width * pct)), 17,
-                                                        fill=THEME["meter"], outline="")
-                                canvas.create_line(0, 2, max(2, int(width * pct)), 2,
-                                                   fill=THEME["meter_edge"])
-                                canvas.create_text(3, 10, text=lhs, fill=THEME["text"],
-                                                   font=FONT_S, anchor="w")
-                                canvas.create_text(width - 3, 10, text=rhs,
-                                                   fill=THEME["gold_bright"],
-                                                   font=FONT_S, anchor="e")
-
-                            meter.bind("<Configure>", draw_meter)
-                        elif kind == "head":
-                            tk.Label(r, text=left, fg=THEME["gold"], bg=THEME["bg"],
-                                     font=FONT_S, anchor="w").pack(side="left", pady=(4, 1))
-                            if right:
-                                tk.Label(r, text=right, fg=THEME["gold_bright"], bg=THEME["bg"],
-                                         font=FONT_S, anchor="e").pack(side="right", pady=(4, 1))
-                        elif kind == "line":
-                            tk.Label(r, text=left, fg=THEME["dim"], bg=THEME["bg"],
-                                     font=FONT_S, anchor="w", justify="left"
-                                     ).pack(side="left")
-                        else:
-                            tk.Label(r, text=left, fg=THEME["text"], bg=THEME["bg"],
-                                     font=FONT_S, anchor="w").pack(side="left")
-                            tk.Label(r, text=right, fg=THEME["gold_bright"], bg=THEME["bg"],
-                                     font=FONT_S, anchor="e").pack(side="right")
-                    cw["detail_signature"] = signature
+                _update_detail_controls(cw, rows)
                 cw["detail"].pack(fill="x", pady=(0, 4))
             else:
                 cw["detail"].pack_forget()
@@ -2111,8 +2570,11 @@ def run_gui(args):
             z_order["floating"] = floating
         root.after(750, sync_z_order)
 
+    install_recovery_hotkey()
+    root.protocol("WM_DELETE_WINDOW", do_quit)
     (build_mini if state["mini"] else build_full)()
     sync_z_order()
+    poll_recovery_hotkey()
     tick()
     root.mainloop()
     return 0
@@ -2192,7 +2654,13 @@ def selftest() -> int:
     assert snap["lifetime"]["best_dps"] > 0
     assert f1.sources["Melee"] == {"t": 400, "h": 2, "max": 300}
     assert f1.sources["Pet (Gann)"]["t"] == 50
+    assert f1.actor_damage["Spin"]["t"] == 725
+    assert f1.actor_damage["Gann (pet)"]["t"] == 50
     assert f1.damage_taken == 60 and f1.crits == 1 and f1.misses == 1
+    assert heal_fight.healing_sources["Light Healing"] == {
+        "t": 500, "h": 1, "max": 500, "over": 150,
+    }
+    assert snap["healing_by_source"]["Light Healing"]["over"] == 150
 
     # Exact Legends combat grammar captured from a live rock-dervish session.
     # These lines must light up COMBAT and SLAYING even if Loremaster discovers
@@ -2245,6 +2713,44 @@ def selftest() -> int:
     p = parse_line(line(8, "Nexus slashes a gnoll for 40 points of damage."))
     s3.apply(*p)
     assert s3.fight is not None and s3.fight.end.second == 8
+    assert s3.fight.actor_damage["Nexus"]["t"] == 40
+    assert s3.actor_damage["Spin"]["t"] == 10
+
+    # Named healing and incoming damage form an honest 20-second death recap.
+    death = SessionStats("Spin")
+    for raw in (
+        line(0, "You slash a spectre for 25 points of damage."),
+        line(2, "A spectre hits YOU for 80 points of damage."),
+        line(4, "Aria healed you for 30 hit points by Superior Healing."),
+        line(7, "You have been slain by a spectre!"),
+    ):
+        death.apply(*parse_line(raw))
+    ds = death.snapshot(now + timedelta(seconds=7))
+    assert ds["last_death_at"] == now + timedelta(seconds=7)
+    assert [event[1] for event in ds["last_death_recap"]] == [
+        "damage", "heal", "death",
+    ]
+    assert death.actor_healing["Aria"]["t"] == 30
+
+    # One uninterrupted multi-mob pull remains one encounter. Repeated mob
+    # names collapse into target types, while individual slay lines retain the
+    # real seven-enemy pull count.
+    pull = SessionStats("Spin")
+    offset = 0
+    for mob, count in (("a goblin shaman", 3), ("a goblin warrior", 4)):
+        for _ in range(count):
+            pull.apply(*parse_line(line(offset, f"You slash {mob} for 25 points of damage.")))
+            pull.apply(*parse_line(line(offset + 1, f"You have slain {mob}!")))
+            offset += 2
+    pull.finalize_idle(now + timedelta(seconds=offset + 20))
+    pull_snap = pull.snapshot(now + timedelta(seconds=offset + 20))
+    assert len(pull_snap["fights"]) == 1
+    pull_fight = pull_snap["fights"][0]
+    assert pull_fight.kills == 7 and len(pull_fight.targets) == 2
+    assert pull_fight.kill_targets == {
+        "Goblin shaman": 3, "Goblin warrior": 4,
+    }
+    assert pull_fight.name == "7 enemies"
 
     # coin parsing
     assert parse_coins("2 platinum, 4 gold, 3 silver, 9 copper") == 2439
@@ -2364,6 +2870,7 @@ def selftest() -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Spin\'s Loremaster — log parser & session tracker for Spin\'s UI Reloaded")
     ap.add_argument("--demo", action="store_true", help="run with a synthetic combat feed")
+    ap.add_argument("--windowed", action="store_true", help=argparse.SUPPRESS)
     ap.add_argument("--selftest", action="store_true", help="run parser/stats tests and exit")
     ap.add_argument("--log", help="tail one specific eqlog file")
     ap.add_argument("--log-dir", help="EverQuest Legends Logs directory")
