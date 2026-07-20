@@ -124,9 +124,9 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 ### Automatic Windows installer
 
 1. Download `SpinUI-Installer.zip` from the newest entry on the GitHub **Releases** page. Maintainers can also run **Actions → Build SpinUI Windows package**: leave **Publish these builds on the GitHub Releases page** enabled and choose the release tag to create or refresh.
-2. Extract the whole ZIP, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`.
+2. Extract the whole ZIP, close EverQuest, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`. Re-running it is a supported update path: the skin is cleanly refreshed so obsolete files cannot linger, while Loremaster's saved config and records remain intact.
 3. The installer always adds the skin and Loremaster. **Install the 3440x1440 layout** is deliberately unchecked so another player's arrangement is never replaced accidentally. When selected, choose the character INI to update; the original is preserved beside it as `.spinui-backup`.
-4. **Start Loremaster with Windows** is enabled by default. Its startup process remains hidden and virtually idle until `eqgame.exe` appears, then opens Loremaster in its saved dock position.
+4. **Start Loremaster with Windows** and **Create a Loremaster desktop shortcut** are enabled by default. Startup remains hidden and virtually idle until `eqgame.exe` appears; the desktop shortcut opens the HUD directly.
 5. In game, type `/log on` once and use `/loadskin spinui_reloaded 1` if the skin is not already selected.
 
 ### Manual installation
@@ -191,13 +191,13 @@ Tuned for **running with the map open**:
 
 ## The equipment screen
 
-Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 720x800):
+Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 780x800):
 
-* **Two floating slot rails** — armor down the left, jewelry (plus Power Source) down the right — every one of the **25 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
-* **Weapons row** on gold-edged hexes across the bottom center: Primary · Secondary · Range · Ammo · **Any · Any** (the two Legends flex slots, right where the live client puts them).
-* **Bags live in the window** — the ten general slots tile as two clean columns in the right sidebar under your weight, exactly like stock but themed; every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) keeps its place, right-anchored.
+* **Two floating slot rails** — armor down the left and jewelry down the right — every one of the **23 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
+* **Bottom equipment row** keeps Primary · Secondary · Range · Ammo together on gold-edged hexes, followed by a breathing-space gap and the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`) on steel-edged hexes. Inventory bags never masquerade as equipment slots.
+* **All 12 bag slots live under Destroy** in a dedicated two-column right rail. The wider identity area keeps `Spin` and `39 WAR/DRU/BRD` comfortably separated, while every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) stays intact.
 * **Every stat block is intact** — Character Vitals (through Velocity, regens and all three DPS lines), Stats & Resists (incl. SV. Void), the full Additional Modifiers block (shieldings included) and Bind/Origin/Deity. The columns scroll if a future patch adds more.
-* **Class crest centerpiece** — the class emblem (still a functional *drop-to-auto-equip* target) floats top-center on a gold hex.
+* **Native class-emblem centerpiece** — EQ's live Warrior swords, caster spellbook, and other class artwork keeps its original `75x142` proportions inside an `85x171` obsidian frame. It remains the functional *drop-to-auto-equip* target instead of being clipped into a small square.
 * **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
 * Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
 * Regenerate or tweak the composition via `tools/restyle_inventory.py` (rail order and pitch are data at the top of the file).
@@ -223,7 +223,7 @@ Loremaster is a purpose-built, single-file Python companion for Spin's UI Reload
 
 1. Use `SpinUIInstaller.exe` from `SpinUI-Installer.zip`, take `Loremaster.exe` from `SpinUI-Manual.zip`, or download the standalone tools artifact. No Python is required. Tagged releases contain both packages and both executables.
 2. In game, type **`/log on`** once (per character). Loremaster scans the usual Daybreak and Steam locations, follows whichever log is newest in real time, and works for **any character on any server**. If your install is elsewhere, click **LOCATE LOG** and choose either the EverQuest directory or its `Logs` folder; Loremaster reconnects immediately and remembers the choice.
-3. It opens **always-on-top** on the shelf above your bag row (right side, clear of the map, group window, hotbars and chat). Drag it anywhere — the spot is remembered.
+3. It opens as a compact **600x34 HUD** on the shelf above your bag row. It floats over EverQuest while you play, but drops behind unrelated Windows apps. Drag it anywhere; click **DETAILS** for the full encounter ledger, use **HUD** to collapse it again, and drag the lower-right grip to resize the detailed view. Position and size are remembered and recovered safely after a monitor or resolution change; duplicate launches collapse to one lightweight process.
 
 Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
 
@@ -237,13 +237,13 @@ Loremaster's face is its own — the same design language as the rest of Spin's 
 | SLAYING | `47 (+9)` yours (+group) | per-creature ×N breakdown + group kills |
 | SPOILS | `23 items` | the loot list ×N |
 | COIN | `2p 9g 1s 6c` | total + plat/hour |
-| PROGRESSION | `18.6% xp, +3 AA` | XP/hr · time to level · into-level % · levels · AA · songs |
+| PROGRESSION | `18.6% xp, +3 AA` | XP/hr · time to level · into-level % · levels · AA · songs · skill improvements |
 | STANDING | `7 factions` | per-faction ± standings |
 | JOURNEY | deaths | zone chain + deaths |
 
-**Fight mode** is the Details-style deep dive: total damage, DPS, duration, crits/misses, incoming damage and healing, then every ability with total/share/DPS/hits/average/max, damage by target, and recent encounters. **Session mode** aggregates combat, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed ↺. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
+**Fight mode** is the Details-style deep dive: total damage, DPS, duration, crits/misses, incoming damage and healing, then every ability with total/share/DPS/hits/average/max, damage by target, and recent encounters. **Session mode** aggregates combat, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed **RESET**. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
 
-**Pin a section** (✦) into **mini mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play; the — button switches modes, both positions are remembered separately, and the window is always-on-top in either mode.
+**Pin a section** (✦) into **HUD mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play. **DETAILS** expands the full meter, **HUD** collapses it, and both positions are remembered separately. A colored `LIVE / READY / STALE / NO LOG` indicator makes log state obvious and doubles as the log-folder picker.
 
 ### Run it — from source
 
@@ -281,7 +281,7 @@ Loremaster doubles as an alert engine: big center-screen banners (red / gold / c
 | Your **name is called** in group/raid/guild chat | gold — `GRIMLORD CALLED YOU — Spin to the east wall` |
 | A **fight ends** | cyan toast with the fight's damage/duration/DPS |
 
-Add your own DBM-style triggers in `loremaster_config.json` — any regex over log lines:
+Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\loremaster_config.json` — any regex over log lines. This file is created automatically; selecting a log never requires editing it:
 
 ```json
 "custom_alerts": [
@@ -296,7 +296,7 @@ Add your own DBM-style triggers in `loremaster_config.json` — any regex over l
 
 * Always-on-top, borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It defaults to the layout's reserved right-side shelf, clear of the map, group window, hotbars, and bag dock.
 * **Mini mode** (— button): a slim strip showing only your pinned sections. Click ✦ beside a section to pin or unpin it.
-* **LOCATE LOG** opens a folder picker; ↺ resets only the live session. Config is materialized automatically on first run.
+* **LOCATE LOG** opens a folder picker; **RESET** clears only the live session. Config is materialized automatically on first run.
 
 ---
 
@@ -309,6 +309,7 @@ pip install pillow                                # only needed for the two art 
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
 python3 tools/render_preview.py                   # re-render the full-screen preview
+python3 tools/audit_spinui.py                     # audit XML, references, assets and critical geometry
 ```
 
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).

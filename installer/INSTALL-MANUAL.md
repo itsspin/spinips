@@ -11,7 +11,9 @@ INI while the game is running.
 
 ## 2. Install the skin
 
-Copy the complete `spinui_reloaded` folder into the game's `uifiles` folder.
+For a clean update, rename or remove an older `spinui_reloaded` folder first,
+then copy the complete new folder into the game's `uifiles` folder. This keeps
+renamed or retired files from an earlier release from lingering in the skin.
 The final path should look like:
 
 ```text
@@ -72,8 +74,8 @@ The waiting process remains hidden and uses a lightweight process check until
 
 ## Updating or removing
 
-- Update the skin by copying a newer `spinui_reloaded` folder over the existing
-  folder.
+- Update the skin while EQ is closed by replacing the complete
+  `spinui_reloaded` folder, not by merging the two versions.
 - Remove the skin by deleting only `uifiles\spinui_reloaded` while EQ is closed.
 - Restore your layout from the backup you made in step 3.
 - Loremaster stores its configuration and character records in

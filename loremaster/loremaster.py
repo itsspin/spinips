@@ -21,7 +21,7 @@ What it does
   ups, and estimated time to level.
 * Kills (per-creature breakdown), deaths, heals in/out, damage taken,
   loot log, coin (plat/hr), faction hits, skill-ups, fizzles/resists.
-* Mini mode: a slim always-on-top strip with your starred stats.
+* HUD mode: a slim EQ-only overlay strip with your starred stats.
 * Per-character persistence in loremaster_data/<Character>.json.
 
 Usage
@@ -108,15 +108,47 @@ SESSION_GAP = timedelta(minutes=60)
 POLL_MS = 500
 LOG_RESCAN_SECONDS = 2.0
 MAX_READ_BYTES = 256 * 1024
+INITIAL_BACKFILL_BYTES = 2 * 1024 * 1024
+INITIAL_BACKFILL_MINUTES = 30
 MAX_FIGHT_HISTORY = 500
 
 TS_FORMAT = "%a %b %d %H:%M:%S %Y"
+_EQ_PID_CACHE = {"expires": 0.0, "ids": set()}
+_INSTANCE_MUTEX = None
 
 
-def process_is_running(image_name: str) -> bool:
-    """Return True when a Windows process exists without spawning tasklist."""
-    if os.name != "nt":
+def acquire_single_instance() -> bool:
+    """Keep normal launches to one lightweight overlay per Windows session."""
+    global _INSTANCE_MUTEX
+    if os.name != "nt" or _INSTANCE_MUTEX is not None:
         return True
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.CreateMutexW.argtypes = [ctypes.c_void_p, wintypes.BOOL,
+                                          wintypes.LPCWSTR]
+        kernel32.CreateMutexW.restype = wintypes.HANDLE
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        kernel32.CloseHandle.restype = wintypes.BOOL
+        handle = kernel32.CreateMutexW(
+            None, False, "Local\\SpinsLoremaster.Singleton")
+        if not handle:
+            return True  # Do not prevent launch if Windows denied the mutex.
+        if ctypes.get_last_error() == 183:  # ERROR_ALREADY_EXISTS
+            kernel32.CloseHandle(handle)
+            return False
+        _INSTANCE_MUTEX = handle
+    except (AttributeError, OSError):
+        return True
+    return True
+
+
+def process_ids(image_name: str) -> set[int] | None:
+    """Return matching Windows process IDs, or None if enumeration failed."""
+    if os.name != "nt":
+        return {os.getpid()}
     try:
         import ctypes
         from ctypes import wintypes
@@ -147,21 +179,54 @@ def process_is_running(image_name: str) -> bool:
         snapshot = kernel32.CreateToolhelp32Snapshot(0x00000002, 0)
         invalid = wintypes.HANDLE(-1).value
         if snapshot == invalid:
-            return True  # fail open: never strand a legitimate manual launch
+            return None
         entry = PROCESSENTRY32W()
         entry.dwSize = ctypes.sizeof(entry)
         wanted = image_name.casefold()
+        result: set[int] = set()
         try:
             found = kernel32.Process32FirstW(snapshot, ctypes.byref(entry))
             while found:
                 if entry.szExeFile.casefold() == wanted:
-                    return True
+                    result.add(int(entry.th32ProcessID))
                 found = kernel32.Process32NextW(snapshot, ctypes.byref(entry))
         finally:
             kernel32.CloseHandle(snapshot)
-        return False
+        return result
     except Exception:
-        return True
+        return None
+
+
+def process_is_running(image_name: str) -> bool:
+    """Return True when a process exists; fail open for manual launches."""
+    ids = process_ids(image_name)
+    return True if ids is None else bool(ids)
+
+
+def foreground_is_everquest_or_loremaster(window_handle: int) -> bool:
+    """Float over EQ/Loremaster, but drop below unrelated foreground apps."""
+    if os.name != "nt":
+        return False
+    try:
+        import ctypes
+        from ctypes import wintypes
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        user32.GetForegroundWindow.restype = wintypes.HWND
+        user32.GetWindowThreadProcessId.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.DWORD)]
+        foreground = user32.GetForegroundWindow()
+        if not foreground:
+            return False
+        pid = wintypes.DWORD()
+        user32.GetWindowThreadProcessId(foreground, ctypes.byref(pid))
+        now = time.monotonic()
+        if now >= _EQ_PID_CACHE["expires"]:
+            _EQ_PID_CACHE["ids"] = process_ids("eqgame.exe") or set()
+            _EQ_PID_CACHE["expires"] = now + 2.0
+        eq_pids = _EQ_PID_CACHE["ids"]
+        return (int(foreground) == int(window_handle) or int(pid.value) == os.getpid()
+                or int(pid.value) in eq_pids)
+    except Exception:
+        return False
 
 
 def wait_for_everquest() -> None:
@@ -202,7 +267,7 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("melee_out", re.compile(
         rf"^You (?:{MELEE_VERBS}) (?P<target>.+?) for (?P<dmg>\d+) points? of damage\.{CRIT}$")),
     ("miss_out", re.compile(
-        r"^You try to \w+(?: on)? (?P<target>.+?), but (?P<reason>.+)!$")),
+        r"^You try to \w+(?: on)? (?P<target>.+?), but (?P<reason>.+?)!(?: \([^)]+\))?$")),
     ("dot_out", re.compile(
         rf"^(?P<target>.+?) has taken (?P<dmg>\d+) damage from your (?P<spell>.+?)\.{CRIT}$")),
     ("nuke_out_plain", re.compile(
@@ -215,7 +280,7 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("melee_in", re.compile(
         rf"^(?P<attacker>.+?) (?:{MELEE_VERBS}) YOU for (?P<dmg>\d+) points? of damage\.{CRIT}$")),
     ("miss_in", re.compile(
-        r"^(?P<attacker>.+?) tries to \w+(?: on)? YOU, but (?P<reason>.+)!$")),
+        r"^(?P<attacker>.+?) tries to \w+(?: on)? YOU, but (?P<reason>.+?)!(?: \([^)]+\))?$")),
     ("nuke_in", re.compile(
         r"^(?P<attacker>.+?) hit you for (?P<dmg>\d+) points? of \w+ damage by (?P<spell>.+?)\.$")),
     ("dot_in", re.compile(
@@ -492,7 +557,7 @@ class SessionStats:
             self.crits += 1
 
     # -- event application ----------------------------------------------
-    def apply(self, ts: datetime, kind: str, g: dict):
+    def apply(self, ts: datetime, kind: str, g: dict, *, count_lifetime: bool = True):
         if self.fight:
             ref = self.last_combat_signal or self.fight.end
             if ts - ref > COMBAT_GAP:
@@ -545,24 +610,28 @@ class SessionStats:
         elif kind == "kill_you":
             mob = normalize_mob(g["target"])
             self.kills[mob] += 1
-            self._lifetime_inc("kills")
-            self._lifetime_named("kill_breakdown", mob)
+            if count_lifetime:
+                self._lifetime_inc("kills")
+                self._lifetime_named("kill_breakdown", mob)
             self._own_combat(ts)
         elif kind == "death_you":
             self.deaths += 1
-            self._lifetime_inc("deaths")
+            if count_lifetime:
+                self._lifetime_inc("deaths")
             self._close_fight()
         elif kind == "kill_other":
             killer = g["killer"].strip()
             mob = normalize_mob(g["target"])
             if killer == self.character or self.is_pet(killer):
                 self.kills[mob] += 1
-                self._lifetime_inc("kills")
-                self._lifetime_named("kill_breakdown", mob)
+                if count_lifetime:
+                    self._lifetime_inc("kills")
+                    self._lifetime_named("kill_breakdown", mob)
             else:
                 self.group_kills[mob] += 1
-                self._lifetime_inc("group_kills")
-                self._lifetime_named("group_kill_breakdown", mob)
+                if count_lifetime:
+                    self._lifetime_inc("group_kills")
+                    self._lifetime_named("group_kill_breakdown", mob)
             self._combat_signal(ts)
 
         elif kind == "heal_out":
@@ -774,6 +843,37 @@ class LogWatcher:
         self._partial = b""
         self._next_scan = 0.0
 
+    @staticmethod
+    def _recent_offset(path: Path, now: datetime | None = None) -> int:
+        """Find a bounded, line-aligned offset for recent-session warm start."""
+        try:
+            size = path.stat().st_size
+            start = max(0, size - INITIAL_BACKFILL_BYTES)
+            with path.open("rb") as fh:
+                fh.seek(start)
+                data = fh.read()
+        except OSError:
+            return 0
+        base = start
+        if start and b"\n" in data:
+            cut = data.index(b"\n") + 1
+            base += cut
+            data = data[cut:]
+        cutoff = (now or datetime.now()) - timedelta(minutes=INITIAL_BACKFILL_MINUTES)
+        cursor = 0
+        for raw in data.splitlines(keepends=True):
+            line = raw.rstrip(b"\r\n").decode("latin-1", errors="replace")
+            match = LINE_RE.match(line)
+            if match:
+                try:
+                    stamp = datetime.strptime(re.sub(r"\s+", " ", match.group("ts")), TS_FORMAT)
+                except ValueError:
+                    stamp = None
+                if stamp is not None and stamp >= cutoff:
+                    return base + cursor
+            cursor += len(raw)
+        return size
+
     def _pick(self) -> Path | None:
         if self.explicit:
             return self.explicit if self.explicit.exists() else None
@@ -804,7 +904,9 @@ class LogWatcher:
             m = LOG_NAME_RE.match(target.name)
             if m:
                 self.character, self.server = m.group("char"), m.group("server")
-            self.offset = target.stat().st_size  # start at live tail
+            # Warm-start the current play session instead of silently losing a
+            # fight that began moments before Loremaster launched.
+            self.offset = self._recent_offset(target)
             try:
                 self._fh = target.open("rb")
                 self._fh.seek(self.offset)
@@ -886,10 +988,11 @@ def check_alerts(kind: str, g: dict, raw_msg: str, character: str, cfg: dict):
 def load_config() -> dict:
     cfg = {
         "log_dir": None,
-        "mini_mode": False,
+        "mini_mode": True,
         "opacity": 0.94,
         "position": None,
         "mini_position": None,
+        "panel_size": [400, 480],
         "starred": ["session_dps", "xp_hr", "hours_to_level", "kills"],
         "starred_cards": ["combat", "kills", "money", "progress"],
         "alerts_enabled": True,
@@ -902,16 +1005,26 @@ def load_config() -> dict:
         "custom_alerts": [],
     }
     try:
-        cfg.update(json.loads(CONFIG_PATH.read_text()))
+        cfg.update(json.loads(CONFIG_PATH.read_text(encoding="utf-8")))
     except (OSError, ValueError):
         pass
     return cfg
 
 
+def write_json_atomic(path: Path, data: dict) -> None:
+    """Replace a small JSON state file without exposing a partial write."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    staged = path.with_suffix(path.suffix + ".tmp")
+    try:
+        staged.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        os.replace(staged, path)
+    finally:
+        staged.unlink(missing_ok=True)
+
+
 def save_config(cfg: dict) -> None:
     try:
-        APP_DATA_DIR.mkdir(parents=True, exist_ok=True)
-        CONFIG_PATH.write_text(json.dumps(cfg, indent=2))
+        write_json_atomic(CONFIG_PATH, cfg)
     except OSError:
         pass
 
@@ -958,15 +1071,15 @@ def save_character_state(char: str, stats: SessionStats) -> None:
             "lifetime": normalize_lifetime(stats.lifetime),
             "saved_at": datetime.now().isoformat(timespec="seconds"),
         }
-        (DATA_DIR / f"{char}.json").write_text(json.dumps(state, indent=2))
+        write_json_atomic(DATA_DIR / f"{char}.json", state)
     except OSError:
         pass
 
 
-def restore_character_state(stats: SessionStats) -> None:
+def restore_character_state(stats: SessionStats) -> datetime | None:
     st = load_character_state(stats.character)
     if not st:
-        return
+        return None
     stats.level = st.get("level", stats.level)
     stats.xp_since_level = float(st.get("xp_since_level", 0.0))
     if stats.xp_since_level:
@@ -975,6 +1088,10 @@ def restore_character_state(stats: SessionStats) -> None:
         stats.pet_names.add(p)
     stats.zone = st.get("zone", stats.zone)
     stats.lifetime = normalize_lifetime(st.get("lifetime"))
+    try:
+        return datetime.fromisoformat(st["saved_at"])
+    except (KeyError, TypeError, ValueError):
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -1109,7 +1226,7 @@ class DemoFeed:
 
 
 # ---------------------------------------------------------------------------
-# Alert banners — frameless topmost strips, center-top, auto-fading
+# Alert banners — frameless EQ-overlay strips, center-top, auto-fading
 # ---------------------------------------------------------------------------
 class AlertManager:
     COLORS = {"danger": ("#d93a3f", "#1a0d0e"), "warn": ("#c9a227", "#14110a"),
@@ -1145,7 +1262,8 @@ class AlertManager:
         edge, body = self.COLORS.get(severity, self.COLORS["info"])
         win = tk.Toplevel(self.root)
         win.overrideredirect(True)
-        win.attributes("-topmost", True)
+        win.attributes("-topmost", foreground_is_everquest_or_loremaster(
+            self.root.winfo_id()))
         outer = tk.Frame(win, bg=edge, padx=2, pady=2)
         outer.pack()
         inner = tk.Frame(outer, bg=body, padx=18, pady=8)
@@ -1165,14 +1283,17 @@ class AlertManager:
         ttl = int(self.cfg.get("alert_seconds", 4) * 1000)
         win.after(ttl, lambda: self._dismiss(win))
 
-    def _dismiss(self, win):
-        if win in self.active:
+    def _dismiss(self, win, step=0):
+        """Fade without blocking Tk's parser/UI update loop."""
+        if step == 0 and win in self.active:
             self.active.remove(win)
         try:
-            for step in range(8):
+            if step < 8:
+                win.attributes("-topmost", foreground_is_everquest_or_loremaster(
+                    self.root.winfo_id()))
                 win.attributes("-alpha", 1.0 - step / 8)
-                win.update()
-                time.sleep(0.02)
+                win.after(20, lambda: self._dismiss(win, step + 1))
+                return
         except Exception:
             pass
         try:
@@ -1210,31 +1331,111 @@ def run_gui(args):
     root.title("Spin\'s Loremaster")
     root.configure(bg=T["bg"])
     root.overrideredirect(True)
-    root.attributes("-topmost", True)
+    root.attributes("-topmost", False)
     try:
         root.attributes("-alpha", cfg.get("opacity", 0.94))
     except tk.TclError:
         pass
 
     state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time(),
-             "fights_seen": 0, "expanded": {"combat"}, "scope": "fight"}
+             "fights_seen": 0, "expanded": {"combat"}, "scope": "fight",
+             "lifetime_cutoff": None}
     alerts = AlertManager(tk, root, cfg)
 
     # ---- window drag + position persistence ----
-    drag = {"x": 0, "y": 0}
+    drag = {"x": 0, "y": 0, "active": False}
 
     def start_drag(e):
+        try:
+            cursor = str(e.widget.cget("cursor"))
+            widget_class = e.widget.winfo_class()
+            has_click_handler = bool(e.widget.bind("<Button-1>"))
+        except (AttributeError, tk.TclError):
+            # Mode switches destroy the clicked control before the toplevel's
+            # bindtag runs; that click must never become a window drag.
+            drag["active"] = False
+            return
+        interactive = (has_click_handler
+                       or cursor in {"hand2", "size_nw_se"}
+                       or widget_class in {
+                           "Scrollbar", "Button", "TButton", "Entry",
+                           "TEntry", "TCombobox",
+                       })
+        drag["active"] = not interactive
+        if not drag["active"]:
+            return
         drag["x"], drag["y"] = e.x, e.y
 
     def do_drag(e):
+        if not drag["active"]:
+            return
         x = root.winfo_x() + e.x - drag["x"]
         y = root.winfo_y() + e.y - drag["y"]
-        root.geometry(f"+{x}+{y}")
+        root.geometry(f"{x:+d}{y:+d}")
 
     def end_drag(_e):
+        if not drag["active"]:
+            return
+        drag["active"] = False
+        width, height = root.winfo_width(), root.winfo_height()
+        x, y = clamped_position(
+            [root.winfo_x(), root.winfo_y()], width, height,
+            root.winfo_x(), root.winfo_y())
+        root.geometry(f"{width}x{height}{x:+d}{y:+d}")
         key = "mini_position" if state["mini"] else "position"
-        cfg[key] = [root.winfo_x(), root.winfo_y()]
+        cfg[key] = [x, y]
         save_config(cfg)
+
+    resize = {"x": 0, "y": 0, "w": 0, "h": 0}
+
+    def virtual_desktop_bounds():
+        """Return the complete Windows desktop, including left-side monitors."""
+        if os.name == "nt":
+            try:
+                import ctypes
+                user32 = ctypes.windll.user32
+                return (user32.GetSystemMetrics(76), user32.GetSystemMetrics(77),
+                        user32.GetSystemMetrics(78), user32.GetSystemMetrics(79))
+            except (AttributeError, OSError):
+                pass
+        return 0, 0, root.winfo_screenwidth(), root.winfo_screenheight()
+
+    def clamped_position(pos, width, height, default_x, default_y):
+        """Keep a remembered overlay reachable after resolution/monitor changes."""
+        try:
+            x, y = int(pos[0]), int(pos[1])
+        except (TypeError, ValueError, IndexError, KeyError):
+            x, y = int(default_x), int(default_y)
+        vx, vy, vw, vh = virtual_desktop_bounds()
+        x = max(vx, min(x, vx + max(0, vw - width)))
+        y = max(vy, min(y, vy + max(0, vh - height)))
+        return x, y
+
+    def place_window(width, height, pos, default_x, default_y):
+        x, y = clamped_position(pos, width, height, default_x, default_y)
+        root.geometry(f"{width}x{height}{x:+d}{y:+d}")
+        return x, y
+
+    def start_resize(e):
+        resize.update(x=e.x_root, y=e.y_root, w=root.winfo_width(), h=root.winfo_height())
+        return "break"
+
+    def do_resize(e):
+        width = max(360, min(680, resize["w"] + e.x_root - resize["x"]))
+        height = max(360, min(900, resize["h"] + e.y_root - resize["y"]))
+        root.geometry(f"{width}x{height}")
+        return "break"
+
+    def end_resize(_e):
+        width, height = root.winfo_width(), root.winfo_height()
+        x, y = clamped_position(
+            [root.winfo_x(), root.winfo_y()], width, height,
+            root.winfo_x(), root.winfo_y())
+        root.geometry(f"{width}x{height}{x:+d}{y:+d}")
+        cfg["position"] = [x, y]
+        cfg["panel_size"] = [width, height]
+        save_config(cfg)
+        return "break"
 
     root.bind("<Button-1>", start_drag)
     root.bind("<B1-Motion>", do_drag)
@@ -1272,6 +1473,10 @@ def run_gui(args):
         ("travels", "JOURNEY"),
     ]
     card_widgets: dict[str, dict] = {}
+
+    def clear_scroll_bindings():
+        for event_name in ("<MouseWheel>", "<Button-4>", "<Button-5>"):
+            root.unbind_all(event_name)
 
     def hex_bullet(parent, size=14, color=None, bg=None):
         c = tk.Canvas(parent, width=size, height=size, bg=bg or T["bg"],
@@ -1323,7 +1528,14 @@ def run_gui(args):
         if key == "progress":
             if snap["xp_pct_known"]:
                 return f"{snap['xp_pct']:.1f}% xp" + (f", +{stats.levelups} lvl" if stats.levelups else "")
-            return f"{snap['xp_events']} xp gains"
+            if snap["xp_events"]:
+                return f"{snap['xp_events']} xp gain" + ("s" if snap["xp_events"] != 1 else "")
+            if stats.skillups:
+                count = len(stats.skillups)
+                return f"{count} skillup" + ("s" if count != 1 else "")
+            if stats.aa_points:
+                return f"+{stats.aa_points} AA"
+            return "awaiting gains"
         if key == "faction":
             return f"{len(stats.faction)} factions"
         if key == "travels":
@@ -1452,6 +1664,10 @@ def run_gui(args):
             out.append(("row", "Levels this session", str(stats.levelups)))
             out.append(("row", "AA points", str(stats.aa_points)))
             out.append(("row", "Songs twisted", f"{snap['songs']} ({snap['songs_min']:.1f}/min)"))
+            if stats.skillups:
+                out.append(("head", "Skill improvements", str(len(stats.skillups))))
+                for name, value in sorted(stats.skillups.items())[:12]:
+                    out.append(("row", name, str(value)))
         elif key == "faction":
             rows = sorted(stats.faction.items(), key=lambda kv: kv[1])
             for name, d in rows[:10]:
@@ -1492,6 +1708,7 @@ def run_gui(args):
         refresh(force_detail=True)
 
     def build_full():
+        clear_scroll_bindings()
         for w in body.winfo_children():
             w.destroy()
         card_widgets.clear()
@@ -1502,7 +1719,7 @@ def run_gui(args):
         widgets["title"] = L(head, "SPIN'S LOREMASTER", fg=T["gold_bright"],
                              font=FONT_TITLE, bg=T["panel"])
         widgets["title"].pack(side="left")
-        for txt, cmd in (("\u2715", do_quit), ("\u2014", toggle_mini), ("\u21ba", do_reset)):
+        for txt, cmd in (("\u2715", do_quit), ("HUD", toggle_mini), ("RESET", do_reset)):
             b = tk.Label(head, text=txt, fg=T["dim"], bg=T["panel"], font=FONT_B, cursor="hand2")
             b.pack(side="right", padx=5)
             b.bind("<Button-1>", lambda _e, c=cmd: c())
@@ -1603,15 +1820,27 @@ def run_gui(args):
         widgets["status"] = L(footer, "Loremaster awaits your log\u2026",
                               fg=T["dim"], font=FONT_S, bg=T["panel"])
         widgets["status"].pack(side="left", fill="x", expand=True, padx=(10, 4), pady=5)
+        grip = tk.Label(footer, text="\u2198", fg=T["cyan"], bg=T["panel"],
+                        font=FONT_B, cursor="size_nw_se")
+        grip.pack(side="right", padx=(0, 5), pady=3)
+        grip.bind("<Button-1>", start_resize)
+        grip.bind("<B1-Motion>", do_resize)
+        grip.bind("<ButtonRelease-1>", end_resize)
         widgets["locate"] = tk.Label(
             footer, text="LOCATE LOG", fg=T["cyan"], bg=T["raised"],
             font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
         widgets["locate"].pack(side="right", padx=(0, 6), pady=3)
         widgets["locate"].bind("<Button-1>", choose_log_dir)
         pos = cfg.get("position")
-        root.geometry(f"430x560+{pos[0]}+{pos[1]}" if pos else "430x560+2782+586")
+        panel_size = cfg.get("panel_size") or [400, 480]
+        width = max(360, min(680, int(panel_size[0])))
+        height = max(360, min(900, int(panel_size[1])))
+        default_x = max(8, root.winfo_screenwidth() - width - 24)
+        default_y = max(8, root.winfo_screenheight() - height - 300)
+        place_window(width, height, pos, default_x, default_y)
 
     def build_mini():
+        clear_scroll_bindings()
         for w in body.winfo_children():
             w.destroy()
         card_widgets.clear()
@@ -1634,15 +1863,19 @@ def run_gui(args):
             value = tk.Label(cells, text="—", fg=T["text"], bg=T["bg"], font=FONT_B)
             value.pack(side="left", padx=(4, 0))
             widgets["mini_items"][key] = value
-        locate = tk.Label(strip, text="LOG", fg=T["gold_bright"], bg=T["raised"],
-                          font=FONT_RUNE, cursor="hand2", padx=4)
-        locate.pack(side="right", padx=(2, 0), pady=3)
-        locate.bind("<Button-1>", choose_log_dir)
-        b = tk.Label(strip, text="\u25a3", fg=T["dim"], bg=T["bg"], font=FONT_B, cursor="hand2")
-        b.pack(side="right", padx=4)
-        b.bind("<Button-1>", lambda _e: toggle_mini())
+        details = tk.Label(strip, text="DETAILS", fg=T["cyan"], bg=T["raised"],
+                           font=FONT_RUNE, cursor="hand2", padx=6)
+        details.pack(side="right", padx=(3, 3), pady=3)
+        details.bind("<Button-1>", lambda _e: toggle_mini())
+        widgets["mini_log"] = tk.Label(
+            strip, text="\u25cf", fg=T["dim"], bg=T["bg"], font=FONT_S,
+            cursor="hand2", padx=3)
+        widgets["mini_log"].pack(side="right", pady=3)
+        widgets["mini_log"].bind("<Button-1>", choose_log_dir)
         pos = cfg.get("mini_position")
-        root.geometry(f"+{pos[0]}+{pos[1]}" if pos else "+2792+1118")
+        default_x = max(8, root.winfo_screenwidth() - 612)
+        default_y = max(8, root.winfo_screenheight() - 318)
+        place_window(600, 34, pos, default_x, default_y)
 
     def toggle_mini():
         state["mini"] = not state["mini"]
@@ -1694,7 +1927,7 @@ def run_gui(args):
                 save_character_state(stats.character, stats)
                 stats.__init__(watcher.character, session_gap=session_gap)
                 stats.character = watcher.character
-                restore_character_state(stats)
+                state["lifetime_cutoff"] = restore_character_state(stats)
                 state["fights_seen"] = 0
         for raw in lines:
             raw_msg = raw.split("] ", 1)[1] if "] " in raw else raw
@@ -1703,7 +1936,9 @@ def run_gui(args):
             if parsed:
                 ts, kind, groups = parsed
                 stats.character = watcher.character if not demo else stats.character
-                stats.apply(ts, kind, groups)
+                cutoff = state.get("lifetime_cutoff")
+                stats.apply(ts, kind, groups,
+                            count_lifetime=(cutoff is None or ts > cutoff))
             for severity, text_msg in check_alerts(kind, groups, raw_msg,
                                                    stats.character, cfg):
                 alerts.show(severity, text_msg)
@@ -1720,6 +1955,19 @@ def run_gui(args):
             state["last_save"] = time.time()
         root.after(POLL_MS, tick)
 
+    def log_health():
+        if not watcher.path:
+            return "NO LOG", THEME["hp"]
+        try:
+            age = max(0.0, time.time() - watcher.path.stat().st_mtime)
+        except OSError:
+            return "NO LOG", THEME["hp"]
+        if age <= 10:
+            return "LIVE", THEME["green"]
+        if age <= 120:
+            return "READY", THEME["cyan"]
+        return "STALE", THEME["ember"]
+
     def refresh(force_detail=False):
         snap = stats.snapshot(datetime.now())
         if state["mini"]:
@@ -1730,13 +1978,18 @@ def run_gui(args):
                 value = card_value(snap, key)
                 if label.cget("text") != value:
                     label.configure(text=value)
+            health, color = log_health()
+            mini_log = widgets.get("mini_log")
+            if mini_log:
+                mini_log.configure(text=f"\u25cf {health}", fg=color)
             return
 
         title = snap["character"]
         if watcher.server != "?":
             title += f" ({watcher.server})"
         widgets["who"].configure(text=title)
-        widgets["dot"].configure(fg=THEME["green"] if (demo or watcher.path) else THEME["dim"])
+        health, health_color = ("DEMO", THEME["green"]) if demo else log_health()
+        widgets["dot"].configure(fg=health_color)
         widgets["zone"].configure(text=snap["zone"] or "\u2014")
         if snap["session_start"]:
             dur = fmt_dur(snap["hours"] * 3600)
@@ -1838,13 +2091,28 @@ def run_gui(args):
         if demo:
             src_txt = "demo mode \u2014 synthetic fight"
         elif watcher.path:
-            src_txt = f"tailing {watcher.path.name}"
+            src_txt = f"{health.lower()} \u00b7 {watcher.path.name}"
         else:
-            src_txt = "no eqlog found \u2014 /log on, then click LOCATE LOG"
-        widgets["status"].configure(text=src_txt)
+            src_txt = "no log \u00b7 /log on, then LOCATE LOG"
+        widgets["status"].configure(text=src_txt, fg=health_color)
         widgets["locate"].configure(text="CHANGE" if watcher.path else "LOCATE LOG")
 
+    z_order = {"floating": None}
+
+    def sync_z_order():
+        floating = foreground_is_everquest_or_loremaster(root.winfo_id())
+        if floating != z_order["floating"]:
+            try:
+                root.attributes("-topmost", floating)
+                if floating:
+                    root.lift()
+            except tk.TclError:
+                pass
+            z_order["floating"] = floating
+        root.after(750, sync_z_order)
+
     (build_mini if state["mini"] else build_full)()
+    sync_z_order()
     tick()
     root.mainloop()
     return 0
@@ -1925,6 +2193,35 @@ def selftest() -> int:
     assert f1.sources["Melee"] == {"t": 400, "h": 2, "max": 300}
     assert f1.sources["Pet (Gann)"]["t"] == 50
     assert f1.damage_taken == 60 and f1.crits == 1 and f1.misses == 1
+
+    # Exact Legends combat grammar captured from a live rock-dervish session.
+    # These lines must light up COMBAT and SLAYING even if Loremaster discovers
+    # the log after the first swing has already been written.
+    live = SessionStats("Spin")
+    rock_lines = [
+        line(0, "A rock dervish is pierced by YOUR thorns for 4 points of non-melee damage."),
+        line(1, "A rock dervish hits YOU for 1 point of damage."),
+        line(2, "A rock dervish has taken 16 damage from your Denon's Disruptive Discord."),
+        line(3, "A rock dervish tries to hit YOU, but misses! (Riposte)"),
+        line(4, "You slash a rock dervish for 54 points of damage."),
+        line(5, "You slash a rock dervish for 20 points of damage."),
+        line(6, "You slash a rock dervish for 33 points of damage."),
+        line(7, "You slash a rock dervish for 29 points of damage."),
+        line(8, "You receive 4 silver from the corpse."),
+        line(8, "You have slain a rock dervish!"),
+    ]
+    for raw in rock_lines:
+        parsed = parse_line(raw)
+        assert parsed, f"unparsed live line: {raw}"
+        live.apply(*parsed)
+    rock = live.snapshot(now + timedelta(seconds=8))
+    assert rock["current_dps"] > 0 and rock["combat_damage"] == 156, rock
+    assert rock["kills"] == 1 and rock["enemy_misses"] == 1, rock
+    assert rock["copper"] == 40, rock
+    replay = SessionStats("Spin")
+    parsed = parse_line(line(0, "You have slain a rock dervish!"))
+    replay.apply(*parsed, count_lifetime=False)
+    assert replay.kills["Rock dervish"] == 1 and replay.lifetime["kills"] == 0
 
     # ETL math: fabricate xp rate
     s2 = SessionStats("Spin")
@@ -2013,6 +2310,10 @@ def selftest() -> int:
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
+        atomic_state = root / "state.json"
+        write_json_atomic(atomic_state, {"ok": True})
+        assert json.loads(atomic_state.read_text(encoding="utf-8")) == {"ok": True}
+        assert not atomic_state.with_suffix(".json.tmp").exists()
         (root / "Logs").mkdir()
         older = root / "Logs" / "eqlog_Alt_qeynos.txt"
         newer = root / "eqlog_Spin_qeynos.txt"
@@ -2036,6 +2337,24 @@ def selftest() -> int:
         lines, switched = w.poll()
         assert not switched and lines == ["[Sun Jul 19 20:00:00 2026] You have slain a rat!"]
         w.close()
+
+        # A newly discovered log replays only the recent, bounded session tail
+        # on its next poll instead of discarding combat already in progress.
+        recent = root / "eqlog_Spin_qeynos.txt"
+        recent.write_text(
+            line(-3600, "You slash an old rat for 1 point of damage.") + "\n" +
+            line(-10, "You slash a rock dervish for 33 points of damage.") + "\n" +
+            line(-9, "You have slain a rock dervish!") + "\n",
+            encoding="latin-1",
+        )
+        w = LogWatcher(None, str(recent))
+        # _recent_offset accepts an explicit clock, keeping this test stable.
+        offset = w._recent_offset(recent, now=now)
+        with recent.open("rb") as fh:
+            fh.seek(offset)
+            warmed = fh.read().decode("latin-1")
+        assert "old rat" not in warmed and "rock dervish" in warmed, warmed
+        w.close()
     print("Loremaster selftest: ALL PASS")
     print(f"  patterns: {len(PATTERNS)}  |  fight1 dps {f1.dps:.0f}  |  "
           f"session dps {snap['session_dps']:.0f}  |  ETL {fmt_eta(snap2['hours_to_level'])}")
@@ -2055,6 +2374,11 @@ def main() -> int:
         return selftest()
     if args.wait_for_eq and not args.demo:
         wait_for_everquest()
+    # A startup waiter acquires only after EQ appears. That lets a deliberate
+    # desktop launch open immediately; when EQ starts, the waiter sees the
+    # existing overlay and exits instead of creating a duplicate.
+    if not args.demo and not acquire_single_instance():
+        return 0
     return run_gui(args)
 
 

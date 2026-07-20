@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 from pathlib import Path
 
 
@@ -28,6 +29,7 @@ SKIN_NAME = "spinui_reloaded"
 LAYOUT_NAME = "UI_Spin_qeynos_LO1.ini"
 LOREMASTER_NAME = "Loremaster.exe"
 STARTUP_LINK = "Spin's Loremaster.lnk"
+DESKTOP_LINK = "Spin's Loremaster.lnk"
 
 BG = "#090c11"
 PANEL = "#10161d"
@@ -111,27 +113,38 @@ def startup_folder(override: Path | None = None) -> Path:
     return appdata / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
 
 
+def desktop_folder(override: Path | None = None) -> Path:
+    if override is not None:
+        return override
+    if os.name == "nt":
+        try:
+            import ctypes
+            buffer = ctypes.create_unicode_buffer(260)
+            # CSIDL_DESKTOPDIRECTORY follows redirected/OneDrive desktops.
+            if ctypes.windll.shell32.SHGetFolderPathW(None, 0x10, None, 0, buffer) == 0:
+                return Path(buffer.value)
+        except (AttributeError, OSError):
+            pass
+    return Path.home() / "Desktop"
+
+
 def _ps_quote(value: str) -> str:
     return value.replace("'", "''")
 
 
-def set_startup_shortcut(executable: Path, enabled: bool,
-                         folder: Path | None = None) -> None:
-    target_dir = startup_folder(folder)
-    target_dir.mkdir(parents=True, exist_ok=True)
-    shortcut = target_dir / STARTUP_LINK
-    if not enabled:
-        shortcut.unlink(missing_ok=True)
-        return
+def _write_shortcut(executable: Path, shortcut: Path, *, arguments: str,
+                    description: str) -> None:
     if os.name != "nt":
-        raise RuntimeError("Windows startup shortcuts can only be created on Windows")
+        raise RuntimeError("Windows shortcuts can only be created on Windows")
+    shortcut.parent.mkdir(parents=True, exist_ok=True)
     script = (
         "$w=New-Object -ComObject WScript.Shell;"
         f"$s=$w.CreateShortcut('{_ps_quote(str(shortcut))}');"
         f"$s.TargetPath='{_ps_quote(str(executable))}';"
-        "$s.Arguments='--wait-for-eq';"
+        f"$s.Arguments='{_ps_quote(arguments)}';"
         f"$s.WorkingDirectory='{_ps_quote(str(executable.parent))}';"
-        "$s.Description=\"Wait for EverQuest, then open Spin's Loremaster\";"
+        f"$s.Description='{_ps_quote(description)}';"
+        f"$s.IconLocation='{_ps_quote(str(executable))},0';"
         "$s.Save()"
     )
     encoded = base64.b64encode(script.encode("utf-16le")).decode("ascii")
@@ -142,7 +155,65 @@ def set_startup_shortcut(executable: Path, enabled: bool,
     )
     if result.returncode:
         detail = result.stderr.decode(errors="replace").strip()
-        raise RuntimeError(f"Could not create the startup shortcut: {detail}")
+        raise RuntimeError(f"Could not create {shortcut.name}: {detail}")
+
+
+def set_startup_shortcut(executable: Path, enabled: bool,
+                         folder: Path | None = None) -> None:
+    shortcut = startup_folder(folder) / STARTUP_LINK
+    if not enabled:
+        shortcut.unlink(missing_ok=True)
+        return
+    _write_shortcut(
+        executable, shortcut, arguments="--wait-for-eq",
+        description="Wait for EverQuest, then open Spin's Loremaster",
+    )
+
+
+def set_desktop_shortcut(executable: Path, enabled: bool,
+                         folder: Path | None = None) -> None:
+    shortcut = desktop_folder(folder) / DESKTOP_LINK
+    if not enabled:
+        shortcut.unlink(missing_ok=True)
+        return
+    _write_shortcut(
+        executable, shortcut, arguments="",
+        description="Open Spin's Loremaster",
+    )
+
+
+def process_is_running(image_name: str) -> bool:
+    if os.name != "nt":
+        return False
+    try:
+        result = subprocess.run(
+            ["tasklist.exe", "/FI", f"IMAGENAME eq {image_name}", "/NH"],
+            capture_output=True, text=True,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+    except OSError:
+        return False
+    return result.returncode == 0 and image_name.lower() in result.stdout.lower()
+
+
+def stop_running_loremaster() -> bool:
+    """Close an installed Loremaster so its executable can be updated."""
+    if not process_is_running(LOREMASTER_NAME):
+        return False
+    flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+    subprocess.run(["taskkill.exe", "/IM", LOREMASTER_NAME],
+                   capture_output=True, creationflags=flags)
+    for _ in range(10):
+        if not process_is_running(LOREMASTER_NAME):
+            return True
+        time.sleep(0.1)
+    subprocess.run(["taskkill.exe", "/F", "/IM", LOREMASTER_NAME],
+                   capture_output=True, creationflags=flags)
+    for _ in range(10):
+        if not process_is_running(LOREMASTER_NAME):
+            return True
+        time.sleep(0.1)
+    raise RuntimeError("Close Loremaster and run the installer again so it can be updated.")
 
 
 def configure_loremaster(eq_root: Path, app_dir: Path) -> None:
@@ -155,15 +226,40 @@ def configure_loremaster(eq_root: Path, app_dir: Path) -> None:
     config.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
+def replace_tree(source: Path, destination: Path) -> bool:
+    """Install an exact directory copy, restoring the old tree on failure."""
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    updating = destination.exists()
+    with tempfile.TemporaryDirectory(
+            prefix=f".{destination.name}-install-", dir=destination.parent,
+            ignore_cleanup_errors=True) as temp_name:
+        temp_root = Path(temp_name)
+        staged = temp_root / "fresh"
+        previous = temp_root / "previous"
+        shutil.copytree(source, staged)
+        if updating:
+            os.replace(destination, previous)
+        try:
+            os.replace(staged, destination)
+        except Exception:
+            if updating and previous.exists() and not destination.exists():
+                os.replace(previous, destination)
+            raise
+    return updating
+
+
 def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
                     layout_target: Path | None, run_at_startup: bool,
+                    desktop_shortcut: bool = True,
                     app_dir: Path | None = None,
-                    startup_dir: Path | None = None) -> list[str]:
+                    startup_dir: Path | None = None,
+                    desktop_dir: Path | None = None,
+                    replace_running: bool = False,
+                    require_eq_closed: bool = False) -> list[str]:
     payload = payload.resolve()
     eq_root = eq_root.resolve()
     if not is_eq_root(eq_root):
         raise ValueError("Choose the EverQuest folder that contains eqgame.exe.")
-
     skin_source = payload / SKIN_NAME
     lore_source = payload / LOREMASTER_NAME
     layout_source = payload / LAYOUT_NAME
@@ -171,19 +267,38 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
         raise FileNotFoundError(f"Release payload is missing {SKIN_NAME}.")
     if not lore_source.is_file():
         raise FileNotFoundError(f"Release payload is missing {LOREMASTER_NAME}.")
+    if require_eq_closed and process_is_running("eqgame.exe"):
+        raise RuntimeError(
+            "EverQuest is running. Camp out and close eqgame.exe before updating "
+            "SpinUI so the client cannot overwrite the installed files."
+        )
+    stopped_loremaster = stop_running_loremaster() if replace_running else False
 
     results: list[str] = []
     skin_destination = eq_root / "uifiles" / SKIN_NAME
-    skin_destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(skin_source, skin_destination, dirs_exist_ok=True)
-    results.append(f"Installed {SKIN_NAME} to {skin_destination}")
+    # Use a staged directory swap so removed/renamed files from an older build
+    # cannot survive the update and interfere with EQ's skin loader.
+    updating_skin = replace_tree(skin_source, skin_destination)
+    results.append(
+        f"{'Updated' if updating_skin else 'Installed'} {SKIN_NAME} at {skin_destination}"
+    )
 
     lore_destination_dir = local_app_data(app_dir)
     lore_destination_dir.mkdir(parents=True, exist_ok=True)
     lore_destination = lore_destination_dir / LOREMASTER_NAME
-    shutil.copy2(lore_source, lore_destination)
+    updating_loremaster = lore_destination.exists()
+    staged_loremaster = lore_destination.with_suffix(".installing")
+    try:
+        shutil.copy2(lore_source, staged_loremaster)
+        os.replace(staged_loremaster, lore_destination)
+    finally:
+        staged_loremaster.unlink(missing_ok=True)
     configure_loremaster(eq_root, lore_destination_dir)
-    results.append(f"Installed Loremaster to {lore_destination}")
+    results.append(
+        f"{'Updated' if updating_loremaster else 'Installed'} Loremaster at {lore_destination}"
+    )
+    if stopped_loremaster:
+        results.append("Closed the previous Loremaster build before updating")
 
     if install_layout:
         if not layout_source.is_file():
@@ -202,6 +317,9 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
     set_startup_shortcut(lore_destination, run_at_startup, startup_dir)
     results.append("Loremaster startup enabled" if run_at_startup
                    else "Loremaster startup disabled")
+    set_desktop_shortcut(lore_destination, desktop_shortcut, desktop_dir)
+    results.append("Loremaster desktop shortcut created" if desktop_shortcut
+                   else "Loremaster desktop shortcut skipped")
     return results
 
 
@@ -212,26 +330,46 @@ def selftest() -> int:
         eq = root / "EverQuest Legends"
         app = root / "appdata"
         startup = root / "startup"
+        desktop = root / "desktop"
         (payload / SKIN_NAME).mkdir(parents=True)
         (payload / SKIN_NAME / "EQUI.xml").write_text("<xml/>", encoding="utf-8")
         (payload / LOREMASTER_NAME).write_bytes(b"loremaster")
         (payload / LAYOUT_NAME).write_text("new layout", encoding="utf-8")
         eq.mkdir()
         (eq / "eqgame.exe").write_bytes(b"")
+        installed_skin = eq / "uifiles" / SKIN_NAME
+        installed_skin.mkdir(parents=True)
+        (installed_skin / "EQUI.xml").write_text("old skin", encoding="utf-8")
+        (installed_skin / "removed-in-new-build.tga").write_bytes(b"stale")
+        app.mkdir()
+        (app / LOREMASTER_NAME).write_bytes(b"old loremaster")
+        (app / "loremaster_config.json").write_text(
+            json.dumps({"mini_mode": False}), encoding="utf-8"
+        )
         target = eq / "UI_Test_qeynos_LO1.ini"
         target.write_text("old layout", encoding="utf-8")
 
         result = install_payload(
             payload, eq, install_layout=True, layout_target=target,
-            run_at_startup=False, app_dir=app, startup_dir=startup,
+            run_at_startup=False, desktop_shortcut=False, app_dir=app,
+            startup_dir=startup, desktop_dir=desktop,
         )
         assert result
-        assert (eq / "uifiles" / SKIN_NAME / "EQUI.xml").is_file()
+        assert (installed_skin / "EQUI.xml").read_text(encoding="utf-8") == "<xml/>"
+        assert not (installed_skin / "removed-in-new-build.tga").exists()
         assert (app / LOREMASTER_NAME).read_bytes() == b"loremaster"
         assert target.read_text(encoding="utf-8") == "new layout"
         assert target.with_suffix(".ini.spinui-backup").read_text(encoding="utf-8") == "old layout"
-        assert json.loads((app / "loremaster_config.json").read_text())["log_dir"] == str(eq.resolve())
+        config = json.loads((app / "loremaster_config.json").read_text())
+        assert config["log_dir"] == str(eq.resolve())
+        assert config["mini_mode"] is False
         assert not (startup / STARTUP_LINK).exists()
+        assert not (desktop / DESKTOP_LINK).exists()
+        if os.name == "nt":
+            set_desktop_shortcut(app / LOREMASTER_NAME, True, desktop)
+            assert (desktop / DESKTOP_LINK).is_file()
+            set_desktop_shortcut(app / LOREMASTER_NAME, False, desktop)
+            assert not (desktop / DESKTOP_LINK).exists()
     print("SpinUI installer selftest: ALL PASS")
     return 0
 
@@ -245,8 +383,8 @@ def run_gui() -> int:
     payload = release_root()
     root = tk.Tk()
     root.title(APP_NAME)
-    root.geometry("720x520")
-    root.minsize(680, 500)
+    root.geometry("720x590")
+    root.minsize(680, 570)
     root.configure(bg=BG)
 
     style = ttk.Style(root)
@@ -293,6 +431,7 @@ def run_gui() -> int:
 
     layout_var = tk.BooleanVar(value=False)
     startup_var = tk.BooleanVar(value=True)
+    desktop_var = tk.BooleanVar(value=True)
     layout_check = tk.Checkbutton(
         content, text="Install the 3440x1440 layout (optional)", variable=layout_var,
         bg=BG, activebackground=BG, fg=TEXT, activeforeground=TEXT,
@@ -312,6 +451,15 @@ def run_gui() -> int:
     )
     startup_check.pack(fill="x", pady=(8, 0))
     tk.Label(content, text="It waits silently for eqgame.exe, then opens beside your EverQuest UI.",
+             bg=BG, fg=DIM, font=("Segoe UI", 9)).pack(anchor="w", padx=23)
+
+    desktop_check = tk.Checkbutton(
+        content, text="Create a Loremaster desktop shortcut", variable=desktop_var,
+        bg=BG, activebackground=BG, fg=TEXT, activeforeground=TEXT,
+        selectcolor=RAISED, font=("Segoe UI Semibold", 10), anchor="w",
+    )
+    desktop_check.pack(fill="x", pady=(8, 0))
+    tk.Label(content, text="Open the compact HUD directly whenever you want it.",
              bg=BG, fg=DIM, font=("Segoe UI", 9)).pack(anchor="w", padx=23)
 
     progress = ttk.Progressbar(content, mode="indeterminate", style="Spin.Horizontal.TProgressbar")
@@ -375,6 +523,7 @@ def run_gui() -> int:
         target = eq / layout_var_name.get() if layout_var.get() else None
         should_install_layout = layout_var.get()
         should_run_at_startup = startup_var.get()
+        should_create_desktop_shortcut = desktop_var.get()
         install_button.configure(bg=LINE, text="INSTALLING…")
         status.configure(text="Copying the UI and configuring Loremaster…", fg=DIM)
         progress.start(12)
@@ -385,6 +534,8 @@ def run_gui() -> int:
                 lines = install_payload(
                     payload, eq, install_layout=should_install_layout, layout_target=target,
                     run_at_startup=should_run_at_startup,
+                    desktop_shortcut=should_create_desktop_shortcut,
+                    replace_running=True, require_eq_closed=True,
                 )
             except Exception as exc:  # surfaced in a native message box
                 install_results.put(("error", exc))
@@ -406,11 +557,21 @@ def run_gui() -> int:
         else:
             finish_error(value)
 
+    def request_close():
+        if installing["active"]:
+            messagebox.showinfo(
+                "Installation in progress",
+                "SpinUI is still being installed. This window will be ready to close in a moment.",
+            )
+            return
+        root.destroy()
+
     browse.bind("<Button-1>", choose_folder)
     install_button.bind("<Button-1>", begin_install)
     layout_var.trace_add("write", toggle_layout)
     path_entry.bind("<FocusOut>", refresh_layouts)
     path_entry.bind("<Return>", refresh_layouts)
+    root.protocol("WM_DELETE_WINDOW", request_close)
 
     roots = find_eq_roots()
     if roots:

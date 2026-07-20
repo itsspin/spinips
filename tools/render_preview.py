@@ -455,6 +455,33 @@ def draw_loremaster(canvas, x, y, w, h):
     return
 
 
+def draw_loremaster_hud(canvas, x, y, w=600, h=34):
+    """Compact default Loremaster surface used by the live EQ layout."""
+    d = ImageDraw.Draw(canvas)
+    d.rectangle([x, y, x + w - 1, y + h - 1], fill=GOLD + (255,))
+    d.rectangle([x + 1, y + 1, x + w - 2, y + h - 2], fill=BG1 + (252,))
+    d.rectangle([x + 1, y + 1, x + 4, y + h - 2], fill=EMBER + (255,))
+    cursor = x + 15
+    metrics = (("COMBAT", "1,284 dps"), ("SLAYING", "47"),
+               ("COIN", "2p 9g"), ("PROGRESSION", "18.6% · +3 AA"))
+    for index, (label, value) in enumerate(metrics):
+        if index:
+            d.line([(cursor, y + 7), (cursor, y + h - 8)], fill=GOLD + (230,))
+            cursor += 10
+        text(canvas, (cursor, y + h // 2), label, size=8,
+             color=GOLD, bold=True, anchor="lm")
+        cursor += int(d.textlength(label, font=F(8, True))) + 6
+        text(canvas, (cursor, y + h // 2), value, size=10,
+             color=TEXT, bold=True, anchor="lm")
+        cursor += int(d.textlength(value, font=F(10, True))) + 13
+    text(canvas, (x + w - 78, y + h // 2), "● LIVE", size=8,
+         color=GREEN, bold=True, anchor="rm")
+    d.rectangle([x + w - 70, y + 4, x + w - 5, y + h - 5],
+                fill=BG3 + (255,), outline=LINE + (255,))
+    text(canvas, (x + w - 37, y + h // 2), "DETAILS", size=8,
+         color=CYAN, bold=True, anchor="mm")
+
+
 def draw_bag(canvas, x, y, name):
     std_window(canvas, x, y, 96, 194, title=name, alpha=246)
     ic = 0
@@ -587,8 +614,8 @@ def main():
     draw_compass(canvas, *xy("CompassWindow")[:2])
     draw_eqmain(canvas, 3040, 1396, 392, 36)
 
-    # Loremaster on its shelf above the bag dock
-    draw_loremaster(canvas, 2792, 676, 400, 460)
+    # Default Loremaster HUD: right-docked, eight pixels above the bag row.
+    draw_loremaster_hud(canvas, 2828, 1118)
 
     # inventory bags tiled in the dock row
     for i, nm in enumerate(("Backpack", "Backpack", "Large Ba", "Backpack",

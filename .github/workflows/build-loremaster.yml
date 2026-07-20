@@ -8,6 +8,7 @@ on:
       - "layouts/**"
       - "loremaster/**"
       - "installer/**"
+      - "tools/**"
       - "UI_Spin_qeynos_LO1.ini"
       - "README.md"
       - ".github/workflows/build-loremaster.yml"
@@ -44,6 +45,7 @@ jobs:
 
       - name: Run source test suites
         run: |
+          python tools/audit_spinui.py
           python loremaster/loremaster.py --selftest
           python installer/spinui_installer.py --selftest
 
