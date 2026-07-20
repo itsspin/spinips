@@ -65,7 +65,7 @@ def section(draw, width, y, name, value, pinned, expanded=False):
 
 
 def main():
-    width, height = 430, 600
+    width, height = 400, 520
     panel = Image.new("RGB", (width, height), GOLD)
     d = ImageDraw.Draw(panel)
     d.rectangle([1, 1, width - 2, height - 2], fill=BG)
@@ -75,7 +75,7 @@ def main():
     hexagon(d, 16, 17, 8, GOLD_BRIGHT, 2, inner=True)
     d.text((30, 17), "SPIN'S LOREMASTER", font=F(11, serif=True), fill=GOLD_BRIGHT, anchor="lm")
     d.ellipse([width - 89, 13, width - 81, 21], fill=GREEN)
-    d.text((width - 12, 17), "↻   —   ×", font=FS(11), fill=DIM, anchor="rm")
+    d.text((width - 12, 17), "RESET   HUD   ×", font=F(8, bold=True), fill=DIM, anchor="rm")
     d.rectangle([2, 34, width - 3, 35], fill=EMBER)
     d.text((10, 48), "SPIN · QEYNOS", font=F(8, serif=True), fill=PARCHMENT, anchor="lm")
     d.text((width - 10, 48), "session 1h44m · since 3:38 PM", font=F(8), fill=DIM, anchor="rm")
@@ -140,12 +140,12 @@ def main():
 
     # Actionable footer makes first-run setup discoverable.
     d.rectangle([2, height - 29, width - 3, height - 3], fill=PANEL)
-    d.text((10, height - 16), "tailing eqlog_Spin_qeynos.txt", font=F(8), fill=DIM, anchor="lm")
+    d.text((10, height - 16), "live · eqlog_Spin_qeynos.txt", font=F(8), fill=GREEN, anchor="lm")
     d.rectangle([width - 69, height - 25, width - 8, height - 7], fill=RAISED, outline=LINE)
     d.text((width - 38, height - 16), "CHANGE", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
 
     # Mini mode uses the same material and the same pinned ledger vocabulary.
-    mini_w, mini_h = 520, 32
+    mini_w, mini_h = 600, 34
     mini = Image.new("RGB", (mini_w, mini_h), GOLD)
     md = ImageDraw.Draw(mini)
     md.rectangle([1, 1, mini_w - 2, mini_h - 2], fill=BG)
@@ -162,8 +162,10 @@ def main():
         x += int(md.textlength(name, font=F(7, serif=True))) + 5
         md.text((x, mini_h // 2), value, font=F(9, bold=True), fill=TEXT, anchor="lm")
         x += int(md.textlength(value, font=F(9, bold=True))) + 12
-    md.text((mini_w - 35, mini_h // 2), "LOG", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="rm")
-    md.text((mini_w - 10, mini_h // 2), "▣", font=FS(10), fill=DIM, anchor="rm")
+    md.text((mini_w - 76, mini_h // 2), "● LIVE", font=F(7, bold=True), fill=GREEN, anchor="rm")
+    md.rectangle([mini_w - 70, 4, mini_w - 4, mini_h - 5], fill=RAISED, outline=LINE)
+    md.text((mini_w - 37, mini_h // 2), "DETAILS", font=F(7, serif=True),
+            fill=CYAN, anchor="mm")
 
     OUT.mkdir(parents=True, exist_ok=True)
     canvas = Image.new("RGB", (max(width, mini_w) * 2 + 80,

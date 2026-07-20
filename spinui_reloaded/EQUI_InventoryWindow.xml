@@ -242,12 +242,12 @@
 		<ScreenID>IW_CharacterView</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>248</X>
-			<Y>10</Y>
+			<X>244</X>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>76</CX>
-			<CY>76</CY>
+			<CX>85</CX>
+			<CY>171</CY>
 		</Size>
 		<TooltipReference>Drop Item Here to Auto Equip</TooltipReference>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
@@ -282,8 +282,8 @@
 		<ScreenID>InvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>508</Y>
+			<X>366</X>
+			<Y>666</Y>
 		</Location>		
 		<Size>
 			<CX>40</CX>
@@ -447,8 +447,8 @@
 		<ScreenID>InvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>236</X>
-			<Y>592</Y>
+			<X>230</X>
+			<Y>666</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -477,8 +477,8 @@
 		<ScreenID>InvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>112</X>
-			<Y>592</Y>
+			<X>106</X>
+			<Y>666</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -492,8 +492,8 @@
 		<ScreenID>InvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>174</X>
-			<Y>592</Y>
+			<X>168</X>
+			<Y>666</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -597,8 +597,8 @@
 		<ScreenID>InvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>570</Y>	
+			<X>428</X>
+			<Y>666</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -612,8 +612,8 @@
 		<ScreenID>InvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>298</X>
-			<Y>592</Y>
+			<X>292</X>
+			<Y>666</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -626,8 +626,8 @@
 		<ScreenID>IW_HexPlate0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>4</X>
-			<Y>500</Y>
+			<X>358</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -769,8 +769,8 @@
 		<ScreenID>IW_HexPlate11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>228</X>
-			<Y>584</Y>
+			<X>222</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -795,8 +795,8 @@
 		<ScreenID>IW_HexPlate13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>104</X>
-			<Y>584</Y>
+			<X>98</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -808,8 +808,8 @@
 		<ScreenID>IW_HexPlate14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>166</X>
-			<Y>584</Y>
+			<X>160</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -899,8 +899,8 @@
 		<ScreenID>IW_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>562</Y>
+			<X>420</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -912,34 +912,8 @@
 		<ScreenID>IW_HexPlate22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>290</X>
-			<Y>584</Y>
-		</Location>
-		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
-		</Size>
-		<Animation>A_SpinHexGold</Animation>
-	</StaticAnimation>
-	<StaticAnimation item="IW_HexPlate23">
-		<ScreenID>IW_HexPlate23</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-			<X>352</X>
-			<Y>584</Y>
-		</Location>
-		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
-		</Size>
-		<Animation>A_SpinHexGold</Animation>
-	</StaticAnimation>
-	<StaticAnimation item="IW_HexPlate24">
-		<ScreenID>IW_HexPlate24</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-			<X>414</X>
-			<Y>584</Y>
+			<X>284</X>
+			<Y>658</Y>
 		</Location>
 		<Size>
 			<CX>56</CX>
@@ -956,7 +930,7 @@
 		</Location>
 		<Size>
 			<CX>573</CX>
-			<CY>644</CY>
+			<CY>714</CY>
 		</Size>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
@@ -1009,11 +983,7 @@
 		<Pieces>InvSlot19</Pieces>
 		<Pieces>InvSlot20</Pieces>
 		<Pieces>InvSlot21</Pieces>
-		<Pieces>IW_HexPlate23</Pieces>
-		<Pieces>IW_HexPlate24</Pieces>
 		<Pieces>InvSlot22</Pieces>
-		<Pieces>InvSlot23</Pieces>
-		<Pieces>InvSlot24</Pieces>
 		<Pieces>Screen:IW_CharacterView</Pieces>
 	</Screen>			
 	<!-- END INVENTORY -->
@@ -5292,7 +5262,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>86</X>
-			<Y>110</Y>
+			<Y>180</Y>
 		</Location>
 		<Size>
 			<CX>410</CX>
@@ -5344,7 +5314,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>86</X>
-			<Y>412</Y>
+			<Y>482</Y>
 		</Location>
 		<Size>
 			<CX>410</CX>
@@ -5391,7 +5361,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>86</X>
-			<Y>522</Y>
+			<Y>592</Y>
 		</Location>
 		<Size>
 			<CX>410</CX>
@@ -9027,7 +8997,7 @@
 		<Pages>Page:IW_StoragePage</Pages>
 <!-- 		<Pages>Page:IW_StatPage</Pages>	 -->	
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>115</RightAnchorOffset>
+		<RightAnchorOffset>165</RightAnchorOffset>
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>22</BottomAnchorOffset>
 	</TabBox>
@@ -9155,10 +9125,10 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<TopAnchorOffset>112</TopAnchorOffset>
-		<BottomAnchorOffset>130</BottomAnchorOffset>
+		<TopAnchorOffset>120</TopAnchorOffset>
+		<BottomAnchorOffset>138</BottomAnchorOffset>
 		<RightAnchorOffset>15</RightAnchorOffset>
-		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<LeftAnchorOffset>145</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>Destroy</Text>
 		<TextColor>
@@ -9287,28 +9257,12 @@
 	<InvSlot item="InvSlot23">
 		<ScreenID>InvSlot23</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location>
-			<X>360</X>
-			<Y>592</Y>
-		</Location>
-		<Size>
-			<CX>40</CX>
-			<CY>40</CY>
-		</Size>
 		<Background>A_RecessedBox</Background>
 		<EQType>inventory/Equip 23</EQType>
 	</InvSlot>
 	<InvSlot item="InvSlot24">
 		<ScreenID>InvSlot24</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location>
-			<X>422</X>
-			<Y>592</Y>
-		</Location>
-		<Size>
-			<CX>40</CX>
-			<CY>40</CY>
-		</Size>
 		<Background>A_RecessedBox</Background>
 		<EQType>inventory/Equip 24</EQType>
 	</InvSlot>
@@ -9376,13 +9330,12 @@
 	<TileLayoutBox item="IW_Slots">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>614</X>
-<!-- 			<Y>142</Y> -->
-			<Y>240</Y>
+			<X>644</X>
+			<Y>150</Y>
 		</Location>
 		<Size>
-			<CX>85</CX>
-			<CY>440</CY>
+			<CX>112</CX>
+			<CY>280</CY>
 		</Size>
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>3</Spacing>
@@ -9391,6 +9344,8 @@
 		<AnchorToTop>true</AnchorToTop>
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>true</FirstPieceTemplate>
+		<Pieces>InvSlot23</Pieces>
+		<Pieces>InvSlot24</Pieces>
 		<Pieces>InvSlot25</Pieces>
 		<Pieces>InvSlot26</Pieces>
 		<Pieces>InvSlot27</Pieces>
@@ -9422,7 +9377,7 @@
 		<TopAnchorOffset>2</TopAnchorOffset>
 		<BottomAnchorOffset>16</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>Playername123456</Text>
 		<NoWrap>true</NoWrap>
@@ -9440,7 +9395,7 @@
 		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>30</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>60 Shadow Knight</Text>
 		<NoWrap>true</NoWrap>
@@ -9457,7 +9412,7 @@
 		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>30</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>60 Shadow Knight</Text>
 		<NoWrap>true</NoWrap>
@@ -9478,7 +9433,7 @@
 		<TopAnchorOffset>30</TopAnchorOffset>
 		<BottomAnchorOffset>45</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>NEXT LEVEL</Text>
 		<NoWrap>true</NoWrap>
@@ -9497,7 +9452,7 @@
 		<TopAnchorOffset>30</TopAnchorOffset>
 		<BottomAnchorOffset>45</BottomAnchorOffset>
 		<RightAnchorOffset>15</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -9514,7 +9469,7 @@
 		<TopAnchorOffset>30</TopAnchorOffset>
 		<BottomAnchorOffset>45</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>%</Text>
 		<NoWrap>true</NoWrap>
@@ -9532,7 +9487,7 @@
 		<TopAnchorOffset>44</TopAnchorOffset>
 		<BottomAnchorOffset>54</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<FillTint>
@@ -9564,7 +9519,7 @@
 		<TopAnchorOffset>56</TopAnchorOffset>
 		<BottomAnchorOffset>70</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>NEXT AA</Text>
 		<NoWrap>true</NoWrap>
@@ -9583,7 +9538,7 @@
 		<TopAnchorOffset>56</TopAnchorOffset>
 		<BottomAnchorOffset>70</BottomAnchorOffset>
 		<RightAnchorOffset>15</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -9600,7 +9555,7 @@
 		<TopAnchorOffset>56</TopAnchorOffset>
 		<BottomAnchorOffset>70</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>%</Text>
 		<NoWrap>true</NoWrap>
@@ -9618,7 +9573,7 @@
 		<TopAnchorOffset>70</TopAnchorOffset>
 		<BottomAnchorOffset>80</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>111</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<FillTint>
@@ -9649,7 +9604,7 @@
 		<TopAnchorOffset>82</TopAnchorOffset>
 		<BottomAnchorOffset>100</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>110</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>Weight</Text>
 		<NoWrap>true</NoWrap>
@@ -9724,7 +9679,7 @@
 		<TopAnchorOffset>95</TopAnchorOffset>
 		<BottomAnchorOffset>110</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>110</LeftAnchorOffset>
+		<LeftAnchorOffset>158</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>Weight (Worn)</Text>
 		<NoWrap>true</NoWrap>
@@ -9760,7 +9715,7 @@
 			<Y>50</Y>
 		</Location>
 		<Size>
-			<CX>720</CX>
+			<CX>780</CX>
 			<CY>800</CY>
 		</Size>
 		<KeepOnScreen>true</KeepOnScreen>

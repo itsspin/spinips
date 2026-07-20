@@ -3,8 +3,9 @@
 
 Rebuilds the Inventory window's Equipment tab as a cinematic composition:
 two vertical slot rails (armor left, jewelry right) on floating hex plates,
-weapons on a gold-edged center row, the class crest as the centerpiece, and
-the stat columns flowing between the rails.  The window grows to 720x800.
+weapons plus a separated Any-slot pair along the bottom, the class crest, and
+the stat columns flowing between the rails.  The window grows to 780x800,
+leaving a generous identity and twelve-slot bag rail on the right.
 
 All 23 InvSlot items keep their ScreenIDs/EQTypes — only Locations move.
 New art lives in spin_deco.tga; decorative StaticAnimations are additive.
@@ -22,16 +23,18 @@ REPO = Path(__file__).resolve().parent.parent
 XMLF = REPO / "spinui_reloaded" / "EQUI_InventoryWindow.xml"
 
 # rails: EQ slot ids in top-to-bottom order
-LEFT_RAIL = [2, 3, 5, 6, 8, 17, 7, 12, 0]      # head face neck shoulder back chest arms hands charm
-RIGHT_RAIL = [1, 4, 9, 10, 20, 18, 19, 15, 16, 21]  # ears wrists waist legs feet rings power
-WEAPON_ROW = [13, 14, 11, 22, 23, 24]           # primary secondary range ammo any any
+LEFT_RAIL = [2, 3, 5, 6, 8, 17, 7, 12]         # head face neck shoulder back chest arms hands
+RIGHT_RAIL = [1, 4, 9, 10, 20, 18, 19, 15, 16]  # ears wrists waist legs feet rings
+WEAPON_ROW = [13, 14, 11, 22]                   # primary secondary range ammo
+ANY_ROW = [0, 21]                               # IS_ANY1 / IS_ANY2
 
 PITCH = 62
 PLATE = 56
 L_X, R_X = 4, 513
 RAIL_Y = 4
-W_Y = 584
-W_X0 = 104
+W_Y = 658
+W_X0 = 98
+ANY_X0 = 358
 
 
 def slot_pos(slot_id):
@@ -41,8 +44,11 @@ def slot_pos(slot_id):
     if slot_id in RIGHT_RAIL:
         i = RIGHT_RAIL.index(slot_id)
         return (R_X, RAIL_Y + i * PITCH), False
-    i = WEAPON_ROW.index(slot_id)
-    return (W_X0 + i * PITCH, W_Y), True
+    if slot_id in WEAPON_ROW:
+        i = WEAPON_ROW.index(slot_id)
+        return (W_X0 + i * PITCH, W_Y), True
+    i = ANY_ROW.index(slot_id)
+    return (ANY_X0 + i * PITCH, W_Y), False
 
 
 HEADER_ART = """
@@ -127,6 +133,15 @@ def set_block_location(text, item_kind, item_name, x, y, cx=None, cy=None):
     return text
 
 
+def set_block_value(text, item_kind, item_name, field, value):
+    pat = re.compile(
+        r'(<' + item_kind + r' item="' + re.escape(item_name) + r'">.*?<' +
+        re.escape(field) + r'>)(-?\d+)(</' + re.escape(field) + r'>)', re.S)
+    text, n = pat.subn(lambda m: m.group(1) + str(value) + m.group(3), text, count=1)
+    assert n == 1, f"{field} {item_name}"
+    return text
+
+
 def main():
     s = XMLF.read_text()
     if "SPIN-DECO" in s:
@@ -158,20 +173,48 @@ def main():
     s = s.replace(piece_anchor, plate_pieces + piece_anchor, 1)
 
     # 4) geometry: equipment screen, crest, stat columns, page, window
-    s = set_block_location(s, "Screen", "IW_Equipment", 6, 6, 573, 644)
-    s = set_block_location(s, "Screen", "IW_CharacterView", 248, 10, 76, 76)
-    s = set_block_location(s, "TileLayoutBox", "IW_Stats", 86, 110, 410, 290)
-    s = set_block_location(s, "TileLayoutBox", "IW_Stats2", 86, 412, 410, 104)
-    s = set_block_location(s, "TileLayoutBox", "IW_Stats3", 86, 522, 410, 56)
+    s = set_block_location(s, "Screen", "IW_Equipment", 6, 6, 573, 714)
+    # ClassAnim is a client-supplied 75x142 class emblem. Its parent must keep
+    # the native 85x171 viewport or EQ clips the swords/spellbook/etc.
+    s = set_block_location(s, "Screen", "IW_CharacterView", 244, 0, 85, 171)
+    s = set_block_location(s, "TileLayoutBox", "IW_Stats", 86, 180, 410, 290)
+    s = set_block_location(s, "TileLayoutBox", "IW_Stats2", 86, 482, 410, 104)
+    s = set_block_location(s, "TileLayoutBox", "IW_Stats3", 86, 592, 410, 56)
+    s = set_block_location(s, "TileLayoutBox", "IW_Slots", 644, 150, 112, 280)
+
+    # Legends exposes twelve root inventory slots (23-34). Keep every bag in
+    # the dedicated rail instead of treating slots 23/24 as equipment.
+    slots = re.search(r'(<TileLayoutBox item="IW_Slots">.*?</TileLayoutBox>)', s, re.S)
+    assert slots, "IW_Slots"
+    slot_block = slots.group(1)
+    for slot_id in (23, 24):
+        piece = f"\t\t<Pieces>InvSlot{slot_id}</Pieces>\n"
+        if piece not in slot_block:
+            slot_block = slot_block.replace(
+                "\t\t<Pieces>InvSlot25</Pieces>\n",
+                piece + "\t\t<Pieces>InvSlot25</Pieces>\n", 1)
+    s = s[:slots.start()] + slot_block + s[slots.end():]
+
+    # Preserve the equipment canvas while giving the identity rail 50px more
+    # room for long multiclass labels and clearer gauges.
+    s = set_block_value(s, "TabBox", "IW_Subwindows", "RightAnchorOffset", 165)
+    for item in ("IW_Name", "IW_Level", "IW_Class", "IW_NextLevel", "IW_ExpLabel",
+                 "IW_ExpPercLabel", "IW_ExpGauge", "IW_AltAdv", "IW_AltAdvPct",
+                 "IW_AltAdvPctLabel", "IW_AltAdvGauge", "IW_Weight", "IW_WeightWorn"):
+        kind = "Gauge" if item.endswith("Gauge") else "Label"
+        s = set_block_value(s, kind, item, "LeftAnchorOffset", 158)
+    s = set_block_value(s, "Button", "IW_Destroy", "LeftAnchorOffset", 145)
+    s = set_block_value(s, "Button", "IW_Destroy", "TopAnchorOffset", 120)
+    s = set_block_value(s, "Button", "IW_Destroy", "BottomAnchorOffset", 138)
 
     # page: keep Location (0,22), grow to the new tab area
     pat = re.compile(r'(<Page item="IW_InvPage">.*?<Size>\s*<CX>)388(</CX>\s*<CY>)401(</CY>)', re.S)
     s, n = pat.subn(r'\g<1>585\g<2>720\g<3>', s, count=1)
     assert n == 1, "page size"
 
-    # window 504x495 -> 720x800
+    # window 504x495 -> 780x800
     pat = re.compile(r'(<Screen item="InventoryWindow">.*?<Size>\s*<CX>)504(</CX>\s*<CY>)495(</CY>)', re.S)
-    s, n = pat.subn(r'\g<1>720\g<2>800\g<3>', s, count=1)
+    s, n = pat.subn(r'\g<1>780\g<2>800\g<3>', s, count=1)
     assert n == 1, "window size"
 
     # 5) hero typography: character name in large ember type
@@ -194,7 +237,7 @@ def main():
         assert f'item="IW_HexPlate{i}"' in s and f"<Pieces>IW_HexPlate{i}</Pieces>" in s
     assert 'item="A_SpinHex"' in s and 'item="A_SpinHexGold"' in s
     assert (REPO / "spinui_reloaded" / "spin_deco.tga").exists()
-    print("equipment screen restyled: rails + hex plates + hero crest, window 720x800 — parse OK")
+    print("equipment screen restyled: rails + Any pair + bag dock + hero crest, window 780x800 — parse OK")
     return 0
 
 
