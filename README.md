@@ -212,17 +212,14 @@ Tuned for **running with the map open**:
 
 ## The equipment screen
 
-Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 780x800):
+Inspired by WoW's **Narcissus** and tightened for v3, the Equipment tab is a compact cinematic composition — the window is now **680x700** (down from 780x800, about a quarter less screen area) with no information removed:
 
-* **Two floating slot rails** — armor down the left and jewelry down the right — every one of the **23 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
-* **Bottom equipment row** keeps Primary · Secondary · Range · Ammo together on gold-edged hexes, followed by a breathing-space gap and the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`) on steel-edged hexes. Inventory bags never masquerade as equipment slots.
-* **All 12 bag slots live under Destroy** in a dedicated two-column right rail. The wider identity area keeps `Spin` and `39 WAR/DRU/BRD` comfortably separated, while every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) stays intact.
-* **Every stat block is intact** — Character Vitals (through Velocity, regens and all three DPS lines), Stats & Resists (incl. SV. Void), the full Additional Modifiers block (shieldings included) and Bind/Origin/Deity. The columns scroll if a future patch adds more.
-* **Native class-emblem centerpiece** — EQ's live Warrior swords, caster spellbook, and other class artwork keeps its original `75x142` proportions inside an `85x171` obsidian frame. It remains the functional *drop-to-auto-equip* target instead of being clipped into a small square.
-* **Multiclass Loadouts is now a first-class page** — the old 388x401 legacy panel (including a broken 0x0 equipment container) was rebuilt on the full 585x720 tab canvas. All 23 loadout equipment slots use aligned SpinUI hex plates around EQ Legends' native model, with a centered Primary · Secondary · Range · Ammo row, separated Any · Any pair, roomy loadout table/actions, and class-level cards below. The client still calls some bindings `PersonaInvSlot` internally; SpinUI preserves those required identifiers but does not depend on EverQuest Live's Alternate Persona system.
-* **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
+* **Two 12-position slot rails** on tightened 46px obsidian hex plates (`spin_deco.tga`, 50px pitch). The **left rail** runs the 8 armor slots top-to-bottom on steel plates with **Primary · Secondary · Range · Ammo continuing on gold plates at its base**; the **right rail** holds the 9 jewelry slots, a deliberate breathing gap, then the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`) seated at its base. All **23 equipment slots**, no separate bottom row eating height.
+* **The center is a pure stat ledger** — Character Vitals and Stats & Resists as ruled two-column blocks, the full Additional Modifiers block beneath, and Bind/Origin/Deity at the base. Every stock stat row is intact (regens, all three DPS lines, shieldings, SV. Void); nothing scrolled away, nothing floating in dead space.
+* **The identity rail is now a character card** — name and class over the **native class crest** (EQ's live Warrior swords, caster spellbook, etc., kept at its original `75x142` proportions inside the `85x171` frame), XP/AA gauges, weight, Destroy, the 12-slot bag grid, and every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Done). Because the crest sits at window level it stays visible — and remains the functional *drop-to-auto-equip* target — on every tab.
+* **Multiclass Loadouts matches the compact canvas** — the tab re-flows onto 485x620: a 2x4 armor cluster left, the native persona model centered, a 3x3 jewelry cluster right, a centered weapon row plus separated Any pair, then the loadout table, actions, and class-level cards. The client still calls some bindings `PersonaInvSlot` internally; SpinUI preserves those required identifiers but does not depend on EverQuest Live's Alternate Persona system.
 * Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
-* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py`; `tools/audit_spinui.py` verifies slot membership, native art dimensions, plate alignment, canvas bounds, bag count and critical spacing.
+* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py` (46px hex frames come from `tools/add_spin_deco_small_hexes.py`); `tools/audit_spinui.py` verifies slot membership, rail alignment, native art dimensions, canvas bounds, bag count and critical spacing.
 
 ---
 
@@ -277,7 +274,8 @@ Lore Lens turns [EQL Wiki](https://eqlwiki.com/) item pages into a compact obsid
 * **Ctrl+Shift+E by default, fully rebindable:** a dedicated native Windows owner holds both Loremaster shortcuts for the process lifetime, including while the HUD is tray-hidden. `READY` means reserved, `CONFLICT` means another app owns the requested binding, and `DISABLED` means Lore Lens is off. Actions are accepted only while EverQuest or Loremaster is foreground. Rebinding is atomic; if a new shortcut conflicts, the prior working shortcut remains active.
 * **True on-demand Hover Scan:** press the shortcut while EverQuest is foreground. Loremaster verifies the foreground process, freezes one bounded mixed-DPI, multi-monitor-safe tooltip region before Lore Lens can cover it, then opens **READING HOVERED ITEM…** and validates the recognized candidates against exact EQL Wiki item pages. The cursor can move immediately after the keypress; nothing is captured continuously.
 * **Safe by design:** Loremaster uses Windows' own OCR, never injects into EverQuest, and never reads game memory. Arbitrary clipboard text is never transmitted automatically—it can only prefill the focused search field for your confirmation.
-* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. OCR recognition, Wiki I/O, and log ingestion run off Tk's rendering thread; only the bounded GDI snapshot is synchronous so a tooltip cannot disappear mid-capture.
+* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. The status line is honest about provenance — **LIVE** for a fresh network fetch, **CACHED** with its age, or **STALE CACHE** when the wiki was unreachable.
+* **Sits where you want it:** the card opens beside the hovered tooltip (DPI-aware on scaled and multi-monitor displays), and you can **drag it by its header** to pin a preferred spot — the position is remembered and kept on-screen. OCR recognition, Wiki I/O, and log ingestion run off Tk's rendering thread; only the bounded GDI snapshot is synchronous so a tooltip cannot disappear mid-capture.
 * **Honest states:** `READY / CONFLICT / DISABLED`, loading, offline, stale-cache, no-exact-match, and disabled-network states are visually distinct and actionable in both full and compact modes.
 * **Source attribution:** every result remains identified as EQL Wiki data, carries a cache-age indicator, and links back to the original page.
 
@@ -324,7 +322,9 @@ Loremaster doubles as an alert engine: big center-screen banners (red / gold / c
 | Your **name is called** in group/raid/guild chat | gold — `GRIMLORD CALLED YOU — Spin to the east wall` |
 | A **fight ends** | cyan toast with the fight's damage/duration/DPS |
 
-Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\loremaster_config.json` — any regex over log lines. This file is created automatically; selecting a log never requires editing it:
+**Every notification is now controllable from SETTINGS** — no JSON editing required: a master *Enable alert banners* switch, *Play alert sound*, *Fight-end toast*, an individual on/off toggle for each built-in trigger (tells, summons, deaths, big hits, name-called), the big-hit threshold, banner duration (1–15s), a **TEST ALERT** button to preview placement and sound, and **RESET BANNER POSITION** to recover banners moved off-screen. The master switch silences everything, including fight-end toasts.
+
+Advanced users can additionally add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\loremaster_config.json` — any regex over log lines. This file is created automatically; selecting a log never requires editing it (invalid patterns are reported once at startup instead of failing silently):
 
 ```json
 "custom_alerts": [
@@ -333,7 +333,7 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 ]
 ```
 
-`alerts_enabled`, `alert_sound`, `alert_seconds`, `big_hit_threshold` and `alert_position` are all in the same config file.
+`alert_position` and the same alert switches also live in that config file for scripted setups.
 
 ### The overlay
 
@@ -342,7 +342,7 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 * **Safe click-through**: full mode's **CLICK-THRU** lets mouse input reach EverQuest. The active label becomes **PASS ON**, a banner explains recovery, and **Ctrl+Alt+L** restores mouse control. It remains disabled unless that recovery key was registered successfully and always starts off after relaunch.
 * **Incremental live details**: changing combat values update existing labels and meter canvases in place. The panel rebuilds structure only when a genuinely new row appears, instead of destroying the whole combat card every polling cycle.
 * **LOCATE LOG** opens a folder picker; **RESET** clears only the live session. Config is materialized automatically on first run.
-* **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access, plus high contrast, reduced motion and text scale.
+* **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access; every alert and notification toggle (master switch, sound, fight toasts, per-trigger switches, big-hit threshold, banner duration, test alert, banner-position reset); plus high contrast, reduced motion and text scale. It is reachable from full mode, from the Lore Lens window, and via the **SET** control in mini mode.
 
 ---
 
@@ -354,6 +354,7 @@ Everything was *generated* — change a constant, rerun, done. From the repo roo
 pip install pillow                                # only needed for the two art scripts
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
+python3 tools/add_spin_deco_small_hexes.py         # refresh the 46px hex plate frames
 python3 tools/restyle_persona.py                   # rebuild the Multiclass Loadouts composition
 python3 tools/render_preview.py                   # re-render the full-screen preview
 python3 tools/audit_spinui.py                     # audit XML, references, assets and critical geometry
@@ -363,7 +364,7 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).
 * **Move a window:** edit its pixel coordinates in `PLACEMENTS` in `generate_spinui_layout.py` — the script converts to the client's percentage format and re-validates the whole screen for overlaps/off-screen.
 * **New chat preset:** add an entry to `CHAT_PRESETS` — it lands in `layouts/<name>/` automatically.
-* The generators always start from the **pristine** stock files in git history, so reruns never compound.
+* The texture and layout generators always start from the **pristine** stock files in git history, so reruns never compound. The two `restyle_*` scripts are staged, marker-guarded migrations (`SPIN-DECO-3` / `SPIN-PERSONA-3`) — rerunning them on an already-migrated file is a clean no-op.
 
 ---
 

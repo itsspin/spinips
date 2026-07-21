@@ -60,6 +60,14 @@ class CaptureMetadata:
     foreground_hwnd: int
     foreground_pid: int
     captured_at: float
+    # The DPI-aware (physical pixel) virtual desktop observed while capturing.
+    # cursor_x/cursor_y are physical pixels in this space; a DPI-unaware Tk
+    # process must rescale them into its own logical desktop before anchoring
+    # windows.  Zero sizes mean "unknown" (older captures and test doubles).
+    virtual_left: int = 0
+    virtual_top: int = 0
+    virtual_width: int = 0
+    virtual_height: int = 0
 
     @property
     def cursor_in_region(self) -> tuple[float, float]:
@@ -401,6 +409,8 @@ def capture_hovered_tooltip() -> HoverCapture:
             region_width=width, region_height=height,
             foreground_hwnd=int(foreground), foreground_pid=int(pid.value),
             captured_at=time.time(),
+            virtual_left=virtual_x, virtual_top=virtual_y,
+            virtual_width=virtual_width, virtual_height=virtual_height,
         )
         return HoverCapture(
             metadata=metadata,

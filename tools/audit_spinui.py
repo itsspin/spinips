@@ -182,36 +182,55 @@ def audit_inventory_geometry() -> None:
         fail("native class artwork must remain 75x142")
     if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != (85, 171):
         fail("class artwork viewport must remain 85x171")
-    if child_int(window, "Size/CX") != 780 or child_int(window, "Size/CY") != 800:
-        fail("inventory window must remain 780x800")
+    if child_int(window, "Size/CX") != 680 or child_int(window, "Size/CY") != 700:
+        fail("inventory window must remain 680x700")
     if child_int(equipment, "Location/Y") + child_int(equipment, "Size/CY") > child_int(page, "Size/CY"):
         fail("equipment canvas exceeds the inventory page")
 
+    # v3: the class crest lives on the identity rail (window level), keeping
+    # its drop-to-auto-equip role visible on every tab.
+    window_pieces = {n.text for n in window.findall("Pieces") if n.text}
+    if "Screen:IW_CharacterView" not in window_pieces:
+        fail("class crest must be a window-level identity-rail piece")
+    if any(n.text and "IW_CharacterView" in n.text for n in equipment.findall("Pieces")):
+        fail("class crest must no longer sit inside the equipment canvas")
+
     destroy = item(root, "Button", "IW_Destroy")
-    if child_int(destroy, "BottomAnchorOffset") + 12 > child_int(bags, "Location/Y"):
-        fail("Destroy button lacks a 12px visual gap above the bag rail")
+    crest_top = child_int(view, "Location/Y")
+    crest_bottom = crest_top + child_int(view, "Size/CY")
+    if child_int(destroy, "BottomAnchorOffset") + 4 > crest_top:
+        fail("class crest overlaps the Destroy button")
+    if crest_bottom + 4 > child_int(bags, "Location/Y"):
+        fail("bag rail overlaps the class crest")
     if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != (112, 280):
         fail("bag rail geometry changed")
 
-    bottom_positions = {
-        13: 98, 14: 160, 11: 222, 22: 284,
-        0: 358, 21: 420,
-    }
-    for slot_id, plate_x in bottom_positions.items():
+    # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
+    from restyle_inventory import (ANY_ROW, LEFT_RAIL, PLATE, RIGHT_RAIL,
+                                   SLOT_INSET, WEAPON_ROW, slot_pos)
+    canvas_w = child_int(equipment, "Size/CX")
+    canvas_h = child_int(equipment, "Size/CY")
+    for slot_id in range(23):
+        (px, py), _gold = slot_pos(slot_id)
         slot = item(root, "InvSlot", f"InvSlot{slot_id}")
         plate = item(root, "StaticAnimation", f"IW_HexPlate{slot_id}")
-        if (child_int(slot, "Location/X") != plate_x + 8
-                or child_int(slot, "Location/Y") != 666
-                or child_int(plate, "Location/X") != plate_x
-                or child_int(plate, "Location/Y") != 658):
-            fail(f"bottom equipment slot {slot_id} is no longer aligned")
-    ammo_right = bottom_positions[22] + 56
-    if bottom_positions[0] - ammo_right < 16:
-        fail("Any slots lost their visual gap after Ammo")
-    row_left = min(bottom_positions.values())
-    row_right = max(bottom_positions.values()) + 56
-    if abs((row_left + row_right) - child_int(equipment, "Size/CX")) > 1:
-        fail("bottom equipment row is no longer centered")
+        if (child_int(plate, "Location/X"), child_int(plate, "Location/Y")) != (px, py):
+            fail(f"equipment plate {slot_id} left its rail position")
+        if (child_int(plate, "Size/CX"), child_int(plate, "Size/CY")) != (PLATE, PLATE):
+            fail(f"equipment plate {slot_id} is no longer {PLATE}px")
+        if (child_int(slot, "Location/X") != px + SLOT_INSET
+                or child_int(slot, "Location/Y") != py + SLOT_INSET):
+            fail(f"equipment slot {slot_id} lost its hex alignment")
+        if px < 0 or py < 0 or px + PLATE > canvas_w or py + PLATE > canvas_h:
+            fail(f"equipment plate {slot_id} exceeds the canvas")
+    jewelry_bottom = slot_pos(RIGHT_RAIL[-1])[0][1] + PLATE
+    any_top = slot_pos(ANY_ROW[0])[0][1]
+    if any_top - jewelry_bottom < 16:
+        fail("Any slots lost their visual gap below the jewelry rail")
+    weapons_top = slot_pos(WEAPON_ROW[0])[0][1]
+    armor_bottom = slot_pos(LEFT_RAIL[-1])[0][1] + PLATE
+    if weapons_top < armor_bottom:
+        fail("weapon slots overlap the armor rail")
 
     persona = item(root, "Screen", "IWP_Equipment")
     persona_page = item(root, "Page", "IW_LoadoutPage")
@@ -225,9 +244,9 @@ def audit_inventory_geometry() -> None:
         fail("persona equipment membership changed")
     if set(persona_plates) != {f"IWP_HexPlate{i}" for i in range(23)}:
         fail("persona hex plates changed")
-    if (child_int(persona_page, "Size/CX"), child_int(persona_page, "Size/CY")) != (585, 720):
-        fail("Loadouts/Personas page must use the full 585x720 tab canvas")
-    if (child_int(persona, "Size/CX"), child_int(persona, "Size/CY")) != (569, 292):
+    if (child_int(persona_page, "Size/CX"), child_int(persona_page, "Size/CY")) != (485, 620):
+        fail("Loadouts/Personas page must use the full 485x620 tab canvas")
+    if (child_int(persona, "Size/CX"), child_int(persona, "Size/CY")) != (469, 270):
         fail("persona equipment canvas changed")
     if (child_int(persona_view, "Size/CX"), child_int(persona_view, "Size/CY")) != (85, 171):
         fail("persona character viewport must remain 85x171")
@@ -236,13 +255,13 @@ def audit_inventory_geometry() -> None:
     for slot_id in range(23):
         slot = item(root, "InvSlot", f"PersonaInvSlot{slot_id}")
         plate = item(root, "StaticAnimation", f"IWP_HexPlate{slot_id}")
-        if (child_int(slot, "Location/X") != child_int(plate, "Location/X") + 8
-                or child_int(slot, "Location/Y") != child_int(plate, "Location/Y") + 8):
+        if (child_int(slot, "Location/X") != child_int(plate, "Location/X") + 3
+                or child_int(slot, "Location/Y") != child_int(plate, "Location/Y") + 3):
             fail(f"persona equipment slot {slot_id} lost its hex alignment")
         if (child_int(plate, "Location/X") < 0
                 or child_int(plate, "Location/Y") < 0
-                or child_int(plate, "Location/X") + child_int(plate, "Size/CX") > 569
-                or child_int(plate, "Location/Y") + child_int(plate, "Size/CY") > 292):
+                or child_int(plate, "Location/X") + child_int(plate, "Size/CX") > 469
+                or child_int(plate, "Location/Y") + child_int(plate, "Size/CY") > 270):
             fail(f"persona equipment plate {slot_id} exceeds its canvas")
 
 
@@ -255,7 +274,7 @@ def main() -> int:
           f"TGA {tga_count} | DDS {dds_count} | CUR {cur_count}")
     print(f"  window templates {template_count} | "
           f"reference files {template_reference_files} | no unresolved symbols")
-    print("  inventory 780x800 | equipment 23 | persona 23 | bottom Any 2 | bags 12 | class art 75x142")
+    print("  inventory 680x700 | equipment 23 | persona 23 | rail Any 2 | bags 12 | class art 75x142")
     return 0
 
 

@@ -371,7 +371,7 @@ XML_SIZES = {
     "PetInfoWindow": (311, 190), "BuffWindow": (216, 640),
     "BuffWindow_13": (216, 640), "ShortDurationBuffWindow": (216, 324),
     "ShortDurationBuffWindow_13": (216, 324), "BigBankWnd": (287, 390),
-    "InventoryWindow": (780, 800), "BreathWindow": (118, 32),
+    "InventoryWindow": (680, 700), "BreathWindow": (118, 32),
     "GroupWindow": (230, 204),   # four-player Legends group = three companion rows
     "CompassWindow": (460, 36),
 }

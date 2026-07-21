@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the full-size Loadouts/Personas Inventory tab for visual QA."""
+"""Render the compact v3 Loadouts/Personas Inventory tab for visual QA."""
 
 import sys
 from pathlib import Path
@@ -8,8 +8,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
-from render_equipment_preview import FILLED, SLOT_NAMES  # noqa: E402
-from restyle_persona import GOLD_SLOTS, SLOT_POSITIONS  # noqa: E402
+from render_equipment_preview import FILLED, SLOT_ABBR  # noqa: E402
+from restyle_inventory import BAGS, CREST, WINDOW  # noqa: E402
+from restyle_persona import (EQUIP_CANVAS, GOLD_SLOTS, PLATE,  # noqa: E402
+                             PLATE_POSITIONS, SLOT_INSET)
 from spinui_theme import (BG1, BG2, BG3, CYAN, GOLD, GOLD_BRIGHT, LINE,  # noqa: E402
                           LINE_SOFT, TEXT, TEXT_DIM)
 
@@ -36,7 +38,7 @@ def button(draw, box, label, accent=False):
 
 
 def main():
-    w, h = 780, 800
+    w, h = WINDOW
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     d.rounded_rectangle([0, 0, w - 1, h - 1], radius=5,
@@ -47,7 +49,7 @@ def main():
     d.text((10, 9), "Inventory", font=font(11, True), fill=TEXT, anchor="lm")
     d.text((w - 12, 9), "—   ×", font=font(11, True), fill=TEXT_DIM, anchor="rm")
 
-    tabs = (("Equipment", 96), ("Pet", 72), ("Loadouts", 110), ("Storage", 94))
+    tabs = (("Equipment", 96), ("Pet", 60), ("Loadouts", 96), ("Storage", 84))
     x = 8
     for name, tw in tabs:
         active = name == "Loadouts"
@@ -63,26 +65,27 @@ def main():
     page_x, page_y = 8, 48
     d.text((page_x + 12, page_y + 6), "PERSONA EQUIPMENT", font=font(9, True), fill=GOLD)
     ox, oy = page_x + 8, page_y + 24
-    d.rounded_rectangle([ox, oy, ox + 568, oy + 291], radius=4,
+    d.rounded_rectangle([ox, oy, ox + EQUIP_CANVAS[0], oy + EQUIP_CANVAS[1]], radius=4,
                         fill=(7, 11, 15, 230), outline=LINE_SOFT + (255,))
     hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
-    steel = hexes.crop((0, 0, 56, 56))
-    gold = hexes.crop((64, 0, 120, 56))
+    steel = hexes.crop((0, 64, 46, 110))
+    gold = hexes.crop((64, 64, 110, 110))
     for slot_id in range(23):
-        sx, sy = SLOT_POSITIONS[slot_id]
+        px, py = PLATE_POSITIONS[slot_id]
         img.alpha_composite(gold if slot_id in GOLD_SLOTS else steel,
-                            (ox + sx - 8, oy + sy - 8))
+                            (ox + px, oy + py))
         color = FILLED.get(slot_id)
+        inner = (ox + px + SLOT_INSET, oy + py + SLOT_INSET)
         if color:
-            d.rounded_rectangle([ox + sx + 2, oy + sy + 2,
-                                 ox + sx + 37, oy + sy + 37], radius=3,
+            d.rounded_rectangle([inner[0] + 4, inner[1] + 4,
+                                 inner[0] + 36, inner[1] + 36], radius=3,
                                 fill=color + (255,))
-        if slot_id in {13, 14, 11, 22, 0, 21}:
-            d.text((ox + sx + 20, oy + sy + 43), SLOT_NAMES[slot_id],
-                   font=font(7), fill=TEXT_DIM, anchor="ma")
+        else:
+            d.text((ox + px + PLATE // 2, oy + py + PLATE // 2), SLOT_ABBR[slot_id],
+                   font=font(7), fill=TEXT_DIM, anchor="mm")
 
     # Client-owned persona art at the exact 85x171 native viewport.
-    vx, vy = ox + 242, oy + 25
+    vx, vy = ox + 192, oy + 8
     d.rounded_rectangle([vx, vy, vx + 85, vy + 171], radius=4,
                         fill=BG1 + (255,), outline=GOLD + (220,))
     d.ellipse([vx + 25, vy + 18, vx + 60, vy + 53], fill=(154, 115, 79, 255))
@@ -92,40 +95,39 @@ def main():
     d.text((vx + 42, vy + 160), "PERSONA", font=font(7, True),
            fill=GOLD_BRIGHT, anchor="mm")
 
-    ly = page_y + 320
-    d.text((page_x + 12, ly), "CHARACTER LOADOUTS", font=font(9, True), fill=GOLD)
-    list_box = [page_x + 8, page_y + 338, page_x + 576, page_y + 518]
+    d.text((page_x + 12, page_y + 300), "CHARACTER LOADOUTS", font=font(9, True), fill=GOLD)
+    list_box = [page_x + 8, page_y + 316, page_x + 477, page_y + 440]
     d.rectangle(list_box, fill=BG1 + (255,), outline=LINE + (255,))
-    widths = (42, 134, 150, 242)
+    widths = (36, 104, 124, 205)
     cx = list_box[0]
     for heading, width in zip(("#", "RACE", "PRIMARY CLASS", "SECONDARY CLASSES"), widths):
-        d.rectangle([cx, list_box[1], cx + width, list_box[1] + 23], fill=BG2 + (255,))
-        d.text((cx + 6, list_box[1] + 12), heading, font=font(7, True), fill=TEXT_DIM, anchor="lm")
+        d.rectangle([cx, list_box[1], cx + width, list_box[1] + 21], fill=BG2 + (255,))
+        d.text((cx + 6, list_box[1] + 11), heading, font=font(7, True), fill=TEXT_DIM, anchor="lm")
         cx += width
         d.line([(cx, list_box[1]), (cx, list_box[3])], fill=LINE_SOFT + (255,))
     rows = (("1", "Ogre", "Warrior 39", "Druid 31 · Bard 26"),
             ("2", "Ogre", "Druid 31", "Warrior 39 · Bard 26"),
             ("3", "Ogre", "Bard 26", "Warrior 39 · Druid 31"))
     for index, row in enumerate(rows):
-        ry = list_box[1] + 24 + index * 36
+        ry = list_box[1] + 22 + index * 32
         if index == 0:
-            d.rectangle([list_box[0] + 1, ry, list_box[2] - 1, ry + 34], fill=(17, 42, 46, 255))
-            d.rectangle([list_box[0] + 1, ry, list_box[0] + 3, ry + 34], fill=CYAN + (255,))
+            d.rectangle([list_box[0] + 1, ry, list_box[2] - 1, ry + 30], fill=(17, 42, 46, 255))
+            d.rectangle([list_box[0] + 1, ry, list_box[0] + 3, ry + 30], fill=CYAN + (255,))
         cx = list_box[0]
         for value, width in zip(row, widths):
-            d.text((cx + 7, ry + 17), value, font=font(9, index == 0), fill=TEXT, anchor="lm")
+            d.text((cx + 7, ry + 15), value, font=font(9, index == 0), fill=TEXT, anchor="lm")
             cx += width
-    button(d, [page_x + 8, page_y + 526, page_x + 86, page_y + 550], "ADD")
-    button(d, [page_x + 92, page_y + 526, page_x + 170, page_y + 550], "EDIT")
-    button(d, [page_x + 176, page_y + 526, page_x + 254, page_y + 550], "SWAP", True)
-    d.text((page_x + 276, page_y + 538), "SWAPPING AVAILABLE:  LIVE",
+    button(d, [page_x + 8, page_y + 448, page_x + 86, page_y + 472], "ADD")
+    button(d, [page_x + 92, page_y + 448, page_x + 170, page_y + 472], "EDIT")
+    button(d, [page_x + 176, page_y + 448, page_x + 254, page_y + 472], "SWAP", True)
+    d.text((page_x + 276, page_y + 460), "SWAPPING:  LIVE",
            font=font(8, True), fill=CYAN, anchor="lm")
 
-    d.text((page_x + 12, page_y + 563), "CLASS LEVELS", font=font(9, True), fill=GOLD)
+    d.text((page_x + 12, page_y + 480), "CLASS LEVELS", font=font(9, True), fill=GOLD)
     for index, (name, level) in enumerate((("WARRIOR", 39), ("DRUID", 31),
                                            ("BARD", 26), ("ROGUE", 1))):
-        bx = page_x + 98 + index * 92
-        by = page_y + 582
+        bx = page_x + 8 + index * 126
+        by = page_y + 496
         d.rounded_rectangle([bx, by, bx + 89, by + 74], radius=3,
                             fill=BG1 + (255,), outline=(CYAN if index == 0 else LINE) + (255,))
         d.text((bx + 45, by + 23), str(level), font=font(20, True),
@@ -133,21 +135,26 @@ def main():
         d.text((bx + 45, by + 55), name, font=font(7, True),
                fill=CYAN if index == 0 else TEXT_DIM, anchor="mm")
 
-    # Stable identity rail; the twelve bag slots remain beneath Destroy.
-    rail_x = 615
+    # Stable identity rail: name, Destroy, class crest, and the bag grid.
+    rail_x = w - 165
     d.line([(rail_x - 4, 24), (rail_x - 4, h - 28)], fill=LINE_SOFT + (255,))
     d.text((rail_x + 82, 35), "Spin", font=font(17, True), fill=GOLD_BRIGHT, anchor="mm")
     d.text((rail_x + 82, 55), "39 WAR/DRU/BRD", font=font(10, True), fill=TEXT, anchor="mm")
-    button(d, [rail_x + 14, 117, rail_x + 150, 139], "DESTROY")
+    button(d, [rail_x + 14, 120, rail_x + 150, 138], "DESTROY")
+    ccx, ccy = CREST
+    d.rounded_rectangle([ccx, ccy, ccx + 85, ccy + 171], radius=4,
+                        fill=(7, 11, 15, 255), outline=GOLD + (220,))
+    d.text((ccx + 42, ccy + 85), "CLASS\nCREST", font=font(8, True),
+           fill=TEXT_DIM, anchor="mm", align="center")
     for i in range(12):
-        bx = rail_x + 29 + (i % 2) * 48
-        by = 153 + (i // 2) * 47
-        d.rounded_rectangle([bx, by, bx + 42, by + 42], radius=4,
+        bx = BAGS[0] + (i % 2) * 43
+        by = BAGS[1] + (i // 2) * 43
+        d.rounded_rectangle([bx, by, bx + 40, by + 40], radius=4,
                             fill=BG1 + (255,), outline=LINE + (255,))
-        d.polygon([(bx + 21, by + 8), (bx + 33, by + 17), (bx + 30, by + 33),
-                   (bx + 12, by + 33), (bx + 9, by + 17)],
+        d.polygon([(bx + 20, by + 7), (bx + 31, by + 16), (bx + 28, by + 31),
+                   (bx + 12, by + 31), (bx + 9, by + 16)],
                   fill=((85 + i * 7) % 145, 74, 55, 255), outline=GOLD + (140,))
-    button(d, [rail_x + 14, 744, rail_x + 150, 766], "DONE", True)
+    button(d, [rail_x + 48, h - 20, rail_x + 160, h - 4], "DONE", True)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     scaled = img.resize((w * 2, h * 2), Image.Resampling.LANCZOS)

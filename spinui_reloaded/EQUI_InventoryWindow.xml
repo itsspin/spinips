@@ -48,6 +48,46 @@
 		</Frames>
 	</Ui2DAnimation>
 
+	<!-- SPIN-DECO-3: compact 46px hex plates -->
+	<Ui2DAnimation item="A_SpinHexSm">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>spin_deco.tga</Texture>
+			<Location>
+				<X>0</X>
+				<Y>64</Y>
+			</Location>
+			<Size>
+				<CX>46</CX>
+				<CY>46</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="A_SpinHexGoldSm">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>spin_deco.tga</Texture>
+			<Location>
+				<X>64</X>
+				<Y>64</Y>
+			</Location>
+			<Size>
+				<CX>46</CX>
+				<CY>46</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+
 	
 	<!-- 	Graveyard of unused things -->
 	<StaticAnimation item="Inv_Seperator1">
@@ -242,8 +282,8 @@
 		<ScreenID>IW_CharacterView</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>244</X>
-			<Y>0</Y>
+			<X>556</X>
+			<Y>142</Y>
 		</Location>
 		<Size>
 			<CX>85</CX>
@@ -282,8 +322,8 @@
 		<ScreenID>InvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>366</X>
-			<Y>666</Y>
+			<X>425</X>
+			<Y>507</Y>
 		</Location>		
 		<Size>
 			<CX>40</CX>
@@ -297,8 +337,8 @@
 		<ScreenID>InvSlot1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>12</Y>
+			<X>425</X>
+			<Y>7</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -312,8 +352,8 @@
 		<ScreenID>InvSlot2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>12</Y>
+			<X>7</X>
+			<Y>7</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -327,8 +367,8 @@
 		<ScreenID>InvSlot3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>74</Y>
+			<X>7</X>
+			<Y>57</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -342,8 +382,8 @@
 		<ScreenID>InvSlot4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>74</Y>
+			<X>425</X>
+			<Y>57</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -357,8 +397,8 @@
 		<ScreenID>InvSlot5</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>136</Y>
+			<X>7</X>
+			<Y>107</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -372,8 +412,8 @@
 		<ScreenID>InvSlot6</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>198</Y>
+			<X>7</X>
+			<Y>157</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -387,8 +427,8 @@
 		<ScreenID>InvSlot7</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>384</Y>
+			<X>7</X>
+			<Y>307</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -402,8 +442,8 @@
 		<ScreenID>InvSlot8</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>260</Y>
+			<X>7</X>
+			<Y>207</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -417,8 +457,8 @@
 		<ScreenID>InvSlot9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>136</Y>
+			<X>425</X>
+			<Y>107</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -432,8 +472,8 @@
 		<ScreenID>InvSlot10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>198</Y>
+			<X>425</X>
+			<Y>157</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -447,8 +487,8 @@
 		<ScreenID>InvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>230</X>
-			<Y>666</Y>
+			<X>7</X>
+			<Y>507</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -462,8 +502,8 @@
 		<ScreenID>InvSlot12</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>446</Y>
+			<X>7</X>
+			<Y>357</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -477,8 +517,8 @@
 		<ScreenID>InvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>106</X>
-			<Y>666</Y>
+			<X>7</X>
+			<Y>407</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -492,8 +532,8 @@
 		<ScreenID>InvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>168</X>
-			<Y>666</Y>
+			<X>7</X>
+			<Y>457</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -507,8 +547,8 @@
 		<ScreenID>InvSlot15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>446</Y>
+			<X>425</X>
+			<Y>357</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -522,8 +562,8 @@
 		<ScreenID>InvSlot16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>508</Y>		
+			<X>425</X>
+			<Y>407</Y>		
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -537,8 +577,8 @@
 		<ScreenID>InvSlot17</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>12</X>
-			<Y>322</Y>
+			<X>7</X>
+			<Y>257</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -552,8 +592,8 @@
 		<ScreenID>InvSlot18</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>322</Y>
+			<X>425</X>
+			<Y>257</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -567,8 +607,8 @@
 		<ScreenID>InvSlot19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>384</Y>	
+			<X>425</X>
+			<Y>307</Y>	
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -582,8 +622,8 @@
 		<ScreenID>InvSlot20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>521</X>
-			<Y>260</Y>
+			<X>425</X>
+			<Y>207</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -597,8 +637,8 @@
 		<ScreenID>InvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>428</X>
-			<Y>666</Y>
+			<X>425</X>
+			<Y>557</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -612,8 +652,8 @@
 		<ScreenID>InvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>292</X>
-			<Y>666</Y>
+			<X>7</X>
+			<Y>557</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -626,27 +666,27 @@
 		<ScreenID>IW_HexPlate0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>358</X>
-			<Y>658</Y>
+			<X>422</X>
+			<Y>504</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate1">
 		<ScreenID>IW_HexPlate1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
+			<X>422</X>
 			<Y>4</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate2">
 		<ScreenID>IW_HexPlate2</ScreenID>
@@ -656,270 +696,270 @@
 			<Y>4</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate3">
 		<ScreenID>IW_HexPlate3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>66</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate4">
 		<ScreenID>IW_HexPlate4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>66</Y>
+			<X>422</X>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate5">
 		<ScreenID>IW_HexPlate5</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>128</Y>
+			<Y>104</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate6">
 		<ScreenID>IW_HexPlate6</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>190</Y>
+			<Y>154</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate7">
 		<ScreenID>IW_HexPlate7</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>376</Y>
+			<Y>304</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate8">
 		<ScreenID>IW_HexPlate8</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>252</Y>
+			<Y>204</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate9">
 		<ScreenID>IW_HexPlate9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>128</Y>
+			<X>422</X>
+			<Y>104</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate10">
 		<ScreenID>IW_HexPlate10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>190</Y>
+			<X>422</X>
+			<Y>154</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate11">
 		<ScreenID>IW_HexPlate11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>222</X>
-			<Y>658</Y>
+			<X>4</X>
+			<Y>504</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate12">
 		<ScreenID>IW_HexPlate12</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>438</Y>
+			<Y>354</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate13">
 		<ScreenID>IW_HexPlate13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>98</X>
-			<Y>658</Y>
+			<X>4</X>
+			<Y>404</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate14">
 		<ScreenID>IW_HexPlate14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>160</X>
-			<Y>658</Y>
+			<X>4</X>
+			<Y>454</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate15">
 		<ScreenID>IW_HexPlate15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>438</Y>
+			<X>422</X>
+			<Y>354</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate16">
 		<ScreenID>IW_HexPlate16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>500</Y>
+			<X>422</X>
+			<Y>404</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate17">
 		<ScreenID>IW_HexPlate17</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>4</X>
-			<Y>314</Y>
+			<Y>254</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate18">
 		<ScreenID>IW_HexPlate18</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>314</Y>
+			<X>422</X>
+			<Y>254</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate19">
 		<ScreenID>IW_HexPlate19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>376</Y>
+			<X>422</X>
+			<Y>304</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate20">
 		<ScreenID>IW_HexPlate20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>513</X>
-			<Y>252</Y>
+			<X>422</X>
+			<Y>204</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate21">
 		<ScreenID>IW_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>420</X>
-			<Y>658</Y>
+			<X>422</X>
+			<Y>554</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHex</Animation>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IW_HexPlate22">
 		<ScreenID>IW_HexPlate22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>284</X>
-			<Y>658</Y>
+			<X>4</X>
+			<Y>554</Y>
 		</Location>
 		<Size>
-			<CX>56</CX>
-			<CY>56</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<Screen item="IW_Equipment">
 		<ScreenID>IW_Equipment</ScreenID>
@@ -929,8 +969,8 @@
 			<Y>6</Y>
 		</Location>
 		<Size>
-			<CX>573</CX>
-			<CY>714</CY>
+			<CX>472</CX>
+			<CY>606</CY>
 		</Size>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
@@ -984,7 +1024,6 @@
 		<Pieces>InvSlot20</Pieces>
 		<Pieces>InvSlot21</Pieces>
 		<Pieces>InvSlot22</Pieces>
-		<Pieces>Screen:IW_CharacterView</Pieces>
 	</Screen>			
 	<!-- END INVENTORY -->
 			
@@ -5261,12 +5300,12 @@
 	<TileLayoutBox item="IW_Stats">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>86</X>
-			<Y>180</Y>
+			<X>58</X>
+			<Y>6</Y>
 		</Location>
 		<Size>
-			<CX>410</CX>
-			<CY>290</CY>
+			<CX>356</CX>
+			<CY>270</CY>
 		</Size>		
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>2</Spacing>
@@ -5313,12 +5352,12 @@
 	<TileLayoutBox item="IW_Stats2">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>86</X>
-			<Y>482</Y>
+			<X>58</X>
+			<Y>284</Y>
 		</Location>
 		<Size>
-			<CX>410</CX>
-			<CY>104</CY>
+			<CX>356</CX>
+			<CY>222</CY>
 		</Size>		
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>2</Spacing>
@@ -5360,12 +5399,12 @@
 	<TileLayoutBox item="IW_Stats3">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>86</X>
-			<Y>592</Y>
+			<X>58</X>
+			<Y>514</Y>
 		</Location>
 		<Size>
-			<CX>410</CX>
-			<CY>56</CY>
+			<CX>356</CX>
+			<CY>62</CY>
 		</Size>		
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>2</Spacing>
@@ -5462,8 +5501,8 @@
 			<Y>22</Y>
 		</Location>
 		<Size>
-			<CX>585</CX>
-			<CY>720</CY>
+			<CX>485</CX>
+			<CY>620</CY>
 		</Size>
 	</Page>
 
@@ -7533,10 +7572,10 @@
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<LeftAnchorOffset>8</LeftAnchorOffset>
-<!-- 		<TopAnchorOffset>338</TopAnchorOffset> -->
+<!-- 		<TopAnchorOffset>316</TopAnchorOffset> -->
 		<TopAnchorOffset>18</TopAnchorOffset>
 		<RightAnchorOffset>8</RightAnchorOffset>
-		<BottomAnchorOffset>518</BottomAnchorOffset>
+		<BottomAnchorOffset>440</BottomAnchorOffset>
 		<Style_Border>true</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -7566,9 +7605,9 @@
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<LeftAnchorOffset>176</LeftAnchorOffset>
-		<TopAnchorOffset>526</TopAnchorOffset>
+		<TopAnchorOffset>448</TopAnchorOffset>
 		<RightAnchorOffset>254</RightAnchorOffset>
-		<BottomAnchorOffset>550</BottomAnchorOffset>
+		<BottomAnchorOffset>472</BottomAnchorOffset>
 		<Text>Swap</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
@@ -7581,9 +7620,9 @@
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<LeftAnchorOffset>92</LeftAnchorOffset>
-		<TopAnchorOffset>526</TopAnchorOffset>
+		<TopAnchorOffset>448</TopAnchorOffset>
 		<RightAnchorOffset>170</RightAnchorOffset>
-		<BottomAnchorOffset>550</BottomAnchorOffset>
+		<BottomAnchorOffset>472</BottomAnchorOffset>
 		<Text>Edit</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
@@ -7596,9 +7635,9 @@
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<LeftAnchorOffset>8</LeftAnchorOffset>
-		<TopAnchorOffset>526</TopAnchorOffset>
+		<TopAnchorOffset>448</TopAnchorOffset>
 		<RightAnchorOffset>86</RightAnchorOffset>
-		<BottomAnchorOffset>550</BottomAnchorOffset>
+		<BottomAnchorOffset>472</BottomAnchorOffset>
 		<Text>Add</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
@@ -7606,7 +7645,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>276</X>
-			<Y>531</Y>
+			<Y>453</Y>
 		</Location>
 		<Size>
 			<CX>128</CX>
@@ -7623,7 +7662,7 @@
 		<EQType>1027</EQType>
 		<Location>
 			<X>406</X>
-			<Y>531</Y>
+			<Y>453</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7661,7 +7700,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>12</X>
-			<Y>320</Y>
+			<Y>300</Y>
 		</Location>
 		<Size>
 			<CX>220</CX>
@@ -7683,8 +7722,8 @@
 		<ScreenID>PersonaInvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>352</X>
-			<Y>240</Y>
+			<X>299</X>
+			<Y>219</Y>
 		</Location>		
 		<Size>
 			<CX>40</CX>
@@ -7698,8 +7737,8 @@
 		<ScreenID>PersonaInvSlot1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>35</X>
-			<Y>10</Y>
+			<X>11</X>
+			<Y>11</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7713,8 +7752,8 @@
 		<ScreenID>PersonaInvSlot2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>394</X>
-			<Y>66</Y>
+			<X>426</X>
+			<Y>11</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7728,8 +7767,8 @@
 		<ScreenID>PersonaInvSlot3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>454</X>
-			<Y>10</Y>
+			<X>376</X>
+			<Y>11</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7743,8 +7782,8 @@
 		<ScreenID>PersonaInvSlot4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>394</X>
-			<Y>10</Y>
+			<X>326</X>
+			<Y>11</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7758,8 +7797,8 @@
 		<ScreenID>PersonaInvSlot5</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>95</X>
-			<Y>10</Y>
+			<X>61</X>
+			<Y>11</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7773,8 +7812,8 @@
 		<ScreenID>PersonaInvSlot6</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>35</X>
-			<Y>66</Y>
+			<X>11</X>
+			<Y>61</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7788,8 +7827,8 @@
 		<ScreenID>PersonaInvSlot7</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>95</X>
-			<Y>122</Y>
+			<X>61</X>
+			<Y>111</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7803,8 +7842,8 @@
 		<ScreenID>PersonaInvSlot8</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>95</X>
-			<Y>178</Y>
+			<X>61</X>
+			<Y>161</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7818,8 +7857,8 @@
 		<ScreenID>PersonaInvSlot9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>95</X>
-			<Y>66</Y>
+			<X>61</X>
+			<Y>61</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7833,8 +7872,8 @@
 		<ScreenID>PersonaInvSlot10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>454</X>
-			<Y>66</Y>
+			<X>326</X>
+			<Y>61</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7848,8 +7887,8 @@
 		<ScreenID>PersonaInvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>228</X>
-			<Y>240</Y>
+			<X>175</X>
+			<Y>219</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7863,8 +7902,8 @@
 		<ScreenID>PersonaInvSlot12</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>454</X>
-			<Y>122</Y>
+			<X>426</X>
+			<Y>61</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7878,8 +7917,8 @@
 		<ScreenID>PersonaInvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>124</X>
-			<Y>240</Y>
+			<X>75</X>
+			<Y>219</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7893,8 +7932,8 @@
 		<ScreenID>PersonaInvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>176</X>
-			<Y>240</Y>
+			<X>125</X>
+			<Y>219</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7908,8 +7947,8 @@
 		<ScreenID>PersonaInvSlot15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>35</X>
-			<Y>122</Y>
+			<X>11</X>
+			<Y>111</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7923,8 +7962,8 @@
 		<ScreenID>PersonaInvSlot16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>394</X>
-			<Y>122</Y>
+			<X>376</X>
+			<Y>61</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7938,8 +7977,8 @@
 		<ScreenID>PersonaInvSlot17</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>35</X>
-			<Y>178</Y>
+			<X>11</X>
+			<Y>161</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7954,8 +7993,8 @@
 
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>454</X>
-			<Y>178</Y>
+			<X>376</X>
+			<Y>111</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7969,8 +8008,8 @@
 		<ScreenID>PersonaInvSlot19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>514</X>
-			<Y>178</Y>
+			<X>426</X>
+			<Y>111</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7984,8 +8023,8 @@
 		<ScreenID>PersonaInvSlot20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>394</X>
-			<Y>178</Y>
+			<X>326</X>
+			<Y>111</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -7999,8 +8038,8 @@
 		<ScreenID>PersonaInvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>404</X>
-			<Y>240</Y>
+			<X>349</X>
+			<Y>219</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -8014,8 +8053,8 @@
 		<ScreenID>PersonaInvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>280</X>
-			<Y>240</Y>
+			<X>225</X>
+			<Y>219</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -8025,167 +8064,167 @@
 		<EQType>personaInventory/Equip 22</EQType>
 	</InvSlot>
 
-	<!-- SPIN-PERSONA: full-size persona equipment composition -->
+	<!-- SPIN-PERSONA-3: compact persona equipment composition -->
 	<StaticAnimation item="IWP_HexPlate0">
 		<ScreenID>IWP_HexPlate0</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>344</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>296</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate1">
 		<ScreenID>IWP_HexPlate1</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>27</X><Y>2</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>8</X><Y>8</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate2">
 		<ScreenID>IWP_HexPlate2</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>386</X><Y>58</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>423</X><Y>8</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate3">
 		<ScreenID>IWP_HexPlate3</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>446</X><Y>2</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>373</X><Y>8</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate4">
 		<ScreenID>IWP_HexPlate4</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>386</X><Y>2</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>323</X><Y>8</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate5">
 		<ScreenID>IWP_HexPlate5</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>87</X><Y>2</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>58</X><Y>8</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate6">
 		<ScreenID>IWP_HexPlate6</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>27</X><Y>58</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>8</X><Y>58</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate7">
 		<ScreenID>IWP_HexPlate7</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>87</X><Y>114</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>58</X><Y>108</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate8">
 		<ScreenID>IWP_HexPlate8</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>87</X><Y>170</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>58</X><Y>158</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate9">
 		<ScreenID>IWP_HexPlate9</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>87</X><Y>58</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>58</X><Y>58</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate10">
 		<ScreenID>IWP_HexPlate10</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>446</X><Y>58</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>323</X><Y>58</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate11">
 		<ScreenID>IWP_HexPlate11</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>220</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Location><X>172</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate12">
 		<ScreenID>IWP_HexPlate12</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>446</X><Y>114</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>423</X><Y>58</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate13">
 		<ScreenID>IWP_HexPlate13</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>116</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Location><X>72</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate14">
 		<ScreenID>IWP_HexPlate14</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>168</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Location><X>122</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate15">
 		<ScreenID>IWP_HexPlate15</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>27</X><Y>114</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>8</X><Y>108</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate16">
 		<ScreenID>IWP_HexPlate16</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>386</X><Y>114</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>373</X><Y>58</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate17">
 		<ScreenID>IWP_HexPlate17</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>27</X><Y>170</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>8</X><Y>158</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate18">
 		<ScreenID>IWP_HexPlate18</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>446</X><Y>170</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>373</X><Y>108</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate19">
 		<ScreenID>IWP_HexPlate19</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>506</X><Y>170</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>423</X><Y>108</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate20">
 		<ScreenID>IWP_HexPlate20</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>386</X><Y>170</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>323</X><Y>108</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate21">
 		<ScreenID>IWP_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>396</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHex</Animation>
+		<Location><X>346</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexSm</Animation>
 	</StaticAnimation>
 	<StaticAnimation item="IWP_HexPlate22">
 		<ScreenID>IWP_HexPlate22</ScreenID>
 		<RelativePosition>true</RelativePosition>
-		<Location><X>272</X><Y>232</Y></Location>
-		<Size><CX>56</CX><CY>56</CY></Size>
-		<Animation>A_SpinHexGold</Animation>
+		<Location><X>222</X><Y>216</Y></Location>
+		<Size><CX>46</CX><CY>46</CY></Size>
+		<Animation>A_SpinHexGoldSm</Animation>
 	</StaticAnimation>
 	<Screen item="IWP_Equipment">
 		<ScreenID>IWP_Equipment</ScreenID>
@@ -8195,8 +8234,8 @@
 			<Y>24</Y>
 		</Location>
 		<Size>
-			<CX>569</CX>
-			<CY>292</CY>
+			<CX>469</CX>
+			<CY>270</CY>
 		</Size>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
@@ -8269,8 +8308,8 @@
 		<ScreenID>IWP_CharacterView</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>242</X>
-			<Y>25</Y>
+			<X>192</X>
+			<Y>8</Y>
 		</Location>
 		<Size>
 			<CX>85</CX>
@@ -8290,7 +8329,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>12</X>
-			<Y>562</Y>
+			<Y>480</Y>
 		</Location>
 		<Size>
 			<CX>220</CX>
@@ -8319,9 +8358,9 @@
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<LeftAnchorOffset>8</LeftAnchorOffset>
-		<TopAnchorOffset>582</TopAnchorOffset>
+		<TopAnchorOffset>496</TopAnchorOffset>
 		<RightAnchorOffset>8</RightAnchorOffset>
-		<BottomAnchorOffset>710</BottomAnchorOffset>
+		<BottomAnchorOffset>610</BottomAnchorOffset>
 		<Columns>
 			<Width>260</Width>
 			<Heading>Class</Heading>
@@ -8500,8 +8539,8 @@
 		<ScreenID>IWP_CharacterLevels1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>98</X>
-			<Y>582</Y>
+			<X>8</X>
+			<Y>496</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -8692,8 +8731,8 @@
 		<ScreenID>IWP_CharacterLevels2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>190</X>
-			<Y>582</Y>
+			<X>134</X>
+			<Y>496</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -8884,8 +8923,8 @@
 		<ScreenID>IWP_CharacterLevels3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>282</X>
-			<Y>582</Y>
+			<X>260</X>
+			<Y>496</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -9076,8 +9115,8 @@
 		<ScreenID>IWP_CharacterLevels4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>374</X>
-			<Y>582</Y>
+			<X>386</X>
+			<Y>496</Y>
 		</Location>
 		<Size>
 			<CX>90</CX>
@@ -9159,8 +9198,8 @@
 			<Y>22</Y>
 		</Location>
 		<Size>
-			<CX>585</CX>
-			<CY>720</CY>
+			<CX>485</CX>
+			<CY>620</CY>
 		</Size>
 	</Page>
 	
@@ -9513,8 +9552,8 @@
 	<TileLayoutBox item="IW_Slots">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>644</X>
-			<Y>150</Y>
+			<X>544</X>
+			<Y>320</Y>
 		</Location>
 		<Size>
 			<CX>112</CX>
@@ -9898,8 +9937,8 @@
 			<Y>50</Y>
 		</Location>
 		<Size>
-			<CX>780</CX>
-			<CY>800</CY>
+			<CX>680</CX>
+			<CY>700</CY>
 		</Size>
 		<KeepOnScreen>true</KeepOnScreen>
 		<KeepOnScreenOffset>
@@ -9930,6 +9969,7 @@
 		<Pieces>IW_Skills</Pieces>
 		<Pieces>IW_Achievements</Pieces>		
 		<Pieces>TileLayoutBox:IW_Slots</Pieces>
+		<Pieces>Screen:IW_CharacterView</Pieces>
 		<Pieces>IW_Money0</Pieces>
 		<Pieces>IW_Money1</Pieces>
 		<Pieces>IW_Money2</Pieces>

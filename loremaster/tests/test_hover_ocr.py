@@ -90,6 +90,21 @@ class CaptureArtifactTests(unittest.TestCase):
         with self.assertRaises(dataclasses.FrozenInstanceError):
             capture.bmp_bytes = b"changed"
 
+    def test_metadata_virtual_desktop_defaults_to_unknown_and_stays_frozen(self):
+        # Older captures and test doubles omit the DPI-aware desktop bounds;
+        # zero sizes signal "unknown" so Tk-side anchoring falls back safely.
+        legacy = make_capture().metadata
+        self.assertEqual(
+            (legacy.virtual_left, legacy.virtual_top,
+             legacy.virtual_width, legacy.virtual_height), (0, 0, 0, 0))
+        metadata = dataclasses.replace(
+            legacy, virtual_left=-3840, virtual_top=0,
+            virtual_width=7680, virtual_height=2160)
+        self.assertEqual(metadata.virtual_left, -3840)
+        self.assertEqual(metadata.virtual_width, 7680)
+        with self.assertRaises(dataclasses.FrozenInstanceError):
+            metadata.virtual_width = 0
+
     def test_top_down_24bit_bmp_header_and_size(self):
         width, height = 3, 2
         stride = (width * 3 + 3) & ~3
