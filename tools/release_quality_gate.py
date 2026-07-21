@@ -93,7 +93,7 @@ SOURCE_REQUIRED = (
 
 # Values: (format, allowed dimensions, byte cap).
 README_MEDIA = {
-    "docs/screenshots/spinui-live-hero.jpg": ("JPEG", {(1600, 620)}, 1_000_000),
+    "docs/screenshots/spinui-live-hero.jpg": ("JPEG", {(1600, 670)}, 1_000_000),
     "docs/screenshots/inventory-live.jpg": ("JPEG", {(725, 745)}, 1_000_000),
     "docs/screenshots/loremaster-encounter-live.png": ("PNG", {(400, 480)}, 1_000_000),
     "docs/screenshots/loremaster-session-live.png": ("PNG", {(400, 480)}, 1_000_000),

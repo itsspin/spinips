@@ -58,12 +58,10 @@ def build_static(full_capture: Path, output: Path) -> tuple[Path, Path]:
     if source.size != (3440, 1440):
         raise ValueError(f"expected a 3440x1440 live capture, got {source.size}")
 
-    # Chat starts near y=1140 in the live layout.  Stop higher so public media
-    # cannot expose chat.  The crop frames the inventory, loadout picker,
-    # stance bar, and Lore Lens card from the 2026 capture at the 1600:620
-    # output aspect ratio; nothing is retouched.
-    hero = source.crop((166, 60, 2940, 1135))
-    hero = hero.resize((1600, 620), Image.Resampling.LANCZOS)
+    # The hero is the complete, uncropped 3440x1440 frame — the whole HUD
+    # including the chat row — scaled to the README banner width. Nothing is
+    # retouched beyond a slight contrast lift.
+    hero = source.resize((1600, 670), Image.Resampling.LANCZOS)
     hero = ImageEnhance.Contrast(hero).enhance(1.025)
     hero_path = output / "spinui-live-hero.jpg"
     hero.save(hero_path, "JPEG", quality=90, optimize=True, progressive=True)
