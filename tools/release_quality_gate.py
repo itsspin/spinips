@@ -91,14 +91,20 @@ SOURCE_REQUIRED = (
     ".github/workflows/build-loremaster.yml",
 )
 
+# Values: (format, allowed dimensions, byte cap). Dimension sets allow a
+# deliberate transition — e.g. inventory-live.jpg is 763x800 from the legacy
+# capture and 704x724 once build_showcase_media.py reruns against the compact
+# v3 inventory window.
 README_MEDIA = {
-    "docs/screenshots/spinui-live-hero.jpg": ("JPEG", 1600, 620, 1_000_000),
-    "docs/screenshots/inventory-live.jpg": ("JPEG", 763, 800, 1_000_000),
-    "docs/screenshots/loremaster-encounter-live.png": ("PNG", 400, 480, 1_000_000),
-    "docs/screenshots/loremaster-session-live.png": ("PNG", 400, 480, 1_000_000),
-    "docs/screenshots/loremaster-live-tour.gif": ("GIF", 960, 540, 4_000_000),
-    "docs/previews/loremaster_panel.png": ("PNG", 1704, 1658, 2_000_000),
+    "docs/screenshots/spinui-live-hero.jpg": ("JPEG", {(1600, 620)}, 1_000_000),
+    "docs/screenshots/inventory-live.jpg": ("JPEG", {(763, 800), (704, 724)}, 1_000_000),
+    "docs/screenshots/loremaster-encounter-live.png": ("PNG", {(400, 480)}, 1_000_000),
+    "docs/screenshots/loremaster-session-live.png": ("PNG", {(400, 480)}, 1_000_000),
+    "docs/screenshots/loremaster-live-tour.gif": ("GIF", {(960, 540)}, 4_000_000),
+    "docs/previews/loremaster_panel.png": ("PNG", {(1704, 1658)}, 2_000_000),
 }
+
+PUBLIC_LAYOUT_PRESETS = ("combat-focus", "social-focus", "hybrid")
 
 COMMON_PACKAGE_TOP_LEVEL = {
     "docs",
@@ -273,12 +279,14 @@ def check_readme_media() -> None:
             fail(f"README media escapes the repository: {relative}")
         if not candidate.is_file():
             fail(f"README media link is broken: {relative}")
-    for relative, (kind, width, height, size_limit) in README_MEDIA.items():
+    for relative, (kind, allowed_dims, size_limit) in README_MEDIA.items():
         path = REPO / relative
         actual_kind, actual_width, actual_height = _image_identity(path)
-        if (actual_kind, actual_width, actual_height) != (kind, width, height):
+        if actual_kind != kind or (actual_width, actual_height) not in allowed_dims:
+            expected = " or ".join(
+                f"{width}x{height}" for width, height in sorted(allowed_dims))
             fail(
-                f"{relative} identity drifted: expected {kind} {width}x{height}, "
+                f"{relative} identity drifted: expected {kind} {expected}, "
                 f"got {actual_kind} {actual_width}x{actual_height}"
             )
         if path.stat().st_size > size_limit:
@@ -713,9 +721,23 @@ def check_staged_package(kind: str, package_root: Path) -> None:
     skin_files = _compare_packaged_tree(
         SKIN, package_root / "spinui_reloaded", f"{kind}/spinui_reloaded"
     )
-    layout_files = _compare_packaged_tree(
-        REPO / "layouts", package_root / "layouts", f"{kind}/layouts"
-    )
+    # Only the public presets ship; layouts/original and layouts/spin-live are
+    # internal generator bases and must never reach a release package.
+    package_layouts = package_root / "layouts"
+    if not package_layouts.is_dir():
+        fail(f"{kind} package is missing the layouts directory")
+    actual_presets = {path.name for path in package_layouts.iterdir()}
+    if actual_presets != set(PUBLIC_LAYOUT_PRESETS):
+        fail(
+            f"{kind} package layouts must contain exactly "
+            f"{sorted(PUBLIC_LAYOUT_PRESETS)}, found {sorted(actual_presets)}"
+        )
+    layout_files = 0
+    for preset in PUBLIC_LAYOUT_PRESETS:
+        layout_files += _compare_packaged_tree(
+            REPO / "layouts" / preset, package_layouts / preset,
+            f"{kind}/layouts/{preset}"
+        )
     docs_files = _compare_packaged_tree(
         REPO / "docs", package_root / "docs", f"{kind}/docs"
     )

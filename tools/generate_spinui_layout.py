@@ -527,9 +527,13 @@ def preset_placements(preset: str) -> dict[str, dict]:
 
 
 def personal_placements(preset: str) -> dict[str, dict]:
-    """Overlay for the player's live layout: safe fixes, the symmetrical
-    chat row, and the centered combat cluster; every other hand-placed
-    window is preserved verbatim."""
+    """Overlay for the player's live layout.
+
+    Only the deliberately-configurable pieces are touched: the chat row
+    (per preset), the bottom-right bag dock, and a few parked utility
+    windows. The combat cluster — player/target plates, stance bar, cast
+    bar, spell bar, hotbars — is the player's hand-centered arrangement
+    from layouts/spin-live and is preserved verbatim."""
     placements = {k: dict(PLACEMENTS[k]) for k in PERSONAL_FIXES}
     for section, (x, w, h, y) in CHAT_PRESETS[preset].items():
         placements[section] = P(x, y, w, h, extra=CHAT_ALPHA)
@@ -589,15 +593,10 @@ DEFAULT_PRESET = "combat-focus"
 # everything they placed by hand is preserved verbatim.
 PERSONAL_BASE = "layouts/spin-live/UI_Spin_qeynos_LO1.ini"
 PERSONAL_FIXES = [
-    "MapViewWnd",              # bigger, clearer glass map
+    "MapViewWnd",              # bigger, clearer glass map (visibility untouched)
     "TargetOfTargetWindow",    # tidy parking spot (hidden)
     "ExtendedTargetWnd",       # tidy parking spot (hidden)
-    "BuffWindow", "BuffWindow_13",
-    "ShortDurationBuffWindow", "ShortDurationBuffWindow_13",
-    # centered combat cluster: plates share the hotbar block's outer edges
-    "PlayerWindow", "TargetWindow",
-    "StanceWnd", "CastingWindow", "AggroMeterWnd",
-]
+] + [f"BagInv{i}" for i in range(1, 9)]  # the bottom-right bag dock row
 
 
 def main():
