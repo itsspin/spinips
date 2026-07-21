@@ -43,7 +43,54 @@ def child_int(node: ET.Element, path: str) -> int:
     return int(value)
 
 
-def audit_xml() -> tuple[list[Path], set[str]]:
+def audit_window_draw_templates(
+        roots: dict[Path, ET.Element]) -> tuple[int, int]:
+    """Mirror EQ's global WindowDrawTemplate symbol-table validation.
+
+    A well-formed XML document can still make the client reject the entire
+    skin when a Screen's DrawTemplate names a WindowDrawTemplate that was
+    never declared.  Keep this separate from asset validation so the failure
+    identifies the missing symbol and every source file that references it.
+    """
+
+    declared: set[str] = set()
+    duplicate_declarations: set[str] = set()
+    references: dict[str, set[str]] = {}
+
+    for path, root in roots.items():
+        for node in root.iter("WindowDrawTemplate"):
+            name = (node.get("item") or "").strip()
+            if not name:
+                continue
+            if name in declared:
+                duplicate_declarations.add(name)
+            declared.add(name)
+        for node in root.iter("DrawTemplate"):
+            name = (node.text or "").strip()
+            if name.startswith("WDT_"):
+                references.setdefault(name, set()).add(path.name)
+
+    if duplicate_declarations:
+        fail(
+            "duplicate WindowDrawTemplate declarations: "
+            f"{sorted(duplicate_declarations)}"
+        )
+
+    undefined = sorted(set(references) - declared)
+    if undefined:
+        details = []
+        for name in undefined:
+            files = sorted(references[name], key=str.casefold)
+            display = ", ".join(files[:5])
+            if len(files) > 5:
+                display += f", +{len(files) - 5} more"
+            details.append(f"{name} ({display})")
+        fail("undeclared WindowDrawTemplate references: " + "; ".join(details))
+
+    return len(declared), sum(len(paths) for paths in references.values())
+
+
+def audit_xml() -> tuple[list[Path], set[str], int, int]:
     xml_files = sorted(SKIN.glob("*.xml"))
     if not xml_files:
         fail("skin contains no XML files")
@@ -77,7 +124,8 @@ def audit_xml() -> tuple[list[Path], set[str]]:
     }
     if missing_textures:
         fail(f"missing referenced textures: {sorted(missing_textures)}")
-    return xml_files, texture_refs
+    template_count, template_reference_files = audit_window_draw_templates(roots)
+    return xml_files, texture_refs, template_count, template_reference_files
 
 
 def audit_binary_assets() -> tuple[int, int, int]:
@@ -199,12 +247,14 @@ def audit_inventory_geometry() -> None:
 
 
 def main() -> int:
-    xml_files, texture_refs = audit_xml()
+    xml_files, texture_refs, template_count, template_reference_files = audit_xml()
     tga_count, dds_count, cur_count = audit_binary_assets()
     audit_inventory_geometry()
     print("SpinUI asset audit: ALL PASS")
     print(f"  XML {len(xml_files)} | texture refs {len(texture_refs)} | "
           f"TGA {tga_count} | DDS {dds_count} | CUR {cur_count}")
+    print(f"  window templates {template_count} | "
+          f"reference files {template_reference_files} | no unresolved symbols")
     print("  inventory 780x800 | equipment 23 | persona 23 | bottom Any 2 | bags 12 | class art 75x142")
     return 0
 

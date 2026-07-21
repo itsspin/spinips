@@ -457,7 +457,7 @@ def run_gui() -> int:
         selectcolor=RAISED, font=("Segoe UI Semibold", 10), anchor="w",
     )
     startup_check.pack(fill="x", pady=(8, 0))
-    tk.Label(content, text="It waits silently for eqgame.exe, then opens beside your EverQuest UI.",
+    tk.Label(content, text="It waits for eqgame.exe, then opens with a clock-area recovery icon.",
              bg=BG, fg=DIM, font=("Segoe UI", 9)).pack(anchor="w", padx=23)
 
     desktop_check = tk.Checkbutton(
@@ -466,7 +466,7 @@ def run_gui() -> int:
         selectcolor=RAISED, font=("Segoe UI Semibold", 10), anchor="w",
     )
     desktop_check.pack(fill="x", pady=(8, 0))
-    tk.Label(content, text="Open the compact HUD directly whenever you want it.",
+    tk.Label(content, text="Open the HUD directly; its tray icon can restore, hide, or exit it.",
              bg=BG, fg=DIM, font=("Segoe UI", 9)).pack(anchor="w", padx=23)
 
     progress = ttk.Progressbar(content, mode="indeterminate", style="Spin.Horizontal.TProgressbar")

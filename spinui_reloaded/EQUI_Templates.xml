@@ -1828,6 +1828,29 @@ WDT_RoundedNoTitle for windows that require a border (titlebar and background op
 		</Border>
 	</WindowDrawTemplate>
 
+<!-- Compact inset surface used by the HUD, target, casting, and buff backplates. -->
+	<WindowDrawTemplate item="WDT_InsetStone">
+		<Background>wnd_bg_light_rock_inner.tga</Background>
+		<Border>
+			<TopLeft>A_InnerFrameTopLeft</TopLeft>
+			<Top>A_InnerFrameTop</Top>
+			<TopRight>A_InnerFrameTopRight</TopRight>
+			<RightTop>A_InnerFrameRight</RightTop>
+			<Right>A_InnerFrameRight</Right>
+			<RightBottom>A_InnerFrameRight</RightBottom>
+			<BottomRight>A_InnerFrameBottomRight</BottomRight>
+			<Bottom>A_InnerFrameBottom</Bottom>
+			<BottomLeft>A_InnerFrameBottomLeft</BottomLeft>
+			<LeftTop>A_InnerFrameLeft</LeftTop>
+			<Left>A_InnerFrameLeft</Left>
+			<LeftBottom>A_InnerFrameLeft</LeftBottom>
+			<OverlapLeft>0</OverlapLeft>
+			<OverlapTop>0</OverlapTop>
+			<OverlapRight>0</OverlapRight>
+			<OverlapBottom>0</OverlapBottom>
+		</Border>
+	</WindowDrawTemplate>
+
 <!-- Only achievement(s) windows use WDT_AchievementXYZ templates despite not being defined within their respective XMLs -->
 	<WindowDrawTemplate item="WDT_AchievementOpen">
 		<Background>Achievement_unlock_color.tga</Background>

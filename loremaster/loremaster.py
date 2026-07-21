@@ -63,6 +63,13 @@ from log_ingest import (
     StatusRecord,
     SwitchRecord,
 )
+from windows_tray import (
+    TRAY_EXIT,
+    TRAY_HIDE,
+    TRAY_SHOW,
+    WindowsTrayIcon,
+    overlay_should_be_visible,
+)
 
 from wiki_overlay import (
     DISPLAY_SECTIONS,
@@ -77,6 +84,7 @@ from wiki_overlay import (
     clipboard_lookup_plan,
     extract_item_query,
     format_cache_age,
+    hotkey_lookup_plan,
     normalize_item_name,
     parse_hotkey,
     selftest as wiki_selftest,
@@ -1801,8 +1809,10 @@ def run_gui(args):
              "fights_seen": 0, "expanded": {"combat"}, "scope": "fight",
              "lab_view": "overview", "compare_filter": "same",
              "lifetime_cutoff": None, "selected_fight": None,
-             "locked": bool(cfg.get("locked", False)), "click_through": False}
+             "locked": bool(cfg.get("locked", False)), "click_through": False,
+             "hidden_to_tray": False, "manual_show": False}
     alerts = AlertManager(tk, root, cfg)
+    tray = WindowsTrayIcon("Spin's Loremaster")
 
     def config_number(key, default, low, high):
         try:
@@ -2180,11 +2190,14 @@ def run_gui(args):
                "open": None, "item": None, "request_id": 0, "source": "",
                "ocr_request_id": 0, "ocr_clipboard": ""}
 
-    def _wiki_cursor_position(width=392, height=560):
-        try:
-            px, py = root.winfo_pointerx(), root.winfo_pointery()
-        except tk.TclError:
-            px, py = root.winfo_x(), root.winfo_y()
+    def _wiki_cursor_position(width=392, height=560, anchor=None):
+        if anchor is not None:
+            px, py = int(anchor[0]), int(anchor[1])
+        else:
+            try:
+                px, py = root.winfo_pointerx(), root.winfo_pointery()
+            except tk.TclError:
+                px, py = root.winfo_x(), root.winfo_y()
         vx, vy, vw, vh = virtual_desktop_bounds()
         # Prefer the left side of the cursor so the native item display to the
         # right stays readable. Fall right only when the left edge is crowded.
@@ -2216,9 +2229,10 @@ def run_gui(args):
     def _wiki_render_prompt(message=None):
         _wiki_clear()
         _wiki_text("ITEM LORE AT A GLANCE\n", tag="hero")
+        shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
         _wiki_text((message or
-                    "Hover an EQ item and press Ctrl+Shift+E. A copied item "
-                    "link/name or typed search remains available.\n\n"),
+                    f"Hover an EQ item and press {shortcut}. A copied item "
+                    "link or typed search remains available.\n\n"),
                    tag="body")
         _wiki_text("SAFE HOVER SCAN\n", tag="heading")
         _wiki_text("Only the cursor region is captured, only when you press "
@@ -2311,8 +2325,9 @@ def run_gui(args):
             query = wiki_ui["entry"].get()
         query = normalize_item_name(query or "")
         if not query:
+            shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
             _wiki_render_prompt(
-                "Type an item name above, or hover it and press Ctrl+Shift+E.\n\n")
+                f"Type an item name above, or hover it and press {shortcut}.\n\n")
             try:
                 wiki_ui["entry"].focus_force()
             except tk.TclError:
@@ -2348,6 +2363,10 @@ def run_gui(args):
             alerts.show("warn", "COULD NOT OPEN THE EQL WIKI PAGE")
 
     def _wiki_close():
+        # Closing the lens also dismisses the active intent. A late OCR/wiki
+        # result must never reopen a window the player deliberately closed.
+        wiki_ui["ocr_request_id"] = 0
+        wiki_ui["request_id"] = 0
         win = wiki_ui.get("win")
         if win:
             try:
@@ -2377,6 +2396,10 @@ def run_gui(args):
                             font=FONT_RUNE, cursor="hand2", padx=6)
         settings.pack(side="right", fill="y")
         settings.bind("<Button-1>", lambda _e: open_settings())
+        hotkey_badge = tk.Label(
+            head, text=str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper(),
+            fg=T["cyan"], bg=T["panel"], font=FONT_RUNE, padx=4)
+        hotkey_badge.pack(side="right", fill="y")
 
         search = tk.Frame(shell, bg=T["raised"])
         search.pack(fill="x", padx=8, pady=(8, 5))
@@ -2428,21 +2451,24 @@ def run_gui(args):
           fg=T["line"], font=FONT_RUNE, anchor="center").pack(fill="x", pady=(2, 5))
         win.bind("<Escape>", lambda _e: _wiki_close())
         wiki_ui.update(win=win, entry=entry, content=content, status=status,
-                       open=open_button)
+                       open=open_button, hotkey=hotkey_badge)
         _wiki_render_prompt()
         return win
 
-    def _wiki_show_window():
+    def _wiki_show_window(anchor=None):
         win = wiki_ui.get("win") or _wiki_make_window()
+        badge = wiki_ui.get("hotkey")
+        if badge:
+            _set_text(badge, str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper())
         width, height = 392, 560
-        x, y = _wiki_cursor_position(width, height)
+        x, y = _wiki_cursor_position(width, height, anchor)
         win.geometry(f"{width}x{height}{x:+d}{y:+d}")
         win.deiconify()
         win.lift()
         return win
 
-    def _wiki_plaintext_fallback(clipboard, message=""):
-        _wiki_show_window()
+    def _wiki_plaintext_fallback(clipboard, message="", anchor=None):
+        _wiki_show_window(anchor)
         query, _source, _auto = clipboard_lookup_plan(clipboard)
         last = query or normalize_item_name(cfg.get("wiki_last_query", ""))
         wiki_ui["entry"].delete(0, "end")
@@ -2479,18 +2505,27 @@ def run_gui(args):
             clipboard = root.clipboard_get()
         except (tk.TclError, TypeError):
             clipboard = ""
-        query, source, auto_lookup = clipboard_lookup_plan(clipboard)
-        if query and auto_lookup:
-            _wiki_show_window()
-            wiki_lookup(query, source)
-        elif cfg.get("wiki_hover_ocr_enabled", True) and _wiki_eq_is_foreground():
+        action, query, source, auto_lookup = hotkey_lookup_plan(
+            clipboard,
+            eq_foreground=_wiki_eq_is_foreground(),
+            hover_scan_enabled=bool(cfg.get("wiki_hover_ocr_enabled", True)),
+        )
+        if action == "hover":
             # submit() captures the physical cursor synchronously, before
             # PowerShell starts and before Lore Lens can cover the tooltip.
             wiki_ui["ocr_clipboard"] = clipboard
             try:
                 wiki_ui["ocr_request_id"] = hover_ocr_service.submit()
+                _wiki_show_window()
+                _wiki_render_prompt(
+                    "READING HOVERED ITEM…\n\n"
+                    "Lore Lens is recognizing the EQ tooltip and validating "
+                    "the item against EQL Wiki.")
             except RuntimeError as exc:
                 _wiki_plaintext_fallback(clipboard, str(exc) + "\n\n")
+        elif action == "clipboard" and query and auto_lookup:
+            _wiki_show_window()
+            wiki_lookup(query, source)
         else:
             _wiki_plaintext_fallback(clipboard)
 
@@ -2559,27 +2594,8 @@ def run_gui(args):
 
         frame = tk.Frame(shell, bg=T["bg"], padx=16, pady=14)
         frame.pack(fill="both", expand=True)
-        L(frame, "LOADOUT IDENTITY", fg=T["gold"], font=FONT_B).pack(
-            fill="x", pady=(0, 1))
-        L(frame, "Tag every encounter with this character's exact three-class build. "
-          "Loremaster will not guess from spells or combat messages.",
-          fg=T["dim"], font=FONT_S, justify="left", wraplength=410).pack(
-              fill="x", pady=(0, 5))
-        composition_row = tk.Frame(frame, bg=T["raised"], padx=8, pady=6)
-        composition_row.pack(fill="x", pady=(0, 9))
-        L(composition_row, "ACTIVE", fg=T["cyan"], font=FONT_RUNE,
-          bg=T["raised"]).pack(side="left")
-        composition_entry = tk.Entry(
-            composition_row, width=24, bg=T["void"], fg=T["gold_bright"],
-            insertbackground=T["cyan"], relief="flat", font=FONT_B,
-            justify="center")
-        composition_entry.pack(side="right", ipady=4)
-        composition_entry.insert(0, stats.composition)
-        composition_status = L(
-            frame, "Example: WAR / BRD / DRU  •  saved per character",
-            fg=T["dim"], font=FONT_RUNE)
-        composition_status.pack(fill="x", pady=(0, 10))
-        L(frame, "Lore Lens item lookup", fg=T["cyan"], font=FONT_B).pack(fill="x")
+        L(frame, "LORE LENS ITEM LOOKUP", fg=T["cyan"], font=FONT_B).pack(
+            fill="x")
         L(frame, "Hover an item in EQ and use the global key. Loremaster captures "
           "one bounded cursor region for Windows OCR, never eqgame memory.",
           fg=T["dim"], font=FONT_S, justify="left", wraplength=410).pack(
@@ -2632,12 +2648,9 @@ def run_gui(args):
             try:
                 _mods, _key, canonical = parse_hotkey(hotkey_entry.get())
                 scale_value = max(0.85, min(1.40, float(scale_entry.get())))
-                canonical_composition = normalize_composition(composition_entry.get())
             except (ValueError, TypeError) as exc:
                 status.configure(text=str(exc), fg=T["hp"])
                 return
-            remember_composition(cfg, stats.character, canonical_composition)
-            stats.set_composition(canonical_composition, source="manual")
             cfg.update(wiki_enabled=bool(enabled_var.get()),
                        wiki_network_enabled=bool(network_var.get()),
                        wiki_hover_ocr_enabled=bool(hover_ocr_var.get()),
@@ -2646,13 +2659,6 @@ def run_gui(args):
                        reduced_motion=bool(motion_var.get()), font_scale=scale_value)
             wiki_client.network_enabled = cfg["wiki_network_enabled"]
             save_config(cfg)
-            composition_entry.delete(0, "end")
-            composition_entry.insert(0, canonical_composition)
-            composition_status.configure(
-                text=(f"{canonical_composition} is tagging new encounters"
-                      if canonical_composition else
-                      "Loadout cleared; encounters will show UNSET until selected."),
-                fg=T["green"] if canonical_composition else T["ember"])
             refresh(force_detail=True)
             reinstall_wiki_hotkey()
             if cfg["wiki_enabled"] and not hotkey["wiki_registered"]:
@@ -2706,13 +2712,23 @@ def run_gui(args):
                 if result.request_id != wiki_ui.get("ocr_request_id"):
                     continue  # a newer hotkey press owns the user's intent
                 clipboard = wiki_ui.get("ocr_clipboard", "")
+                anchor = None
+                if result.capture is not None:
+                    anchor = (result.capture.cursor_x, result.capture.cursor_y)
                 if result.candidates:
-                    _wiki_show_window()
+                    _wiki_show_window(anchor)
                     wiki_lookup_candidates(result.candidates, "hover scan")
                 else:
                     detail = result.error.strip() if result.error else (
                         "Windows OCR did not find a likely item title.")
-                    _wiki_plaintext_fallback(clipboard, detail + "\n\n")
+                    fallback_query, fallback_source, fallback_auto = (
+                        clipboard_lookup_plan(clipboard))
+                    if fallback_query and fallback_auto:
+                        _wiki_show_window(anchor)
+                        wiki_lookup(fallback_query, fallback_source)
+                    else:
+                        _wiki_plaintext_fallback(
+                            clipboard, detail + "\n\n", anchor)
         finally:
             if not state["closing"]:
                 root.after(50, poll_hover_ocr_results)
@@ -2844,10 +2860,6 @@ def run_gui(args):
             status = "LIVE ENCOUNTER" if fight_is_live(snap, fight) else "ENCOUNTER"
             target_types = set(fight.observed_targets) | set(fight.kill_targets)
             out.append(("head", f"{status} · {fight.name}", fmt_dur(fight.seconds)))
-            loadout = fight.composition or "UNSET"
-            source = (f" · {fight.composition_source}"
-                      if fight.composition_source not in {"", "unset"} else "")
-            out.append(("line", f"Loadout {loadout}{source}", ""))
             out.append(("line", f"{fmt_num(fight.damage)} personal damage · "
                                 f"{fmt_num(fight.dps)} dps · {fight.crits} crits · "
                                 f"{fight.misses} misses", ""))
@@ -2869,34 +2881,6 @@ def run_gui(args):
                 out.append(("line", f"{direction}{fmt_num(delta)} dps · "
                                     f"previous {fmt_num(previous.dps)} dps", ""))
 
-            if view == "compare":
-                mode = state.get("compare_filter", "same")
-                candidates = composition_comparisons(snap["fights"], fight, mode)
-                mode_label = {"same": "same loadout", "other": "other loadouts",
-                              "all": "all earlier fights"}[mode]
-                out.append(("head", f"Baselines · {mode_label}",
-                            "selected minus baseline"))
-                if not fight.composition and mode in {"same", "other"}:
-                    out.append(("line", "Set the selected encounter's loadout to compare "
-                                        "compositions accurately.", ""))
-                elif not candidates:
-                    out.append(("line", "No earlier encounter matches this filter yet.", ""))
-                for old in reversed(candidates[-8:]):
-                    dps_delta = fight.dps - old.dps
-                    damage_delta = fight.damage - old.damage
-                    out.append(("row", f"{old.name} · {old.composition or 'UNSET'}",
-                                f"{dps_delta:+,.0f} dps · {damage_delta:+,.0f} dmg"))
-                summaries = summarize_compositions(snap["fights"])
-                if summaries:
-                    out.append(("head", "Rolling loadout summary", "fights · avg · best"))
-                    for summary in summaries:
-                        out.append(("row", summary["composition"],
-                                    f"{summary['fights']} · "
-                                    f"{fmt_num(summary['average_dps'])}/s · "
-                                    f"{fmt_num(summary['best_dps'])}/s"))
-                out.append(("line", "Only the rolling encounter list is compared; multi-mob "
-                                    "pulls remain one fight until combat ends.", ""))
-                return out
             actors = sorted(fight.actor_damage.items(), key=lambda kv: -kv[1]["t"])
             actor_total = sum(value["t"] for _name, value in actors)
             if actors and view in ("overview", "damage"):
@@ -2971,7 +2955,7 @@ def run_gui(args):
             if view == "overview" and recent:
                 out.append(("head", "Recent encounters", "damage · dps · time"))
                 for old in reversed(recent[-8:]):
-                    out.append(("row", f"{old.name} · {old.composition or 'UNSET'}",
+                    out.append(("row", old.name,
                                 f"{fmt_num(old.damage)} · {fmt_num(old.dps)}/s · "
                                 f"{fmt_dur(old.seconds)}"))
             return out
@@ -3128,6 +3112,8 @@ def run_gui(args):
         refresh(force_detail=True)
 
     def set_lab_view(view):
+        if view not in {"overview", "damage", "healing", "targets", "timeline"}:
+            view = "overview"
         if view == state.get("lab_view"):
             return
         state["lab_view"] = view
@@ -3165,6 +3151,9 @@ def run_gui(args):
         clear_scroll_bindings()
         for w in body.winfo_children():
             w.destroy()
+        for key in ("composition", "compare_nav", "lab_compare",
+                    "compare_same", "compare_other", "compare_all"):
+            widgets.pop(key, None)
         card_widgets.clear()
         head = tk.Frame(body, bg=T["panel"])
         head.pack(fill="x")
@@ -3192,11 +3181,12 @@ def run_gui(args):
         sub.pack(fill="x", padx=10)
         widgets["zone"] = L(sub, "", fg=T["text"], font=FONT_S)
         widgets["zone"].pack(side="left", pady=1)
-        widgets["composition"] = tk.Label(
-            sub, text="LOADOUT  •  SET", fg=T["gold_bright"], bg=T["raised"],
+        wiki_hotkey_label = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+        widgets["lore_shortcut"] = tk.Label(
+            sub, text=f"LORE LENS  •  {wiki_hotkey_label}", fg=T["cyan"], bg=T["raised"],
             font=FONT_RUNE, cursor="hand2", padx=6, pady=2, anchor="e")
-        widgets["composition"].pack(side="right")
-        widgets["composition"].bind("<Button-1>", open_settings)
+        widgets["lore_shortcut"].pack(side="right")
+        widgets["lore_shortcut"].bind("<Button-1>", open_wiki_from_hotkey)
 
         scopes = tk.Frame(body, bg=T["void"])
         scopes.pack(fill="x", padx=10, pady=(4, 1))
@@ -3229,26 +3219,12 @@ def run_gui(args):
         widgets["lab_nav"] = lab_nav
         for view, label in (("overview", "OVERVIEW"), ("damage", "DAMAGE"),
                             ("healing", "HEALING"), ("targets", "TARGETS"),
-                            ("timeline", "TIMELINE"), ("compare", "COMPARE")):
+                            ("timeline", "TIMELINE")):
             tab = tk.Label(lab_nav, text=label, fg=T["dim"], bg=T["void"],
                            font=FONT_RUNE, cursor="hand2", pady=3)
             tab.pack(side="left", expand=True, fill="x", padx=(0, 1))
             tab.bind("<Button-1>", lambda _e, v=view: set_lab_view(v))
             widgets[f"lab_{view}"] = tab
-
-        compare_nav = tk.Frame(body, bg=T["bg"])
-        widgets["compare_nav"] = compare_nav
-        L(compare_nav, "BASELINE", fg=T["gold"], font=FONT_RUNE).pack(
-            side="left", padx=(1, 6))
-        for compare_mode, label in (("same", "SAME LOADOUT"),
-                                    ("other", "OTHER LOADOUTS"),
-                                    ("all", "ALL FIGHTS")):
-            tab = tk.Label(compare_nav, text=label, fg=T["dim"], bg=T["void"],
-                           font=FONT_RUNE, cursor="hand2", padx=4, pady=2)
-            tab.pack(side="left", expand=True, fill="x", padx=(0, 1))
-            tab.bind("<Button-1>",
-                     lambda _e, m=compare_mode: set_compare_filter(m))
-            widgets[f"compare_{compare_mode}"] = tab
 
         # Ember hero band: live combat at a glance, or the permanent chronicle.
         hero = tk.Frame(body, bg=T["raised"])
@@ -3389,43 +3365,48 @@ def run_gui(args):
         strip.pack(fill="both", expand=True)
         cap = tk.Frame(strip, bg=T["gold"], width=3)
         cap.pack(side="left", fill="y")
+        # Reserve the right-side tools before the expanding stat cells. Tk's
+        # packer allocates in order; the previous order could clip the tool at
+        # the exact 720x34 production size.
+        controls = tk.Frame(strip, bg=T["bg"])
+        controls.pack(side="right", fill="y", padx=(1, 3))
+        wiki_hotkey_label = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+        widgets["mini_wiki"] = tk.Label(
+            controls, text=f"LORE LENS  {wiki_hotkey_label}",
+            fg=T["cyan"], bg=T["raised"], font=FONT_RUNE,
+            cursor="hand2", padx=5)
+        widgets["mini_wiki"].pack(side="left", pady=3)
+        widgets["mini_wiki"].bind("<Button-1>", open_wiki_from_hotkey)
+        widgets["mini_log"] = tk.Label(
+            controls, text="●", fg=T["dim"], bg=T["bg"], font=FONT_S,
+            cursor="hand2", padx=3)
+        widgets["mini_log"].pack(side="left", pady=3)
+        widgets["mini_log"].bind("<Button-1>", choose_log_dir)
+        widgets["mini_lock"] = tk.Label(
+            controls, text="LOCK", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=5)
+        widgets["mini_lock"].pack(side="left", pady=3)
+        widgets["mini_lock"].bind("<Button-1>", lambda _e: toggle_lock())
+        details = tk.Label(controls, text="DETAILS", fg=T["cyan"], bg=T["raised"],
+                           font=FONT_RUNE, cursor="hand2", padx=6)
+        details.pack(side="left", padx=(3, 0), pady=3)
+        details.bind("<Button-1>", lambda _e: toggle_mini())
         cells = tk.Frame(strip, bg=T["bg"])
         cells.pack(side="left", fill="both", expand=True, padx=4, pady=3)
         widgets["mini_cells"] = cells
         widgets["mini_items"] = {}
         names = dict(CARDS)
-        starred = [k for k in (cfg.get("starred_cards") or ["combat"]) if k in names]
+        starred = [k for k in (cfg.get("starred_cards") or ["combat"])
+                   if k in names][:4]
         for i, key in enumerate(starred):
             if i:
                 tk.Frame(cells, bg=T["gold"], width=1, height=14).pack(
-                    side="left", padx=6, pady=2)
+                    side="left", padx=4, pady=2)
             tk.Label(cells, text=names[key], fg=T["gold"], bg=T["bg"],
                      font=FONT_RUNE).pack(side="left")
             value = tk.Label(cells, text="—", fg=T["text"], bg=T["bg"], font=FONT_B)
-            value.pack(side="left", padx=(4, 0))
+            value.pack(side="left", padx=(3, 0))
             widgets["mini_items"][key] = value
-        details = tk.Label(strip, text="DETAILS", fg=T["cyan"], bg=T["raised"],
-                           font=FONT_RUNE, cursor="hand2", padx=6)
-        details.pack(side="right", padx=(3, 3), pady=3)
-        details.bind("<Button-1>", lambda _e: toggle_mini())
-        widgets["mini_lock"] = tk.Label(
-            strip, text="LOCK", fg=T["dim"], bg=T["raised"],
-            font=FONT_RUNE, cursor="hand2", padx=5)
-        widgets["mini_lock"].pack(side="right", pady=3)
-        widgets["mini_lock"].bind("<Button-1>", lambda _e: toggle_lock())
-        widgets["mini_log"] = tk.Label(
-            strip, text="\u25cf", fg=T["dim"], bg=T["bg"], font=FONT_S,
-            cursor="hand2", padx=3)
-        widgets["mini_log"].pack(side="right", pady=3)
-        widgets["mini_log"].bind("<Button-1>", choose_log_dir)
-        mini_composition = (stats.composition.replace(" / ", "/")
-                            if stats.composition else "SET LOADOUT")
-        widgets["mini_wiki"] = tk.Label(
-            strip, text=f"{mini_composition}  ·  LORE",
-            fg=T["cyan"], bg=T["raised"],
-            font=FONT_RUNE, cursor="hand2", padx=6)
-        widgets["mini_wiki"].pack(side="right", padx=(2, 1), pady=3)
-        widgets["mini_wiki"].bind("<Button-1>", open_wiki_from_hotkey)
         pos = cfg.get("mini_position")
         # Four default ledger cards plus log health, Lore Lens, lock, and
         # details controls need 720 px at the standard font size.  Keeping an
@@ -3475,8 +3456,53 @@ def run_gui(args):
             widgets["status"].configure(text="searching for the newest eqlog…")
         state["fights_seen"] = 0
 
+    def hide_to_tray():
+        """Hide the HUD without stopping log tracking or Lore Lens hotkeys."""
+        if state["closing"]:
+            return
+        if state["click_through"]:
+            state["click_through"] = False
+            _apply_click_through()
+        state["hidden_to_tray"] = True
+        state["manual_show"] = False
+        _wiki_close()
+        settings_window = widgets.get("settings_window")
+        if settings_window:
+            try:
+                settings_window.withdraw()
+            except tk.TclError:
+                pass
+        alerts.clear()
+        try:
+            root.attributes("-topmost", False)
+            root.withdraw()
+        except tk.TclError:
+            pass
+        z_order["window_hidden"] = True
+        z_order["floating"] = False
+
+    def show_from_tray():
+        """Explicit recovery action; safe for withdrawn or minimized roots."""
+        if state["closing"]:
+            return
+        state["hidden_to_tray"] = False
+        if args.wait_for_eq and not z_order.get("eq_running", True):
+            state["manual_show"] = True
+        try:
+            root.deiconify()
+            root.state("normal")
+            root.lift()
+            root.focus_force()
+        except tk.TclError:
+            return
+        z_order["window_hidden"] = False
+        z_order["floating"] = None
+
     def do_quit():
+        if state["closing"]:
+            return
         state["closing"] = True
+        tray.close(timeout=1.0)
         if state["click_through"]:
             state["click_through"] = False
             _apply_click_through()
@@ -3491,6 +3517,20 @@ def run_gui(args):
         else:
             watcher.close()
         root.destroy()
+
+    def poll_tray_commands():
+        if state["closing"]:
+            return
+        for command in tray.poll(limit=8):
+            if command == TRAY_SHOW:
+                show_from_tray()
+            elif command == TRAY_HIDE:
+                hide_to_tray()
+            elif command == TRAY_EXIT:
+                do_quit()
+                return
+        if not state["closing"]:
+            root.after(80, poll_tray_commands)
 
     # ---- periodic update ----
     def _queue_ingest_records():
@@ -3568,9 +3608,8 @@ def run_gui(args):
                 done = len(stats.fights)
                 if done > state["fights_seen"] and stats.fights:
                     f = stats.fights[-1]
-                    profile = f"  \u00b7  {f.composition}" if f.composition else ""
                     alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  "
-                                f"({fmt_num(f.damage)} in {fmt_dur(f.seconds)}){profile}")
+                                f"({fmt_num(f.damage)} in {fmt_dur(f.seconds)})")
                 state["fights_seen"] = done
 
             now_mono = time.monotonic()
@@ -3727,11 +3766,8 @@ def run_gui(args):
                     fg=T["gold_bright"] if state["locked"] else T["dim"])
             mini_wiki = widgets.get("mini_wiki")
             if mini_wiki:
-                compact = (snap.get("composition") or "SET LOADOUT").replace(" / ", "/")
-                _set_text(mini_wiki, f"{compact}  \u00b7  LORE")
-                profile_color = (T["cyan"] if snap.get("composition")
-                                 else T["ember"])
-                _set_widget(mini_wiki, fg=profile_color)
+                shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+                _set_widget(mini_wiki, text=f"LORE LENS  {shortcut}", fg=T["cyan"])
             return
 
         title = snap["character"]
@@ -3741,11 +3777,11 @@ def run_gui(args):
         health, health_color = ("DEMO", T["green"]) if demo else log_health()
         _set_widget(widgets["dot"], fg=health_color)
         _set_text(widgets["zone"], snap["zone"] or "\u2014")
-        composition = snap.get("composition") or "SET LOADOUT"
-        _set_text(widgets["composition"], f"LOADOUT  \u2022  {composition}")
-        profile_color = (T["gold_bright"] if snap.get("composition")
-                         else T["ember"])
-        _set_widget(widgets["composition"], fg=profile_color)
+        lore_shortcut = widgets.get("lore_shortcut")
+        if lore_shortcut:
+            shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+            _set_widget(lore_shortcut, text=f"LORE LENS  \u2022  {shortcut}",
+                        fg=T["cyan"])
         session_text = "session \u2014"
         if snap["session_start"]:
             dur = fmt_dur(snap["hours"] * 3600)
@@ -3760,41 +3796,24 @@ def run_gui(args):
                 fg=T["cyan"] if active else T["dim"])
         nav = widgets.get("encounter_nav")
         lab_nav = widgets.get("lab_nav")
-        compare_nav = widgets.get("compare_nav")
         if nav:
             if state["scope"] == "fight":
                 if not nav.winfo_manager():
                     nav.pack(fill="x", padx=10, pady=(2, 0), before=widgets["hero"])
                 if lab_nav and not lab_nav.winfo_manager():
                     lab_nav.pack(fill="x", padx=10, pady=(3, 0), before=widgets["hero"])
-                if compare_nav:
-                    if state.get("lab_view") == "compare":
-                        if not compare_nav.winfo_manager():
-                            compare_nav.pack(fill="x", padx=10, pady=(2, 0),
-                                             before=widgets["hero"])
-                    else:
-                        if compare_nav.winfo_manager():
-                            compare_nav.pack_forget()
             else:
                 if nav.winfo_manager():
                     nav.pack_forget()
                 if lab_nav and lab_nav.winfo_manager():
                     lab_nav.pack_forget()
-                if compare_nav and compare_nav.winfo_manager():
-                    compare_nav.pack_forget()
         if state["scope"] == "fight":
-            for view in ("overview", "damage", "healing", "targets", "timeline", "compare"):
+            for view in ("overview", "damage", "healing", "targets", "timeline"):
                 tab = widgets.get(f"lab_{view}")
                 if tab:
                     active = state.get("lab_view") == view
                     _set_widget(tab, bg=T["raised"] if active else T["void"],
                                 fg=T["cyan"] if active else T["dim"])
-            for mode in ("same", "other", "all"):
-                tab = widgets.get(f"compare_{mode}")
-                if tab:
-                    active = state.get("compare_filter") == mode
-                    _set_widget(tab, bg=T["raised"] if active else T["void"],
-                                fg=T["gold_bright"] if active else T["dim"])
         lock = widgets.get("lock")
         if lock:
             _set_widget(lock, text="MOVE" if state["locked"] else "LOCK",
@@ -3896,7 +3915,7 @@ def run_gui(args):
         _set_text(widgets["locate"], "CHANGE" if watcher.path else "LOCATE LOG")
 
     z_order = {"floating": None, "eq_check_at": 0.0,
-               "eq_running": True, "hidden_for_eq": False}
+               "eq_running": True, "window_hidden": False}
 
     def sync_z_order():
         if state["closing"]:
@@ -3906,12 +3925,19 @@ def run_gui(args):
             if args.wait_for_eq and now >= z_order["eq_check_at"]:
                 z_order["eq_running"] = process_is_running("eqgame.exe")
                 z_order["eq_check_at"] = now + 1.0
-            if args.wait_for_eq and not z_order["eq_running"]:
+                if z_order["eq_running"]:
+                    state["manual_show"] = False
+            visible = overlay_should_be_visible(
+                hidden_to_tray=bool(state["hidden_to_tray"]),
+                wait_for_eq=bool(args.wait_for_eq),
+                eq_running=bool(z_order["eq_running"]),
+                manual_show=bool(state["manual_show"]),
+            )
+            if not visible:
                 if state["click_through"]:
                     state["click_through"] = False
                     _apply_click_through()
-                remove_wiki_hotkey()
-                if not z_order["hidden_for_eq"]:
+                if not z_order["window_hidden"]:
                     _wiki_close()
                     settings_window = widgets.get("settings_window")
                     if settings_window:
@@ -3921,18 +3947,22 @@ def run_gui(args):
                             pass
                     alerts.clear()
                     root.withdraw()
-                    z_order["hidden_for_eq"] = True
+                    z_order["window_hidden"] = True
                 floating = False
             else:
-                if z_order["hidden_for_eq"]:
+                if z_order["window_hidden"]:
                     root.deiconify()
-                    z_order["hidden_for_eq"] = False
+                    z_order["window_hidden"] = False
                 floating = foreground_is_everquest_or_loremaster(root.winfo_id())
-                if (floating and cfg.get("wiki_enabled", True)
-                        and not hotkey["wiki_registered"]):
-                    install_wiki_hotkey()
-                elif not floating and hotkey["wiki_registered"]:
-                    remove_wiki_hotkey()
+
+            # Hiding the combat HUD does not disable the explicit Lore Lens
+            # hotkey while EverQuest remains foreground.
+            wiki_context = foreground_is_everquest_or_loremaster(root.winfo_id())
+            if (wiki_context and cfg.get("wiki_enabled", True)
+                    and not hotkey["wiki_registered"]):
+                install_wiki_hotkey()
+            elif not wiki_context and hotkey["wiki_registered"]:
+                remove_wiki_hotkey()
 
             if floating != z_order["floating"]:
                 try:
@@ -3957,12 +3987,17 @@ def run_gui(args):
     install_wiki_hotkey()
     root.protocol("WM_DELETE_WINDOW", do_quit)
     (build_mini if state["mini"] else build_full)()
-    sync_z_order()
-    poll_recovery_hotkey()
-    poll_hover_ocr_results()
-    poll_wiki_results()
-    tick()
-    root.mainloop()
+    tray.start(timeout=0.75)
+    try:
+        sync_z_order()
+        poll_recovery_hotkey()
+        poll_tray_commands()
+        poll_hover_ocr_results()
+        poll_wiki_results()
+        tick()
+        root.mainloop()
+    finally:
+        tray.close(timeout=1.0)
     return 0
 
 

@@ -31,6 +31,7 @@ USER_AGENT = (
     "https://github.com/itsspin/spinips)"
 )
 MAX_RESPONSE_BYTES = 2 * 1024 * 1024
+LOOKUP_REQUEST_BUDGET_SECONDS = 8.0
 DISPLAY_SECTIONS = (
     "Drops From",
     "Sold by",
@@ -196,6 +197,24 @@ def clipboard_lookup_plan(value: str) -> tuple[str | None, str, bool]:
         return query, source, True
     query, source = extract_item_query(value)
     return query, source, False
+
+
+def hotkey_lookup_plan(value: str, *, eq_foreground: bool,
+                       hover_scan_enabled: bool) -> tuple[str, str | None, str, bool]:
+    """Choose the hotkey path without letting stale clipboard data win.
+
+    While EverQuest is foreground, the item under the cursor is the user's
+    current intent. A structured clipboard item remains available as a
+    fallback if the one-shot hover scan cannot identify a title. Outside EQ,
+    intentional links may still open immediately and ordinary text only
+    prefills the Lore Lens search field.
+    """
+    query, source, auto_lookup = clipboard_lookup_plan(value)
+    if eq_foreground and hover_scan_enabled:
+        return "hover", query, source, auto_lookup
+    if query and auto_lookup:
+        return "clipboard", query, source, auto_lookup
+    return "prompt", query, source, auto_lookup
 
 
 def _is_item_like(value: str) -> bool:
@@ -417,23 +436,38 @@ class WikiClient:
 
     def __init__(self, cache: WikiCache, timeout: float = 6.0,
                  opener: Callable = urlopen, network_enabled: bool = True,
-                 min_request_interval: float = 0.35):
+                 min_request_interval: float = 0.35,
+                 monotonic: Callable[[], float] = time.monotonic,
+                 sleeper: Callable[[float], None] = time.sleep):
         self.cache = cache
         self.timeout = max(1.0, min(float(timeout), 20.0))
         self.opener = opener
         self.network_enabled = bool(network_enabled)
         self.min_request_interval = max(0.0, float(min_request_interval))
+        self.monotonic = monotonic
+        self.sleeper = sleeper
         self._last_request = 0.0
 
-    def _json_request(self, params: dict) -> dict:
-        delay = self.min_request_interval - (time.monotonic() - self._last_request)
+    def _deadline_timeout(self, deadline: float | None) -> float:
+        if deadline is None:
+            return self.timeout
+        remaining = deadline - self.monotonic()
+        if remaining <= 0:
+            raise WikiOfflineError("EQL Wiki lookup exceeded its request budget.")
+        return min(self.timeout, remaining)
+
+    def _json_request(self, params: dict, *, deadline: float | None = None) -> dict:
+        delay = self.min_request_interval - (self.monotonic() - self._last_request)
         if delay > 0:
-            time.sleep(delay)
+            if deadline is not None and delay >= deadline - self.monotonic():
+                raise WikiOfflineError("EQL Wiki lookup exceeded its request budget.")
+            self.sleeper(delay)
+        request_timeout = self._deadline_timeout(deadline)
         url = f"{EQLWIKI_ORIGIN}/api.php?{urlencode(params)}"
         request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
-        self._last_request = time.monotonic()
+        self._last_request = self.monotonic()
         try:
-            response = self.opener(request, timeout=self.timeout)
+            response = self.opener(request, timeout=request_timeout)
             with response:
                 data = response.read(MAX_RESPONSE_BYTES + 1)
         except (HTTPError, URLError, TimeoutError, OSError) as exc:
@@ -445,13 +479,13 @@ class WikiClient:
         except (UnicodeDecodeError, ValueError) as exc:
             raise WikiError("EQL Wiki returned an unreadable response.") from exc
 
-    def _suggestions(self, query: str) -> list[str]:
+    def _suggestions(self, query: str, *, deadline: float | None = None) -> list[str]:
         try:
             payload = self._json_request({
                 "action": "query", "format": "json", "generator": "search",
                 "gsrsearch": query, "gsrlimit": 5, "gsrnamespace": 0,
                 "prop": "info", "redirects": 1,
-            })
+            }, deadline=deadline)
         except WikiError:
             return []
         pages = payload.get("query", {}).get("pages", {})
@@ -459,7 +493,8 @@ class WikiClient:
         return [normalize_item_name(str(page.get("title", "")))
                 for page in values if isinstance(page, dict) and page.get("title")][:5]
 
-    def fetch(self, query: str, *, include_suggestions: bool = True) -> WikiItem:
+    def fetch(self, query: str, *, include_suggestions: bool = True,
+              deadline: float | None = None) -> WikiItem:
         query = normalize_item_name(query)
         if not _is_item_like(query):
             raise WikiNotFoundError(query or "item")
@@ -476,9 +511,10 @@ class WikiClient:
             payload = self._json_request({
                 "action": "parse", "format": "json", "page": query,
                 "prop": "wikitext|sections", "redirects": 1,
-            })
+            }, deadline=deadline)
             if "parse" not in payload:
-                suggestions = self._suggestions(query) if include_suggestions else []
+                suggestions = self._suggestions(
+                    query, deadline=deadline) if include_suggestions else []
                 raise WikiNotFoundError(query, suggestions)
             item = parse_item_payload(payload, requested_name=query)
             item.fetched_at = time.time()
@@ -504,6 +540,7 @@ class WikiLookupService:
         self.requests: queue.Queue[tuple[int, tuple[str, ...]] | None] = queue.Queue(maxsize=4)
         self.results: queue.Queue[WikiLookupResult] = queue.Queue()
         self._request_id = 0
+        self._generation_lock = threading.Lock()
         self._closed = threading.Event()
         self._thread = threading.Thread(target=self._run, name="LoremasterWiki", daemon=True)
         self._thread.start()
@@ -512,8 +549,9 @@ class WikiLookupService:
         return self.submit_candidates([query])
 
     def submit_candidates(self, candidates: Iterable[str]) -> int:
-        self._request_id += 1
-        request_id = self._request_id
+        with self._generation_lock:
+            self._request_id += 1
+            request_id = self._request_id
         normalized: list[str] = []
         seen: set[str] = set()
         for candidate in candidates:
@@ -540,11 +578,15 @@ class WikiLookupService:
 
     def poll(self) -> list[WikiLookupResult]:
         found = []
-        while True:
-            try:
-                found.append(self.results.get_nowait())
-            except queue.Empty:
-                return found
+        with self._generation_lock:
+            latest_request_id = self._request_id
+            while True:
+                try:
+                    result = self.results.get_nowait()
+                except queue.Empty:
+                    return found
+                if result.request_id == latest_request_id:
+                    found.append(result)
 
     def close(self) -> None:
         self._closed.set()
@@ -555,40 +597,106 @@ class WikiLookupService:
                 break
         self.requests.put_nowait(None)
 
+    def _is_current(self, request_id: int) -> bool:
+        if self._closed.is_set():
+            return False
+        with self._generation_lock:
+            return request_id == self._request_id
+
     def _run(self) -> None:
         while True:
             request = self.requests.get()  # zero wakeups/CPU while idle
             if request is None or self._closed.is_set():
                 return
             request_id, candidates = request
+            if not self._is_current(request_id):
+                continue
             query = candidates[0]
             result = None
             errors: list[Exception] = []
             suggestions: list[str] = []
-            for index, candidate in enumerate(candidates):
+            stale_fallbacks: list[tuple[str, WikiItem]] = []
+
+            # OCR returns ranked candidates. Resolve every disk-cache hit
+            # before starting HTTP so a later, known item wins immediately
+            # over an earlier tooltip heading or other OCR noise.
+            if isinstance(self.client, WikiClient):
+                for candidate in candidates:
+                    if not self._is_current(request_id):
+                        break
+                    cached = self.client.cache.get(candidate)
+                    if cached is not None:
+                        result = WikiLookupResult(request_id, candidate, item=cached)
+                        break
+                    stale = self.client.cache.get(candidate, allow_stale=True)
+                    if stale is not None:
+                        stale_fallbacks.append((candidate, stale))
+                if not self._is_current(request_id):
+                    continue
+                if result is None and not self.client.network_enabled:
+                    if stale_fallbacks:
+                        candidate, stale = stale_fallbacks[0]
+                        stale.stale = True
+                        result = WikiLookupResult(request_id, candidate, item=stale)
+                    else:
+                        errors.append(WikiOfflineError(
+                            "Wiki network lookups are disabled and none of the "
+                            "hover candidates are cached."))
+
+            deadline = None
+            if isinstance(self.client, WikiClient):
+                deadline = self.client.monotonic() + LOOKUP_REQUEST_BUDGET_SECONDS
+
+            stale_generation = False
+            for index, candidate in enumerate(candidates) if result is None and not errors else ():
+                if not self._is_current(request_id):
+                    stale_generation = True
+                    break
                 try:
                     if isinstance(self.client, WikiClient):
                         item = self.client.fetch(
-                            candidate, include_suggestions=(index == len(candidates) - 1))
+                            candidate,
+                            include_suggestions=(index == len(candidates) - 1),
+                            deadline=deadline,
+                        )
                     else:
                         item = self.client.fetch(candidate)
+                    if not self._is_current(request_id):
+                        stale_generation = True
+                        break
                     result = WikiLookupResult(request_id, candidate, item=item)
                     break
                 except WikiNotFoundError as exc:
+                    if not self._is_current(request_id):
+                        stale_generation = True
+                        break
                     errors.append(exc)
                     suggestions.extend(exc.suggestions)
                 except WikiOfflineError as exc:
+                    if not self._is_current(request_id):
+                        stale_generation = True
+                        break
                     errors.append(exc)
+                    if stale_fallbacks:
+                        candidate, stale = stale_fallbacks[0]
+                        stale.stale = True
+                        result = WikiLookupResult(request_id, candidate, item=stale)
                     break
                 except Exception as exc:  # contained and rendered as a clear overlay state
+                    if not self._is_current(request_id):
+                        stale_generation = True
+                        break
                     errors.append(exc)
                     break
+            if stale_generation or not self._is_current(request_id):
+                continue
             if result is None:
                 error = errors[-1] if errors else WikiNotFoundError(query)
                 if errors and all(isinstance(exc, WikiNotFoundError) for exc in errors):
                     error = WikiNotFoundError(query, list(dict.fromkeys(suggestions))[:5])
                 result = WikiLookupResult(request_id, query, error=error)
-            self.results.put(result)
+            if self._is_current(request_id):
+                self.results.put(result)
 
 
 def format_cache_age(item: WikiItem, now: float | None = None) -> str:
