@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Editbox item="NCW_NameEdit">
+    <ScreenID>NCW_NameEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>150</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>172</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>	
+  </Editbox>
+  <Label item="NCW_Prompt">
+    <ScreenID>NCW_Prompt</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>5</Y>
+    </Location>
+    <Size>
+      <CX>400</CX>
+      <CY>135</CY>
+    </Size>
+    <Text>Please enter your desired new name into the text field and click "Submit Name". </Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Button item="NCW_DisableReminderButton">
+    <ScreenID>NCW_DisableReminderButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Disable Reminder</Text>
+    <Template>BDT_Normal</Template>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>		
+  </Button>
+  <Button item="NCW_SubmitButton">
+    <ScreenID>NCW_SubmitButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Submit Name</Text>
+    <Template>BDT_BigNormal</Template>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>	
+  </Button>
+  <Button item="NCW_CloseButton">
+    <ScreenID>NCW_CloseButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Remind Me Later</Text>
+    <Template>BDT_Normal</Template>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>		
+  </Button>
+  <Screen item="NameChangeWnd">
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>280</X>
+      <Y>250</Y>
+    </Location>
+    <Size>
+      <CX>420</CX>
+      <CY>250</CY>
+    </Size>
+    <Text>Change Name</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>NCW_NameEdit</Pieces>
+    <Pieces>NCW_SubmitButton</Pieces>
+    <Pieces>NCW_DisableReminderButton</Pieces>
+    <Pieces>NCW_CloseButton</Pieces>
+    <Pieces>NCW_Prompt</Pieces>
+  </Screen>
+</XML>

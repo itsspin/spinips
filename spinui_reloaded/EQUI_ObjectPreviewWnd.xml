@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <!-- Panning -->
+  <Button item="OPW_PanLeftButton">
+    <ScreenID>OPW_PanLeftButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>2</X>
+      <Y>24</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <TooltipReference>Shift Left. (Or use Right Mouse Button)</TooltipReference>
+    <Template>BDT_PanLeft</Template> -->
+  </Button>
+  <Button item="OPW_PanRightButton">
+    <ScreenID>OPW_PanRightButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>46</X>
+      <Y>24</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <TooltipReference>Shift Right. (Or use Right Mouse Button)</TooltipReference>
+    <Template>BDT_PanRight</Template> -->
+  </Button>
+  <Button item="OPW_PanUpButton">
+    <ScreenID>OPW_PanUpButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>24</X>
+      <Y>2</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <TooltipReference>Shift Up. (Or use Right Mouse Button)</TooltipReference>
+    <Template>BDT_PanUp</Template> -->
+  </Button>
+  <Button item="OPW_PanDownButton">
+    <ScreenID>OPW_PanDownButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>24</X>
+      <Y>46</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <TooltipReference>Shift Down. (Or use Right Mouse Button)</TooltipReference>
+    <Template>BDT_PanDown</Template> -->
+  </Button>
+  <!-- Zooming -->
+  <Button item="OPW_ZoomInButton">
+    <ScreenID>OPW_ZoomInButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>10</X>
+      <Y>70</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text />
+    <TooltipReference>Zoom In. (Or use Mouse Wheel)</TooltipReference>
+    <Template>BDT_ZoomIn</Template> -->
+  </Button>
+  <Button item="OPW_ZoomOutButton">
+    <ScreenID>OPW_ZoomOutButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>34</X>
+      <Y>70</Y>
+    </Location>
+    <Size>
+      <CX>22</CX>
+      <CY>22</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text />
+    <TooltipReference>Zoom Out. (Or use Mouse Wheel)</TooltipReference>
+    <Template>BDT_ZoomOut</Template> -->
+  </Button>
+  <!-- Rotating -->
+  <Button item="OPW_RotateLeftButton">
+    <ScreenID>OPW_RotateLeftButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>24</TopAnchorOffset>
+    <BottomAnchorOffset>46</BottomAnchorOffset>
+    <LeftAnchorOffset>68</LeftAnchorOffset>
+    <RightAnchorOffset>46</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Rotate Left. (Or use Left Mouse Button)</TooltipReference>
+    <Template>BDT_RotateLeft</Template> -->
+  </Button>
+  <Button item="OPW_RotateRightButton">
+    <ScreenID>OPW_RotateRightButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>24</TopAnchorOffset>
+    <BottomAnchorOffset>46</BottomAnchorOffset>
+    <LeftAnchorOffset>24</LeftAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Rotate Right. (Or use Left Mouse Button)</TooltipReference>
+    <Template>BDT_RotateRight</Template> -->
+  </Button>
+  <Button item="OPW_RotateUpButton">
+    <ScreenID>OPW_RotateUpButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorOffset>46</LeftAnchorOffset>
+    <RightAnchorOffset>24</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Rotate Up. (Or use Left Mouse Button)</TooltipReference>
+    <Template>BDT_RotateUp</Template> -->
+  </Button>
+  <Button item="OPW_RotateDownButton">
+    <ScreenID>OPW_RotateDownButton</ScreenID>
+<!--     <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>46</TopAnchorOffset>
+    <BottomAnchorOffset>68</BottomAnchorOffset>
+    <LeftAnchorOffset>46</LeftAnchorOffset>
+    <RightAnchorOffset>24</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Rotate Down. (Or use Left Mouse Button)</TooltipReference>
+    <Template>BDT_RotateDown</Template> -->
+  </Button>
+  <Button item="OPW_ResetButton">
+    <ScreenID>OPW_ResetButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <RightAnchorOffset>70</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Text>Reset</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Label item="OPW_NoItemPreviewAvailable_Label">
+    <ScreenID>OPW_NoItemPreviewAvailable_Label</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorOffset>35</TopAnchorOffset>
+    <BottomAnchorOffset>90</BottomAnchorOffset>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Text>No item preview available.</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+  </Label>
+  <Screen item="OPW_ViewRenderArea">
+    <ScreenID>OPW_ViewRenderArea</ScreenID>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>10</LeftAnchorOffset>
+    <TopAnchorOffset>10</TopAnchorOffset>
+    <RightAnchorOffset>10</RightAnchorOffset>
+    <BottomAnchorOffset>10</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>true</Style_Transparent>
+  </Screen>
+  <Screen item="ObjectPreviewWnd">
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>400</X>
+      <Y>200</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>400</CY>
+    </Size>
+    <MinHSize>200</MinHSize>
+    <MinVSize>200</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Object Preview</TooltipReference>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>true</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>true</Style_Sizable>
+    <Text>Object Preview</Text>
+    <Pieces>Screen:OPW_ViewRenderArea</Pieces>
+    <Pieces>OPW_PanLeftButton</Pieces>
+    <Pieces>OPW_PanRightButton</Pieces>
+    <Pieces>OPW_PanUpButton</Pieces>
+    <Pieces>OPW_PanDownButton</Pieces>
+    <Pieces>OPW_RotateLeftButton</Pieces>
+    <Pieces>OPW_RotateRightButton</Pieces>
+    <Pieces>OPW_RotateUpButton</Pieces>
+    <Pieces>OPW_RotateDownButton</Pieces>
+    <Pieces>OPW_ZoomInButton</Pieces>
+    <Pieces>OPW_ZoomOutButton</Pieces>
+    <Pieces>OPW_ResetButton</Pieces>
+    <Pieces>OPW_NoItemPreviewAvailable_Label</Pieces>
+  </Screen>
+</XML>

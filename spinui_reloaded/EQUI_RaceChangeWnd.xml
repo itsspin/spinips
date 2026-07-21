@@ -1,0 +1,1541 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  
+	<ButtonDrawTemplate item="RCW_BDT_RaceClassOverlay">
+		<Normal>RaceClassOverlay</Normal>
+		<Pressed>RaceClassOverlay</Pressed>
+		<Flyby>RaceClassOverlay</Flyby>
+		<Disabled>RaceClassOverlay</Disabled>
+		<PressedFlyby>RaceClassOverlay</PressedFlyby>
+	</ButtonDrawTemplate>
+
+	<StaticAnimation item="RCW_RaceAnim">
+		<ScreenID>RCW_RaceAnim</ScreenID>
+		<Location>
+			<X>68</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>56</CX>
+			<CY>26</CY>
+		</Size>
+		<Animation>RCW_RaceIcon</Animation>
+	</StaticAnimation>
+
+	<Button item="RCW_Male_Race_Barbarian_Button">
+		<ScreenID>RCW_Male_Race_Barbarian_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_BarbarianMaleIcon</Normal>
+			<Pressed>RCW_BarbarianMaleIcon</Pressed>
+			<Flyby>RCW_BarbarianMaleIcon</Flyby>
+			<Disabled>RCW_BarbarianMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_BarbarianMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Dark Elf_Button">
+		<ScreenID>RCW_Male_Race_Dark Elf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Dark ElfMaleIcon</Normal>
+			<Pressed>RCW_Dark ElfMaleIcon</Pressed>
+			<Flyby>RCW_Dark ElfMaleIcon</Flyby>
+			<Disabled>RCW_Dark ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Dark ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Dwarf_Button">
+		<ScreenID>RCW_Male_Race_Dwarf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_DwarfMaleIcon</Normal>
+			<Pressed>RCW_DwarfMaleIcon</Pressed>
+			<Flyby>RCW_DwarfMaleIcon</Flyby>
+			<Disabled>RCW_DwarfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_DwarfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Erudite_Button">
+		<ScreenID>RCW_Male_Race_Erudite_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_EruditeMaleIcon</Normal>
+			<Pressed>RCW_EruditeMaleIcon</Pressed>
+			<Flyby>RCW_EruditeMaleIcon</Flyby>
+			<Disabled>RCW_EruditeMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_EruditeMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Gnome_Button">
+		<ScreenID>RCW_Male_Race_Gnome_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_GnomeMaleIcon</Normal>
+			<Pressed>RCW_GnomeMaleIcon</Pressed>
+			<Flyby>RCW_GnomeMaleIcon</Flyby>
+			<Disabled>RCW_GnomeMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_GnomeMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Half Elf_Button">
+		<ScreenID>RCW_Male_Race_Half Elf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half ElfMaleIcon</Normal>
+			<Pressed>RCW_Half ElfMaleIcon</Pressed>
+			<Flyby>RCW_Half ElfMaleIcon</Flyby>
+			<Disabled>RCW_Half ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Halfling_Button">
+		<ScreenID>RCW_Male_Race_Halfling_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_HalflingMaleIcon</Normal>
+			<Pressed>RCW_HalflingMaleIcon</Pressed>
+			<Flyby>RCW_HalflingMaleIcon</Flyby>
+			<Disabled>RCW_HalflingMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_HalflingMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_High Elf_Button">
+		<ScreenID>RCW_Male_Race_High Elf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_High ElfMaleIcon</Normal>
+			<Pressed>RCW_High ElfMaleIcon</Pressed>
+			<Flyby>RCW_High ElfMaleIcon</Flyby>
+			<Disabled>RCW_High ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_High ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Human_Button">
+		<ScreenID>RCW_Male_Race_Human_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_HumanMaleIcon</Normal>
+			<Pressed>RCW_HumanMaleIcon</Pressed>
+			<Flyby>RCW_HumanMaleIcon</Flyby>
+			<Disabled>RCW_HumanMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_HumanMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Iksar_Button">
+		<ScreenID>RCW_Male_Race_Iksar_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_IksarMaleIcon</Normal>
+			<Pressed>RCW_IksarMaleIcon</Pressed>
+			<Flyby>RCW_IksarMaleIcon</Flyby>
+			<Disabled>RCW_IksarMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_IksarMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Ogre_Button">
+		<ScreenID>RCW_Male_Race_Ogre_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_OgreMaleIcon</Normal>
+			<Pressed>RCW_OgreMaleIcon</Pressed>
+			<Flyby>RCW_OgreMaleIcon</Flyby>
+			<Disabled>RCW_OgreMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_OgreMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Troll_Button">
+		<ScreenID>RCW_Male_Race_Troll_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_TrollMaleIcon</Normal>
+			<Pressed>RCW_TrollMaleIcon</Pressed>
+			<Flyby>RCW_TrollMaleIcon</Flyby>
+			<Disabled>RCW_TrollMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_TrollMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Kerran_Button">
+		<ScreenID>RCW_Male_Race_Kerran_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Vah ShirMaleIcon</Normal>
+			<Pressed>RCW_Vah ShirMaleIcon</Pressed>
+			<Flyby>RCW_Vah ShirMaleIcon</Flyby>
+			<Disabled>RCW_Vah ShirMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Vah ShirMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Wood Elf_Button">
+		<ScreenID>RCW_Male_Race_Wood Elf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Wood ElfMaleIcon</Normal>
+			<Pressed>RCW_Wood ElfMaleIcon</Pressed>
+			<Flyby>RCW_Wood ElfMaleIcon</Flyby>
+			<Disabled>RCW_Wood ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Wood ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Froglok_Button">
+		<ScreenID>RCW_Male_Race_Froglok_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_FroglokMaleIcon</Normal>
+			<Pressed>RCW_FroglokMaleIcon</Pressed>
+			<Flyby>RCW_FroglokMaleIcon</Flyby>
+			<Disabled>RCW_FroglokMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_FroglokMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Male_Race_Drakkin_Button">
+		<ScreenID>RCW_Male_Race_Drakkin_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_DrakkinMaleIcon</Normal>
+			<Pressed>RCW_DrakkinMaleIcon</Pressed>
+			<Flyby>RCW_DrakkinMaleIcon</Flyby>
+			<Disabled>RCW_DrakkinMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_DrakkinMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Barbarian_Button">
+		<ScreenID>RCW_Female_Race_Barbarian_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_BarbarianFemaleIcon</Normal>
+			<Pressed>RCW_BarbarianFemaleIcon</Pressed>
+			<Flyby>RCW_BarbarianFemaleIcon</Flyby>
+			<Disabled>RCW_BarbarianFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_BarbarianFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Dark Elf_Button">
+		<ScreenID>RCW_Female_Race_Dark Elf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Dark ElfFemaleIcon</Normal>
+			<Pressed>RCW_Dark ElfFemaleIcon</Pressed>
+			<Flyby>RCW_Dark ElfFemaleIcon</Flyby>
+			<Disabled>RCW_Dark ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Dark ElfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Dwarf_Button">
+		<ScreenID>RCW_Female_Race_Dwarf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_DwarfFemaleIcon</Normal>
+			<Pressed>RCW_DwarfFemaleIcon</Pressed>
+			<Flyby>RCW_DwarfFemaleIcon</Flyby>
+			<Disabled>RCW_DwarfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_DwarfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Erudite_Button">
+		<ScreenID>RCW_Female_Race_Erudite_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_EruditeFemaleIcon</Normal>
+			<Pressed>RCW_EruditeFemaleIcon</Pressed>
+			<Flyby>RCW_EruditeFemaleIcon</Flyby>
+			<Disabled>RCW_EruditeFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_EruditeFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Gnome_Button">
+		<ScreenID>RCW_Female_Race_Gnome_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_GnomeFemaleIcon</Normal>
+			<Pressed>RCW_GnomeFemaleIcon</Pressed>
+			<Flyby>RCW_GnomeFemaleIcon</Flyby>
+			<Disabled>RCW_GnomeFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_GnomeFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Half Elf_Button">
+		<ScreenID>RCW_Female_Race_Half Elf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half ElfFemaleIcon</Normal>
+			<Pressed>RCW_Half ElfFemaleIcon</Pressed>
+			<Flyby>RCW_Half ElfFemaleIcon</Flyby>
+			<Disabled>RCW_Half ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half ElfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Halfling_Button">
+		<ScreenID>RCW_Female_Race_Halfling_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_HalflingFemaleIcon</Normal>
+			<Pressed>RCW_HalflingFemaleIcon</Pressed>
+			<Flyby>RCW_HalflingFemaleIcon</Flyby>
+			<Disabled>RCW_HalflingFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_HalflingFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_High Elf_Button">
+		<ScreenID>RCW_Female_Race_High Elf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_High ElfFemaleIcon</Normal>
+			<Pressed>RCW_High ElfFemaleIcon</Pressed>
+			<Flyby>RCW_High ElfFemaleIcon</Flyby>
+			<Disabled>RCW_High ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_High ElfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Human_Button">
+		<ScreenID>RCW_Female_Race_Human_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_HumanFemaleIcon</Normal>
+			<Pressed>RCW_HumanFemaleIcon</Pressed>
+			<Flyby>RCW_HumanFemaleIcon</Flyby>
+			<Disabled>RCW_HumanFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_HumanFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Iksar_Button">
+		<ScreenID>RCW_Female_Race_Iksar_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_IksarFemaleIcon</Normal>
+			<Pressed>RCW_IksarFemaleIcon</Pressed>
+			<Flyby>RCW_IksarFemaleIcon</Flyby>
+			<Disabled>RCW_IksarFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_IksarFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Ogre_Button">
+		<ScreenID>RCW_Female_Race_Ogre_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_OgreFemaleIcon</Normal>
+			<Pressed>RCW_OgreFemaleIcon</Pressed>
+			<Flyby>RCW_OgreFemaleIcon</Flyby>
+			<Disabled>RCW_OgreFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_OgreFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Troll_Button">
+		<ScreenID>RCW_Female_Race_Troll_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_TrollFemaleIcon</Normal>
+			<Pressed>RCW_TrollFemaleIcon</Pressed>
+			<Flyby>RCW_TrollFemaleIcon</Flyby>
+			<Disabled>RCW_TrollFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_TrollFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Kerran_Button">
+		<ScreenID>RCW_Female_Race_Kerran_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Vah ShirFemaleIcon</Normal>
+			<Pressed>RCW_Vah ShirFemaleIcon</Pressed>
+			<Flyby>RCW_Vah ShirFemaleIcon</Flyby>
+			<Disabled>RCW_Vah ShirFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Vah ShirFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Wood Elf_Button">
+		<ScreenID>RCW_Female_Race_Wood Elf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Wood ElfFemaleIcon</Normal>
+			<Pressed>RCW_Wood ElfFemaleIcon</Pressed>
+			<Flyby>RCW_Wood ElfFemaleIcon</Flyby>
+			<Disabled>RCW_Wood ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Wood ElfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Froglok_Button">
+		<ScreenID>RCW_Female_Race_Froglok_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_FroglokFemaleIcon</Normal>
+			<Pressed>RCW_FroglokFemaleIcon</Pressed>
+			<Flyby>RCW_FroglokFemaleIcon</Flyby>
+			<Disabled>RCW_FroglokFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_FroglokFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Drakkin_Button">
+		<ScreenID>RCW_Female_Race_Drakkin_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_DrakkinFemaleIcon</Normal>
+			<Pressed>RCW_DrakkinFemaleIcon</Pressed>
+			<Flyby>RCW_DrakkinFemaleIcon</Flyby>
+			<Disabled>RCW_DrakkinFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_DrakkinFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Barbarian_Overlay_Button">
+		<ScreenID>RCW_Race_Barbarian_Overlay_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Dark Elf_Overlay_Button">
+		<ScreenID>RCW_Race_Dark Elf_Overlay_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Dwarf_Overlay_Button">
+		<ScreenID>RCW_Race_Dwarf_Overlay_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Erudite_Overlay_Button">
+		<ScreenID>RCW_Race_Erudite_Overlay_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>48</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Gnome_Overlay_Button">
+		<ScreenID>RCW_Race_Gnome_Overlay_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Half Elf_Overlay_Button">
+		<ScreenID>RCW_Race_Half Elf_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Halfling_Overlay_Button">
+		<ScreenID>RCW_Race_Halfling_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_High Elf_Overlay_Button">
+		<ScreenID>RCW_Race_High Elf_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>112</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Human_Overlay_Button">
+		<ScreenID>RCW_Race_Human_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Iksar_Overlay_Button">
+		<ScreenID>RCW_Race_Iksar_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Ogre_Overlay_Button">
+		<ScreenID>RCW_Race_Ogre_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Troll_Overlay_Button">
+		<ScreenID>RCW_Race_Troll_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>176</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Kerran_Overlay_Button">
+		<ScreenID>RCW_Race_Kerran_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Wood Elf_Overlay_Button">
+		<ScreenID>RCW_Race_Wood Elf_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>48</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Froglok_Overlay_Button">
+		<ScreenID>RCW_Race_Froglok_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>96</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Drakkin_Overlay_Button">
+		<ScreenID>RCW_Race_Drakkin_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+
+	<Screen item="RCW_RaceScreen">
+		<ScreenID>RCW_RaceScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>19</LeftAnchorOffset>
+		<TopAnchorOffset>106</TopAnchorOffset>
+		<RightAnchorOffset>241</RightAnchorOffset>
+		<BottomAnchorOffset>413</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<DrawTemplate>WDT_Filigree3</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>RCW_Male_Race_Human_Button</Pieces>
+		<Pieces>RCW_Male_Race_Barbarian_Button</Pieces>
+		<Pieces>RCW_Male_Race_Erudite_Button</Pieces>
+		<Pieces>RCW_Male_Race_Wood Elf_Button</Pieces>
+		<Pieces>RCW_Male_Race_High Elf_Button</Pieces>
+		<Pieces>RCW_Male_Race_Dark Elf_Button</Pieces>
+		<Pieces>RCW_Male_Race_Half Elf_Button</Pieces>
+		<Pieces>RCW_Male_Race_Dwarf_Button</Pieces>
+		<Pieces>RCW_Male_Race_Troll_Button</Pieces>
+		<Pieces>RCW_Male_Race_Ogre_Button</Pieces>
+		<Pieces>RCW_Male_Race_Halfling_Button</Pieces>
+		<Pieces>RCW_Male_Race_Gnome_Button</Pieces>
+		<Pieces>RCW_Male_Race_Iksar_Button</Pieces>
+		<Pieces>RCW_Male_Race_Kerran_Button</Pieces>
+		<Pieces>RCW_Male_Race_Froglok_Button</Pieces>
+		<Pieces>RCW_Male_Race_Drakkin_Button</Pieces>
+		<Pieces>RCW_Female_Race_Human_Button</Pieces>
+		<Pieces>RCW_Female_Race_Barbarian_Button</Pieces>
+		<Pieces>RCW_Female_Race_Erudite_Button</Pieces>
+		<Pieces>RCW_Female_Race_Wood Elf_Button</Pieces>
+		<Pieces>RCW_Female_Race_High Elf_Button</Pieces>
+		<Pieces>RCW_Female_Race_Dark Elf_Button</Pieces>
+		<Pieces>RCW_Female_Race_Half Elf_Button</Pieces>
+		<Pieces>RCW_Female_Race_Dwarf_Button</Pieces>
+		<Pieces>RCW_Female_Race_Troll_Button</Pieces>
+		<Pieces>RCW_Female_Race_Ogre_Button</Pieces>
+		<Pieces>RCW_Female_Race_Halfling_Button</Pieces>
+		<Pieces>RCW_Female_Race_Gnome_Button</Pieces>
+		<Pieces>RCW_Female_Race_Iksar_Button</Pieces>
+		<Pieces>RCW_Female_Race_Kerran_Button</Pieces>
+		<Pieces>RCW_Female_Race_Froglok_Button</Pieces>
+		<Pieces>RCW_Female_Race_Drakkin_Button</Pieces>
+		<Pieces>RCW_Race_Human_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Barbarian_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Erudite_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Wood Elf_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_High Elf_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Dark Elf_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Half Elf_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Dwarf_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Troll_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Ogre_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Halfling_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Gnome_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Iksar_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Kerran_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Froglok_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Drakkin_Overlay_Button</Pieces>
+		<Pieces>RCW_RaceAnim</Pieces>
+	</Screen>
+
+	<Label item="RCW_Prompt">
+		<ScreenID>RCW_Prompt</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>12</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>370</CX>
+			<CY>135</CY>
+		</Size>
+		<Text>Changing your race will cause your quest journal to be cleared of all uncompleted quests, your deity specific spells to be removed from your spellbook (if you change your deity), and your bind location will be changed to the Plane of Knowledge.  Any race specific equipment that you can no longer use will stay equipped but will no longer give any benefits.</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item="RCW_StartingCity_Label">
+		<ScreenID>RCW_StartingCity_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>255</X>
+			<Y>165</Y>
+		</Location>
+		<Size>
+			<CX>70</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Starting City:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item = "RCW_StartingCity_Combo">
+		<ScreenID>RCW_StartingCity_Combo</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>255</X>
+			<Y>185</Y>
+		</Location>
+		<Size>
+			<CX>110</CX>
+			<CY>20</CY>
+		</Size>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="RCW_Deity_Label">
+		<ScreenID>RCW_Deity_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>257</X>
+			<Y>110</Y>
+		</Location>
+		<Size>
+			<CX>30</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Deity:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item = "RCW_Deity_Combo">
+	<ScreenID>RCW_Deity_Combo</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>255</X>
+			<Y>130</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>20</CY>
+		</Size>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+  
+	<Button item="RCW_DisableReminderButton">
+		<ScreenID>RCW_DisableReminderButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>265</X>
+			<Y>230</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>46</CY>
+		</Size>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Disable Reminder</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="RCW_CloseButton">
+		<ScreenID>RCW_CloseButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>265</X>
+			<Y>296</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>51</CY>
+		</Size>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Remind Me Later</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="RCW_SubmitButton">
+		<ScreenID>RCW_SubmitButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>265</X>
+			<Y>365</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>46</CY>
+		</Size>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Submit Race</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Screen item="RaceChangeWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>280</X>
+			<Y>180</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>445</CY>
+		</Size>
+		<Text>Change Race</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>RCW_Prompt</Pieces>
+		<Pieces>RCW_RaceScreen</Pieces>
+		<Pieces>RCW_DisableReminderButton</Pieces>
+		<Pieces>RCW_CloseButton</Pieces>
+		<Pieces>RCW_SubmitButton</Pieces>
+		<Pieces>RCW_StartingCity_Label</Pieces>
+		<Pieces>RCW_StartingCity_Combo</Pieces>
+		<Pieces>RCW_Deity_Label</Pieces>
+		<Pieces>RCW_Deity_Combo</Pieces>
+	</Screen>
+
+</XML>

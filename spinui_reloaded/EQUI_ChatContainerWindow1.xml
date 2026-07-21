@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Page item="CCW_ChatPageTemplate">
+		<ScreenID>CCW_ChatPageTemplate</ScreenID>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Chat</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+        <RelativePosition>true</RelativePosition>
+	</Page>
+	<TabBox item="CCW_ChatWindows">
+        <ScreenID>CCW_ChatWindows</ScreenID>
+        <RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Style_Transparent>false</Style_Transparent>
+	</TabBox>
+	<Screen item="ChatContainerWindow">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>95</X>
+			<Y>280</Y>
+		</Location>
+		<Size>
+			<CX>421</CX>
+			<CY>200</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Escapable>false</Escapable>
+		<Pieces>CCW_ChatWindows</Pieces>
+		<Pieces>CCW_ChatPageTemplate</Pieces>
+	</Screen>
+</XML>

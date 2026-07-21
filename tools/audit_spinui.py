@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+"""Release-grade structural audit for SpinUI assets and critical geometry.
+
+This intentionally uses only the Python standard library so the same checks
+run locally and in the Windows packaging workflow before a release is built.
+"""
+
+from __future__ import annotations
+
+import struct
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+
+REPO = Path(__file__).resolve().parent.parent
+SKIN = REPO / "spinui_reloaded"
+
+# These are supplied by EverQuest's default UI and are valid fallback assets.
+CLIENT_PROVIDED = {
+    "sidl.xml",
+    "eq_expansion_logos.tga",
+    "eq_expansion_logos2.tga",
+    "window_fg_cart.tga",
+}
+
+
+def fail(message: str) -> None:
+    raise AssertionError(message)
+
+
+def item(root: ET.Element, tag: str, name: str) -> ET.Element:
+    node = root.find(f".//{tag}[@item='{name}']")
+    if node is None:
+        fail(f"missing {tag} item {name}")
+    return node
+
+
+def child_int(node: ET.Element, path: str) -> int:
+    value = node.findtext(path)
+    if value is None:
+        fail(f"missing {path} in {node.tag} {node.get('item', '')}")
+    return int(value)
+
+
+def audit_window_draw_templates(
+        roots: dict[Path, ET.Element]) -> tuple[int, int]:
+    """Mirror EQ's global WindowDrawTemplate symbol-table validation.
+
+    A well-formed XML document can still make the client reject the entire
+    skin when a Screen's DrawTemplate names a WindowDrawTemplate that was
+    never declared.  Keep this separate from asset validation so the failure
+    identifies the missing symbol and every source file that references it.
+    """
+
+    declared: set[str] = set()
+    duplicate_declarations: set[str] = set()
+    references: dict[str, set[str]] = {}
+
+    for path, root in roots.items():
+        for node in root.iter("WindowDrawTemplate"):
+            name = (node.get("item") or "").strip()
+            if not name:
+                continue
+            if name in declared:
+                duplicate_declarations.add(name)
+            declared.add(name)
+        for node in root.iter("DrawTemplate"):
+            name = (node.text or "").strip()
+            if name.startswith("WDT_"):
+                references.setdefault(name, set()).add(path.name)
+
+    if duplicate_declarations:
+        fail(
+            "duplicate WindowDrawTemplate declarations: "
+            f"{sorted(duplicate_declarations)}"
+        )
+
+    undefined = sorted(set(references) - declared)
+    if undefined:
+        details = []
+        for name in undefined:
+            files = sorted(references[name], key=str.casefold)
+            display = ", ".join(files[:5])
+            if len(files) > 5:
+                display += f", +{len(files) - 5} more"
+            details.append(f"{name} ({display})")
+        fail("undeclared WindowDrawTemplate references: " + "; ".join(details))
+
+    return len(declared), sum(len(paths) for paths in references.values())
+
+
+def audit_xml() -> tuple[list[Path], set[str], int, int]:
+    xml_files = sorted(SKIN.glob("*.xml"))
+    if not xml_files:
+        fail("skin contains no XML files")
+    roots: dict[Path, ET.Element] = {}
+    for path in xml_files:
+        try:
+            roots[path] = ET.parse(path).getroot()
+        except ET.ParseError as exc:
+            fail(f"invalid XML {path.name}: {exc}")
+
+    available = {p.name.casefold() for p in SKIN.iterdir() if p.is_file()}
+    equi = roots[SKIN / "EQUI.xml"]
+    includes = {n.text.strip() for n in equi.iter("Include") if n.text and n.text.strip()}
+    missing_includes = {
+        ref for ref in includes
+        if Path(ref.replace("\\", "/")).name.casefold() not in available
+        and Path(ref.replace("\\", "/")).name.casefold() not in CLIENT_PROVIDED
+    }
+    if missing_includes:
+        fail(f"missing EQUI.xml includes: {sorted(missing_includes)}")
+
+    texture_refs: set[str] = set()
+    for root in roots.values():
+        for node in root.iter("Texture"):
+            if node.text and node.text.strip().lower().endswith((".tga", ".dds")):
+                texture_refs.add(node.text.strip())
+    missing_textures = {
+        ref for ref in texture_refs
+        if Path(ref.replace("\\", "/")).name.casefold() not in available
+        and Path(ref.replace("\\", "/")).name.casefold() not in CLIENT_PROVIDED
+    }
+    if missing_textures:
+        fail(f"missing referenced textures: {sorted(missing_textures)}")
+    template_count, template_reference_files = audit_window_draw_templates(roots)
+    return xml_files, texture_refs, template_count, template_reference_files
+
+
+def audit_binary_assets() -> tuple[int, int, int]:
+    tga_files = sorted(SKIN.glob("*.tga"))
+    dds_files = sorted(SKIN.glob("*.dds"))
+    cur_files = sorted(SKIN.glob("*.cur"))
+    for path in tga_files:
+        header = path.read_bytes()[:18]
+        if len(header) != 18:
+            fail(f"truncated TGA header: {path.name}")
+        width, height = struct.unpack_from("<HH", header, 12)
+        depth = header[16]
+        if width <= 0 or height <= 0 or depth not in (8, 16, 24, 32):
+            fail(f"invalid TGA geometry: {path.name} ({width}x{height}x{depth})")
+    for path in dds_files:
+        header = path.read_bytes()[:128]
+        if len(header) != 128 or header[:4] != b"DDS ":
+            fail(f"invalid DDS header: {path.name}")
+        height, width = struct.unpack_from("<II", header, 12)
+        if width <= 0 or height <= 0:
+            fail(f"invalid DDS geometry: {path.name} ({width}x{height})")
+    for path in cur_files:
+        header = path.read_bytes()[:6]
+        if len(header) != 6:
+            fail(f"truncated CUR header: {path.name}")
+        reserved, kind, count = struct.unpack("<HHH", header)
+        if reserved != 0 or kind != 2 or count <= 0:
+            fail(f"invalid CUR directory: {path.name}")
+    return len(tga_files), len(dds_files), len(cur_files)
+
+
+def audit_inventory_geometry() -> None:
+    root = ET.parse(SKIN / "EQUI_InventoryWindow.xml").getroot()
+    equipment = item(root, "Screen", "IW_Equipment")
+    page = item(root, "Page", "IW_InvPage")
+    view = item(root, "Screen", "IW_CharacterView")
+    class_anim = item(root, "StaticAnimation", "ClassAnim")
+    bags = item(root, "TileLayoutBox", "IW_Slots")
+    window = item(root, "Screen", "InventoryWindow")
+
+    equip_slots = [n.text for n in equipment.findall("Pieces")
+                   if n.text and n.text.startswith("InvSlot")]
+    bag_slots = [n.text for n in bags.findall("Pieces")
+                 if n.text and n.text.startswith("InvSlot")]
+    if set(equip_slots) != {f"InvSlot{i}" for i in range(23)} or len(equip_slots) != 23:
+        fail(f"equipment membership changed: {equip_slots}")
+    if bag_slots != [f"InvSlot{i}" for i in range(23, 35)]:
+        fail(f"bag rail membership changed: {bag_slots}")
+    if root.find(".//*[@item='IW_HexPlate23']") is not None or root.find(
+            ".//*[@item='IW_HexPlate24']") is not None:
+        fail("bag slots 23/24 regained equipment hex plates")
+
+    if (child_int(class_anim, "Size/CX"), child_int(class_anim, "Size/CY")) != (75, 142):
+        fail("native class artwork must remain 75x142")
+    if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != (85, 171):
+        fail("class artwork viewport must remain 85x171")
+    if child_int(window, "Size/CX") != 680 or child_int(window, "Size/CY") != 700:
+        fail("inventory window must remain 680x700")
+    if child_int(equipment, "Location/Y") + child_int(equipment, "Size/CY") > child_int(page, "Size/CY"):
+        fail("equipment canvas exceeds the inventory page")
+
+    # v3: the class crest lives on the identity rail (window level), keeping
+    # its drop-to-auto-equip role visible on every tab.
+    window_pieces = {n.text for n in window.findall("Pieces") if n.text}
+    if "Screen:IW_CharacterView" not in window_pieces:
+        fail("class crest must be a window-level identity-rail piece")
+    if any(n.text and "IW_CharacterView" in n.text for n in equipment.findall("Pieces")):
+        fail("class crest must no longer sit inside the equipment canvas")
+
+    destroy = item(root, "Button", "IW_Destroy")
+    crest_top = child_int(view, "Location/Y")
+    crest_bottom = crest_top + child_int(view, "Size/CY")
+    if child_int(destroy, "BottomAnchorOffset") + 4 > crest_top:
+        fail("class crest overlaps the Destroy button")
+    if crest_bottom + 4 > child_int(bags, "Location/Y"):
+        fail("bag rail overlaps the class crest")
+    if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != (112, 280):
+        fail("bag rail geometry changed")
+
+    # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
+    from restyle_inventory import (ANY_ROW, LEFT_RAIL, PLATE, RIGHT_RAIL,
+                                   SLOT_INSET, WEAPON_ROW, slot_pos)
+    canvas_w = child_int(equipment, "Size/CX")
+    canvas_h = child_int(equipment, "Size/CY")
+    for slot_id in range(23):
+        (px, py), _gold = slot_pos(slot_id)
+        slot = item(root, "InvSlot", f"InvSlot{slot_id}")
+        plate = item(root, "StaticAnimation", f"IW_HexPlate{slot_id}")
+        if (child_int(plate, "Location/X"), child_int(plate, "Location/Y")) != (px, py):
+            fail(f"equipment plate {slot_id} left its rail position")
+        if (child_int(plate, "Size/CX"), child_int(plate, "Size/CY")) != (PLATE, PLATE):
+            fail(f"equipment plate {slot_id} is no longer {PLATE}px")
+        if (child_int(slot, "Location/X") != px + SLOT_INSET
+                or child_int(slot, "Location/Y") != py + SLOT_INSET):
+            fail(f"equipment slot {slot_id} lost its hex alignment")
+        if px < 0 or py < 0 or px + PLATE > canvas_w or py + PLATE > canvas_h:
+            fail(f"equipment plate {slot_id} exceeds the canvas")
+    jewelry_bottom = slot_pos(RIGHT_RAIL[-1])[0][1] + PLATE
+    any_top = slot_pos(ANY_ROW[0])[0][1]
+    if any_top - jewelry_bottom < 16:
+        fail("Any slots lost their visual gap below the jewelry rail")
+    weapons_top = slot_pos(WEAPON_ROW[0])[0][1]
+    armor_bottom = slot_pos(LEFT_RAIL[-1])[0][1] + PLATE
+    if weapons_top < armor_bottom:
+        fail("weapon slots overlap the armor rail")
+
+    persona = item(root, "Screen", "IWP_Equipment")
+    persona_page = item(root, "Page", "IW_LoadoutPage")
+    persona_view = item(root, "Screen", "IWP_CharacterView")
+    persona_anim = item(root, "StaticAnimation", "PersonaAnim")
+    persona_slots = [n.text for n in persona.findall("Pieces")
+                     if n.text and n.text.startswith("PersonaInvSlot")]
+    persona_plates = [n.text for n in persona.findall("Pieces")
+                      if n.text and n.text.startswith("IWP_HexPlate")]
+    if set(persona_slots) != {f"PersonaInvSlot{i}" for i in range(23)}:
+        fail("persona equipment membership changed")
+    if set(persona_plates) != {f"IWP_HexPlate{i}" for i in range(23)}:
+        fail("persona hex plates changed")
+    if (child_int(persona_page, "Size/CX"), child_int(persona_page, "Size/CY")) != (485, 620):
+        fail("Loadouts/Personas page must use the full 485x620 tab canvas")
+    if (child_int(persona, "Size/CX"), child_int(persona, "Size/CY")) != (469, 270):
+        fail("persona equipment canvas changed")
+    if (child_int(persona_view, "Size/CX"), child_int(persona_view, "Size/CY")) != (85, 171):
+        fail("persona character viewport must remain 85x171")
+    if (child_int(persona_anim, "Size/CX"), child_int(persona_anim, "Size/CY")) != (75, 142):
+        fail("native persona artwork must remain 75x142")
+    for slot_id in range(23):
+        slot = item(root, "InvSlot", f"PersonaInvSlot{slot_id}")
+        plate = item(root, "StaticAnimation", f"IWP_HexPlate{slot_id}")
+        if (child_int(slot, "Location/X") != child_int(plate, "Location/X") + 3
+                or child_int(slot, "Location/Y") != child_int(plate, "Location/Y") + 3):
+            fail(f"persona equipment slot {slot_id} lost its hex alignment")
+        if (child_int(plate, "Location/X") < 0
+                or child_int(plate, "Location/Y") < 0
+                or child_int(plate, "Location/X") + child_int(plate, "Size/CX") > 469
+                or child_int(plate, "Location/Y") + child_int(plate, "Size/CY") > 270):
+            fail(f"persona equipment plate {slot_id} exceeds its canvas")
+
+
+def main() -> int:
+    xml_files, texture_refs, template_count, template_reference_files = audit_xml()
+    tga_count, dds_count, cur_count = audit_binary_assets()
+    audit_inventory_geometry()
+    print("SpinUI asset audit: ALL PASS")
+    print(f"  XML {len(xml_files)} | texture refs {len(texture_refs)} | "
+          f"TGA {tga_count} | DDS {dds_count} | CUR {cur_count}")
+    print(f"  window templates {template_count} | "
+          f"reference files {template_reference_files} | no unresolved symbols")
+    print("  inventory 680x700 | equipment 23 | persona 23 | rail Any 2 | bags 12 | class art 75x142")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except AssertionError as exc:
+        print(f"SpinUI asset audit: FAIL — {exc}", file=sys.stderr)
+        raise SystemExit(1)

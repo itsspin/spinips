@@ -1,0 +1,449 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Editbox item="RENW_Search_EditBox">
+		<ScreenID>RENW_Search_EditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>384</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Combobox item="RENW_SearchType_Combobox">
+		<ScreenID>RENW_SearchType_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>382</LeftAnchorOffset>
+		<RightAnchorOffset>286</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Font>2</Font>
+		<ListHeight>50</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>Player</Choices>
+		<Choices>Guild</Choices>	
+		<Choices>Neighborhood</Choices>
+	</Combobox>
+	<Button item="RENW_Search_Button">
+		<ScreenID>RENW_Search_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>		
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>284</LeftAnchorOffset>
+		<RightAnchorOffset>210</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to perform the selected search.</TooltipReference>
+		<Text>Search</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="RENW_MyPlots_Button">
+		<ScreenID>RENW_MyPlots_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>208</LeftAnchorOffset>
+		<RightAnchorOffset>132</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to search for plots you own in all neighborhoods.</TooltipReference>
+		<Text>My Plots</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="RENW_MyItems_Button">
+		<ScreenID>RENW_MyItems_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>56</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to search for plots containing items that you own in all neighborhoods.</TooltipReference>
+		<Text>My Items</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="RENW_Go_Button">
+		<ScreenID>RENW_Go_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to enter the selected neighborhood.</TooltipReference>
+		<Text>Go</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Listbox item="RENW_NeighborhoodList">
+		<ScreenID>RENW_NeighborhoodList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>530</CX>
+			<CY>250</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Columns>
+			<Width>200</Width>
+			<Heading>Neighborhood</Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Guild</Heading>
+		</Columns>	
+		<Columns>
+			<Width>40</Width>
+			<Heading>PPlots</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Used</Heading>
+		</Columns>
+		<Columns>
+			<Width>42</Width>
+			<Heading>GPlots</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Used</Heading>
+		</Columns>
+		<Columns>
+			<Width>10</Width>
+			<Heading></Heading>
+		</Columns>
+	</Listbox>
+	<Screen item="RENW_List_LayoutScreen">
+		<ScreenID>RENW_List_LayoutScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>100</MinVSize>
+		<Size>
+			<CX>300</CX>
+			<CY>250</CY>
+		</Size>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>VerticalLayoutBox:RENW_List_Layout</Pieces>
+	</Screen>
+	<VerticalLayoutBox item="RENW_List_Layout">
+		<ScreenID>RENW_List_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>Listbox:RENW_GuildList</Pieces>	
+		<Pieces>Listbox:RENW_PlayerList</Pieces>
+	</VerticalLayoutBox>	
+	<Listbox item="RENW_GuildList">
+		<ScreenID>RENW_GuildList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>82</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Guild Plots</Heading>
+		</Columns>
+	</Listbox>
+	<Listbox item="RENW_PlayerList">
+		<ScreenID>RENW_PlayerList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>150</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Player Plots</Heading>
+		</Columns>
+	</Listbox>
+	<HorizontalLayoutBox item="RENW_Main_Layout">
+		<ScreenID>RENW_Main_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>Listbox:RENW_NeighborhoodList</Pieces>
+		<Pieces>Screen:RENW_List_LayoutScreen</Pieces>
+	</HorizontalLayoutBox>
+	<Label item="RENW_ShowLabel">
+		<ScreenID>RENW_ShowLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Show:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="RENW_ShowNonGuild_Btn">
+		<ScreenID>RENW_ShowNonGuild_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowNonGuild_Label">
+		<ScreenID>RENW_ShowNonGuild_Label</ScreenID>
+		<Location>
+			<X>67</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Non-Guild</Text>
+	</Label>
+	<Button item="RENW_ShowGuild_Btn">
+		<ScreenID>RENW_ShowGuild_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>132</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowGuild_Label">
+		<ScreenID>RENW_ShowGuild_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>149</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>55</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Guild</Text>
+	</Label>
+	<Button item="RENW_ShowFullPPlots_Btn">
+		<ScreenID>RENW_ShowFullPPlots_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>187</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowFullPPlots_Label">
+		<ScreenID>RENW_ShowFullPPlots_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>204</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>82</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Full PPlots</Text>
+	</Label>
+	<Button item="RENW_ShowOpenPPlots_Btn">
+		<ScreenID>RENW_ShowOpenPPlots_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>271</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowOpenPPlots_Label">
+		<ScreenID>RENW_ShowOpenPPlots_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>288</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Open PPlots</Text>
+	</Label>
+	<Button item="RENW_ShowFullGPlots_Btn">
+		<ScreenID>RENW_ShowFullGPlots_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>365</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowFullGPlots_Label">
+		<ScreenID>RENW_ShowFullGPlots_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>382</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Full GPlots</Text>
+	</Label>
+	<Button item="RENW_ShowOpenGPlots_Btn">
+		<ScreenID>RENW_ShowOpenGPlots_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>450</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RENW_ShowOpenGPlots_Label">
+		<ScreenID>RENW_ShowOpenGPlots_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>467</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Open GPlots</Text>
+	</Label>
+	<Screen item="RENW_Show_Screen">
+		<ScreenID>RENW_Show_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<ResizeLast>false</ResizeLast>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>		
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Pieces>RENW_ShowLabel</Pieces>
+		<Pieces>RENW_ShowNonGuild_Btn</Pieces>
+		<Pieces>RENW_ShowNonGuild_Label</Pieces>
+		<Pieces>RENW_ShowGuild_Btn</Pieces>
+		<Pieces>RENW_ShowGuild_Label</Pieces>	
+		<Pieces>RENW_ShowFullPPlots_Btn</Pieces>
+		<Pieces>RENW_ShowFullPPlots_Label</Pieces>
+		<Pieces>RENW_ShowOpenPPlots_Btn</Pieces>
+		<Pieces>RENW_ShowOpenPPlots_Label</Pieces>	
+		<Pieces>RENW_ShowFullGPlots_Btn</Pieces>
+		<Pieces>RENW_ShowFullGPlots_Label</Pieces>
+		<Pieces>RENW_ShowOpenGPlots_Btn</Pieces>
+		<Pieces>RENW_ShowOpenGPlots_Label</Pieces>
+	</Screen>
+	<Screen item="RealEstateNeighborhoodWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>680</CX>
+			<CY>356</CY>
+		</Size>
+		<MinHSize>640</MinHSize>
+		<MinVSize>240</MinVSize>
+		<Text>Neighborhood Search</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>RENW_Search_EditBox</Pieces>
+		<Pieces>RENW_Search_Button</Pieces>
+		<Pieces>RENW_MyPlots_Button</Pieces>
+		<Pieces>RENW_MyItems_Button</Pieces>	
+		<Pieces>RENW_Go_Button</Pieces>
+		<Pieces>HorizontalLayoutBox:RENW_Main_Layout</Pieces>
+		<Pieces>RENW_SearchType_Combobox</Pieces>
+		<Pieces>RENW_Show_Screen</Pieces>		
+	</Screen>
+</XML>

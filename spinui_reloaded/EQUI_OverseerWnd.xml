@@ -1,0 +1,2795 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+	<!-- We're using buttons to circumvent static logic. So it's a button but we're only using it for the animations
+	Naming this DefaultImage as it will be the default image used across all tabs for our JPGs-->
+	<ButtonDrawTemplate item="DefaultImageOW">
+		<Normal>A_book1</Normal>
+	</ButtonDrawTemplate>
+
+	<ButtonDrawTemplate item="OW_ALL_ColorBtn">
+		<Normal>A_WhiteBtnBase</Normal>
+	</ButtonDrawTemplate>
+
+	<LayoutVertical item="OW_LayoutV">
+		<Padding>0</Padding>
+		<ResizeVertical>true</ResizeVertical>
+		<ResizeHorizontal>false</ResizeHorizontal>
+	</LayoutVertical>
+
+	<LayoutStrategy item="OW_LayoutResizeV">
+		<Padding>0</Padding>
+		<ResizeVertical>true</ResizeVertical>
+		<ResizeHorizontal>false</ResizeHorizontal>
+	</LayoutStrategy>
+
+	<!-- SHARED PIECES -->
+	<!-- used to cover up quest data instead of disabling each label -->
+	<Label item="OW_ALL_NoDataLabel">
+		<ScreenID>OW_ALL_NoDataLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>20</LeftAnchorOffset>
+		<RightAnchorOffset>20</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Font>5</Font>
+	</Label>
+	<Screen item="OW_ALL_ScreenHideData">
+		<ScreenID>OW_ALL_ScreenHideData</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Pieces>OW_ALL_NoDataLabel</Pieces>
+	</Screen>
+	<Button item="OW_BtnQuestTemplate">
+		<ScreenID>OW_BtnQuestTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Template>OW_ALL_ColorBtn</Template>
+		<Style_Sizable>false</Style_Sizable>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BackgroundTextureTint>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</BackgroundTextureTint>
+		<TextColor>
+			<R>0</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<DisabledBackgroundTextureTint>
+			<R>184</R>
+			<G>184</G>
+			<B>184</B>
+		</DisabledBackgroundTextureTint>
+	</Button>
+
+	<!-- QUEST -->
+	<Screen item="OW_ALL_QuestTileScreen">
+		<ScreenID>OW_ALL_QuestTileScreen</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>443</RightAnchorOffset>
+		<BottomAnchorOffset>133</BottomAnchorOffset>
+		<Pieces>OW_ALL_QuestImage</Pieces>
+		<Pieces>OW_ALL_TitleLabel</Pieces>
+	</Screen>
+
+	<Screen item="OW_ALL_QuestTemplate">
+		<ScreenID>OW_ALL_QuestTemplate</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Pieces>Screen:OW_ALL_QuestTileScreen</Pieces>
+		<Pieces>OW_ALL_DescriptionLabel</Pieces>
+		<Pieces>OW_ALL_DurationLabel</Pieces>
+		<Pieces>OW_ALL_DurationValue</Pieces>
+		<Pieces>OW_ALL_CategoryIconButton</Pieces>
+		<Pieces>OW_ALL_DifficultyLabel</Pieces>
+		<Pieces>OW_ALL_SuccessLabel</Pieces>
+		<Pieces>OW_ALL_SuccessValue</Pieces>
+		<Pieces>OW_ALL_PreviewRewardButton</Pieces>
+		<Pieces>OW_ALL_AutoFillButton</Pieces>
+		<Pieces>OW_ALL_MinionsLabel</Pieces>
+		<Pieces>OW_ALL_FinishEarlyButton</Pieces>
+		<Pieces>OW_ALL_CompleteQuestButton</Pieces>
+		<Pieces>OW_ALL_CollectRewardButton</Pieces>
+		<Pieces>OW_ALL_StartButton</Pieces>
+		<Pieces>OW_ALL_AbandonButton</Pieces>
+		<Pieces>Screen:OW_ALL_ScreenHideData</Pieces>
+		<Pieces>VerticalLayoutBox:OW_ALL_MinionInfoArea</Pieces>
+		<MinVSize>600</MinVSize>
+	</Screen>
+
+	<Button item="OW_ALL_QuestImage">
+		<ScreenID>OW_ALL_QuestImage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>DefaultImageOW</Template>
+		<Template>BDT_Normal</Template>
+		<Location>
+			<X>3</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>558</CX>
+			<CY>150</CY>
+		</Size>
+	</Button>
+
+	<StaticAnimation item="OW_ALL_MinionPortrait">
+		<ScreenID>OW_ALL_MinionPortrait</ScreenID>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>140</CX>
+			<CY>150</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Animation>A_book1</Animation>
+	</StaticAnimation>
+
+	<Label item="OW_ALL_TitleLabel">
+		<ScreenID>OW_ALL_TitleLabel</ScreenID>
+		<Location>
+			<X>6</X>
+			<Y>12</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+		</Size>
+		<TextColor>
+			<R>0</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<Wrap>true</Wrap>
+		<Font>5</Font>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+
+	<Button item="OW_ALL_CategoryIconButton">
+		<ScreenID>OW_ALL_CategoryIconButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Location>
+			<X>5</X>
+			<Y>147</Y>
+		</Location>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+	</Button>
+
+	<Label item="OW_ALL_DifficultyLabel">
+		<ScreenID>OW_ALL_DifficultyLabel</ScreenID>
+		<Location>
+			<X>45</X>
+			<Y>152</Y>
+		</Location>
+		<Size>
+			<CX>443</CX>
+		</Size>
+		<Font>5</Font>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<ResizeWidthToText>true</ResizeWidthToText>
+	</Label>
+
+	<STMLbox item="OW_ALL_DescriptionLabel">
+		<ScreenID>OW_ALL_DescriptionLabel</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorOffset>180</TopAnchorOffset>
+		<BottomAnchorOffset>270</BottomAnchorOffset>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+	</STMLbox>
+	
+	<Label item="OW_ALL_DurationLabel">
+		<ScreenID>OW_ALL_DurationLabel</ScreenID>
+		<Location>
+			<X>5</X>
+			<Y>270</Y>
+		</Location>
+		<Size>
+			<CX>75</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignLeft>true</AlignLeft>
+		<Text>Duration:</Text>
+	</Label>
+
+	<Label item="OW_ALL_DurationValue">
+		<ScreenID>OW_ALL_DurationValue</ScreenID>
+		<Location>
+			<X>75</X>
+			<Y>270</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>66h 58m 59s</Text>
+	</Label>
+
+	<Label item="OW_ALL_SuccessLabel">
+		<ScreenID>OW_ALL_SuccessLabel</ScreenID>
+		<Location>
+			<X>5</X>
+			<Y>290</Y>
+		</Location>
+		<Size>
+			<CX>75</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignLeft>true</AlignLeft>
+		<Text>Success:</Text>
+	</Label>
+
+	<Label item="OW_ALL_SuccessValue">
+		<ScreenID>OW_ALL_SuccessValue</ScreenID>
+		<Location>
+			<X>75</X>
+			<Y>290</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>5</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item = "OW_ALL_AutoFillButton">
+		<ScreenID>OW_ALL_AutoFillButton</ScreenID>
+		<Location>
+			<X>400</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to automatically assign agents to this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Auto-Fill</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "OW_ALL_PreviewRewardButton">
+		<ScreenID>OW_ALL_PreviewRewardButton</ScreenID>
+		<Location>
+			<X>290</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to preview the rewards for this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Preview Reward</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "OW_ALL_AbandonButton">
+		<ScreenID>OW_ALL_AbandonButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>135</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<TooltipReference>Click to abandon this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Abandon</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "OW_ALL_FinishEarlyButton">
+		<ScreenID>OW_ALL_FinishEarlyButton</ScreenID>
+		<Location>
+			<X>180</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to instantly complete this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Finish Now!</Text>
+		<DecalSize>
+			<CX>20</CX>
+			<CY>20</CY>
+		</DecalSize>
+		<DecalOffset>
+			<X>75</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>5</TextOffsetX>
+		<Template>BDT_ButtonStation</Template>
+	</Button>
+
+	<Button item = "OW_ALL_CompleteQuestButton">
+		<ScreenID>OW_ALL_CompleteQuestButton</ScreenID>
+		<Location>
+			<X>180</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to complete this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Complete Quest!</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "OW_ALL_CollectRewardButton">
+		<ScreenID>OW_ALL_CollectRewardButton</ScreenID>
+		<Location>
+			<X>180</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to complete this Overseer Quest and receive your rewards</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Collect Reward!</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="OW_ALL_StartButton">
+		<ScreenID>OW_ALL_StartButton</ScreenID>
+		<Location>
+			<X>180</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>25</CY>
+		</Size>
+		<TooltipReference>Click to start this Overseer Quest</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Start Quest!</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Label item="OW_ALL_MinionsLabel">
+		<ScreenID>OW_ALL_MinionsLabel</ScreenID>
+		<Location>
+			<X>5</X>
+			<Y>310</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>30</CY>
+		</Size>
+		<Text>Quest Party</Text>
+		<Font>5</Font>
+	</Label>
+
+	<!-- MINION -->
+
+	<Screen item="OW_ALL_IncapColorBackground">
+		<ScreenID>OW_ALL_IncapColorBackground</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<BackgroundTextureTint>
+			<R>255</R>
+		</BackgroundTextureTint>
+	</Screen>
+	
+	<Screen item="OW_ALL_IncapIconBackground">
+		<ScreenID>OW_ALL_IncapIconBackground</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Location>
+			<X>2</X>
+			<Y>78</Y>
+		</Location>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+	</Screen>
+	
+	<Button item="OW_ALL_IncapIcon">
+		<ScreenID>OW_ALL_IncapIcon</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Location>
+			<X>2</X>
+			<Y>78</Y>
+		</Location>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>This Agent was Incapacitated while Questing.</TooltipReference>
+	</Button>
+	
+	<Screen item="OW_ALL_MinionJobImageScrn">
+		<ScreenID>OW_ALL_MinionJobImageScrn</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>35</Y>
+		</Location>
+		<Size>
+			<CX>75</CX>
+			<CY>74</CY>
+		</Size>
+		<BackgroundTextureTint>
+			<R>77</R>
+			<G>87</G>
+			<B>112</B>
+		</BackgroundTextureTint>
+		<Pieces>OW_ALL_MinionJobImage</Pieces>
+		<Pieces>OW_ALL_MinionSelectBtn</Pieces>
+	</Screen>
+
+	<Button item="OW_ALL_MinionSelectBtn">
+		<ScreenID>OW_ALL_MinionSelectBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>BDT_SmallNormal</Template>
+		<Text>Select Agent</Text>
+		<Location>
+			<X>0</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>77</CX>
+			<CY>20</CY>
+		</Size>
+	</Button>
+
+	<Button item="OW_ALL_MinionJobImage">
+		<ScreenID>OW_ALL_MinionJobImage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>DefaultImageOW</Template>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>114</CX>
+			<CY>112</CY>
+		</Size>
+	</Button>
+
+	<Screen item="OW_ALL_RequiredIconBackground">
+		<ScreenID>OW_ALL_RequiredIconBackground</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+	</Screen>
+	
+	<Button item="OW_ALL_RequiredIcon">
+		<ScreenID>OW_ALL_RequiredIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+	</Button>
+
+	<Label item="OW_ALL_MinionsNameLabel">
+		<ScreenID>OW_ALL_MinionsNameLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>35</LeftAnchorOffset>
+		<Text>Name</Text>
+		<Font>5</Font>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+
+	<Button item="OW_ALL_MinionsClearButton">
+		<ScreenID>OW_ALL_MinionsClearButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>BDT_Normal</Template>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Clear</Text>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+	</Button>
+
+	<Label item="OW_ALL_MinionsBonusesLabel">
+		<ScreenID>OW_ALL_MinionsBonusesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Bonuses:</Text>
+	</Label>
+
+	<Label item="OW_ALL_MinionAttributeLabels">
+		<ScreenID>OW_ALL_MinionAttributeLabels</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>25</X>
+		</Location>
+		<Size>
+			<CX>112</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Attribute</Text>
+	</Label>
+
+	<Button item="OW_ALL_MinionAttributeImg">
+		<ScreenID>OW_ALL_MinionAttributeImg</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>20</CX>
+			<CY>20</CY>
+		</Size>
+		<Template>DefaultImageOW</Template>
+	</Button>
+
+	<Screen item="OW_ALL_MinionAttributeScrnTemplate">
+		<ScreenID>OW_ALL_MinionAttributeScrnTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Layout>OW_LayoutResizeV</Layout>
+		<Size>
+			<CX>112</CX>
+			<CY>30</CY>
+		</Size>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>OW_ALL_MinionAttributeImg</Pieces>
+		<Pieces>OW_ALL_MinionAttributeLabels</Pieces>
+	</Screen>
+
+	<TileLayoutBox item="OW_ALL_MinionsBonusAttributes">
+		<ScreenID>OW_ALL_MinionsBonusAttributes</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<Spacing>5</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<SnapToChildren>true</SnapToChildren>
+		<HorizontalFirst>true</HorizontalFirst>
+		<Pieces>Screen:OW_ALL_MinionAttributeScrnTemplate</Pieces>
+	</TileLayoutBox>
+
+	<Screen item="OW_ALL_MinionBonuses">
+		<ScreenID>OW_ALL_MinionBonuses</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Layout>OW_LayoutResizeV</Layout>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>OW_ALL_MinionsBonusesLabel</Pieces>
+		<Pieces>TileLayoutBox:OW_ALL_MinionsBonusAttributes</Pieces>
+	</Screen>
+
+	<Label item="OW_ALL_MinionsNegativesLabel">
+		<ScreenID>OW_ALL_MinionsNegativesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>60</CX>
+			<CY>40</CY>
+		</Size>
+		<Text>Negatives:</Text>
+	</Label>
+
+	<TileLayoutBox item="OW_ALL_MinionsNegativeAttributes">
+		<ScreenID>OW_ALL_MinionsNegativeAttributes</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<HorizontalFirst>true</HorizontalFirst>
+		<Spacing>5</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<SnapToChildren>true</SnapToChildren>
+		<HorizontalFirst>true</HorizontalFirst>
+		<Pieces>Screen:OW_ALL_MinionAttributeScrnTemplate</Pieces>
+	</TileLayoutBox>
+
+	<Screen item="OW_ALL_MinionNegatives">
+		<ScreenID>OW_ALL_MinionNegatives</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Layout>OW_LayoutResizeV</Layout>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>OW_ALL_MinionsNegativesLabel</Pieces>
+		<Pieces>TileLayoutBox:OW_ALL_MinionsNegativeAttributes</Pieces>
+	</Screen>
+
+	<Label item="OW_ALL_MinionsIncapRiskLabel">
+		<ScreenID>OW_ALL_MinionsIncapRiskLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CY>20</CY>
+		</Size>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>Incapacitation Risk: </Text>
+	</Label>
+
+	<Label item="OW_ALL_MinionsIncapTypeLabel">
+		<ScreenID>OW_ALL_MinionsIncapTypeLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>180</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>Type: </Text>
+	</Label>
+
+	<Screen item="OW_ALL_MinionEffect">
+		<ScreenID>OW_ALL_MinionEffect</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<BackgroundTextureTint>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</BackgroundTextureTint>
+		<Pieces>OW_ALL_MinionsIncapRiskLabel</Pieces>
+		<Pieces>OW_ALL_MinionsIncapTypeLabel</Pieces>
+	</Screen>
+
+	<Screen item="OW_ALL_MinionAttributesArea">
+		<ScreenID>OW_ALL_MinionAttributesArea</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Layout>OW_LayoutV</Layout>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Location>
+			<Y>35</Y>
+		</Location>
+		<LeftAnchorOffset>85</LeftAnchorOffset>
+		<Pieces>Screen:OW_ALL_MinionBonuses</Pieces>
+		<Pieces>Screen:OW_ALL_MinionNegatives</Pieces>
+		<Style_Border>true</Style_Border>
+	</Screen>
+
+	<!-- The actual minion buttons -->
+	<Screen item="OW_ALL_MinionInfoTemplate">
+		<ScreenID>OW_ALL_MinionInfoTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Layout>OW_LayoutResizeV</Layout>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>Screen:OW_ALL_IncapColorBackground</Pieces>
+		<Pieces>OW_ALL_RequiredIconBackground</Pieces>
+		<Pieces>OW_ALL_RequiredIcon</Pieces>
+		<Pieces>OW_ALL_MinionsNameLabel</Pieces>
+		<Pieces>OW_ALL_MinionsClearButton</Pieces>
+		<Pieces>Screen:OW_ALL_MinionJobImageScrn</Pieces>
+		<Pieces>Screen:OW_ALL_MinionAttributesArea</Pieces>
+		<Pieces>Screen:OW_ALL_MinionEffect</Pieces>
+		<Pieces>Screen:OW_ALL_IncapIconBackground</Pieces>
+		<Pieces>OW_ALL_IncapIcon</Pieces>
+		<MinHSize>400</MinHSize>
+		<Size>
+			<CX>390</CX>
+			<CY>150</CY>
+		</Size>
+	</Screen>
+
+	<VerticalLayoutBox item="OW_ALL_MinionInfoArea">
+		<ScreenID>OW_ALL_MinionInfoArea</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>330</TopAnchorOffset>
+		<MinVSize>160</MinVSize>
+		<MinHSize>415</MinHSize>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Dividers>false</Style_Dividers>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Spacing>5</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>Screen:OW_ALL_MinionInfoTemplate</Pieces>
+	</VerticalLayoutBox>
+
+	<!-- END SHARED PIECES -->
+
+	<!-- A vertical layout box to hold all of the buttons -->
+
+	<Combobox item="OW_OQP_RarityFilter">
+		<ScreenID>OW_OQP_RarityFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Location>
+			<X>140</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>115</CX>
+			<CY>25</CY>
+		</Size>
+		<ListHeight>75</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+		<Choices>All Rarities</Choices>
+		<Choices>Common</Choices>
+		<Choices>Uncommon</Choices>
+		<Choices>Rare</Choices>
+		<Choices>Elite</Choices>
+	</Combobox>
+
+	<Combobox item="OW_OQP_JobFilter">
+		<ScreenID>OW_OQP_JobFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Location>
+			<X>260</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>115</CX>
+			<CY>25</CY>
+		</Size>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+	</Combobox>
+
+	<Combobox item="OW_OQP_TraitFilter">
+		<ScreenID>OW_OQP_TraitFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Location>
+			<X>380</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>115</CX>
+			<CY>25</CY>
+		</Size>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+	</Combobox>
+
+	<Label item="OW_OQP_MinionCountLabel">
+		<ScreenID>OW_OQP_MinionCountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<RightAnchorOffset>30</RightAnchorOffset>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<Text>x0</Text>
+	</Label>
+
+	<Button item="OW_OQP_MinionScreenImage">
+		<ScreenID>OW_OQP_MinionScreenImage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>DefaultImageOW</Template>
+		<Location>
+			<X>3</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>112</CX>
+			<CY>112</CY>
+		</Size>
+	</Button>
+
+	<Button item="OW_OQP_MinionNameBtn">
+		<ScreenID>OW_OQP_MinionNameBtn</ScreenID>
+		<Template>BDT_SmallNormal</Template>
+		<RelativePosition>true</RelativePosition>
+		<Font>1</Font>
+		<Text>Gebartik</Text>
+		<Location>
+			<X>-3</X>
+			<Y>67</Y>
+		</Location>
+		<Size>
+			<CX>82</CX>
+			<CY>35</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+	</Button>
+
+	<Screen item="OW_OQP_MinionScreenBlackBackground">
+		<ScreenID>OW_OQP_MinionScreenBlackBackground</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Location>
+			<X>3</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>71</CX>
+			<CY>17</CY>
+		</Size>
+		<Pieces>OW_OQP_MinionCountLabel</Pieces>
+	</Screen>
+
+	<Button item="OW_OQP_ActiveIcon">
+		<ScreenID>OW_OQP_ActiveIcon</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Location>
+			<X>3</X>
+			<Y>39</Y>
+		</Location>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<TooltipReference>This agent is Iconic and is either currently questing, incapacitated, or selected for a quest</TooltipReference>
+		<Style_Border>true</Style_Border>
+	</Button>
+
+	<Screen item="OW_OQP_ActiveIconBackground">
+		<ScreenID>OW_OQP_ActiveIconBackground</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Location>
+			<X>3</X>
+			<Y>39</Y>
+		</Location>
+	</Screen>
+
+	<Screen item="OW_OQP_MinionScreenTemplate">
+		<ScreenID>OW_OQP_MinionScreenTemplate</ScreenID>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<Size>
+			<CX>80</CX>
+			<CY>105</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<BackgroundTextureTint>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</BackgroundTextureTint>
+		<Pieces>OW_OQP_MinionScreenImage</Pieces>
+		<Pieces>OW_OQP_MinionNameBtn</Pieces>
+		<Pieces>Screen:OW_OQP_ActiveIconBackground</Pieces>
+		<Pieces>OW_OQP_ActiveIcon</Pieces>
+		<Pieces>Screen:OW_OQP_MinionScreenBlackBackground</Pieces>
+	</Screen>
+
+	<TileLayoutBox item="OW_OQP_MinionPictureArea">
+		<ScreenID>OW_OQP_MinionPictureArea</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<SnapToChildren>true</SnapToChildren>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<AutoStretchVertical>false</AutoStretchVertical>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>5</Spacing>
+		<SecondarySpacing>5</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Sizable>false</Style_Sizable>
+		<FirstPieceTemplate>false</FirstPieceTemplate>
+		<Pieces>Screen:OW_OQP_MinionScreenTemplate</Pieces>
+	</TileLayoutBox>
+
+	<Label item="OW_OQP_AvailableAgentsLabel">
+		<ScreenID>OW_OQP_AvailableAgentsLabel</ScreenID>
+		<Location>
+			<X>5</X>
+			<Y>8</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>30</CY>
+		</Size>
+		<Text>Available Agents</Text>
+		<Font>5</Font>
+	</Label>
+	
+	<Screen item="OW_OQP_MinionTileContainer">
+		<ScreenID>OW_OQP_MinionTileContainer</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Style_VScroll>true</Style_VScroll>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>OW_OQP_MinionPictureArea</Pieces>
+	</Screen>
+	
+	<Screen item="OW_OQP_MinionSelectionScreen">
+		<ScreenID>OW_OQP_MinionSelectionScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>150</MinVSize>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Pieces>OW_OQP_AvailableAgentsLabel</Pieces>
+		<Pieces>OW_OQP_RarityFilter</Pieces>
+		<Pieces>OW_OQP_JobFilter</Pieces>
+		<Pieces>OW_OQP_TraitFilter</Pieces>
+		<Pieces>Screen:OW_OQP_MinionTileContainer</Pieces>
+	</Screen>
+
+	<Screen item="OW_OQP_QuestInfoLayout">
+		<ScreenID>OW_OQP_QuestInfoLayout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>460</MinVSize>
+	</Screen>
+
+	<Label item="OW_OQP_RotateLabel">
+		<ScreenID>OW_OQP_RotateLabel</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>40</CY>
+		</Size>
+		<PrependText>Rotate in: </PrependText>
+	</Label>
+	
+	<Label item="OW_OQP_CountLabel">
+		<ScreenID>OW_OQP_CountLabel</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>40</CY>
+		</Size>
+		<PrependText>Max Active Quests: </PrependText>
+		<TooltipReference>This count does not include any active conversion quests</TooltipReference>
+	</Label>
+	
+	<Label item="OW_OQP_RotateTimeHours">
+		<ScreenID>OW_OQP_RotateTimeHours</ScreenID>
+		<Location>
+			<X>75</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>888</Text>
+		<AppendText>h</AppendText>
+	</Label>
+
+	<Label item="OW_OQP_RotateTimeMinutes">
+		<ScreenID>OW_OQP_RotateTimeMinutes</ScreenID>
+		<Location>
+			<X>110</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>88</Text>
+		<AppendText>m</AppendText>
+	</Label>
+
+	<Listbox item="OW_OQP_QuestList">
+		<ScreenID>OW_OQP_QuestList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Columns>
+			<Width>226</Width>
+			<Sortable>false</Sortable>
+		</Columns>
+		<OwnerDraw>false</OwnerDraw>
+	</Listbox>
+
+	<Screen item="OW_OQP_LeftPane">
+		<ScreenID>OW_OQP_LeftPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>226</CX>
+			<CY>700</CY>
+		</Size>
+		<MinVSize>160</MinVSize>
+		<MinHSize>100</MinHSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>OW_OQP_RotateLabel</Pieces>
+		<Pieces>OW_OQP_CountLabel</Pieces>
+		<Pieces>Listbox:OW_OQP_QuestList</Pieces>
+	</Screen>
+
+	<VerticalLayoutBox item="OW_OQP_RightPane">
+		<ScreenID>OW_OQP_RightPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>80</MinVSize>
+		<MinHSize>250</MinHSize>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Spacing>10</Spacing>
+		<Pieces>Screen:OW_OQP_QuestInfoLayout</Pieces>
+		<Pieces>Screen:OW_OQP_MinionSelectionScreen</Pieces>
+	</VerticalLayoutBox>
+
+	<HorizontalLayoutBox item="OW_OQP_Layout">
+		<ScreenID>OW_OQP_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Transparent>false</Style_Transparent>
+		<MinHSize>430</MinHSize>
+		<Spacing>4</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Pieces>Screen:OW_OQP_LeftPane</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OQP_RightPane</Pieces>
+	</HorizontalLayoutBox>
+
+	<!-- END OFFERED QUEST TAB -->
+
+	<!-- START STATS TAB -->
+	<Label item="OW_QSP_CategoriesLabel">
+		<ScreenID>OW_QSP_CategoriesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>13</X>
+			<Y>8</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>40</CY>
+		</Size>
+		<Text>Progress</Text>
+		<Font>5</Font>
+	</Label>
+
+	<Label item="OW_QSP_CategoryName">
+		<ScreenID>OW_QSP_CategoryName</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>14</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Mining</Text>
+	</Label>
+
+	<Label item="OW_QSP_CategoryLevel">
+		<ScreenID>OW_QSP_CategoryLevel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>205</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>30</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Level</Text>
+	</Label>
+
+	<Label item="OW_QSP_CategoryLevelValue">
+		<ScreenID>OW_QSP_CategoryLevelValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>220</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>99</Text>
+	</Label>
+
+	<Gauge item="OW_QSP_CategoryGauge">
+		<ScreenID>OW_QSP_CategoryGauge</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<FillTint>
+			<R>220</R>
+			<G>220</G>
+			<B>0</B>
+		</FillTint>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+			<Lines>A_GaugeLines</Lines>
+			<LinesFill>A_GaugeLinesFill</LinesFill>
+			<EndCapLeft>A_GaugeEndCapLeft</EndCapLeft>
+			<EndCapRight>A_GaugeEndCapRight</EndCapRight>
+		</GaugeDrawTemplate>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>12</X>
+			<Y>23</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>20</CY>
+		</Size>
+	</Gauge>
+
+	<VerticalLayoutBox item="OW_QSP_CategoriesList">
+		<ScreenID>OW_QSP_CategoriesList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<AutoStretchVertical>false</AutoStretchVertical>
+		<AutoStretchHorizontal>false</AutoStretchHorizontal>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Dividers>false</Style_Dividers>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>OW_QSP_CategoriesLabel</Pieces>
+		<Pieces>Screen:OW_QSP_CategoryTemplate</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item="OW_QSP_CategoryTemplate">
+		<ScreenID>OW_QSP_CategoryTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>52</CY>
+		</Size>
+		<Pieces>OW_QSP_CategoryName</Pieces>
+		<Pieces>OW_QSP_CategoryLevel</Pieces>
+		<Pieces>OW_QSP_CategoryLevelValue</Pieces>
+		<Pieces>Gauge:OW_QSP_CategoryGauge</Pieces>
+	</Screen>
+
+	<Label item="OW_QSP_StatsLabel">
+		<ScreenID>OW_QSP_StatsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>40</CY>
+		</Size>
+		<Text>Overall Stats</Text>
+		<Font>5</Font>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsTotalLabel">
+		<ScreenID>OW_QSP_StatsMinionsTotalLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Total Agents:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsTotalValue">
+		<ScreenID>OW_QSP_StatsMinionsTotalValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>36</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsIncapacitatedLabel">
+		<ScreenID>OW_QSP_StatsMinionsIncapacitatedLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>125</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Incapacitated:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsIncapacitatedValue">
+		<ScreenID>OW_QSP_StatsMinionsIncapacitatedValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>125</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>7</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsIdleLabel">
+		<ScreenID>OW_QSP_StatsMinionsIdleLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>75</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Ready:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsIdleValue">
+		<ScreenID>OW_QSP_StatsMinionsIdleValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>75</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>8</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsActiveLabel">
+		<ScreenID>OW_QSP_StatsMinionsActiveLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Questing:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsMinionsActiveValue">
+		<ScreenID>OW_QSP_StatsMinionsActiveValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>21</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsActiveLabel">
+		<ScreenID>OW_QSP_StatsQuestsActiveLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>150</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Active Quests:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsActiveValue">
+		<ScreenID>OW_QSP_StatsQuestsActiveValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>150</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>0/0</Text>
+		<TooltipReference>This count does not include any active conversion quests</TooltipReference>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCompleteLabel">
+		<ScreenID>OW_QSP_StatsQuestsCompleteLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>175</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Quests Completed:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCompleteValue">
+		<ScreenID>OW_QSP_StatsQuestsCompleteValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>175</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>191</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCriticalSuccessLabel">
+		<ScreenID>OW_QSP_StatsQuestsCriticalSuccessLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>200</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Critical Success:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCriticalSuccessValue">
+		<ScreenID>OW_QSP_StatsQuestsCriticalSuccessValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>200</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>20</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsSuccessLabel">
+		<ScreenID>OW_QSP_StatsQuestsSuccessLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>225</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Success:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsSuccessValue">
+		<ScreenID>OW_QSP_StatsQuestsSuccessValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>225</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>111</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsFailureLabel">
+		<ScreenID>OW_QSP_StatsQuestsFailureLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>250</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Failure:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsFailureValue">
+		<ScreenID>OW_QSP_StatsQuestsFailureValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>250</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>52</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCriticalFailureLabel">
+		<ScreenID>OW_QSP_StatsQuestsCriticalFailureLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Critical Failure:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsCriticalFailureValue">
+		<ScreenID>OW_QSP_StatsQuestsCriticalFailureValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>275</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>8</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsAbandonedLabel">
+		<ScreenID>OW_QSP_StatsQuestsAbandonedLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>300</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Quests Abandoned:</Text>
+	</Label>
+
+	<Label item="OW_QSP_StatsQuestsAbandonedValue">
+		<ScreenID>OW_QSP_StatsQuestsAbandonedValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>180</X>
+			<Y>300</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>20</CY>
+		</Size>
+		<AlignRight>true</AlignRight>
+		<Text>10</Text>
+	</Label>
+
+	<Screen item="OW_QSP_StatsList">
+		<ScreenID>OW_QSP_StatsList</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>OW_QSP_StatsLabel</Pieces>
+		<Pieces>OW_QSP_StatsMinionsTotalLabel</Pieces>
+		<Pieces>OW_QSP_StatsMinionsTotalValue</Pieces>
+		<Pieces>OW_QSP_StatsMinionsIncapacitatedLabel</Pieces>
+		<Pieces>OW_QSP_StatsMinionsIncapacitatedValue</Pieces>
+		<Pieces>OW_QSP_StatsMinionsIdleLabel</Pieces>
+		<Pieces>OW_QSP_StatsMinionsIdleValue</Pieces>
+		<Pieces>OW_QSP_StatsMinionsActiveLabel</Pieces>
+		<Pieces>OW_QSP_StatsMinionsActiveValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsActiveLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsActiveValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCompleteLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCompleteValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCriticalSuccessLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCriticalSuccessValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsSuccessLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsSuccessValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsFailureLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsFailureValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCriticalFailureLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsCriticalFailureValue</Pieces>
+		<Pieces>OW_QSP_StatsQuestsAbandonedLabel</Pieces>
+		<Pieces>OW_QSP_StatsQuestsAbandonedValue</Pieces>
+	</Screen>
+
+	<Screen item="OW_QSP_LeftPane">
+		<ScreenID>OW_QSP_LeftPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>300</CX>
+			<CY>700</CY>
+		</Size>
+		<MinHSize>170</MinHSize>
+		<MinVSize>350</MinVSize>
+		<MaxHSize>277</MaxHSize>
+		<MaxVSize>1080</MaxVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Pieces>OW_QSP_CategoriesList</Pieces>
+	</Screen>
+
+	<HorizontalLayoutBox item="OW_QSP_Layout">
+		<ScreenID>OW_QSP_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Transparent>false</Style_Transparent>
+		<Spacing>4</Spacing>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Pieces>Screen:OW_QSP_LeftPane</Pieces>
+		<Pieces>Screen:OW_QSP_StatsList</Pieces>
+	</HorizontalLayoutBox>
+
+	<!-- END STATS TAB -->
+
+	<!-- START OWNED MINION TAB -->
+	
+	<VerticalLayoutBox item="OW_OM_Layout">
+		<ScreenID>OW_OM_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<AutoStretchVertical>false</AutoStretchVertical>
+		<AutoStretchHorizontal>false</AutoStretchHorizontal>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_Dividers>false</Style_Dividers>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<ResizeLast>false</ResizeLast>
+		<ResizeVertical>false</ResizeVertical>
+		<Pieces>Screen:OW_OM_TopPane</Pieces>
+		<Pieces>OW_OM_Bottom</Pieces>
+	</VerticalLayoutBox>
+	
+	<Screen item="OW_OM_TopPane">
+		<ScreenID>OW_OM_TopPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>300</CX>
+			<CY>63</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Pieces>OW_OM_TopPaneFilters</Pieces>
+		<Pieces>OW_OM_SecondTopPaneFilters</Pieces>
+		<Pieces>OW_OM_ConvertRarityLabel</Pieces>
+		<Pieces>OW_OM_ConvertRarityCombobox</Pieces>
+		<Pieces>OW_OM_QtyRemainingLabel</Pieces>
+		<Pieces>OW_OM_QtyRemainingBox</Pieces>
+		<Pieces>OW_OM_MassConversionButton</Pieces>
+		<Pieces>OW_OM_RetireButton</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_TopPane -->
+	<HorizontalLayoutBox item="OW_OM_TopPaneFilters">
+		<ScreenID>OW_OM_TopPaneFilters</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Spacing>6</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>32</BottomAnchorOffset>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<RightAnchorOffset>129</RightAnchorOffset>
+		<ResizeLast>false</ResizeLast>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>OW_OM_RarityFilter</Pieces>
+		<Pieces>OW_OM_JobFilter</Pieces>
+	</HorizontalLayoutBox>
+
+	<Combobox item="OW_OM_RarityFilter">
+		<ScreenID>OW_OM_RarityFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>100</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+		<Choices>All Rarities</Choices>
+		<Choices>Common</Choices>
+		<Choices>Uncommon</Choices>
+		<Choices>Rare</Choices>
+		<Choices>Elite</Choices>
+	</Combobox>
+
+	<Combobox item="OW_OM_JobFilter">
+		<ScreenID>OW_OM_JobFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>130</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+	</Combobox>
+	<!-- START children of OW_OM_SecondTopPane -->
+	<HorizontalLayoutBox item="OW_OM_SecondTopPaneFilters">
+		<ScreenID>OW_OM_SecondTopPaneFilters</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Spacing>6</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<RightAnchorOffset>129</RightAnchorOffset>
+		<ResizeLast>false</ResizeLast>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>OW_OM_TraitFilter</Pieces>
+		<Pieces>OW_OM_StatusFilter</Pieces>
+	</HorizontalLayoutBox>
+	<Combobox item="OW_OM_TraitFilter">
+		<ScreenID>OW_OM_TraitFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>200</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+	</Combobox>
+
+	<Combobox item="OW_OM_StatusFilter">
+		<ScreenID>OW_OM_StatusFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>100</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<AutoStretchList>true</AutoStretchList>
+		<Choices>All Statuses</Choices>
+		<Choices>Ready</Choices>
+		<Choices>Questing</Choices>
+		<Choices>Incapacitated</Choices>
+	</Combobox>
+	<Button item="OW_OM_RetireButton">
+		<ScreenID>OW_OM_RetireButton</ScreenID>
+		<Text>Retire</Text>
+		<TooltipReference>Retire the selected agent</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>43</BottomAnchorOffset>
+		<LeftAnchorOffset>372</LeftAnchorOffset>
+		<RightAnchorOffset>322</RightAnchorOffset>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item="OW_OM_ConvertRarityLabel">
+		<ScreenID>OW_OM_ConvertRarityLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>7</TopAnchorOffset>
+		<BottomAnchorOffset>39</BottomAnchorOffset>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<RightAnchorOffset>123</RightAnchorOffset>
+		<Text>Rarity to Convert:</Text>
+		<Font>3</Font>
+	</Label>	
+	<Combobox item="OW_OM_ConvertRarityCombobox">
+		<ScreenID>OW_OM_ConvertRarityCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>31</BottomAnchorOffset>
+		<LeftAnchorOffset>195</LeftAnchorOffset>
+		<RightAnchorOffset>110</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ListHeight>91</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>Common</Choices>
+		<Choices>Uncommon</Choices>
+		<Choices>Rare</Choices>
+	</Combobox>	
+	<Label item="OW_OM_QtyRemainingLabel">
+		<ScreenID>OW_OM_QtyRemainingLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>35</TopAnchorOffset>
+		<BottomAnchorOffset>58</BottomAnchorOffset>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<RightAnchorOffset>126</RightAnchorOffset>
+		<Text>Quantity to Keep:</Text>
+		<Font>3</Font>
+	</Label>
+	<Editbox item = "OW_OM_QtyRemainingBox">
+		<ScreenID>OW_OM_QtyRemainingBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>Enter the number of duplicate agents you wish to keep (minimum 1).</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>31</TopAnchorOffset>
+		<BottomAnchorOffset>54</BottomAnchorOffset>
+		<LeftAnchorOffset>195</LeftAnchorOffset>
+		<RightAnchorOffset>110</RightAnchorOffset>
+	</Editbox>
+	<Button item = "OW_OM_MassConversionButton">
+		<ScreenID>OW_OM_MassConversionButton</ScreenID>
+		<Text>Mass Convert Agents</Text>
+		<TooltipReference>Converts many duplicate agents of a specific rarity at once. You must specify the number of duplicate agents you wish to keep at the end of the mass conversion (with a minimum of 1).</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>54</BottomAnchorOffset>
+		<LeftAnchorOffset>105</LeftAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<!-- END children of OW_OM_TopPane -->
+
+	<HorizontalLayoutBox item="OW_OM_Bottom">
+		<ScreenID>OW_OM_Bottom</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Transparent>false</Style_Transparent>
+		<Spacing>4</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_AutoVScroll>false</Style_AutoVScroll>
+		<Pieces>Screen:OW_OM_BottomLeftPane</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OM_BottomRightPane</Pieces>
+	</HorizontalLayoutBox>
+	
+	<Screen item="OW_OM_BottomLeftPane">
+		<ScreenID>OW_OM_BottomLeftPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>170</CX>
+			<CY>700</CY>
+		</Size>
+		<MinHSize>170</MinHSize>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>Listbox:OW_OM_MinionList</Pieces>
+	</Screen>
+
+	<Listbox item="OW_OM_MinionList">
+		<ScreenID>OW_OM_MinionList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>170</Width>
+		</Columns>
+		<ShowHeader>false</ShowHeader>
+		<OwnerDraw>false</OwnerDraw>
+	</Listbox>
+
+	<VerticalLayoutBox item="OW_OM_BottomRightPane">
+		<ScreenID>OW_OM_BottomRightPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinHSize>415</MinHSize>
+		<MinVSize>350</MinVSize>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_AutoVScroll>false</Style_AutoVScroll>
+		<Spacing>10</Spacing>
+		<Pieces>Screen:OW_OM_MinionInfoLayout</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item="OW_OM_MinionInfoLayout">
+		<ScreenID>OW_OM_MinionInfoLayout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinHSize>410</MinHSize>
+		<MinVSize>365</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_AutoVScroll>false</Style_AutoVScroll>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Pieces>OW_OM_MinionEntry</Pieces>
+		<Pieces>Screen:OW_OM_InfoPane</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionInfoLayout-->
+	<Button item="OW_OM_MinionEntry">
+		<ScreenID>OW_OM_MinionEntry</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Template>OW_ALL_ColorBtn</Template>
+		<Style_Sizable>false</Style_Sizable>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Button>
+
+	<Screen item="OW_OM_InfoPane">
+		<ScreenID>OW_OM_InfoPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<MinHSize>405</MinHSize>
+		<MinVSize>390</MinVSize>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>Screen:OW_ALL_ScreenHideData</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OM_MinionInfo</Pieces>
+	</Screen>
+
+	<VerticalLayoutBox item="OW_OM_MinionInfo">
+		<ScreenID>OW_OM_MinionInfo</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeLast>false</ResizeLast>
+		<Spacing>10</Spacing>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>OW_OM_MinionName</Pieces>
+		<Pieces>Screen:OW_OM_MinionIconStatus</Pieces>
+		<Pieces>OW_OM_MinionRarityIconic</Pieces>
+		<Pieces>OW_OM_MinionDescription</Pieces>
+		<Pieces>OW_OM_MinionJobSection</Pieces>
+		<Pieces>Screen:OW_OM_MinionJobScreen</Pieces>
+		<Pieces>OW_OM_MinionTraitSection</Pieces>
+		<Pieces>Screen:OW_OM_MinionTraits</Pieces>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+	</VerticalLayoutBox>
+
+	<Label item="OW_OM_MinionName">
+		<ScreenID>OW_OM_MinionName</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>8</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>You currently do not have any agents!</Text>
+		<Font>5</Font>
+		<TextColor>
+			<R>153</R>
+			<G>102</G>
+			<B>204</B>
+		</TextColor>
+	</Label>
+
+	<Screen item="OW_OM_MinionIconStatus">
+		<ScreenID>OW_OM_MinionIconStatus</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>35</TopAnchorOffset>
+		<BottomAnchorOffset>390</BottomAnchorOffset>
+		<LeftAnchorOffset>75</LeftAnchorOffset>
+		<RightAnchorOffset>403</RightAnchorOffset>
+		<Size>
+			<CX>326</CX>
+			<CY>355</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>OW_OM_MinionIcon</Pieces>
+		<Pieces>OW_OM_MinionRecoverButton</Pieces>
+		<Pieces>OW_OM_MinionStatus</Pieces>
+		<Pieces>OW_OM_MinionStatusIcon</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionIconStatus-->
+	<Button item="OW_OM_MinionIcon">
+		<ScreenID>OW_OM_MinionIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Template>OW_ALL_ColorBtn</Template>
+		<Size>
+			<CX>326</CX>
+			<CY>326</CY>
+		</Size>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>512</CX>
+			<CY>514</CY>
+		</DecalSize>
+	</Button>
+
+	<Button item="OW_OM_MinionRecoverButton">
+		<ScreenID>OW_OM_MinionRecoverButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Text>Recover</Text>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>23</TopAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+		<DecalOffset>
+			<X>55</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>5</TextOffsetX>
+		<Template>BDT_ButtonStation</Template>
+	</Button>
+
+	<Label item="OW_OM_MinionStatus">
+		<ScreenID>OW_OM_MinionStatus</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>24</LeftAnchorOffset>
+		<RightAnchorOffset>180</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+
+	<Button item="OW_OM_MinionStatusIcon">
+		<ScreenID>OW_OM_MinionStatusIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_InnerWhite</DrawTemplate>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorOffset>20</RightAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<Style_Border>true</Style_Border>
+	</Button>
+	<!-- END children of OW_OM_MinionIconStatus-->
+
+	<Label item="OW_OM_MinionRarityIconic">
+		<ScreenID>OW_OM_MinionRarityIconic</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>30</CX>
+			<CY>20</CY>
+		</Size>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Font>5</Font>
+		<Text>Elite</Text>
+	</Label>
+
+	<Label item="OW_OM_MinionDescription">
+		<ScreenID>OW_OM_MinionDescription</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>30</CX>
+			<CY>40</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorOffset>100</BottomAnchorOffset>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Font>3</Font>
+	</Label>
+
+	<Label item="OW_OM_MinionJobSection">
+		<ScreenID>OW_OM_MinionJobSection</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+			<CX>30</CX>
+			<CY>20</CY>
+		</Size>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>8</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Text>Jobs</Text>
+		<Font>5</Font>
+	</Label>
+
+	<Screen item="OW_OM_MinionJobScreen">
+		<ScreenID>OW_OM_MinionJobScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+		   <CX>300</CX>
+		   <CY>100</CY>
+		</Size>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>HorizontalLayoutBox:OW_OM_MinionJobLayout</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionJobScreen-->
+	<HorizontalLayoutBox item="OW_OM_MinionJobLayout">
+		<ScreenID>OW_OM_MinionJobLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorOffset>20</LeftAnchorOffset>
+		<RightAnchorOffset>550</RightAnchorOffset>
+		<Spacing>30</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>Screen:OW_OM_MinionJobTemplate</Pieces>
+	</HorizontalLayoutBox>
+
+	<Screen item="OW_OM_MinionJobTemplate">
+		<ScreenID>OW_OM_MinionJobTemplate</ScreenID>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>103</CX>
+			<CY>102</CY>
+		</Size>
+		<Pieces>OW_OM_MinionJobImage</Pieces>
+		<Pieces>OW_OM_MinionJob</Pieces>
+	</Screen>
+
+	<Button item="OW_OM_MinionJobImage">
+		<ScreenID>OW_OM_MinionJobImage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Template>DefaultImageOW</Template>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>153</CX>
+			<CY>151</CY>
+		</Size>
+	</Button>
+
+	<Label item="OW_OM_MinionJob">
+		<ScreenID>OW_OM_MinionJob</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Location>
+			<X>5</X>
+			<Y>77</Y>
+		</Location>
+		<Size>
+			<CX>20</CX>
+			<CY>151</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<AlignCenter>true</AlignCenter>
+	</Label>
+	<!-- END children of OW_OM_MinionJobScreen-->
+
+	<Label item="OW_OM_MinionTraitSection">
+		<ScreenID>OW_OM_MinionTraitSection</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+			<CX>30</CX>
+			<CY>20</CY>
+		</Size>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Text>Traits</Text>
+		<Font>5</Font>
+	</Label>
+
+	<Screen item="OW_OM_MinionTraits">
+		<ScreenID>OW_OM_MinionTraits</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>300</CX>
+			<CY>150</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>10</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>HorizontalLayoutBox:OW_OM_MinionTraitLayout</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionTraits-->
+	<HorizontalLayoutBox item="OW_OM_MinionTraitLayout">
+		<ScreenID>OW_OM_MinionTraitLayout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Spacing>10</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>Screen:OW_OM_MinionClassRaceScreen</Pieces>
+		<Pieces>Screen:OW_OM_MinionBodyScreen</Pieces>
+		<Pieces>Screen:OW_OM_MinionPersonalityScreen</Pieces>
+	</HorizontalLayoutBox>
+
+	<Screen item="OW_OM_MinionClassRaceScreen">
+		<ScreenID>OW_OM_MinionClassRaceScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+		   <CX>140</CX>
+		   <CY>200</CY>
+		</Size>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>OW_OM_MinionClassRaceLabel</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OM_MinionClassRaceLayout</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionClassRaceScreen-->
+	<Label item="OW_OM_MinionClassRaceLabel">
+		<ScreenID>OW_OM_MinionClassRaceLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>50</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>Race/Class</Text>
+		<TextColor>
+			<R>251</R>
+			<G>240</G>
+			<B>92</B>
+		</TextColor>
+	</Label>
+
+	<VerticalLayoutBox item="OW_OM_MinionClassRaceLayout">
+		<ScreenID>OW_OM_MinionClassRaceLayout</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Spacing>0</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>Screen:OW_OM_MinionRaceClassTemplate</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item="OW_OM_MinionRaceClassTemplate">
+		<ScreenID>OW_OM_MinionRaceClassTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>140</CX>
+			<CY>20</CY>
+		</Size>
+		<Pieces>OW_OM_MinionTraitImage</Pieces>
+		<Pieces>OW_OM_MinionRaceClass</Pieces>
+	</Screen>
+
+	<Label item="OW_OM_MinionRaceClass">
+		<ScreenID>OW_OM_MinionRaceClass</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>30</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>32</LeftAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+	<!-- END children of OW_OM_MinionClassRaceScreen-->
+
+	<Screen item="OW_OM_MinionBodyScreen">
+		<ScreenID>OW_OM_MinionBodyScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+		   <CX>140</CX>
+		   <CY>200</CY>
+		</Size>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>OW_OM_MinionTraitLabel</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OM_MinionBodyLayout</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionBodyScreen-->
+	<Label item="OW_OM_MinionTraitLabel">
+		<ScreenID>OW_OM_MinionTraitLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>50</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>Physical</Text>
+		<TextColor>
+			<R>251</R>
+			<G>240</G>
+			<B>92</B>
+		</TextColor>
+	</Label>
+
+	<VerticalLayoutBox item="OW_OM_MinionBodyLayout">
+		<ScreenID>OW_OM_MinionBodyLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Spacing>0</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>Screen:OW_OM_MinionBodyTemplate</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item="OW_OM_MinionBodyTemplate">
+		<ScreenID>OW_OM_MinionBodyTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>140</CX>
+			<CY>20</CY>
+		</Size>
+		<Pieces>OW_OM_MinionTraitImage</Pieces>
+		<Pieces>OW_OM_MinionBody</Pieces>
+	</Screen>
+
+	<Label item="OW_OM_MinionBody">
+		<ScreenID>OW_OM_MinionBody</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>50</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>32</LeftAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+	<!-- END children of OW_OM_MinionBodyScreen-->
+
+	<Screen item="OW_OM_MinionPersonalityScreen">
+		<ScreenID>OW_OM_MinionPersonalityScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<Size>
+		   <CX>140</CX>
+		   <CY>200</CY>
+		</Size>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Pieces>OW_OM_MinionPersonalityLabel</Pieces>
+		<Pieces>VerticalLayoutBox:OW_OM_MinionPersonalityLayout</Pieces>
+	</Screen>
+
+	<!-- START children of OW_OM_MinionPersonalityScreen-->
+	<Label item="OW_OM_MinionPersonalityLabel">
+		<ScreenID>OW_OM_MinionPersonalityLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<Text>Personality</Text>
+		<TextColor>
+			<R>251</R>
+			<G>240</G>
+			<B>92</B>
+		</TextColor>
+	</Label>
+
+	<VerticalLayoutBox item="OW_OM_MinionPersonalityLayout">
+		<ScreenID>OW_OM_MinionPersonalityLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Spacing>0</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>Screen:OW_OM_MinionPersonalityTemplate</Pieces>
+	</VerticalLayoutBox>
+
+	<Screen item="OW_OM_MinionPersonalityTemplate">
+		<ScreenID>OW_OM_MinionPersonalityTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>140</CX>
+			<CY>20</CY>
+		</Size>
+		<Pieces>OW_OM_MinionTraitImage</Pieces>
+		<Pieces>OW_OM_MinionPersonality</Pieces>
+	</Screen>
+
+	<Label item="OW_OM_MinionPersonality">
+		<ScreenID>OW_OM_MinionPersonality</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>false</AutoStretch>
+		<AutoStretchHorizontal>true</AutoStretchHorizontal>
+		<Size>
+			<CX>50</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>32</LeftAnchorOffset>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+	<!-- END children of OW_OM_MinionPersonalityScreen-->
+
+	<Button item="OW_OM_MinionTraitImage">
+		<ScreenID>OW_OM_MinionTraitImage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>8</LeftAnchorOffset>
+		<RightAnchorOffset>28</RightAnchorOffset>
+		<Template>DefaultImageOW</Template>
+	</Button>
+	<!-- END children of OW_OM_MinionTraits-->
+	<!-- END children of OW_OM_MinionInfoLayout-->
+
+	<!-- END OWNED MINION TAB -->
+
+	<!-- START ACTIVE QUEST TAB -->
+
+	<Screen item="OW_AQP_QuestInfoLayout">
+		<ScreenID>OW_AQP_QuestInfoLayout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>450</MinVSize>
+	</Screen>
+
+	<Label item="OW_AQP_CompletedLabel">
+		<ScreenID>OW_AQP_CompletedLabel</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>40</CY>
+		</Size>
+		<PrependText>Max Completed Quests: </PrependText>
+	</Label>
+
+	<Label item="OW_AQP_CountLabel">
+		<ScreenID>OW_AQP_CountLabel</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>40</CY>
+		</Size>
+		<PrependText>Max Active Quests: </PrependText>
+		<TooltipReference>This count does not include any active conversion quests</TooltipReference>
+	</Label>
+
+	<Listbox item="OW_AQP_QuestList">
+		<ScreenID>OW_AQP_QuestList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Columns>
+			<Width>226</Width>
+			<Sortable>false</Sortable>
+		</Columns>
+		<Spacing>4</Spacing>
+		<OwnerDraw>false</OwnerDraw>
+	</Listbox>
+
+	<Screen item = "OW_AQP_LeftPane">
+		<ScreenID>OW_AQP_LeftPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>226</CX>
+			<CY>700</CY>
+		</Size>
+		<MinVSize>160</MinVSize>
+		<MinHSize>100</MinHSize>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>OW_AQP_CompletedLabel</Pieces>
+		<Pieces>OW_AQP_CountLabel</Pieces>
+		<Pieces>Listbox:OW_AQP_QuestList</Pieces>
+		<TooltipReference>These counts do not include any active/completed conversion quests</TooltipReference>
+	</Screen>
+
+	<VerticalLayoutBox item="OW_AQP_RightPane">
+		<ScreenID>OW_AQP_RightPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<MinVSize>80</MinVSize>
+		<MinHSize>250</MinHSize>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Spacing>10</Spacing>
+		<Pieces>Screen:OW_AQP_QuestInfoLayout</Pieces>
+	</VerticalLayoutBox>
+
+	<HorizontalLayoutBox item="OW_AQP_Layout">
+		<ScreenID>OW_AQP_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Transparent>false</Style_Transparent>
+		<MinHSize>430</MinHSize>
+		<Spacing>4</Spacing>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Pieces>Screen:OW_AQP_LeftPane</Pieces>
+		<Pieces>VerticalLayoutBox:OW_AQP_RightPane</Pieces>
+	</HorizontalLayoutBox>
+
+	<!-- END ACTIVE QUEST TAB -->
+
+	<Page item="OW_OverseerQuestsPage">
+		<ScreenID>OW_OverseerQuestsPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Quests</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>HorizontalLayoutBox:OW_OQP_Layout</Pieces>
+	</Page>
+
+	<Page item="OW_OverseerMinionsPage">
+		<ScreenID>OW_OverseerMinionsPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Agents</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>VerticalLayoutBox:OW_OM_Layout</Pieces>
+	</Page>
+
+	<Page item="OW_OverseerActiveQuestsPage">
+		<ScreenID>OW_OverseerActiveQuestsPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Active Quests</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>HorizontalLayoutBox:OW_AQP_Layout</Pieces>
+	</Page>
+
+	<Page item="OW_OverseerStatsPage">
+		<ScreenID>OW_OverseerStatsPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Stats</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>HorizontalLayoutBox:OW_QSP_Layout</Pieces>
+	</Page>
+
+	<TabBox item="OW_Subwindows">
+		<ScreenID>OW_Subwindows</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>Page:OW_OverseerQuestsPage</Pages>
+		<Pages>Page:OW_OverseerMinionsPage</Pages>
+		<Pages>Page:OW_OverseerActiveQuestsPage</Pages>
+		<Pages>Page:OW_OverseerStatsPage</Pages>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+	</TabBox>
+
+	<Screen item="OverseerWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>750</CX>
+			<CY>925</CY>
+		</Size>
+		<Text>Overseer</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>OverseerWnd</TooltipReference>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<MinVSize>670</MinVSize>
+		<MinHSize>615</MinHSize>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<DisabledColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</DisabledColor>
+		<Pieces>OW_Subwindows</Pieces>
+		<Pieces>OW_BtnQuestTemplate</Pieces>
+		<Pieces>Screen:OW_ALL_QuestTemplate</Pieces>
+	</Screen>
+</XML>

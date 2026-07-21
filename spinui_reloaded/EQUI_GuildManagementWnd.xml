@@ -1,0 +1,1951 @@
+<?xml version="1.0" encoding="us-ascii" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Label item="GT_GuildNameLabel">
+		<ScreenID>GuildName</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Guildname of the Guildname</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Button item="GT_DumpButton">
+		<ScreenID>DumpButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Dump your guild info to a file.</TooltipReference>
+		<Text>Export Data</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Listbox item="GT_MemberList">
+		<ScreenID>MemberList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>List of Guild members.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>45</Width>
+			<Heading>Lvl</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Class</Heading>
+		</Columns>
+		<Columns>
+			<Width>45</Width>
+			<Heading>Rank</Heading>
+		</Columns>
+		<Columns>
+			<Width>15</Width>
+			<Heading>Alt</Heading>
+		</Columns>
+		<Columns>
+			<Width>80</Width>
+			<Heading>Last On</Heading>
+		</Columns>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>120</Width>
+			<Heading>Public Note</Heading>
+		</Columns>
+		<Columns>
+			<Width>15</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>10</Width>
+			<Heading></Heading>
+		</Columns>
+	</Listbox>
+	<Button item="GT_MakeLeaderButton">
+		<ScreenID>MakeLeaderButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>104</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Make the selected Player the new Guild Leader (Guild Leader only).</TooltipReference>
+		<Text>Make Leader</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_PromoteButton">
+		<ScreenID>PromoteButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>106</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>188</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Promote the selected player.</TooltipReference>
+		<Text>Promote</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_DemoteButton">
+		<ScreenID>DemoteButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>190</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>272</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Demote the selected player.</TooltipReference>
+		<Text>Demote</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_RemoveButton">
+		<ScreenID>RemoveButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>274</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>356</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Remove the player from the guild.</TooltipReference>
+		<Text>Remove</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_InviteButton">
+		<ScreenID>InviteButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>358</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>442</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Invite player(s) based on invite drop down selection choice.</TooltipReference>
+		<Text>Invite</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Combobox item="GT_InviteCombobox">
+		<ScreenID>InviteCombobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<TooltipReference>Select the functionality for the 'INVITE' button.</TooltipReference>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>444</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>562</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Size>
+			<CX>110</CX>
+			<CY>25</CY>
+		</Size>
+		<ListHeight>119</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>Invite to Guild</Choices>
+		<Choices>Invite to Raid</Choices>
+		<Choices>Invite to DZ</Choices>
+		<Choices>Invite to Task</Choices>
+		<Choices>Invite All to Raid</Choices>
+		<Choices>Invite All DZ</Choices>
+		<Choices>Invite All to Task</Choices>
+	</Combobox>
+	<Button item="GT_AltFlagButton">
+		<ScreenID>AltFlagButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>564</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>580</RightAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_AltFlagLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>583</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>615</RightAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Alt</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Page item="GT_MemberPage">
+		<ScreenID>MemberPage</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Roster</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Pieces>GT_MemberList</Pieces>
+		<Pieces>GT_MakeLeaderButton</Pieces>
+		<Pieces>GT_PromoteButton</Pieces>
+		<Pieces>GT_DemoteButton</Pieces>
+		<Pieces>GT_RemoveButton</Pieces>
+		<Pieces>GT_InviteButton</Pieces>
+		<Pieces>GT_InviteCombobox</Pieces>
+		<Pieces>GT_AltFlagButton</Pieces>
+		<Pieces>GT_AltFlagLabel</Pieces>
+		<Style_Sizable>true</Style_Sizable>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>578</CX>
+			<CY>302</CY>
+		</Size>
+	</Page>
+	<Listbox item="GT_NoteList">
+		<ScreenID>NoteList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>List of Guild members.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>46</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>240</Width>
+			<Heading>Public Note</Heading>
+		</Columns>
+		<Columns>
+			<Width>200</Width>
+			<Heading>Personal Note</Heading>
+		</Columns>
+	</Listbox>
+	<Label item="GT_PublicLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>42</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>28</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Public Note:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="GT_PublicInput">
+		<ScreenID>PublicInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>This note is viewable by the entire guild.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>44</TopAnchorOffset>
+		<RightAnchorOffset>68</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Editbox>
+	<Button item="GT_UpdatePublicButton">
+		<ScreenID>UpdatePublicButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>64</LeftAnchorOffset>
+		<TopAnchorOffset>44</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Change the public note to the text input.</TooltipReference>
+		<Text>Update</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item="GT_PersonalLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Personal Note:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="GT_PersonalInput">
+		<ScreenID>PersonalInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>This note is viewable only by you.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>68</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Editbox>
+	<Button item="GT_UpdatePersonalButton">
+		<ScreenID>UpdatePersonalButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>64</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Change the personal note to the text input.</TooltipReference>
+		<Text>Update</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Page item="GT_NotePage">
+		<ScreenID>NotePage</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Notes</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Pieces>GT_NoteList</Pieces>
+		<Pieces>GT_PublicLabel</Pieces>
+		<Pieces>GT_PublicInput</Pieces>
+		<Pieces>GT_UpdatePublicButton</Pieces>
+		<Pieces>GT_PersonalLabel</Pieces>
+		<Pieces>GT_PersonalInput</Pieces>
+		<Pieces>GT_UpdatePersonalButton</Pieces>
+		<Style_Sizable>true</Style_Sizable>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>578</CX>
+			<CY>302</CY>
+		</Size>
+	</Page>
+	<Listbox item="GT_TributeList">
+		<ScreenID>TributeList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>List of Guild members.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Tribute Status</Heading>
+		</Columns>
+		<Columns>
+			<Width>140</Width>
+			<Heading>Trophy Tribute Status</Heading>
+		</Columns>	
+		<Columns>
+			<Width>85</Width>
+			<Heading>Donations</Heading>
+		</Columns>
+		<Columns>
+			<Width>130</Width>
+			<Heading>Last Donation</Heading>
+		</Columns>
+	</Listbox>
+	<Button item="GT_TributeOptOutButton">
+		<ScreenID>TributeOptOutButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>104</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Tribute Opt Out</Text>
+		<TooltipReference>Press this button to opt out of Guild Tribute benefits.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_TrophyTributeOptOutButton">
+		<ScreenID>TrophyTributeOptOutButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>106</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>254</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Trophy Tribute Opt Out</Text>
+		<TooltipReference>Press this button to opt out of Guild Trophy Tribute benefits.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item="GT_TributePoolLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>74</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Tribute Points:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+	</Label>
+	<Label item="GT_TributePool">
+		<ScreenID>TributePool</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<EQType>122</EQType>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Page item="GT_TributePage">
+		<ScreenID>TributePage</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Tribute</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Pieces>GT_TributeList</Pieces>
+		<Pieces>GT_TributeOptOutButton</Pieces>
+		<Pieces>GT_TrophyTributeOptOutButton</Pieces>
+		<Pieces>GT_TributePoolLabel</Pieces>
+		<Pieces>GT_TributePool</Pieces>
+		<Style_Sizable>true</Style_Sizable>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>578</CX>
+			<CY>302</CY>
+		</Size>
+	</Page>
+	<Label item="GT_MOTDLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>MOTD:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item="GT_MOTDAuthorLabel">
+		<ScreenID>MOTDAuthorLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>46</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text />
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="GT_MOTDInput">
+		<ScreenID>MOTDInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>This is your Guild's Message of the Day.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>68</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Multiline>true</Style_Multiline>
+	</Editbox>
+	<Button item="GT_UpdateMOTDButton">
+		<ScreenID>UpdateMOTDButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>108</LeftAnchorOffset>
+		<TopAnchorOffset>66</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>46</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Update the MOTD for your guild.</TooltipReference>
+		<Text>Update MOTD</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<STMLbox item="GT_MOTDViewer">
+		<ScreenID>MOTDViewer</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>true</Style_VScroll>
+		<TooltipReference>This is your Guild's Message of the Day.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>68</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</STMLbox>
+	<Label item="GT_ChannelLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Guild Channel:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="GT_ChannelInput">
+		<ScreenID>ChannelInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_VScroll>false</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>This is your Guild's chat channel (as defined by Guild Leader).</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>44</TopAnchorOffset>
+		<RightAnchorOffset>108</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Multiline>false</Style_Multiline>
+	</Editbox>
+	<Button item="GT_UpdateChannel">
+		<ScreenID>UpdateChannel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>106</LeftAnchorOffset>
+		<TopAnchorOffset>44</TopAnchorOffset>
+		<RightAnchorOffset>58</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Update the Chat Channel for your guild (Leader only).</TooltipReference>
+		<Text>Update</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_JoinChannel">
+		<ScreenID>JoinChannel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>56</LeftAnchorOffset>
+		<TopAnchorOffset>44</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Join the guild's chat channel.</TooltipReference>
+		<Text>Join</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item="GT_URLLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>90</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Guild URL:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="GT_URLInput">
+		<ScreenID>URLInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_VScroll>false</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>This is your Guild's web site (as defined by Guild Leader).</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>98</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>108</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Multiline>false</Style_Multiline>
+	</Editbox>
+	<Button item="GT_UpdateURL">
+		<ScreenID>UpdateURL</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>106</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>58</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Update the web URL for your guild (Leader only).</TooltipReference>
+		<Text>Update</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_GotoURL">
+		<ScreenID>GotoURL</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>56</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Open a browser to the guild's web site URL.</TooltipReference>
+		<Text>View</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Page item="GT_ProfilePage">
+		<ScreenID>ProfilePage</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Information</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Pieces>GT_MOTDLabel</Pieces>
+		<Pieces>GT_MOTDInput</Pieces>
+		<Pieces>GT_UpdateMOTDButton</Pieces>
+		<Pieces>GT_MOTDViewer</Pieces>
+		<Pieces>GT_MOTDAuthorLabel</Pieces>
+		<Pieces>GT_ChannelLabel</Pieces>
+		<Pieces>GT_ChannelInput</Pieces>
+		<Pieces>GT_UpdateChannel</Pieces>
+		<Pieces>GT_JoinChannel</Pieces>
+		<Pieces>GT_URLLabel</Pieces>
+		<Pieces>GT_URLInput</Pieces>
+		<Pieces>GT_UpdateURL</Pieces>
+		<Pieces>GT_GotoURL</Pieces>
+		<Style_Sizable>true</Style_Sizable>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>578</CX>
+			<CY>302</CY>
+		</Size>
+	</Page>
+	<Listbox item="GT_BannerKitList">
+		<ScreenID>BannerKitList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>Banner selection.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>158</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>0</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>400</Width>
+			<Heading>**Banner item**</Heading>
+		</Columns>
+	</Listbox>
+	<Button item="GT_RefreshBannerListButton">
+		<ScreenID>RefreshBannerListButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>382</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<TopAnchorToBottom>false</TopAnchorToBottom>
+		<BottomAnchorToBottom>false</BottomAnchorToBottom>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Refresh banner list box</TooltipReference>
+		<Text>Refresh List</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Combobox item="GT_BannerFilter">
+		<ScreenID>BannerFilter</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<LeftAnchorOffset>440</LeftAnchorOffset>
+		<TopAnchorOffset>156</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>135</BottomAnchorOffset>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>true</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ListHeight>80</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>None (show all)</Choices>
+		<Choices>Elemental</Choices>
+		<Choices>Beast</Choices>
+		<Choices>Arcane</Choices>
+		<Choices>Shadow</Choices>
+		<Choices>Nature</Choices>
+	</Combobox>
+	<STMLbox item="GT_BannerDescription">
+		<ScreenID>BannerDescription</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<TopAnchorOffset>133</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<TopAnchorToBottom>false</TopAnchorToBottom>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</STMLbox>
+	<Button item="GT_PlantBannerButton">
+		<ScreenID>PlantBannerButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>314</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>214</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Place the selected banner in the world at current location.</TooltipReference>
+		<Text>Plant Banner</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_RemoveBannerButton">
+		<ScreenID>RemoveBannerButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>212</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>98</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Remove the active banner from the world.</TooltipReference>
+		<Text>Remove Banner</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_EditBannerButton">
+		<ScreenID>EditBannerButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>96</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Edit the Guild Banner settings.</TooltipReference>
+		<Text>Edit Settings</Text>
+		<Template>BDT_Normal</Template>
+	</Button>	
+	<Button item="GT_SaveBannerSettings">
+		<ScreenID>SaveBannerSettings</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>46</LeftAnchorOffset>
+		<TopAnchorOffset>259</TopAnchorOffset>
+		<RightAnchorOffset>146</RightAnchorOffset>
+		<BottomAnchorOffset>279</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Save the Guild Banner settings.</TooltipReference>
+		<Text>Save</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_CancelEditBanner">
+		<ScreenID>CancelEditBanner</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>148</LeftAnchorOffset>
+		<TopAnchorOffset>259</TopAnchorOffset>
+		<RightAnchorOffset>246</RightAnchorOffset>
+		<BottomAnchorOffset>279</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Place the selected banner in the world at current location.</TooltipReference>
+		<Text>Cancel edit</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="GT_Layer1TexturePrev">
+		<ScreenID>Layer1TexturePrev</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>46</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>71</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Previous</TooltipReference>
+		<Text>-</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+	<Button item="GT_Layer1ColorBtn">
+		<ScreenID>Layer1ColorBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>73</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>98</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_TintSmall</Template>
+		<DecalOffset>
+			<X>5</X>
+			<Y>5</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>15</CX>
+			<CY>15</CY>
+		</DecalSize>
+	</Button>
+	<Button item="GT_Layer1TextureNext">
+		<ScreenID>Layer1TextureNext</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>125</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Next</TooltipReference>
+		<Text>+</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+	<Button item="GT_Layer2TexturePrev">
+		<ScreenID>Layer2TexturePrev</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>167</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>192</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Previous</TooltipReference>
+		<Text>-</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+	<Button item="GT_Layer2TextureNext">
+		<ScreenID>Layer2TextureNext</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>221</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>246</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Next</TooltipReference>
+		<Text>+</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+	<Button item="GT_Layer2ColorBtn">
+		<ScreenID>Layer2ColorBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>194</LeftAnchorOffset>
+		<TopAnchorOffset>216</TopAnchorOffset>
+		<RightAnchorOffset>219</RightAnchorOffset>
+		<BottomAnchorOffset>241</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_TintSmall</Template>
+		<DecalOffset>
+			<X>5</X>
+			<Y>5</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>15</CX>
+			<CY>15</CY>
+		</DecalSize>
+	</Button>
+	<Label item="GT_Layer1Label">
+		<ScreenID>Layer1Label</ScreenID>
+		<Font>3</Font>
+		<Text>Background</Text>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>46</LeftAnchorOffset>
+		<TopAnchorOffset>242</TopAnchorOffset>
+		<RightAnchorOffset>125</RightAnchorOffset>
+		<BottomAnchorOffset>280</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<AlignCenter>true</AlignCenter>
+	</Label>
+	<Label item="GT_Layer2Label">
+		<ScreenID>Layer2Label</ScreenID>
+		<Font>3</Font>
+		<Text>Foreground</Text>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>167</LeftAnchorOffset>
+		<TopAnchorOffset>242</TopAnchorOffset>
+		<RightAnchorOffset>246</RightAnchorOffset>
+		<BottomAnchorOffset>280</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToRight>false</LeftAnchorToRight>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<AlignCenter>true</AlignCenter>
+	</Label>
+	<Label item="GT_TimeRemainingLabel">
+		<ScreenID>TimeRemainingLabel</ScreenID>
+		<Font>3</Font>
+		<Text>Time Remaining:</Text>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<AlignCenter>false</AlignCenter>
+		<Location>
+			<X>392</X>
+			<Y>4</Y>
+		</Location>
+	</Label>
+	<Label item="GT_TimeRemainingValueLabel">
+		<ScreenID>TimeRemainingValueLabel</ScreenID>
+		<Font>3</Font>
+		<Text>00:00:00</Text>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<AlignCenter>false</AlignCenter>
+		<Location>
+			<X>492</X>
+			<Y>4</Y>
+		</Location>
+	</Label>
+	<Button item="GT_ShowAllPossibleBannersButton">
+		<ScreenID>ShowAllPossibleBannersButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<TopAnchorOffset>154</TopAnchorOffset>
+		<RightAnchorOffset>306</RightAnchorOffset>
+		<BottomAnchorOffset>138</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_ShowAllPossibleBannersLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>312</LeftAnchorOffset>
+		<TopAnchorOffset>154</TopAnchorOffset>
+		<RightAnchorOffset>450</RightAnchorOffset>
+		<BottomAnchorOffset>134</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToBottom>true</TopAnchorToBottom>
+		<BottomAnchorToBottom>true</BottomAnchorToBottom>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<Text>Show All Possible</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<!-- Specify the default textures here. -->
+	<TextureInfo item="gdb_background_00.dds">
+		<Size>
+			<CX>256</CX>
+			<CY>256</CY>
+		</Size>
+	</TextureInfo>
+	<TextureInfo item="gdb_logo_00.dds">
+		<Size>
+			<CX>256</CX>
+			<CY>256</CY>
+		</Size>
+	</TextureInfo>
+	<Ui2DAnimation item="A_GuildBannerPreviewBackgroundAnim">
+		<Frames>
+			<Texture>gdb_background_00.dds</Texture>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>256</CX>
+				<CY>256</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="A_GuildBannerPreviewLogoAnim">
+		<Frames>
+			<Texture>gdb_logo_00.dds</Texture>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>256</CX>
+				<CY>256</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+	<StaticTintedBlendAnimation item="GT_GuildBannerPreview">
+		<ScreenID>GuildBannerPreview</ScreenID>
+		<Location>
+			<X>46</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>200</CY>
+		</Size>
+		<Texture1>A_GuildBannerPreviewBackgroundAnim</Texture1>
+		<Texture2>A_GuildBannerPreviewLogoAnim</Texture2>
+		<Tint1>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</Tint1>
+		<Tint2>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</Tint2>
+		<MaxLayerOneTextures>5</MaxLayerOneTextures>
+		<MaxLayerTwoTextures>3</MaxLayerTwoTextures>
+		<LayerOneTextureIndex>0</LayerOneTextureIndex>
+		<LayerTwoTextureIndex>0</LayerTwoTextureIndex>
+	</StaticTintedBlendAnimation>
+	<Page item="GT_BannerPage">
+		<ScreenID>BannerPage</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Banner</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>578</CX>
+			<CY>302</CY>
+		</Size>
+		<Pieces>GT_BannerKitList</Pieces>
+		<Pieces>GT_PlantBannerButton</Pieces>
+		<Pieces>GT_RemoveBannerButton</Pieces>
+		<Pieces>GT_EditBannerButton</Pieces>
+		<Pieces>GT_BannerDescription</Pieces>
+		<Pieces>GT_TimeRemainingValueLabel</Pieces>
+		<Pieces>GT_TimeRemainingLabel</Pieces>
+		<Pieces>GT_ShowAllPossibleBannersLabel</Pieces>
+		<Pieces>GT_ShowAllPossibleBannersButton</Pieces>
+		<Pieces>GT_GuildBannerPreview</Pieces>
+		<Pieces>GT_RefreshBannerListButton</Pieces>
+		<Pieces>GT_Layer1TextureNext</Pieces>
+		<Pieces>GT_Layer1TexturePrev</Pieces>
+		<Pieces>GT_Layer2TextureNext</Pieces>
+		<Pieces>GT_Layer2TexturePrev</Pieces>
+		<Pieces>GT_Layer1ColorBtn</Pieces>
+		<Pieces>GT_Layer2ColorBtn</Pieces>
+		<Pieces>GT_Layer1Label</Pieces>
+		<Pieces>GT_Layer2Label</Pieces>
+		<Pieces>GT_SaveBannerSettings</Pieces>
+		<Pieces>GT_CancelEditBanner</Pieces>
+		<Pieces>GT_BannerFilter</Pieces>
+	</Page>
+	<Label item="GT_View_Label">
+		<ScreenID>GT_View_Label</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>View</Text>
+		<Font>2</Font>
+	</Label>
+	<Button item="GT_ViewMembers_Btn">
+		<ScreenID>GT_ViewMembers_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>PermissionDisplay</RadioGroup>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_ViewMembers_Label">
+		<ScreenID>GT_ViewMembers_Label</ScreenID>
+		<Size>
+			<CX>60</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>Members</Text>
+		<Font>2</Font>
+	</Label>
+	<Button item="GT_ViewRanks_Btn">
+		<ScreenID>GT_ViewRanks_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>PermissionDisplay</RadioGroup>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_ViewRanks_Label">
+		<ScreenID>GT_ViewRanks_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>100</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>Ranks</Text>
+		<Font>2</Font>
+	</Label>
+	<HorizontalLayoutBox item="GT_View_Layout">
+		<ScreenID>GT_View_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>3</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>GT_View_Label</Pieces>
+		<Pieces>GT_ViewMembers_Btn</Pieces>
+		<Pieces>GT_ViewMembers_Label</Pieces>
+		<Pieces>GT_ViewRanks_Btn</Pieces>
+		<Pieces>GT_ViewRanks_Label</Pieces>
+	</HorizontalLayoutBox>
+	<Label item="GT_Access_Options_Label">
+		<ScreenID>GT_Access_Options_Label</ScreenID>
+		<Size>
+			<CX>90</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>Access Options</Text>
+		<Font>2</Font>
+	</Label>
+	<Button item="GT_AutoEviction_Btn">
+		<ScreenID>GT_AutoEviction_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+		<TooltipReference>Check this to automatically evict plots from your guild neighborhoods that are owned by non-guild members, after a grace period (Leader only).</TooltipReference>
+	</Button>
+	<Label item="GT_AutoEviction_Label">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>80</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>Auto Eviction</Text>
+		<NoWrap>true</NoWrap>
+		<Font>2</Font>
+	</Label>
+	<HorizontalLayoutBox item="GT_Access_Options_Layout">
+		<ScreenID>GT_Access_Options_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>3</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Spacing>4</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<ResizeLast>false</ResizeLast>
+		<Pieces>GT_Access_Options_Label</Pieces>
+		<Pieces>GT_AutoEviction_Btn</Pieces>
+		<Pieces>GT_AutoEviction_Label</Pieces>
+	</HorizontalLayoutBox>
+	<Combobox item="GT_Ranks_Combobox">
+		<ScreenID>GT_Ranks_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>110</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<ListHeight>119</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>Leader</Choices>
+		<Choices>Senior Officer</Choices>
+		<Choices>Officer</Choices>
+		<Choices>Senior Member</Choices>
+		<Choices>Member</Choices>
+		<Choices>Junior Member</Choices>
+		<Choices>Initiate</Choices>
+		<Choices>Recruit</Choices>
+	</Combobox>
+	<Button item="GT_Permissions_Checkbox">
+		<ScreenID>GT_Permissions_Checkbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Listbox item="GT_Permissions_List">
+		<ScreenID>GT_Permissions_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_AutoHScroll>true</Style_AutoHScroll>
+		<Style_HScroll>true</Style_HScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>200</Width>
+			<Heading>Permission</Heading>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank8</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank7</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank6</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank5</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank4</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank3</Header>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank2</Header>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Header>Header_AccessRank1</Header>
+		</Columns>
+	</Listbox>
+	<Listbox item="GT_Member_List">
+		<ScreenID>GT_Member_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoHScroll>true</Style_AutoHScroll>
+		<Style_HScroll>true</Style_HScroll>
+		<Columns>
+			<Width>16</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>130</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>110</Width>
+			<Heading>Group</Heading>
+		</Columns>
+		<Columns>
+			<Width>10</Width>
+			<Heading></Heading>
+		</Columns>
+	</Listbox>
+	<Listbox item="GT_Rank_List">
+		<ScreenID>GT_Rank_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoHScroll>true</Style_AutoHScroll>
+		<Style_HScroll>true</Style_HScroll>
+		<TooltipReference>Double-click to change the name of the rank.</TooltipReference>
+		<Columns>
+			<Width>16</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>140</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>30</Width>
+			<Heading>#</Heading>
+		</Columns>
+	</Listbox>
+	<Screen item="GT_Access_Layout">
+		<ScreenID>GT_Access_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>300</CY>
+		</Size>
+		<MinHSize>275</MinHSize>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Pieces>HorizontalLayoutBox:GT_View_Layout</Pieces>
+		<Pieces>Listbox:GT_Member_List</Pieces>
+		<Pieces>Listbox:GT_Rank_List</Pieces>
+	</Screen>
+	<Screen item="GT_Permissions_Layout">
+		<ScreenID>GT_Permissions_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>300</CY>
+		</Size>
+		<MinHSize>275</MinHSize>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Pieces>HorizontalLayoutBox:GT_Access_Options_Layout</Pieces>
+		<Pieces>Listbox:GT_Permissions_List</Pieces>
+	</Screen>
+	<HorizontalLayoutBox item="GT_Access_Main_Layout">
+		<ScreenID>GT_Access_Main_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>Screen:GT_Access_Layout</Pieces>
+		<Pieces>Screen:GT_Permissions_Layout</Pieces>
+	</HorizontalLayoutBox>
+	<Page item="GT_AccessPage">
+		<ScreenID>GT_AccessPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Access</TabText>
+    <TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>HorizontalLayoutBox:GT_Access_Main_Layout</Pieces>
+  </Page>
+	<TabBox item="GT_Subwindows">
+    <ScreenID>Subwindows</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>22</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>fs
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+    <PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+    <Pages>GT_MemberPage</Pages>
+    <Pages>GT_NotePage</Pages>
+    <Pages>GT_TributePage</Pages>
+    <Pages>GT_ProfilePage</Pages>
+    <Pages>GT_BannerPage</Pages>
+    <Pages>GT_AccessPage</Pages>
+  </TabBox>
+	<Button item="GT_ShowOfflineButton">
+		<ScreenID>ShowOfflineButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>20</RightAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_ShowOfflineLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>23</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>128</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Show Offline</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Button item="GT_HideAltButton">
+		<ScreenID>HideAltButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="GT_HideAltLabel">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>139</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>276</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Hide Alts</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="GT_PerPage_Label">
+		<ScreenID>GT_PerPage_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>400</LeftAnchorOffset>
+		<RightAnchorOffset>330</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Text># Per Page:</Text>
+	</Label>
+	<Combobox item="GT_PerPage_Combobox">
+		<ScreenID>GT_PerPage_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>334</LeftAnchorOffset>
+		<RightAnchorOffset>290</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ListHeight>91</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>20</Choices>
+		<Choices>50</Choices>
+		<Choices>100</Choices>
+		<Choices>500</Choices>
+		<Choices>1000</Choices>
+		<Choices>All</Choices>
+	</Combobox>
+	<Label item ="GT_Page_Label">
+		<ScreenID>GT_Page_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>286</LeftAnchorOffset>
+		<RightAnchorOffset>254</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Text>Page:</Text>
+	</Label>
+	<Button item="GT_PageLeft_Button">
+		<ScreenID>GT_PageLeft_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>255</LeftAnchorOffset>
+		<RightAnchorOffset>233</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+	<Label item ="GT_PageIndex_Label">
+		<ScreenID>GT_PageIndex_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>231</LeftAnchorOffset>
+		<RightAnchorOffset>205</RightAnchorOffset>
+		<Style_Transparent>true</Style_Transparent>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>000</Text>
+		<AlignCenter>true</AlignCenter>
+	</Label>
+	<Button item="GT_PageRight_Button">
+		<ScreenID>GT_PageRight_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>205</LeftAnchorOffset>
+		<RightAnchorOffset>183</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Template>BDT_HSBRight</Template>
+	</Button>
+	<Label item="GT_PlayerCountLabelText">
+		<ScreenID />
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>177</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>115</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Members:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item="GT_PlayerCountLabel">
+		<ScreenID>PlayerCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<RightAnchorOffset>6</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text />
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	
+	<Screen item="GuildManagementWnd">
+		<ScreenID />
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>616</CX>
+			<CY>353</CY>
+		</Size>
+		<MinHSize>616</MinHSize>
+		<MinVSize>353</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Guild Management</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>This is the Guild Management Window.</TooltipReference>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>GT_GuildNameLabel</Pieces>
+		<Pieces>GT_DumpButton</Pieces>
+		<Pieces>GT_Subwindows</Pieces>
+		<Pieces>GT_ShowOfflineButton</Pieces>
+		<Pieces>GT_ShowOfflineLabel</Pieces>
+		<Pieces>GT_HideAltButton</Pieces>
+		<Pieces>GT_HideAltLabel</Pieces>
+		<Pieces>GT_Ranks_Combobox</Pieces>
+		<Pieces>GT_Permissions_Checkbox</Pieces>
+		<Pieces>GT_PerPage_Label</Pieces>
+		<Pieces>GT_PerPage_Combobox</Pieces>
+		<Pieces>GT_Page_Label</Pieces>
+		<Pieces>GT_PageLeft_Button</Pieces>
+		<Pieces>GT_PageIndex_Label</Pieces>
+		<Pieces>GT_PageRight_Button</Pieces>
+		<Pieces>GT_PlayerCountLabelText</Pieces>
+		<Pieces>GT_PlayerCountLabel</Pieces>
+	</Screen>
+</XML>

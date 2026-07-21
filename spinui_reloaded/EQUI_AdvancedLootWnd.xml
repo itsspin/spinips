@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+	<!-- Templates for dynamic loot list -->
+
+	<Button item="ADLW_TextLinkTemplate">
+		<ScreenID>ADLW_TextLinkTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TextAlignCenter>false</TextAlignCenter>
+	</Button>
+
+	<Button item="ADLW_ItemBtnTemplate">
+		<ScreenID>ADLW_ItemBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>
+		<Template>BDT_LootWndIcon_adv</Template>
+	</Button>
+
+	<Button item="ADLW_LootBtnTemplate">
+		<ScreenID>ADLW_LootBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>		
+		<ButtonDrawTemplate>
+			<Normal>A_Loot_CheckNormal</Normal>
+			<Pressed>A_Loot_CheckPressed</Pressed>
+			<Flyby>A_Loot_CheckFlyby</Flyby>
+			<PressedFlyby>A_Loot_CheckPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item="ADLW_MergeBtnTemplate">
+		<ScreenID>ADLW_MergeBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>		
+		<ButtonDrawTemplate>
+			<Normal>A_MergeNormal</Normal>
+			<Pressed>A_MergePressed</Pressed>
+			<Flyby>A_MergeFlyby</Flyby>
+			<PressedFlyby>A_MergePressed</PressedFlyby>		
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item="ADLW_StoreBtnTemplate">
+		<ScreenID>ADLW_StoreBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>		
+		<ButtonDrawTemplate>
+			<Normal>A_StoreNormal</Normal>
+			<Pressed>A_StorePressed</Pressed>
+			<Flyby>A_StoreFlyby</Flyby>
+			<PressedFlyby>A_StorePressed</PressedFlyby>			
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item="ADLW_SellBtnTemplate">
+		<ScreenID>ADLW_SellBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>		
+		<ButtonDrawTemplate>
+			<Normal>A_SellNormal</Normal>
+			<Pressed>A_SellPressed</Pressed>
+			<Flyby>A_SellFlyby</Flyby>
+			<PressedFlyby>A_SellPressed</PressedFlyby>			
+		</ButtonDrawTemplate>
+	</Button>
+
+	<!-- Loot list screen -->
+
+	<Listbox item="ADLW_LootList">
+		<ScreenID>ADLW_LootList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TextColor>
+			<R>0</R>
+			<G>148</G>
+			<B>255</B>
+		</TextColor>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>-2</TopAnchorOffset>
+		<BottomAnchorOffset>28</BottomAnchorOffset>
+		<LeftAnchorOffset>-2</LeftAnchorOffset>
+		<RightAnchorOffset>-2</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<Columns>
+			<Width>45</Width>
+			<Heading>Item</Heading>
+			<Sortable>true</Sortable>
+		</Columns>
+		<Columns>
+			<Width>65</Width>
+			<Heading>Loot</Heading>
+			<Sortable>false</Sortable>
+			<Tooltip>Loot item(s) on corpse(s)</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>65</Width>
+			<Heading>Merge</Heading>
+			<Sortable>false</Sortable>
+			<Tooltip>Merge item(s) on corpse(s) with first matching inventory item</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>65</Width>
+			<Heading>Store</Heading>
+			<Sortable>true</Sortable>
+			<Tooltip>Store item(s) on corpse(s) to either tradeskill depo or item hoard</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>65</Width>
+			<Heading>Sell</Heading>
+			<Sortable>true</Sortable>
+			<Tooltip>Sell item(s) on corpse(s) immediately</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>200</Width>
+			<Heading>Item Name</Heading>
+			<Sortable>true</Sortable>
+			<Tooltip>Item Name</Tooltip>
+		</Columns>
+		<Columns>
+			<Width>200</Width>
+			<Heading>NPC Name</Heading>
+			<Sortable>true</Sortable>
+			<Tooltip>NPC Name</Tooltip>
+		</Columns>
+		<TooltipReference>Trigger loot decisions here for each item.</TooltipReference>
+	</Listbox>
+
+	<Button item="ADLW_GroupedByNpcCheckbox">
+		<ScreenID>ADLW_GroupedByNpcCheckbox</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>6</BottomAnchorOffset>
+		<LeftAnchorOffset>263</LeftAnchorOffset>
+		<RightAnchorOffset>353</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show NPC</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether items are sorted by the owning NPC.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+
+	<Button item="ADLW_LootAllBtn">
+		<ScreenID>ADLW_LootAllBtn</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>65</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Loot all items.</TooltipReference>
+		<Text>Loot All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ADLW_MergeAllBtn">
+		<ScreenID>ADLW_MergeAllBtn</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>67</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Merge all eligible items with inventory items.</TooltipReference>
+		<Text>Merge All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ADLW_StoreAllBtn">
+		<ScreenID>ADLW_StoreAllBtn</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>132</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Store all items in the tradeskill depot or item hoard.</TooltipReference>
+		<Text>Store All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ADLW_SellAllBtn">
+		<ScreenID>ADLW_SellAllBtn</ScreenID>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>197</LeftAnchorOffset>
+		<RightAnchorOffset>260</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TooltipReference>Sell all items.</TooltipReference>
+		<Text>Sell All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ADLW_EnableFiltersCheckbox">
+		<ScreenID>ADLW_EnableFiltersCheckbox</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>6</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>51</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text></Text>
+		<Font>2</Font>
+		<TooltipReference>When checked this will enable the per item filter automations.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+
+	<Button item="ADLW_EditFiltersBtn">
+		<ScreenID>ADLW_EditFiltersBtn</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TooltipReference>Click this button to open the Advanced Loot Filters window.</TooltipReference>
+		<Text>Filters</Text>
+		<Template>BDT_Normal</Template>
+		<TextColor>
+			<R>240</R>
+			<G>240</G>
+			<B>240</B>
+		</TextColor>
+	</Button>
+
+	<Screen item="ADLW_LootListScreen">
+		<ScreenID>ADLW_LootListScreen</ScreenID>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>50</CY>
+		</Size>
+		<MinVSize>103</MinVSize>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeLast>true</ResizeLast>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Pieces>ADLW_LootList</Pieces>
+		<Pieces>ADLW_GroupedByNpcCheckbox</Pieces>
+		<Pieces>ADLW_LootAllBtn</Pieces>
+		<Pieces>ADLW_MergeAllBtn</Pieces>
+		<Pieces>ADLW_StoreAllBtn</Pieces>
+		<Pieces>ADLW_SellAllBtn</Pieces>
+		<Pieces>ADLW_EnableFiltersCheckbox</Pieces>
+		<Pieces>ADLW_EditFiltersBtn</Pieces>
+	</Screen>
+
+	<!-- Checkbox settings -->
+
+	<Button item="ADLW_AutoLootAllCheckbox">
+		<ScreenID>ADLW_AutoLootAllCheckbox</ScreenID>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>83</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto-loot</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether all unfiltered items are auto-looted to inventory.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+	<Button item="ADLW_AutoStackCheckbox">
+		<ScreenID>ADLW_AutoStackCheckbox</ScreenID>
+		<Location>
+			<X>74</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>93</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto-stack</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether any unfiltered items that can be stacked into inventory are looted.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+	<Button item="ADLW_AutoDepotCheckbox">
+		<ScreenID>ADLW_AutoDepotCheckbox</ScreenID>
+		<Location>
+			<X>154</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>93</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto-depot</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether any unfiltered items that can be stacked into tradeskill depot are looted.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+	<Button item="ADLW_AlwaysDepotCheckbox">
+		<ScreenID>ADLW_AlwaysDepotCheckbox</ScreenID>
+		<Location>
+			<X>234</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>110</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Always depot</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether all unfiltered tradeskill items are looted to the depot.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>	
+	<Button item="ADLW_AutoShowWindowCheckbox">
+		<ScreenID>ADLW_AutoShowWindowCheckbox</ScreenID>
+		<Location>
+			<X>330</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>93</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto-show</Text>
+		<Font>2</Font>
+		<TooltipReference>Toggles whether loot window is shown when an unfiltered loot item is available.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+	</Button>
+
+	<Screen item="ADLW_CheckboxesScreen">
+		<ScreenID>ADLW_CheckboxesScreen</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>true</Style_Border>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Pieces>ADLW_AutoLootAllCheckbox</Pieces>
+		<Pieces>ADLW_AutoStackCheckbox</Pieces>
+		<Pieces>ADLW_AutoDepotCheckbox</Pieces>
+		<Pieces>ADLW_AlwaysDepotCheckbox</Pieces>
+		<Pieces>ADLW_AutoShowWindowCheckbox</Pieces>
+	</Screen>
+
+	<Screen item="AdvancedLootWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>150</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>450</CX>
+			<CY>450</CY>
+		</Size>
+		<Text>Advanced Loot</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<MinHSize>415</MinHSize>
+		<MaxHSize>900</MaxHSize>
+		<MinVSize>300</MinVSize>
+		<MaxVSize>900</MaxVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>Screen:ADLW_LootListScreen</Pieces>
+		<Pieces>Screen:ADLW_CheckboxesScreen</Pieces>
+		<Pieces>ADLW_ItemBtnTemplate</Pieces>
+		<Pieces>ADLW_LootBtnTemplate</Pieces>
+		<Pieces>ADLW_MergeBtnTemplate</Pieces>
+		<Pieces>ADLW_StoreBtnTemplate</Pieces>
+		<Pieces>ADLW_SellBtnTemplate</Pieces>
+		<Pieces>ADLW_TextLinkTemplate</Pieces>
+	</Screen>
+</XML>

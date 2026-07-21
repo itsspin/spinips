@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<!-- SPIN-WING: stance / invocation twin-wing rail -->
+	<TextureInfo item="spin_deco.tga">
+		<Size>
+			<CX>128</CX>
+			<CY>128</CY>
+		</Size>
+	</TextureInfo>
+	<Ui2DAnimation item="A_SpinWingGem">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>spin_deco.tga</Texture>
+			<Location>
+				<X>112</X>
+				<Y>64</Y>
+			</Location>
+			<Size>
+				<CX>12</CX>
+				<CY>12</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+	<Label item="SW_StanceCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>46</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>STANCE</Text>
+		<TextColor>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>true</AlignLeft>
+	</Label>
+	<Label item="SW_InvocationCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>62</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>INVOCATION</Text>
+		<TextColor>
+			<R>36</R>
+			<G>152</G>
+			<B>133</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+	<StaticAnimation item="SW_WingGem">
+		<ScreenID>SW_WingGem</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>214</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>12</CX>
+			<CY>12</CY>
+		</Size>
+		<Animation>A_SpinWingGem</Animation>
+	</StaticAnimation>
+
+	<Label item="SW_StanceLabel">
+		<EQType>1026</EQType>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>14</BottomAnchorOffset>
+		<LeftAnchorOffset>48</LeftAnchorOffset>
+		<RightAnchorOffset>208</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text></Text>
+		<TextColor>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+	<Label item="SW_InvocationLabel">
+		<EQType>1017</EQType>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>14</BottomAnchorOffset>
+		<LeftAnchorOffset>208</LeftAnchorOffset>
+		<RightAnchorOffset>64</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text></Text>
+		<TextColor>
+			<R>52</R>
+			<G>218</G>
+			<B>190</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+	<Button item="SW_ButtonTemplate">
+		<ScreenID>SW_ButtonTemplate</ScreenID>
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Text>1</Text>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>36</CX>
+			<CY>36</CY>
+		</DecalSize>
+		<ButtonDrawTemplate>
+			<NormalDecal>BuffIcons</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<TileLayoutBox item="SW_Layout">
+		<ScreenID>SW_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_TransparentControl>true</Style_TransparentControl>
+		<Spacing>2</Spacing>
+		<SecondarySpacing>1</SecondarySpacing>
+		<HorizontalFirst>false</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<FirstPieceTemplate>true</FirstPieceTemplate>
+		<SnapToChildren>true</SnapToChildren>
+		<Pieces>Button:SW_ButtonTemplate</Pieces>
+	</TileLayoutBox>
+
+	<Screen item="SW_HorizontalOrientationTemplate">
+		<ScreenID>SW_HorizontalOrientationTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<UseInLayoutVertical>false</UseInLayoutVertical>
+		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
+	</Screen>
+
+	<Screen item="SW_VerticalOrientationTemplate">
+		<ScreenID>SW_VerticalOrientationTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<UseInLayoutVertical>false</UseInLayoutVertical>
+		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
+	</Screen>
+
+	<LayoutHorizontal item="SW_LayoutH">
+		<Padding>0</Padding>
+		<ResizeVertical>true</ResizeVertical>
+		<ResizeHorizontal>true</ResizeHorizontal>
+	</LayoutHorizontal>
+
+	<DragBox item="SWDragBox">
+        <ScreenID>SWDragBox</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>14</BottomAnchorOffset>
+        <BackgroundTextureTint>
+            <R>255</R>
+            <G>0</G>
+            <B>0</B>
+        </BackgroundTextureTint>
+        <Style_Transparent>true</Style_Transparent>
+    </DragBox>
+
+	<Screen item="SW_DisplayStanceInvocation">
+		<ScreenID>SW_DisplayStanceInvocation</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<UseInLayoutVertical>false</UseInLayoutVertical>
+		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
+		<Pieces>SW_StanceCaption</Pieces>
+		<Pieces>SW_InvocationCaption</Pieces>
+		<Pieces>SW_WingGem</Pieces>
+		<Pieces>SW_StanceLabel</Pieces>
+		<Pieces>SW_InvocationLabel</Pieces>
+		<Pieces>DragBox:SWDragBox</Pieces>
+	</Screen>
+
+	<Screen item="StanceWnd">
+		<Layout>SW_LayoutH</Layout>
+		<MenuName>Buttons, Current Stance and Invocation Text on Top</MenuName>
+		<Font>2</Font>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>230</Y>
+		</Location>
+		<Size>
+			<CX>440</CX>
+			<CY>56</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>
+		<MinHSize>162</MinHSize>
+		<MinVSize>56</MinVSize>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<Escapable>false</Escapable>
+		<Pieces>TileLayoutBox:SW_Layout</Pieces>
+		<Pieces>Screen:SW_HorizontalOrientationTemplate</Pieces>
+		<Pieces>Screen:SW_VerticalOrientationTemplate</Pieces>
+		<Pieces>Screen:SW_DisplayStanceInvocation</Pieces>
+	</Screen>
+</XML>

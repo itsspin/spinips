@@ -1,0 +1,188 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Button item = "SMW_MyMoney0">
+		<ScreenID>SMW_MyMoney0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<RadioGroup/>
+		<Text>60000</Text>
+		<Template>BDT_PlatinumCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+    
+	<Button item = "SMW_MyMoney1">
+		<ScreenID>SMW_MyMoney1</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>29</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>60000</Text>
+		<Template>BDT_GoldCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+    
+	<Button item = "SMW_MyMoney2">
+		<ScreenID>SMW_MyMoney2</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>53</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>60000</Text>
+		<Template>BDT_SilverCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+	<Button item = "SMW_MyMoney3">
+		<ScreenID>SMW_MyMoney3</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>77</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>60000</Text>
+		<Template>BDT_CopperCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+
+	<Button item = "SMW_Deposit_Button">
+		<ScreenID>SMW_Deposit_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>108</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+        <TooltipReference>This button deposits the selected amount of money into your parcel window.</TooltipReference>
+		<!--<RadioGroup/>-->
+		<Text>Deposit</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "SMW_Cancel_Button">
+		<ScreenID>SMW_Cancel_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>132</Y>
+		</Location>
+		<Size>
+			<CX>85</CX>
+			<CY>20</CY>
+		</Size>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Cancel</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+
+	<Screen item = "SendMoneyWnd">
+		<!--<ScreenID/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>108</CX>
+			<CY>185</CY>
+		</Size>
+		<Text>Send</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>SMW_MyMoney0</Pieces>
+		<Pieces>SMW_MyMoney1</Pieces>
+		<Pieces>SMW_MyMoney2</Pieces>
+		<Pieces>SMW_MyMoney3</Pieces>
+		<Pieces>SMW_Deposit_Button</Pieces>
+		<Pieces>SMW_Cancel_Button</Pieces>
+	</Screen>
+
+</XML>

@@ -1,0 +1,926 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+  <Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+  <Button item="TASK_CheckBoxTemplate">
+    <ScreenID>TASK_CheckBoxTemplate</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>1</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>12</CX>
+      <CY>12</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>true</Style_Checkbox>
+    <Text />
+    <Template>BDT_Checkbox</Template>
+  </Button>
+
+  <Label item ="TASK_TaskLabel">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>120</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <Text>Tasks</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+
+  <Label item ="TASK_CountLabel">
+    <ScreenID>TASK_CountLabel</ScreenID>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>45</LeftAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Text>0/0</Text>
+  </Label>
+
+  <Label item ="TASK_TaskTimerLabel">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>188</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>50</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <Text>Request Timer:</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>true</AlignRight>
+  </Label>
+
+  <Label item ="TASK_TaskTimer">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>80</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <EQType>132</EQType>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>true</AlignRight>
+  </Label>
+
+
+  <Listbox item = "TASK_TaskList">
+    <ScreenID>TASK_TaskList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>20</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>-1</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Columns>
+      <Width>25</Width>
+      <Heading></Heading>
+    </Columns>
+    <Columns>
+      <Width>25</Width>
+      <Heading></Heading>
+    </Columns>
+    <Columns>
+      <Width>220</Width>
+      <Heading>Task Title</Heading>
+    </Columns>
+    <Columns>
+      <Width>60</Width>
+      <Heading>Time Left</Heading>
+    </Columns>
+    <Columns>
+      <Width>135</Width>
+      <Heading>Zone</Heading>
+    </Columns>
+    <Columns>
+      <Width>25</Width>
+      <Heading>Min</Heading>
+    </Columns>
+    <Columns>
+      <Width>25</Width>
+      <Heading>Max</Heading>
+    </Columns>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+  </Listbox>
+
+  <Screen item = "TASK_TaskWnd">
+    <ScreenID>TASK_TaskWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>130</CY>
+    </Size>
+    <MinVSize>62</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>TASK_TaskLabel</Pieces>
+    <Pieces>TASK_CountLabel</Pieces>
+    <Pieces>TASK_TaskList</Pieces>
+    <Pieces>TASK_TaskTimerLabel</Pieces>
+    <Pieces>TASK_TaskTimer</Pieces>
+    <Pieces>TASK_CheckBoxTemplate</Pieces>
+  </Screen>
+
+  <Label item ="TASK_TaskElementLabel">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <Text>Task Progression</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+
+  <Button item = "TASK_PreviewRewardButton">
+    <ScreenID>TASK_PreviewRewardButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>280</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>162</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>This opens the reward window to allow you to preview the reward(s) for this task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Preview Reward</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item = "TASK_MonsterButton">
+    <ScreenID>TASK_MonsterButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>160</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Select a Monster Mission and click this button to open the monster selection window.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Monster Select</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item = "TASK_AbandonButton">
+    <ScreenID>TASK_AbandonButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>60</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Select a Task and click this button to abandon it.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Remove</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Listbox item = "TASK_TaskElementList">
+    <ScreenID>TASK_TaskElementList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>23</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <MinVSize>62</MinVSize>
+    <Columns>
+      <Width>180</Width>
+      <Heading>Objective Instructions</Heading>
+    </Columns>
+    <Columns>
+      <Width>60</Width>
+      <Heading>Status</Heading>
+    </Columns>
+    <Columns>
+      <Width>160</Width>
+      <Heading>Zone</Heading>
+    </Columns>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+  </Listbox>
+
+  <Screen item = "TASK_TaskElementWnd">
+    <ScreenID>TASK_TaskElementWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>130</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>130</CY>
+    </Size>
+    <MinVSize>62</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>TASK_TaskElementLabel</Pieces>
+    <Pieces>TASK_TaskElementList</Pieces>
+    <Pieces>TASK_MonsterButton</Pieces>
+    <Pieces>TASK_AbandonButton</Pieces>
+    <Pieces>TASK_PreviewRewardButton</Pieces>
+  </Screen>
+
+  <STMLbox item = "TASK_Description">
+    <ScreenID>TASK_Description</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_VScroll>true</Style_VScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <MinVSize>62</MinVSize>
+    <Location>
+      <X>0</X>
+      <Y>260</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>100</CY>
+    </Size>
+    <Style_Border>true</Style_Border>
+    <Text>Description Area</Text>
+  </STMLbox>
+
+  <VerticalLayoutBox item = "TASK_Layout">
+    <ScreenID>TASK_Layout</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Spacing>4</Spacing>
+    <Style_Border>false</Style_Border>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <Pieces>Screen:TASK_TaskWnd</Pieces>
+    <Pieces>Screen:TASK_TaskElementWnd</Pieces>
+    <Pieces>TASK_Description</Pieces>
+  </VerticalLayoutBox>
+
+  <!-- Task List page -->
+  <Page item = "TaskListPage">
+    <ScreenID>TaskListPage</ScreenID>
+    <RelativePosition>true</RelativePosition>
+
+    <!-- Pages are sized and positioned by their parent tab -->
+
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference/>
+    <DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+    <TabText>Current Tasks</TabText>
+    <TabTextActiveColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TabTextActiveColor>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>VerticalLayoutBox:TASK_Layout</Pieces>
+  </Page>
+
+  <!-- Quest History -->
+  <Label item ="QUEST_TaskLabel">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>120</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <Text>Quest History</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+
+  <Listbox item = "QUEST_TaskList">
+    <ScreenID>QUEST_TaskList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>20</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Columns>
+      <Width>40</Width>
+      <Heading></Heading>
+    </Columns>
+    <Columns>
+      <Width>220</Width>
+      <Heading>Quest Title</Heading>
+    </Columns>
+    <Columns>
+      <Width>200</Width>
+      <Heading>Completion</Heading>
+    </Columns>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+  </Listbox>
+
+  <Screen item = "QUEST_TaskWnd">
+    <ScreenID>QUEST_TaskWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>130</CY>
+    </Size>
+    <MinVSize>62</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>QUEST_TaskLabel</Pieces>
+    <Pieces>QUEST_TaskList</Pieces>
+  </Screen>
+
+  <Label item ="QUEST_TaskElementLabel">
+    <ScreenID/>
+    <Font>4</Font>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <Text>Quest Progression</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+
+  <Listbox item = "QUEST_TaskElementList">
+    <ScreenID>QUEST_TaskElementList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>20</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Columns>
+      <Width>210</Width>
+      <Heading>Objective Instructions</Heading>
+    </Columns>
+    <Columns>
+      <Width>60</Width>
+      <Heading>Status</Heading>
+    </Columns>
+    <Columns>
+      <Width>160</Width>
+      <Heading>Zone</Heading>
+    </Columns>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+  </Listbox>
+
+  <Screen item = "QUEST_TaskElementWnd">
+    <ScreenID>QUEST_TaskElementWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>130</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>130</CY>
+    </Size>
+    <MinVSize>62</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>QUEST_TaskElementLabel</Pieces>
+    <Pieces>QUEST_TaskElementList</Pieces>
+  </Screen>
+
+  <VerticalLayoutBox item = "QUEST_Layout">
+    <ScreenID>QUEST_Layout</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Spacing>4</Spacing>
+    <Style_Border>false</Style_Border>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <Pieces>Screen:QUEST_TaskWnd</Pieces>
+    <Pieces>Screen:QUEST_TaskElementWnd</Pieces>
+  </VerticalLayoutBox>
+
+  <!-- Quest History page -->
+  <Page item = "TaskQuestHistoryPage">
+    <ScreenID>TaskQuestHistoryPage</ScreenID>
+    <RelativePosition>true</RelativePosition>
+
+    <!-- Pages are sized and positioned by their parent tab -->
+
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference/>
+    <DrawTemplate>WDT_Def</DrawTemplate>
+    <TabText>Quest History</TabText>
+    <TabTextActiveColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TabTextActiveColor>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>VerticalLayoutBox:QUEST_Layout</Pieces>
+  </Page>
+
+  <!-- Shared Task Members -->
+  <Listbox item = "STASK_MemberList">
+    <ScreenID>STASK_MemberList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>20</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+    <Columns>
+      <Width>130</Width>
+      <Heading>Member</Heading>
+    </Columns>
+    <Columns>
+      <Width>100</Width>
+      <Heading>Role</Heading>
+    </Columns>
+    <Columns>
+      <Width>200</Width>
+      <Heading>Template</Heading>
+    </Columns>
+  </Listbox>
+  <!-- END members -->
+
+  <Button item = "STASK_AddPlayerButton">
+    <ScreenID>STASK_AddPlayerButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>100</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Target a player and click this button to add them to your shared task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Add Player</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Button item = "STASK_RemovePlayerButton">
+    <ScreenID>STASK_RemovePlayerButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>102</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>200</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Select a player and click this button to remove them from your shared task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Remove Player</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Button item = "STASK_MakeLeaderButton">
+    <ScreenID>STASK_MakeLeaderButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>202</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>300</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Select a player and click this button to make them the leader of your shared task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Make Leader</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Button item = "STASK_InviteRaidButton">
+    <ScreenID>STASK_InviteRaidButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Invite anyone who is in your raid but not in your shared task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Invite Raid</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Button item = "STASK_InviteExpedButton">
+    <ScreenID>STASK_InviteExpedButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Invite anyone who is in your expedition but not in your shared task.</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Invite Exped</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Label item="STASK_NumPlayers">
+    <ScreenID>STASK_NumPlayers</ScreenID>
+    <Text>Number of Players:</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>40</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>150</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_NumPlayersValue">
+    <ScreenID>STASK_NumPlayersValue</ScreenID>
+    <Text />
+    <TextColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TextColor>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>150</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>175</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MinPlayers">
+    <ScreenID>STASK_MinPlayers</ScreenID>
+    <Text>Min Players:</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <LeftAnchorOffset>175</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>245</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MinPlayersValue">
+    <ScreenID>STASK_MinPlayersValue</ScreenID>
+    <Text />
+    <TextColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TextColor>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>245</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>270</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MaxPlayers">
+    <ScreenID>STASK_MaxPlayers</ScreenID>
+    <Text>Max Players:</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <LeftAnchorOffset>270</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>340</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MaxPlayersValue">
+    <ScreenID>STASK_MaxPlayersValue</ScreenID>
+    <Text />
+    <TextColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TextColor>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>340</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>365</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MinLevel">
+    <ScreenID>STASK_MinLevel</ScreenID>
+    <Text>Min Level:</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <LeftAnchorOffset>375</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>435</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MinLevelValue">
+    <ScreenID>STASK_MinLevelValue</ScreenID>
+    <Text />
+    <TextColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TextColor>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>435</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>470</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MaxLevel">
+    <ScreenID>STASK_MaxLevel</ScreenID>
+    <Text>Max Level:</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <LeftAnchorOffset>470</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>530</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <Label item="STASK_MaxLevelValue">
+    <ScreenID>STASK_MaxLevelValue</ScreenID>
+    <Text />
+    <TextColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TextColor>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <LeftAnchorOffset>530</LeftAnchorOffset>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorOffset>565</RightAnchorOffset>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <TopAnchorOffset>5</TopAnchorOffset>
+    <AutoStretch>true</AutoStretch>
+  </Label>
+
+  <!-- Shared Task page -->
+  <Page item = "TaskSharedTaskPage">
+    <ScreenID>TaskSharedTaskPage</ScreenID>
+    <RelativePosition>true</RelativePosition>
+
+    <!-- Pages are sized and positioned by their parent tab -->
+
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference/>
+    <DrawTemplate>WDT_Def</DrawTemplate>
+    <TabText>Shared Task</TabText>
+    <TabTextActiveColor>
+      <R>255</R>
+      <G>255</G>
+      <B>0</B>
+    </TabTextActiveColor>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>STASK_MemberList</Pieces>
+    <Pieces>STASK_AddPlayerButton</Pieces>
+    <Pieces>STASK_RemovePlayerButton</Pieces>
+    <Pieces>STASK_MakeLeaderButton</Pieces>
+    <Pieces>STASK_InviteRaidButton</Pieces>
+    <Pieces>STASK_InviteExpedButton</Pieces>
+    <Pieces>STASK_NumPlayers</Pieces>
+    <Pieces>STASK_NumPlayersValue</Pieces>
+    <Pieces>STASK_MinPlayers</Pieces>
+    <Pieces>STASK_MinPlayersValue</Pieces>
+    <Pieces>STASK_MaxPlayers</Pieces>
+    <Pieces>STASK_MaxPlayersValue</Pieces>
+    <Pieces>STASK_MinLevel</Pieces>
+    <Pieces>STASK_MinLevelValue</Pieces>
+    <Pieces>STASK_MaxLevel</Pieces>
+    <Pieces>STASK_MaxLevelValue</Pieces>
+  </Page>
+
+  <TabBox item = "TaskSubwindows">
+    <ScreenID>TaskSubwindows</ScreenID>
+    <RelativePosition>true</RelativePosition>
+
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+
+    <TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+    <PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+    <Pages>TaskListPage</Pages>
+    <Pages>TaskSharedTaskPage</Pages>
+    <Pages>TaskQuestHistoryPage</Pages>
+  </TabBox>
+
+  <Screen item = "TaskWnd">
+    <!--<ScreenID/>-->
+    <!--<Font/>-->
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>20</X>
+      <Y>25</Y>
+    </Location>
+    <Size>
+      <CX>425</CX>
+      <CY>600</CY>
+    </Size>
+    <MinHSize>600</MinHSize>
+    <MinVSize>320</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>		
+    <Text>Quest Journal</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Qmarkbox>true</Style_Qmarkbox>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>true</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>TaskSubwindows</Pieces>
+  </Screen>
+
+
+</XML>

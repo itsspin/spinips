@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Label item="GC_NameLabel">
+    <ScreenID>NameLabel</ScreenID>
+    <Font>3</Font>
+    <Text>Enter Guild Name:</Text>
+    <Size>
+      <CX>100</CX>
+      <CY>18</CY>
+    </Size>
+    <AlignCenter>false</AlignCenter>
+    <Location>
+      <X>5</X>
+      <Y>129</Y>
+    </Location>
+    <AutoStretch>true</AutoStretch>
+    <BottomAnchorOffset>31</BottomAnchorOffset>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <TopAnchorOffset>55</TopAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <RightAnchorOffset>210</RightAnchorOffset>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <AlignRight>true</AlignRight>
+  </Label>
+  <Editbox item="GC_NameEdit">
+    <ScreenID>NameEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <TooltipReference>Enter the name of the guild you wish to create.</TooltipReference>
+    <Style_Border>true</Style_Border>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>200</LeftAnchorOffset>
+    <TopAnchorOffset>55</TopAnchorOffset>
+    <RightAnchorOffset>7</RightAnchorOffset>
+    <BottomAnchorOffset>31</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+  </Editbox>
+  <Button item="GC_CancelButton">
+    <ScreenID>CancelButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>66</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Cancel</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Button item="GC_CreateButton">
+    <ScreenID>CreateButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>171</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>104</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Create</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <STMLbox item="GC_TextOutput">
+    <ScreenID>TextOutput</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>65</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Style_VScroll>true</Style_VScroll>
+  </STMLbox>
+  <Screen item="GuildCreationWnd">
+    <!--<ScreenID/>-->
+    <!--<Font/>-->
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>550</X>
+      <Y>350</Y>
+    </Location>
+    <Size>
+      <CX>400</CX>
+      <CY>340</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Text>Create Guild</Text>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>GC_NameEdit</Pieces>
+    <Pieces>GC_CreateButton</Pieces>
+    <Pieces>GC_CancelButton</Pieces>
+    <Pieces>GC_TextOutput</Pieces>
+    <Pieces>GC_NameLabel</Pieces>
+  </Screen>
+</XML>

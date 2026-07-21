@@ -1,0 +1,2009 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<!-- ************ Player Info Page ************ -->
+
+	<!-- Player Info Label -->
+	<Label item ="PIP_PlayerInfoLabel">
+		<ScreenID>PIP_PlayerInfoLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<!-- Search Comments -->
+	<Label item ="PIP_CommentsLabel">
+		<ScreenID>PIP_CommentsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>55</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
+
+		<Text>Comments:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	
+	<Editbox item = "PIP_CommentsEditbox">
+		<ScreenID>PIP_CommentsEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>37</TopAnchorOffset>
+		<BottomAnchorOffset>57</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+	</Editbox>
+
+	<!-- Additional filters -->
+	<Button item = "PIP_AdditionalFiltersButton">
+		<ScreenID>PIP_AdditionalFiltersButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>59</TopAnchorOffset>
+		<BottomAnchorOffset>79</BottomAnchorOffset>
+		<LeftAnchorOffset>102</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Additional Filters</Text>
+		<TooltipReference>Set extra rules to help trim out group results that you don't want.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Group level range -->
+	<Label item ="PIP_LevelRangeLabel">
+		<ScreenID>PIP_LevelRangeLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>79</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+
+		<Text>Group levels:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "PIP_LevelRangeMinEditbox">
+		<ScreenID>PIP_LevelRangeMinEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>59</TopAnchorOffset>
+		<BottomAnchorOffset>79</BottomAnchorOffset>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<RightAnchorOffset>120</RightAnchorOffset>
+	</Editbox>
+
+	<Label item ="PIP_LevelRangeSeparatorLabel">
+		<ScreenID>PIP_LevelRangeSeparatorLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>79</BottomAnchorOffset>
+		<LeftAnchorOffset>125</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+
+		<Text>-</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "PIP_LevelRangeMaxEditbox">
+		<ScreenID>PIP_LevelRangeMaxEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>59</TopAnchorOffset>
+		<BottomAnchorOffset>79</BottomAnchorOffset>
+		<LeftAnchorOffset>140</LeftAnchorOffset>
+		<RightAnchorOffset>170</RightAnchorOffset>
+	</Editbox>
+
+
+	<!-- Update LFG status buttons -->
+	<Button item = "PIP_PostMyInfoButton">
+		<ScreenID>PIP_PostMyInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>102</RightAnchorOffset>
+		<TopAnchorOffset>81</TopAnchorOffset>
+		<BottomAnchorOffset>101</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>LFG on</Text>
+		<TooltipReference>Submit your information so groups seeking players may see it.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "PIP_UpdateMyInfoButton">
+		<ScreenID>PIP_UpdateMyInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- This button should have the same position/size as PIP_PostMyInfoButton -->
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>102</RightAnchorOffset>
+		<TopAnchorOffset>81</TopAnchorOffset>
+		<BottomAnchorOffset>101</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Update Info</Text>
+		<TooltipReference>Update the information you currently have listed for groups seeking players.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "PIP_RemoveMyInfoButton">
+		<ScreenID>PIP_RemoveMyInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>102</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>81</TopAnchorOffset>
+		<BottomAnchorOffset>101</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>LFG off</Text>
+		<TooltipReference>Remove your listed information so players seeking groups may no longer see it.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Page for setting player info -->
+	<Page item = "PlayerInfoPage">
+		<ScreenID>PlayerInfoPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- Pages are sized and positioned by their parent tab box -->
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Player Looking For A Group</TabText>
+		<TabTextActiveColor>
+				<R>255</R>
+				<G>255</G>
+				<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+			<Pieces>PIP_PlayerInfoLabel</Pieces>
+			<Pieces>PIP_CommentsLabel</Pieces>
+			<Pieces>PIP_CommentsEditbox</Pieces>
+			<Pieces>PIP_AdditionalFiltersButton</Pieces>
+			<Pieces>PIP_LevelRangeLabel</Pieces>
+			<Pieces>PIP_LevelRangeMinEditbox</Pieces>
+			<Pieces>PIP_LevelRangeSeparatorLabel</Pieces>
+			<Pieces>PIP_LevelRangeMaxEditbox</Pieces>
+
+			<Pieces>PIP_UpdateMyInfoButton</Pieces>
+			<Pieces>PIP_PostMyInfoButton</Pieces>
+			<Pieces>PIP_RemoveMyInfoButton</Pieces>
+	</Page>
+
+	<!-- ************ Group Info Page ************ -->
+
+	<!-- Player Info Label -->
+	<Label item ="GIP_GroupInfoLabel">
+		<ScreenID>GIP_GroupInfoLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+
+	<!-- Search Comments -->
+	<Label item ="GIP_CommentsLabel">
+		<ScreenID>GIP_CommentsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>80</RightAnchorOffset>
+
+		<Text>Comments:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	
+	<Editbox item = "GIP_CommentsEditbox">
+		<ScreenID>GIP_CommentsEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>39</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+	</Editbox>
+
+	<!-- Additional filters -->
+	<Button item = "GIP_AdditionalFiltersButton">
+		<ScreenID>GIP_AdditionalFiltersButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>106</TopAnchorOffset>
+		<BottomAnchorOffset>126</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Additional Filters</Text>
+		<TooltipReference>Set extra rules to help trim out player results that you don't want.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Group Roles -->
+	<Label item ="GIP_LookingForRolesLabel">
+		<ScreenID>GIP_LookingForRolesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>41</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+
+		<Text>Want classes:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	
+	<Button item= "GIP_BstCheckbox">
+		<ScreenID>GIP_BstCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_ClrCheckbox">
+		<ScreenID>GIP_ClrCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<TopAnchorOffset>56</TopAnchorOffset>
+		<BottomAnchorOffset>72</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_DruCheckbox">
+		<ScreenID>GIP_DruCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>88</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_ShmCheckbox">
+		<ScreenID>GIP_ShmCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<TopAnchorOffset>88</TopAnchorOffset>
+		<BottomAnchorOffset>104</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_EncCheckbox">
+		<ScreenID>GIP_EncCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorOffset>216</RightAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_MagCheckbox">
+		<ScreenID>GIP_MagCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorOffset>216</RightAnchorOffset>
+		<TopAnchorOffset>56</TopAnchorOffset>
+		<BottomAnchorOffset>72</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_NecCheckbox">
+		<ScreenID>GIP_NecCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorOffset>216</RightAnchorOffset>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>88</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_WizCheckbox">
+		<ScreenID>GIP_WizCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorOffset>216</RightAnchorOffset>
+		<TopAnchorOffset>88</TopAnchorOffset>
+		<BottomAnchorOffset>104</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_BerCheckbox">
+		<ScreenID>GIP_BerCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>280</LeftAnchorOffset>
+		<RightAnchorOffset>296</RightAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_MnkCheckbox">
+		<ScreenID>GIP_MnkCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>280</LeftAnchorOffset>
+		<RightAnchorOffset>296</RightAnchorOffset>
+		<TopAnchorOffset>56</TopAnchorOffset>
+		<BottomAnchorOffset>72</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_RogCheckbox">
+		<ScreenID>GIP_RogCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>280</LeftAnchorOffset>
+		<RightAnchorOffset>296</RightAnchorOffset>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>88</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_WarCheckbox">
+		<ScreenID>GIP_WarCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>280</LeftAnchorOffset>
+		<RightAnchorOffset>296</RightAnchorOffset>
+		<TopAnchorOffset>88</TopAnchorOffset>
+		<BottomAnchorOffset>104</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_BrdCheckbox">
+		<ScreenID>GIP_BrdCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>360</LeftAnchorOffset>
+		<RightAnchorOffset>376</RightAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_PalCheckbox">
+		<ScreenID>GIP_PalCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>360</LeftAnchorOffset>
+		<RightAnchorOffset>376</RightAnchorOffset>
+		<TopAnchorOffset>56</TopAnchorOffset>
+		<BottomAnchorOffset>72</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_RanCheckbox">
+		<ScreenID>GIP_RanCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>360</LeftAnchorOffset>
+		<RightAnchorOffset>376</RightAnchorOffset>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>88</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Button item= "GIP_ShdCheckbox">
+		<ScreenID>GIP_ShdCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>360</LeftAnchorOffset>
+		<RightAnchorOffset>376</RightAnchorOffset>
+		<TopAnchorOffset>88</TopAnchorOffset>
+		<BottomAnchorOffset>104</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item ="GIP_BstLabel">
+		<ScreenID>GIP_BstLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>137</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorOffset>41</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+
+		<Text>BST</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_ClrLabel">
+		<ScreenID>GIP_ClrLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>137</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorOffset>57</TopAnchorOffset>
+		<BottomAnchorOffset>70</BottomAnchorOffset>
+
+		<Text>CLR</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_DruLabel">
+		<ScreenID>GIP_DruLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>137</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorOffset>73</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+
+		<Text>DRU</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_ShmLabel">
+		<ScreenID>GIP_ShmLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>137</LeftAnchorOffset>
+		<RightAnchorOffset>195</RightAnchorOffset>
+		<TopAnchorOffset>89</TopAnchorOffset>
+		<BottomAnchorOffset>103</BottomAnchorOffset>
+
+		<Text>SHM</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_EncLabel">
+		<ScreenID>GIP_EncLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>217</LeftAnchorOffset>
+		<RightAnchorOffset>275</RightAnchorOffset>
+		<TopAnchorOffset>41</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+
+		<Text>ENC</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_MagLabel">
+		<ScreenID>GIP_MagLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>217</LeftAnchorOffset>
+		<RightAnchorOffset>275</RightAnchorOffset>
+		<TopAnchorOffset>57</TopAnchorOffset>
+		<BottomAnchorOffset>71</BottomAnchorOffset>
+
+		<Text>MAG</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_NecLabel">
+		<ScreenID>GIP_NecLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>217</LeftAnchorOffset>
+		<RightAnchorOffset>275</RightAnchorOffset>
+		<TopAnchorOffset>73</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+
+		<Text>NEC</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_WizLabel">
+		<ScreenID>GIP_WizLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>217</LeftAnchorOffset>
+		<RightAnchorOffset>275</RightAnchorOffset>
+		<TopAnchorOffset>89</TopAnchorOffset>
+		<BottomAnchorOffset>103</BottomAnchorOffset>
+
+		<Text>WIZ</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_BerLabel">
+		<ScreenID>GIP_BerLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>297</LeftAnchorOffset>
+		<RightAnchorOffset>355</RightAnchorOffset>
+		<TopAnchorOffset>41</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+
+		<Text>BER</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_MnkLabel">
+		<ScreenID>GIP_MnkLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>297</LeftAnchorOffset>
+		<RightAnchorOffset>355</RightAnchorOffset>
+		<TopAnchorOffset>57</TopAnchorOffset>
+		<BottomAnchorOffset>70</BottomAnchorOffset>
+
+		<Text>MNK</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_RogLabel">
+		<ScreenID>GIP_RogLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>297</LeftAnchorOffset>
+		<RightAnchorOffset>355</RightAnchorOffset>
+		<TopAnchorOffset>73</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+
+		<Text>ROG</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_WarLabel">
+		<ScreenID>GIP_WarLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>297</LeftAnchorOffset>
+		<RightAnchorOffset>355</RightAnchorOffset>
+		<TopAnchorOffset>89</TopAnchorOffset>
+		<BottomAnchorOffset>103</BottomAnchorOffset>
+
+		<Text>WAR</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_BrdLabel">
+		<ScreenID>GIP_BrdLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>377</LeftAnchorOffset>
+		<RightAnchorOffset>435</RightAnchorOffset>
+		<TopAnchorOffset>41</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+
+		<Text>BRD</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_PalLabel">
+		<ScreenID>GIP_PalLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>377</LeftAnchorOffset>
+		<RightAnchorOffset>435</RightAnchorOffset>
+		<TopAnchorOffset>57</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+
+		<Text>PAL</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_RanLabel">
+		<ScreenID>GIP_RanLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>377</LeftAnchorOffset>
+		<RightAnchorOffset>435</RightAnchorOffset>
+		<TopAnchorOffset>73</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+
+		<Text>RNG</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GIP_ShdLabel">
+		<ScreenID>GIP_ShdLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>377</LeftAnchorOffset>
+		<RightAnchorOffset>435</RightAnchorOffset>
+		<TopAnchorOffset>89</TopAnchorOffset>
+		<BottomAnchorOffset>103</BottomAnchorOffset>
+
+		<Text>SHD</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "GIP_SelectAllRolesButton">
+		<ScreenID>GIP_SelectAllRolesButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>92</RightAnchorOffset>
+		<TopAnchorOffset>57</TopAnchorOffset>
+		<BottomAnchorOffset>77</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Select All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "GIP_DeselectAllRolesButton">
+		<ScreenID>GIP_DeselectAllRolesButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>92</RightAnchorOffset>
+		<TopAnchorOffset>79</TopAnchorOffset>
+		<BottomAnchorOffset>99</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Select None</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Label item ="GIP_LevelRangeLabel">
+		<ScreenID>GIP_LevelRangeLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>107</TopAnchorOffset>
+		<BottomAnchorOffset>123</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+
+		<Text>Want player levels:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "GIP_LevelRangeMinEditbox">
+		<ScreenID>GIP_LevelRangeMinEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>106</TopAnchorOffset>
+		<BottomAnchorOffset>126</BottomAnchorOffset>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>150</RightAnchorOffset>
+	</Editbox>
+
+	<Label item ="GIP_LevelRangeSeparatorLabel">
+		<ScreenID>GIP_LevelRangeSeparatorLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>107</TopAnchorOffset>
+		<BottomAnchorOffset>123</BottomAnchorOffset>
+		<LeftAnchorOffset>151</LeftAnchorOffset>
+		<RightAnchorOffset>175</RightAnchorOffset>
+
+		<Text>-</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "GIP_LevelRangeMaxEditbox">
+		<ScreenID>GIP_LevelRangeMaxEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>106</TopAnchorOffset>
+		<BottomAnchorOffset>126</BottomAnchorOffset>
+		<LeftAnchorOffset>175</LeftAnchorOffset>
+		<RightAnchorOffset>205</RightAnchorOffset>
+	</Editbox>
+
+	<!-- Update info so other players can see -->
+	<Button item = "GIP_PostOurInfoButton">
+		<ScreenID>GIP_PostOurInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>100</RightAnchorOffset>
+		<TopAnchorOffset>128</TopAnchorOffset>
+		<BottomAnchorOffset>148</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>LFP on</Text>
+		<TooltipReference>Submit your group's information so players seeking groups may see it.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "GIP_UpdateOurInfoButton">
+		<ScreenID>GIP_UpdateOurInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- This button should have the same position/size as GIP_PostMyInfoButton -->
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>100</RightAnchorOffset>
+		<TopAnchorOffset>128</TopAnchorOffset>
+		<BottomAnchorOffset>148</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Update Info</Text>
+		<TooltipReference>Update the information you have listed for players seeking groups.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "GIP_RemoveOurInfoButton">
+		<ScreenID>GIP_RemoveOurInfoButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>128</TopAnchorOffset>
+		<BottomAnchorOffset>148</BottomAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>LFP off</Text>
+		<TooltipReference>Remove your listed information so players seeking groups may no longer see it.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Page for setting group info -->
+	<Page item = "GroupInfoPage">
+		<ScreenID>GroupInfoPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- Pages are sized and positioned by their parent tab box -->
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Group Looking For Players</TabText>
+		<TabTextActiveColor>
+				<R>255</R>
+				<G>255</G>
+				<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+			<Pieces>GIP_GroupInfoLabel</Pieces>
+			
+			<Pieces>GIP_CommentsLabel</Pieces>
+			<Pieces>GIP_CommentsEditbox</Pieces>
+			<Pieces>GIP_AdditionalFiltersButton</Pieces>
+			
+			<Pieces>GIP_LookingForRolesLabel</Pieces>
+
+			<Pieces>GIP_BstCheckbox</Pieces>
+			<Pieces>GIP_ClrCheckbox</Pieces>
+			<Pieces>GIP_DruCheckbox</Pieces>
+			<Pieces>GIP_ShmCheckbox</Pieces>
+			<Pieces>GIP_EncCheckbox</Pieces>
+			<Pieces>GIP_MagCheckbox</Pieces>
+			<Pieces>GIP_NecCheckbox</Pieces>
+			<Pieces>GIP_WizCheckbox</Pieces>
+			<Pieces>GIP_BerCheckbox</Pieces>
+			<Pieces>GIP_MnkCheckbox</Pieces>
+			<Pieces>GIP_RogCheckbox</Pieces>
+			<Pieces>GIP_WarCheckbox</Pieces>
+			<Pieces>GIP_BrdCheckbox</Pieces>
+			<Pieces>GIP_PalCheckbox</Pieces>
+			<Pieces>GIP_RanCheckbox</Pieces>
+			<Pieces>GIP_ShdCheckbox</Pieces>
+
+			<Pieces>GIP_BstLabel</Pieces>
+			<Pieces>GIP_ClrLabel</Pieces>
+			<Pieces>GIP_DruLabel</Pieces>
+			<Pieces>GIP_ShmLabel</Pieces>
+			<Pieces>GIP_EncLabel</Pieces>
+			<Pieces>GIP_MagLabel</Pieces>
+			<Pieces>GIP_NecLabel</Pieces>
+			<Pieces>GIP_WizLabel</Pieces>
+			<Pieces>GIP_MnkLabel</Pieces>
+			<Pieces>GIP_RogLabel</Pieces>
+			<Pieces>GIP_WarLabel</Pieces>
+			<Pieces>GIP_BerLabel</Pieces>
+			<Pieces>GIP_BrdLabel</Pieces>
+			<Pieces>GIP_PalLabel</Pieces>
+			<Pieces>GIP_RanLabel</Pieces>
+			<Pieces>GIP_ShdLabel</Pieces>
+
+			<Pieces>GIP_LevelRangeLabel</Pieces>
+			<Pieces>GIP_LevelRangeMinEditbox</Pieces>
+			<Pieces>GIP_LevelRangeSeparatorLabel</Pieces>
+			<Pieces>GIP_LevelRangeMaxEditbox</Pieces>
+
+			<Pieces>GIP_UpdateOurInfoButton</Pieces>
+			<Pieces>GIP_PostOurInfoButton</Pieces>
+			<Pieces>GIP_RemoveOurInfoButton</Pieces>
+
+			<Pieces>GIP_SelectAllRolesButton</Pieces>
+			<Pieces>GIP_DeselectAllRolesButton</Pieces>
+	</Page>
+
+	<!-- ************ Tab Window which contains info settings ************ -->
+
+	<!-- Tabbed subwindows for different search screens -->
+	<TabBox item = "GSW_InfoPages">
+		<ScreenID>GSW_InfoPages</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>195</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+			<Pages>PlayerInfoPage</Pages>
+			<Pages>GroupInfoPage</Pages>
+	</TabBox>
+
+	<!-- ************ Tab Window which contains search results ************ -->
+
+	<!-- Search results -->
+	<Label item = "PLP_NumSearchResultsLabel">
+		<ScreenID>PLP_NumSearchResultsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Listbox item = "PLP_PlayerSearchResultList">
+		<ScreenID>PLP_PlayerSearchResultList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>90</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Level</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Class</Heading>
+		</Columns>
+		<Columns>
+			<Width>80</Width>
+			<Heading>Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>400</Width>
+			<Heading>Comments</Heading>
+		</Columns>
+	</Listbox>
+
+	<!-- Update the search list -->
+	<Button item= "PLP_ShowMatchesCheckbox">
+		<ScreenID>PLP_ShowMatchesCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+
+		<RadioGroup>FilterPlayerMatches</RadioGroup>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item ="PLP_ShowMatchesLabel">
+		<ScreenID>PLP_ShowMatchesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+
+		<Text>Show Matches</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item= "PLP_ShowAllCheckbox">
+		<ScreenID>PLP_ShowAllCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>146</RightAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+
+		<RadioGroup>FilterPlayerMatches</RadioGroup>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item ="PLP_ShowAllLabel">
+		<ScreenID>PLP_ShowAllLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>149</LeftAnchorOffset>
+		<RightAnchorOffset>255</RightAnchorOffset>
+
+		<Text>Show All</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "PLP_RefreshPlayerButton">
+		<ScreenID>PLP_RefreshPlayerButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Get Matches</Text>
+		<TooltipReference>This button updates your search result list with the latest information.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Page for getting LFG players -->
+	<Page item = "PlayerListPage">
+		<ScreenID>PlayerListPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- Pages are sized and positioned by their parent tab box -->
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Players Looking For A Group</TabText>
+		<TabTextActiveColor>
+				<R>255</R>
+				<G>255</G>
+				<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+			<Pieces>PLP_NumSearchResultsLabel</Pieces>
+			<Pieces>PLP_PlayerSearchResultList</Pieces>
+			
+			<Pieces>PLP_ShowMatchesCheckbox</Pieces>
+			<Pieces>PLP_ShowMatchesLabel</Pieces>
+			<Pieces>PLP_ShowAllCheckbox</Pieces>
+			<Pieces>PLP_ShowAllLabel</Pieces>
+
+			<Pieces>PLP_RefreshPlayerButton</Pieces>
+	</Page>
+
+
+	<!-- Search results -->
+	<Label item = "GLP_NumSearchResultsLabel">
+		<ScreenID>GLP_NumSearchResultsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Listbox item = "GLP_PlayerSearchResultList">
+		<ScreenID>GLP_PlayerSearchResultList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>172</BottomAnchorOffset>
+
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>90</Width>
+			<Heading>Group Leader</Heading>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Heading>#</Heading>
+		</Columns>
+		<Columns>
+			<Width>40</Width>
+			<Heading>Level</Heading>
+		</Columns>
+		<Columns>
+			<Width>80</Width>
+			<Heading>Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>400</Width>
+			<Heading>Comments</Heading>
+		</Columns>
+	</Listbox>
+
+	<Listbox item = "GLP_GroupDetailList">
+		<ScreenID>GLP_GroupDetailList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>171</TopAnchorOffset>
+		<BottomAnchorOffset>70</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Class</Heading>
+		</Columns>
+		<Columns>
+			<Width>400</Width>
+			<Heading>Level</Heading>
+		</Columns>
+	</Listbox>
+
+	<Listbox item = "GLP_ClassesWantedList">
+		<ScreenID>GLP_ClassesWantedList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+
+		<Columns>
+			<Width>400</Width>
+			<Heading>Desired Classes</Heading>
+		</Columns>
+
+	</Listbox>
+
+	<!-- Update the search list -->
+	<Button item= "GLP_ShowMatchesCheckbox">
+		<ScreenID>GLP_ShowMatchesCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+
+		<RadioGroup>FilterGroupMatches</RadioGroup>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item ="GLP_ShowMatchesLabel">
+		<ScreenID>GLP_ShowMatchesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+
+		<Text>Show Matches</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item= "GLP_ShowAllCheckbox">
+		<ScreenID>GLP_ShowAllCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>4</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>146</RightAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+
+		<RadioGroup>FilterGroupMatches</RadioGroup>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item ="GLP_ShowAllLabel">
+		<ScreenID>GLP_ShowAllLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>19</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>149</LeftAnchorOffset>
+		<RightAnchorOffset>255</RightAnchorOffset>
+
+		<RadioGroup>FilterGroupMatches</RadioGroup>
+		<Text>Show All</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "GLP_RefreshGroupsButton">
+		<ScreenID>GLP_RefreshGroupsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Get Matches</Text>
+		<TooltipReference>This button updates your search result list with the latest information.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<!-- Page for getting LFP players -->
+	<Page item = "GroupListPage">
+		<ScreenID>GroupListPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- Pages are sized and positioned by their parent tab box -->
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Groups Looking For Players</TabText>
+		<TabTextActiveColor>
+				<R>255</R>
+				<G>255</G>
+				<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+			<Pieces>GLP_NumSearchResultsLabel</Pieces>
+			<Pieces>GLP_PlayerSearchResultList</Pieces>
+			<Pieces>GLP_GroupDetailList</Pieces>
+			<Pieces>GLP_ClassesWantedList</Pieces>
+	
+			<Pieces>GLP_ShowMatchesCheckbox</Pieces>
+			<Pieces>GLP_ShowMatchesLabel</Pieces>
+			<Pieces>GLP_ShowAllCheckbox</Pieces>
+			<Pieces>GLP_ShowAllLabel</Pieces>
+
+			<Pieces>GLP_RefreshGroupsButton</Pieces>
+	</Page>
+
+
+	<!-- Tabbed subwindows for different search screens -->
+	<TabBox item = "GSW_SearchPages">
+		<ScreenID>GSW_SearchPages</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>212</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+			<Pages>PlayerListPage</Pages>
+			<Pages>GroupListPage</Pages>
+	</TabBox>
+
+
+	<!-- ************ LFG window, top level ************ -->
+
+	<Label item ="GSW_IAmALabel">
+		<ScreenID>GSW_IAmALabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>17</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+
+		<Text>I am a:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Label item ="GSW_ShowMeLabel">
+		<ScreenID>GSW_ShowMeLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>196</TopAnchorOffset>
+		<BottomAnchorOffset>215</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+
+		<Text>Show me:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Screen item = "GroupSearchWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>70</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>490</CX>
+			<CY>600</CY>
+		</Size>
+		<MinHSize>430</MinHSize>	
+		<MinVSize>540</MinVSize>			
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Group Search Window</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+			<Pieces>GSW_IAmALabel</Pieces>
+			<Pieces>GSW_ShowMeLabel</Pieces>
+			<Pieces>GSW_InfoPages</Pieces>
+			<Pieces>GSW_SearchPages</Pieces>
+	</Screen>
+
+
+	<!-- ************ Filters Window ************ -->
+
+	<!-- Use friends / ignore list filters-->
+	
+	<Button item = "GSFW_UseIgnoreListCheckbox">
+		<ScreenID>GSFW_UseIgnoreListCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item = "GSFW_UseIgnoreListLabel">
+		<ScreenID>GSFW_UseIgnoreListLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+
+		<Text>Use my ignore list</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "GSFW_UseFriendsListCheckbox">
+		<ScreenID>GSFW_UseFriendsListCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>36</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item = "GSFW_UseFriendsListLabel">
+		<ScreenID>GSFW_UseFriendsListLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>42</BottomAnchorOffset>
+
+		<Text>Only show my friends (uses your friends list)</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<!-- Mutual Exclusion Search Mode -->
+	<Button item = "GSFW_ExclusionSearchCheckbox">
+		<ScreenID>GSFW_ExclusionSearchCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<BottomAnchorOffset>54</BottomAnchorOffset>
+		
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Label item = "GSFW_ExclusionSearchLabel">
+		<ScreenID>GSFW_ExclusionSearchLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>39</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+
+		<Text>Only players who match my posted filters can query me.</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<!-- The Filters Window -->
+	<Screen item = "GroupSearchFiltersWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>60</Y>
+		</Location>
+		<Size>
+			<CX>340</CX>
+			<CY>77</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Group Search: Additional Filters</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+			<Pieces>GSFW_UseIgnoreListCheckbox</Pieces>
+			<Pieces>GSFW_UseIgnoreListLabel</Pieces>
+			<Pieces>GSFW_UseFriendsListCheckbox</Pieces>
+			<Pieces>GSFW_UseFriendsListLabel</Pieces>
+			<Pieces>GSFW_ExclusionSearchCheckbox</Pieces>
+			<Pieces>GSFW_ExclusionSearchLabel</Pieces>
+	</Screen>
+
+
+</XML>

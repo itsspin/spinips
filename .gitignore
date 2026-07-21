@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+loremaster/loremaster_config.json
+loremaster/loremaster_data/
+loremaster/wiki_cache/

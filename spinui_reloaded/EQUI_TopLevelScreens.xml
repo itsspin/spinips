@@ -1,0 +1,42 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+	
+	<!-- The following settings can be set as an attribute to of each window to turn it on
+	     during initialization of the window.
+
+		item="none"
+		item="position"
+		item-"size"
+		item-"font"
+		item="alpha"
+		item="color"
+		item="visibility"
+		item="firsttimevis"
+		item="minmaxstate"
+		item="allbutvis"
+		item="allbutfirstvis"
+		item="allbutvis_and_firstvis"
+		item="all"
+
+	-->
+
+	<TopLevelWindowList item="GameScreens">
+		<Screens>
+			<ScreenName>MMTW_MerchantWnd</ScreenName>
+			<InitialSettings>allbutvis_and_firstvis</InitialSettings>
+		</Screens>
+		
+		<Screens>
+			<ScreenName>MMGW_ManageWnd</ScreenName>
+			<InitialSettings>allbutfirstvis</InitialSettings>
+		</Screens>
+		
+		<Screens>
+			<ScreenName>MIW_InfoWnd</ScreenName>
+			<InitialSettings>allbutvis_and_firstvis</InitialSettings>
+		</Screens>
+	
+	</TopLevelWindowList>
+	
+</XML>

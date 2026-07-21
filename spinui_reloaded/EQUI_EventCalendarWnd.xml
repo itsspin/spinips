@@ -1,0 +1,409 @@
+<?xml version="1.0" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	
+	<Label item="EC_MonthLabel">
+		<ScreenID>EC_MonthLabel</ScreenID>
+		<Text></Text>
+		<Font>6</Font>
+		<AlignCenter>true</AlignCenter>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>50</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Label>
+	
+	<Button item="EC_PrevMonthButton">
+		<ScreenID>EC_PrevMonthButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>12</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<LeftAnchorOffset>12</LeftAnchorOffset>
+		<RightAnchorOffset>34</RightAnchorOffset>
+		<TooltipReference>Previous Month</TooltipReference>
+		<Template>BDT_PanLeft</Template>
+	</Button>
+	
+	<Button item="EC_NextMonthButton">
+		<ScreenID>EC_NextMonthButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>12</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<LeftAnchorOffset>34</LeftAnchorOffset>
+		<RightAnchorOffset>12</RightAnchorOffset>
+		<TooltipReference>Next Month</TooltipReference>
+		<Template>BDT_PanRight</Template>
+	</Button>
+	
+	<Button item="EC_ExportMonthButton">
+		<ScreenID>EC_ExportMonthButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<AlignCenter>true</AlignCenter>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>325</LeftAnchorOffset>
+		<RightAnchorOffset>300</RightAnchorOffset>
+		<TooltipReference>Export selected month to an iCal file in your install directory</TooltipReference>
+		<DecalSize>
+			<CX>75</CX>
+			<CY>75</CY>
+		</DecalSize>
+		<DecalOffset>
+			<X>1</X>
+			<Y>1</Y>
+		</DecalOffset>
+		<Template>BDT_ExportCalendar</Template>
+	</Button>
+	
+	<Screen item="EC_MonthControl">
+		<ScreenID>EC_MonthControl</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>	
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Pieces>EC_MonthLabel</Pieces>
+		<Pieces>EC_NextMonthButton</Pieces>
+		<Pieces>EC_PrevMonthButton</Pieces>
+		<Pieces>EC_ExportMonthButton</Pieces>
+	</Screen>
+	
+	<Label item="EC_DayLabel">
+		<ScreenID>EC_DayLabel</ScreenID>
+		<Text></Text>
+		<Font>5</Font>
+		<AlignCenter>true</AlignCenter>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<BottomAnchorOffset>8</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Label>
+	
+	<Button item="EC_PrevDayButton">
+		<ScreenID>EC_PrevDayButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>6</TopAnchorOffset>
+		<BottomAnchorOffset>28</BottomAnchorOffset>
+		<LeftAnchorOffset>6</LeftAnchorOffset>
+		<RightAnchorOffset>28</RightAnchorOffset>
+		<TooltipReference>Previous Day</TooltipReference>
+		<Template>BDT_PanLeft</Template>
+	</Button>
+	
+	<Button item="EC_NextDayButton">
+		<ScreenID>EC_NextDayButton</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>6</TopAnchorOffset>
+		<BottomAnchorOffset>28</BottomAnchorOffset>
+		<LeftAnchorOffset>28</LeftAnchorOffset>
+		<RightAnchorOffset>6</RightAnchorOffset>
+		<TooltipReference>Next Day</TooltipReference>
+		<Template>BDT_PanRight</Template>
+	</Button>
+	
+	<Screen item="EC_DayControl">
+		<ScreenID>EC_DayControl</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>65</TopAnchorOffset>
+		<BottomAnchorOffset>111</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>242</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Pieces>EC_DayLabel</Pieces>
+		<Pieces>EC_PrevDayButton</Pieces>
+		<Pieces>EC_NextDayButton</Pieces>
+	</Screen>
+	
+	<STMLbox item="EC_Event_Text">
+		<ScreenID>EC_Event_Text</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Font>3</Font>
+	</STMLbox>
+	
+	<Screen item="EC_Event">
+		<ScreenID>EC_Event</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>	
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Size>
+			<CX>215</CX>
+			<CY>120</CY>
+		</Size>
+		<Pieces>EC_Event_Text</Pieces>
+	</Screen>		
+	
+	<TileLayoutBox item="EC_EventList">
+		<ScreenID>EC_EventList</ScreenID>
+		<Spacing>10</Spacing>
+		<SecondarySpacing>10</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<FirstPieceTemplate>false</FirstPieceTemplate>
+		<SnapToChildren>true</SnapToChildren>
+	</TileLayoutBox>
+	
+	<Screen item="EC_DayDetails">
+		<ScreenID>EC_DayDetails</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>116</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>242</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_VScroll>true</Style_VScroll>
+		<Pieces>TileLayoutBox:EC_EventList</Pieces>
+	</Screen>
+	
+	<Label item="EC_TimezoneMessage">
+		<ScreenID>EC_TimezoneMessage</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>All dates and times are in your local time zone</Text>
+		<Font>2</Font>
+		<AlignCenter>true</AlignCenter>
+	</Label>
+	
+	<Screen item="EC_TimezoneMessageBox">
+		<ScreenID>EC_TimezoneMessageBox</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>242</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Pieces>EC_TimezoneMessage</Pieces>
+	</Screen>
+	
+	<Label item="EC_DayName">
+		<ScreenID>EC_DayName</ScreenID>
+		<Text></Text>
+		<Font>4</Font>
+		<AlignCenter>true</AlignCenter>
+		<Location>
+			<X>0</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>86</CX>
+			<CY>30</CY>
+		</Size>
+	</Label>
+	
+	<Screen item="EC_DayOfWeek">
+		<ScreenID>EC_DayOfWeek</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>86</CX>
+			<CY>30</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Pieces>EC_DayName</Pieces>
+	</Screen>
+	
+	<HorizontalLayoutBox item="EC_DaysOfWeekList">
+		<ScreenID>EC_DaysOfWeekList</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>4</Spacing>
+		<ResizeLast>false</ResizeLast>
+		<FirstPieceTemplate>false</FirstPieceTemplate>
+		<SnapToChildren>true</SnapToChildren>
+		<Style_Dividers>false</Style_Dividers>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+		<Pieces>Screen:EC_DayOfWeek</Pieces>
+	</HorizontalLayoutBox>
+	
+	<Screen item="EC_DaysOfWeek">
+		<ScreenID>EC_DaysOfWeek</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>72</TopAnchorOffset>
+		<BottomAnchorOffset>102</BottomAnchorOffset>
+		<LeftAnchorOffset>633</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>EC_DaysOfWeekList</Pieces>
+	</Screen>
+	
+	<Label item="EC_DayNumber">
+		<ScreenID>EC_DayNumber</ScreenID>
+		<AlignRight>true</AlignRight>
+		<Size>
+			<CX>81</CX>
+			<CY>15</CY>
+		</Size>
+	</Label>
+	
+	<STMLbox item="EC_DayEvent">
+		<ScreenID>EC_DayEvent</ScreenID>
+		<Size>
+			<CX>81</CX>
+			<CY>15</CY>
+		</Size>
+		<NoWrap>true</NoWrap>
+	</STMLbox>
+	
+	<TileLayoutBox item="EC_CalendarDayList">
+		<ScreenID>EC_CalendarDayList</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<Pieces>Label:EC_DayNumber</Pieces>
+	</TileLayoutBox>
+	
+	<Screen item="EC_CalendarDay">
+		<ScreenID>EC_CalendarDay</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>86</CX>
+			<CY>94</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Pieces>EC_CalendarDayList</Pieces>
+	</Screen>
+	
+	<Screen item="EC_CalendarDayBlank">
+		<ScreenID>EC_CalendarDayBlank</ScreenID>
+		<DrawTemplate>WDT_InnerGray</DrawTemplate>
+		<TextColor>
+			<R>160</R>
+			<G>160</G>
+			<B>160</B>
+		</TextColor>
+	</Screen>
+	
+	<Screen item="EC_CalendarDaySelected">
+		<ScreenID>EC_CalendarDaySelected</ScreenID>
+		<DrawTemplate>WDT_HighlightThin</DrawTemplate>
+	</Screen>
+	
+	<Screen item="EC_CalendarDayToday">
+		<ScreenID>EC_CalendarDayToday</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TextColor>
+			<R>160</R>
+			<G>136</G>
+			<B>82</B>
+		</TextColor>
+	</Screen>
+	
+	<Screen item="EC_CalendarDayTodaySelected">
+		<ScreenID>EC_CalendarDayTodaySelected</ScreenID>
+		<DrawTemplate>WDT_HighlightThin</DrawTemplate>
+		<TextColor>
+			<R>160</R>
+			<G>136</G>
+			<B>82</B>
+		</TextColor>
+	</Screen>
+	
+	<TileLayoutBox item="EC_CalendarDaysList">
+		<ScreenID>EC_CalendarDaysList</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>4</Spacing>
+		<PaddingLeft>0</PaddingLeft>
+		<PaddingRight>0</PaddingRight>
+		<PaddingTop>0</PaddingTop>
+		<PaddingBottom>0</PaddingBottom>
+		<HorizontalFirst>true</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<SnapToChildren>true</SnapToChildren>
+	</TileLayoutBox>
+	
+	<Screen item="EC_CalendarDays">
+		<ScreenID>EC_CalendarDays</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>112</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>633</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>EC_CalendarDaysList</Pieces>
+	</Screen>
+	
+	<Screen item="EventCalendarWnd">
+		<RelativePosition>false</RelativePosition>
+		<Text>Calendar</Text>
+		<Location>
+			<X>50</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>880</CX>
+			<CY>610</CY>
+		</Size>
+		<MinHSize>880</MinHSize>
+		<MinVSize>710</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Marketplace</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>false</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>EC_MonthControl</Pieces>
+		<Pieces>EC_DayControl</Pieces>
+		<Pieces>EC_DayDetails</Pieces>
+		<Pieces>EC_DaysOfWeek</Pieces>
+		<Pieces>EC_CalendarDays</Pieces>
+		<Pieces>EC_CalendarDayToday</Pieces>
+		<Pieces>EC_CalendarDayTodaySelected</Pieces>
+		<Pieces>EC_CalendarDaySelected</Pieces>
+		<Pieces>EC_CalendarDayBlank</Pieces>
+		<Pieces>EC_DayEvent</Pieces>
+		<Pieces>EC_DayNumber</Pieces>
+		<Pieces>EC_CalendarDay</Pieces>
+		<Pieces>EC_TimezoneMessageBox</Pieces>
+		<Pieces>EC_Event</Pieces>
+	</Screen>
+</XML>

@@ -1,0 +1,1020 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item="ZGW_FilterType_Label">
+		<ScreenID>ZGW_FilterType_Label</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<RightAnchorOffset>35</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Type</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="ZGW_FilterType_Combobox">
+		<ScreenID>ZGW_FilterType_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>45</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>235</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<ListHeight>200</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="ZGW_FilterRegions_Label">
+		<ScreenID>ZGW_FilterRegions_Label</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>250</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Region</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Combobox item="ZGW_FilterRegions_Combobox">
+		<ScreenID>ZGW_FilterRegions_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>195</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<ListHeight>200</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	<Label item="ZGW_FilterLevel_Label">
+		<ScreenID>ZGW_FilterLevel_Label</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>27</TopAnchorOffset>
+		<RightAnchorOffset>35</RightAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Level</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="ZGW_FilterLevel_EditBox">
+		<ScreenID>ZGW_FilterLevel_EditBox</ScreenID>
+		<Font>3</Font>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>45</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>83</RightAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="ZGW_ShowMyLevel_Btn">
+		<ScreenID>ZGW_ShowMyLevel_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>85</LeftAnchorOffset>
+		<RightAnchorOffset>160</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to set the level filter to your current level.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>My Level</Text>
+		<Template>BDT_Normal</Template>		
+	</Button>
+	<Button item="ZGW_ShowAllLevels_Btn">
+		<ScreenID>ZGW_ShowAllLevels_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>162</LeftAnchorOffset>
+		<RightAnchorOffset>235</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to remove any level filters.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>All Levels</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_FilterZonesActive_Btn">
+		<ScreenID>ZGW_FilterZonesActive_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click to turn off zone filtering.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Filter Active</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_FilterZonesInactive_Btn">
+		<ScreenID>ZGW_FilterZonesInactive_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click to turn on zone filtering.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Filter Inactive</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Listbox item="ZGW_Zones_ListBox">
+		<ScreenID>ZGW_Zones_ListBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>-2</LeftAnchorOffset>
+		<TopAnchorOffset>45</TopAnchorOffset>
+		<RightAnchorOffset>-2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Columns>
+			<Width>250</Width>
+			<Heading>Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Region</Heading>
+		</Columns>
+		<Columns>
+			<Width>75</Width>
+			<Heading>Min Level</Heading>
+		</Columns>
+		<Columns>
+			<Width>75</Width>
+			<Heading>Max Level</Heading>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+	<Editbox item="ZGW_ZoneSelect_EditBox">
+		<ScreenID>ZGW_ZoneSelect_EditBox</ScreenID>
+		<Font>3</Font>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>312</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="ZGW_SearchZones_Btn">
+		<ScreenID>ZGW_SearchZones_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>310</LeftAnchorOffset>
+		<RightAnchorOffset>230</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to find all zones that match the text.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Search</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_ClearZonesSearch_Btn">
+		<ScreenID>ZGW_ClearZonesSearch_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>228</LeftAnchorOffset>
+		<RightAnchorOffset>150</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to clear the search.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Clear</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_CurrentZone_Btn">
+		<ScreenID>ZGW_CurrentZone_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to select your current zone in the zone list.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Current Zone</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="ZGW_ZoneList_Screen">
+		<ScreenID>ZGW_ZoneList_Screen</ScreenID>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>270</CY>
+		</Size>
+		<MinVSize>125</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Pieces>ZGW_FilterType_Label</Pieces>
+		<Pieces>ZGW_FilterType_Combobox</Pieces>
+		<Pieces>ZGW_FilterRegions_Label</Pieces>
+		<Pieces>ZGW_FilterRegions_Combobox</Pieces>
+		<Pieces>ZGW_FilterLevel_Label</Pieces>
+		<Pieces>ZGW_FilterLevel_EditBox</Pieces>
+		<Pieces>ZGW_ShowMyLevel_Btn</Pieces>
+		<Pieces>ZGW_ShowAllLevels_Btn</Pieces>
+		<Pieces>ZGW_FilterZonesActive_Btn</Pieces>
+		<Pieces>ZGW_FilterZonesInactive_Btn</Pieces>
+		<Pieces>ZGW_Zones_ListBox</Pieces>
+		<Pieces>ZGW_ZoneSelect_EditBox</Pieces>
+		<Pieces>ZGW_SearchZones_Btn</Pieces>
+		<Pieces>ZGW_ClearZonesSearch_Btn</Pieces>
+		<Pieces>ZGW_CurrentZone_Btn</Pieces>
+	</Screen>
+	
+	<Label item ="ZGW_ViewConnections_Label">
+		<ScreenID/>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>100</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>View Connections:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Button item="ZGW_ViewSelectedZone_Btn">
+		<ScreenID>ZGW_ViewSelectedZone_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>114</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>ZoneConnectionView</RadioGroup>
+		<TooltipReference>Click to view the zone connections for the zone selected in the zone list.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_ViewSelectedZone_Label">
+		<ScreenID>ZGW_ViewSelectedZone_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>134</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>220</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Selected Zone</Text>
+		<Font>3</Font>
+	</Label>
+	<Button item="ZGW_ViewPreviewPath_Btn">
+		<ScreenID>ZGW_ViewPreviewPath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>224</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>240</RightAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>ZoneConnectionView</RadioGroup>
+		<TooltipReference>Click to view the zone connections in your preview path.  This is the active path that would be created from your start zone and end zone, taking into account any zone connections in the disabled list.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_ViewPreviewPath_Label">
+		<ScreenID>ZGW_ViewPreviewPath_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>244</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>322</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Preview Path</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>159</R>
+			<G>159</G>
+			<B>159</B>
+		</TextColor>
+	</Label>
+	<Button item="ZGW_ViewActivePath_Btn">
+		<ScreenID>ZGW_ViewActivePath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>324</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>340</RightAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>ZoneConnectionView</RadioGroup>
+		<TooltipReference>Click to view the zone connections in your active zone path.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_ViewActivePath_Label">
+		<ScreenID>ZGW_ViewActivePath_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>345</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>415</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Active Path</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>159</R>
+			<G>159</G>
+			<B>159</B>
+		</TextColor>
+	</Label>
+	<Button item="ZGW_ViewDisabled_Btn">
+		<ScreenID>ZGW_ViewDisabled_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>414</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>430</RightAnchorOffset>
+		<BottomAnchorOffset>18</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<RadioGroup>ZoneConnectionView</RadioGroup>
+		<TooltipReference>Click to view all disabled zone connections.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_ViewDisabled_Label">
+		<ScreenID>ZGW_ViewDisabled_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>435</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>527</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Disabled</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>159</R>
+			<G>159</G>
+			<B>159</B>
+		</TextColor>
+	</Label>
+	<Listbox item="ZGW_ZoneConnection_ListBox">
+		<ScreenID>ZGW_ZoneConnection_ListBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>-2</LeftAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<RightAnchorOffset>-2</RightAnchorOffset>
+		<BottomAnchorOffset>-2</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Columns>
+			<Width>175</Width>
+			<Heading>Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>175</Width>
+			<Heading>Destination Zone</Heading>
+		</Columns>
+		<Columns>
+			<Width>145</Width>
+			<Heading>Transfer Info</Heading>
+		</Columns>
+		<Columns>
+			<Width>55</Width>
+			<Heading>Disabled</Heading>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+	<Button item="ZGW_DisableConnection_Checkbox">
+		<ScreenID>ZGW_DisableConnection_Checkbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>21</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>13</CX>
+			<CY>13</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<TooltipReference>Disable this zone connection from being used while generating paths.</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_TransparentCheckBoxNormal</Normal>
+			<Pressed>A_TransparentCheckBoxPressed</Pressed>		
+			<Disabled>A_TransparentCheckBoxNormal</Disabled>
+			<PressedDisabled>A_TransparentCheckBoxPressed</PressedDisabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Screen item="ZGW_ZoneConnections_Screen">
+		<ScreenID>ZGW_ZoneConnections_Screen</ScreenID>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>100</CY>
+		</Size>
+		<MinVSize>78</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>ZGW_ViewConnections_Label</Pieces>
+		<Pieces>ZGW_ViewSelectedZone_Btn</Pieces>
+		<Pieces>ZGW_ViewSelectedZone_Label</Pieces>
+		<Pieces>ZGW_ViewPreviewPath_Btn</Pieces>
+		<Pieces>ZGW_ViewPreviewPath_Label</Pieces>
+		<Pieces>ZGW_ViewActivePath_Btn</Pieces>
+		<Pieces>ZGW_ViewActivePath_Label</Pieces>
+		<Pieces>ZGW_ViewDisabled_Btn</Pieces>
+		<Pieces>ZGW_ViewDisabled_Label</Pieces>
+		<Pieces>ZGW_ZoneConnection_ListBox</Pieces>	
+		<Pieces>ZGW_DisableConnection_Checkbox</Pieces>	
+	</Screen>
+	
+	<VerticalLayoutBox item = "ZGW_VerticalLayout">
+		<ScreenID>ZGW_VerticalLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>112</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Screen:ZGW_ZoneList_Screen</Pieces>
+		<Pieces>Screen:ZGW_ZoneConnections_Screen</Pieces>
+	</VerticalLayoutBox>
+
+	<Label item ="ZGW_ZonePathFinder_Label">
+		<ScreenID/>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>102</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>84</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Zone Path Generator</Text>
+		<TextColor>
+			<R>138</R>
+			<G>163</G>
+			<B>255</B>
+		</TextColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="ZGW_PathStartZone_Label">
+		<ScreenID/>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>81</TopAnchorOffset>
+		<RightAnchorOffset>65</RightAnchorOffset>
+		<BottomAnchorOffset>62</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Start Zone</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="ZGW_PathStartZone_EditBox">
+		<ScreenID>ZGW_PathStartZone_EditBox</ScreenID>
+		<Font>3</Font>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>86</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>64</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToTop>false</TopAnchorToTop>		
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Label item ="ZGW_PathEndZone_Label">
+		<ScreenID/>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<TopAnchorOffset>61</TopAnchorOffset>
+		<RightAnchorOffset>65</RightAnchorOffset>
+		<BottomAnchorOffset>42;</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>End Zone</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Editbox item="ZGW_PathEndZone_EditBox">
+		<ScreenID>ZGW_PathEndZone_EditBox</ScreenID>
+		<Font>3</Font>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>42</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>62</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="ZGW_ResetStart_Btn">
+		<ScreenID>ZGW_ResetStart_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>80</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to make the start zone always match the current zone.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Reset Start</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_SetStart_Btn">
+		<ScreenID>ZGW_SetStart_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>82</LeftAnchorOffset>
+		<RightAnchorOffset>162</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to set the start zone to the selected zone.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Set Start</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_SetEnd_Btn">
+		<ScreenID>ZGW_SetEnd_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>164</LeftAnchorOffset>
+		<RightAnchorOffset>244</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to set the end zone to the selected zone.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Set End</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_ShowPath_Btn">
+		<ScreenID>ZGW_ShowPath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>326</LeftAnchorOffset>
+		<RightAnchorOffset>246</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>If there is an active zone path, click this button to show the Zone Path window.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Show Path</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_HidePath_Btn">
+		<ScreenID>ZGW_HidePath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>326</LeftAnchorOffset>
+		<RightAnchorOffset>246</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to hide the Zone Path window.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Hide Path</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_FindPath_Btn">
+		<ScreenID>ZGW_FindPath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>244</LeftAnchorOffset>
+		<RightAnchorOffset>164</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>If there is an active zone path, click this button to find a wisp path to the next zone connection.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Find Path</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_EndFind_Btn">
+		<ScreenID>ZGW_EndFind_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>244</LeftAnchorOffset>
+		<RightAnchorOffset>164</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>If there is a find wisp active, click this button to deactivate it.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>End Find</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_ClearPath_Btn">
+		<ScreenID>ZGW_ClearPath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>162</LeftAnchorOffset>
+		<RightAnchorOffset>82</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to clear the active zone path.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Clear Path</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_ActivatePath_Btn">
+		<ScreenID>ZGW_ActivatePath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to make your preview path the active zone path (you may only activate it if it begins in your current zone).</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Activate Path</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ZGW_IncludeBindZone_Btn">
+		<ScreenID>ZGW_IncludeBindZone_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>18</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Consider the bind zone when searching for the shortest zone path.</TooltipReference>
+		<Font>3</Font>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_IncludeBindZone_Label">
+		<ScreenID>ZGW_IncludeBindZone_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Font>3</Font>
+		<Text>Include Bind Zone</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="ZGW_ShowPathOnActivation_Btn">
+		<ScreenID>ZGW_ShowPathOnActivation_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>140</LeftAnchorOffset>
+		<RightAnchorOffset>156</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Open the zone path window automatically when a zone path is activated.</TooltipReference>
+		<Font>3</Font>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_ShowPathOnActivation_Label">
+		<ScreenID>ZGW_ShowPathOnActivation_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<RightAnchorOffset>300</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Font>3</Font>
+		<Text>Show Path on Activation</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="ZGW_AutoFindActivePath_Btn">
+		<ScreenID>ZGW_AutoFindActivePath_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>306</LeftAnchorOffset>
+		<RightAnchorOffset>322</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Automatically find a wisp path to the next zone connection in the active zone path.</TooltipReference>
+		<Font>3</Font>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="ZGW_AutoFindActivePath_Label">
+		<ScreenID>ZGW_AutoFindActivePath_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>17</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>326</LeftAnchorOffset>
+		<RightAnchorOffset>441</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Font>3</Font>
+		<Text>Auto-Find Active Path</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="ZGW_ZonePathFinder_Screen">
+		<ScreenID>ZGW_ZonePathFinder_Screen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>110</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>ZGW_ZonePathFinder_Label</Pieces>
+		<Pieces>ZGW_PathStartZone_Label</Pieces>
+		<Pieces>ZGW_PathStartZone_EditBox</Pieces>
+		<Pieces>ZGW_PathEndZone_Label</Pieces>
+		<Pieces>ZGW_PathEndZone_EditBox</Pieces>
+		<Pieces>ZGW_ResetStart_Btn</Pieces>
+		<Pieces>ZGW_SetStart_Btn</Pieces>
+		<Pieces>ZGW_SetEnd_Btn</Pieces>
+		<Pieces>ZGW_ShowPath_Btn</Pieces>
+		<Pieces>ZGW_HidePath_Btn</Pieces>
+		<Pieces>ZGW_FindPath_Btn</Pieces>
+		<Pieces>ZGW_EndFind_Btn</Pieces>
+		<Pieces>ZGW_ClearPath_Btn</Pieces>
+		<Pieces>ZGW_ActivatePath_Btn</Pieces>
+		<Pieces>ZGW_IncludeBindZone_Btn</Pieces>
+		<Pieces>ZGW_IncludeBindZone_Label</Pieces>
+		<Pieces>ZGW_ShowPathOnActivation_Btn</Pieces>
+		<Pieces>ZGW_ShowPathOnActivation_Label</Pieces>
+		<Pieces>ZGW_AutoFindActivePath_Btn</Pieces>
+		<Pieces>ZGW_AutoFindActivePath_Label</Pieces>	
+	</Screen>
+	
+	<Screen item="ZoneGuideWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>150</X>
+			<Y>150</Y>
+		</Location>
+		<Size>
+			<CX>590</CX>
+			<CY>547</CY>
+		</Size>
+		<MinHSize>580</MinHSize>
+		<MinVSize>360</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Zone Guide</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>ZGW_VerticalLayout</Pieces>
+		<Pieces>ZGW_ZonePathFinder_Screen</Pieces>
+	</Screen>
+</XML>

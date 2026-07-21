@@ -1,0 +1,165 @@
+name: Build SpinUI Windows package
+
+on:
+  push:
+    branches: ["main", "agent/**", "claude/**"]
+    paths:
+      - "spinui_reloaded/**"
+      - "layouts/**"
+      - "loremaster/**"
+      - "installer/**"
+      - "tools/**"
+      - "docs/**"
+      - "UI_Spin_qeynos_LO1.ini"
+      - "README.md"
+      - ".github/workflows/build-loremaster.yml"
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: "Publish these builds on the GitHub Releases page"
+        required: true
+        default: true
+        type: boolean
+      release_tag:
+        description: "Release tag to create or update"
+        required: true
+        default: "v1.0.0"
+        type: string
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows-package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The layout drift check rebuilds from the immutable stock-layout
+          # commit used by generate_spinui_layout.py.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run release quality gate
+        run: python tools/release_quality_gate.py
+
+      - name: Install build tooling
+        run: python -m pip install --disable-pip-version-check pyinstaller
+
+      - name: Build windowed executables
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build/spec | Out-Null
+          pyinstaller --clean --noconfirm --onefile --windowed `
+            --name Loremaster --distpath dist --workpath build/loremaster `
+            --specpath build/spec loremaster/loremaster.py
+          pyinstaller --clean --noconfirm --onefile --windowed --uac-admin `
+            --name SpinUIInstaller --distpath dist --workpath build/installer `
+            --specpath build/spec installer/spinui_installer.py
+
+      - name: Smoke-test packaged executables
+        shell: pwsh
+        run: |
+          $lore = Start-Process -FilePath dist/Loremaster.exe -ArgumentList '--selftest' -PassThru -Wait
+          if ($lore.ExitCode -ne 0) { throw "Loremaster selftest exit code $($lore.ExitCode)" }
+          $installer = Start-Process -FilePath dist/SpinUIInstaller.exe -ArgumentList '--selftest' -PassThru -Wait
+          if ($installer.ExitCode -ne 0) { throw "Installer selftest exit code $($installer.ExitCode)" }
+
+      - name: Assemble staged installer and manual releases
+        shell: pwsh
+        run: |
+          $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
+          $manualPackage = Join-Path $PWD 'package/SpinUI-Manual'
+          New-Item -ItemType Directory -Force -Path $installerPackage, $manualPackage | Out-Null
+          foreach ($package in @($installerPackage, $manualPackage)) {
+            Copy-Item -Recurse -Force spinui_reloaded (Join-Path $package 'spinui_reloaded')
+            # Only the public presets ship; layouts/original and layouts/spin-live
+            # are internal generator bases.
+            $packageLayouts = Join-Path $package 'layouts'
+            New-Item -ItemType Directory -Force -Path $packageLayouts | Out-Null
+            foreach ($preset in @('combat-focus', 'social-focus', 'hybrid')) {
+              Copy-Item -Recurse -Force (Join-Path 'layouts' $preset) (Join-Path $packageLayouts $preset)
+            }
+            Copy-Item -Recurse -Force docs (Join-Path $package 'docs')
+            Copy-Item -Force UI_Spin_qeynos_LO1.ini $package
+            Copy-Item -Force README.md $package
+            Copy-Item -Force installer/INSTALL-MANUAL.md (Join-Path $package 'INSTALL.md')
+            Copy-Item -Force dist/Loremaster.exe $package
+          }
+          Copy-Item -Force dist/SpinUIInstaller.exe $installerPackage
+
+      - name: Verify staged release packages
+        run: >
+          python tools/release_quality_gate.py --packages-only
+          --package installer=package/SpinUI-Installer
+          --package manual=package/SpinUI-Manual
+
+      - name: Compress verified release packages
+        shell: pwsh
+        run: |
+          $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
+          $manualPackage = Join-Path $PWD 'package/SpinUI-Manual'
+          Compress-Archive -Path "$installerPackage/*" -DestinationPath package/SpinUI-Installer.zip -CompressionLevel Optimal
+          Compress-Archive -Path "$manualPackage/*" -DestinationPath package/SpinUI-Manual.zip -CompressionLevel Optimal
+
+      - name: Upload installer package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Installer
+          path: package/SpinUI-Installer.zip
+          if-no-files-found: error
+
+      - name: Upload manual package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Manual
+          path: package/SpinUI-Manual.zip
+          if-no-files-found: error
+
+      - name: Upload standalone executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Windows-tools
+          path: |
+            dist/Loremaster.exe
+            dist/SpinUIInstaller.exe
+          if-no-files-found: error
+
+      - name: Publish workflow-dispatch release
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = '${{ inputs.release_tag }}'.Trim()
+          if (-not $tag) { throw 'release_tag cannot be empty' }
+          $assets = @(
+            'package/SpinUI-Installer.zip',
+            'package/SpinUI-Manual.zip',
+            'dist/Loremaster.exe',
+            'dist/SpinUIInstaller.exe'
+          )
+          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @assets --repo $env:GITHUB_REPOSITORY --clobber
+          } else {
+            gh release create $tag @assets --repo $env:GITHUB_REPOSITORY `
+              --target $env:GITHUB_SHA `
+              --title "SpinUI $tag — Obsidian, Venom & Ember" `
+              --notes "Complete SpinUI Windows release. Use SpinUI-Installer.zip for guided setup or SpinUI-Manual.zip for an installer-free setup."
+          }
+
+      - name: Attach package to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release upload "${{ github.event.release.tag_name }}"
+          package/SpinUI-Installer.zip package/SpinUI-Manual.zip
+          dist/Loremaster.exe dist/SpinUIInstaller.exe
+          --clobber

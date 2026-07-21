@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+  <Button item = "BPBW_AddSpellToBlockFromPet">
+    <ScreenID>BPBW_AddSpellToBlockFromPet</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>110</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Size>
+      <CX>60</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Add by name</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Editbox item = "BPBW_EditSpellToBlockFromPet">
+    <ScreenID>BPBW_EditSpellToBlockFromPet</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>116</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Size>
+      <CX>150</CX>
+      <CY>20</CY>
+    </Size>
+    <Style_Border>true</Style_Border>
+    <TooltipReference>Enter a name for this label here.</TooltipReference>
+  </Editbox>
+
+  <Button item="BPBW_Blocked_Pet_Buff_Template">
+    <ScreenID>Blocked_Pet_Buff_Template</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Size>
+      <CX>34</CX>
+      <CY>34</CY>
+    </Size>
+    <Template>BDT_BlueBuff</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>30</CX>
+      <CY>30</CY>
+    </DecalSize>
+  </Button>
+
+  <TileLayoutBox item ="BPBW_Buttons">
+    <ScreenID>Blocked_Pet_Buff_Buttons</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>true</Style_Transparent>
+    <Spacing>0</Spacing>
+    <SecondarySpacing>0</SecondarySpacing>
+    <HorizontalFirst>false</HorizontalFirst>
+    <AnchorToTop>true</AnchorToTop>
+    <AnchorToLeft>false</AnchorToLeft>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <FirstPieceTemplate>true</FirstPieceTemplate>
+    <Pieces>BPBW_Blocked_Pet_Buff_Template</Pieces>
+  </TileLayoutBox>
+
+  <Screen item = "BlockedPetBuffWnd">
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>415</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>266</CX>
+      <CY>395</CY>
+    </Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>		
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <Text>Blocked Pet Spells</Text>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>true</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>true</Style_Sizable>
+	<MinHSize>238</MinHSize>
+	<MinVSize>59</MinVSize>		
+    <Pieces>TileLayoutBox:BPBW_Buttons</Pieces>
+    <Pieces>BPBW_AddSpellToBlockFromPet</Pieces>
+    <Pieces>BPBW_EditSpellToBlockFromPet</Pieces>
+  </Screen>
+</XML>

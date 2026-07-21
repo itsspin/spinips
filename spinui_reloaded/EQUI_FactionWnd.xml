@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	
+	<Gauge item="FAC_StandingGaugeTemplate">
+		<ScreenID>FAC_StandingGaugeTemplate</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<RelativePosition>true</RelativePosition>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawLinesFill>false</DrawLinesFill>
+		<EQType>181</EQType>
+		<GaugeDrawTemplate>
+			<Background>A_GaugeBackground</Background>
+			<Fill>A_GaugeFill</Fill>
+<!-- 			<Lines>A_GaugeLines</Lines>
+			<LinesFill>A_GaugeLinesFill</LinesFill>
+			<EndCapLeft>A_GaugeEndCapLeft</EndCapLeft>
+			<EndCapRight>A_GaugeEndCapRight</EndCapRight> -->
+		</GaugeDrawTemplate>
+	</Gauge>
+	
+	<TreeView item="FAC_Categories">
+		<ScreenID>FAC_Categories</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Columns>
+			<Heading>Categories:</Heading>
+		</Columns>
+	</TreeView>
+	
+	<Editbox item="FAC_SearchNameInput">
+		<ScreenID>FAC_SearchNameInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TooltipReference>Search by partial faction name.</TooltipReference>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>234</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	
+	<Button item = "FAC_SearchButton">
+		<ScreenID>FAC_SearchButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Style_Transparent>false</Style_Transparent>	
+		<LeftAnchorOffset>236</LeftAnchorOffset>
+		<RightAnchorOffset>320</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<Text>Search</Text>
+		<NoWrap>true</NoWrap>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>true</TextAlignVCenter>
+		<TextOffsetX>18</TextOffsetX>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Listbox item="FAC_FactionList">
+		<ScreenID>FAC_FactionList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Heading>Faction Name</Heading>
+			<Width>210</Width>
+		</Columns>
+		<Columns>
+			<Heading>Reaction</Heading>
+			<Width>80</Width>
+			<Tooltip>How this faction reacts to your race, class, deity, and Standing.</Tooltip>
+		</Columns>
+		<Columns>
+			<Heading>Standing</Heading>
+			<Width>200</Width>
+			<Tooltip>How much you have done to help or harm members of this faction.</Tooltip>
+		</Columns>
+	</Listbox>
+	
+	<Screen item="FAC_FactionLayout">
+		<ScreenID>FAC_FactionLayout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>FAC_SearchNameInput</Pieces>
+		<Pieces>FAC_SearchButton</Pieces>
+		<Pieces>FAC_FactionList</Pieces>
+	</Screen>
+
+	<HorizontalLayoutBox item="FAC_Main_Layout">
+		<ScreenID>FAC_Main_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>TreeView:FAC_Categories</Pieces>
+		<Pieces>Screen:FAC_FactionLayout</Pieces>
+	</HorizontalLayoutBox>
+	
+	<Screen item="FactionWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>730</CX>
+			<CY>450</CY>
+		</Size>
+		<Text>Factions</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<MinVSize>170</MinVSize>
+		<MinHSize>540</MinHSize>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<DisabledColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</DisabledColor>
+		<Pieces>FAC_StandingGaugeTemplate</Pieces>
+		<Pieces>HorizontalLayoutBox:FAC_Main_Layout</Pieces>
+	</Screen>
+</XML>

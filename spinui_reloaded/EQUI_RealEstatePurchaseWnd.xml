@@ -1,0 +1,472 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item="REPW_Owner_Label">
+		<ScreenID>REPW_Owner_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Owner:</Text>
+	</Label>
+	<Label item="REPW_OwnerVal_Label">
+		<ScreenID>REPW_OwnerVal_Label</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>None</Text>
+	</Label>
+	<Screen item="REPW_Owner_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Owner_Label</Pieces>
+		<Pieces>REPW_OwnerVal_Label</Pieces>
+	</Screen>
+	<Label item="REPW_Guild_Label">
+		<ScreenID>REPW_Guild_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Guild:</Text>
+	</Label>
+	<Label item="REPW_GuildVal_Label">
+		<ScreenID>REPW_GuildVal_Label</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>None</Text>
+	</Label>
+	<Screen item="REPW_Guild_Screen">
+		<ScreenID>REPW_Guild_Screen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Guild_Label</Pieces>
+		<Pieces>REPW_GuildVal_Label</Pieces>
+	</Screen>
+		<Screen item="REPW_Spacer_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>5</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+	</Screen>
+	<Label item="REPW_Type_Label">
+		<ScreenID>REPW_Type_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Type:</Text>
+	</Label>
+	<Label item="REPW_TypeVal_Label">
+		<ScreenID>REPW_TypeVal_Label</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>None</Text>
+	</Label>
+	<Screen item="REPW_Type_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>275</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Type_Label</Pieces>
+		<Pieces>REPW_TypeVal_Label</Pieces>
+	</Screen>
+	<Label item="REPW_Price_Label">
+		<ScreenID>REPW_Price_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Price:</Text>
+	</Label>
+	<Combobox item="REPW_Price_Combobox">
+		<ScreenID>REPW_Price_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<ListHeight>75</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>Player</Choices>
+		<Choices>Neighborhood</Choices>
+	</Combobox>
+	<Screen item="REPW_Price_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>175</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Price_Label</Pieces>
+		<Pieces>REPW_Price_Combobox</Pieces>
+	</Screen>
+	<Label item="REPW_Upkeep_Label">
+		<ScreenID>REPW_Upkeep_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Upkeep:</Text>
+	</Label>
+	<Combobox item="REPW_Upkeep_Combobox">
+		<ScreenID>REPW_Upkeep_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<ListHeight>75</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>100 platinum</Choices>
+		<Choices>50 Doubloons</Choices>
+	</Combobox>
+	<Screen item="REPW_Upkeep_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>175</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Upkeep_Label</Pieces>
+		<Pieces>REPW_Upkeep_Combobox</Pieces>
+	</Screen>
+	<Label item="REPW_Capacity_Label">
+		<ScreenID>REPW_Capacity_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Capacity:</Text>
+	</Label>
+	<Label item="REPW_CapacityVal_Label">
+		<ScreenID>REPW_CapacityVal_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>55</X>
+			<Y>0</Y>
+		</Location>
+		<Text>2000</Text>
+	</Label>
+	<Label item="REPW_Vault_Capacity_Label">
+		<ScreenID>REPW_Vault_Capacity_Label</ScreenID>
+		<Size>
+			<CX>35</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>110</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Vault:</Text>
+	</Label>
+	<Label item="REPW_Vault_CapacityVal_Label">
+		<ScreenID>REPW_Vault_CapacityVal_Label</ScreenID>
+		<Size>
+			<CX>50</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>150</X>
+			<Y>0</Y>
+		</Location>
+		<Text>2000</Text>
+	</Label>
+	<Label item="REPW_Npc_Capacity_Label">
+		<ScreenID>REPW_Npc_Capacity_Label</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>205</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Pets:</Text>
+	</Label>
+	<Label item="REPW_Npc_CapacityVal_Label">
+		<ScreenID>REPW_Npc_CapacityVal_Label</ScreenID>
+		<Size>
+			<CX>55</CX>
+			<CY>17</CY>
+		</Size>
+		<Location>
+			<X>240</X>
+			<Y>0</Y>
+		</Location>
+		<Text>2000</Text>
+	</Label>
+	<Screen item="REPW_Capacity_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>175</CX>
+			<CY>17</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Capacity_Label</Pieces>
+		<Pieces>REPW_CapacityVal_Label</Pieces>
+		<Pieces>REPW_Vault_Capacity_Label</Pieces>
+		<Pieces>REPW_Vault_CapacityVal_Label</Pieces>
+		<Pieces>REPW_Npc_Capacity_Label</Pieces>
+		<Pieces>REPW_Npc_CapacityVal_Label</Pieces>
+	</Screen>
+	<Button item="REPW_Manage_Button">
+		<ScreenID>REPW_Manage_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>72</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<TooltipReference>Opens up the real estate management window.  You must be standing inside this plot and have access to manage this plot to use this button.</TooltipReference>
+		<Text>Manage</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REPW_Items_Button">
+		<ScreenID>REPW_Items_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>72</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>74</X>
+			<Y>0</Y>
+		</Location>
+		<TooltipReference>Opens up the real estate items window.</TooltipReference>
+		<Text>Items</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REPW_Purchase_Button">
+		<ScreenID>REPW_Purchase_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>72</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>148</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Buy</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REPW_Sell_Button">
+		<ScreenID>REPW_Sell_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>72</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>148</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Move Out</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REPW_Transfer_Button">
+		<ScreenID>REPW_Transfer_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>72</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>222</X>
+			<Y>0</Y>
+		</Location>
+		<TooltipReference>Transfers the current plot to the targeted player.  You must be standing inside this plot and be the primary owner of this plot.</TooltipReference>
+		<Text>Transfer</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="REPW_Purchase_Screen">
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>175</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REPW_Manage_Button</Pieces>
+		<Pieces>REPW_Items_Button</Pieces>
+		<Pieces>REPW_Purchase_Button</Pieces>
+		<Pieces>REPW_Sell_Button</Pieces>
+		<Pieces>REPW_Transfer_Button</Pieces>
+	</Screen>
+	<Label item="REPW_Eviction_Label">
+		<ScreenID>REPW_Eviction_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>200</CX>
+			<CY>74</CY>
+		</Size>
+		<Text>Plots will pack up all items, send them to the owner, and become available for purchase again if the owner of the plot has not logged in within 90 days.</Text>
+		<NoWrap>false</NoWrap>
+	</Label>
+	<VerticalLayoutBox item="REPW_Main_Layout">
+		<ScreenID>REPW_Main_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeLast>false</ResizeLast>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<Spacing>5</Spacing>
+		<PaddingLeft>5</PaddingLeft>
+		<PaddingRight>5</PaddingRight>
+		<Pieces>Screen:REPW_Owner_Screen</Pieces>
+		<Pieces>Screen:REPW_Guild_Screen</Pieces>	
+		<Pieces>Screen:REPW_Spacer_Screen</Pieces>	
+		<Pieces>Screen:REPW_Type_Screen</Pieces>	
+		<Pieces>Screen:REPW_Price_Screen</Pieces>
+		<Pieces>Screen:REPW_Upkeep_Screen</Pieces>
+		<Pieces>Screen:REPW_Capacity_Screen</Pieces>
+		<Pieces>Screen:REPW_Purchase_Screen</Pieces>
+		<Pieces>REPW_Eviction_Label</Pieces>
+	</VerticalLayoutBox>
+	<Label item="REPW_VotingOptOut_Label">
+		<ScreenID>REPW_VotingOptOut_Label</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>175</LeftAnchorOffset>
+		<RightAnchorOffset>105</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<AlignRight>true</AlignRight>
+		<Font>2</Font>
+		<Text>Opt Out?:</Text>
+		<TooltipReference>Allows you to opt out on this property from being voted on.</TooltipReference>
+	</Label>
+	<Button item="REPW_VotingOptOut_Checkbox">
+		<ScreenID>REPW_VotingOptOut_Checkbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>101</LeftAnchorOffset>
+		<RightAnchorOffset>85</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Allows you to opt out on this property from being voted on.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Button item="REPW_Vote_Button">
+		<ScreenID>REPW_Vote_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Vote</Text>
+		<TooltipReference>Opens the voting window.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="RealEstatePurchaseWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>350</CX>
+			<CY>280</CY>
+		</Size>
+		<MinHSize>350</MinHSize>
+		<MinVSize>225</MinVSize>
+		<Text>Purchase</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>REPW_Main_Layout</Pieces>
+		<Pieces>REPW_VotingOptOut_Label</Pieces>
+		<Pieces>REPW_VotingOptOut_Checkbox</Pieces>
+		<Pieces>REPW_Vote_Button</Pieces>
+	</Screen>
+</XML>

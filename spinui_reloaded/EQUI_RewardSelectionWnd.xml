@@ -1,0 +1,313 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Listbox item = "RewardSelectionOptionList">
+		<ScreenID>RewardSelectionOptionList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>20</Y>
+		</Location>
+		<Size>
+			<CX>180</CX>
+			<CY>100</CY>
+		</Size>
+		<Columns>
+			<Width>1000</Width>
+			<Heading>Reward Choices:</Heading>
+		</Columns>
+		<Columns>
+			<Width>0</Width>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+
+	<Listbox item = "RewardSelectionItemList">
+		<ScreenID>RewardSelectionItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>120</Y>
+		</Location>
+		<Size>
+			<CX>180</CX>
+			<CY>100</CY>
+		</Size>
+		<Columns>
+			<Width>1000</Width>
+		</Columns>
+		<Columns>
+			<Width>0</Width>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+
+	<HorizontalLayoutBox item = "RewardSelectionTopLayout">
+		<ScreenID>RewardSelectionTopLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Listbox:RewardSelectionOptionList</Pieces>
+		<Pieces>Listbox:RewardSelectionItemList</Pieces>
+	</HorizontalLayoutBox>
+
+	<Screen item = "RewardSelectionTopPane">
+		<ScreenID>RewardSelectionTopPane</ScreenID>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>180</CX>
+			<CY>220</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>HorizontalLayoutBox:RewardSelectionTopLayout</Pieces>
+	</Screen>
+
+	
+	<STMLbox item = "RewardSelectionDescriptionArea">
+		<ScreenID>RewardSelectionDescriptionArea</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<Button item = "RewardSelectionIconButton">
+		<ScreenID>RewardSelectionIconButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>12</TopAnchorOffset>
+		<RightAnchorOffset>26</RightAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_RedBuff</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+
+	<Button item = "RewardSelectionInspectButton">
+		<ScreenID>RewardSelectionInspectButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<RightAnchorOffset>88</RightAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click to preview the selected reward item.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Inspect</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item = "RewardSelectionPreviewButton">
+		<ScreenID>RewardSelectionPreviewButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>86</LeftAnchorOffset>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<RightAnchorOffset>15</RightAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click to inspect the selected reward item.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Preview</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item = "RewardSelectionChooseButton">
+		<ScreenID>RewardSelectionChooseButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<RightAnchorOffset>15</RightAnchorOffset>
+		<BottomAnchorOffset>6</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Choose your option and select it here</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Select Option</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Screen item = "RewardSelectionBottomPane">
+		<ScreenID>RewardSelectionBottomPane</ScreenID>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>160</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>60</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>STMLbox:RewardSelectionDescriptionArea</Pieces>
+		<Pieces>Button:RewardSelectionIconButton</Pieces>
+		<Pieces>Button:RewardSelectionInspectButton</Pieces>
+		<Pieces>Button:RewardSelectionPreviewButton</Pieces>
+		<Pieces>Button:RewardSelectionChooseButton</Pieces>
+	</Screen>
+
+	
+	
+	<VerticalLayoutBox item = "RewardSelectionWindowLayout">
+		<ScreenID>RewardSelectionWindowLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Screen:RewardSelectionTopPane</Pieces>
+		<Pieces>Screen:RewardSelectionBottomPane</Pieces>
+	</VerticalLayoutBox>
+	<Page item = "RewardPageTemplate">
+		<ScreenID>RewardPageTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<!-- Pages are sized and positioned by their parent tab -->
+
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference/>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Reward</TabText>
+		<TabTextActiveColor>
+				<R>255</R>
+				<G>255</G>
+				<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>VerticalLayoutBox:RewardSelectionWindowLayout</Pieces>
+	</Page>
+	<TabBox item = "RewardPageTabWindow">
+		<ScreenID>RewardPageTabWindow</ScreenID>
+		<RelativePosition>true</RelativePosition>
+
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>Page:RewardPageTemplate</Pages>
+	</TabBox>
+	<Screen item = "RewardSelectionWnd">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>600</CX>
+			<CY>400</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Select a Reward</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>TabBox:RewardPageTabWindow</Pieces>
+	</Screen>
+</XML>

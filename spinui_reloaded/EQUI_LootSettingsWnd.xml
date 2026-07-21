@@ -1,0 +1,208 @@
+<?xml version="1.0" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Button item="LS_AutoSplitCoinCheckbox">
+		<ScreenID>LS_AutoSplitCoinCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Split Coin</Text>
+		<TooltipReference>Toggles Auto Split Coin with Group or Raid.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_UseAdvancedLootingCheckbox">
+		<ScreenID>LS_UseAdvancedLootingCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>30</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Use Advanced Looting</Text>
+		<TooltipReference>Toggles whether you are using the Advanced Looting system.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_LootFilterRemoveConfirmCheckbox">
+		<ScreenID>LS_LootFilterRemoveConfirmCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Confirm Remove Item Filter</Text>
+		<TooltipReference>Toggle whether you want to confirm removal of an item loot filter.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_RemoveLooterLoreItemsCheckbox">
+		<ScreenID>LS_RemoveLooterLoreItemsCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>70</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Remove Looted Lore Items</Text>
+		<TooltipReference>Toggles whether you want to have lore items automatically removed from filters after you loot the item.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_AutoShowLootWindowCheckbox">
+		<ScreenID>LS_AutoShowLootWindowCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>90</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Show Loot Window</Text>
+		<TooltipReference>Toggles whether the Loot Window will auto show on a new loot add and auto hide when the loot lists are empty.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_ShowOnNewItemsOnlyCheckbox">
+		<ScreenID>LS_ShowOnNewItemsOnlyCheckbox</ScreenID>
+		<Location>
+			<X>30</X>
+			<Y>110</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show on new items only</Text>
+		<TooltipReference>Toggles whether the Loot Window will auto show if the items are already marked an/ag/nvr and for master looter, auto ask/roll.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_AutoLootAllCheckbox">
+		<ScreenID>LS_AutoLootAllCheckbox</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>130</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Loot All</Text>
+		<TooltipReference>Toggles whether you will automatically loot all items in your Personal Loot List.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="LS_MasterLooterCandidate">
+		<ScreenID>LS_MasterLooterCandidate</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>150</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Master Looter Candidate</Text>
+		<TooltipReference>Toggles whether or not your group/raid will attempt to use you as a master looter. Note that you can still be forced master looter if manually set, or if everyone in your construct has selected to not be master looter candidates and you are the first in the zone. Toggling this will not recalculate the master looter.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Screen item="LootSettingsWnd">
+		<!--<ScreenID/>-->
+		<Location>
+			<X>200</X>
+			<Y>200</Y>
+		</Location>
+		<Size>
+			<CX>270</CX>
+			<CY>200</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Loot Settings</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Loot Settings</TooltipReference>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>LS_AutoSplitCoinCheckbox</Pieces>
+		<Pieces>LS_UseAdvancedLootingCheckbox</Pieces>
+		<Pieces>LS_LootFilterRemoveConfirmCheckbox</Pieces>
+		<Pieces>LS_RemoveLooterLoreItemsCheckbox</Pieces>
+		<Pieces>LS_AutoShowLootWindowCheckbox</Pieces>
+		<Pieces>LS_ShowOnNewItemsOnlyCheckbox</Pieces>
+		<Pieces>LS_AutoLootAllCheckbox</Pieces>
+		<Pieces>LS_MasterLooterCandidate</Pieces>
+	</Screen>
+</XML>

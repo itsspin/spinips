@@ -1,0 +1,260 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Listbox item = "IOF_ItemList">
+		<ScreenID>IOF_ItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>72</BottomAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>110</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>23</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Owner</Heading>
+		</Columns>
+	</Listbox>
+
+	<Button item = "IOF_Inspect_Button">
+		<ScreenID>IOF_Inspect_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>140</LeftAnchorOffset>
+		<RightAnchorOffset>72</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to inspect the selected item. (R-Click)</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Inspect</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "IOF_Preview_Button">
+		<ScreenID>IOF_Preview_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to preview the selected item. (Alt R-Click)</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Preview</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "IOF_SelectedItem">
+		<ScreenID>IOF_SelectedItem</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<TopAnchorOffset>70</TopAnchorOffset>
+		<RightAnchorOffset>43</RightAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+
+	<Label item ="IOF_SelectedItemLabel">
+		<ScreenID>IOF_SelectedItemLabel</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>46</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Text>Item Being Considered</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "IOF_Retrieve_Button">
+		<ScreenID>IOF_Retrieve_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<RightAnchorOffset>70</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to retrieve your item. This cannot be undone.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Retrieve</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "IOF_Retrieve_All_Button">
+		<ScreenID>IOF_Retrieve_All_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>72</LeftAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<RightAnchorOffset>150</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to retrieve all of your items that are accessible to this character including all account wide items.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Retrieve All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "IOF_Done_Button">
+		<ScreenID>IOF_Done_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to close the merchant window</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Label item="IOF_ItemCountLabel">
+		<ScreenID>IOF_ItemCountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>128</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Total Overflow Count:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+
+	<Label item="IOF_ItemCountNumber">
+		<ScreenID>IOF_ItemCountNumber</ScreenID>
+		<EQType>413</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>128</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>32</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>0</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+
+	<Screen item = "ItemOverflowWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>398</CX>
+			<CY>400</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Item Overflow</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<MinVSize>250</MinVSize>
+		<MinHSize>290</MinHSize>		
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>IOF_SelectedItemLabel</Pieces>
+		<Pieces>IOF_SelectedItem</Pieces>
+		<Pieces>IOF_Done_Button</Pieces>
+		<Pieces>IOF_Retrieve_Button</Pieces>		
+		<Pieces>IOF_Retrieve_All_Button</Pieces>	
+		<Pieces>IOF_Inspect_Button</Pieces>
+		<Pieces>IOF_Preview_Button</Pieces>
+		<Pieces>IOF_ItemCountLabel</Pieces>
+		<Pieces>IOF_ItemCountNumber</Pieces>
+		<Pieces>IOF_ItemList</Pieces>
+	</Screen>
+
+
+</XML>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<STMLbox item="SDW_SpellDescription">
+		<ScreenID>SDW_SpellDescription</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<TopAnchorOffset>64</TopAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<BottomAnchorOffset>3</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<Style_Border>false</Style_Border>
+		<Text>Test text</Text>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<STMLbox item = "SDW_DescriptionInfo1">
+		<ScreenID>SDW_DescriptionInfo1</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<BottomAnchorOffset>64</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToRight>true</RightAnchorToRight>
+		<AutoStretch>true</AutoStretch>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<STMLbox item = "SDW_DescriptionInfo2">
+		<ScreenID>SDW_DescriptionInfo2</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<BottomAnchorOffset>64</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToRight>true</RightAnchorToRight>
+		<AutoStretch>true</AutoStretch>
+		<Text>this is some very serious text</Text>
+		<NoWrap>true</NoWrap>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<Button item="SDW_IconButton">
+		<ScreenID>SDW_IconButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>7</LeftAnchorOffset>
+		<TopAnchorOffset>12</TopAnchorOffset>
+		<RightAnchorOffset>51</RightAnchorOffset>
+		<BottomAnchorOffset>56</BottomAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToRight>false</RightAnchorToRight>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+			<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+			<!--<RadioGroup/>-->
+		<ButtonDrawTemplate>
+		  <Normal>RedIconBackground</Normal>
+		  <NormalDecal>BuffIcons</NormalDecal>
+		</ButtonDrawTemplate>
+		<SoundPressed />
+		<SoundUp />
+		<SoundFlyby />
+		<DecalOffset>
+		  <X>2</X>
+		  <Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+		  <CX>40</CX>
+		  <CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Screen item="SpellDisplayWindow">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>80</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>190</CY>
+		</Size>
+	    <Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Style_Qmarkbox>false</Style_Qmarkbox>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Spell Display window</TooltipReference>
+		<DrawTemplate>WDT_RoundedTooltip</DrawTemplate>
+		<Pieces>SDW_SpellDescription</Pieces>
+		<Pieces>SDW_DescriptionInfo1</Pieces>
+		<Pieces>SDW_DescriptionInfo2</Pieces>
+		<Pieces>SDW_IconButton</Pieces>
+		
+	</Screen>
+</XML>
