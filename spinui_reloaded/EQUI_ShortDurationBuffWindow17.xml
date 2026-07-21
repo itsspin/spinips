@@ -1,1425 +1,565 @@
-<?xml version="1.0" encoding="us-ascii"?> 
-<XML ID="EQInterfaceDefinitionLanguage"> 
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
 	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
-	
+
+	<!-- Canonical Legends compatibility alias: current bindings, signature visuals. -->
 	<Button item="SDBW_Player_Buff_Template">
 		<ScreenID>Player_Buff_Template</ScreenID>
-		<RelativePosition>true</RelativePosition>
 		<Font>2</Font>
+		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>27</CX>
-			<CY>23</CY>
+			<CX>216</CX>
+			<CY>22</CY>
 		</Size>
-		<Template>BDT_PlayerBuff</Template>	
+		<Template>BDT_PlayerBuff</Template>
 		<DecalOffset>
 			<X>0</X>
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>23</CX>
-			<CY>23</CY>
+			<CX>20</CX>
+			<CY>20</CY>
 		</DecalSize>
 	</Button>
-	
-<!-- Start short duration buff number labels -->
-	<Label item="SDBW_Buff0_Number">
-		<ScreenID>SDBuff0Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>1</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff0_NumberScreen">
-		<ScreenID>BW_Buff0_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff0_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff1_Number">
-		<ScreenID>SDBuff1Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>2</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff1_NumberScreen">
-		<ScreenID>BW_Buff1_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff1_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff2_Number">
-		<ScreenID>SDBuff2Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>3</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff2_NumberScreen">
-		<ScreenID>BW_Buff2_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff2_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff3_Number">
-		<ScreenID>SDBuff3Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>4</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff3_NumberScreen">
-		<ScreenID>BW_Buff3_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff3_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff4_Number">
-		<ScreenID>SDBuff4Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>5</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>	
-	</Label>
-
-	<Screen item="SDBW_Buff4_NumberScreen">
-		<ScreenID>BW_Buff4_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff4_Number</Pieces>
-	</Screen>	
-	
-	<Label item="SDBW_Buff5_Number">
-		<ScreenID>SDBuff5Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>6</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff5_NumberScreen">
-		<ScreenID>BW_Buff5_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff5_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff6_Number">
-		<ScreenID>SDBuff6Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>7</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff6_NumberScreen">
-		<ScreenID>BW_Buff6_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff6_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff7_Number">
-		<ScreenID>SDBuff7Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>8</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff7_NumberScreen">
-		<ScreenID>BW_Buff7_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff7_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff8_Number">
-		<ScreenID>SDBuff8Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>9</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff8_NumberScreen">
-		<ScreenID>BW_Buff8_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff8_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff9_Number">
-		<ScreenID>SDBuff9Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>10</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff9_NumberScreen">
-		<ScreenID>BW_Buff9_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff9_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff10_Number">
-		<ScreenID>SDBuff10Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>11</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>	
-
-	<Screen item="SDBW_Buff10_NumberScreen">
-		<ScreenID>BW_Buff10_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff10_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff11_Number">
-		<ScreenID>SDBuff11Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>12</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>		
-	</Label>	
-
-	<Screen item="SDBW_Buff11_NumberScreen">
-		<ScreenID>BW_Buff11_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff11_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff12_Number">
-		<ScreenID>SDBuff12Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>13</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>	
-	</Label>
-
-	<Screen item="SDBW_Buff12_NumberScreen">
-		<ScreenID>BW_Buff12_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff12_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff13_Number">
-		<ScreenID>SDBuff13Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>14</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff13_NumberScreen">
-		<ScreenID>BW_Buff13_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff13_Number</Pieces>
-	</Screen>	
-
-	<Label item="SDBW_Buff14_Number">
-		<ScreenID>SDBuff14Number</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Font>1</Font>
-		<Location>
-			<X>6</X>
-			<Y>6</Y>
-		</Location>			
-		<Size>
-			<CX>144</CX>
-			<CY>23</CY>
-		</Size>
-		<Text>15</Text>
-		<TextColor>
-			<R>110</R>
-			<G>118</G>
-			<B>134</B>
-		</TextColor>
-		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>	
-	</Label>
-
-	<Screen item="SDBW_Buff14_NumberScreen">
-		<ScreenID>BW_Buff14_NumberScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>150</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff14_Number</Pieces>
-	</Screen>	
-	
-<!-- End short duration buff number labels	 -->
-
-<!-- Start short duration buff labels -->
-	<Label item ="SDBW_Buff0_Label">
-		<ScreenID>SDBuff0Label</ScreenID>
-		<EQType>600</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff0_LabelScreen">
-		<ScreenID>SDBW_Buff0_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff0_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff1_Label">
-		<ScreenID>SDBuff1Label</ScreenID>
-		<EQType>601</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff1_LabelScreen">
-		<ScreenID>SDBW_Buff1_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff1_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff2_Label">
-		<ScreenID>SDBuff2Label</ScreenID>
-		<EQType>602</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff2_LabelScreen">
-		<ScreenID>SDBW_Buff2_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff2_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff3_Label">
-		<ScreenID>SDBuff3Label</ScreenID>
-		<EQType>603</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff3_LabelScreen">
-		<ScreenID>SDBW_Buff3_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff3_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff4_Label">
-		<ScreenID>SDBuff4Label</ScreenID>
-		<EQType>604</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff4_LabelScreen">
-		<ScreenID>SDBW_Buff4_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff4_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff5_Label">
-		<ScreenID>SDBuff2Label</ScreenID>
-		<EQType>605</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff5_LabelScreen">
-		<ScreenID>SDBW_Buff5_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff5_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff6_Label">
-		<ScreenID>SDBuff2Label</ScreenID>
-		<EQType>606</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff6_LabelScreen">
-		<ScreenID>SDBW_Buff6_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff6_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff7_Label">
-		<ScreenID>SDBuff7Label</ScreenID>
-		<EQType>607</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff7_LabelScreen">
-		<ScreenID>SDBW_Buff7_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff7_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff8_Label">
-		<ScreenID>SDBuff8Label</ScreenID>
-		<EQType>608</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff8_LabelScreen">
-		<ScreenID>SDBW_Buff8_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff8_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff9_Label">
-		<ScreenID>SDBuff9Label</ScreenID>
-		<EQType>609</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff9_LabelScreen">
-		<ScreenID>SDBW_Buff9_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff9_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff10_Label">
-		<ScreenID>SDBuff10Label</ScreenID>
-		<EQType>610</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff10_LabelScreen">
-		<ScreenID>SDBW_Buff10_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff10_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff11_Label">
-		<ScreenID>SDBuff11Label</ScreenID>
-		<EQType>611</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff11_LabelScreen">
-		<ScreenID>SDBW_Buff11_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff11_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff12_Label">
-		<ScreenID>SDBuff12Label</ScreenID>
-		<EQType>612</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff12_LabelScreen">
-		<ScreenID>SDBW_Buff12_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff12_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff13_Label">
-		<ScreenID>SDBuff13Label</ScreenID>
-		<EQType>613</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff13_LabelScreen">
-		<ScreenID>SDBW_Buff13_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff13_Label</Pieces>
-	</Screen>
-
-	<Label item ="SDBW_Buff14_Label">
-		<ScreenID>SDBuff14Label</ScreenID>
-		<EQType>614</EQType>
-		<Font>3</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>5</X>
-		  <Y>4</Y>
-		</Location>		
-		<Size>
-			<CX>120</CX>
-			<CY>15</CY>
-		</Size>
-		<Text></Text>
-		<TextColor>
-				<R>232</R>
-				<G>234</G>
-				<B>240</B>
-		</TextColor>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<FontShadow>true</FontShadow>
-	</Label>
-
-	<Screen item="SDBW_Buff14_LabelScreen">
-		<ScreenID>SDBW_Buff14_LabelScreen</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<Size>
-		  <CX>125</CX>
-		  <CY>23</CY>
-		</Size>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>false</Style_Border>
-		<Style_Sizable>false</Style_Sizable>
-		<Pieces>SDBW_Buff14_Label</Pieces>
-	</Screen>	
-<!-- End short duration buff labels -->
-	
 	<TileLayoutBox item="SDBW_Buttons">
 		<ScreenID>Buff_Buttons</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>0</TopAnchorOffset>
-		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
 		<RightAnchorOffset>0</RightAnchorOffset>
 		<BottomAnchorOffset>0</BottomAnchorOffset>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>0</Spacing>
-		<SecondarySpacing>123</SecondarySpacing>
-		<HorizontalFirst>false</HorizontalFirst>
+		<SecondarySpacing>0</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
 		<AnchorToTop>true</AnchorToTop>
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>true</FirstPieceTemplate>
-		<SnapToChildren>false</SnapToChildren>
-		<Pieces>SDBW_Player_Buff_Template</Pieces>
-	</TileLayoutBox>
-
-	<TileLayoutBox item="SDBW_Label">
-		<TopAnchorOffset>0</TopAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>
-		<LeftAnchorOffset>25</LeftAnchorOffset>
-        <RelativePosition>true</RelativePosition>
-		<AutoStretch>true</AutoStretch>
-       	<BottomAnchorToTop>false</BottomAnchorToTop>
-       	<RightAnchorToLeft>false</RightAnchorToLeft>
-       	<Style_Transparent>true</Style_Transparent>
-       	<Spacing>0</Spacing>
-       	<SecondarySpacing>25</SecondarySpacing>
-       	<HorizontalFirst>false</HorizontalFirst>
-       	<AnchorToTop>true</AnchorToTop>
-       	<AnchorToLeft>true</AnchorToLeft>
-       	<FirstPieceTemplate>false</FirstPieceTemplate>
-		<Pieces>Screen:SDBW_Buff0_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff1_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff2_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff3_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff4_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff5_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff6_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff7_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff8_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff9_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff10_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff11_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff12_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff13_LabelScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff14_LabelScreen</Pieces>
-	</TileLayoutBox>
-
-	<TileLayoutBox item="SDBW_Number">
-       	<FirstPieceTemplate>false</FirstPieceTemplate>	
-		<TopAnchorOffset>0</TopAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>
-		<LeftAnchorOffset>0</LeftAnchorOffset>		
-        <RelativePosition>true</RelativePosition>
-		<AutoStretch>true</AutoStretch>
-       	<BottomAnchorToTop>false</BottomAnchorToTop>
-       	<RightAnchorToLeft>false</RightAnchorToLeft>
-       	<Style_Transparent>true</Style_Transparent>
+		<SnapToChildren>true</SnapToChildren>
 		<Style_Sizable>false</Style_Sizable>
-       	<Spacing>0</Spacing>
-       	<SecondarySpacing>0</SecondarySpacing>
-       	<HorizontalFirst>false</HorizontalFirst>
-       	<AnchorToTop>true</AnchorToTop>
-       	<AnchorToLeft>true</AnchorToLeft>
-		<Pieces>Screen:SDBW_Buff0_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff1_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff2_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff3_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff4_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff5_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff6_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff7_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff8_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff9_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff10_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff11_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff12_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff13_NumberScreen</Pieces>
-		<Pieces>Screen:SDBW_Buff14_NumberScreen</Pieces>
-	</TileLayoutBox>	
-	
-	<Screen item="ShortDurationBuffWindow">
-		<Text>Song Effects</Text>
-		<RelativePosition>false</RelativePosition>
-		<MenuName>LEFT - Resizable List, Song Names, Full Numbering</MenuName>		
+			<Pieces>SDBW_Player_Buff_Template</Pieces>
+	</TileLayoutBox>
+	<Label item="SDBW_Buff_FrontSpacer">
+		<ScreenID>SDBuffFrontSpacer</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
 		<Location>
-			<X>415</X>
-			<Y>395</Y>
+			<X>0</X>
+			<Y>2</Y>
 		</Location>
 		<Size>
-			<CX>200</CX>
-			<CY>367</CY>
+			<CX>27</CX>
+			<CY>18</CY>
 		</Size>
-		<KeepOnScreen>true</KeepOnScreen>
-		<ClickThroughEmptyBuffs>true</ClickThroughEmptyBuffs>				
-		<KeepOnScreenOffset>
-			<X>-5</X>
-			<Y>-6</Y>
-		</KeepOnScreenOffset>
-		<MinHSize>160</MinHSize>
-		<MinVSize>50</MinVSize>					
+		<Style_Tooltip>false</Style_Tooltip>
+	</Label>
+	<Label item="SDBW_Buff_BackSpacer">
+		<ScreenID>SDBuffBackSpacer</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Font>2</Font>
+		<Location>
+			<X>206</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>18</CY>
+		</Size>
+		<Style_Tooltip>false</Style_Tooltip>
+	</Label>
+	<Label item="SDBW_Buff0">
+		<ScreenID>SDBuff0Label</ScreenID>
+		<EQType>600</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_00_Screen">
+		<Size>
+			<CX>216</CX>
+			<CY>22</CY>
+		</Size>
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff0</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff1">
+		<ScreenID>Buff1Label</ScreenID>
+		<EQType>601</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_01_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff1</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff2">
+		<ScreenID>SDBuff2Label</ScreenID>
+		<EQType>602</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_02_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff2</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff3">
+		<ScreenID>SDBuff3Label</ScreenID>
+		<EQType>603</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_03_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff3</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff4">
+		<ScreenID>SDBuff4Label</ScreenID>
+		<EQType>604</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_04_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff4</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff5">
+		<ScreenID>SDBuff5Label</ScreenID>
+		<EQType>605</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_05_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff5</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff6">
+		<ScreenID>SDBuff6Label</ScreenID>
+		<EQType>606</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_06_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff6</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff7">
+		<ScreenID>SDBuff7Label</ScreenID>
+		<EQType>607</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_07_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff7</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff8">
+		<ScreenID>SDBuff8Label</ScreenID>
+		<EQType>608</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_08_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff8</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff9">
+		<ScreenID>SDBuff9Label</ScreenID>
+		<EQType>609</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_09_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff9</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff10">
+		<ScreenID>SDBuff10Label</ScreenID>
+		<EQType>610</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_10_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff10</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff11">
+		<ScreenID>SDBuff11Label</ScreenID>
+		<EQType>611</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_11_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff11</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff12">
+		<ScreenID>SDBuff12Label</ScreenID>
+		<EQType>612</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_12_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff12</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff13">
+		<ScreenID>SDBuff13Label</ScreenID>
+		<EQType>613</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_13_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff13</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<Label item="SDBW_Buff14">
+		<ScreenID>SDBuff14Label</ScreenID>
+		<EQType>614</EQType>
+		<Font>3</Font>
+		<TextColor>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<Style_Tooltip>false</Style_Tooltip>
+		<Location>
+			<X>27</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>179</CX>
+			<CY>18</CY>
+		</Size>
+		<FontShadow>true</FontShadow>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Screen item="SDBW_14_Screen">
+			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
+			<Pieces>SDBW_Buff14</Pieces>
+			<Pieces>SDBW_Buff_BackSpacer</Pieces>
+	</Screen>
+	<TileLayoutBox item="SDBW_Labels">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<FirstPieceTemplate>true</FirstPieceTemplate>
+		<SnapToChildren>true</SnapToChildren>
+		<Style_Sizable>false</Style_Sizable>
+		<Style_Tooltip>false</Style_Tooltip>
+			<Pieces>Screen:SDBW_00_Screen</Pieces>
+			<Pieces>Screen:SDBW_01_Screen</Pieces>
+			<Pieces>Screen:SDBW_02_Screen</Pieces>
+			<Pieces>Screen:SDBW_03_Screen</Pieces>
+			<Pieces>Screen:SDBW_04_Screen</Pieces>
+			<Pieces>Screen:SDBW_05_Screen</Pieces>
+			<Pieces>Screen:SDBW_06_Screen</Pieces>
+			<Pieces>Screen:SDBW_07_Screen</Pieces>
+			<Pieces>Screen:SDBW_08_Screen</Pieces>
+			<Pieces>Screen:SDBW_09_Screen</Pieces>
+			<Pieces>Screen:SDBW_10_Screen</Pieces>
+			<Pieces>Screen:SDBW_11_Screen</Pieces>
+			<Pieces>Screen:SDBW_12_Screen</Pieces>
+			<Pieces>Screen:SDBW_13_Screen</Pieces>
+			<Pieces>Screen:SDBW_14_Screen</Pieces>
+	</TileLayoutBox><Screen item="SDBW_Background">
+        <RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+	<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+	<BottomAnchorToTop>false</BottomAnchorToTop>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
-		<Style_Transparent>true</Style_Transparent>
-		<DrawTemplate>WDT_RoundedNoTitleTransparentBottomArrow</DrawTemplate>
-		<LockedDrawTemplate>WDT_RoundedTransparentNoArrowTitlebar</LockedDrawTemplate>				
+		<DrawTemplate>WDT_InsetStone</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TileLayoutBox:SDBW_Buttons</Pieces>
+		<Pieces>TileLayoutBox:SDBW_Labels</Pieces>
+	</Screen>
+	<Screen item="ShortDurationBuffWindow">
+		<Text>SONG EFFECTS</Text>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>465</X>
+			<Y></Y>
+		</Location>
+		<Size>
+			<CX>216</CX>
+			<CY>367</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
 		<Style_Titlebar>true</Style_Titlebar>
 		<Style_Closebox>true</Style_Closebox>
 		<Style_Minimizebox>true</Style_Minimizebox>
 		<Style_Border>true</Style_Border>
-		<Style_Sizable>true</Style_Sizable>
+		<Style_Sizable>false</Style_Sizable>
 		<Escapable>false</Escapable>
-		<Pieces>TileLayoutBox:SDBW_Number</Pieces>
-		<Pieces>TileLayoutBox:SDBW_Label</Pieces>
-		<Pieces>TileLayoutBox:SDBW_Buttons</Pieces>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>
+		<Pieces>Screen:SDBW_Background</Pieces>
 	</Screen>
 </XML>

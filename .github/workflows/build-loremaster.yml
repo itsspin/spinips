@@ -35,21 +35,20 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The layout drift check rebuilds from the immutable stock-layout
+          # commit used by generate_spinui_layout.py.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
+      - name: Run release quality gate
+        run: python tools/release_quality_gate.py
+
       - name: Install build tooling
         run: python -m pip install --disable-pip-version-check pyinstaller
-
-      - name: Run source test suites
-        run: |
-          python tools/generate_spinui_layout.py
-          git diff --exit-code -- spinui_reloaded/default1440.ini layouts UI_Spin_qeynos_LO1.ini
-          python tools/audit_spinui.py
-          python loremaster/loremaster.py --selftest
-          python installer/spinui_installer.py --selftest
 
       - name: Build windowed executables
         shell: pwsh
@@ -70,7 +69,7 @@ jobs:
           $installer = Start-Process -FilePath dist/SpinUIInstaller.exe -ArgumentList '--selftest' -PassThru -Wait
           if ($installer.ExitCode -ne 0) { throw "Installer selftest exit code $($installer.ExitCode)" }
 
-      - name: Assemble installer and manual releases
+      - name: Assemble staged installer and manual releases
         shell: pwsh
         run: |
           $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
@@ -85,6 +84,18 @@ jobs:
             Copy-Item -Force dist/Loremaster.exe $package
           }
           Copy-Item -Force dist/SpinUIInstaller.exe $installerPackage
+
+      - name: Verify staged release packages
+        run: >
+          python tools/release_quality_gate.py --packages-only
+          --package installer=package/SpinUI-Installer
+          --package manual=package/SpinUI-Manual
+
+      - name: Compress verified release packages
+        shell: pwsh
+        run: |
+          $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
+          $manualPackage = Join-Path $PWD 'package/SpinUI-Manual'
           Compress-Archive -Path "$installerPackage/*" -DestinationPath package/SpinUI-Installer.zip -CompressionLevel Optimal
           Compress-Archive -Path "$manualPackage/*" -DestinationPath package/SpinUI-Manual.zip -CompressionLevel Optimal
 

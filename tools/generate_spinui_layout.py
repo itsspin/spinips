@@ -112,12 +112,12 @@ PLACEMENTS: dict[str, dict] = {
     "HotButtonWnd11": P(162, 873, 98, 271),
 
     # --- center combat cluster (above chat) ---------------------------------
-    "PlayerWindow":  P(1188, 780, show=1),                      # 336x193 (XML)
-    "TargetWindow":  P(1916, 780, show=1),                      # 336x193 (XML)
-    "PetInfoWindow": P(864, 780),                               # 311x190, Show per base
-    "StanceWnd":     P(1188, 980, 440, 44, show=1),
-    "CastingWindow": P(1636, 980, 380, 36, show=1),
-    "AggroMeterWnd": P(2032, 976, 220, 48),
+    "PlayerWindow":  P(1188, 770, show=1),                      # 360x193 (XML)
+    "TargetWindow":  P(1916, 770, show=1),                      # 360x193 (XML)
+    "PetInfoWindow": P(864, 770),                               # 311x190, Show per base
+    "StanceWnd":     P(1188, 970, 440, 56, show=1),
+    "CastingWindow": P(1636, 978, 380, 36, show=1),
+    "AggroMeterWnd": P(2032, 974, 220, 48),
     "HotButtonWnd4": P(1188, 1032, 528, 56),
     "HotButtonWnd5": P(1724, 1032, 528, 56),
     "HotButtonWnd2": P(1188, 1092, 528, 56),
@@ -131,21 +131,21 @@ PLACEMENTS: dict[str, dict] = {
     "HotButtonWnd10": P(2260, 1032, 528, 56),
 
     # --- right column: buffs / songs / group --------------------------------
-    # Style: LEFT-anchored static list, no numbering (variant 13) — icons sit
-    # beside names with no floating number rail.  Base variants stay hidden
-    # but keep the same position in case the player switches styles in-game.
-    "BuffWindow":                 P(3232, 8),                   # 200x712 (XML)
-    "BuffWindow_13":              P(3232, 8),
-    "ShortDurationBuffWindow":    P(3024, 8),                   # 200x367 (XML)
-    "ShortDurationBuffWindow_13": P(3024, 8),
-    "GroupWindow":             P(3202, 728, show=1),
-    "ExtendedTargetWnd":       P(3024, 728, 170, 300),          # Show per base
+    # July Legends-native effect rows: icon + readable name, backed by the
+    # current 500..529 / 600..614 EQType bindings. Older menu variants remain
+    # parked but hidden because they predate the Legends row schema.
+    "BuffWindow":                 P(3224, 8, show=1),           # 216x712 (XML)
+    "BuffWindow_13":              P(3224, 8, show=0),
+    "ShortDurationBuffWindow":    P(3008, 8, show=1),           # 216x367 (XML)
+    "ShortDurationBuffWindow_13": P(3008, 8, show=0),
+    "GroupWindow":             P(3210, 728, show=1),
+    "ExtendedTargetWnd":       P(3024, 728, 178, 300),          # Show per base
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
     # stay open while running without hiding the HUD or the world.
-    "MapViewWnd":              P(2296, 8, 720, 600,
+    "MapViewWnd":              P(2280, 8, 720, 600,
                                  extra={"Alpha": "235", "FadeToAlpha": "160",
                                         "Fades": "1"}),
-    "TargetOfTargetWindow":    P(2296, 616, 232, 100),
+    "TargetOfTargetWindow":    P(2296, 616, 240, 53),
 
     # --- top center / left utility ------------------------------------------
     "CompassWindow": P(1490, 8),
@@ -191,12 +191,12 @@ def standard_1440_placements() -> dict[str, dict]:
         "CastSpellWnd": q(8, 521, 52, 623, show=1),
         "HotButtonWnd": q(64, 877, 94, 267),
         "HotButtonWnd11": q(162, 873, 98, 271),
-        "PetInfoWindow": q(632, 780),
-        "PlayerWindow": q(956, 780, show=1),
-        "TargetWindow": q(1684, 780, show=1),
-        "StanceWnd": q(956, 980, 440, 44, show=1),
-        "CastingWindow": q(1404, 980, 380, 36, show=1),
-        "AggroMeterWnd": q(1800, 976, 220, 48),
+        "PetInfoWindow": q(632, 770),
+        "PlayerWindow": q(956, 770, show=1),
+        "TargetWindow": q(1684, 770, show=1),
+        "StanceWnd": q(956, 970, 440, 56, show=1),
+        "CastingWindow": q(1404, 978, 380, 36, show=1),
+        "AggroMeterWnd": q(1800, 974, 220, 48),
         "HotButtonWnd4": q(956, 1032, 528, 56),
         "HotButtonWnd5": q(1492, 1032, 528, 56),
         "HotButtonWnd2": q(956, 1092, 528, 56),
@@ -206,15 +206,15 @@ def standard_1440_placements() -> dict[str, dict]:
         "HotButtonWnd6": q(420, 1092, 528, 56),
         "HotButtonWnd10": q(2028, 1032, 266, 56),
         "HotButtonWnd9": q(2028, 1092, 266, 56),
-        "BuffWindow": q(2352, 8),
-        "BuffWindow_13": q(2352, 8),
-        "ShortDurationBuffWindow": q(2144, 8),
-        "ShortDurationBuffWindow_13": q(2144, 8),
-        "GroupWindow": q(2302, 714, show=1),
-        "ExtendedTargetWnd": q(2124, 728, 170, 300),
-        "MapViewWnd": q(1416, 8, 720, 600,
+        "BuffWindow": q(2344, 8, show=1),
+        "BuffWindow_13": q(2344, 8, show=0),
+        "ShortDurationBuffWindow": q(2128, 8, show=1),
+        "ShortDurationBuffWindow_13": q(2128, 8, show=0),
+        "GroupWindow": q(2330, 728, show=1),
+        "ExtendedTargetWnd": q(2144, 728, 178, 300),
+        "MapViewWnd": q(1400, 8, 720, 600,
                         extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
-        "TargetOfTargetWindow": q(1904, 616, 232, 100),
+        "TargetOfTargetWindow": q(1904, 616, 240, 53),
         "CompassWindow": q(1050, 8),
         "TrackingWnd": q(8, 120, 340, 390),
         "InventoryWindow": q(300, 140),
@@ -365,12 +365,12 @@ def rebuild_chat_manager(lines: list[str]) -> list[str]:
 
 # XML-fixed sizes for windows the INI cannot size (from the window XMLs).
 XML_SIZES = {
-    "PlayerWindow": (336, 193), "TargetWindow": (336, 193),
-    "PetInfoWindow": (311, 190), "BuffWindow": (200, 712),
-    "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (200, 367),
+    "PlayerWindow": (360, 193), "TargetWindow": (360, 193),
+    "PetInfoWindow": (311, 190), "BuffWindow": (216, 712),
+    "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (216, 367),
     "ShortDurationBuffWindow_13": (200, 367), "BigBankWnd": (287, 390),
     "InventoryWindow": (780, 800), "BreathWindow": (118, 32),
-    "GroupWindow": (230, 430),   # grows downward; reserve
+    "GroupWindow": (230, 204),   # four-player Legends group = three companion rows
     "CompassWindow": (460, 36),
 }
 
@@ -381,7 +381,7 @@ VISIBLE = [
     "PlayerWindow", "TargetWindow", "StanceWnd", "CastingWindow",
     "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4", "HotButtonWnd5",
     "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9",
-    "HotButtonWnd10", "GroupWindow",
+    "HotButtonWnd10", "GroupWindow", "BuffWindow", "ShortDurationBuffWindow",
 ]
 
 

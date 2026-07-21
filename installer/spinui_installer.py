@@ -76,6 +76,8 @@ def steam_libraries() -> list[Path]:
 
 def find_eq_roots() -> list[Path]:
     candidates = [
+        Path(r"C:\EQLegends"),
+        Path(r"D:\EQLegends"),
         Path(r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends"),
         Path(r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest"),
         Path(r"C:\Program Files (x86)\Sony\EverQuest"),
@@ -219,7 +221,8 @@ def stop_running_loremaster() -> bool:
 def configure_loremaster(eq_root: Path, app_dir: Path) -> None:
     config = app_dir / "loremaster_config.json"
     try:
-        data = json.loads(config.read_text(encoding="utf-8")) if config.exists() else {}
+        decoded = json.loads(config.read_text(encoding="utf-8")) if config.exists() else {}
+        data = decoded if isinstance(decoded, dict) else {}
     except (OSError, json.JSONDecodeError):
         data = {}
     data["log_dir"] = str(eq_root)
@@ -365,6 +368,10 @@ def selftest() -> int:
         assert config["mini_mode"] is False
         assert not (startup / STARTUP_LINK).exists()
         assert not (desktop / DESKTOP_LINK).exists()
+        (app / "loremaster_config.json").write_text("null", encoding="utf-8")
+        configure_loremaster(eq.resolve(), app)
+        repaired = json.loads((app / "loremaster_config.json").read_text())
+        assert repaired == {"log_dir": str(eq.resolve())}
         if os.name == "nt":
             set_desktop_shortcut(app / LOREMASTER_NAME, True, desktop)
             assert (desktop / DESKTOP_LINK).is_file()

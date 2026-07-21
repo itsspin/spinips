@@ -24,6 +24,7 @@ The final path should look like:
 Common EverQuest folders include:
 
 ```text
+C:\EQLegends
 C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends
 C:\Program Files (x86)\Steam\steamapps\common\EverQuest
 ```
@@ -66,10 +67,20 @@ Loremaster searches common Daybreak and Steam locations automatically. If it
 does not find the active log, click **LOCATE LOG** and select the EverQuest
 folder or its `Logs` folder.
 
-Drag the compact HUD into place and click **LOCK**. In the detailed panel,
-**OLDER / NEWER / LIVE** browse encounters. **PASS** enables click-through
-only if Loremaster successfully reserves the recovery shortcut; press
-**Ctrl+Alt+L** at any time to restore interaction.
+Drag the compact HUD into place and click **LOCK**. In the detailed Encounter
+Lab, **OLDER / NEWER / LIVE** browse encounters and **Overview / Damage /
+Healing / Targets / Timeline / Compare** change the analysis. **CLICK-THRU** enables
+click-through only if Loremaster successfully reserves the recovery shortcut;
+press **Ctrl+Alt+L** at any time to restore interaction.
+
+Hover an item in EverQuest and press **Ctrl+Shift+E** to open Lore Lens beside
+the cursor. Loremaster captures only that bounded cursor region, only for the
+key press, and uses Windows OCR before validating likely titles as exact EQL
+Wiki item pages. A copied EQ item link, bracketed item, or EQL Wiki URL opens
+immediately; ordinary clipboard text only prefills the search field until you
+confirm it. The shortcut, Hover Scan, wiki network access, high-contrast
+palette, reduced motion, and text scale are configurable through **SETTINGS**.
+Lore Lens never injects into or reads memory from `eqgame.exe`.
 
 To start Loremaster with Windows without showing it before the game launches,
 create a shortcut in `shell:startup` whose target is:

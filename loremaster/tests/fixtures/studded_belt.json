@@ -1,0 +1,9 @@
+{
+  "parse": {
+    "title": "Studded Belt",
+    "pageid": 32462,
+    "wikitext": {
+      "*": "{{Classic Era}}\n\n<onlyinclude>{{Itempage\n|notes       = \n|merchant_value = 2gp\n|itemname    = Studded Belt\n|lucy_img_ID = 564\n|statsblock  = \nSlot: WAIST<br>\nAC: 4<br>\nWT: 0.8 Size: SMALL<br>\nClass: ALL except NEC WIZ MAG ENC<br>\nRace: All<br>\n|focus_effect = Reagent Conservation I\n|playercrafted = \n\n* [[Tailoring]] (Trivial: 56)\n** '''Yield: Studded Belt''' x1\n** In [[Loom]]:\n:: {{SmIcon|504}} 1 x [[Belt Pattern]] - Bought\n:: {{SmIcon|553}} 1 x [[Medium Quality Cat Skin]] - Crafted, Quested, Dropped\n:: {{SmIcon|1032}} 2 x [[Studs]] - Crafted\n}}</onlyinclude>"
+    }
+  }
+}

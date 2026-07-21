@@ -924,9 +924,9 @@
 		<DrawTemplate>WDT_Def</DrawTemplate>
 		<TabText>Members</TabText>
 		<TabTextActiveColor>
-			<R>255</R>
-			<G>255</G>
-			<B>0</B>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
 		</TabTextActiveColor>
 		<Pieces>VerticalLayoutBox:RAID_Main_Layout</Pieces>
 		<Pieces>RAID_PlayerCountLabel</Pieces>
@@ -1129,9 +1129,9 @@
 		<DrawTemplate>WDT_Def</DrawTemplate>
 		<TabText>Notes</TabText>
 		<TabTextActiveColor>
-			<R>255</R>
-			<G>255</G>
-			<B>0</B>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
 		</TabTextActiveColor>
 		<Pieces>RAID_NoteList</Pieces>
 		<Pieces>RAID_NoteLabel</Pieces>
@@ -1179,7 +1179,7 @@
 			<CX>0</CX>
 			<CY>0</CY>
 		</Size>
-		<Text>Raid Window</Text>
+		<Text>RAID // EIGHT</Text>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
 		<Style_Transparent>false</Style_Transparent>
