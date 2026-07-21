@@ -1163,7 +1163,7 @@
 		<SpellIconSizeX>36</SpellIconSizeX>
 		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
-	
+
 	<InvSlot item="HB_InvSlot">
 		<ScreenID>HB_InvSlot</ScreenID>
 		<Location>
@@ -1178,10 +1178,10 @@
 		<Background>A_RecessedBox</Background>
 		<EQType>-2</EQType>
 	</InvSlot>
-	
+
 	<HotButton item="HB_Button1">
 		<ScreenID>HB_Button1</ScreenID>
-		<Font>1</Font>
+		<Font>2</Font>
 		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
@@ -1209,8 +1209,8 @@
 	</HotButton>
 	<HotButton item="HB_Button2">
 		<ScreenID>HB_Button2</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1237,8 +1237,8 @@
 	</HotButton>
 	<HotButton item="HB_Button3">
 		<ScreenID>HB_Button3</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1265,8 +1265,8 @@
 	</HotButton>
 	<HotButton item="HB_Button4">
 		<ScreenID>HB_Button4</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1293,8 +1293,8 @@
 	</HotButton>
 	<HotButton item="HB_Button5">
 		<ScreenID>HB_Button5</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1321,8 +1321,8 @@
 	</HotButton>
 	<HotButton item="HB_Button6">
 		<ScreenID>HB_Button6</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1349,8 +1349,8 @@
 	</HotButton>
 	<HotButton item="HB_Button7">
 		<ScreenID>HB_Button7</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1377,8 +1377,8 @@
 	</HotButton>
 	<HotButton item="HB_Button8">
 		<ScreenID>HB_Button8</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1405,8 +1405,8 @@
 	</HotButton>
 	<HotButton item="HB_Button9">
 		<ScreenID>HB_Button9</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1433,8 +1433,8 @@
 	</HotButton>
 	<HotButton item="HB_Button10">
 		<ScreenID>HB_Button10</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1461,8 +1461,8 @@
 	</HotButton>
 	<HotButton item="HB_Button11">
 		<ScreenID>HB_Button11</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1489,8 +1489,8 @@
 	</HotButton>
 	<HotButton item="HB_Button12">
 		<ScreenID>HB_Button12</ScreenID>
-		<Font>1</Font>
-		<FontShadow>true</FontShadow>		
+		<Font>2</Font>
+		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>40</CX>
@@ -1522,7 +1522,7 @@
 		<TopAnchorOffset>1</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1537,7 +1537,7 @@
 		<TopAnchorOffset>1</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>11</RightAnchorOffset>	
+		<RightAnchorOffset>11</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1552,7 +1552,7 @@
 		<TopAnchorOffset>11</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1567,7 +1567,7 @@
 		<TopAnchorOffset>1</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>11</RightAnchorOffset>	
+		<RightAnchorOffset>11</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1609,7 +1609,12 @@
 	</Button>
 	<Label item="HB_HorizontalCurrentPageLabel">
 		<ScreenID>HB_HorizontalCurrentPageLabel</ScreenID>
-		<Font>1</Font>
+		<Font>2</Font>
+		<TextColor>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
+		</TextColor>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>2</X>
@@ -1650,7 +1655,12 @@
 	</Button>
 	<Label item="HB_VerticalCurrentPageLabel">
 		<ScreenID>HB_VerticalCurrentPageLabel</ScreenID>
-		<Font>1</Font>
+		<Font>2</Font>
+		<TextColor>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
+		</TextColor>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>13</X>
@@ -1678,7 +1688,7 @@
 	</Button>
 	<DragBox item="HBDragBox1">
         <ScreenID>HBDragBox1</ScreenID>
-		<AutoStretch>true</AutoStretch>		
+		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
@@ -1696,7 +1706,7 @@
     </DragBox>
 	<DragBox item="HBDragBox2">
         <ScreenID>HBDragBox2</ScreenID>
-		<AutoStretch>true</AutoStretch>		
+		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
@@ -1711,7 +1721,7 @@
             <B>0</B>
         </BackgroundTextureTint>
         <Style_Transparent>true</Style_Transparent>
-    </DragBox>		
+    </DragBox>
 	<Screen item="HB_HorizontalBarPageButtons">
 		<ScreenID>HB_HorizontalBarPageButtons</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -1719,7 +1729,7 @@
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>43</BottomAnchorOffset>
 		<LeftAnchorOffset>13</LeftAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>	
+		<RightAnchorOffset>0</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
@@ -1730,7 +1740,7 @@
 		<Pieces>HB_PageUpButton</Pieces>
 		<Pieces>HB_HorizontalCurrentPageLabel</Pieces>
 		<Pieces>HB_PageDownButton</Pieces>
-		<Pieces>DragBox:HBDragBox1</Pieces>			
+		<Pieces>DragBox:HBDragBox1</Pieces>
 	</Screen>
 	<Screen item="HB_VerticalBarPageButtons">
 		<ScreenID>HB_VerticalBarPageButtons</ScreenID>
@@ -1740,17 +1750,17 @@
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>40</RightAnchorOffset>	
+		<RightAnchorOffset>40</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>true</RightAnchorToLeft>		
+		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<UseInLayoutVertical>false</UseInLayoutVertical>
 		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
 		<Pieces>HB_PageLeftButton</Pieces>
 		<Pieces>HB_VerticalCurrentPageLabel</Pieces>
 		<Pieces>HB_PageRightButton</Pieces>
-		<Pieces>DragBox:HBDragBox2</Pieces>				
+		<Pieces>DragBox:HBDragBox2</Pieces>
 	</Screen>
 	<LayoutVertical item="HB_LayoutV">
 		<ResizeVertical>true</ResizeVertical>
@@ -1773,7 +1783,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1805,7 +1815,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1837,7 +1847,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1869,7 +1879,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1901,7 +1911,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1933,7 +1943,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1965,7 +1975,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -1997,7 +2007,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -2029,7 +2039,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -2061,7 +2071,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
@@ -2093,7 +2103,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>

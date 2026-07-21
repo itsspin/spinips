@@ -1,0 +1,23 @@
+{
+  "parse": {
+    "title": "Cloak of Flames",
+    "pageid": 2099,
+    "revid": 1,
+    "text": {
+      "*": ""
+    },
+    "langlinks": [],
+    "categories": [],
+    "links": [],
+    "templates": [],
+    "images": [],
+    "externallinks": [],
+    "sections": [],
+    "displaytitle": "Cloak of Flames",
+    "iwlinks": [],
+    "properties": [],
+    "wikitext": {
+      "*": "{{Classic Era}}\n\n<onlyinclude>{{Itempage\n|notes       = \n|itemname    = Cloak of Flames\n|lucy_img_ID = 2469\n|statsblock  = \nMAGIC ITEM<br>\nSlot: BACK<br>\nAC: 10<br>\nDEX: +9  AGI: +9  HP: +50<br>\nSV FIRE: +15<br>\nHaste: +36%<br>\nWT: 0.1  Size: MEDIUM<br>\nClass: ALL<br>\nRace: ALL<br>\n|dropsfrom = \n\n[[Nagafen's Lair]]\n\n* [[Lord Nagafen]]\n\n|soldby = \n|relatedquests = \n|playercrafted = \n|tradeskillrecipes = \n}}</onlyinclude>\n\n[[Category:Back]]"
+    }
+  }
+}

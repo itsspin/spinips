@@ -13,7 +13,8 @@ What it does
 * Combat-aware DPS: fights open on your (or your pet's) first action and
   close after 10 s of silence; bystander activity only extends a fight
   within a 20 s grace window of your own last action.
-* Live fight DPS, session DPS, best fight, and rolling encounter history.
+* Encounter Lab with current/previous/session views, actor/ability/healing
+  meters, multi-mob target breakdowns, and a two-second combat timeline.
 * Pet damage attribution (learns pet names from pet speech) + active pet
   count for swarm/multiclass play.
 * Bard song counting (songs twisted, songs/min) — WAR/DRU/BRD approved.
@@ -22,6 +23,8 @@ What it does
 * Kills (per-creature breakdown), deaths, heals in/out, damage taken,
   loot log, coin (plat/hr), faction hits, skill-ups, fizzles/resists.
 * HUD mode: a slim EQ-only overlay strip with your starred stats.
+* Lore Lens: Ctrl+Shift+E reads a hovered item with on-demand Windows OCR,
+  then uses safe EQL Wiki parsing, background I/O, and an offline cache.
 * Per-character persistence in loremaster_data/<Character>.json.
 
 Usage
@@ -53,6 +56,32 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from hover_ocr import HoverOcrService
+from log_ingest import (
+    LineBatchRecord,
+    LogIngestWorker,
+    StatusRecord,
+    SwitchRecord,
+)
+
+from wiki_overlay import (
+    DISPLAY_SECTIONS,
+    EMPTY_SECTION_TEXT,
+    WikiCache,
+    WikiClient,
+    WikiError,
+    WikiItem,
+    WikiLookupService,
+    WikiNotFoundError,
+    WikiOfflineError,
+    clipboard_lookup_plan,
+    extract_item_query,
+    format_cache_age,
+    normalize_item_name,
+    parse_hotkey,
+    selftest as wiki_selftest,
+)
+
 # ---------------------------------------------------------------------------
 # Theme — matches Spin UI "Obsidian, Venom & Ember"
 # ---------------------------------------------------------------------------
@@ -83,6 +112,8 @@ THEME = {
 # write to the game root instead.  Every candidate is scanned and the most
 # recently written log wins, so all players are covered automatically.
 DEFAULT_LOG_DIRS = [
+    r"C:\EQLegends\Logs",
+    r"C:\EQLegends",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends\Logs",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends",
     r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest",
@@ -100,6 +131,7 @@ else:
     APP_DATA_DIR = SOURCE_DIR
 CONFIG_PATH = APP_DATA_DIR / "loremaster_config.json"
 DATA_DIR = APP_DATA_DIR / "loremaster_data"
+WIKI_CACHE_DIR = APP_DATA_DIR / "wiki_cache"
 
 # Combat pacing constants
 COMBAT_GAP = timedelta(seconds=10)
@@ -111,16 +143,17 @@ MAX_READ_BYTES = 256 * 1024
 INITIAL_BACKFILL_BYTES = 2 * 1024 * 1024
 INITIAL_BACKFILL_MINUTES = 30
 MAX_FIGHT_HISTORY = 500
+TIMELINE_BUCKET_SECONDS = 2
+MINI_BASE_WIDTH = 720
+MINI_BASE_HEIGHT = 34
 
 TS_FORMAT = "%a %b %d %H:%M:%S %Y"
 _EQ_PID_CACHE = {"expires": 0.0, "ids": set()}
-_INSTANCE_MUTEX = None
+_INSTANCE_MUTEXES = {}
 
 
-def acquire_single_instance() -> bool:
-    """Keep normal launches to one lightweight overlay per Windows session."""
-    global _INSTANCE_MUTEX
-    if os.name != "nt" or _INSTANCE_MUTEX is not None:
+def _acquire_instance_mutex(name: str) -> bool:
+    if os.name != "nt" or name in _INSTANCE_MUTEXES:
         return True
     try:
         import ctypes
@@ -132,17 +165,26 @@ def acquire_single_instance() -> bool:
         kernel32.CreateMutexW.restype = wintypes.HANDLE
         kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
         kernel32.CloseHandle.restype = wintypes.BOOL
-        handle = kernel32.CreateMutexW(
-            None, False, "Local\\SpinsLoremaster.Singleton")
+        handle = kernel32.CreateMutexW(None, False, name)
         if not handle:
             return True  # Do not prevent launch if Windows denied the mutex.
         if ctypes.get_last_error() == 183:  # ERROR_ALREADY_EXISTS
             kernel32.CloseHandle(handle)
             return False
-        _INSTANCE_MUTEX = handle
+        _INSTANCE_MUTEXES[name] = handle
     except (AttributeError, OSError):
         return True
     return True
+
+
+def acquire_single_instance() -> bool:
+    """Keep normal launches to one lightweight overlay per Windows session."""
+    return _acquire_instance_mutex("Local\\SpinsLoremaster.Singleton")
+
+
+def acquire_waiter_instance() -> bool:
+    """Prevent duplicate invisible startup waiters without blocking manual UI."""
+    return _acquire_instance_mutex("Local\\SpinsLoremaster.Waiter")
 
 
 def process_ids(image_name: str) -> set[int] | None:
@@ -318,6 +360,13 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     # --- world ---
     ("faction", re.compile(r"^Your faction standing with (?P<faction>.+?) has been adjusted by (?P<delta>-?\d+)\.$")),
     ("zone", re.compile(r"^You have entered (?P<zone>.+)\.$")),
+    # EQL builds do not consistently emit a class trio.  When one does, only
+    # this explicit system-style sentence is eligible for exact inference;
+    # normal chat and spell names are never guessed as a composition.
+    ("composition", re.compile(
+        r"^(?:Your active classes are|Your active class composition is|"
+        r"Your class composition is|Active classes:)\s+(?P<classes>.+?)[.!]?$",
+        re.I)),
     # --- pets ---
     ("pet_attack", re.compile(r"^(?P<pet>\S+) (?:tells|told) you, 'Attacking (?P<target>.+?) Master\.'$")),
     ("pet_leader", re.compile(r"^(?P<pet>\S+) says,? 'My leader is (?P<leader>\S+?)\.'$")),
@@ -339,6 +388,122 @@ COIN_RE = re.compile(r"(\d+) (platinum|gold|silver|copper)")
 COIN_COPPER = {"platinum": 1000, "gold": 100, "silver": 10, "copper": 1}
 
 ZONE_FALSE_POSITIVES = ("an area", "area where", "an Arena")
+
+# EverQuest Legends characters carry three active classes.  Keep this list
+# deliberately closed so a stray chat line can never silently mislabel an
+# encounter.  Class order is preserved because players commonly identify a
+# build by its primary/secondary/tertiary ordering.
+EQL_CLASS_NAMES = {
+    "WAR": "Warrior", "CLR": "Cleric", "PAL": "Paladin",
+    "RNG": "Ranger", "SHD": "Shadow Knight", "DRU": "Druid",
+    "MNK": "Monk", "BRD": "Bard", "ROG": "Rogue", "SHM": "Shaman",
+    "NEC": "Necromancer", "WIZ": "Wizard", "MAG": "Magician",
+    "ENC": "Enchanter", "BST": "Beastlord", "BER": "Berserker",
+}
+EQL_CLASS_ALIASES = {
+    **{abbr.casefold(): abbr for abbr in EQL_CLASS_NAMES},
+    **{name.casefold(): abbr for abbr, name in EQL_CLASS_NAMES.items()},
+    "shadowknight": "SHD", "shadow knight": "SHD", "sk": "SHD",
+    "cler": "CLR", "cleric": "CLR", "pally": "PAL", "ranger": "RNG",
+    "druid": "DRU", "monk": "MNK", "bard": "BRD", "rogue": "ROG",
+    "sham": "SHM", "shaman": "SHM", "necro": "NEC",
+    "necromancer": "NEC", "wizard": "WIZ", "mage": "MAG",
+    "magician": "MAG", "enchanter": "ENC", "chanter": "ENC",
+    "beastlord": "BST", "beast": "BST", "berserker": "BER",
+    "zerker": "BER", "warrior": "WAR",
+}
+
+
+def normalize_composition(value) -> str:
+    """Return a canonical three-class EQL loadout or raise ValueError.
+
+    Accepted examples include ``WAR/BRD/DRU`` and
+    ``Warrior, Bard, and Druid``.  Requiring exactly three distinct known
+    classes is important: composition data is only useful when it is exact.
+    """
+    if value is None:
+        return ""
+    if isinstance(value, (list, tuple)):
+        raw_parts = [str(part).strip() for part in value]
+    else:
+        text = str(value).strip()
+        if not text:
+            return ""
+        text = re.sub(r"\s+and\s+", "/", text, flags=re.I)
+        raw_parts = [part.strip() for part in re.split(r"\s*[/,+]\s*", text)]
+        if len(raw_parts) == 1:
+            # Space-separated abbreviations are convenient, but full class
+            # names containing spaces still need an explicit slash/comma.
+            words = text.split()
+            if len(words) == 3:
+                raw_parts = words
+    parts = [part for part in raw_parts if part]
+    if len(parts) != 3:
+        raise ValueError("Enter exactly three classes, for example WAR / BRD / DRU.")
+    canonical = []
+    for part in parts:
+        abbr = EQL_CLASS_ALIASES.get(part.casefold())
+        if not abbr:
+            raise ValueError(f"Unknown EQL class '{part}'. Use class abbreviations like WAR or DRU.")
+        canonical.append(abbr)
+    if len(set(canonical)) != 3:
+        raise ValueError("A loadout must contain three different classes.")
+    return " / ".join(canonical)
+
+
+COMPOSITION_MESSAGE_RE = re.compile(
+    r"^(?:Your active classes are|Your active class composition is|"
+    r"Your class composition is|Active classes:)\s+(?P<classes>.+?)[.!]?$",
+    re.I,
+)
+
+
+def infer_composition_from_message(message: str) -> str:
+    """Infer only from an explicit three-class system-style announcement."""
+    match = COMPOSITION_MESSAGE_RE.fullmatch((message or "").strip())
+    if not match:
+        return ""
+    try:
+        return normalize_composition(match.group("classes"))
+    except ValueError:
+        return ""
+
+
+def composition_comparisons(fights, selected, mode="same") -> list:
+    """Return preceding encounters matching a same/other/all loadout filter."""
+    if selected is None or mode not in {"same", "other", "all"}:
+        return []
+    try:
+        selected_index = next(i for i, fight in enumerate(fights) if fight is selected)
+    except StopIteration:
+        return []
+    current = selected.composition
+    matches = []
+    for fight in fights[:selected_index]:
+        if mode == "same" and (not current or fight.composition != current):
+            continue
+        if mode == "other" and (not current or not fight.composition
+                                or fight.composition == current):
+            continue
+        matches.append(fight)
+    return matches
+
+
+def summarize_compositions(fights) -> list[dict]:
+    """Build small rolling loadout summaries without retaining extra state."""
+    grouped: dict[str, list] = defaultdict(list)
+    for fight in fights:
+        grouped[fight.composition or "UNSET"].append(fight)
+    summaries = []
+    for composition, rows in grouped.items():
+        summaries.append({
+            "composition": composition,
+            "fights": len(rows),
+            "average_dps": sum(fight.dps for fight in rows) / len(rows),
+            "best_dps": max(fight.dps for fight in rows),
+            "damage": sum(fight.damage for fight in rows),
+        })
+    return sorted(summaries, key=lambda row: (-row["average_dps"], row["composition"]))
 
 
 def normalize_mob(name: str) -> str:
@@ -382,6 +547,8 @@ def parse_line(line: str):
 class Fight:
     start: datetime
     end: datetime
+    composition: str = ""
+    composition_source: str = "unset"
     damage: int = 0
     targets: dict = field(default_factory=lambda: defaultdict(int))
     sources: dict = field(default_factory=lambda: defaultdict(
@@ -392,6 +559,11 @@ class Fight:
         lambda: {"t": 0, "h": 0, "max": 0}))
     actor_healing: dict = field(default_factory=lambda: defaultdict(
         lambda: {"t": 0, "h": 0, "max": 0}))
+    # `targets` is the player's attributed damage. `observed_targets` adds
+    # actors visible in the local log without ever changing personal DPS.
+    observed_targets: dict = field(default_factory=lambda: defaultdict(int))
+    timeline: dict = field(default_factory=lambda: defaultdict(
+        lambda: {"out": 0, "in": 0, "heal": 0, "kills": 0}))
     kills: int = 0
     kill_targets: dict = field(default_factory=lambda: defaultdict(int))
     damage_taken: int = 0
@@ -410,21 +582,37 @@ class Fight:
 
     @property
     def name(self) -> str:
-        if not self.targets:
+        target_map = dict(self.observed_targets or self.targets)
+        for killed_name in self.kill_targets:
+            target_map.setdefault(killed_name, 0)
+        if not target_map:
             return "fight"
-        primary = max(self.targets.items(), key=lambda kv: kv[1])[0]
+        primary = max(target_map.items(), key=lambda kv: kv[1])[0]
         if self.kills > 1:
             return f"{self.kills} enemies"
-        if len(self.targets) > 1:
-            return f"{primary} +{len(self.targets) - 1} more"
+        if len(target_map) > 1:
+            return f"{primary} +{len(target_map) - 1} more"
         return primary
+
+    def add_timeline(self, ts: datetime, metric: str, amount: int = 0):
+        """Record a bounded two-second encounter bucket for the Lab view."""
+        elapsed = max(0.0, (ts - self.start).total_seconds())
+        bucket = min(899, int(elapsed // TIMELINE_BUCKET_SECONDS))
+        row = self.timeline[bucket]
+        if metric in row:
+            row[metric] += amount
 
 
 class SessionStats:
-    def __init__(self, character: str = "?", session_gap: timedelta | None = None):
+    def __init__(self, character: str = "?", session_gap: timedelta | None = None,
+                 composition: str = ""):
         self.character = character
         self.session_gap = session_gap
         self.lifetime = new_lifetime_stats()
+        self.composition = ""
+        self.composition_source = "unset"
+        if composition:
+            self.set_composition(composition)
         self.reset()
 
     def reset(self):
@@ -521,6 +709,21 @@ class SessionStats:
             self.pet_names, self.zone = pets, zone
         self.last_event = ts
 
+    def set_composition(self, composition, *, source: str = "manual",
+                        retag_active: bool = True) -> str:
+        """Set the exact active EQL class trio and optionally retag combat."""
+        canonical = normalize_composition(composition)
+        self.composition = canonical
+        self.composition_source = source if canonical else "unset"
+        if retag_active and getattr(self, "fight", None) is not None:
+            self.fight.composition = canonical
+            self.fight.composition_source = self.composition_source
+        return canonical
+
+    def _new_fight(self, ts: datetime) -> Fight:
+        return Fight(start=ts, end=ts, composition=self.composition,
+                     composition_source=self.composition_source)
+
     # -- combat windows --------------------------------------------------
     def _own_combat(self, ts: datetime):
         self.last_own_action = ts
@@ -530,14 +733,14 @@ class SessionStats:
         if self.fight is None:
             if not own:
                 return  # bystanders never open a fight
-            self.fight = Fight(start=ts, end=ts)
+            self.fight = self._new_fight(ts)
         else:
             if not own and self.last_own_action and ts - self.last_own_action > BYSTANDER_GRACE:
                 return  # too long since our own action: don't stretch the fight
             if ts - self.fight.end > COMBAT_GAP:
                 self._close_fight()
                 if own:
-                    self.fight = Fight(start=ts, end=ts)
+                    self.fight = self._new_fight(ts)
                 return
             self.fight.end = ts
         self.last_combat_signal = ts
@@ -601,10 +804,13 @@ class SessionStats:
               crit: bool = False, actor: str | None = None):
         self._own_combat(ts)
         if self.fight is None:
-            self.fight = Fight(start=ts, end=ts)
+            self.fight = self._new_fight(ts)
         self._record_actor_damage(actor or self.character or "You", dmg)
         self.fight.damage += dmg
-        self.fight.targets[normalize_mob(target)] += dmg
+        normalized_target = normalize_mob(target)
+        self.fight.targets[normalized_target] += dmg
+        self.fight.observed_targets[normalized_target] += dmg
+        self.fight.add_timeline(ts, "out", dmg)
         fight_src = self.fight.sources[source]
         fight_src["t"] += dmg
         fight_src["h"] += 1
@@ -630,6 +836,8 @@ class SessionStats:
         if normalize_mob(actor).casefold() in known_targets:
             return
         self._record_actor_damage(actor, dmg)
+        self.fight.observed_targets[normalize_mob(target)] += dmg
+        self.fight.add_timeline(ts, "out", dmg)
 
     # -- event application ----------------------------------------------
     def apply(self, ts: datetime, kind: str, g: dict, *, count_lifetime: bool = True):
@@ -669,6 +877,7 @@ class SessionStats:
             self._own_combat(ts)
             if self.fight:
                 self.fight.damage_taken += dmg
+                self.fight.add_timeline(ts, "in", dmg)
         elif kind in ("nuke_in", "dot_in", "nonmelee_in"):
             dmg = int(g["dmg"])
             self.damage_taken += dmg
@@ -683,6 +892,7 @@ class SessionStats:
             self._own_combat(ts)
             if self.fight:
                 self.fight.damage_taken += dmg
+                self.fight.add_timeline(ts, "in", dmg)
         elif kind == "miss_in":
             self.enemy_misses += 1
             self._feed(ts, "avoid", 0, normalize_mob(g["attacker"]))
@@ -698,6 +908,7 @@ class SessionStats:
             if self.fight:
                 self.fight.kills += 1
                 self.fight.kill_targets[mob] += 1
+                self.fight.add_timeline(ts, "kills", 1)
         elif kind == "death_you":
             self.deaths += 1
             if count_lifetime:
@@ -715,6 +926,7 @@ class SessionStats:
             if self.fight:
                 self.fight.kills += 1
                 self.fight.kill_targets[mob] += 1
+                self.fight.add_timeline(ts, "kills", 1)
             if killer == self.character or self.is_pet(killer):
                 self.kills[mob] += 1
                 if count_lifetime:
@@ -735,6 +947,7 @@ class SessionStats:
             self.healing_done += amt
             if self.fight:
                 self.fight.healing_done += amt
+                self.fight.add_timeline(ts, "heal", amt)
                 self._add_metric(self.fight.healing_sources, spell, amt,
                                  overheal=overheal)
             self._add_metric(self.healing_by_source, spell, amt, overheal=overheal)
@@ -793,6 +1006,13 @@ class SessionStats:
                 self.zone = g["zone"]
                 if not self.zones or self.zones[-1] != g["zone"]:
                     self.zones.append(g["zone"])
+        elif kind == "composition":
+            # Parsing is intentionally strict.  Unknown or partial class text
+            # cannot overwrite the player's explicit selector.
+            try:
+                self.set_composition(g.get("classes", ""), source="exact log")
+            except ValueError:
+                pass
 
         elif kind == "tell_in":
             self.tells += 1
@@ -840,7 +1060,7 @@ class SessionStats:
             elif (self.fight.damage > 0 or self.fight.healing_done > 0
                   or self.fight.actor_damage):
                 pending = [self.fight]  # idle long enough: treat as closed
-        history = self.fights[-10:] + pending
+        history = self.fights[-30:] + pending
         closed_damage = self.closed_damage + sum(f.damage for f in pending)
         closed_seconds = self.closed_seconds + sum(f.seconds for f in pending)
         if live:
@@ -862,6 +1082,8 @@ class SessionStats:
         songs_min = self.songs / (hours * 60) if hours else 0.0
         return {
             "character": self.character,
+            "composition": self.composition,
+            "composition_source": self.composition_source,
             "zone": self.zone,
             "level": self.level,
             "session_dps": session_dps,
@@ -874,6 +1096,10 @@ class SessionStats:
             "fight_sources": ({k: dict(v) for k, v in shown_fight.sources.items()}
                               if shown_fight else {}),
             "fight_targets": dict(shown_fight.targets) if shown_fight else {},
+            "fight_observed_targets": (
+                dict(shown_fight.observed_targets) if shown_fight else {}),
+            "fight_timeline": ({int(k): dict(v) for k, v in shown_fight.timeline.items()}
+                               if shown_fight else {}),
             "fight_healing_sources": (
                 {k: dict(v) for k, v in shown_fight.healing_sources.items()}
                 if shown_fight else {}),
@@ -883,7 +1109,7 @@ class SessionStats:
             "fight_actor_healing": (
                 {k: dict(v) for k, v in shown_fight.actor_healing.items()}
                 if shown_fight else {}),
-            "fights": (history + ([live] if live else []))[-10:],
+            "fights": (history + ([live] if live else []))[-30:],
             "damage_by_source": {k: dict(v) for k, v in self.damage_by_source.items()},
             "healing_by_source": {k: dict(v) for k, v in self.healing_by_source.items()},
             "actor_damage": {k: dict(v) for k, v in self.actor_damage.items()},
@@ -1108,7 +1334,8 @@ def load_config() -> dict:
     cfg = {
         "log_dir": None,
         "mini_mode": True,
-        "opacity": 0.94,
+        "opacity": 1.0,
+        "ui_rendering_version": 2,
         "position": None,
         "mini_position": None,
         "panel_size": [400, 480],
@@ -1123,11 +1350,55 @@ def load_config() -> dict:
         "fight_toasts": True,
         "auto_reset_minutes": 0,
         "custom_alerts": [],
+        # Exact EQL three-class identity.  Profiles are keyed by character so
+        # swapping eqlog files restores the correct loadout without guessing.
+        "composition": "",
+        "composition_profiles": {},
+        # Wiki lookup is explicit and injection-free. Hover OCR captures one
+        # bounded screen region on demand and never reads eqgame memory.
+        "wiki_enabled": True,
+        "wiki_network_enabled": True,
+        "wiki_hotkey": "Ctrl+Shift+E",
+        "wiki_hotkey_customized": False,
+        "wiki_hover_ocr_enabled": True,
+        "wiki_cache_ttl_hours": 168,
+        "wiki_request_timeout_seconds": 6,
+        "wiki_position": None,
+        "wiki_last_query": "",
+        # Accessibility preferences are conservative and backward compatible.
+        "font_scale": 1.0,
+        "high_contrast": False,
+        "reduced_motion": False,
     }
+    loaded = {}
     try:
-        cfg.update(json.loads(CONFIG_PATH.read_text(encoding="utf-8")))
+        decoded = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        # A truncated file is already handled below; valid JSON with the
+        # wrong top-level shape (null, list, scalar) must be just as harmless.
+        if isinstance(decoded, dict):
+            loaded = decoded
+            cfg.update(loaded)
     except (OSError, ValueError):
         pass
+    # Migrate the old untouched Alt+E default once, while preserving every
+    # other custom binding (including an explicitly re-selected Alt+E).
+    legacy = re.sub(r"\s+", "", str(cfg.get("wiki_hotkey", ""))).casefold()
+    if legacy == "alt+e" and not loaded.get("wiki_hotkey_customized", False):
+        cfg["wiki_hotkey"] = "Ctrl+Shift+E"
+    # The former 0.94 default forced Windows layered-window composition and
+    # softened every glyph. Migrate only that legacy default; deliberate
+    # advanced opacity values remain supported.
+    try:
+        rendering_version = int(loaded.get("ui_rendering_version", 0) or 0)
+    except (TypeError, ValueError):
+        rendering_version = 0
+    if rendering_version < 2:
+        try:
+            if abs(float(cfg.get("opacity", 1.0)) - 0.94) < 0.0001:
+                cfg["opacity"] = 1.0
+        except (TypeError, ValueError):
+            cfg["opacity"] = 1.0
+    cfg["ui_rendering_version"] = 2
     return cfg
 
 
@@ -1147,6 +1418,30 @@ def save_config(cfg: dict) -> None:
         write_json_atomic(CONFIG_PATH, cfg)
     except OSError:
         pass
+
+
+def configured_composition(cfg: dict, character: str = "") -> str:
+    """Read a valid per-character loadout, then the backward-safe default."""
+    profiles = cfg.get("composition_profiles", {})
+    candidate = profiles.get(character, "") if isinstance(profiles, dict) else ""
+    candidate = candidate or cfg.get("composition", "")
+    try:
+        return normalize_composition(candidate)
+    except ValueError:
+        return ""
+
+
+def remember_composition(cfg: dict, character: str, composition) -> str:
+    """Persist a canonical loadout as both current and character profile."""
+    canonical = normalize_composition(composition)
+    cfg["composition"] = canonical
+    profiles = cfg.setdefault("composition_profiles", {})
+    if not isinstance(profiles, dict):
+        profiles = {}
+        cfg["composition_profiles"] = profiles
+    if character and character != "?":
+        profiles[character] = canonical
+    return canonical
 
 
 def load_character_state(char: str) -> dict:
@@ -1187,6 +1482,7 @@ def save_character_state(char: str, stats: SessionStats) -> None:
             "xp_since_level": snap["xp_since_level"],
             "pet_names": snap["pet_names"],
             "zone": snap["zone"],
+            "composition": stats.composition,
             "last_session_key": session_key,
             "lifetime": normalize_lifetime(stats.lifetime),
             "saved_at": datetime.now().isoformat(timespec="seconds"),
@@ -1207,6 +1503,11 @@ def restore_character_state(stats: SessionStats) -> datetime | None:
     for p in st.get("pet_names", []):
         stats.pet_names.add(p)
     stats.zone = st.get("zone", stats.zone)
+    try:
+        if st.get("composition"):
+            stats.set_composition(st["composition"], source="saved", retag_active=False)
+    except ValueError:
+        pass
     stats.lifetime = normalize_lifetime(st.get("lifetime"))
     try:
         return datetime.fromisoformat(st["saved_at"])
@@ -1381,6 +1682,7 @@ class AlertManager:
                 pass
         edge, body = self.COLORS.get(severity, self.COLORS["info"])
         win = tk.Toplevel(self.root)
+        win.withdraw()
         win.overrideredirect(True)
         win.attributes("-topmost", foreground_is_everquest_or_loremaster(
             self.root.winfo_id()))
@@ -1398,15 +1700,42 @@ class AlertManager:
             ax = (win.winfo_screenwidth() - win.winfo_width()) // 2
             ay = 64
         win.geometry(f"+{ax}+{ay + len(self.active) * 56}")
+        win.deiconify()
         self.active.append(win)
         self._beep(severity)
         ttl = int(self.cfg.get("alert_seconds", 4) * 1000)
         win.after(ttl, lambda: self._dismiss(win))
 
+    def sync_topmost(self, floating: bool) -> None:
+        """Keep every live banner in the same EQ-only z-order policy."""
+        for win in list(self.active):
+            try:
+                if win.winfo_exists():
+                    win.attributes("-topmost", floating)
+                else:
+                    self.active.remove(win)
+            except Exception:
+                if win in self.active:
+                    self.active.remove(win)
+
+    def clear(self) -> None:
+        for win in list(self.active):
+            try:
+                win.destroy()
+            except Exception:
+                pass
+        self.active.clear()
+
     def _dismiss(self, win, step=0):
         """Fade without blocking Tk's parser/UI update loop."""
         if step == 0 and win in self.active:
             self.active.remove(win)
+        if self.cfg.get("reduced_motion", False):
+            try:
+                win.destroy()
+            except Exception:
+                pass
+            return
         try:
             if step < 8:
                 win.attributes("-topmost", foreground_is_everquest_or_loremaster(
@@ -1440,32 +1769,66 @@ def run_gui(args):
     watcher = LogWatcher(cfg.get("log_dir"), args.log)
     reset_minutes = float(cfg.get("auto_reset_minutes", 0) or 0)
     session_gap = timedelta(minutes=reset_minutes) if reset_minutes > 0 else None
-    stats = SessionStats(session_gap=session_gap)
+    stats = SessionStats(session_gap=session_gap,
+                         composition=configured_composition(cfg))
     demo = DemoFeed() if args.demo else None
     if demo:
         stats.character = "Spin"
         watcher.character = "Spin"
+        stats.set_composition(configured_composition(cfg, "Spin") or
+                              "WAR / BRD / DRU", source="demo")
 
-    T = THEME
+    T = dict(THEME)
+    if cfg.get("high_contrast", False):
+        T.update(bg="#000000", panel="#0a0a0a", raised="#171717",
+                 line="#74818a", line_soft="#3e474d", text="#ffffff",
+                 dim="#c6cdd1", gold_bright="#ffe184", cyan="#5cffe2")
     root = tk.Tk()
     root.title("Spin\'s Loremaster")
     root.configure(bg=T["bg"])
     root.overrideredirect(not args.windowed)
     root.attributes("-topmost", False)
     try:
-        root.attributes("-alpha", cfg.get("opacity", 0.94))
-    except tk.TclError:
+        opacity = max(0.75, min(1.0, float(cfg.get("opacity", 1.0))))
+        if opacity < 0.999:
+            root.attributes("-alpha", opacity)
+    except (tk.TclError, TypeError, ValueError):
         pass
 
     state = {"mini": bool(cfg.get("mini_mode")), "last_save": time.time(),
+             "last_render": 0.0, "next_demo": 0.0, "closing": False,
+             "ingest_error": "", "ingest_error_until": 0.0,
              "fights_seen": 0, "expanded": {"combat"}, "scope": "fight",
+             "lab_view": "overview", "compare_filter": "same",
              "lifetime_cutoff": None, "selected_fight": None,
              "locked": bool(cfg.get("locked", False)), "click_through": False}
     alerts = AlertManager(tk, root, cfg)
 
+    def config_number(key, default, low, high):
+        try:
+            return max(low, min(high, float(cfg.get(key, default))))
+        except (TypeError, ValueError):
+            return float(default)
+
+    wiki_cache = WikiCache(
+        WIKI_CACHE_DIR,
+        ttl_seconds=config_number("wiki_cache_ttl_hours", 168, 0, 24 * 365) * 3600,
+    )
+    wiki_client = WikiClient(
+        wiki_cache,
+        timeout=config_number("wiki_request_timeout_seconds", 6, 1, 20),
+        network_enabled=bool(cfg.get("wiki_network_enabled", True)),
+    )
+    wiki_service = WikiLookupService(wiki_client)
+    hover_ocr_service = HoverOcrService()
+    ingest_worker = None if demo else LogIngestWorker(watcher)
+    ingest_pending = deque()
+
     # Click-through is deliberately never persisted.  It can only be enabled
     # when the process owns Ctrl+Alt+L, which always restores interaction.
-    hotkey = {"registered": False, "id": 0x534C}
+    hotkey = {"registered": False, "id": 0x534C,
+              "wiki_registered": False, "wiki_id": 0x5345,
+              "wiki_error": ""}
 
     def _window_handle():
         if os.name != "nt":
@@ -1519,18 +1882,21 @@ def run_gui(args):
 
     def toggle_click_through():
         if not state["click_through"] and not hotkey["registered"]:
-            alerts.show("warn", "PASS-THROUGH UNAVAILABLE — Ctrl+Alt+L could not be reserved")
+            alerts.show("warn", "CLICK-THROUGH UNAVAILABLE — Ctrl+Alt+L could not be reserved")
             return
         state["click_through"] = not state["click_through"]
         if not _apply_click_through():
             state["click_through"] = False
-            alerts.show("warn", "PASS-THROUGH COULD NOT BE APPLIED")
+            alerts.show("warn", "CLICK-THROUGH COULD NOT BE APPLIED")
             return
-        if not state["click_through"]:
+        if state["click_through"]:
+            alerts.show("info", "CLICK-THROUGH ON — PRESS CTRL+ALT+L TO RESTORE MOUSE")
+        else:
             try:
                 root.lift()
             except tk.TclError:
                 pass
+            alerts.show("info", "MOUSE CONTROL RESTORED")
         refresh(force_detail=True)
 
     def install_recovery_hotkey():
@@ -1549,9 +1915,47 @@ def run_gui(args):
         except (AttributeError, OSError):
             hotkey["registered"] = False
 
-    def poll_recovery_hotkey():
-        if hotkey["registered"] and os.name == "nt":
+    def install_wiki_hotkey():
+        hotkey["wiki_registered"] = False
+        hotkey["wiki_error"] = ""
+        if os.name != "nt" or not cfg.get("wiki_enabled", True):
+            return
+        try:
+            import ctypes
+            from ctypes import wintypes
+            mods, virtual_key, canonical = parse_hotkey(
+                cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
+            cfg["wiki_hotkey"] = canonical
+            user32 = ctypes.windll.user32
+            user32.RegisterHotKey.argtypes = [wintypes.HWND, ctypes.c_int,
+                                               wintypes.UINT, wintypes.UINT]
+            user32.RegisterHotKey.restype = wintypes.BOOL
+            hotkey["wiki_registered"] = bool(user32.RegisterHotKey(
+                None, hotkey["wiki_id"], mods, virtual_key))
+            if not hotkey["wiki_registered"]:
+                hotkey["wiki_error"] = f"{canonical} is already in use"
+        except (AttributeError, OSError, ValueError) as exc:
+            hotkey["wiki_error"] = str(exc)
+
+    def remove_wiki_hotkey():
+        if hotkey["wiki_registered"] and os.name == "nt":
             try:
+                import ctypes
+                ctypes.windll.user32.UnregisterHotKey(None, hotkey["wiki_id"])
+            except (AttributeError, OSError):
+                pass
+        hotkey["wiki_registered"] = False
+
+    def reinstall_wiki_hotkey():
+        remove_wiki_hotkey()
+        install_wiki_hotkey()
+
+    def poll_recovery_hotkey():
+        if state["closing"]:
+            return
+        try:
+            if ((hotkey["registered"] or hotkey["wiki_registered"])
+                    and os.name == "nt"):
                 import ctypes
                 from ctypes import wintypes
                 msg = wintypes.MSG()
@@ -1559,9 +1963,14 @@ def run_gui(args):
                         ctypes.byref(msg), None, 0x0312, 0x0312, 0x0001):
                     if int(msg.wParam) == hotkey["id"] and state["click_through"]:
                         toggle_click_through()
-            except (AttributeError, OSError):
-                pass
-        root.after(100, poll_recovery_hotkey)
+                    elif (int(msg.wParam) == hotkey["wiki_id"]
+                          and foreground_is_everquest_or_loremaster(root.winfo_id())):
+                        open_wiki_from_hotkey()
+        except (AttributeError, OSError):
+            pass
+        finally:
+            if not state["closing"]:
+                root.after(100, poll_recovery_hotkey)
 
     def remove_recovery_hotkey():
         if hotkey["registered"] and os.name == "nt":
@@ -1571,9 +1980,18 @@ def run_gui(args):
             except (AttributeError, OSError):
                 pass
         hotkey["registered"] = False
+        remove_wiki_hotkey()
 
     # ---- window drag + position persistence ----
-    drag = {"x": 0, "y": 0, "active": False}
+    drag = {"x": 0, "y": 0, "active": False,
+            "pending": None, "after_id": None}
+
+    def flush_drag():
+        drag["after_id"] = None
+        pending = drag.get("pending")
+        drag["pending"] = None
+        if pending is not None:
+            root.geometry(f"{pending[0]:+d}{pending[1]:+d}")
 
     def start_drag(e):
         if state["locked"] or state["click_through"]:
@@ -1597,6 +2015,13 @@ def run_gui(args):
         drag["active"] = not interactive
         if not drag["active"]:
             return
+        if drag.get("after_id") is not None:
+            try:
+                root.after_cancel(drag["after_id"])
+            except tk.TclError:
+                pass
+        drag["after_id"] = None
+        drag["pending"] = None
         drag["x"], drag["y"] = e.x, e.y
 
     def do_drag(e):
@@ -1604,12 +2029,22 @@ def run_gui(args):
             return
         x = root.winfo_x() + e.x - drag["x"]
         y = root.winfo_y() + e.y - drag["y"]
-        root.geometry(f"{x:+d}{y:+d}")
+        drag["pending"] = (x, y)
+        if drag.get("after_id") is None:
+            drag["after_id"] = root.after(16, flush_drag)
 
     def end_drag(_e):
         if not drag["active"]:
             return
+        if drag.get("after_id") is not None:
+            try:
+                root.after_cancel(drag["after_id"])
+            except tk.TclError:
+                pass
+            drag["after_id"] = None
+        flush_drag()
         drag["active"] = False
+        root.update_idletasks()
         width, height = root.winfo_width(), root.winfo_height()
         x, y = clamped_position(
             [root.winfo_x(), root.winfo_y()], width, height,
@@ -1619,7 +2054,15 @@ def run_gui(args):
         cfg[key] = [x, y]
         save_config(cfg)
 
-    resize = {"x": 0, "y": 0, "w": 0, "h": 0}
+    resize = {"x": 0, "y": 0, "w": 0, "h": 0, "active": False,
+              "pending": None, "after_id": None}
+
+    def flush_resize():
+        resize["after_id"] = None
+        pending = resize.get("pending")
+        resize["pending"] = None
+        if pending is not None:
+            root.geometry(f"{pending[0]}x{pending[1]}")
 
     def virtual_desktop_bounds():
         """Return the complete Windows desktop, including left-side monitors."""
@@ -1652,18 +2095,42 @@ def run_gui(args):
     def start_resize(e):
         if state["locked"] or state["click_through"]:
             return "break"
+        if resize.get("after_id") is not None:
+            try:
+                root.after_cancel(resize["after_id"])
+            except tk.TclError:
+                pass
+        resize["after_id"] = None
+        resize["pending"] = None
+        resize["active"] = True
         resize.update(x=e.x_root, y=e.y_root, w=root.winfo_width(), h=root.winfo_height())
         return "break"
 
     def do_resize(e):
-        if state["locked"] or state["click_through"]:
+        if (state["locked"] or state["click_through"]
+                or not resize.get("active")):
             return "break"
-        width = max(360, min(680, resize["w"] + e.x_root - resize["x"]))
-        height = max(360, min(900, resize["h"] + e.y_root - resize["y"]))
-        root.geometry(f"{width}x{height}")
+        minimum_width = int(360 * max(1.0, font_scale))
+        minimum_height = int(360 * max(1.0, font_scale))
+        width = max(minimum_width, min(760, resize["w"] + e.x_root - resize["x"]))
+        height = max(minimum_height, min(940, resize["h"] + e.y_root - resize["y"]))
+        resize["pending"] = (width, height)
+        if resize.get("after_id") is None:
+            resize["after_id"] = root.after(16, flush_resize)
         return "break"
 
     def end_resize(_e):
+        if not resize.get("active"):
+            return "break"
+        if resize.get("after_id") is not None:
+            try:
+                root.after_cancel(resize["after_id"])
+            except tk.TclError:
+                pass
+            resize["after_id"] = None
+        flush_resize()
+        resize["active"] = False
+        root.update_idletasks()
         width, height = root.winfo_width(), root.winfo_height()
         x, y = clamped_position(
             [root.winfo_x(), root.winfo_y()], width, height,
@@ -1678,13 +2145,21 @@ def run_gui(args):
     root.bind("<B1-Motion>", do_drag)
     root.bind("<ButtonRelease-1>", end_drag)
 
-    FONT = ("Segoe UI", 11)
-    FONT_S = ("Segoe UI", 9)
-    FONT_B = ("Segoe UI Semibold", 11)
-    FONT_BIG = ("Segoe UI Semibold", 19)
-    FONT_MED = ("Segoe UI Semibold", 13)
-    FONT_TITLE = ("Georgia", 11, "bold")
-    FONT_RUNE = ("Georgia", 8, "bold")
+    try:
+        font_scale = max(0.85, min(1.40, float(cfg.get("font_scale", 1.0))))
+    except (TypeError, ValueError):
+        font_scale = 1.0
+
+    def fs(size):
+        return max(8, int(round(size * font_scale)))
+
+    FONT = ("Segoe UI", fs(11))
+    FONT_S = ("Segoe UI", fs(9))
+    FONT_B = ("Segoe UI Semibold", fs(11))
+    FONT_BIG = ("Segoe UI Semibold", fs(19))
+    FONT_MED = ("Segoe UI Semibold", fs(13))
+    FONT_TITLE = ("Georgia", fs(11), "bold")
+    FONT_RUNE = ("Georgia", fs(8), "bold")
 
     outer = tk.Frame(root, bg=T["gold"], padx=1, pady=1)   # 1px ember frame
     outer.pack(fill="both", expand=True)
@@ -1696,6 +2171,551 @@ def run_gui(args):
     def L(parent, text="", fg=None, font=FONT, bg=None, anchor="w", **kw):
         return tk.Label(parent, text=text, fg=fg or T["text"], bg=bg or parent["bg"],
                         font=font, anchor=anchor, **kw)
+
+    # ---- EQL Wiki item overlay ---------------------------------------
+    # EQ's tooltip is not a native text control. Ctrl+Shift+E therefore takes
+    # one bounded screen capture around the cursor and lets Windows OCR it;
+    # the capture happens before this window appears. Nothing touches eqgame.
+    wiki_ui = {"win": None, "entry": None, "content": None, "status": None,
+               "open": None, "item": None, "request_id": 0, "source": "",
+               "ocr_request_id": 0, "ocr_clipboard": ""}
+
+    def _wiki_cursor_position(width=392, height=560):
+        try:
+            px, py = root.winfo_pointerx(), root.winfo_pointery()
+        except tk.TclError:
+            px, py = root.winfo_x(), root.winfo_y()
+        vx, vy, vw, vh = virtual_desktop_bounds()
+        # Prefer the left side of the cursor so the native item display to the
+        # right stays readable. Fall right only when the left edge is crowded.
+        x = px - width - 28
+        if x < vx + 8:
+            x = px + 36
+        x = max(vx + 8, min(x, vx + max(8, vw - width - 8)))
+        y = py - 110
+        y = max(vy + 8, min(y, vy + max(8, vh - height - 8)))
+        return x, y
+
+    def _wiki_text(*parts, tag=None):
+        text_widget = wiki_ui.get("content")
+        if not text_widget:
+            return
+        text_widget.insert("end", "".join(str(part) for part in parts), tag)
+
+    def _wiki_clear():
+        text_widget = wiki_ui.get("content")
+        if text_widget:
+            text_widget.configure(state="normal")
+            text_widget.delete("1.0", "end")
+
+    def _wiki_finish():
+        text_widget = wiki_ui.get("content")
+        if text_widget:
+            text_widget.configure(state="disabled")
+
+    def _wiki_render_prompt(message=None):
+        _wiki_clear()
+        _wiki_text("ITEM LORE AT A GLANCE\n", tag="hero")
+        _wiki_text((message or
+                    "Hover an EQ item and press Ctrl+Shift+E. A copied item "
+                    "link/name or typed search remains available.\n\n"),
+                   tag="body")
+        _wiki_text("SAFE HOVER SCAN\n", tag="heading")
+        _wiki_text("Only the cursor region is captured, only when you press "
+                   "the hotkey, using Windows OCR. Loremaster never injects "
+                   "into or reads eqgame memory.\n", tag="muted")
+        _wiki_finish()
+        wiki_ui["status"].configure(text="EQL WIKI  •  READY", fg=T["cyan"])
+        wiki_ui["open"].configure(state="disabled", fg=T["line"])
+
+    def _wiki_render_loading(query, source):
+        _wiki_clear()
+        _wiki_text("CONSULTING THE ARCHIVES\n", tag="hero")
+        _wiki_text(query + "\n\n", tag="title")
+        _wiki_text("Looking up the exact item page in a background worker. "
+                   "Combat and log reading continue uninterrupted.\n", tag="muted")
+        _wiki_finish()
+        source_label = source.upper() if source else "SEARCH"
+        wiki_ui["status"].configure(
+            text=f"EQL WIKI  •  LOADING  •  {source_label}", fg=T["gold_bright"])
+        wiki_ui["open"].configure(state="disabled", fg=T["line"])
+
+    def _wiki_render_item(item: WikiItem):
+        wiki_ui["item"] = item
+        _wiki_clear()
+        _wiki_text(item.title + "\n", tag="hero")
+        if item.notes:
+            for line in item.notes[:5]:
+                _wiki_text(line + "\n", tag="body")
+            _wiki_text("\n")
+        if item.stats:
+            _wiki_text("ITEM PROFILE\n", tag="heading")
+            for line in item.stats[:40]:
+                upper = line.upper()
+                tag = "magic" if any(flag in upper for flag in (
+                    "MAGIC ITEM", "LORE ITEM", "NO DROP", "ATTUNABLE")) else "stat"
+                _wiki_text(line + "\n", tag=tag)
+        for section in DISPLAY_SECTIONS:
+            _wiki_text("\n" + section.upper() + "\n", tag="heading")
+            rows = item.sections.get(section) or []
+            if not rows:
+                _wiki_text(EMPTY_SECTION_TEXT[section] + "\n", tag="muted")
+                continue
+            for line in rows[:22]:
+                stripped = line.lstrip()
+                if stripped.startswith("•"):
+                    indent = "    " if line.startswith("  ") else "  "
+                    _wiki_text(indent + stripped + "\n", tag="bullet")
+                else:
+                    _wiki_text(line + "\n", tag="zone")
+            if len(rows) > 22:
+                _wiki_text(f"  ...and {len(rows) - 22} more entries\n", tag="muted")
+        _wiki_finish()
+        state_label = "STALE CACHE" if item.stale else "CACHED"
+        wiki_ui["status"].configure(
+            text=f"EQL WIKI  •  {state_label} {format_cache_age(item).upper()}",
+            fg=T["ember"] if item.stale else T["dim"])
+        wiki_ui["open"].configure(state="normal", fg=T["cyan"])
+
+    def _wiki_render_error(error, query):
+        wiki_ui["item"] = None
+        _wiki_clear()
+        if isinstance(error, WikiNotFoundError):
+            _wiki_text("NO EXACT MATCH\n", tag="error")
+            _wiki_text(f'No exact item page was found for "{query}".\n\n', tag="body")
+            if error.suggestions:
+                _wiki_text("POSSIBLE PAGES\n", tag="heading")
+                for suggestion in error.suggestions:
+                    _wiki_text("  • " + suggestion + "\n", tag="bullet")
+                _wiki_text("\nType a suggested title above and press Enter.\n", tag="muted")
+            status = "EQL WIKI  •  NO EXACT MATCH"
+        elif isinstance(error, WikiOfflineError):
+            _wiki_text("ARCHIVES OFFLINE\n", tag="error")
+            _wiki_text(str(error) + "\n\n", tag="body")
+            _wiki_text("Cached items remain available. Check the network setting "
+                       "or try again later.\n", tag="muted")
+            status = "EQL WIKI  •  OFFLINE"
+        else:
+            _wiki_text("LOOKUP COULD NOT COMPLETE\n", tag="error")
+            _wiki_text(str(error)[:300] + "\n", tag="body")
+            status = "EQL WIKI  •  ERROR"
+        _wiki_finish()
+        wiki_ui["status"].configure(text=status, fg=T["hp"])
+        wiki_ui["open"].configure(state="disabled", fg=T["line"])
+
+    def wiki_lookup(query=None, source="search"):
+        if not cfg.get("wiki_enabled", True):
+            open_settings()
+            return
+        if query is None and wiki_ui.get("entry"):
+            query = wiki_ui["entry"].get()
+        query = normalize_item_name(query or "")
+        if not query:
+            _wiki_render_prompt(
+                "Type an item name above, or hover it and press Ctrl+Shift+E.\n\n")
+            try:
+                wiki_ui["entry"].focus_force()
+            except tk.TclError:
+                pass
+            return
+        wiki_ui["entry"].delete(0, "end")
+        wiki_ui["entry"].insert(0, query)
+        cfg["wiki_last_query"] = query
+        wiki_ui["source"] = source
+        wiki_ui["request_id"] = wiki_service.submit(query)
+        _wiki_render_loading(query, source)
+
+    def wiki_lookup_candidates(candidates, source="hover scan"):
+        candidates = [normalize_item_name(value) for value in candidates]
+        candidates = [value for value in candidates if value]
+        if not candidates:
+            return False
+        wiki_ui["entry"].delete(0, "end")
+        wiki_ui["entry"].insert(0, candidates[0])
+        wiki_ui["source"] = source
+        wiki_ui["request_id"] = wiki_service.submit_candidates(candidates)
+        _wiki_render_loading(candidates[0], source)
+        return True
+
+    def _wiki_open_page():
+        item = wiki_ui.get("item")
+        if not item:
+            return
+        try:
+            import webbrowser
+            webbrowser.open(item.url, new=2)
+        except Exception:
+            alerts.show("warn", "COULD NOT OPEN THE EQL WIKI PAGE")
+
+    def _wiki_close():
+        win = wiki_ui.get("win")
+        if win:
+            try:
+                win.withdraw()
+            except tk.TclError:
+                pass
+
+    def _wiki_make_window():
+        win = tk.Toplevel(root)
+        win.withdraw()
+        win.overrideredirect(True)
+        win.configure(bg=T["gold"])
+        win.attributes("-topmost", foreground_is_everquest_or_loremaster(root.winfo_id()))
+        shell = tk.Frame(win, bg=T["bg"], padx=1, pady=1)
+        shell.pack(fill="both", expand=True, padx=1, pady=1)
+
+        head = tk.Frame(shell, bg=T["panel"])
+        head.pack(fill="x")
+        tk.Frame(head, bg=T["cyan"], width=3).pack(side="left", fill="y")
+        L(head, "LORE LENS", fg=T["gold_bright"], font=FONT_TITLE,
+          bg=T["panel"]).pack(side="left", padx=9, pady=7)
+        close = tk.Label(head, text="X", fg=T["dim"], bg=T["panel"],
+                         font=FONT_B, cursor="hand2", padx=8)
+        close.pack(side="right", fill="y")
+        close.bind("<Button-1>", lambda _e: _wiki_close())
+        settings = tk.Label(head, text="SETTINGS", fg=T["dim"], bg=T["panel"],
+                            font=FONT_RUNE, cursor="hand2", padx=6)
+        settings.pack(side="right", fill="y")
+        settings.bind("<Button-1>", lambda _e: open_settings())
+
+        search = tk.Frame(shell, bg=T["raised"])
+        search.pack(fill="x", padx=8, pady=(8, 5))
+        entry = tk.Entry(search, bg=T["void"], fg=T["text"], insertbackground=T["cyan"],
+                         relief="flat", font=FONT, highlightthickness=1,
+                         highlightbackground=T["line"], highlightcolor=T["cyan"])
+        entry.pack(side="left", fill="x", expand=True, padx=(1, 5), ipady=4)
+        entry.bind("<Return>", lambda _e: wiki_lookup(source="typed search"))
+        go = tk.Label(search, text="SEARCH", fg=T["gold_bright"], bg=T["panel"],
+                      font=FONT_RUNE, cursor="hand2", padx=10, pady=6)
+        go.pack(side="right")
+        go.bind("<Button-1>", lambda _e: wiki_lookup(source="typed search"))
+
+        text_wrap = tk.Frame(shell, bg=T["bg"])
+        text_wrap.pack(fill="both", expand=True, padx=9)
+        content = tk.Text(text_wrap, bg=T["bg"], fg=T["text"], relief="flat",
+                          bd=0, highlightthickness=0, wrap="word", font=FONT_S,
+                          cursor="arrow", padx=4, pady=5, spacing1=1, spacing3=1)
+        scroll = tk.Scrollbar(text_wrap, orient="vertical", command=content.yview,
+                              bg=T["raised"], troughcolor=T["bg"], width=8)
+        content.configure(yscrollcommand=scroll.set)
+        content.pack(side="left", fill="both", expand=True)
+        scroll.pack(side="right", fill="y")
+        content.tag_configure("hero", foreground=T["gold_bright"], font=FONT_MED,
+                              spacing3=3)
+        content.tag_configure("title", foreground=T["text"], font=FONT_B)
+        content.tag_configure("body", foreground=T["text"], font=FONT_S)
+        content.tag_configure("heading", foreground=T["gold"], font=FONT_RUNE,
+                              spacing1=5, spacing3=2)
+        content.tag_configure("stat", foreground=T["text"], font=FONT_S)
+        content.tag_configure("magic", foreground=T["cyan"], font=FONT_B)
+        content.tag_configure("zone", foreground=T["gold_bright"], font=FONT_B)
+        content.tag_configure("bullet", foreground=T["text"], font=FONT_S)
+        content.tag_configure("muted", foreground=T["dim"], font=FONT_S)
+        content.tag_configure("error", foreground=T["hp"], font=FONT_MED)
+
+        footer = tk.Frame(shell, bg=T["panel"])
+        footer.pack(fill="x", padx=0, pady=(5, 0))
+        status = L(footer, "EQL WIKI  •  READY", fg=T["dim"], font=FONT_RUNE,
+                   bg=T["panel"])
+        status.pack(side="left", fill="x", expand=True, padx=8, pady=6)
+        open_button = tk.Button(
+            footer, text="OPEN FULL WIKI PAGE  ↗", command=_wiki_open_page,
+            bg=T["raised"], fg=T["line"], activebackground=T["panel"],
+            activeforeground=T["gold_bright"], relief="flat", bd=0,
+            font=FONT_RUNE, cursor="hand2", state="disabled", padx=7, pady=4)
+        open_button.pack(side="right", padx=5, pady=3)
+        L(shell, "ON-DEMAND SCREEN OCR  •  NO EQ INJECTION",
+          fg=T["line"], font=FONT_RUNE, anchor="center").pack(fill="x", pady=(2, 5))
+        win.bind("<Escape>", lambda _e: _wiki_close())
+        wiki_ui.update(win=win, entry=entry, content=content, status=status,
+                       open=open_button)
+        _wiki_render_prompt()
+        return win
+
+    def _wiki_show_window():
+        win = wiki_ui.get("win") or _wiki_make_window()
+        width, height = 392, 560
+        x, y = _wiki_cursor_position(width, height)
+        win.geometry(f"{width}x{height}{x:+d}{y:+d}")
+        win.deiconify()
+        win.lift()
+        return win
+
+    def _wiki_plaintext_fallback(clipboard, message=""):
+        _wiki_show_window()
+        query, _source, _auto = clipboard_lookup_plan(clipboard)
+        last = query or normalize_item_name(cfg.get("wiki_last_query", ""))
+        wiki_ui["entry"].delete(0, "end")
+        if last:
+            wiki_ui["entry"].insert(0, last)
+        _wiki_render_prompt(message or (
+            "No hovered item title was recognized. Review the prefilled name "
+            "or type one, then press Enter.\n\n"))
+        try:
+            wiki_ui["entry"].focus_force()
+            wiki_ui["entry"].selection_range(0, "end")
+        except tk.TclError:
+            pass
+
+    def _wiki_eq_is_foreground():
+        if os.name != "nt":
+            return False
+        try:
+            import ctypes
+            from ctypes import wintypes
+            user32 = ctypes.WinDLL("user32", use_last_error=True)
+            user32.GetForegroundWindow.restype = wintypes.HWND
+            foreground = user32.GetForegroundWindow()
+            pid = wintypes.DWORD()
+            user32.GetWindowThreadProcessId(foreground, ctypes.byref(pid))
+            return int(pid.value) in (process_ids("eqgame.exe") or set())
+        except Exception:
+            return False
+
+    def open_wiki_from_hotkey(_event=None):
+        if not cfg.get("wiki_enabled", True):
+            return
+        try:
+            clipboard = root.clipboard_get()
+        except (tk.TclError, TypeError):
+            clipboard = ""
+        query, source, auto_lookup = clipboard_lookup_plan(clipboard)
+        if query and auto_lookup:
+            _wiki_show_window()
+            wiki_lookup(query, source)
+        elif cfg.get("wiki_hover_ocr_enabled", True) and _wiki_eq_is_foreground():
+            # submit() captures the physical cursor synchronously, before
+            # PowerShell starts and before Lore Lens can cover the tooltip.
+            wiki_ui["ocr_clipboard"] = clipboard
+            try:
+                wiki_ui["ocr_request_id"] = hover_ocr_service.submit()
+            except RuntimeError as exc:
+                _wiki_plaintext_fallback(clipboard, str(exc) + "\n\n")
+        else:
+            _wiki_plaintext_fallback(clipboard)
+
+    def open_settings(_event=None):
+        existing = widgets.get("settings_window")
+        if existing:
+            try:
+                existing.deiconify()
+                existing.lift()
+                return
+            except tk.TclError:
+                pass
+        win = tk.Toplevel(root)
+        widgets["settings_window"] = win
+        win.withdraw()
+        win.title("Loremaster Settings")
+        win.configure(bg=T["gold"])
+        win.resizable(False, False)
+        win.overrideredirect(True)
+        win.attributes("-topmost", foreground_is_everquest_or_loremaster(root.winfo_id()))
+
+        shell = tk.Frame(win, bg=T["bg"])
+        shell.pack(fill="both", expand=True, padx=1, pady=1)
+        tk.Frame(shell, bg=T["cyan"], height=3).pack(fill="x")
+        header = tk.Frame(shell, bg=T["panel"], cursor="fleur")
+        header.pack(fill="x")
+        settings_title = L(
+            header, "LOREMASTER SETTINGS", fg=T["gold_bright"],
+            font=FONT_TITLE, bg=T["panel"], cursor="fleur")
+        settings_title.pack(side="left", padx=(12, 7), pady=8)
+        settings_subtitle = L(
+            header, "CONFIGURATION & ACCESSIBILITY", fg=T["dim"],
+            font=FONT_RUNE, bg=T["panel"], cursor="fleur")
+        settings_subtitle.pack(side="left", pady=(10, 7))
+
+        def close_settings(_event=None):
+            widgets["settings_window"] = None
+            try:
+                win.destroy()
+            except tk.TclError:
+                pass
+
+        close_label = tk.Label(
+            header, text="X", fg=T["dim"], bg=T["panel"], font=FONT_B,
+            cursor="hand2", padx=10, pady=6)
+        close_label.pack(side="right")
+        close_label.bind("<Button-1>", close_settings)
+
+        settings_drag = {"x": 0, "y": 0}
+
+        def start_settings_drag(event):
+            settings_drag["x"] = event.x_root - win.winfo_x()
+            settings_drag["y"] = event.y_root - win.winfo_y()
+
+        def move_settings(event):
+            width, height = win.winfo_width(), win.winfo_height()
+            desired_x = event.x_root - settings_drag["x"]
+            desired_y = event.y_root - settings_drag["y"]
+            x, y = clamped_position(
+                [desired_x, desired_y], width, height, desired_x, desired_y)
+            win.geometry(f"{x:+d}{y:+d}")
+
+        for drag_target in (header, settings_title, settings_subtitle):
+            drag_target.bind("<Button-1>", start_settings_drag)
+            drag_target.bind("<B1-Motion>", move_settings)
+
+        frame = tk.Frame(shell, bg=T["bg"], padx=16, pady=14)
+        frame.pack(fill="both", expand=True)
+        L(frame, "LOADOUT IDENTITY", fg=T["gold"], font=FONT_B).pack(
+            fill="x", pady=(0, 1))
+        L(frame, "Tag every encounter with this character's exact three-class build. "
+          "Loremaster will not guess from spells or combat messages.",
+          fg=T["dim"], font=FONT_S, justify="left", wraplength=410).pack(
+              fill="x", pady=(0, 5))
+        composition_row = tk.Frame(frame, bg=T["raised"], padx=8, pady=6)
+        composition_row.pack(fill="x", pady=(0, 9))
+        L(composition_row, "ACTIVE", fg=T["cyan"], font=FONT_RUNE,
+          bg=T["raised"]).pack(side="left")
+        composition_entry = tk.Entry(
+            composition_row, width=24, bg=T["void"], fg=T["gold_bright"],
+            insertbackground=T["cyan"], relief="flat", font=FONT_B,
+            justify="center")
+        composition_entry.pack(side="right", ipady=4)
+        composition_entry.insert(0, stats.composition)
+        composition_status = L(
+            frame, "Example: WAR / BRD / DRU  •  saved per character",
+            fg=T["dim"], font=FONT_RUNE)
+        composition_status.pack(fill="x", pady=(0, 10))
+        L(frame, "Lore Lens item lookup", fg=T["cyan"], font=FONT_B).pack(fill="x")
+        L(frame, "Hover an item in EQ and use the global key. Loremaster captures "
+          "one bounded cursor region for Windows OCR, never eqgame memory.",
+          fg=T["dim"], font=FONT_S, justify="left", wraplength=410).pack(
+              fill="x", pady=(2, 10))
+
+        enabled_var = tk.BooleanVar(value=bool(cfg.get("wiki_enabled", True)))
+        network_var = tk.BooleanVar(value=bool(cfg.get("wiki_network_enabled", True)))
+        hover_ocr_var = tk.BooleanVar(value=bool(
+            cfg.get("wiki_hover_ocr_enabled", True)))
+        contrast_var = tk.BooleanVar(value=bool(cfg.get("high_contrast", False)))
+        motion_var = tk.BooleanVar(value=bool(cfg.get("reduced_motion", False)))
+
+        def check(text_value, variable):
+            c = tk.Checkbutton(frame, text=text_value, variable=variable,
+                               bg=T["bg"], fg=T["text"], selectcolor=T["raised"],
+                               activebackground=T["bg"], activeforeground=T["gold_bright"],
+                               font=FONT_S, anchor="w")
+            c.pack(fill="x", pady=1)
+            return c
+
+        check("Enable Lore Lens item lookup", enabled_var)
+        check("Scan hovered tooltip on hotkey (Windows OCR, on demand)", hover_ocr_var)
+        check("Allow network lookups (cached pages still work when off)", network_var)
+        row = tk.Frame(frame, bg=T["bg"])
+        row.pack(fill="x", pady=(8, 4))
+        L(row, "EQ-only global hotkey", fg=T["gold"], font=FONT_S).pack(side="left")
+        hotkey_entry = tk.Entry(row, width=16, bg=T["void"], fg=T["text"],
+                                insertbackground=T["cyan"], relief="flat", font=FONT)
+        hotkey_entry.pack(side="right", ipady=3)
+        hotkey_entry.insert(0, cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
+        status = L(frame, "", fg=T["dim"], font=FONT_S, wraplength=410)
+        status.pack(fill="x", pady=(0, 8))
+        if hotkey.get("wiki_error"):
+            status.configure(text="Current hotkey: " + hotkey["wiki_error"], fg=T["ember"])
+        check("High-contrast palette (applies next launch)", contrast_var)
+        check("Reduced motion", motion_var)
+        scale_row = tk.Frame(frame, bg=T["bg"])
+        scale_row.pack(fill="x", pady=(7, 2))
+        L(scale_row, "Text scale (0.85-1.40; next launch)", fg=T["gold"],
+          font=FONT_S).pack(side="left")
+        scale_entry = tk.Entry(scale_row, width=8, bg=T["void"], fg=T["text"],
+                               insertbackground=T["cyan"], relief="flat", font=FONT)
+        scale_entry.pack(side="right", ipady=3)
+        scale_entry.insert(0, str(cfg.get("font_scale", 1.0)))
+
+        actions = tk.Frame(frame, bg=T["bg"])
+        actions.pack(fill="x", pady=(12, 0))
+
+        def save_settings():
+            try:
+                _mods, _key, canonical = parse_hotkey(hotkey_entry.get())
+                scale_value = max(0.85, min(1.40, float(scale_entry.get())))
+                canonical_composition = normalize_composition(composition_entry.get())
+            except (ValueError, TypeError) as exc:
+                status.configure(text=str(exc), fg=T["hp"])
+                return
+            remember_composition(cfg, stats.character, canonical_composition)
+            stats.set_composition(canonical_composition, source="manual")
+            cfg.update(wiki_enabled=bool(enabled_var.get()),
+                       wiki_network_enabled=bool(network_var.get()),
+                       wiki_hover_ocr_enabled=bool(hover_ocr_var.get()),
+                       wiki_hotkey=canonical, wiki_hotkey_customized=True,
+                       high_contrast=bool(contrast_var.get()),
+                       reduced_motion=bool(motion_var.get()), font_scale=scale_value)
+            wiki_client.network_enabled = cfg["wiki_network_enabled"]
+            save_config(cfg)
+            composition_entry.delete(0, "end")
+            composition_entry.insert(0, canonical_composition)
+            composition_status.configure(
+                text=(f"{canonical_composition} is tagging new encounters"
+                      if canonical_composition else
+                      "Loadout cleared; encounters will show UNSET until selected."),
+                fg=T["green"] if canonical_composition else T["ember"])
+            refresh(force_detail=True)
+            reinstall_wiki_hotkey()
+            if cfg["wiki_enabled"] and not hotkey["wiki_registered"]:
+                status.configure(text=hotkey["wiki_error"] or "Hotkey could not be reserved.",
+                                 fg=T["hp"])
+                return
+            message = (f"Saved. {canonical} is ready while EQ/Loremaster is active."
+                       if cfg["wiki_enabled"] else "Saved. Lore Lens is disabled.")
+            status.configure(text=message, fg=T["green"])
+
+        tk.Button(actions, text="SAVE", command=save_settings, bg=T["raised"],
+                  fg=T["gold_bright"], activebackground=T["panel"], relief="flat",
+                  font=FONT_B, padx=16, pady=5).pack(side="right")
+        tk.Button(actions, text="CLOSE", command=close_settings, bg=T["panel"],
+                  fg=T["dim"], activebackground=T["raised"], relief="flat",
+                  font=FONT_S, padx=12, pady=5).pack(side="right", padx=6)
+        win.protocol("WM_DELETE_WINDOW", close_settings)
+        win.bind("<Escape>", close_settings)
+        win.update_idletasks()
+        x = root.winfo_x() - win.winfo_width() - 16
+        y = root.winfo_y()
+        x, y = clamped_position([x, y], win.winfo_width(), win.winfo_height(), x, y)
+        win.geometry(f"{x:+d}{y:+d}")
+        win.deiconify()
+        win.lift()
+
+    def poll_wiki_results():
+        if state["closing"]:
+            return
+        try:
+            for result in wiki_service.poll():
+                if result.request_id != wiki_ui.get("request_id"):
+                    continue
+                if result.item is not None:
+                    cfg["wiki_last_query"] = result.item.title
+                    wiki_ui["entry"].delete(0, "end")
+                    wiki_ui["entry"].insert(0, result.item.title)
+                    _wiki_render_item(result.item)
+                else:
+                    _wiki_render_error(result.error or WikiError("Unknown lookup error"),
+                                       result.query)
+        finally:
+            if not state["closing"]:
+                root.after(80, poll_wiki_results)
+
+    def poll_hover_ocr_results():
+        if state["closing"]:
+            return
+        try:
+            for result in hover_ocr_service.poll():
+                if result.request_id != wiki_ui.get("ocr_request_id"):
+                    continue  # a newer hotkey press owns the user's intent
+                clipboard = wiki_ui.get("ocr_clipboard", "")
+                if result.candidates:
+                    _wiki_show_window()
+                    wiki_lookup_candidates(result.candidates, "hover scan")
+                else:
+                    detail = result.error.strip() if result.error else (
+                        "Windows OCR did not find a likely item title.")
+                    _wiki_plaintext_fallback(clipboard, detail + "\n\n")
+        finally:
+            if not state["closing"]:
+                root.after(50, poll_hover_ocr_results)
 
     # Loremaster's own voice: gold-ruled ledger sections (the equipment
     # screen's typography), hex bullets from the Spin UI crest language,
@@ -1710,10 +2730,15 @@ def run_gui(args):
         ("travels", "JOURNEY"),
     ]
     card_widgets: dict[str, dict] = {}
+    scroll_bindings: dict[str, str] = {}
 
     def clear_scroll_bindings():
-        for event_name in ("<MouseWheel>", "<Button-4>", "<Button-5>"):
-            root.unbind_all(event_name)
+        for event_name, binding_id in list(scroll_bindings.items()):
+            try:
+                root.unbind(event_name, binding_id)
+            except tk.TclError:
+                pass
+        scroll_bindings.clear()
 
     def hex_bullet(parent, size=14, color=None, bg=None):
         c = tk.Canvas(parent, width=size, height=size, bg=bg or T["bg"],
@@ -1815,21 +2840,66 @@ def run_gui(args):
             fight = displayed_fight(snap)
             if not fight:
                 return [("line", "Your next encounter will be recorded here in real time.", "")]
+            view = state.get("lab_view", "overview")
             status = "LIVE ENCOUNTER" if fight_is_live(snap, fight) else "ENCOUNTER"
+            target_types = set(fight.observed_targets) | set(fight.kill_targets)
             out.append(("head", f"{status} · {fight.name}", fmt_dur(fight.seconds)))
-            out.append(("line", f"{fmt_num(fight.damage)} damage · {fmt_num(fight.dps)} dps · "
-                                f"{fight.crits} crits · {fight.misses} misses", ""))
-            if fight.kills or len(fight.targets) > 1:
+            loadout = fight.composition or "UNSET"
+            source = (f" · {fight.composition_source}"
+                      if fight.composition_source not in {"", "unset"} else "")
+            out.append(("line", f"Loadout {loadout}{source}", ""))
+            out.append(("line", f"{fmt_num(fight.damage)} personal damage · "
+                                f"{fmt_num(fight.dps)} dps · {fight.crits} crits · "
+                                f"{fight.misses} misses", ""))
+            if fight.kills or len(target_types) > 1:
                 kill_text = (f"{fight.kills} enem{'y' if fight.kills == 1 else 'ies'} slain"
                              if fight.kills else "pull in progress")
-                out.append(("line", f"{kill_text} · {len(fight.targets)} target "
-                                    f"type{'s' if len(fight.targets) != 1 else ''}", ""))
+                out.append(("line", f"{kill_text} · {len(target_types)} target "
+                                    f"type{'s' if len(target_types) != 1 else ''}", ""))
             if fight.damage_taken or fight.healing_done or fight.heals_received:
                 out.append(("line", f"Taken {fmt_num(fight.damage_taken)} · healed {fmt_num(fight.healing_done)} "
                                     f"· received {fmt_num(fight.heals_received)}", ""))
+
+            recent = [f for f in snap["fights"] if f is not fight]
+            if view == "overview" and recent:
+                previous = recent[-1]
+                delta = fight.dps - previous.dps
+                direction = "+" if delta >= 0 else ""
+                out.append(("head", "Compared with previous", previous.name))
+                out.append(("line", f"{direction}{fmt_num(delta)} dps · "
+                                    f"previous {fmt_num(previous.dps)} dps", ""))
+
+            if view == "compare":
+                mode = state.get("compare_filter", "same")
+                candidates = composition_comparisons(snap["fights"], fight, mode)
+                mode_label = {"same": "same loadout", "other": "other loadouts",
+                              "all": "all earlier fights"}[mode]
+                out.append(("head", f"Baselines · {mode_label}",
+                            "selected minus baseline"))
+                if not fight.composition and mode in {"same", "other"}:
+                    out.append(("line", "Set the selected encounter's loadout to compare "
+                                        "compositions accurately.", ""))
+                elif not candidates:
+                    out.append(("line", "No earlier encounter matches this filter yet.", ""))
+                for old in reversed(candidates[-8:]):
+                    dps_delta = fight.dps - old.dps
+                    damage_delta = fight.damage - old.damage
+                    out.append(("row", f"{old.name} · {old.composition or 'UNSET'}",
+                                f"{dps_delta:+,.0f} dps · {damage_delta:+,.0f} dmg"))
+                summaries = summarize_compositions(snap["fights"])
+                if summaries:
+                    out.append(("head", "Rolling loadout summary", "fights · avg · best"))
+                    for summary in summaries:
+                        out.append(("row", summary["composition"],
+                                    f"{summary['fights']} · "
+                                    f"{fmt_num(summary['average_dps'])}/s · "
+                                    f"{fmt_num(summary['best_dps'])}/s"))
+                out.append(("line", "Only the rolling encounter list is compared; multi-mob "
+                                    "pulls remain one fight until combat ends.", ""))
+                return out
             actors = sorted(fight.actor_damage.items(), key=lambda kv: -kv[1]["t"])
             actor_total = sum(value["t"] for _name, value in actors)
-            if actors:
+            if actors and view in ("overview", "damage"):
                 out.append(("head", "Observed encounter actors", "damage · share · dps"))
                 for name, value in actors[:12]:
                     share = value["t"] / max(1, actor_total)
@@ -1838,7 +2908,7 @@ def run_gui(args):
                                 f"{fmt_num(value['t'] / fight.seconds)}/s"))
                 out.append(("line", "Actors visible in your EQ log; not a guaranteed group roster.", ""))
             sources = sorted(fight.sources.items(), key=lambda kv: -kv[1]["t"])
-            if sources:
+            if sources and view == "damage":
                 out.append(("head", "Damage by ability", "total · share · dps"))
                 for name, value in sources[:12]:
                     share = 100.0 * value["t"] / max(1, fight.damage)
@@ -1847,7 +2917,7 @@ def run_gui(args):
                     out.append(("line", f"{value['h']} hits · avg {value['t'] / max(1, value['h']):.1f} "
                                         f"· max {fmt_num(value.get('max', 0))}", ""))
             heals = sorted(fight.healing_sources.items(), key=lambda kv: -kv[1]["t"])
-            if heals:
+            if heals and view == "healing":
                 out.append(("head", "Healing by spell", "effective · overheal"))
                 healing_total = sum(value["t"] for _name, value in heals)
                 for name, value in heals[:10]:
@@ -1855,24 +2925,55 @@ def run_gui(args):
                                 f"{fmt_num(value['t'])} · {fmt_num(value.get('over', 0))} over"))
             healers = sorted(fight.actor_healing.items(), key=lambda kv: -kv[1]["t"])
             healer_total = sum(value["t"] for _name, value in healers)
-            if healers:
+            if healers and view == "healing":
                 out.append(("head", "Observed healing actors", "effective · share"))
                 for name, value in healers[:10]:
                     share = value["t"] / max(1, healer_total)
                     out.append((f"meter:{share:.4f}", name,
                                 f"{fmt_num(value['t'])} · {share * 100:.0f}%"))
-            targets = sorted(fight.targets.items(), key=lambda kv: -kv[1])
-            if targets:
-                out.append(("head", "Damage by target", "total · share"))
-                for name, total in targets[:8]:
-                    out.append((f"meter:{total / max(1, fight.damage):.4f}", name,
-                                f"{fmt_num(total)} · {100.0 * total / max(1, fight.damage):.0f}%"))
-            recent = [f for f in snap["fights"] if f is not fight][-6:]
-            if recent:
-                out.append(("head", "Recent encounters", "damage · dps"))
-                for old in reversed(recent):
-                    out.append(("row", old.name,
-                                f"{fmt_num(old.damage)} · {fmt_num(old.dps)}/s"))
+            if view == "healing" and not heals and not healers:
+                out.append(("line", "No outgoing healing was visible in this encounter.", ""))
+
+            target_totals = dict(fight.observed_targets)
+            for killed_name in fight.kill_targets:
+                target_totals.setdefault(killed_name, 0)
+            targets = sorted(target_totals.items(), key=lambda kv: (-kv[1], kv[0]))
+            if targets and view == "targets":
+                observed_total = sum(total for _name, total in targets)
+                out.append(("head", "Multi-mob target breakdown", "visible dmg · kills"))
+                for name, total in targets[:20]:
+                    kills = int(fight.kill_targets.get(name, 0))
+                    suffix = f" · {kills} slain" if kills else ""
+                    out.append((f"meter:{total / max(1, observed_total):.4f}", name,
+                                f"{fmt_num(total)}{suffix}"))
+                out.append(("line", "Repeated enemies collapse by creature type; the slain "
+                                    "count preserves the full pull size.", ""))
+
+            if view == "timeline":
+                buckets = sorted(fight.timeline.items())
+                if buckets:
+                    peak = max(max(row["out"], row["in"], row["heal"])
+                               for _bucket, row in buckets)
+                    out.append(("head", f"{TIMELINE_BUCKET_SECONDS}-second timeline",
+                                "visible out / personal in / own heal"))
+                    for bucket, values in buckets[-40:]:
+                        elapsed = bucket * TIMELINE_BUCKET_SECONDS
+                        right = (f"{fmt_num(values['out'])} / {fmt_num(values['in'])} / "
+                                 f"{fmt_num(values['heal'])}")
+                        if values["kills"]:
+                            right += f" · {values['kills']} slain"
+                        peak_value = max(values["out"], values["in"], values["heal"])
+                        out.append((f"meter:{peak_value / max(1, peak):.4f}",
+                                    f"+{elapsed:02d}s", right))
+                else:
+                    out.append(("line", "No timeline events were recorded.", ""))
+
+            if view == "overview" and recent:
+                out.append(("head", "Recent encounters", "damage · dps · time"))
+                for old in reversed(recent[-8:]):
+                    out.append(("row", f"{old.name} · {old.composition or 'UNSET'}",
+                                f"{fmt_num(old.damage)} · {fmt_num(old.dps)}/s · "
+                                f"{fmt_dur(old.seconds)}"))
             return out
         if state["scope"] == "records":
             life = snap["lifetime"]
@@ -2026,6 +3127,24 @@ def run_gui(args):
             cw["detail_signature"] = None
         refresh(force_detail=True)
 
+    def set_lab_view(view):
+        if view == state.get("lab_view"):
+            return
+        state["lab_view"] = view
+        combat = card_widgets.get("combat")
+        if combat:
+            combat["detail_signature"] = None
+        refresh(force_detail=True)
+
+    def set_compare_filter(mode):
+        if mode not in {"same", "other", "all"} or mode == state.get("compare_filter"):
+            return
+        state["compare_filter"] = mode
+        combat = card_widgets.get("combat")
+        if combat:
+            combat["detail_signature"] = None
+        refresh(force_detail=True)
+
     def toggle_card(key):
         if key in state["expanded"]:
             state["expanded"].discard(key)
@@ -2054,14 +3173,11 @@ def run_gui(args):
         widgets["title"] = L(head, "SPIN'S LOREMASTER", fg=T["gold_bright"],
                              font=FONT_TITLE, bg=T["panel"])
         widgets["title"].pack(side="left")
-        for txt, cmd in (("\u2715", do_quit), ("HUD", toggle_mini), ("RESET", do_reset)):
+        for txt, cmd in (("\u2715", do_quit), ("HUD", toggle_mini),
+                         ("LORE", open_wiki_from_hotkey), ("RESET", do_reset)):
             b = tk.Label(head, text=txt, fg=T["dim"], bg=T["panel"], font=FONT_B, cursor="hand2")
             b.pack(side="right", padx=5)
             b.bind("<Button-1>", lambda _e, c=cmd: c())
-        widgets["lock"] = tk.Label(head, text="LOCK", fg=T["dim"], bg=T["panel"],
-                                   font=FONT_RUNE, cursor="hand2", padx=4)
-        widgets["lock"].pack(side="right", padx=2)
-        widgets["lock"].bind("<Button-1>", lambda _e: toggle_lock())
         widgets["dot"] = L(head, "\u25cf", fg=T["green"], font=FONT_S, bg=T["panel"])
         widgets["dot"].pack(side="right", padx=2)
         tk.Frame(body, bg=T["ember"], height=2).pack(fill="x")
@@ -2076,12 +3192,15 @@ def run_gui(args):
         sub.pack(fill="x", padx=10)
         widgets["zone"] = L(sub, "", fg=T["text"], font=FONT_S)
         widgets["zone"].pack(side="left", pady=1)
-        L(sub, "THE ADVENTURER'S CHRONICLE", fg=T["line"], font=FONT_RUNE,
-          anchor="e").pack(side="right")
+        widgets["composition"] = tk.Label(
+            sub, text="LOADOUT  •  SET", fg=T["gold_bright"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=6, pady=2, anchor="e")
+        widgets["composition"].pack(side="right")
+        widgets["composition"].bind("<Button-1>", open_settings)
 
         scopes = tk.Frame(body, bg=T["void"])
         scopes.pack(fill="x", padx=10, pady=(4, 1))
-        for scope, label in (("fight", "FIGHT"),
+        for scope, label in (("fight", "ENCOUNTER"),
                              ("session", "SESSION"),
                              ("records", "RECORDS")):
             tab = tk.Label(scopes, text=label, fg=T["dim"], bg=T["void"],
@@ -2093,9 +3212,9 @@ def run_gui(args):
         encounter = tk.Frame(body, bg=T["bg"])
         encounter.pack(fill="x", padx=10, pady=(2, 0))
         widgets["encounter_nav"] = encounter
-        for name, label, direction in (("encounter_prev", "‹ OLDER", -1),
-                                       ("encounter_live", "LIVE", 0),
-                                       ("encounter_next", "NEWER ›", 1)):
+        for name, label, direction in (("encounter_prev", "‹ PREVIOUS", -1),
+                                       ("encounter_live", "CURRENT", 0),
+                                       ("encounter_next", "NEXT ›", 1)):
             b = tk.Label(encounter, text=label, fg=T["cyan"], bg=T["raised"],
                          font=FONT_RUNE, cursor="hand2", padx=6, pady=2)
             b.pack(side="left" if direction < 1 else "right")
@@ -2104,6 +3223,32 @@ def run_gui(args):
         widgets["encounter_label"] = L(encounter, "AWAITING ENCOUNTER", fg=T["dim"],
                                          font=FONT_RUNE, anchor="center")
         widgets["encounter_label"].pack(side="left", fill="x", expand=True)
+
+        lab_nav = tk.Frame(body, bg=T["bg"])
+        lab_nav.pack(fill="x", padx=10, pady=(3, 0))
+        widgets["lab_nav"] = lab_nav
+        for view, label in (("overview", "OVERVIEW"), ("damage", "DAMAGE"),
+                            ("healing", "HEALING"), ("targets", "TARGETS"),
+                            ("timeline", "TIMELINE"), ("compare", "COMPARE")):
+            tab = tk.Label(lab_nav, text=label, fg=T["dim"], bg=T["void"],
+                           font=FONT_RUNE, cursor="hand2", pady=3)
+            tab.pack(side="left", expand=True, fill="x", padx=(0, 1))
+            tab.bind("<Button-1>", lambda _e, v=view: set_lab_view(v))
+            widgets[f"lab_{view}"] = tab
+
+        compare_nav = tk.Frame(body, bg=T["bg"])
+        widgets["compare_nav"] = compare_nav
+        L(compare_nav, "BASELINE", fg=T["gold"], font=FONT_RUNE).pack(
+            side="left", padx=(1, 6))
+        for compare_mode, label in (("same", "SAME LOADOUT"),
+                                    ("other", "OTHER LOADOUTS"),
+                                    ("all", "ALL FIGHTS")):
+            tab = tk.Label(compare_nav, text=label, fg=T["dim"], bg=T["void"],
+                           font=FONT_RUNE, cursor="hand2", padx=4, pady=2)
+            tab.pack(side="left", expand=True, fill="x", padx=(0, 1))
+            tab.bind("<Button-1>",
+                     lambda _e, m=compare_mode: set_compare_filter(m))
+            widgets[f"compare_{compare_mode}"] = tab
 
         # Ember hero band: live combat at a glance, or the permanent chronicle.
         hero = tk.Frame(body, bg=T["raised"])
@@ -2139,9 +3284,29 @@ def run_gui(args):
         canvas.configure(yscrollcommand=vsb.set)
         canvas.pack(side="left", fill="both", expand=True)
         vsb.pack(side="right", fill="y")
-        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(-1 * (e.delta // 120), "units"))
-        canvas.bind_all("<Button-4>", lambda _e: canvas.yview_scroll(-1, "units"))
-        canvas.bind_all("<Button-5>", lambda _e: canvas.yview_scroll(1, "units"))
+
+        def scroll_wheel(event):
+            delta = int(event.delta)
+            if delta:
+                units = max(1, abs(delta) // 120)
+                canvas.yview_scroll(-units if delta > 0 else units, "units")
+            return "break"
+
+        def scroll_linux(units):
+            def handler(_event):
+                canvas.yview_scroll(units, "units")
+                return "break"
+            return handler
+
+        # Bind to this toplevel's bindtag, not Tk's global ``all`` bindtag.
+        # Lore Lens and Settings are separate toplevels and therefore cannot
+        # accidentally scroll the encounter ledger beneath themselves.
+        scroll_bindings["<MouseWheel>"] = root.bind(
+            "<MouseWheel>", scroll_wheel, add="+")
+        scroll_bindings["<Button-4>"] = root.bind(
+            "<Button-4>", scroll_linux(-1), add="+")
+        scroll_bindings["<Button-5>"] = root.bind(
+            "<Button-5>", scroll_linux(1), add="+")
 
         for key, label in CARDS:
             sect = tk.Frame(inner, bg=T["bg"])
@@ -2175,28 +3340,42 @@ def run_gui(args):
         footer.pack(fill="x")
         widgets["status"] = L(footer, "Loremaster awaits your log\u2026",
                               fg=T["dim"], font=FONT_S, bg=T["panel"])
-        widgets["status"].pack(side="left", fill="x", expand=True, padx=(10, 4), pady=5)
-        grip = tk.Label(footer, text="\u2198", fg=T["cyan"], bg=T["panel"],
+        widgets["status"].pack(fill="x", padx=10, pady=(5, 2))
+        footer_actions = tk.Frame(footer, bg=T["panel"])
+        footer_actions.pack(fill="x", padx=(9, 4), pady=(0, 4))
+        grip = tk.Label(footer_actions, text="\u2198", fg=T["cyan"], bg=T["panel"],
                         font=FONT_B, cursor="size_nw_se")
         widgets["grip"] = grip
-        grip.pack(side="right", padx=(0, 5), pady=3)
+        grip.pack(side="right", padx=(4, 1), pady=3)
         grip.bind("<Button-1>", start_resize)
         grip.bind("<B1-Motion>", do_resize)
         grip.bind("<ButtonRelease-1>", end_resize)
         widgets["locate"] = tk.Label(
-            footer, text="LOCATE LOG", fg=T["cyan"], bg=T["raised"],
+            footer_actions, text="LOCATE LOG", fg=T["cyan"], bg=T["raised"],
             font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
-        widgets["locate"].pack(side="right", padx=(0, 6), pady=3)
+        widgets["locate"].pack(side="right", padx=(0, 4), pady=3)
         widgets["locate"].bind("<Button-1>", choose_log_dir)
         widgets["pass"] = tk.Label(
-            footer, text="PASS", fg=T["dim"], bg=T["raised"],
+            footer_actions, text="CLICK-THRU", fg=T["dim"], bg=T["raised"],
             font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
         widgets["pass"].pack(side="right", padx=(0, 4), pady=3)
         widgets["pass"].bind("<Button-1>", lambda _e: toggle_click_through())
+        widgets["settings"] = tk.Label(
+            footer_actions, text="SETTINGS", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
+        widgets["settings"].pack(side="right", padx=(0, 4), pady=3)
+        widgets["settings"].bind("<Button-1>", open_settings)
+        widgets["lock"] = tk.Label(
+            footer_actions, text="LOCK", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=7, pady=3)
+        widgets["lock"].pack(side="right", padx=(0, 4), pady=3)
+        widgets["lock"].bind("<Button-1>", lambda _e: toggle_lock())
         pos = cfg.get("position")
         panel_size = cfg.get("panel_size") or [400, 480]
-        width = max(360, min(680, int(panel_size[0])))
-        height = max(360, min(900, int(panel_size[1])))
+        minimum_width = int(360 * max(1.0, font_scale))
+        minimum_height = int(360 * max(1.0, font_scale))
+        width = max(minimum_width, min(760, int(panel_size[0])))
+        height = max(minimum_height, min(940, int(panel_size[1])))
         default_x = max(8, root.winfo_screenwidth() - width - 24)
         default_y = max(8, root.winfo_screenheight() - height - 300)
         place_window(width, height, pos, default_x, default_y)
@@ -2239,10 +3418,24 @@ def run_gui(args):
             cursor="hand2", padx=3)
         widgets["mini_log"].pack(side="right", pady=3)
         widgets["mini_log"].bind("<Button-1>", choose_log_dir)
+        mini_composition = (stats.composition.replace(" / ", "/")
+                            if stats.composition else "SET LOADOUT")
+        widgets["mini_wiki"] = tk.Label(
+            strip, text=f"{mini_composition}  ·  LORE",
+            fg=T["cyan"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=6)
+        widgets["mini_wiki"].pack(side="right", padx=(2, 1), pady=3)
+        widgets["mini_wiki"].bind("<Button-1>", open_wiki_from_hotkey)
         pos = cfg.get("mini_position")
-        default_x = max(8, root.winfo_screenwidth() - 612)
-        default_y = max(8, root.winfo_screenheight() - 318)
-        place_window(600, 34, pos, default_x, default_y)
+        # Four default ledger cards plus log health, Lore Lens, lock, and
+        # details controls need 720 px at the standard font size.  Keeping an
+        # explicit width also makes the companion reservation deterministic
+        # for installer-provided layouts instead of clipping right-side tools.
+        mini_width = min(1000, int(MINI_BASE_WIDTH * max(1.0, font_scale)))
+        mini_height = min(48, int(MINI_BASE_HEIGHT * max(1.0, font_scale)))
+        default_x = max(8, root.winfo_screenwidth() - mini_width - 12)
+        default_y = max(8, root.winfo_screenheight() - mini_height - 284)
+        place_window(mini_width, mini_height, pos, default_x, default_y)
 
     def toggle_mini():
         state["mini"] = not state["mini"]
@@ -2256,7 +3449,7 @@ def run_gui(args):
         state["selected_fight"] = None
 
     def choose_log_dir(_event=None):
-        nonlocal watcher
+        nonlocal watcher, ingest_worker
         from tkinter import filedialog
         initial = cfg.get("log_dir")
         if not initial or not Path(initial).is_dir():
@@ -2271,82 +3464,162 @@ def run_gui(args):
             return
         cfg["log_dir"] = str(Path(selected))
         save_config(cfg)
-        watcher.close()
+        if ingest_worker is not None:
+            ingest_worker.close(timeout=0.75)
+        else:
+            watcher.close()
         watcher = LogWatcher(cfg["log_dir"], args.log)
+        ingest_worker = LogIngestWorker(watcher)
+        ingest_pending.clear()
         if widgets.get("status"):
             widgets["status"].configure(text="searching for the newest eqlog…")
         state["fights_seen"] = 0
 
     def do_quit():
+        state["closing"] = True
         if state["click_through"]:
             state["click_through"] = False
             _apply_click_through()
         remove_recovery_hotkey()
+        hover_ocr_service.close()
+        wiki_service.close()
         if not demo:
             save_character_state(stats.character, stats)
         save_config(cfg)
-        watcher.close()
+        if ingest_worker is not None:
+            ingest_worker.close(timeout=0.75)
+        else:
+            watcher.close()
         root.destroy()
 
     # ---- periodic update ----
+    def _queue_ingest_records():
+        """Move a bounded number of worker records into one ordered UI deque."""
+        if ingest_worker is None or len(ingest_pending) >= 2048:
+            return
+        for record in ingest_worker.drain(max_records=16):
+            if isinstance(record, LineBatchRecord):
+                ingest_pending.extend(("line", raw) for raw in record.lines)
+            elif isinstance(record, SwitchRecord):
+                ingest_pending.append(("switch", record))
+            elif isinstance(record, StatusRecord):
+                ingest_pending.append(("status", record))
+
+    def _apply_character_switch(record):
+        save_character_state(stats.character, stats)
+        character = record.character or "?"
+        stats.__init__(character, session_gap=session_gap,
+                       composition=configured_composition(cfg, character))
+        stats.character = character
+        state["lifetime_cutoff"] = restore_character_state(stats)
+        if stats.composition:
+            remember_composition(cfg, stats.character, stats.composition)
+        state["fights_seen"] = 0
+        state["selected_fight"] = None
+
+    def _apply_log_line(raw):
+        raw_msg = raw.split("] ", 1)[1] if "] " in raw else raw
+        parsed = parse_line(raw)
+        kind, groups = "", {}
+        if parsed:
+            ts, kind, groups = parsed
+            cutoff = state.get("lifetime_cutoff")
+            stats.apply(ts, kind, groups,
+                        count_lifetime=(cutoff is None or ts > cutoff))
+            if kind == "composition" and stats.composition:
+                remember_composition(cfg, stats.character, stats.composition)
+                save_config(cfg)
+        for severity, text_msg in check_alerts(
+                kind, groups, raw_msg, stats.character, cfg):
+            alerts.show(severity, text_msg)
+
     def tick():
-        switched = False
-        if demo:
-            lines = demo.lines()
-        else:
-            lines, switched = watcher.poll()
-            if switched:
+        if state["closing"]:
+            return
+        next_delay = 50
+        try:
+            if demo:
+                now_mono = time.monotonic()
+                if now_mono >= state["next_demo"]:
+                    ingest_pending.extend(("line", raw) for raw in demo.lines())
+                    state["next_demo"] = now_mono + POLL_MS / 1000.0
+            else:
+                _queue_ingest_records()
+
+            deadline = time.perf_counter() + 0.008
+            while ingest_pending and time.perf_counter() < deadline:
+                record_type, payload = ingest_pending.popleft()
+                if record_type == "line":
+                    _apply_log_line(payload)
+                elif record_type == "switch":
+                    _apply_character_switch(payload)
+                else:
+                    state["ingest_error"] = (
+                        f"log {payload.operation}: {payload.message}"[:180])
+                    state["ingest_error_until"] = time.time() + 6.0
+
+            worker_pending = ingest_worker.pending_count if ingest_worker else 0
+            if not ingest_pending and not worker_pending:
+                stats.finalize_idle(datetime.now())
+            else:
+                next_delay = 16
+
+            if cfg.get("fight_toasts", True):
+                done = len(stats.fights)
+                if done > state["fights_seen"] and stats.fights:
+                    f = stats.fights[-1]
+                    profile = f"  \u00b7  {f.composition}" if f.composition else ""
+                    alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  "
+                                f"({fmt_num(f.damage)} in {fmt_dur(f.seconds)}){profile}")
+                state["fights_seen"] = done
+
+            now_mono = time.monotonic()
+            if now_mono - state["last_render"] >= 0.25:
+                refresh()
+                state["last_render"] = now_mono
+            if not demo and time.time() - state["last_save"] > 30:
                 save_character_state(stats.character, stats)
-                stats.__init__(watcher.character, session_gap=session_gap)
-                stats.character = watcher.character
-                state["lifetime_cutoff"] = restore_character_state(stats)
-                state["fights_seen"] = 0
-                state["selected_fight"] = None
-        for raw in lines:
-            raw_msg = raw.split("] ", 1)[1] if "] " in raw else raw
-            parsed = parse_line(raw)
-            kind, groups = "", {}
-            if parsed:
-                ts, kind, groups = parsed
-                stats.character = watcher.character if not demo else stats.character
-                cutoff = state.get("lifetime_cutoff")
-                stats.apply(ts, kind, groups,
-                            count_lifetime=(cutoff is None or ts > cutoff))
-            for severity, text_msg in check_alerts(kind, groups, raw_msg,
-                                                   stats.character, cfg):
-                alerts.show(severity, text_msg)
-        stats.finalize_idle(datetime.now())
-        if cfg.get("fight_toasts", True):
-            done = len(stats.fights)
-            if done > state["fights_seen"] and stats.fights:
-                f = stats.fights[-1]
-                alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  ({fmt_num(f.damage)} in {fmt_dur(f.seconds)})")
-            state["fights_seen"] = done
-        refresh()
-        if not demo and time.time() - state["last_save"] > 30:
-            save_character_state(stats.character, stats)
-            state["last_save"] = time.time()
-        root.after(POLL_MS, tick)
+                state["last_save"] = time.time()
+        except Exception as exc:
+            # A malformed line or transient widget error must never kill the
+            # recurring ingest loop. Surface it briefly and keep draining.
+            state["ingest_error"] = f"runtime: {type(exc).__name__}: {exc}"[:180]
+            state["ingest_error_until"] = time.time() + 6.0
+        finally:
+            if not state["closing"]:
+                root.after(next_delay, tick)
 
     def log_health():
         if not watcher.path:
-            return "NO LOG", THEME["hp"]
+            return "NO LOG", T["hp"]
         try:
             age = max(0.0, time.time() - watcher.path.stat().st_mtime)
         except OSError:
-            return "NO LOG", THEME["hp"]
+            return "NO LOG", T["hp"]
         if age <= 10:
-            return "LIVE", THEME["green"]
+            return "LIVE", T["green"]
         if age <= 120:
-            return "READY", THEME["cyan"]
-        return "STALE", THEME["ember"]
+            return "READY", T["cyan"]
+        return "STALE", T["ember"]
 
     def _detail_kind(kind):
         return "meter" if kind.startswith("meter:") else kind
 
+    def _set_widget(widget, **options):
+        """Configure only changed Tk options to avoid redundant repaints."""
+        changed = {}
+        for key, value in options.items():
+            try:
+                current = widget.cget(key)
+            except tk.TclError:
+                current = object()
+            if str(current) != str(value):
+                changed[key] = value
+        if changed:
+            widget.configure(**changed)
+
     def _set_text(label, value):
-        if label.cget("text") != value:
-            label.configure(text=value)
+        _set_widget(label, text=value)
 
     def _draw_detail_meter(canvas):
         width = max(1, canvas.winfo_width())
@@ -2359,54 +3632,63 @@ def run_gui(args):
         canvas._lore_draw_state = draw_state
         canvas.delete("all")
         edge = max(2, int(width * pct))
-        canvas.create_rectangle(0, 2, edge, 17, fill=THEME["meter"], outline="")
-        canvas.create_line(0, 2, edge, 2, fill=THEME["meter_edge"])
-        canvas.create_text(3, 10, text=left, fill=THEME["text"],
+        canvas.create_rectangle(0, 2, edge, 17, fill=T["meter"], outline="")
+        canvas.create_line(0, 2, edge, 2, fill=T["meter_edge"])
+        canvas.create_text(3, 10, text=left, fill=T["text"],
                            font=FONT_S, anchor="w")
-        canvas.create_text(width - 3, 10, text=right, fill=THEME["gold_bright"],
+        canvas.create_text(width - 3, 10, text=right, fill=T["gold_bright"],
                            font=FONT_S, anchor="e")
 
+    def _new_detail_control(cw, base_kind):
+        row = tk.Frame(cw["detail"], bg=T["bg"])
+        row.pack(fill="x", padx=14, pady=0)
+        control = {"kind": base_kind, "row": row}
+        if base_kind == "meter":
+            meter = tk.Canvas(row, height=19, bg=T["bg"], highlightthickness=0)
+            meter._lore_pct = 0.0
+            meter._lore_left = ""
+            meter._lore_right = ""
+            meter.pack(fill="x")
+            meter.bind("<Configure>", lambda _e, canvas=meter: _draw_detail_meter(canvas))
+            control["meter"] = meter
+        elif base_kind == "head":
+            left_label = tk.Label(row, fg=T["gold"], bg=T["bg"],
+                                  font=FONT_S, anchor="w")
+            left_label.pack(side="left", pady=(4, 1))
+            right_label = tk.Label(row, fg=T["gold_bright"], bg=T["bg"],
+                                   font=FONT_S, anchor="e")
+            right_label.pack(side="right", pady=(4, 1))
+            control.update(left=left_label, right=right_label)
+        elif base_kind == "line":
+            left_label = tk.Label(row, fg=T["dim"], bg=T["bg"],
+                                  font=FONT_S, anchor="w", justify="left")
+            left_label.pack(side="left")
+            control["left"] = left_label
+        else:
+            left_label = tk.Label(row, fg=T["text"], bg=T["bg"],
+                                  font=FONT_S, anchor="w")
+            left_label.pack(side="left")
+            right_label = tk.Label(row, fg=T["gold_bright"], bg=T["bg"],
+                                   font=FONT_S, anchor="e")
+            right_label.pack(side="right")
+            control.update(left=left_label, right=right_label)
+        return control
+
     def _build_detail_controls(cw, rows):
-        for child in cw["detail"].winfo_children():
-            child.destroy()
-        controls = []
-        for kind, _left, _right in rows:
-            base_kind = _detail_kind(kind)
-            row = tk.Frame(cw["detail"], bg=THEME["bg"])
-            row.pack(fill="x", padx=14, pady=0)
-            control = {"kind": base_kind}
-            if base_kind == "meter":
-                meter = tk.Canvas(row, height=19, bg=THEME["bg"], highlightthickness=0)
-                meter._lore_pct = 0.0
-                meter._lore_left = ""
-                meter._lore_right = ""
-                meter.pack(fill="x")
-                meter.bind("<Configure>", lambda _e, canvas=meter: _draw_detail_meter(canvas))
-                control["meter"] = meter
-            elif base_kind == "head":
-                left_label = tk.Label(row, fg=THEME["gold"], bg=THEME["bg"],
-                                      font=FONT_S, anchor="w")
-                left_label.pack(side="left", pady=(4, 1))
-                right_label = tk.Label(row, fg=THEME["gold_bright"], bg=THEME["bg"],
-                                       font=FONT_S, anchor="e")
-                right_label.pack(side="right", pady=(4, 1))
-                control.update(left=left_label, right=right_label)
-            elif base_kind == "line":
-                left_label = tk.Label(row, fg=THEME["dim"], bg=THEME["bg"],
-                                      font=FONT_S, anchor="w", justify="left")
-                left_label.pack(side="left")
-                control["left"] = left_label
-            else:
-                left_label = tk.Label(row, fg=THEME["text"], bg=THEME["bg"],
-                                      font=FONT_S, anchor="w")
-                left_label.pack(side="left")
-                right_label = tk.Label(row, fg=THEME["gold_bright"], bg=THEME["bg"],
-                                       font=FONT_S, anchor="e")
-                right_label.pack(side="right")
-                control.update(left=left_label, right=right_label)
-            controls.append(control)
+        """Reconcile the changing row tail instead of destroying the card."""
+        wanted = tuple(_detail_kind(kind) for kind, _left, _right in rows)
+        controls = list(cw.get("detail_controls", []))
+        prefix = 0
+        while (prefix < len(wanted) and prefix < len(controls)
+               and controls[prefix]["kind"] == wanted[prefix]):
+            prefix += 1
+        for control in controls[prefix:]:
+            control["row"].destroy()
+        controls = controls[:prefix]
+        for base_kind in wanted[prefix:]:
+            controls.append(_new_detail_control(cw, base_kind))
         cw["detail_controls"] = controls
-        cw["detail_signature"] = tuple(_detail_kind(kind) for kind, _left, _right in rows)
+        cw["detail_signature"] = wanted
 
     def _update_detail_controls(cw, rows):
         signature = tuple(_detail_kind(kind) for kind, _left, _right in rows)
@@ -2432,80 +3714,127 @@ def run_gui(args):
                 return
             for key, label in items.items():
                 value = card_value(snap, key)
-                if label.cget("text") != value:
-                    label.configure(text=value)
+                _set_text(label, value)
             health, color = log_health()
             mini_log = widgets.get("mini_log")
             if mini_log:
-                mini_log.configure(text=f"\u25cf {health}", fg=color)
+                _set_widget(mini_log, text=f"\u25cf {health}", fg=color)
             mini_lock = widgets.get("mini_lock")
             if mini_lock:
-                mini_lock.configure(
+                _set_widget(
+                    mini_lock,
                     text="MOVE" if state["locked"] else "LOCK",
-                    fg=THEME["gold_bright"] if state["locked"] else THEME["dim"])
+                    fg=T["gold_bright"] if state["locked"] else T["dim"])
+            mini_wiki = widgets.get("mini_wiki")
+            if mini_wiki:
+                compact = (snap.get("composition") or "SET LOADOUT").replace(" / ", "/")
+                _set_text(mini_wiki, f"{compact}  \u00b7  LORE")
+                profile_color = (T["cyan"] if snap.get("composition")
+                                 else T["ember"])
+                _set_widget(mini_wiki, fg=profile_color)
             return
 
         title = snap["character"]
         if watcher.server != "?":
             title += f" ({watcher.server})"
-        widgets["who"].configure(text=title)
-        health, health_color = ("DEMO", THEME["green"]) if demo else log_health()
-        widgets["dot"].configure(fg=health_color)
-        widgets["zone"].configure(text=snap["zone"] or "\u2014")
+        _set_text(widgets["who"], title)
+        health, health_color = ("DEMO", T["green"]) if demo else log_health()
+        _set_widget(widgets["dot"], fg=health_color)
+        _set_text(widgets["zone"], snap["zone"] or "\u2014")
+        composition = snap.get("composition") or "SET LOADOUT"
+        _set_text(widgets["composition"], f"LOADOUT  \u2022  {composition}")
+        profile_color = (T["gold_bright"] if snap.get("composition")
+                         else T["ember"])
+        _set_widget(widgets["composition"], fg=profile_color)
+        session_text = "session \u2014"
         if snap["session_start"]:
             dur = fmt_dur(snap["hours"] * 3600)
             since = snap["session_start"].strftime("%I:%M %p").lstrip("0")
-            widgets["session"].configure(text=f"session {dur} (since {since})")
+            session_text = f"session {dur} (since {since})"
+        _set_text(widgets["session"], session_text)
         for scope in ("fight", "session", "records"):
             active = state["scope"] == scope
-            widgets[f"scope_{scope}"].configure(
-                bg=THEME["raised"] if active else THEME["void"],
-                fg=THEME["cyan"] if active else THEME["dim"])
+            _set_widget(
+                widgets[f"scope_{scope}"],
+                bg=T["raised"] if active else T["void"],
+                fg=T["cyan"] if active else T["dim"])
         nav = widgets.get("encounter_nav")
+        lab_nav = widgets.get("lab_nav")
+        compare_nav = widgets.get("compare_nav")
         if nav:
             if state["scope"] == "fight":
                 if not nav.winfo_manager():
                     nav.pack(fill="x", padx=10, pady=(2, 0), before=widgets["hero"])
+                if lab_nav and not lab_nav.winfo_manager():
+                    lab_nav.pack(fill="x", padx=10, pady=(3, 0), before=widgets["hero"])
+                if compare_nav:
+                    if state.get("lab_view") == "compare":
+                        if not compare_nav.winfo_manager():
+                            compare_nav.pack(fill="x", padx=10, pady=(2, 0),
+                                             before=widgets["hero"])
+                    else:
+                        if compare_nav.winfo_manager():
+                            compare_nav.pack_forget()
             else:
-                nav.pack_forget()
+                if nav.winfo_manager():
+                    nav.pack_forget()
+                if lab_nav and lab_nav.winfo_manager():
+                    lab_nav.pack_forget()
+                if compare_nav and compare_nav.winfo_manager():
+                    compare_nav.pack_forget()
+        if state["scope"] == "fight":
+            for view in ("overview", "damage", "healing", "targets", "timeline", "compare"):
+                tab = widgets.get(f"lab_{view}")
+                if tab:
+                    active = state.get("lab_view") == view
+                    _set_widget(tab, bg=T["raised"] if active else T["void"],
+                                fg=T["cyan"] if active else T["dim"])
+            for mode in ("same", "other", "all"):
+                tab = widgets.get(f"compare_{mode}")
+                if tab:
+                    active = state.get("compare_filter") == mode
+                    _set_widget(tab, bg=T["raised"] if active else T["void"],
+                                fg=T["gold_bright"] if active else T["dim"])
         lock = widgets.get("lock")
         if lock:
-            lock.configure(text="MOVE" if state["locked"] else "LOCK",
-                           fg=THEME["gold_bright"] if state["locked"] else THEME["dim"])
+            _set_widget(lock, text="MOVE" if state["locked"] else "LOCK",
+                        fg=T["gold_bright"] if state["locked"] else T["dim"])
         grip = widgets.get("grip")
         if grip:
-            grip.configure(fg=THEME["line"] if state["locked"] else THEME["cyan"],
-                           cursor="arrow" if state["locked"] else "size_nw_se")
+            _set_widget(grip, fg=T["line"] if state["locked"] else T["cyan"],
+                        cursor="arrow" if state["locked"] else "size_nw_se")
         pass_button = widgets.get("pass")
         if pass_button:
             if state["click_through"]:
-                pass_button.configure(text="CTRL+ALT+L", fg=THEME["gold_bright"])
+                _set_widget(pass_button, text="PASS ON", fg=T["gold_bright"])
             else:
-                pass_button.configure(text="PASS", fg=(THEME["cyan"]
-                                      if hotkey["registered"] else THEME["line"]))
+                _set_widget(pass_button, text="CLICK-THRU", fg=(T["cyan"]
+                            if hotkey["registered"] else T["line"]))
         if state["scope"] == "records":
             life = snap["lifetime"]
-            widgets["current_dps"].configure(text=fmt_num(life["kills"]), fg=THEME["gold_bright"])
-            widgets["session_dps"].configure(text=fmt_num(len(life["kill_breakdown"])))
-            widgets["best_dps"].configure(text=fmt_num(life["best_dps"]))
+            _set_widget(widgets["current_dps"], text=fmt_num(life["kills"]),
+                        fg=T["gold_bright"])
+            _set_text(widgets["session_dps"], fmt_num(len(life["kill_breakdown"])))
+            _set_text(widgets["best_dps"], fmt_num(life["best_dps"]))
             for key, label in (("current_dps", "NPC KILLS"),
                                ("session_dps", "CREATURE TYPES"),
                                ("best_dps", "RECORD DPS")):
-                widgets[f"{key}_label"].configure(text=label)
+                _set_text(widgets[f"{key}_label"], label)
         else:
             shown = displayed_fight(snap) if state["scope"] == "fight" else snap["fight"]
             shown_live = fight_is_live(snap, shown)
             fight_dps = snap["current_dps"] if shown_live else (shown.dps if shown else 0)
-            widgets["current_dps"].configure(
+            _set_widget(
+                widgets["current_dps"],
                 text=fmt_num(fight_dps),
-                fg=THEME["gold_bright"] if shown_live else THEME["dim"])
-            widgets["session_dps"].configure(text=fmt_num(snap["session_dps"]))
+                fg=T["gold_bright"] if shown_live else T["dim"])
+            _set_text(widgets["session_dps"], fmt_num(snap["session_dps"]))
             best = snap["best_fight"]
-            widgets["best_dps"].configure(text=fmt_num(best.dps) if best else "0")
+            _set_text(widgets["best_dps"], fmt_num(best.dps) if best else "0")
             for key, label in (("current_dps", "FIGHT DPS"),
                                ("session_dps", "SESSION"),
                                ("best_dps", "BEST")):
-                widgets[f"{key}_label"].configure(text=label)
+                _set_text(widgets[f"{key}_label"], label)
         if state["scope"] == "fight":
             fights = snap["fights"]
             shown = displayed_fight(snap)
@@ -2517,35 +3846,39 @@ def run_gui(args):
                     encounter_name = encounter_name[:19].rstrip() + "…"
                 prefix = "" if fight_is_live(snap, shown) else f"{index + 1}/{len(fights)} · "
                 label = f"{prefix}{encounter_name}"
-            widgets["encounter_label"].configure(text=label)
-            widgets["encounter_prev"].configure(
-                fg=THEME["cyan"] if index > 0 else THEME["line"])
-            widgets["encounter_next"].configure(
-                fg=THEME["cyan"] if 0 <= index < len(fights) - 1 else THEME["line"])
-            widgets["encounter_live"].configure(
-                fg=THEME["gold_bright"] if state["selected_fight"] is None else THEME["cyan"])
+            _set_text(widgets["encounter_label"], label)
+            _set_widget(widgets["encounter_prev"],
+                        fg=T["cyan"] if index > 0 else T["line"])
+            _set_widget(widgets["encounter_next"],
+                        fg=T["cyan"] if 0 <= index < len(fights) - 1 else T["line"])
+            _set_widget(widgets["encounter_live"],
+                        fg=T["gold_bright"] if state["selected_fight"] is None else T["cyan"])
         starred = cfg.get("starred_cards", [])
         for key, _label in CARDS:
             cw = card_widgets.get(key)
             if not cw:
                 continue
-            cw["value"].configure(text=card_value(snap, key))
-            cw["star"].configure(text="\u2726" if key in starred else "\u25c7",
-                                 fg=THEME["gold_bright"] if key in starred else THEME["line"])
+            _set_text(cw["value"], card_value(snap, key))
+            _set_widget(cw["star"], text="\u2726" if key in starred else "\u25c7",
+                        fg=T["gold_bright"] if key in starred else T["line"])
             expanded = key in state["expanded"]
-            accent = THEME["cyan"] if expanded else THEME["line_soft"]
+            accent = T["cyan"] if expanded else T["line_soft"]
             if state["scope"] == "records" and key in ("kills", "travels"):
-                accent = THEME["gold"]
-            cw["name"].configure(fg=accent if expanded else THEME["dim"])
-            cw["rule"].configure(bg=accent)
-            cw["hex"].itemconfigure("all", outline=accent)
-            cw["chev"].configure(text="\u25be" if expanded else "\u25b8")
+                accent = T["gold"]
+            _set_widget(cw["name"], fg=accent if expanded else T["dim"])
+            _set_widget(cw["rule"], bg=accent)
+            if cw.get("hex_accent") != accent:
+                cw["hex"].itemconfigure("all", outline=accent)
+                cw["hex_accent"] = accent
+            _set_text(cw["chev"], "\u25be" if expanded else "\u25b8")
             if expanded:
                 rows = card_detail(snap, key)
                 _update_detail_controls(cw, rows)
-                cw["detail"].pack(fill="x", pady=(0, 4))
+                if not cw["detail"].winfo_manager():
+                    cw["detail"].pack(fill="x", pady=(0, 4))
             else:
-                cw["detail"].pack_forget()
+                if cw["detail"].winfo_manager():
+                    cw["detail"].pack_forget()
 
         if demo:
             src_txt = "demo mode \u2014 synthetic fight"
@@ -2553,28 +3886,81 @@ def run_gui(args):
             src_txt = f"{health.lower()} \u00b7 {watcher.path.name}"
         else:
             src_txt = "no log \u00b7 /log on, then LOCATE LOG"
-        widgets["status"].configure(text=src_txt, fg=health_color)
-        widgets["locate"].configure(text="CHANGE" if watcher.path else "LOCATE LOG")
+        if state["click_through"]:
+            src_txt = "CLICK-THROUGH ON  \u00b7  CTRL+ALT+L RESTORES MOUSE"
+            health_color = T["gold_bright"]
+        elif state["ingest_error"] and time.time() < state["ingest_error_until"]:
+            src_txt = state["ingest_error"]
+            health_color = T["hp"]
+        _set_widget(widgets["status"], text=src_txt, fg=health_color)
+        _set_text(widgets["locate"], "CHANGE" if watcher.path else "LOCATE LOG")
 
-    z_order = {"floating": None}
+    z_order = {"floating": None, "eq_check_at": 0.0,
+               "eq_running": True, "hidden_for_eq": False}
 
     def sync_z_order():
-        floating = foreground_is_everquest_or_loremaster(root.winfo_id())
-        if floating != z_order["floating"]:
-            try:
-                root.attributes("-topmost", floating)
-                if floating:
-                    root.lift()
-            except tk.TclError:
-                pass
-            z_order["floating"] = floating
-        root.after(750, sync_z_order)
+        if state["closing"]:
+            return
+        try:
+            now = time.monotonic()
+            if args.wait_for_eq and now >= z_order["eq_check_at"]:
+                z_order["eq_running"] = process_is_running("eqgame.exe")
+                z_order["eq_check_at"] = now + 1.0
+            if args.wait_for_eq and not z_order["eq_running"]:
+                if state["click_through"]:
+                    state["click_through"] = False
+                    _apply_click_through()
+                remove_wiki_hotkey()
+                if not z_order["hidden_for_eq"]:
+                    _wiki_close()
+                    settings_window = widgets.get("settings_window")
+                    if settings_window:
+                        try:
+                            settings_window.withdraw()
+                        except tk.TclError:
+                            pass
+                    alerts.clear()
+                    root.withdraw()
+                    z_order["hidden_for_eq"] = True
+                floating = False
+            else:
+                if z_order["hidden_for_eq"]:
+                    root.deiconify()
+                    z_order["hidden_for_eq"] = False
+                floating = foreground_is_everquest_or_loremaster(root.winfo_id())
+                if (floating and cfg.get("wiki_enabled", True)
+                        and not hotkey["wiki_registered"]):
+                    install_wiki_hotkey()
+                elif not floating and hotkey["wiki_registered"]:
+                    remove_wiki_hotkey()
+
+            if floating != z_order["floating"]:
+                try:
+                    root.attributes("-topmost", floating)
+                    if floating:
+                        root.lift()
+                except tk.TclError:
+                    pass
+                for extra in (wiki_ui.get("win"), widgets.get("settings_window")):
+                    if extra:
+                        try:
+                            extra.attributes("-topmost", floating)
+                        except tk.TclError:
+                            pass
+                z_order["floating"] = floating
+            alerts.sync_topmost(floating)
+        finally:
+            if not state["closing"]:
+                root.after(250, sync_z_order)
 
     install_recovery_hotkey()
+    install_wiki_hotkey()
     root.protocol("WM_DELETE_WINDOW", do_quit)
     (build_mini if state["mini"] else build_full)()
     sync_z_order()
     poll_recovery_hotkey()
+    poll_hover_ocr_results()
+    poll_wiki_results()
     tick()
     root.mainloop()
     return 0
@@ -2751,6 +4137,26 @@ def selftest() -> int:
         "Goblin shaman": 3, "Goblin warrior": 4,
     }
     assert pull_fight.name == "7 enemies"
+    assert sum(pull_fight.observed_targets.values()) == 175
+    assert sum(row["kills"] for row in pull_fight.timeline.values()) == 7
+    assert s3.fight.observed_targets["Gnoll"] == 50
+
+    kill_only = SessionStats("Spin")
+    kill_only.apply(*parse_line(line(0, "You slash a goblin for 10 points of damage.")))
+    kill_only.apply(*parse_line(line(1, "An orc has been slain by Aria!")))
+    assert set(kill_only.fight.observed_targets) | set(kill_only.fight.kill_targets) == {
+        "Goblin", "Orc",
+    }
+    assert kill_only.fight.name == "Goblin +1 more"
+
+    # Lore Lens is deterministic and never requires the live wiki in tests.
+    assert parse_hotkey("ctrl+shift+e") == (0x4006, ord("E"), "Ctrl+Shift+E")
+    assert extract_item_query("https://eqlwiki.com/Cloak_of_Flames")[0] == (
+        "Cloak of Flames")
+    assert extract_item_query("[Cloak of Flames +4]")[0] == "Cloak of Flames"
+    assert r"C:\EQLegends\Logs" in DEFAULT_LOG_DIRS
+    assert MINI_BASE_WIDTH == 720 and MINI_BASE_HEIGHT == 34
+    wiki_selftest()
 
     # coin parsing
     assert parse_coins("2 platinum, 4 gold, 3 silver, 9 copper") == 2439
@@ -2880,6 +4286,8 @@ def main() -> int:
     if args.selftest:
         return selftest()
     if args.wait_for_eq and not args.demo:
+        if not acquire_waiter_instance():
+            return 0
         wait_for_everquest()
     # A startup waiter acquires only after EQ appears. That lets a deliberate
     # desktop launch open immediately; when EQ starts, the waiter sees the

@@ -3,21 +3,22 @@
 	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
 	<Label item="SW_StanceLabel">
 		<EQType>1026</EQType>
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>14</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>150</RightAnchorOffset>	
+		<RightAnchorOffset>150</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>true</RightAnchorToLeft>		
+		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<Text></Text>
 		<TextColor>
-			<R>240</R>
-			<G>240</G>
-			<B>240</B>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -25,31 +26,32 @@
 		<AlignLeft>true</AlignLeft>
 	</Label>
 	<Label item="SW_InvocationLabel">
-		<EQType>1017</EQType>	
+		<EQType>1017</EQType>
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>14</BottomAnchorOffset>
 		<LeftAnchorOffset>150</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>			
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Text></Text>
 		<TextColor>
-			<R>240</R>
-			<G>240</G>
-			<B>240</B>
+			<R>52</R>
+			<G>218</G>
+			<B>190</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
 		<AlignRight>true</AlignRight>
 		<AlignLeft>false</AlignLeft>
-	</Label>		
+	</Label>
 	<Button item="SW_ButtonTemplate">
 		<ScreenID>SW_ButtonTemplate</ScreenID>
-		<Font>1</Font>
+		<Font>2</Font>
 		<FontShadow>true</FontShadow>
 		<RelativePosition>true</RelativePosition>
 		<Size>
@@ -69,7 +71,7 @@
 			<NormalDecal>BuffIcons</NormalDecal>
 		</ButtonDrawTemplate>
 	</Button>
-	
+
 	<TileLayoutBox item="SW_Layout">
 		<ScreenID>SW_Layout</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -77,7 +79,7 @@
 		<TopAnchorOffset>1</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -90,26 +92,26 @@
 		<AnchorToTop>true</AnchorToTop>
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>true</FirstPieceTemplate>
-		<SnapToChildren>true</SnapToChildren>			
+		<SnapToChildren>true</SnapToChildren>
 		<Pieces>Button:SW_ButtonTemplate</Pieces>
 	</TileLayoutBox>
-	
+
 	<Screen item="SW_HorizontalOrientationTemplate">
 		<ScreenID>SW_HorizontalOrientationTemplate</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>15</TopAnchorOffset>		
+		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<UseInLayoutVertical>false</UseInLayoutVertical>
-		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>		
+		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
 	</Screen>
-	
+
 	<Screen item="SW_VerticalOrientationTemplate">
 		<ScreenID>SW_VerticalOrientationTemplate</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -125,16 +127,16 @@
 		<UseInLayoutVertical>false</UseInLayoutVertical>
 		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
 	</Screen>
-	
+
 	<LayoutHorizontal item="SW_LayoutH">
 		<Padding>0</Padding>
 		<ResizeVertical>true</ResizeVertical>
 		<ResizeHorizontal>true</ResizeHorizontal>
 	</LayoutHorizontal>
-	
+
 	<DragBox item="SWDragBox">
         <ScreenID>SWDragBox</ScreenID>
-		<AutoStretch>true</AutoStretch>		
+		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
@@ -159,21 +161,21 @@
 		<TopAnchorOffset>0</TopAnchorOffset>
 		<BottomAnchorOffset>15</BottomAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>	
+		<RightAnchorOffset>0</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>		
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<UseInLayoutVertical>false</UseInLayoutVertical>
 		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
 		<Pieces>SW_StanceLabel</Pieces>
 		<Pieces>SW_InvocationLabel</Pieces>
-		<Pieces>DragBox:SWDragBox</Pieces>				
+		<Pieces>DragBox:SWDragBox</Pieces>
 	</Screen>
-	
+
 	<Screen item="StanceWnd">
 		<Layout>SW_LayoutH</Layout>
-		<MenuName>Buttons, Current Stance and Invocation Text on Top</MenuName>			
+		<MenuName>Buttons, Current Stance and Invocation Text on Top</MenuName>
 		<Font>2</Font>
 		<RelativePosition>false</RelativePosition>
 		<Location>
@@ -181,23 +183,23 @@
 			<Y>230</Y>
 		</Location>
 		<Size>
-			<CX>600</CX>
-			<CY>53</CY>
-		</Size>	
+			<CX>440</CX>
+			<CY>56</CY>
+		</Size>
 		<KeepOnScreen>true</KeepOnScreen>
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>	
+		</KeepOnScreenOffset>
 		<MinHSize>162</MinHSize>
-		<MinVSize>20</MinVSize>
+		<MinVSize>56</MinVSize>
 		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
 		<Style_Qmarkbox>true</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
 		<Style_Border>true</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<Style_ClientMovable>true</Style_ClientMovable>
-		<Escapable>false</Escapable>	
+		<Escapable>false</Escapable>
 		<Pieces>TileLayoutBox:SW_Layout</Pieces>
 		<Pieces>Screen:SW_HorizontalOrientationTemplate</Pieces>
 		<Pieces>Screen:SW_VerticalOrientationTemplate</Pieces>

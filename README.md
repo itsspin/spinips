@@ -1,6 +1,6 @@
 # Spin's UI Reloaded
 
-**A complete "Obsidian, Venom & Ember" interface overhaul for EverQuest Legends** — with a safe standard 2560x1440 default, an optional pixel-planned 3440x1440 ultrawide layout, and **Spin's Loremaster**, a real-time encounter ledger that docks cleanly into the UI.
+**A complete "Obsidian, Venom & Ember" interface overhaul for EverQuest Legends** — with a safe standard 2560x1440 default, an optional pixel-planned 3440x1440 ultrawide layout, and **Spin's Loremaster**, a real-time Encounter Lab and cached EQL Wiki companion that docks cleanly into the UI.
 
 ## Screenshots
 
@@ -8,15 +8,19 @@
 
 ![Spin's UI Reloaded — complete 3440x1440 HUD](docs/previews/spinui_reloaded_3440.png)
 
-| Cinematic equipment | Personas & loadouts |
+### Unified Combat Command Center
+
+![EverQuest Legends unified combat command center](docs/previews/combat_command_center.png)
+
+| Cinematic equipment | Multiclass loadouts |
 |:---:|:---:|
-| ![Equipment screen](docs/previews/equipment_page.png) | ![Personas and loadouts screen](docs/previews/persona_page.png) |
+| ![Equipment screen](docs/previews/equipment_page.png) | ![Multiclass loadouts screen](docs/previews/persona_page.png) |
 
 ### Spin's Loremaster
 
-![Spin's Loremaster observed-actor combat ledger](docs/previews/loremaster_panel.png)
+![Spin's Loremaster Encounter Lab with the Cloak of Flames Lore Lens card](docs/previews/loremaster_panel.png)
 
-*These previews are rendered from the real skin textures and layout coordinates by the repository's rendering tools.*
+*The Lore Lens example uses the current structured [Cloak of Flames](https://eqlwiki.com/Cloak_of_Flames) profile and drop source from EQL Wiki. These previews are rendered from the real skin textures and layout coordinates by the repository's rendering tools.*
 
 ---
 
@@ -44,7 +48,7 @@
 | `UI_Spin_qeynos_LO1.ini` | Drop-in personal layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (combat-focus preset). |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements — pick your style. |
 | `layouts/original/` | Your pre-overhaul UI file, untouched, in case you ever want to roll back. |
-| `loremaster/` | **Spin's Loremaster** — the real-time combat ledger, session tracker, and DPS overlay. |
+| `loremaster/` | **Spin's Loremaster** — the real-time Encounter Lab, session tracker, DPS overlay, and Lore Lens item-wiki companion. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/previews/` | Rendered previews of the skin and the full-screen layout. |
 
@@ -204,10 +208,10 @@ Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic co
 * **All 12 bag slots live under Destroy** in a dedicated two-column right rail. The wider identity area keeps `Spin` and `39 WAR/DRU/BRD` comfortably separated, while every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) stays intact.
 * **Every stat block is intact** — Character Vitals (through Velocity, regens and all three DPS lines), Stats & Resists (incl. SV. Void), the full Additional Modifiers block (shieldings included) and Bind/Origin/Deity. The columns scroll if a future patch adds more.
 * **Native class-emblem centerpiece** — EQ's live Warrior swords, caster spellbook, and other class artwork keeps its original `75x142` proportions inside an `85x171` obsidian frame. It remains the functional *drop-to-auto-equip* target instead of being clipped into a small square.
-* **Personas/Loadouts is now a first-class page** — the old 388x401 legacy panel (including a broken 0x0 persona equipment container) was rebuilt on the full 585x720 tab canvas. All 23 persona slots use aligned SpinUI hex plates around EQ's native persona model, with a centered Primary · Secondary · Range · Ammo row, separated Any · Any pair, roomy loadout table/actions, and class-level cards below.
+* **Multiclass Loadouts is now a first-class page** — the old 388x401 legacy panel (including a broken 0x0 equipment container) was rebuilt on the full 585x720 tab canvas. All 23 loadout equipment slots use aligned SpinUI hex plates around EQ Legends' native model, with a centered Primary · Secondary · Range · Ammo row, separated Any · Any pair, roomy loadout table/actions, and class-level cards below. The client still calls some bindings `PersonaInvSlot` internally; SpinUI preserves those required identifiers but does not depend on EverQuest Live's Alternate Persona system.
 * **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
 * Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
-* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and `tools/restyle_persona.py`; `tools/audit_spinui.py` verifies slot membership, native art dimensions, plate alignment, canvas bounds, bag count and critical spacing.
+* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py`; `tools/audit_spinui.py` verifies slot membership, native art dimensions, plate alignment, canvas bounds, bag count and critical spacing.
 
 ---
 
@@ -224,13 +228,14 @@ Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic co
 
 *The log parser — DPS, XP, pets, songs, loot, and time-to-level in one obsidian panel.*
 
-Loremaster is a purpose-built, single-file Python companion for Spin's UI Reloaded. It reads EverQuest logs in real time, turns combat and adventure events into a detailed live ledger, and remains standard-library-only so it is fast, transparent, and install-free.
+Loremaster is a purpose-built Python companion for Spin's UI Reloaded. It reads EverQuest logs in real time, turns combat and adventure events into a detailed live ledger, and remains standard-library-only; releases package it as one self-contained executable with no Python installation required.
 
 ### Run it — the easy way
 
 1. Use `SpinUIInstaller.exe` from `SpinUI-Installer.zip`, take `Loremaster.exe` from `SpinUI-Manual.zip`, or download the standalone tools artifact. No Python is required. Tagged releases contain both packages and both executables.
 2. In game, type **`/log on`** once (per character). Loremaster scans the usual Daybreak and Steam locations, follows whichever log is newest in real time, and works for **any character on any server**. If your install is elsewhere, click **LOCATE LOG** and choose either the EverQuest directory or its `Logs` folder; Loremaster reconnects immediately and remembers the choice.
-3. It opens as a compact **600x34 HUD** on the shelf above your bag row. It floats over EverQuest while you play, but drops behind unrelated Windows apps. Drag it anywhere; click **DETAILS** for the full encounter ledger, use **HUD** to collapse it again, and drag the lower-right grip to resize the detailed view. **LOCK** freezes movement after positioning. Full mode also offers **PASS** click-through; it is only enabled when Loremaster successfully reserves the safety shortcut **Ctrl+Alt+L**, which always restores mouse interaction. Click-through is never persisted across launches.
+3. It opens as a compact **720x34 HUD** on the shelf above your bag row, with enough room for four pinned stats plus Lore Lens and movement controls. It floats over EverQuest while you play, but drops behind unrelated Windows apps. Drag it anywhere; click **DETAILS** for the full Encounter Lab, use **HUD** to collapse it again, and drag the lower-right grip to resize the detailed view. **LOCK** freezes movement after positioning. Full mode also offers **CLICK-THRU**; its active state reads **PASS ON**, and it is only enabled when Loremaster successfully reserves **Ctrl+Alt+L**, which always restores mouse interaction. Click-through is never persisted across launches.
+4. Hover an EverQuest item and press the configurable global hotkey—**Ctrl+Shift+E** by default. Lore Lens captures one bounded region around the cursor, recognizes likely titles with Windows OCR, validates them as exact EQL Wiki item pages, and then opens beside the item. Copied EQ links/bracketed items and EQL Wiki URLs remain immediate paths; ordinary clipboard text only prefills search until you confirm it.
 
 Windows SmartScreen may warn on first run (unsigned indie EXE) — "More info → Run anyway".
 
@@ -248,9 +253,26 @@ Loremaster's face is its own — the same design language as the rest of Spin's 
 | STANDING | `7 factions` | per-faction ± standings |
 | JOURNEY | deaths | zone chain + deaths + **last-death recap** for the final 20 seconds of incoming damage, healing and avoids |
 
-**Fight mode** is the Details-style deep dive: use **OLDER / NEWER / LIVE** to browse the rolling encounter history, with total damage, DPS, duration, enemies slain, target types, crits/misses, incoming damage and healing, observed actors, every ability's total/share/DPS/hits/average/max, effective healing/overheal, and damage by target. One uninterrupted pull is one encounter: three shamans plus four warriors remain one seven-enemy fight until combat goes quiet, while repeated mob names still retain the individual kill count. Actor rows are explicitly observational: EverQuest logs nearby actions but do not guarantee a true group/raid roster, so Loremaster only reports contributors actually visible in your local log. **Session mode** aggregates combat, actor and ability totals, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed **RESET**. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
+**Fight mode** is the Details-style deep dive: use **OLDER / NEWER / LIVE** to browse the rolling encounter history, then switch the Encounter Lab between **Overview, Damage, Healing, Targets, Timeline, and Compare**. It reports total damage, DPS, duration, enemies slain, target types, crits/misses, incoming damage and healing, observed actors, every ability's total/share/DPS/hits/average/max, effective healing/overheal, and damage by target. The bounded two-second timeline shows outgoing damage, incoming damage, healing and kills without retaining an unbounded event stream. One uninterrupted pull is one encounter: three shamans plus four warriors remain one seven-enemy fight until combat goes quiet, while repeated mob names still retain the individual kill count. Actor rows are explicitly observational: EverQuest logs nearby actions but do not guarantee a true group/raid roster, so Loremaster only reports contributors actually visible in your local log. **Session mode** aggregates combat, actor and ability totals, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed **RESET**. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
 
-**Pin a section** (✦) into **HUD mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play. **DETAILS** expands the full meter, **HUD** collapses it, and both positions are remembered separately. A colored `LIVE / READY / STALE / NO LOG` indicator makes log state obvious and doubles as the log-folder picker.
+**Composition-aware comparisons:** set the exact three-class loadout once per character—for example, `WAR / BRD / DRU`—and every new rolling encounter carries that tag. Encounter Lab's **COMPARE** view filters earlier fights by **SAME LOADOUT**, **OTHER LOADOUTS**, or **ALL FIGHTS**, reports the selected fight's DPS and damage deltas against each baseline, and summarizes rolling average/best DPS per loadout. Loremaster accepts an explicit system-style `Your active classes are …` line when present, but never guesses a build from spells, combat, or chat; change the saved loadout whenever the character's composition changes.
+
+**Pin a section** (✦) into **HUD mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play. The current loadout remains visible beside **LORE**, so a mislabeled fight is easy to catch before the next pull. **DETAILS** expands the full meter, **HUD** collapses it, and both positions are remembered separately. A colored `LIVE / READY / STALE / NO LOG` indicator makes log state obvious and doubles as the log-folder picker.
+
+### Lore Lens — EQL Wiki item intelligence
+
+Lore Lens turns [EQL Wiki](https://eqlwiki.com/) item pages into a compact obsidian reference card next to the item you are inspecting. It uses the wiki's structured MediaWiki endpoint—not presentation-page scraping—and shows the item profile, drop zones and NPCs, vendors, related quests, player-crafted status, and tradeskill uses. Empty sections remain explicit instead of being guessed, and **OPEN FULL WIKI PAGE** is always available for the complete source.
+
+* **Ctrl+Shift+E by default, fully rebindable:** change the shortcut in **SETTINGS**. Loremaster clearly reports if Windows cannot reserve the chosen key.
+* **True on-demand Hover Scan:** press **Ctrl+Shift+E** while EverQuest is foreground. The physical cursor position is snapped immediately; one mixed-DPI, multi-monitor-safe screen region is captured and recognized on a bounded background worker before Lore Lens appears. Nothing is captured continuously.
+* **Safe by design:** Loremaster uses Windows' own OCR and rechecks that `eqgame.exe` is still foreground before capture. It never injects into EverQuest or reads game memory. Arbitrary clipboard text is never transmitted automatically—it can only prefill the focused search field for your confirmation.
+* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. OCR, Wiki I/O, and log ingestion never run on Tk's rendering thread.
+* **Honest failure states:** loading, offline, stale-cache, no-exact-match, hotkey-conflict, and disabled-network states are visually distinct and actionable.
+* **Source attribution:** every result remains identified as EQL Wiki data, carries a cache-age indicator, and links back to the original page.
+
+### Accessibility
+
+Loremaster **SETTINGS** includes a high-contrast palette, adjustable text scale from 85–140%, and reduced motion. Reduced motion removes alert fades; high contrast strengthens secondary text, outlines, and active signals without relying on venom/gold color alone. These settings apply on the next launch where noted and remain per-user in `%LOCALAPPDATA%\SpinsLoremaster`.
 
 ### Run it — from source
 
@@ -275,6 +297,7 @@ In game, enable logging once: **`/log on`**. Loremaster auto-finds the newest `e
 * **Bard songs** — songs twisted and songs/min.
 * **XP** — gains counted; when Legends logs percentages, you get **XP %/hr** and **estimated time to level** = remaining % ÷ %/hr (survives restarts via per-character state). Level-ups reset the bar.
 * **Everything else** — kills (per-creature), deaths, crits, HPS & overheal, damage taken, enemy misses, loot list, coin → **plat/hr**, faction hits, skill-ups, AA points, fizzles/resists/interrupts, zone.
+* **Lore Lens item intelligence** — hover-scan or search cached EQL Wiki profiles, drop sources, vendors, quests and crafting information on the configurable **Ctrl+Shift+E** shortcut, without touching EverQuest memory.
 * **Per-character auto-tracking** — swap toons and it follows the newest log, preserving selected records for every character. Sessions last until launch, manual reset, or character switch; optional idle reset can be enabled with `auto_reset_minutes`. Packaged builds keep config and records in `%LOCALAPPDATA%\SpinsLoremaster` so updates and one-file launches cannot lose them.
 
 ### Alerts — the WeakAuras/DBM layer
@@ -305,9 +328,10 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 
 * Borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It raises only while EverQuest/Loremaster is foreground and drops behind unrelated apps. It defaults to the layout's reserved right-side shelf, clear of the map, group window, hotbars, and bag dock.
 * **Mini mode**: a slim strip showing only your pinned sections. Click ✦ beside a section to pin or unpin it; **LOCK** prevents accidental repositioning.
-* **Safe click-through**: full mode's **PASS** lets mouse input reach EverQuest. It remains disabled unless the global **Ctrl+Alt+L** recovery hotkey was registered successfully, and pass-through always starts off after a relaunch.
+* **Safe click-through**: full mode's **CLICK-THRU** lets mouse input reach EverQuest. The active label becomes **PASS ON**, a banner explains recovery, and **Ctrl+Alt+L** restores mouse control. It remains disabled unless that recovery key was registered successfully and always starts off after relaunch.
 * **Flicker-free live details**: changing combat values update existing labels and meter canvases in place. The panel rebuilds structure only when a genuinely new row appears, instead of destroying the whole combat card every polling cycle.
 * **LOCATE LOG** opens a folder picker; **RESET** clears only the live session. Config is materialized automatically on first run.
+* **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access, plus high contrast, reduced motion and text scale.
 
 ---
 
@@ -319,9 +343,10 @@ Everything was *generated* — change a constant, rerun, done. From the repo roo
 pip install pillow                                # only needed for the two art scripts
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
-python3 tools/restyle_persona.py                   # rebuild the Personas/Loadouts composition
+python3 tools/restyle_persona.py                   # rebuild the Multiclass Loadouts composition
 python3 tools/render_preview.py                   # re-render the full-screen preview
 python3 tools/audit_spinui.py                     # audit XML, references, assets and critical geometry
+python3 tools/release_quality_gate.py              # run every source, layout, parser, package and performance gate
 ```
 
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).
@@ -345,6 +370,9 @@ python3 tools/audit_spinui.py                     # audit XML, references, asset
 | Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin now ships a separately generated, overlap-validated 2560x1440 default. |
 | Loremaster will not move | Click **MOVE**; this means the overlay is locked. |
 | Loremaster is click-through | Press **Ctrl+Alt+L** to restore interaction. Pass-through is never saved across launches. |
+| Ctrl+Shift+E does not open Lore Lens | Open **SETTINGS** and choose another modified shortcut; another application may already own Ctrl+Shift+E. |
+| Hover Scan cannot identify an item | Keep the full EQ tooltip visible under the cursor, press **Ctrl+Shift+E**, and leave the cursor in place for a moment. Confirm Hover Scan is enabled in **SETTINGS**; copied EQ item links and typed names remain reliable fallbacks. |
+| Lore Lens says offline | Cached pages still work. Check **Allow network lookups** in SETTINGS, then retry when `eqlwiki.com` is reachable. |
 | Want everything locked | Right-click a window → Lock, once you're happy. |
 
 ---

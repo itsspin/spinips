@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <XML ID="EQInterfaceDefinitionLanguage">
 	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
-	
- 	<Gauge item="TargetOfTarget_HP">
+
+	<!-- Canonical Legends compatibility alias: current bindings, signature visuals. -->
+
+	<Gauge item="TargetOfTarget_HP">
 		<ScreenID>TargetOfTarget_HP</ScreenID>
-		<Font>3</Font>
 		<TextColor>
 			<R>240</R>
 			<G>240</G>
 			<B>240</B>
 		</TextColor>
 		<RelativePosition>true</RelativePosition>
-		<GaugeOffsetY>0</GaugeOffsetY>
+		<GaugeOffsetY>15</GaugeOffsetY>
 		<TextOffsetX>2</TextOffsetX>
-		<TextOffsetY>2</TextOffsetY>
-		<Style_VScroll>false</Style_VScroll>
-		<Style_HScroll>false</Style_HScroll>
+		<TextOffsetY>0</TextOffsetY>
+		<FontShadow>true</FontShadow>
+		<Font>3</Font>
 		<Style_Transparent>false</Style_Transparent>
 		<TooltipReference />
 		<FillTint>
-			<R>150</R>
-			<G>0</G>
-			<B>0</B>
+			<R>222</R>
+			<G>62</G>
+			<B>72</B>
 		</FillTint>
 		<DrawLinesFill>false</DrawLinesFill>
 		<EQType>27</EQType>
 		<GaugeDrawTemplate>
 			<Background>A_GaugeBackground</Background>
 			<Fill>A_GaugeFill</Fill>
+			<EndCapLeft>A_GaugeEndCapLeft</EndCapLeft>
+			<EndCapRight>A_GaugeEndCapRight</EndCapRight>
 		</GaugeDrawTemplate>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>15</TopAnchorOffset>
-		<BottomAnchorOffset>35</BottomAnchorOffset>
-		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>29</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<FontShadow>true</FontShadow>			
 	</Gauge>
-	
+
 	<Label item="TargetOfTarget_HPLabel">
 		<ScreenID>TargetOfTarget_HPLabel</ScreenID>
 		<EQType>120</EQType>
@@ -45,15 +47,14 @@
 		<RelativePosition>true</RelativePosition>
 		<Text />
 		<NoWrap>true</NoWrap>
-		<AlignRight>true</AlignRight>
+		<AlignCenter>true</AlignCenter>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>17</TopAnchorOffset>
-		<BottomAnchorOffset>36</BottomAnchorOffset>
-		<LeftAnchorOffset>30</LeftAnchorOffset>
-		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>13</TopAnchorOffset>
+		<BottomAnchorOffset>27</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<LeftAnchorToLeft>false</LeftAnchorToLeft>
-		<FontShadow>true</FontShadow>		
+		<FontShadow>true</FontShadow>
 	</Label>
 
 	<Label item="TargetOfTarget_HPPercLabel">
@@ -66,67 +67,70 @@
 		<RelativePosition>true</RelativePosition>
 		<Font>3</Font>
 		<TextColor>
-			<R>240</R>
-			<G>240</G>
-			<B>240</B>
+			<R>238</R>
+			<G>242</G>
+			<B>243</B>
 		</TextColor>
 		<Text></Text>
 		<NoWrap>true</NoWrap>
 		<AlignLeft>true</AlignLeft>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>-1</TopAnchorOffset>
-		<BottomAnchorOffset>14</BottomAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
 		<LeftAnchorOffset>18</LeftAnchorOffset>
 		<RightAnchorOffset>125</RightAnchorOffset>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<FontShadow>true</FontShadow>		
+		<FontShadow>true</FontShadow>
 	</Label>
-	  
 	<Label item="ToTW_Level">
 		<ScreenID>ToTW_Level</ScreenID>
 		<EQType>1003</EQType>
 		<RelativePosition>true</RelativePosition>
 		<Font>3</Font>
 		<TextColor>
-			<R>240</R>
-			<G>240</G>
-			<B>240</B>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
 		</TextColor>
 		<Text></Text>
 		<NoWrap>true</NoWrap>
 		<AlignLeft>true</AlignLeft>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>-1</TopAnchorOffset>
-		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<TopAnchorOffset>28</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
 		<RightAnchorOffset>30</RightAnchorOffset>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<FontShadow>true</FontShadow>		
-	</Label>	  	
-
-	<DragBox item="ToTWDragBox1">
-        <ScreenID>ToTWDragBox1</ScreenID>
-		<AutoStretch>true</AutoStretch>		
-		<TopAnchorToTop>true</TopAnchorToTop>
+		<FontShadow>true</FontShadow>
+	</Label>
+	<Screen item="ToTW_Background">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<BottomAnchorToTop>true</BottomAnchorToTop>
-		<TopAnchorOffset>0</TopAnchorOffset>
-		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>
-		<BottomAnchorOffset>18</BottomAnchorOffset>
-        <BackgroundTextureTint>
-            <R>255</R>
-            <G>0</G>
-            <B>0</B>
-        </BackgroundTextureTint>
-        <Style_Transparent>true</Style_Transparent>
-    </DragBox>
-	
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<DrawTemplate>WDT_InsetStone</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TargetOfTarget_HP</Pieces>
+		<Pieces>TargetOfTarget_HPLabel</Pieces>
+		<Pieces>TargetOfTarget_HPPercLabel</Pieces>
+		<Pieces>ToTW_Level</Pieces>
+		<Pieces>ToTW_Class</Pieces>
+	</Screen>
 	<Screen item="TargetOfTargetWindow">
-		<MenuName>No titlebar</MenuName>
 		<ScreenID>TargetOfTargetWindow</ScreenID>
 		<RelativePosition>false</RelativePosition>
 		<Location>
@@ -134,36 +138,26 @@
 			<Y>242</Y>
 		</Location>
 		<Size>
-			<CX>232</CX>
-			<CY>100</CY>			
+			<CX>240</CX>
+			<CY>53</CY>
 		</Size>
-		<Text>Target's Target</Text>
+		<Text>TARGET OF TARGET</Text>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
 		<Style_Transparent>false</Style_Transparent>
 		<TooltipReference>Your Current Target's Target</TooltipReference>
-		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
-		<Style_Titlebar>false</Style_Titlebar>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
 		<Style_ClientMovable>true</Style_ClientMovable>
 		<Style_Closebox>false</Style_Closebox>
 		<Style_Minimizebox>false</Style_Minimizebox>
 		<Style_Border>true</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<Escapable>false</Escapable>
-		<MinVSize>36</MinVSize>
-		<MaxVSize>36</MaxVSize>
-		<MinHSize>145</MinHSize>
-		<MaxHSize>300</MaxHSize>
-		<KeepOnScreen>true</KeepOnScreen>
-		<KeepOnScreenOffset>
-			<X>-3</X>
-			<Y>-3</Y>
-		</KeepOnScreenOffset>			
-		<Pieces>TargetOfTarget_HP</Pieces>
-		<Pieces>TargetOfTarget_HPLabel</Pieces>
-		<Pieces>TargetOfTarget_HPPercLabel</Pieces>
-		<Pieces>ToTW_Level</Pieces>
-		<Pieces>ToTW_Class</Pieces>
-		<Pieces>DragBox:ToTWDragBox1</Pieces>		
+		<MinVSize>53</MinVSize>
+		<MaxVSize>53</MaxVSize>
+		<MinHSize>180</MinHSize>
+		<MaxHSize>360</MaxHSize>
+		<Pieces>Screen:ToTW_Background</Pieces>
 	</Screen>
 </XML>

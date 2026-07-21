@@ -1,1307 +1,260 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <XML ID="EQInterfaceDefinitionLanguage">
 	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
-	
+
+	<!-- Canonical Legends compatibility alias: current bindings, signature visuals. -->
+	<Ui2DAnimation item="Spell_Gem_Background">
+		<Cycle>false</Cycle>
+		<Frames>
+			<Texture>window_pieces07.tga</Texture>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>40</CX>
+				<CY>40</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
 	<SpellGem item="CSPW_Spell0">
 		<ScreenID>CSPW_Spell0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_0_Label">
-		<ScreenID>CSPW_Spell_0_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>60</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<Label item="CSPW_Spell_0_Number">
-		<ScreenID>CSPW_Spell_0_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>1</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>		
-	
-	<LayoutBox item="CSPW_Spell_0">
-			<ScreenID>CSPW_Spell_0</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-		  <CX>155</CX>
-		  <CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell0</Pieces>			
-			<Pieces>CSPW_Spell_0_Label</Pieces>
-			<Pieces>CSPW_Spell_0_Number</Pieces>
-	</LayoutBox>
-	
 	<SpellGem item="CSPW_Spell1">
 		<ScreenID>CSPW_Spell1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_1_Label">
-		<ScreenID>CSPW_Spell_1_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>61</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_1_Number">
-		<ScreenID>CSPW_Spell_1_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>2</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<LayoutBox item="CSPW_Spell_1">
-			<ScreenID>CSPW_Spell_1</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell1</Pieces>
-			<Pieces>CSPW_Spell_1_Label</Pieces>
-			<Pieces>CSPW_Spell_1_Number</Pieces>
-	</LayoutBox>	
-	
 	<SpellGem item="CSPW_Spell2">
 		<ScreenID>CSPW_Spell2</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_2_Label">
-		<ScreenID>CSPW_Spell_2_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>62</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>		
-	</Label>	
-
-	<Label item="CSPW_Spell_2_Number">
-		<ScreenID>CSPW_Spell_2_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>3</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_2">
-			<ScreenID>CSPW_Spell_2</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell2</Pieces>
-			<Pieces>CSPW_Spell_2_Label</Pieces>
-			<Pieces>CSPW_Spell_2_Number</Pieces>
-	</LayoutBox>	
-	
 	<SpellGem item="CSPW_Spell3">
 		<ScreenID>CSPW_Spell3</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_3_Label">
-		<ScreenID>CSPW_Spell_3_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>63</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<Label item="CSPW_Spell_3_Number">
-		<ScreenID>CSPW_Spell_3_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>4</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<LayoutBox item="CSPW_Spell_3">
-			<ScreenID>CSPW_Spell_3</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell3</Pieces>
-			<Pieces>CSPW_Spell_3_Label</Pieces>
-			<Pieces>CSPW_Spell_3_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell4">
 		<ScreenID>CSPW_Spell4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_4_Label">
-		<ScreenID>CSPW_Spell_4_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>64</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<Label item="CSPW_Spell_4_Number">
-		<ScreenID>CSPW_Spell_4_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>5</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>		
-	
-	<LayoutBox item="CSPW_Spell_4">
-			<ScreenID>CSPW_Spell_4</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell4</Pieces>
-			<Pieces>CSPW_Spell_4_Label</Pieces>
-			<Pieces>CSPW_Spell_4_Number</Pieces>
-	</LayoutBox>	
-	
 	<SpellGem item="CSPW_Spell5">
 		<ScreenID>CSPW_Spell5</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_5_Label">
-		<ScreenID>CSPW_Spell_5_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>65</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_5_Number">
-		<ScreenID>CSPW_Spell_5_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>6</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<LayoutBox item="CSPW_Spell_5">
-			<ScreenID>CSPW_Spell_5</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell5</Pieces>
-			<Pieces>CSPW_Spell_5_Label</Pieces>
-			<Pieces>CSPW_Spell_5_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell6">
 		<ScreenID>CSPW_Spell6</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_6_Label">
-		<ScreenID>CSPW_Spell_6_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>66</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_6_Number">
-		<ScreenID>CSPW_Spell_6_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>7</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<LayoutBox item="CSPW_Spell_6">
-			<ScreenID>CSPW_Spell_6</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell6</Pieces>
-			<Pieces>CSPW_Spell_6_Label</Pieces>
-			<Pieces>CSPW_Spell_6_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell7">
 		<ScreenID>CSPW_Spell7</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_7_Label">
-		<ScreenID>CSPW_Spell_7_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>67</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_7_Number">
-		<ScreenID>CSPW_Spell_7_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>8</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<LayoutBox item="CSPW_Spell_7">
-			<ScreenID>CSPW_Spell_7</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell7</Pieces>
-			<Pieces>CSPW_Spell_7_Label</Pieces>
-			<Pieces>CSPW_Spell_7_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell8">
 		<ScreenID>CSPW_Spell8</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_8_Label">
-		<ScreenID>CSPW_Spell_8_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>133</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-	
-	<Label item="CSPW_Spell_8_Number">
-		<ScreenID>CSPW_Spell_8_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>9</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>		
-	
-	<LayoutBox item="CSPW_Spell_8">
-			<ScreenID>CSPW_Spell_8</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell8</Pieces>
-			<Pieces>CSPW_Spell_8_Label</Pieces>
-			<Pieces>CSPW_Spell_8_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell9">
 		<ScreenID>CSPW_Spell9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_9_Label">
-		<ScreenID>CSPW_Spell_9_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>138</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_9_Number">
-		<ScreenID>CSPW_Spell_9_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>10</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_9">
-			<ScreenID>CSPW_Spell_9</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell9</Pieces>
-			<Pieces>CSPW_Spell_9_Label</Pieces>
-			<Pieces>CSPW_Spell_9_Number</Pieces>
-	</LayoutBox>	
-	
 	<SpellGem item="CSPW_Spell10">
 		<ScreenID>CSPW_Spell10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_10_Label">
-		<ScreenID>CSPW_Spell_10_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>149</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_10_Number">
-		<ScreenID>CSPW_Spell_10_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>11</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_10">
-			<ScreenID>CSPW_Spell_10</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell10</Pieces>
-			<Pieces>CSPW_Spell_10_Label</Pieces>
-			<Pieces>CSPW_Spell_10_Number</Pieces>
-	</LayoutBox>	
-	
 	<SpellGem item="CSPW_Spell11">
 		<ScreenID>CSPW_Spell11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_11_Label">
-		<ScreenID>CSPW_Spell_11_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>150</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_11_Number">
-		<ScreenID>CSPW_Spell_11_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>12</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_11">
-			<ScreenID>CSPW_Spell_11</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell11</Pieces>
-			<Pieces>CSPW_Spell_11_Label</Pieces>
-			<Pieces>CSPW_Spell_11_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell12">
 		<ScreenID>CSPW_Spell12</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_12_Label">
-		<ScreenID>CSPW_Spell_12_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-			<CX>105</CX>
-			<CY>30</CY>
-		</Size>
-		<EQType>414</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_12_Number">
-		<ScreenID>CSPW_Spell_12_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>13</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_12">
-			<ScreenID>CSPW_Spell_12</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell12</Pieces>
-			<Pieces>CSPW_Spell_12_Label</Pieces>
-			<Pieces>CSPW_Spell_12_Number</Pieces>
-	</LayoutBox>		
-	
 	<SpellGem item="CSPW_Spell13">
 		<ScreenID>CSPW_Spell13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
+			<CX>40</CX>
+			<CY>40</CY>
 		</Size>
 		<SpellGemDrawTemplate>
-			<Holder>A_SpellGemHolder_wide</Holder>
-			<Background>A_SpellGemBackground_widefilled</Background>
+			<Holder>A_SpellGemHolder</Holder>
+			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>2</SpellIconOffsetX>
-		<SpellIconOffsetY>2</SpellIconOffsetY>
-		<SpellIconSizeX>26</SpellIconSizeX>
-		<SpellIconSizeY>26</SpellIconSizeY>		
+		<SpellIconOffsetX>13</SpellIconOffsetX>
+		<SpellIconOffsetY>8</SpellIconOffsetY>
+		<SpellIconSizeX>24</SpellIconSizeX>
+		<SpellIconSizeY>24</SpellIconSizeY>
 	</SpellGem>
-	
-	<Label item="CSPW_Spell_13_Label">
-		<ScreenID>CSPW_Spell_13_Label</ScreenID>
-		<Font>2</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>33</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>105</CX>
-		  <CY>30</CY>
-		</Size>
-		<EQType>415</EQType>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>	
-
-	<Label item="CSPW_Spell_13_Number">
-		<ScreenID>CSPW_Spell_13_Number</ScreenID>
-		<Font>1</Font>
-		<RelativePosition>true</RelativePosition>
-		<Location>
-		  <X>35</X>
-		  <Y>0</Y>
-		</Location>
-		<Size>
-		  <CX>115</CX>
-		  <CY>30</CY>
-		</Size>
-		<Text>14</Text>
-		<TextColor>
-		  <R>240</R>
-		  <G>240</G>
-		  <B>240</B>
-		</TextColor>
-		<FontShadow>true</FontShadow>
-		<NoWrap>false</NoWrap>
-		<AlignLeft>false</AlignLeft>
-		<AlignRight>true</AlignRight>
-		<AlignVCenter>true</AlignVCenter>		
-		<Style_Tooltip>false</Style_Tooltip>
-	</Label>
-	
-	<LayoutBox item="CSPW_Spell_13">
-			<ScreenID>CSPW_Spell_13</ScreenID>
-		<RelativePosition>true</RelativePosition>
-			<AutoStretch>false</AutoStretch>
-		<Size>
-			<CX>155</CX>
-			<CY>30</CY>
-		</Size>
-			<Style_Transparent>true</Style_Transparent>
-			<Style_Tooltip>true</Style_Tooltip>
-			<Style_Titlebar>false</Style_Titlebar>
-			<Style_Closebox>false</Style_Closebox>
-			<Style_Minimizebox>false</Style_Minimizebox>
-			<Style_Border>false</Style_Border>
-			<Style_Sizable>false</Style_Sizable>
-			<AnchorToTop>true</AnchorToTop>
-			<AnchorToLeft>true</AnchorToLeft>
-			<Pieces>SpellGem:CSPW_Spell13</Pieces>
-			<Pieces>CSPW_Spell_13_Label</Pieces>
-			<Pieces>CSPW_Spell_13_Number</Pieces>
-	</LayoutBox>	
-	
 	<Label item="CSPW_BookSpacer">
 		<ScreenID>CSPW_BookSpacer</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -1322,7 +275,7 @@
 		<RelativePosition>true</RelativePosition>
 		<TooltipReference>Opens and closes Your Spellbook</TooltipReference>
 		<Style_Checkbox>true</Style_Checkbox>
-		<Template>BDT_BookBtn</Template>	
+		<Template>BDT_BookBtn</Template>
 		<Size>
 			<CX>20</CX>
 			<CY>22</CY>
@@ -1346,7 +299,7 @@
 		<X>-1</X>
 		<Y>2</Y>
 		</Location>
-	</Button>	
+	</Button>
 	<Screen item="CSPW_ScreenSpellBookH">
 		<ScreenID>CSPW_ScreenSpellBookH</ScreenID>
 		<Size>
@@ -1369,10 +322,13 @@
 		<ScreenID>CSPW_HorizontalOrientationTemplate</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>1</TopAnchorOffset>		
+		<TopAnchorOffset>1</TopAnchorOffset>
 		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<RightAnchorOffset>24</RightAnchorOffset>	
+		<RightAnchorOffset>24</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>22</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1395,7 +351,6 @@
 		<UseInLayoutVertical>false</UseInLayoutVertical>
 		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
 	</Screen>
-		
 	<TileLayoutBox item="CSPW_SpellGemLayout">
 		<ScreenID>CSPW_SpellGemLayout</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -1404,37 +359,36 @@
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Transparent>false</Style_Transparent>
 		<Style_TransparentControl>true</Style_TransparentControl>
-		<Spacing>2</Spacing>
-		<SecondarySpacing>2</SecondarySpacing>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
 		<HorizontalFirst>true</HorizontalFirst>
 		<AnchorToTop>true</AnchorToTop>
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>true</FirstPieceTemplate>
 		<SnapToChildren>true</SnapToChildren>
-		<Pieces>LayoutBox:CSPW_Spell_0</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_1</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_2</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_3</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_4</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_5</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_6</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_7</Pieces>	
-		<Pieces>LayoutBox:CSPW_Spell_8</Pieces>	
-		<Pieces>LayoutBox:CSPW_Spell_9</Pieces>	
-		<Pieces>LayoutBox:CSPW_Spell_10</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_11</Pieces>
-		<Pieces>LayoutBox:CSPW_Spell_12</Pieces>			
-		<Pieces>LayoutBox:CSPW_Spell_13</Pieces>	
+		<Pieces>SpellGem:CSPW_Spell0</Pieces>
+		<Pieces>SpellGem:CSPW_Spell1</Pieces>
+		<Pieces>SpellGem:CSPW_Spell2</Pieces>
+		<Pieces>SpellGem:CSPW_Spell3</Pieces>
+		<Pieces>SpellGem:CSPW_Spell4</Pieces>
+		<Pieces>SpellGem:CSPW_Spell5</Pieces>
+		<Pieces>SpellGem:CSPW_Spell6</Pieces>
+		<Pieces>SpellGem:CSPW_Spell7</Pieces>
+		<Pieces>SpellGem:CSPW_Spell8</Pieces>
+		<Pieces>SpellGem:CSPW_Spell9</Pieces>
+		<Pieces>SpellGem:CSPW_Spell10</Pieces>
+		<Pieces>SpellGem:CSPW_Spell11</Pieces>
+		<Pieces>SpellGem:CSPW_Spell12</Pieces>
+		<Pieces>SpellGem:CSPW_Spell13</Pieces>
 	</TileLayoutBox>
-		
 	<Screen item="CSPW_HorizontalOrientationBook">
 		<ScreenID>CSPW_HorizontalOrientationBook</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>8</TopAnchorOffset>
-		<BottomAnchorOffset>31</BottomAnchorOffset>
+		<TopAnchorOffset>12</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
 		<LeftAnchorOffset>23</LeftAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>	
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
@@ -1450,8 +404,8 @@
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>26</TopAnchorOffset>
 		<BottomAnchorOffset>2</BottomAnchorOffset>
-		<LeftAnchorOffset>9</LeftAnchorOffset>
-		<RightAnchorOffset>33</RightAnchorOffset>	
+		<LeftAnchorOffset>13</LeftAnchorOffset>
+		<RightAnchorOffset>38</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1459,16 +413,16 @@
 		<Style_Transparent>false</Style_Transparent>
 		<UseInLayoutVertical>false</UseInLayoutVertical>
 		<UseInLayoutHorizontal>false</UseInLayoutHorizontal>
-		<AlignCenter>true</AlignCenter>
 		<Pieces>CSPW_ScreenSpellBookV</Pieces>
 	</Screen>
+
 	<LayoutVertical item="CSPW_LayoutV">
 		<Padding>0</Padding>
 		<ResizeVertical>true</ResizeVertical>
 		<ResizeHorizontal>true</ResizeHorizontal>
 	</LayoutVertical>
+
 	<Screen item="CastSpellWnd">
-		<MenuName>Small Spellgems, Spell Names and Numbering</MenuName>	
 		<Layout>CSPW_LayoutV</Layout>
 		<RelativePosition>false</RelativePosition>
 		<Location>
@@ -1476,25 +430,25 @@
 			<Y>25</Y>
 		</Location>
 		<Size>
-			<CX>55</CX>
-			<CY>373</CY>
+			<CX>52</CX>
+			<CY>623</CY>
 		</Size>
-		<KeepOnScreen>true</KeepOnScreen>
-		<KeepOnScreenOffset>
-			<X>-3</X>
-			<Y>-3</Y>
-		</KeepOnScreenOffset>			
 		<Text>Spells</Text>
 		<Style_Transparent>false</Style_Transparent>
 		<TooltipReference>Allows you to cast your memorized spells</TooltipReference>
-		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
-		<Style_Closebox>false</Style_Closebox>
+		<Style_Closebox>true</Style_Closebox>
 		<Style_Minimizebox>false</Style_Minimizebox>
 		<Style_Border>true</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<Style_ClientMovable>true</Style_ClientMovable>
 		<Escapable>false</Escapable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>
 		<Pieces>TileLayoutBox:CSPW_SpellGemLayout</Pieces>
 		<Pieces>Screen:CSPW_VerticalOrientationBook</Pieces>
 		<Pieces>Screen:CSPW_HorizontalOrientationBook</Pieces>

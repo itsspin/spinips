@@ -15,6 +15,24 @@ BG = BG1
 PANEL = BG2
 RAISED = BG3
 DIM = TEXT_DIM
+LORE_HOTKEY = "CTRL+SHIFT+E"
+
+# Deterministic documentation example, verified against the EQL Wiki
+# MediaWiki wikitext endpoint for https://eqlwiki.com/Cloak_of_Flames.
+CLOAK_OF_FLAMES = {
+    "title": "Cloak of Flames",
+    "profile": (
+        ("MAGIC ITEM", CYAN),
+        ("Slot: BACK", TEXT),
+        ("AC: 10", TEXT),
+        ("DEX: +9   AGI: +9   HP: +50", TEXT),
+        ("SV FIRE: +15", TEXT),
+        ("Haste: +36%", TEXT),
+        ("WT: 0.1   Size: MEDIUM", TEXT),
+        ("Class: ALL   Race: ALL", TEXT),
+    ),
+    "drops": (("Nagafen's Lair", "Lord Nagafen"),),
+}
 
 
 def font_path(*names):
@@ -64,8 +82,75 @@ def section(draw, width, y, name, value, pinned, expanded=False):
     return y + 27
 
 
+def render_lore_lens():
+    """Render the item-intelligence companion shown beside EQ's tooltip."""
+    width, height = 392, 560
+    lens = Image.new("RGB", (width, height), GOLD)
+    d = ImageDraw.Draw(lens)
+    d.rectangle([1, 1, width - 2, height - 2], fill=BG)
+
+    d.rectangle([2, 2, width - 3, 34], fill=PANEL)
+    d.rectangle([2, 2, 5, 34], fill=CYAN)
+    d.text((14, 18), "LORE LENS", font=F(10, serif=True),
+           fill=GOLD_BRIGHT, anchor="lm")
+    d.text((width - 34, 18), f"{LORE_HOTKEY}  •  SETTINGS",
+           font=F(6, serif=True),
+           fill=DIM, anchor="rm")
+    d.text((width - 12, 18), "×", font=F(10, bold=True), fill=DIM, anchor="mm")
+
+    d.rectangle([10, 43, width - 10, 72], fill=RAISED)
+    d.rectangle([12, 46, width - 89, 69], fill=VOID, outline=LINE)
+    d.text((19, 58), CLOAK_OF_FLAMES["title"], font=F(9), fill=TEXT, anchor="lm")
+    d.rectangle([width - 84, 46, width - 13, 69], fill=PANEL, outline=LINE)
+    d.text((width - 48, 58), "SEARCH", font=F(7, serif=True),
+           fill=GOLD_BRIGHT, anchor="mm")
+
+    y = 84
+    d.text((14, y), CLOAK_OF_FLAMES["title"].upper(), font=F(13, serif=True),
+           fill=GOLD_BRIGHT)
+    y += 27
+    d.text((14, y), "ITEM PROFILE", font=F(7, serif=True), fill=GOLD)
+    y += 17
+    for line, color in CLOAK_OF_FLAMES["profile"]:
+        d.text((14, y), line, font=F(8, bold=(color == CYAN)), fill=color)
+        y += 15
+
+    d.text((14, y + 4), "DROPS FROM", font=F(7, serif=True), fill=GOLD)
+    y += 24
+    for zone, creature in CLOAK_OF_FLAMES["drops"]:
+        d.text((14, y), zone, font=F(8, bold=True), fill=GOLD_BRIGHT)
+        y += 14
+        d.text((26, y), "• " + creature, font=F(8), fill=TEXT)
+        y += 16
+
+    for heading, empty in (
+        ("SOLD BY", "This item cannot be purchased from merchants."),
+        ("RELATED QUESTS", "This item has no related quests."),
+        ("PLAYER CRAFTED", "This item is not crafted by players."),
+        ("TRADESKILL RECIPES", "This item is not used in player tradeskills."),
+    ):
+        d.text((14, y), heading, font=F(7, serif=True), fill=GOLD)
+        y += 15
+        d.text((14, y), empty, font=F(7), fill=DIM)
+        y += 19
+
+    d.rectangle([2, height - 53, width - 3, height - 24], fill=PANEL)
+    d.text((10, height - 39), "EQL WIKI  •  CACHED JUST NOW", font=F(7, serif=True),
+           fill=DIM, anchor="lm")
+    d.rectangle([width - 153, height - 49, width - 8, height - 28],
+                fill=RAISED, outline=LINE)
+    d.text((width - 86, height - 39), "OPEN FULL WIKI PAGE",
+           font=F(7, serif=True), fill=CYAN, anchor="mm")
+    d.text((width - 19, height - 39), "↗", font=FS(8), fill=CYAN,
+           anchor="mm")
+    d.text((width // 2, height - 12),
+           "SAFE LOOKUP  •  CLIPBOARD OR SEARCH  •  NO EQ INJECTION",
+           font=F(6, serif=True), fill=LINE, anchor="mm")
+    return lens
+
+
 def main():
-    width, height = 400, 680
+    width, height = 400, 740
     panel = Image.new("RGB", (width, height), GOLD)
     d = ImageDraw.Draw(panel)
     d.rectangle([1, 1, width - 2, height - 2], fill=BG)
@@ -74,13 +159,15 @@ def main():
     d.rectangle([2, 2, width - 3, 33], fill=PANEL)
     hexagon(d, 16, 17, 8, GOLD_BRIGHT, 2, inner=True)
     d.text((30, 17), "SPIN'S LOREMASTER", font=F(11, serif=True), fill=GOLD_BRIGHT, anchor="lm")
-    d.ellipse([width - 89, 13, width - 81, 21], fill=GREEN)
-    d.text((width - 12, 17), "LOCK   RESET   HUD   ×", font=F(8, bold=True), fill=DIM, anchor="rm")
+    d.ellipse([width - 197, 13, width - 189, 21], fill=GREEN)
+    d.text((width - 12, 17), "LOCK   RESET   LORE   HUD   ×", font=F(8, bold=True), fill=DIM, anchor="rm")
     d.rectangle([2, 34, width - 3, 35], fill=EMBER)
     d.text((10, 48), "SPIN · QEYNOS", font=F(8, serif=True), fill=PARCHMENT, anchor="lm")
     d.text((width - 10, 48), "session 1h44m · since 3:38 PM", font=F(8), fill=DIM, anchor="rm")
     d.text((10, 64), "Blackburrow", font=F(9), fill=TEXT, anchor="lm")
-    d.text((width - 10, 64), "THE ADVENTURER'S CHRONICLE", font=F(7, serif=True), fill=LINE, anchor="rm")
+    d.rectangle([218, 55, width - 10, 72], fill=RAISED)
+    d.text((width - 16, 64), "LOADOUT  •  WAR / BRD / DRU",
+           font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="rm")
 
     d.rectangle([10, 75, width - 10, 98], fill=VOID)
     tab_w = (width - 20) / 3
@@ -97,8 +184,37 @@ def main():
     d.rectangle([width - 67, 103, width - 10, 124], fill=RAISED, outline=LINE)
     d.text((width - 38, 114), "NEWER ›", font=F(7, serif=True), fill=LINE, anchor="mm")
 
+    # Encounter Lab pivots keep deep analysis one click away.
+    lab_top, lab_bottom = 129, 149
+    lab_w = (width - 20) / 6
+    for i, label in enumerate((
+        "OVERVIEW", "DAMAGE", "HEALING", "TARGETS", "TIMELINE", "COMPARE",
+    )):
+        x0 = int(10 + i * lab_w)
+        x1 = int(10 + (i + 1) * lab_w) - 1
+        d.rectangle([x0, lab_top, x1, lab_bottom],
+                    fill=RAISED if label == "COMPARE" else VOID)
+        d.text(((x0 + x1) // 2, (lab_top + lab_bottom) // 2), label,
+               font=F(6, serif=True),
+               fill=CYAN if label == "COMPARE" else DIM, anchor="mm")
+
+    # Composition-aware baselines are explicit, discoverable, and reversible.
+    compare_top, compare_bottom = 153, 176
+    d.rectangle([10, compare_top, width - 10, compare_bottom], fill=BG)
+    d.text((18, 165), "BASELINE", font=F(6, serif=True), fill=GOLD, anchor="lm")
+    compare_x = 66
+    compare_w = (width - 10 - compare_x) / 3
+    for i, label in enumerate(("SAME LOADOUT", "OTHER LOADOUTS", "ALL FIGHTS")):
+        x0 = int(compare_x + i * compare_w)
+        x1 = int(compare_x + (i + 1) * compare_w) - 1
+        active = i == 0
+        d.rectangle([x0, compare_top, x1, compare_bottom],
+                    fill=RAISED if active else VOID, outline=LINE)
+        d.text(((x0 + x1) // 2, 165), label, font=F(5, serif=True),
+               fill=CYAN if active else DIM, anchor="mm")
+
     # Raised three-stat hero band.
-    hero_top, hero_bottom = 130, 184
+    hero_top, hero_bottom = 181, 235
     d.rectangle([10, hero_top, width - 10, hero_bottom], fill=RAISED)
     d.rectangle([10, hero_top, 12, hero_bottom], fill=CYAN)
     for x in (width // 3, 2 * width // 3):
@@ -109,48 +225,49 @@ def main():
         ("2,105", "BEST", CYAN),
     )):
         cx = int((i + 0.5) * width / 3)
-        d.text((cx, 147), value, font=F(20, bold=True), fill=color, anchor="ma")
-        d.text((cx, 172), label, font=F(7, serif=True), fill=DIM, anchor="ma")
-    d.rectangle([10, 189, width - 10, 190], fill=GOLD)
+        d.text((cx, hero_top + 21), value, font=F(20, bold=True),
+               fill=color, anchor="mm")
+        d.text((cx, hero_top + 42), label, font=F(7, serif=True),
+               fill=DIM, anchor="mm")
+    d.rectangle([10, 240, width - 10, 241], fill=GOLD)
 
-    y = section(d, width, 198, "COMBAT", "1,284 dps", True, expanded=True)
+    y = section(d, width, 249, "COMBAT", "1,284 dps", True, expanded=True)
     for text in (
         "LIVE ENCOUNTER · Froglok shin knight · 9s",
+        "Loadout WAR / BRD / DRU · manual",
         "11.5k damage · 1,284 dps · 21 crits · 3 misses",
+        "7 enemies slain · 2 target types",
         "Taken 1,973 · healed 2,410 · received 1,235",
     ):
         d.text((31, y), text, font=F(8), fill=DIM)
         y += 14
-    d.text((31, y + 2), "Observed encounter actors", font=F(8, bold=True), fill=GOLD)
-    d.text((width - 17, y + 2), "damage · share · dps", font=F(7), fill=GOLD_BRIGHT, anchor="ra")
+
+    d.text((31, y + 2), "Baselines · same loadout", font=F(8, bold=True), fill=GOLD)
+    d.text((width - 17, y + 2), "selected minus baseline", font=F(7),
+           fill=GOLD_BRIGHT, anchor="ra")
     y += 18
-    for name, value, share in (
-        ("Spin", "9,922 · 62% · 1,103/s", .62),
-        ("Aria", "3,854 · 24% · 428/s", .24),
-        ("Gann (pet)", "2,247 · 14% · 250/s", .14),
+    for name, value in (
+        ("Froglok priest · WAR / BRD / DRU", "+178 dps · +1,842 dmg"),
+        ("Dervish camp · WAR / BRD / DRU", "+287 dps · +2,404 dmg"),
     ):
-        d.rectangle([29, y - 2, width - 16, y + 11], fill=(9, 16, 20))
-        d.rectangle([29, y - 2, 29 + int((width - 45) * share), y + 11], fill=(18, 48, 47))
-        d.line([(29, y - 2), (29 + int((width - 45) * share), y - 2)], fill=(30, 116, 104))
+        d.text((31, y), name, font=F(8), fill=TEXT)
+        d.text((width - 17, y), value, font=F(7), fill=GOLD_BRIGHT, anchor="ra")
+        y += 14
+
+    d.text((31, y + 2), "Rolling loadout summary", font=F(8, bold=True), fill=GOLD)
+    d.text((width - 17, y + 2), "fights · avg · best", font=F(7),
+           fill=GOLD_BRIGHT, anchor="ra")
+    y += 18
+    for name, value in (
+        ("WAR / BRD / DRU", "5 · 1,104/s · 1,284/s"),
+        ("WAR / NEC / DRU", "4 · 1,219/s · 1,466/s"),
+    ):
         d.text((31, y), name, font=F(8), fill=TEXT)
         d.text((width - 17, y), value, font=F(8), fill=GOLD_BRIGHT, anchor="ra")
         y += 14
-    d.text((31, y + 1), "Actors visible in your EQ log; not a guaranteed roster.",
+    d.text((31, y + 1), "Exact per-character tags · ordinary combat is never guessed.",
            font=F(7), fill=DIM)
     y += 15
-    d.text((31, y + 2), "Damage by ability", font=F(8, bold=True), fill=GOLD)
-    y += 18
-    for name, value, share in (
-        ("Careless Lightning", "4,449 · 39% · 556/s", .39),
-        ("Melee", "3,347 · 29% · 418/s", .29),
-        ("Pet (Gann)", "1,541 · 13% · 193/s", .13),
-    ):
-        d.rectangle([29, y - 2, width - 16, y + 11], fill=(9, 16, 20))
-        d.rectangle([29, y - 2, 29 + int((width - 45) * share), y + 11], fill=(18, 48, 47))
-        d.line([(29, y - 2), (29 + int((width - 45) * share), y - 2)], fill=(30, 116, 104))
-        d.text((31, y), name, font=F(8), fill=TEXT)
-        d.text((width - 17, y), value, font=F(8), fill=GOLD_BRIGHT, anchor="ra")
-        y += 14
     y += 4
 
     for name, value, pinned in (
@@ -166,13 +283,13 @@ def main():
     # Actionable footer makes first-run setup discoverable.
     d.rectangle([2, height - 29, width - 3, height - 3], fill=PANEL)
     d.text((10, height - 16), "live · eqlog_Spin_qeynos.txt", font=F(8), fill=GREEN, anchor="lm")
-    d.rectangle([width - 126, height - 25, width - 69, height - 7], fill=RAISED, outline=LINE)
-    d.text((width - 97, height - 16), "PASS", font=F(7, serif=True), fill=CYAN, anchor="mm")
+    d.rectangle([width - 140, height - 25, width - 69, height - 7], fill=RAISED, outline=LINE)
+    d.text((width - 104, height - 16), "CLICK-THRU", font=F(6, serif=True), fill=CYAN, anchor="mm")
     d.rectangle([width - 65, height - 25, width - 8, height - 7], fill=RAISED, outline=LINE)
     d.text((width - 36, height - 16), "CHANGE", font=F(7, serif=True), fill=GOLD_BRIGHT, anchor="mm")
 
     # Mini mode uses the same material and the same pinned ledger vocabulary.
-    mini_w, mini_h = 600, 34
+    mini_w, mini_h = 720, 34
     mini = Image.new("RGB", (mini_w, mini_h), GOLD)
     md = ImageDraw.Draw(mini)
     md.rectangle([1, 1, mini_w - 2, mini_h - 2], fill=BG)
@@ -189,17 +306,25 @@ def main():
         x += int(md.textlength(name, font=F(7, serif=True))) + 5
         md.text((x, mini_h // 2), value, font=F(9, bold=True), fill=TEXT, anchor="lm")
         x += int(md.textlength(value, font=F(9, bold=True))) + 12
-    md.text((mini_w - 132, mini_h // 2), "● LIVE", font=F(7, bold=True), fill=GREEN, anchor="rm")
+    md.text((mini_w - 270, mini_h // 2), "● LIVE", font=F(7, bold=True), fill=GREEN, anchor="rm")
+    md.rectangle([mini_w - 262, 4, mini_w - 128, mini_h - 5], fill=RAISED, outline=LINE)
+    md.text((mini_w - 195, mini_h // 2), "WAR/BRD/DRU · LORE",
+            font=F(6, serif=True),
+            fill=CYAN, anchor="mm")
     md.rectangle([mini_w - 124, 4, mini_w - 73, mini_h - 5], fill=RAISED, outline=LINE)
     md.text((mini_w - 98, mini_h // 2), "LOCK", font=F(7, serif=True), fill=DIM, anchor="mm")
     md.rectangle([mini_w - 70, 4, mini_w - 4, mini_h - 5], fill=RAISED, outline=LINE)
     md.text((mini_w - 37, mini_h // 2), "DETAILS", font=F(7, serif=True),
             fill=CYAN, anchor="mm")
 
+    lore_lens = render_lore_lens()
     OUT.mkdir(parents=True, exist_ok=True)
-    canvas = Image.new("RGB", (max(width, mini_w) * 2 + 80,
+    canvas = Image.new("RGB", (width * 2 + lore_lens.width * 2 + 120,
                                 height * 2 + mini_h * 2 + 110), (26, 24, 30))
     canvas.paste(panel.resize((width * 2, height * 2), Image.Resampling.LANCZOS), (40, 40))
+    canvas.paste(lore_lens.resize((lore_lens.width * 2, lore_lens.height * 2),
+                                  Image.Resampling.LANCZOS),
+                 (width * 2 + 80, 40))
     canvas.paste(mini.resize((mini_w * 2, mini_h * 2), Image.Resampling.LANCZOS),
                  (40, height * 2 + 70))
     canvas.save(OUT / "loremaster_panel.png")
