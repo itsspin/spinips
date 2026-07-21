@@ -795,9 +795,9 @@
 			<B>42</B>
 		</FillTint>
 		<LinesFillTint>
-			<R>0</R>
-			<G>80</G>
-			<B>220</B>
+			<R>250</R>
+			<G>205</G>
+			<B>95</B>
 		</LinesFillTint>
 		<DrawLinesFill>true</DrawLinesFill>
 		<EQType>4</EQType>
@@ -845,9 +845,9 @@
 			<B>190</B>
 		</FillTint>
 		<LinesFillTint>
-			<R>0</R>
-			<G>80</G>
-			<B>220</B>
+			<R>150</R>
+			<G>240</G>
+			<B>222</B>
 		</LinesFillTint>
 		<DrawLinesFill>true</DrawLinesFill>
 		<EQType>5</EQType>

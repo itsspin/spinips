@@ -95,7 +95,7 @@
 		<TopAnchorOffset>14</TopAnchorOffset>
 		<BottomAnchorOffset>0</BottomAnchorOffset>
 		<LeftAnchorOffset>48</LeftAnchorOffset>
-		<RightAnchorOffset>205</RightAnchorOffset>
+		<RightAnchorOffset>208</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -107,9 +107,9 @@
 			<B>95</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
+		<AlignCenter>true</AlignCenter>
 		<AlignRight>false</AlignRight>
-		<AlignLeft>true</AlignLeft>
+		<AlignLeft>false</AlignLeft>
 	</Label>
 	<Label item="SW_InvocationLabel">
 		<EQType>1017</EQType>
@@ -118,7 +118,7 @@
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>14</TopAnchorOffset>
 		<BottomAnchorOffset>0</BottomAnchorOffset>
-		<LeftAnchorOffset>205</LeftAnchorOffset>
+		<LeftAnchorOffset>208</LeftAnchorOffset>
 		<RightAnchorOffset>64</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
@@ -131,8 +131,8 @@
 			<B>190</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
-		<AlignRight>true</AlignRight>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
 		<AlignLeft>false</AlignLeft>
 	</Label>
 	<Button item="SW_ButtonTemplate">

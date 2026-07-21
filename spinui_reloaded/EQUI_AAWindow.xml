@@ -51,7 +51,7 @@
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>	
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Transparent>false</Style_Transparent>
 		<TooltipReference>Create a hotkey for the selected ability</TooltipReference>
 		<Style_Checkbox>false</Style_Checkbox>
@@ -267,14 +267,14 @@
 		<Style_Transparent>false</Style_Transparent>
 		<!--<TooltipReference/>-->
 		<FillTint>
-			<R>51</R>
-			<G>150</G>
-			<B>51</B>
+			<R>52</R>
+			<G>218</G>
+			<B>190</B>
 		</FillTint>
 		<LinesFillTint>
-			<R>0</R>
-			<G>80</G>
-			<B>220</B>
+			<R>150</R>
+			<G>240</G>
+			<B>222</B>
 		</LinesFillTint>
 		<DrawLinesFill>true</DrawLinesFill>
 		<EQType>5</EQType>
@@ -498,7 +498,7 @@
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>				
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
 		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
 		<Pages>AAW_DescriptionPageCurrent</Pages>
@@ -512,7 +512,7 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>		
+		<Style_Transparent>false</Style_Transparent>
 		<Style_Border>false</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -566,7 +566,7 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>		
+		<Style_Transparent>false</Style_Transparent>
 		<Style_Border>false</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -620,7 +620,7 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>		
+		<Style_Transparent>false</Style_Transparent>
 		<Style_Border>false</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -674,7 +674,7 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Style_Transparent>false</Style_Transparent>		
+		<Style_Transparent>false</Style_Transparent>
 		<Style_Border>false</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -834,7 +834,7 @@
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>			
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
 		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
 		<Pages>AAW_GeneralPage</Pages>
@@ -899,7 +899,7 @@
 			<CY>16</CY>
 		</Size>
 		<Style_Transparent>false</Style_Transparent>
-		<Style_Checkbox>true</Style_Checkbox>		
+		<Style_Checkbox>true</Style_Checkbox>
 		<TooltipReference>Filter Only Trainable Abilities</TooltipReference>
 		<Style_Checkbox>true</Style_Checkbox>
 		<!--<RadioGroup/>-->
@@ -910,7 +910,7 @@
 			<CY>16</CY>
 		</DecalSize>
 		<TextAlignCenter>false</TextAlignCenter>
-		<TextOffsetX>20</TextOffsetX>		
+		<TextOffsetX>20</TextOffsetX>
 	</Button>
 	<Combobox item="AAW_PassiveFilter">
 		<ScreenID>PassiveFilter</ScreenID>
@@ -943,7 +943,7 @@
 		<AlignCenter>false</AlignCenter>
 		<AlignRight>false</AlignRight>
 		<AlignLeft>true</AlignLeft>
-	</Label>				
+	</Label>
 	<Combobox item="AAW_ExpansionFilter">
 		<ScreenID>ExpansionFilter</ScreenID>
 		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
@@ -992,7 +992,7 @@
 		<AlignCenter>false</AlignCenter>
 		<AlignRight>false</AlignRight>
 		<AlignLeft>true</AlignLeft>
-	</Label>		
+	</Label>
 	<Combobox item="AAW_MercTypeFilter">
 		<ScreenID>MercTypeFilter</ScreenID>
 		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
@@ -1143,7 +1143,7 @@
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
 		<AlignLeft>true</AlignLeft> -->
-	</Label>	
+	</Label>
 	<Label item="AAW_MercAAAssignedCount">
 		<ScreenID>MercAAAssignedCount</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -1272,7 +1272,7 @@
 		<KeepOnScreenOffset>
 			<X>-3</X>
 			<Y>-3</Y>
-		</KeepOnScreenOffset>			
+		</KeepOnScreenOffset>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
 		<Style_Transparent>false</Style_Transparent>
@@ -1288,7 +1288,7 @@
 		<MinHSize>670</MinHSize>
 		<MinVSize>457</MinVSize>
 		<MaxHSize>670</MaxHSize>
-		<MaxVSize>900</MaxVSize>		
+		<MaxVSize>900</MaxVSize>
 		<Pieces>AAW_Subwindows</Pieces>
 		<Pieces>AAW_DescriptionWindows</Pieces>
 		<Pieces>AAW_AssignedLabel</Pieces>

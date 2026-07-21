@@ -77,11 +77,11 @@ def P_for(screen_w, screen_h, x, y, w=None, h=None, show=None, extra=None):
 # Chat-row geometry per preset: (name, x, width, height, y) for the three
 # visible containers.  MainChat = Main Chat, Chat 1 = Social, Chat 2 = Combat.
 CHAT_PRESETS = {
-    # Combat window gets the widest pane.
+    # Three equal panes — a symmetrical chat row (8px gaps, flush to the dock).
     "combat-focus": {
-        "MainChat": (8, 700, 280, CHAT_TOP),
-        "Chat 1": (716, 700, 280, CHAT_TOP),
-        "Chat 2": (1424, 1060, 280, CHAT_TOP),
+        "MainChat": (8, 820, 280, CHAT_TOP),
+        "Chat 1": (836, 820, 280, CHAT_TOP),
+        "Chat 2": (1664, 820, 280, CHAT_TOP),
     },
     # Social pane dominates; combat stays readable.
     "social-focus": {
@@ -112,9 +112,11 @@ PLACEMENTS: dict[str, dict] = {
     "HotButtonWnd11": P(162, 873, 98, 271),
 
     # --- center combat cluster (above chat) ---------------------------------
-    "PlayerWindow":  P(1188, 770, show=1),                      # 360x193 (XML)
-    "TargetWindow":  P(1916, 770, show=1),                      # 360x193 (XML)
-    "PetInfoWindow": P(864, 770),                               # 311x190, Show per base
+    # Player and Target plates share the hotbar block's outer edges, so the
+    # pair is perfectly centered over the rows beneath (block midpoint 1720).
+    "PlayerWindow":  P(1188, 770, 360, 193, show=1),
+    "TargetWindow":  P(1892, 770, 360, 193, show=1),
+    "PetInfoWindow": P(864, 770, 311, 190),                     # Show per base
     "StanceWnd":     P(1188, 970, 440, 56, show=1),
     "CastingWindow": P(1636, 978, 380, 36, show=1),
     "AggroMeterWnd": P(2032, 974, 220, 48),
@@ -134,10 +136,10 @@ PLACEMENTS: dict[str, dict] = {
     # July Legends-native effect rows: icon + readable name, backed by the
     # current 500..529 / 600..614 EQType bindings. Older menu variants remain
     # parked but hidden because they predate the Legends row schema.
-    "BuffWindow":                 P(3224, 8, show=1),           # 216x640 (XML)
-    "BuffWindow_13":              P(3224, 8, show=0),
-    "ShortDurationBuffWindow":    P(3008, 8, show=1),           # 216x324 (XML)
-    "ShortDurationBuffWindow_13": P(3008, 8, show=0),
+    "BuffWindow":                 P(3224, 8, 216, 640, show=1),
+    "BuffWindow_13":              P(3224, 8, 216, 640, show=0),
+    "ShortDurationBuffWindow":    P(3008, 8, 216, 324, show=1),
+    "ShortDurationBuffWindow_13": P(3008, 8, 216, 324, show=0),
     "GroupWindow":             P(3210, 728, show=1),
     "ExtendedTargetWnd":       P(3024, 728, 178, 300),          # Show per base
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
@@ -184,16 +186,17 @@ def standard_1440_placements() -> dict[str, dict]:
         return P_for(sw, sh, x, y, w, h, show, extra)
 
     placements = {
-        "MainChat": q(8, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
-        "Chat 1": q(716, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
-        "Chat 2": q(1424, CHAT_TOP, 1128, 280, extra=CHAT_ALPHA),
-        "Chat 3": q(8, CHAT_TOP, 700, 280, show=0, extra=CHAT_ALPHA),
+        "MainChat": q(8, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
+        "Chat 1": q(858, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
+        "Chat 2": q(1708, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
+        "Chat 3": q(8, CHAT_TOP, 842, 280, show=0, extra=CHAT_ALPHA),
         "CastSpellWnd": q(8, 521, 52, 623, show=1),
         "HotButtonWnd": q(64, 877, 94, 267),
         "HotButtonWnd11": q(162, 873, 98, 271),
-        "PetInfoWindow": q(632, 770),
-        "PlayerWindow": q(956, 770, show=1),
-        "TargetWindow": q(1684, 770, show=1),
+        "PetInfoWindow": q(632, 770, 311, 190),
+        # Plates share the hotbar block's outer edges (midpoint 1488).
+        "PlayerWindow": q(956, 770, 360, 193, show=1),
+        "TargetWindow": q(1660, 770, 360, 193, show=1),
         "StanceWnd": q(956, 970, 440, 56, show=1),
         "CastingWindow": q(1404, 978, 380, 36, show=1),
         "AggroMeterWnd": q(1800, 974, 220, 48),
@@ -206,10 +209,10 @@ def standard_1440_placements() -> dict[str, dict]:
         "HotButtonWnd6": q(420, 1092, 528, 56),
         "HotButtonWnd10": q(2028, 1032, 266, 56),
         "HotButtonWnd9": q(2028, 1092, 266, 56),
-        "BuffWindow": q(2344, 8, show=1),
-        "BuffWindow_13": q(2344, 8, show=0),
-        "ShortDurationBuffWindow": q(2128, 8, show=1),
-        "ShortDurationBuffWindow_13": q(2128, 8, show=0),
+        "BuffWindow": q(2344, 8, 216, 640, show=1),
+        "BuffWindow_13": q(2344, 8, 216, 640, show=0),
+        "ShortDurationBuffWindow": q(2128, 8, 216, 324, show=1),
+        "ShortDurationBuffWindow_13": q(2128, 8, 216, 324, show=0),
         "GroupWindow": q(2330, 728, show=1),
         "ExtendedTargetWnd": q(2144, 728, 178, 300),
         "MapViewWnd": q(1400, 8, 720, 600,
@@ -228,6 +231,77 @@ def standard_1440_placements() -> dict[str, dict]:
         col, row = (i - 1) % 8, (i - 1) // 8
         placements[f"BagBank{i}"] = q(1330 + col * 100, 330 + row * 204, 96, 194)
     return placements
+
+def standard_2160_placements() -> dict[str, dict]:
+    """Deliberate 3840x2160 (4K) composition.
+
+    Same combat hierarchy as the ultrawide layout: a symmetrical three-pane
+    chat row with a bottom-right utility dock, the center cluster perfectly
+    centered on x=1920 with the player/target plates sharing the hotbar
+    block's outer edges, buffs/songs flush to the real right edge, and the
+    glass map clear of both.  Windows keep their native pixel sizes, so on a
+    4K panel the HUD reads denser; chat gets the largest client font (see
+    CHAT_FONT_2160) to stay comfortably readable.
+    """
+    sw, sh = 3840, 2160
+    chat_top = 1852          # chat row: 1852..2152, 8px bottom margin
+
+    def q(x, y, w=None, h=None, show=None, extra=None):
+        return P_for(sw, sh, x, y, w, h, show, extra)
+
+    placements = {
+        # symmetrical chat row (three 953px panes), dock at 2892..3832
+        "MainChat": q(8, chat_top, 953, 300, extra=CHAT_ALPHA),
+        "Chat 1": q(969, chat_top, 953, 300, extra=CHAT_ALPHA),
+        "Chat 2": q(1930, chat_top, 953, 300, extra=CHAT_ALPHA),
+        "Chat 3": q(8, chat_top, 953, 300, show=0, extra=CHAT_ALPHA),
+        "CastSpellWnd": q(8, 1221, 52, 623, show=1),
+        "HotButtonWnd": q(64, 1577, 94, 267),
+        "HotButtonWnd11": q(162, 1573, 98, 271),
+        "PetInfoWindow": q(1064, 1470, 311, 190),
+        # cluster centered on 1920: block 1388..2452, plates on its edges
+        "PlayerWindow": q(1388, 1470, 360, 193, show=1),
+        "TargetWindow": q(2092, 1470, 360, 193, show=1),
+        "StanceWnd": q(1388, 1670, 440, 56, show=1),
+        "CastingWindow": q(1836, 1678, 380, 36, show=1),
+        "AggroMeterWnd": q(2232, 1674, 220, 48),
+        "HotButtonWnd4": q(1388, 1732, 528, 56),
+        "HotButtonWnd5": q(1924, 1732, 528, 56),
+        "HotButtonWnd2": q(1388, 1792, 528, 56),
+        "HotButtonWnd3": q(1924, 1792, 528, 56),
+        "HotButtonWnd8": q(852, 1670, 528, 56),
+        "HotButtonWnd7": q(852, 1732, 528, 56),
+        "HotButtonWnd6": q(852, 1792, 528, 56),
+        "HotButtonWnd9": q(2460, 1792, 528, 56),
+        "HotButtonWnd10": q(2460, 1732, 528, 56),
+        "BuffWindow": q(3624, 8, 216, 640, show=1),
+        "BuffWindow_13": q(3624, 8, 216, 640, show=0),
+        "ShortDurationBuffWindow": q(3408, 8, 216, 324, show=1),
+        "ShortDurationBuffWindow_13": q(3408, 8, 216, 324, show=0),
+        "GroupWindow": q(3610, 1440, show=1),
+        "ExtendedTargetWnd": q(3424, 1440, 178, 300),
+        "MapViewWnd": q(2680, 8, 720, 600,
+                        extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
+        "TargetOfTargetWindow": q(2696, 620, 240, 53),
+        "CompassWindow": q(1690, 8),
+        "TrackingWnd": q(8, 120, 340, 390),
+        "InventoryWindow": q(560, 240),
+        "BigBankWnd": q(1100, 430),
+        "BreathWindow": q(1861, 1050),
+    }
+    for i in range(1, 9):
+        placements[f"BagInv{i}"] = q(2900 + (i - 1) * 100, 1860, 96, 194)
+    for i in range(1, 17):
+        col, row = (i - 1) % 8, (i - 1) // 8
+        placements[f"BagBank{i}"] = q(1530 + col * 100, 430 + row * 204, 96, 194)
+    return placements
+
+
+# Chat font per generated default: 5 reads well at 1440p pixel densities; a
+# 4K panel renders the same pixel sizes ~1.5x smaller, so the generated 4K
+# default uses the client's largest chat font.
+CHAT_FONT_1440 = 5
+CHAT_FONT_2160 = 6
 
 # Windows whose Show flag we force on (quality-of-life for a WAR/DRU/BRD).
 FORCE_SHOW_NOTES = {
@@ -302,7 +376,7 @@ def apply_placements(sections, placements, eqmain=None):
 # ---------------------------------------------------------------------------
 
 def chat_window_block(idx, container, tab, name, container_name=None,
-                      chat_channel="-1"):
+                      chat_channel="-1", font=CHAT_FONT_1440):
     lines = [
         f"ChatWindow{idx}_ContainerIndex={container}",
         f"ChatWindow{idx}_ContainerTabIndex={tab}",
@@ -315,7 +389,7 @@ def chat_window_block(idx, container, tab, name, container_name=None,
         f"ChatWindow{idx}_ChatChannel={chat_channel}",
         f"ChatWindow{idx}_TellTarget=",
         f"ChatWindow{idx}_Scrollbar=1",
-        f"ChatWindow{idx}_FontStyle=5",
+        f"ChatWindow{idx}_FontStyle={font}",
         f"ChatWindow{idx}_Name={name}",
         f"ChatWindow{idx}_Highlight=1",
         f"ChatWindow{idx}_HighlightColor=-65536",
@@ -333,7 +407,7 @@ def chat_window_block(idx, container, tab, name, container_name=None,
 SOCIAL_FILTERS = {0: "Say", 1: "Tell", 2: "Group", 3: "Guild"}
 
 
-def rebuild_chat_manager(lines: list[str]) -> list[str]:
+def rebuild_chat_manager(lines: list[str], font: int = CHAT_FONT_1440) -> list[str]:
     # keep the existing ChannelMap / HitMode values as the routing base
     channel_map: dict[int, str] = {}
     hit_modes: list[str] = []
@@ -351,9 +425,10 @@ def rebuild_chat_manager(lines: list[str]) -> list[str]:
         "NumContainers=3",
         "LockedActiveWindow=-1",
     ]
-    out += chat_window_block(0, 0, 0, "Main Chat", "Main Chat", chat_channel="0")
-    out += chat_window_block(1, 2, 0, "Combat", "Combat")
-    out += chat_window_block(2, 1, 0, "Social", "Social")
+    out += chat_window_block(0, 0, 0, "Main Chat", "Main Chat",
+                             chat_channel="0", font=font)
+    out += chat_window_block(1, 2, 0, "Combat", "Combat", font=font)
+    out += chat_window_block(2, 1, 0, "Social", "Social", font=font)
     out += [f"ChannelMap{i}={channel_map[i]}" for i in sorted(channel_map)]
     out += hit_modes if hit_modes else [f"HitMode{i}=0" for i in range(8)]
     return out
@@ -452,23 +527,23 @@ def preset_placements(preset: str) -> dict[str, dict]:
 
 
 def personal_placements(preset: str) -> dict[str, dict]:
-    """Minimal overlay for the player's live layout: safe fixes only, and
-    chat geometry only for the non-default presets (combat-focus keeps the
-    player's own chat row exactly as they arranged it)."""
+    """Overlay for the player's live layout: safe fixes, the symmetrical
+    chat row, and the centered combat cluster; every other hand-placed
+    window is preserved verbatim."""
     placements = {k: dict(PLACEMENTS[k]) for k in PERSONAL_FIXES}
-    if preset != DEFAULT_PRESET:
-        for section, (x, w, h, y) in CHAT_PRESETS[preset].items():
-            placements[section] = P(x, y, w, h, extra=CHAT_ALPHA)
+    for section, (x, w, h, y) in CHAT_PRESETS[preset].items():
+        placements[section] = P(x, y, w, h, extra=CHAT_ALPHA)
     return placements
 
 
 def transform(text: str, preset: str, placements: dict | None = None,
-              eqmain: dict | None = None) -> str:
+              eqmain: dict | None = None,
+              chat_font: int = CHAT_FONT_1440) -> str:
     sections = parse_ini(text)
     sections = apply_placements(sections, placements or preset_placements(preset), eqmain)
     for name, lines in sections:
         if name == "ChatManager":
-            lines[:] = rebuild_chat_manager(lines)
+            lines[:] = rebuild_chat_manager(lines, chat_font)
         elif name == "Main":
             set_key(lines, "UISkin", "spinui_reloaded")
     out = emit(sections)
@@ -519,6 +594,9 @@ PERSONAL_FIXES = [
     "ExtendedTargetWnd",       # tidy parking spot (hidden)
     "BuffWindow", "BuffWindow_13",
     "ShortDurationBuffWindow", "ShortDurationBuffWindow_13",
+    # centered combat cluster: plates share the hotbar block's outer edges
+    "PlayerWindow", "TargetWindow",
+    "StanceWnd", "CastingWindow", "AggroMeterWnd",
 ]
 
 
@@ -544,6 +622,23 @@ def main():
     print("wrote spinui_reloaded/default1440.ini  (safe 2560x1440 default)")
     print("layout validation: 2560x1440 on-screen OK  no HUD overlaps OK")
 
+    four_k = standard_2160_placements()
+    four_k_problems = validate_profile(four_k, 3840, 2160)
+    if four_k_problems:
+        for problem in four_k_problems:
+            print("LAYOUT ERROR: [3840x2160]", problem)
+        raise SystemExit(1)
+    four_k_eqmain = {
+        "XRef": "right", "YRef": "bottom",
+        "XPos": f"{8 / 3840 * 100:.6f}%",
+        "YPos": f"{4 / 2160 * 100:.6f}%", "Show": "1",
+    }
+    new_4k = transform(_pristine_default("default4k.ini"), DEFAULT_PRESET,
+                       four_k, four_k_eqmain, chat_font=CHAT_FONT_2160)
+    (SKIN / "default4k.ini").write_text(new_4k)
+    print("wrote spinui_reloaded/default4k.ini  (deliberate 3840x2160 default)")
+    print("layout validation: 3840x2160 on-screen OK  no HUD overlaps OK")
+
     base = (REPO / PERSONAL_BASE).read_text()
     for preset in CHAT_PRESETS:
         out_dir = REPO / "layouts" / preset
@@ -560,16 +655,20 @@ def main():
     print("wrote UI_Spin_qeynos_LO1.ini  (=%s)" % DEFAULT_PRESET)
 
 
-def _pristine_default1440() -> str:
-    """Read the stock default1440.ini from git so reruns stay idempotent."""
+def _pristine_default(name: str) -> str:
+    """Read a stock default INI from git so reruns stay idempotent."""
     import subprocess
     out = subprocess.run(
-        ["git", "-C", str(REPO), "show", "0eac353:default_modern/default1440.ini"],
+        ["git", "-C", str(REPO), "show", f"0eac353:default_modern/{name}"],
         capture_output=True,
     )
     if out.returncode == 0 and out.stdout:
         return out.stdout.decode("utf-8", errors="replace")
-    return (SKIN / "default1440.ini").read_text()
+    return (SKIN / name).read_text()
+
+
+def _pristine_default1440() -> str:
+    return _pristine_default("default1440.ini")
 
 
 if __name__ == "__main__":

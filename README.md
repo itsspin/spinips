@@ -84,7 +84,7 @@ Window XML polish applied on top (133+ verified value-level edits): vivid gauge 
 
 Everything important lives in a band across the bottom — eyes stay near your character. The vertical center of the screen is kept clear.
 
-This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. The stock-height 1080p and 4K defaults remain included as well.
+This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. **4K is a first-class target too:** `default4k.ini` is a separately generated, overlap-validated **3840x2160** composition — symmetrical three-pane chat row, the combat cluster perfectly centered on the screen midline, buffs/songs flush to the real right edge, and chat set to the client's largest font so text stays comfortably readable at 4K pixel density. The stock 1080p default remains included as well, and the installer detects your resolution from `eqclient.ini` (read-only) and tells you which default will apply.
 
 <details>
 <summary><strong>Technical 3440×1440 layout map</strong></summary>
@@ -118,7 +118,7 @@ Zone by zone:
 * **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD — this is where **Loremaster** docks and where your **inventory bags tile** when opened.
 * **Openable windows** (inventory, bank, loot, merchant…) spawn center-left/center so they never cover the chat row or the combat cluster.
 
-The layout generator validates two distinct targets: every window fully on-screen with zero default-visible overlaps for the optional 3440x1440 presets, and the same guarantees for the standard 2560x1440 skin default.
+The layout generator validates three distinct targets: every window fully on-screen with zero default-visible overlaps for the optional 3440x1440 presets, and the same guarantees for the standard 2560x1440 and 3840x2160 (4K) skin defaults.
 
 ### Quality-of-life defaults changed vs. your old file
 
@@ -127,7 +127,8 @@ The layout generator validates two distinct targets: every window fully on-scree
 | Buff window | hidden | **shown** (top-right) | buff awareness; `ALT+B` to toggle |
 | Song window | hidden | **shown** (under buffs) | bard songs at a glance |
 | Casting bar | hidden | **shown** (centered) | see your own cast progress |
-| Chat font | size 3 | **size 5** | 3440x1440 readability (right-click chat → Font to change) |
+| Chat font | size 3 | **size 5** (size 6 in the 4K default) | readability at 1440p and 4K pixel density (right-click chat → Font to change) |
+| XP vs AA bars | both overlaid pure blue | **XP ember gold, AA venom** — fills *and* sub-tick overlays, in the player plate, inventory, and AA window | tell the two progression bars apart at a glance |
 | Buff/Song style | RIGHT + number rail | **slim LEFT list, no numbering** | larger readable icons, transparent rows, no heavy black slab |
 | Player/Target rails | opaque bands and tight text | **transparent, full-width** | effects float cleanly; stance/empower labels fit |
 | HUD label fonts | 2-4 | **+1 across the board** | mana/end numbers, level/class, stance, group names |
@@ -190,7 +191,7 @@ The presets differ only in the chat row:
 
 | Preset | Main | Social | Combat | For |
 |---|---|---|---|---|
-| `combat-focus` *(default)* | 700px | 700px | **1060px** | parsing every swing on a wide pane |
+| `combat-focus` *(default)* | **820px** | **820px** | **820px** | a clean symmetrical chat row — three equal panes |
 | `social-focus` | 800px | **1000px** | 660px | raid/guild chatter first |
 | `hybrid` | 900px | 1000px | **560px, half-height** | combat as a compact self-ticker |
 
@@ -379,7 +380,8 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 | Chat font too big/small | Right-click the chat window → Font. |
 | Loremaster shows "awaits your log" | Type `/log on` in game, then click **LOCATE LOG** and choose the EverQuest folder or its `Logs` folder. |
 | Time-to-level shows — | Needs XP % in log lines (Legends logs them) and a few minutes of kills to establish a rate. |
-| Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin now ships a separately generated, overlap-validated 2560x1440 default. |
+| Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin ships a separately generated, overlap-validated 2560x1440 default. |
+| Playing at 4K (3840x2160) | Leave the optional 3440x1440 character layout unchecked. The skin ships a dedicated, overlap-validated `default4k.ini` — centered combat cluster, symmetrical chat at the largest client font. `/loadskin spinui_reloaded` (without the `1`) applies it. |
 | Loremaster will not move | Click **MOVE**; this means the overlay is locked. |
 | Loremaster is click-through | Press **Ctrl+Alt+L** to restore interaction. Pass-through is never saved across launches. |
 | Loremaster vanished or is behind EQ | Click the gold-and-cyan Loremaster icon beside the Windows clock. If it is not visible, open the **^** notification-area drawer; left-click restores the HUD and right-click offers Open, Hide, and Exit. |
@@ -397,7 +399,8 @@ spinips/
 ├── spinui_reloaded/            the skin (drop into uifiles/)
 │   ├── EQUI_*.xml              window definitions (themed)
 │   ├── window_*.tga, wnd_*.tga redrawn chrome textures
-│   └── default1440.ini         safe standard 2560x1440 layout
+│   ├── default1440.ini         safe standard 2560x1440 layout
+│   └── default4k.ini           deliberate 3840x2160 (4K) layout
 ├── UI_Spin_qeynos_LO1.ini      example 3440×1440 Combat Focus profile
 ├── layouts/
 │   ├── combat-focus/ social-focus/ hybrid/   optional ultrawide profiles
