@@ -522,15 +522,127 @@ def style_hotbuttons() -> None:
     write_ascii(path, text)
 
 
+CYAN_DIM = (36, 152, 133)
+
+# Twin-wing rail: static STANCE / INVOCATION captions bracket the bar, the
+# dynamic names sit inside their wing, and an ember gem marks the split.
+WING_BLOCK = """	<!-- SPIN-WING: stance / invocation twin-wing rail -->
+	<TextureInfo item="spin_deco.tga">
+		<Size>
+			<CX>128</CX>
+			<CY>128</CY>
+		</Size>
+	</TextureInfo>
+	<Ui2DAnimation item="A_SpinWingGem">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>spin_deco.tga</Texture>
+			<Location>
+				<X>112</X>
+				<Y>64</Y>
+			</Location>
+			<Size>
+				<CX>12</CX>
+				<CY>12</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+	<Label item="SW_StanceCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>46</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>STANCE</Text>
+		<TextColor>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>true</AlignLeft>
+	</Label>
+	<Label item="SW_InvocationCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>62</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>INVOCATION</Text>
+		<TextColor>
+			<R>36</R>
+			<G>152</G>
+			<B>133</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+	<StaticAnimation item="SW_WingGem">
+		<ScreenID>SW_WingGem</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>214</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>12</CX>
+			<CY>12</CY>
+		</Size>
+		<Animation>A_SpinWingGem</Animation>
+	</StaticAnimation>
+"""
+
+WING_PIECES = """		<Pieces>SW_StanceCaption</Pieces>
+		<Pieces>SW_InvocationCaption</Pieces>
+		<Pieces>SW_WingGem</Pieces>
+"""
+
+
 def style_stance_file(path: Path, menu_name: str | None = None) -> None:
     text = path.read_text(encoding="ascii")
+    if 'item="SW_StanceCaption"' not in text:
+        schema = re.search(r"<Schema[^>]*/>", text)
+        if schema is None:
+            fail(f"missing Schema in {path.name}")
+        text = text[:schema.end()] + "\n" + WING_BLOCK + text[schema.end():]
+        rail_anchor = "\t\t<Pieces>SW_StanceLabel</Pieces>\n"
+        if rail_anchor not in text:
+            fail(f"missing stance rail pieces in {path.name}")
+        text = text.replace(rail_anchor, WING_PIECES + rail_anchor, 1)
     text = change_item(
         text, "Label", "SW_StanceLabel",
-        lambda b: set_color(set_font(b, 3), "TextColor", GOLD_BRIGHT),
+        lambda b: set_value(
+            set_value(set_color(set_font(b, 3), "TextColor", GOLD_BRIGHT),
+                      "LeftAnchorOffset", 48),
+            "RightAnchorOffset", 205),
     )
     text = change_item(
         text, "Label", "SW_InvocationLabel",
-        lambda b: set_color(set_font(b, 3), "TextColor", CYAN),
+        lambda b: set_value(
+            set_value(set_color(set_font(b, 3), "TextColor", CYAN),
+                      "LeftAnchorOffset", 205),
+            "RightAnchorOffset", 64),
     )
     text = change_item(text, "Button", "SW_ButtonTemplate",
                        lambda b: set_font(b, 2))

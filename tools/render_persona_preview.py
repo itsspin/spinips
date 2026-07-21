@@ -63,7 +63,7 @@ def main():
         x += tw + 4
 
     page_x, page_y = 8, 48
-    d.text((page_x + 12, page_y + 6), "PERSONA EQUIPMENT", font=font(9, True), fill=GOLD)
+    d.text((page_x + 12, page_y + 6), "CHARACTER EQUIPMENT", font=font(9, True), fill=GOLD)
     ox, oy = page_x + 8, page_y + 24
     d.rounded_rectangle([ox, oy, ox + EQUIP_CANVAS[0], oy + EQUIP_CANVAS[1]], radius=4,
                         fill=(7, 11, 15, 230), outline=LINE_SOFT + (255,))
@@ -92,7 +92,7 @@ def main():
     d.polygon([(vx + 20, vy + 57), (vx + 65, vy + 57), (vx + 75, vy + 130),
                (vx + 42, vy + 153), (vx + 10, vy + 130)],
               fill=(68, 104, 129, 255), outline=CYAN + (180,))
-    d.text((vx + 42, vy + 160), "PERSONA", font=font(7, True),
+    d.text((vx + 42, vy + 160), "LOADOUT", font=font(7, True),
            fill=GOLD_BRIGHT, anchor="mm")
 
     d.text((page_x + 12, page_y + 300), "CHARACTER LOADOUTS", font=font(9, True), fill=GOLD)

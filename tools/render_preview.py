@@ -266,18 +266,36 @@ def draw_target(canvas, x, y):
 
 
 def draw_stance(canvas, x, y, w, h):
+    """Twin-wing command bar: STANCE wing left, INVOCATION wing right."""
     glass_window(canvas, x, y, w, h, alpha=248)
-    stances = ["Berserk", "Tempest", "Guardian", "Channeler", "Vagabond"]
-    bw = (w - 16) // len(stances)
-    for i, s in enumerate(stances):
-        bx = x + 8 + i * bw
-        active = i == 3
-        d = ImageDraw.Draw(canvas)
-        d.rounded_rectangle([bx, y + 7, bx + bw - 6, y + h - 8], radius=4,
+    d = ImageDraw.Draw(canvas)
+    # header rail: captions bracket the bar, dynamic names sit in their wing
+    text(canvas, (x + 4, y + 3), "STANCE", size=7, color=GOLD)
+    text(canvas, (x + 50, y + 2), "Defensive Stance", size=9,
+         color=GOLD_BRIGHT, bold=True)
+    gem_cx, gem_cy = x + w // 2, y + 8
+    d.polygon([(gem_cx, gem_cy - 5), (gem_cx + 5, gem_cy),
+               (gem_cx, gem_cy + 5), (gem_cx - 5, gem_cy)],
+              fill=GOLD + (255,), outline=(5, 7, 10, 255))
+    d.polygon([(gem_cx, gem_cy - 2), (gem_cx + 2, gem_cy),
+               (gem_cx, gem_cy + 2), (gem_cx - 2, gem_cy)],
+              fill=GOLD_BRIGHT + (255,))
+    text(canvas, (x + w - 50, y + 2), "Unyielding", size=9,
+         color=CYAN, bold=True, anchor="ra")
+    text(canvas, (x + w - 4, y + 3), "INVOCATION", size=7,
+         color=(36, 152, 133), anchor="ra")
+    # single client-owned button row: stances flow from the gold wing,
+    # invocations toward the venom wing
+    for i in range(10):
+        bx = x + 4 + i * 43
+        active = i in (3, 8)
+        d.rounded_rectangle([bx, y + 15, bx + 40, y + 55], radius=3,
                             fill=BG3 + (255,) if active else BG1 + (255,),
-                            outline=(GOLD if active else LINE) + (255,))
-        text(canvas, (bx + (bw - 6) // 2, y + h // 2), s, size=11,
-             color=GOLD_BRIGHT if active else DIM, bold=active, anchor="mm")
+                            outline=((GOLD if i < 5 else CYAN) if active
+                                     else LINE) + (255,))
+        d.rounded_rectangle([bx + 5, y + 20, bx + 35, y + 50], radius=2,
+                            fill=(30 + i * 9, 40 + (i % 3) * 22,
+                                  52 + (i % 4) * 14, 255))
 
 
 def draw_casting(canvas, x, y, w, h):
