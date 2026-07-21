@@ -93,7 +93,8 @@ SERVER_TOKEN_BY_DISPLAY = {server.display: server.token for server in LEGENDS_SE
 
 # Deliberately mirrors tools/generate_spinui_layout.py::PLACEMENTS plus its
 # separately-generated EQMAIN placement. Existing character INIs receive
-# geometry for these windows only. ChatManager and every other section remain
+# audited layout values (geometry plus visibility) for these windows, and the
+# preset's complete [ChatManager] chat routing. Every other section remains
 # byte-for-byte user-owned.
 LAYOUT_GEOMETRY_SECTIONS = frozenset({
     "AggroMeterWnd", "BagBank1", "BagBank2", "BagBank3", "BagBank4",
@@ -112,7 +113,9 @@ LAYOUT_GEOMETRY_SECTIONS = frozenset({
     "TargetWindow", "TrackingWnd",
 })
 GEOMETRY_KEYS = ("XRef", "YRef", "XPos", "YPos", "Width", "Height")
-MERGE_KEY_ORDER = ("INIVersion", "UISkin") + GEOMETRY_KEYS
+VISIBILITY_KEYS = ("Show", "Alpha", "FadeToAlpha", "Fades")
+LAYOUT_KEYS = GEOMETRY_KEYS + VISIBILITY_KEYS
+MERGE_KEY_ORDER = ("INIVersion", "UISkin") + LAYOUT_KEYS
 WINDOWS_RESERVED_NAMES = {
     "CON", "PRN", "AUX", "NUL", "CLOCK$",
     *(f"COM{number}" for number in range(1, 10)),
@@ -131,6 +134,19 @@ class IniDocument:
     lines: tuple[str, ...]
     sections: dict[str, tuple[int, int, str]]
     keys: dict[tuple[str, str], int]
+
+
+@dataclass(frozen=True)
+class PresetLayout:
+    """Validated preset content inside the audited merge boundary.
+
+    ``sections`` maps audited section names to their layout key/value pairs;
+    ``chat_lines`` is the preset's complete [ChatManager] body, carried
+    wholesale into the target.
+    """
+
+    sections: dict[str, dict[str, str]]
+    chat_lines: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -199,7 +215,7 @@ def _parse_ini(data: bytes, label: str) -> IniDocument:
             section_name = match.group(1).strip()
             section_headers.append((index, section_name.casefold(), section_name))
 
-    audited = {name.casefold() for name in LAYOUT_GEOMETRY_SECTIONS} | {"main"}
+    audited = {name.casefold() for name in LAYOUT_GEOMETRY_SECTIONS} | {"main", "chatmanager"}
     counts: dict[str, int] = {}
     for _index, folded, _display in section_headers:
         if folded in audited:
@@ -214,10 +230,13 @@ def _parse_ini(data: bytes, label: str) -> IniDocument:
         sections[folded] = (start, end, display)
         if folded not in audited:
             continue
-        allowed = (
-            {"uiskin"} if folded == "main"
-            else {"iniversion", *(key.casefold() for key in GEOMETRY_KEYS)}
-        )
+        if folded == "main":
+            allowed = {"uiskin"}
+        elif folded == "chatmanager":
+            # ChatManager is carried wholesale, never key-by-key.
+            allowed: set[str] = set()
+        else:
+            allowed = {"iniversion", *(key.casefold() for key in LAYOUT_KEYS)}
         for line_index in range(start + 1, end):
             content = lines[line_index].rstrip("\r\n")
             stripped = content.strip()
@@ -271,16 +290,53 @@ def _validate_source_value(key: str, value: str, section: str) -> None:
     if key in {"Width", "Height"}:
         if not value.isdigit() or not 1 <= int(value) <= 10000:
             raise ValueError(f"Preset [{section}] has an invalid {key}.")
+    if key in {"Show", "Fades"} and value not in {"0", "1"}:
+        raise ValueError(f"Preset [{section}] has an invalid {key}.")
+    if key in {"Alpha", "FadeToAlpha"}:
+        if not value.isdigit() or not 0 <= int(value) <= 255:
+            raise ValueError(f"Preset [{section}] has an invalid {key}.")
 
 
-def _preset_patch(source: IniDocument) -> dict[str, dict[str, str]]:
-    patch: dict[str, dict[str, str]] = {}
+def _preset_chat_lines(source: IniDocument) -> tuple[str, ...]:
+    """Extract and conservatively validate the preset's [ChatManager] body."""
+    section_info = source.sections.get("chatmanager")
+    if section_info is None:
+        raise ValueError("Preset is missing its [ChatManager] section.")
+    start, end, _display = section_info
+    chat_lines: list[str] = []
+    for line_index in range(start + 1, end):
+        content = source.lines[line_index].rstrip("\r\n")
+        stripped = content.strip()
+        if not stripped or stripped.startswith((";", "#")):
+            continue
+        line_number = line_index + 1
+        if len(content) >= 200 or "=" not in content:
+            raise ValueError(
+                f"Preset [ChatManager] has an invalid entry on line {line_number}."
+            )
+        key, value = content.split("=", 1)
+        if not re.fullmatch(r"[A-Za-z0-9_.]+", key):
+            raise ValueError(
+                f"Preset [ChatManager] has an invalid key on line {line_number}."
+            )
+        if any(ord(char) < 32 or ord(char) == 127 for char in value):
+            raise ValueError(
+                f"Preset [ChatManager] has an invalid value on line {line_number}."
+            )
+        chat_lines.append(content)
+    if not chat_lines:
+        raise ValueError("Preset [ChatManager] contains no chat settings.")
+    return tuple(chat_lines)
+
+
+def _preset_patch(source: IniDocument) -> PresetLayout:
+    sections: dict[str, dict[str, str]] = {}
     main = source.sections.get("main")
     if main is None or ("main", "uiskin") not in source.keys:
         raise ValueError("Preset is missing [Main] UISkin.")
     main_value = _raw_value(source.lines[source.keys[("main", "uiskin")]])
     _validate_source_value("UISkin", main_value, "Main")
-    patch["Main"] = {"UISkin": main_value}
+    sections["Main"] = {"UISkin": main_value}
     for section in sorted(LAYOUT_GEOMETRY_SECTIONS, key=str.casefold):
         folded = section.casefold()
         if folded not in source.sections:
@@ -291,7 +347,7 @@ def _preset_patch(source: IniDocument) -> dict[str, dict[str, str]]:
             version = _raw_value(source.lines[version_index])
             _validate_source_value("INIVersion", version, section)
             values["INIVersion"] = version
-        for key in GEOMETRY_KEYS:
+        for key in LAYOUT_KEYS:
             line_index = source.keys.get((folded, key.casefold()))
             if line_index is None:
                 continue
@@ -302,8 +358,8 @@ def _preset_patch(source: IniDocument) -> dict[str, dict[str, str]]:
         if not required.issubset(values):
             missing = ", ".join(sorted(required - values.keys()))
             raise ValueError(f"Preset [{section}] is missing required geometry: {missing}.")
-        patch[section] = values
-    return patch
+        sections[section] = values
+    return PresetLayout(sections=sections, chat_lines=_preset_chat_lines(source))
 
 
 def _replace_ini_value(line: str, value: str) -> str:
@@ -323,12 +379,13 @@ def _replace_ini_value(line: str, value: str) -> str:
     return f"{before}={leading}{value}{suffix}{newline}"
 
 
-def _merge_ini_geometry(target: IniDocument,
-                        patch: dict[str, dict[str, str]]) -> bytes:
+def _merge_ini_geometry(target: IniDocument, preset: PresetLayout) -> bytes:
+    """Apply the preset's audited layout values and its [ChatManager] section."""
     lines = list(target.lines)
     insertions: dict[int, list[str]] = {}
+    removed: set[int] = set()
     missing_sections: list[tuple[str, dict[str, str]]] = []
-    for section, values in patch.items():
+    for section, values in preset.sections.items():
         folded = section.casefold()
         section_info = target.sections.get(folded)
         if section_info is None:
@@ -347,6 +404,12 @@ def _merge_ini_geometry(target: IniDocument,
                 insertions.setdefault(end, []).append(f"{key}={values[key]}")
             else:
                 lines[line_index] = _replace_ini_value(lines[line_index], values[key])
+    chat_info = target.sections.get("chatmanager")
+    if chat_info is not None:
+        # ChatManager travels wholesale: the preset body replaces the target's.
+        chat_start, chat_end, _chat_display = chat_info
+        removed.update(range(chat_start + 1, chat_end))
+        insertions.setdefault(chat_start + 1, []).extend(preset.chat_lines)
 
     output: list[str] = []
     for index in range(len(lines) + 1):
@@ -354,19 +417,23 @@ def _merge_ini_geometry(target: IniDocument,
             if output and not output[-1].endswith(("\n", "\r")):
                 output[-1] += target.newline
             output.extend(value + target.newline for value in insertions[index])
-        if index < len(lines):
+        if index < len(lines) and index not in removed:
             output.append(lines[index])
-    if missing_sections:
+    appended_blocks: list[tuple[str, list[str]]] = [
+        (section, [f"{key}={values[key]}" for key in MERGE_KEY_ORDER if key in values])
+        for section, values in missing_sections
+    ]
+    if chat_info is None:
+        appended_blocks.append(("ChatManager", list(preset.chat_lines)))
+    if appended_blocks:
         if output and not output[-1].endswith(("\n", "\r")):
             output[-1] += target.newline
         if output and output[-1].strip():
             output.append(target.newline)
-        for section_index, (section, values) in enumerate(missing_sections):
+        for block_index, (section, block_lines) in enumerate(appended_blocks):
             output.append(f"[{section}]{target.newline}")
-            for key in MERGE_KEY_ORDER:
-                if key in values:
-                    output.append(f"{key}={values[key]}{target.newline}")
-            if section_index + 1 < len(missing_sections):
+            output.extend(f"{line}{target.newline}" for line in block_lines)
+            if block_index + 1 < len(appended_blocks):
                 output.append(target.newline)
     if output and not target.had_final_newline:
         output[-1] = output[-1].rstrip("\r\n")
@@ -374,20 +441,23 @@ def _merge_ini_geometry(target: IniDocument,
     return target.bom + merged_text.encode(target.encoding)
 
 
-def _minimal_ini_from_patch(patch: dict[str, dict[str, str]], *,
+def _minimal_ini_from_patch(preset: PresetLayout, *,
                             newline: str = "\r\n") -> bytes:
     """Build a new target containing only the same audited merge boundary."""
     blocks: list[str] = []
     ordered_sections = ["Main"] + sorted(
-        (section for section in patch if section != "Main"), key=str.casefold
+        (section for section in preset.sections if section != "Main"), key=str.casefold
     )
     for section in ordered_sections:
         blocks.append(f"[{section}]")
-        values = patch[section]
+        values = preset.sections[section]
         for key in MERGE_KEY_ORDER:
             if key in values:
                 blocks.append(f"{key}={values[key]}")
         blocks.append("")
+    blocks.append("[ChatManager]")
+    blocks.extend(preset.chat_lines)
+    blocks.append("")
     return newline.join(blocks).encode("utf-8")
 
 
@@ -407,8 +477,10 @@ def prepare_layout_update(source: Path, target: Path, *, allow_create: bool) -> 
             "That character layout does not exist. Choose create target or log into the "
             "character once, close EverQuest, and run the installer again."
         )
-    # New files use the identical audited boundary. Source-only ChatManager,
-    # visibility, alpha, lock, and other character settings never leak in.
+    # New files use the identical audited boundary: layout values (geometry
+    # plus visibility) for audited windows and the preset's [ChatManager].
+    # Source-only lock, click-through, and other character settings never
+    # leak in.
     return LayoutUpdate(
         target, None, _minimal_ini_from_patch(patch, newline=source_doc.newline),
         True, True,
@@ -942,11 +1014,14 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
             if layout_preset in LAYOUT_PRESETS else "Ultrawide"
         )
         if not layout_update.changed:
-            results.append(f"{preset_name} geometry already matched {target.name}")
+            results.append(f"The {preset_name} layout already matched {target.name}")
         elif layout_update.created:
             results.append(f"Created {target.name} with the {preset_name} layout")
         else:
-            results.append(f"Merged {preset_name} window geometry into {target.name}")
+            results.append(
+                f"Applied the {preset_name} layout (windows, visibility, "
+                f"chat routing) to {target.name}"
+            )
         if backup is not None:
             results.append(f"Backed up the previous INI to {backup.name}")
     else:
@@ -979,7 +1054,7 @@ def selftest() -> int:
                 "XRef=left", "YRef=top",
                 f"XPos={offset + index}.125000%", f"YPos=-{index}.250000%",
                 f"Width={300 + index}", f"Height={100 + index}",
-                "Show=1", "Alpha=111", "Locked=1",
+                "Show=1", "Alpha=111", "FadeToAlpha=190", "Fades=1", "Locked=1",
             ])
         lines.extend(["", "[ChatManager]", "ChannelMap0=99", "ChatWindow0_Name=SOURCE"])
         return (newline.join(lines) + newline).encode("utf-8")
@@ -1085,12 +1160,10 @@ def selftest() -> int:
         assert not merged.endswith((b"\r", b"\n"))
         for protected in (
             b"; caf\xc3\xa9 and comments survive\r\n",
-            b"KeepMain=sentinel\r\n", b"Alpha=222\r\n", b"Show=0\r\n",
+            b"KeepMain=sentinel\r\n",
             b"Locked=0\r\n", b"CustomWindowKey=keep\r\n",
             b"ShowKeyMap=1\r\n", b"ButtonSentinel=keep\r\n",
             b"MapFilter=keep\r\n", b"ColumnSort=keep\r\n",
-            b"ChannelMap0=7\r\n", b"HitMode0=42\r\n",
-            b"ChatWindow0_Name=My Private Routing\r\n",
             b"[UnknownClientSection]\r\n", b"Mystery=100%\r\n",
             b"NoFinalNewline=keep",
         ):
@@ -1105,17 +1178,27 @@ def selftest() -> int:
             merged, flags=re.DOTALL,
         )
         assert mainchat_block and b"INIVersion" not in mainchat_block.group(1)
+        # Preset visibility overrides the target's stale Show/Alpha values.
+        assert b"Show=1\r\n" in mainchat_block.group(1)
+        assert b"Alpha=111\r\n" in mainchat_block.group(1)
+        assert b"FadeToAlpha=190\r\n" in mainchat_block.group(1)
+        assert b"Fades=1\r\n" in mainchat_block.group(1)
+        assert b"Alpha=222" not in merged and b"Show=0\r\n" not in merged
         hotbutton_block = re.search(
             rb"\[HotButtonWnd\]\r\n(.*?)(?=\[MapViewWnd\]\r\n)",
             merged, flags=re.DOTALL,
         )
         assert hotbutton_block and b"INIVersion" not in hotbutton_block.group(1)
         assert b"[AggroMeterWnd]\r\nINIVersion=1\r\n" in merged
-        assert (
-            b"[ChatManager]\r\nChannelMap0=7\r\nHitMode0=42\r\n"
-            b"ChatWindow0_Name=My Private Routing\r\n"
-        ) in merged
-        assert b"ChannelMap0=99" not in merged
+        # The preset's ChatManager replaces the target's, byte for byte.
+        chat_block = re.search(
+            rb"\[ChatManager\]\r\n(.*?)(?=\[ClientAdded0\]\r\n)",
+            merged, flags=re.DOTALL,
+        )
+        assert chat_block is not None
+        assert chat_block.group(1) == b"ChannelMap0=99\r\nChatWindow0_Name=SOURCE\r\n"
+        assert b"ChannelMap0=7\r\n" not in merged and b"HitMode0=42" not in merged
+        assert b"My Private Routing" not in merged
         backups = list(eq.glob(f"{target.name}.spinui-backup-*"))
         assert len(backups) == 1 and backups[0].read_bytes() == sentinel
         assert sibling.read_bytes() == b"[HotButtons]\r\nPage1Button1=do-not-touch\r\n"
@@ -1157,7 +1240,10 @@ def selftest() -> int:
             preset_result = preset_target.read_text(encoding="utf-8")
             expected_offset = list(LAYOUT_PRESETS).index(preset_key) * 100 + mainchat_index
             assert f"XPos={expected_offset}.125000%" in preset_result
-            assert "Show=0" in preset_result and "ChannelMap0=71" in preset_result
+            assert "Show=0" not in preset_result and "Show=1" in preset_result
+            assert "ChannelMap0=71" not in preset_result
+            assert "ChannelMap0=99" in preset_result
+            assert "ChatWindow0_Name=SOURCE" in preset_result
             preset_backups = list(eq.glob(f"{preset_target.name}.spinui-backup-*"))
             assert len(preset_backups) == 1 and preset_backups[0].read_bytes() == original
 
@@ -1174,6 +1260,9 @@ def selftest() -> int:
         assert len(collision_backups) == 2
         assert len({path.name for path in collision_backups}) == 2
         assert any(path.read_bytes() == first_original for path in collision_backups)
+        # A target without [ChatManager] gains the preset's complete section.
+        collision_bytes = collision_backup_target.read_bytes()
+        assert b"[ChatManager]\nChannelMap0=99\nChatWindow0_Name=SOURCE\n" in collision_bytes
 
         # Keep Existing performs no target write, backup, or timestamp change.
         untouched = eq / "UI_Untouched_qeynos_LO1.ini"
@@ -1200,8 +1289,10 @@ def selftest() -> int:
             app_dir=root / "app-legacy", startup_dir=root / "startup-legacy",
             desktop_dir=root / "desktop-legacy",
         )
-        assert "UISkin=spinui_reloaded" in legacy_target.read_text(encoding="utf-8")
-        assert "ChannelMap0=8" in legacy_target.read_text(encoding="utf-8")
+        legacy_text = legacy_target.read_text(encoding="utf-8")
+        assert "UISkin=spinui_reloaded" in legacy_text
+        assert "ChannelMap0=8" not in legacy_text
+        assert "ChannelMap0=99" in legacy_text and "ChatWindow0_Name=SOURCE" in legacy_text
 
         # Manual target names preserve character casing and canonicalize all servers.
         assert SERVER_TOKEN_BY_DISPLAY == {
@@ -1234,10 +1325,12 @@ def selftest() -> int:
         expected_new_x = 100 + mainchat_index
         assert b"[MainChat]" in new_bytes
         assert f"XPos={expected_new_x}.125000%".encode() in new_bytes
-        for forbidden in (
-            b"SourceOnly", b"[ChatManager]", b"ChannelMap", b"Show=",
-            b"Alpha=", b"Locked=",
-        ):
+        # New files include layout visibility and the wholesale ChatManager,
+        # but never source-only keys outside the audited boundary.
+        assert b"Show=1\n" in new_bytes and b"Alpha=111\n" in new_bytes
+        assert b"FadeToAlpha=190\n" in new_bytes and b"Fades=1\n" in new_bytes
+        assert b"[ChatManager]\nChannelMap0=99\nChatWindow0_Name=SOURCE\n" in new_bytes
+        for forbidden in (b"SourceOnly", b"Locked="):
             assert forbidden not in new_bytes, forbidden
         assert b"[HotButtonWnd]\nINIVersion=2\n" in new_bytes
         assert not list(eq.glob(f"{new_target.name}.spinui-backup-*"))
@@ -1254,7 +1347,9 @@ def selftest() -> int:
             app_dir=root / "app-collision", startup_dir=root / "startup-collision",
             desktop_dir=root / "desktop-collision",
         )
-        assert b"ChannelMap0=55" in new_target.read_bytes()
+        collision_merged = new_target.read_bytes()
+        assert b"ChannelMap0=55" not in collision_merged
+        assert b"ChannelMap0=99" in collision_merged
 
         expect_error(ValueError, lambda: resolve_layout_source(payload, "../combat-focus"))
         expect_error(ValueError, lambda: resolve_layout_source(payload, "original"))
@@ -1307,6 +1402,24 @@ def selftest() -> int:
             ValueError,
             lambda: prepare_layout_update(invalid_source, duplicate_target, allow_create=False),
         )
+
+        # Invalid visibility values and a malformed or missing ChatManager
+        # fail closed before any target write.
+        for breakage in (
+            (b"Show=1", b"Show=2"),
+            (b"Alpha=111", b"Alpha=300"),
+            (b"ChannelMap0=99", b"Channel Map0=99"),
+            (b"[ChatManager]", b"[ChatManagerRenamed]"),
+        ):
+            broken_source = root / "broken-source.ini"
+            broken_source.write_bytes(preset_bytes("combat-focus").replace(*breakage))
+            expect_error(
+                ValueError,
+                lambda source=broken_source: prepare_layout_update(
+                    source, duplicate_target, allow_create=False
+                ),
+            )
+        assert duplicate_target.read_bytes() == before_duplicate
 
         # Windows-1252 comments and LF style remain intact.
         cp_target = eq / "UI_CpTest_qeynos_LO1.ini"
@@ -1543,8 +1656,9 @@ def run_gui() -> int:
              font=("Segoe UI Semibold", 18)).pack(anchor="w", pady=(5, 2))
     tk.Label(
         layout_page,
-        text=("Keep Existing is recommended. Optional 3440×1440 presets adjust window "
-              "anchors, positions, and sizes without replacing character data. "
+        text=("Keep Existing is recommended. Optional 3440×1440 presets set window "
+              "positions, sizes, visibility, and chat routing without replacing "
+              "other character data. "
               "SpinUI's 1440p and 4K defaults apply automatically at any resolution."),
         bg=BG, fg=DIM, font=("Segoe UI", 10),
     ).pack(anchor="w", pady=(0, 4))
@@ -1798,8 +1912,8 @@ def run_gui() -> int:
             target_combo.configure(state=("readonly" if target_paths else "disabled"))
             manual_fields.pack_forget()
             target_note.configure(
-                text=("Only window anchors, positions, and sizes are merged. A timestamped backup is "
-                      "created when anything changes."), fg=CYAN,
+                text=("Window positions, sizes, visibility, and chat routing are merged. "
+                      "A timestamped backup is created when anything changes."), fg=CYAN,
             )
         else:
             target_combo.pack_forget()
@@ -1872,10 +1986,10 @@ def run_gui() -> int:
             review_var.set(f"LAYOUT SELECTION NEEDS ATTENTION\n{exc}")
             return
         if target.exists():
-            layout_action = f"Merge {preset.title.title()} geometry into {target.name}"
+            layout_action = f"Apply the {preset.title.title()} layout to {target.name}"
             backup_copy = "Create a timestamped byte-exact backup when values change"
-            preserve_copy = "Chat routing/filters · visibility · locks/fades · click-through"
-            preserve_extra = "Hotbar/spell data · loadouts · unknown/client-added settings"
+            preserve_copy = "Locks · click-through · hotbar/spell data · loadouts"
+            preserve_extra = "Unknown and client-added settings in every other section"
         else:
             layout_action = f"Create {target.name} from {preset.title.title()}"
             backup_copy = "No backup needed because the character INI is new"
@@ -1884,7 +1998,7 @@ def run_gui() -> int:
         review_var.set(
             f"EVERQUEST       {eq}\n\n"
             f"WILL CHANGE     {layout_action}\n"
-            f"                Set UISkin and audited window anchors/positions/sizes only\n"
+            f"                Set UISkin, window layout, visibility, and chat routing\n"
             f"BACKUP          {backup_copy}\n"
             f"WILL PRESERVE   {preserve_copy}\n"
             f"                {preserve_extra}\n"

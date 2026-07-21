@@ -8,10 +8,12 @@ separately generated standard 2560x1440 default.
 > **Safest layout option:** use `SpinUIInstaller.exe` from the guided Installer
 > package when you want an ultrawide preset without replacing character data.
 > **Keep Existing** is its recommended default. If you opt into Combat Focus,
-> Social Focus, or Hybrid, it changes only `UISkin` plus audited window
-> anchors, positions, and sizes. It preserves chat routing and filters, visibility,
-> locks, fades, click-through, hotbar and spell data, loadouts, client-added
-> settings, and all unknown values. An actual change receives a byte-exact,
+> Social Focus, or Hybrid, it changes `UISkin`, audited window anchors,
+> positions, sizes, and visibility (Show, Alpha, and fade settings), and it
+> replaces the `[ChatManager]` section so the preset's Main/Combat/Social chat
+> routing takes effect. It preserves locks, click-through, hotbar and spell
+> data, loadouts, client-added settings, and all unknown values in every other
+> section. An actual change receives a byte-exact,
 > timestamped backup such as
 > `UI_Spin_qeynos_LO1.ini.spinui-backup-20260720-214500`; applying an identical
 > preset again writes nothing and creates no extra backup.
