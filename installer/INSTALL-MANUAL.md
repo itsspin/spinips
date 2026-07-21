@@ -69,15 +69,23 @@ folder or its `Logs` folder.
 
 Drag the compact HUD into place and click **LOCK**. In the detailed Encounter
 Lab, **OLDER / NEWER / LIVE** browse encounters and **Overview / Damage /
-Healing / Targets / Timeline / Compare** change the analysis. **CLICK-THRU** enables
+Healing / Targets / Timeline** change the analysis. **CLICK-THRU** enables
 click-through only if Loremaster successfully reserves the recovery shortcut;
 press **Ctrl+Alt+L** at any time to restore interaction.
 
-Hover an item in EverQuest and press **Ctrl+Shift+E** to open Lore Lens beside
-the cursor. Loremaster captures only that bounded cursor region, only for the
-key press, and uses Windows OCR before validating likely titles as exact EQL
-Wiki item pages. A copied EQ item link, bracketed item, or EQL Wiki URL opens
-immediately; ordinary clipboard text only prefills the search field until you
+A small gold-and-cyan Loremaster icon remains in the Windows notification area
+beside the clock, or in its **^** overflow drawer. Left-click it to restore and
+focus the HUD. Right-click for **OPEN LOREMASTER**, **HIDE HUD**, or
+**EXIT LOREMASTER**. Hiding keeps log tracking and the Lore Lens hotkey active;
+Exit closes the program completely. A hidden state is never carried into the
+next normal launch.
+
+Hover an item in EverQuest and press **Ctrl+Shift+E**. Lore Lens opens beside
+the cursor in a clear reading state, captures only that bounded cursor region,
+and uses Windows OCR before validating likely titles as exact EQL Wiki item
+pages. The hovered tooltip takes priority while EQ is foreground. A copied EQ
+item link, bracketed item, or EQL Wiki URL is used if Hover Scan cannot identify
+the title; ordinary clipboard text only prefills the search field until you
 confirm it. The shortcut, Hover Scan, wiki network access, high-contrast
 palette, reduced motion, and text scale are configurable through **SETTINGS**.
 Lore Lens never injects into or reads memory from `eqgame.exe`.
@@ -90,7 +98,8 @@ create a shortcut in `shell:startup` whose target is:
 ```
 
 The waiting process remains hidden and uses a lightweight process check until
-`eqgame.exe` starts.
+`eqgame.exe` starts. After Loremaster has opened, its notification-area icon
+remains available whenever the HUD is hidden.
 
 ## Updating or removing
 

@@ -12,15 +12,19 @@ LOREMASTER_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LOREMASTER_DIR))
 
 from wiki_overlay import (  # noqa: E402
+    LOOKUP_REQUEST_BUDGET_SECONDS,
     MAX_RESPONSE_BYTES,
     WikiCache,
     WikiClient,
     WikiError,
+    WikiItem,
     WikiLookupService,
     WikiNotFoundError,
+    WikiOfflineError,
     clipboard_lookup_plan,
     extract_item_query,
     extract_structured_item_query,
+    hotkey_lookup_plan,
     parse_hotkey,
     parse_item_payload,
 )
@@ -90,12 +94,33 @@ class WikiParsingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_hotkey("E")
 
+    def test_eq_hotkey_prioritizes_hover_over_structured_clipboard(self):
+        eq_link = "\x12000000000000000000000000000000000000000000000000000000[Cloak of Flames]\x12"
+        self.assertEqual(
+            hotkey_lookup_plan(eq_link, eq_foreground=True,
+                               hover_scan_enabled=True)[0],
+            "hover",
+        )
+        action, query, source, automatic = hotkey_lookup_plan(
+            eq_link, eq_foreground=False, hover_scan_enabled=True)
+        self.assertEqual((action, query, source, automatic),
+                         ("clipboard", "Cloak of Flames", "EQ item link", True))
+
 
 class WikiClientTests(unittest.TestCase):
     def setUp(self):
         self.payload = (FIXTURES / "cloak_of_flames.json").read_bytes()
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
+
+    def await_result(self, service, timeout=1.0):
+        deadline = time.monotonic() + timeout
+        results = []
+        while time.monotonic() < deadline and not results:
+            results = service.poll()
+            time.sleep(0.005)
+        self.assertTrue(results, "wiki worker did not produce a result")
+        return results[0]
 
     def test_http_is_mocked_and_fresh_cache_prevents_second_request(self):
         calls = []
@@ -215,6 +240,101 @@ class WikiClientTests(unittest.TestCase):
         self.assertEqual(results[0].request_id, request_id)
         self.assertEqual(results[0].item.title, "Cloak of Flames")
         self.assertEqual(client.calls, ["Description", "Cloak of Flames"])
+
+    def test_real_client_candidates_share_one_total_request_deadline(self):
+        class FakeClock:
+            def __init__(self):
+                self.now = 100.0
+
+            def __call__(self):
+                return self.now
+
+            def advance(self, seconds):
+                self.now += seconds
+
+        clock = FakeClock()
+        timeouts = []
+        missing = json.dumps({"error": {"code": "missingtitle"}}).encode()
+
+        def opener(_request, timeout):
+            timeouts.append(timeout)
+            clock.advance(timeout)
+            return FakeResponse(missing)
+
+        client = WikiClient(
+            WikiCache(Path(self.temp.name), 0),
+            timeout=6.0,
+            opener=opener,
+            min_request_interval=0,
+            monotonic=clock,
+        )
+        service = WikiLookupService(client)
+        self.addCleanup(service.close)
+        service.submit_candidates([
+            "First Candidate", "Second Candidate",
+            "Third Candidate", "Fourth Candidate",
+        ])
+
+        result = self.await_result(service)
+        self.assertIsInstance(result.error, WikiOfflineError)
+        self.assertEqual(len(timeouts), 2)
+        self.assertAlmostEqual(sum(timeouts), LOOKUP_REQUEST_BUDGET_SECONDS)
+        self.assertLessEqual(max(timeouts), client.timeout)
+
+    def test_newer_lookup_suppresses_active_generation_and_remaining_candidates(self):
+        started = threading.Event()
+        release = threading.Event()
+
+        class RapidClient:
+            def __init__(self):
+                self.calls = []
+
+            def fetch(self, query):
+                self.calls.append(query)
+                if query == "Old Tooltip Heading":
+                    started.set()
+                    release.wait(1.0)
+                    raise WikiNotFoundError(query)
+                return WikiItem(title=query, url=f"https://eqlwiki.com/{query}")
+
+        client = RapidClient()
+        service = WikiLookupService(client)
+        self.addCleanup(service.close)
+        old_request = service.submit_candidates([
+            "Old Tooltip Heading", "Old Item Candidate",
+        ])
+        self.assertTrue(started.wait(0.5))
+        new_request = service.submit("New Hovered Item")
+        release.set()
+
+        result = self.await_result(service)
+        self.assertNotEqual(old_request, new_request)
+        self.assertEqual(result.request_id, new_request)
+        self.assertEqual(result.query, "New Hovered Item")
+        self.assertEqual(result.item.title, "New Hovered Item")
+        self.assertEqual(client.calls, ["Old Tooltip Heading", "New Hovered Item"])
+        self.assertEqual(service.poll(), [])
+
+    def test_offline_lookup_finds_stale_cache_for_later_candidate(self):
+        wall_clock = [1000.0]
+        cache = WikiCache(
+            Path(self.temp.name), ttl_seconds=10, clock=lambda: wall_clock[0])
+        item = parse_item_payload(self.payload, "Cloak of Flames")
+        item.fetched_at = wall_clock[0]
+        cache.put("Cloak of Flames", item)
+        wall_clock[0] += 20.0
+
+        client = WikiClient(cache, network_enabled=False, min_request_interval=0)
+        service = WikiLookupService(client)
+        self.addCleanup(service.close)
+        request_id = service.submit_candidates(["Description", "Cloak of Flames"])
+
+        result = self.await_result(service)
+        self.assertEqual(result.request_id, request_id)
+        self.assertEqual(result.query, "Cloak of Flames")
+        self.assertEqual(result.item.title, "Cloak of Flames")
+        self.assertTrue(result.item.cached)
+        self.assertTrue(result.item.stale)
 
 
 if __name__ == "__main__":

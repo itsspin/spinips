@@ -1,16 +1,46 @@
+import dataclasses
+import os
+import struct
 import sys
+import tempfile
 import threading
 import time
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 
 LOREMASTER_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LOREMASTER_DIR))
 
 import hover_ocr  # noqa: E402
-from hover_ocr import HoverOcrService, OcrLine, rank_item_candidates  # noqa: E402
+from hover_ocr import (  # noqa: E402
+    CaptureMetadata,
+    HoverCapture,
+    HoverOcrService,
+    OcrLine,
+    cleanup_stale_scan_dirs,
+    rank_item_candidates,
+)
+
+
+def make_capture(cursor=(123, 234), marker=17):
+    width, height = 4, 3
+    stride = (width * 3 + 3) & ~3
+    pixels = bytearray(stride * height)
+    for index in range(0, len(pixels), 3):
+        pixels[index:index + 3] = bytes((marker, marker + 20, marker + 40))
+    metadata = CaptureMetadata(
+        cursor_x=cursor[0], cursor_y=cursor[1],
+        region_left=cursor[0] - 2, region_top=cursor[1] - 1,
+        region_width=width, region_height=height,
+        foreground_hwnd=0x123456, foreground_pid=4321,
+        captured_at=1000.0,
+    )
+    return HoverCapture(
+        metadata=metadata,
+        bmp_bytes=hover_ocr._bmp_from_bgr(bytes(pixels), width, height, stride),
+        luminance_range=20,
+    )
 
 
 class HoverCandidateTests(unittest.TestCase):
@@ -32,52 +62,118 @@ class HoverCandidateTests(unittest.TestCase):
     def test_zero_candidate_limit_is_respected(self):
         self.assertEqual(rank_item_candidates([OcrLine("Cloak of Flames")], limit=0), [])
 
-    def test_powershell_capture_is_eq_only_bounded_and_winrt_ocr(self):
+
+class CaptureArtifactTests(unittest.TestCase):
+    def test_capture_and_metadata_are_immutable_and_local_cursor_is_exact(self):
+        capture = make_capture(cursor=(-120, 845))
+        self.assertIsInstance(capture.bmp_bytes, bytes)
+        self.assertEqual(capture.metadata.cursor_in_region, (2.0, 1.0))
+        with self.assertRaises(dataclasses.FrozenInstanceError):
+            capture.metadata.cursor_x = 0
+        with self.assertRaises(dataclasses.FrozenInstanceError):
+            capture.bmp_bytes = b"changed"
+
+    def test_top_down_24bit_bmp_header_and_size(self):
+        width, height = 3, 2
+        stride = (width * 3 + 3) & ~3
+        pixels = bytes(range(stride * height))
+        bmp = hover_ocr._bmp_from_bgr(pixels, width, height, stride)
+        signature, file_size, _one, _two, offset = struct.unpack("<2sIHHI", bmp[:14])
+        header = struct.unpack("<IiiHHIIiiII", bmp[14:54])
+        self.assertEqual(signature, b"BM")
+        self.assertEqual(file_size, len(bmp))
+        self.assertEqual(offset, 54)
+        self.assertEqual(header[1:5], (width, -height, 1, 24))
+        self.assertEqual(bmp[54:], pixels)
+
+    def test_blank_frame_detection_is_conservative(self):
+        width, height, stride = 8, 4, 24
+        blank = bytes(stride * height)
+        varied = bytearray(blank)
+        varied[0:3] = bytes((0, 255, 255))
+        self.assertEqual(hover_ocr._luminance_range(blank, width, height, stride), 0)
+        self.assertGreaterEqual(
+            hover_ocr._luminance_range(bytes(varied), width, height, stride), 6)
+
+    def test_powershell_only_decodes_scales_and_runs_winrt_ocr(self):
         script = hover_ocr._powershell_script()
         self.assertIn("Windows.Media.Ocr.OcrEngine", script)
-        self.assertIn("Hover scan only captures EverQuest", script)
-        self.assertIn("GetGenericArguments().Count -eq 1", script)
-        self.assertIn("$lines.Count -ge 200", script)
-        self.assertIn(str(hover_ocr.ROI_WIDTH), script)
-        self.assertIn(str(hover_ocr.ROI_HEIGHT), script)
+        self.assertIn("BitmapTransform", script)
+        self.assertIn("ScaledWidth", script)
+        self.assertIn("SPIN_LOREMASTER_OCR_PATH", script)
+        self.assertNotIn("CopyFromScreen", script)
+        self.assertNotIn("BitBlt", script)
+        self.assertNotIn("GetForegroundWindow", script)
+        self.assertNotIn("Add-Type", script)
+
+    def test_cleanup_removes_only_known_stale_scan_directories(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir) / hover_ocr.TEMP_ROOT_NAME
+            root.mkdir()
+            old = root / ("scan-" + "a" * 32)
+            recent = root / ("scan-" + "b" * 32)
+            unrelated = root / "do-not-touch"
+            for directory in (old, recent, unrelated):
+                directory.mkdir()
+            (old / "cursor-region.bmp").write_bytes(b"old")
+            (recent / "cursor-region.bmp").write_bytes(b"recent")
+            now = time.time()
+            os.utime(old, (now - 1000, now - 1000))
+            os.utime(recent, (now, now))
+            removed = cleanup_stale_scan_dirs(root, now=now, max_age=100)
+            self.assertEqual(removed, 1)
+            self.assertFalse(old.exists())
+            self.assertTrue(recent.exists())
+            self.assertTrue(unrelated.exists())
 
 
 class HoverOcrServiceTests(unittest.TestCase):
-    def test_cursor_is_snapshotted_before_worker_and_forwarded(self):
-        seen = []
+    def test_capture_is_synchronous_and_worker_receives_same_immutable_object(self):
+        capture = make_capture()
+        caller_thread = threading.get_ident()
+        capture_calls = []
+        worker_calls = []
 
-        def scanner(cursor, _cancel):
-            seen.append(cursor)
+        def capture_factory():
+            capture_calls.append(threading.get_ident())
+            return capture
+
+        def scanner(received, _cancel):
+            worker_calls.append((threading.get_ident(), received))
             return ["Cloak of Flames"], []
 
-        with patch.object(hover_ocr, "get_cursor_position", return_value=(123, -45)):
-            service = HoverOcrService(scanner)
-            self.addCleanup(service.close)
-            request_id = service.submit()
+        service = HoverOcrService(scanner, capture_factory)
+        self.addCleanup(service.close)
+        request_id = service.submit()
+        self.assertEqual(capture_calls, [caller_thread])
         deadline = time.monotonic() + 1.0
         results = []
         while time.monotonic() < deadline and not results:
             results = service.poll()
             time.sleep(0.005)
-        self.assertEqual(seen, [(123, -45)])
+        self.assertIs(worker_calls[0][1], capture)
+        self.assertNotEqual(worker_calls[0][0], caller_thread)
         self.assertEqual(results[0].request_id, request_id)
+        self.assertEqual(results[0].capture, capture.metadata)
 
-    def test_new_request_cancels_active_scan_and_latest_result_wins(self):
+    def test_new_request_cancels_active_ocr_and_latest_result_wins(self):
+        first = make_capture(cursor=(1, 1), marker=10)
+        latest = make_capture(cursor=(2, 2), marker=20)
         first_started = threading.Event()
 
-        def scanner(cursor, cancel):
-            if cursor == (1, 1):
+        def scanner(capture, cancel):
+            if capture is first:
                 first_started.set()
                 while not cancel.wait(0.005):
                     pass
                 raise RuntimeError("Hover scan cancelled.")
             return ["Cloak of Flames"], []
 
-        service = HoverOcrService(scanner)
+        service = HoverOcrService(scanner, lambda: first)
         self.addCleanup(service.close)
-        first_id = service.submit((1, 1))
+        first_id = service.submit(first)
         self.assertTrue(first_started.wait(0.5))
-        latest_id = service.submit((2, 2))
+        latest_id = service.submit(latest)
         deadline = time.monotonic() + 1.0
         results = []
         while time.monotonic() < deadline:
@@ -85,27 +181,47 @@ class HoverOcrServiceTests(unittest.TestCase):
             if any(row.request_id == latest_id for row in results):
                 break
             time.sleep(0.005)
-        latest = next(row for row in results if row.request_id == latest_id)
-        self.assertEqual(latest.candidates, ["Cloak of Flames"])
+        newest = next(row for row in results if row.request_id == latest_id)
+        self.assertEqual(newest.candidates, ["Cloak of Flames"])
+        self.assertEqual(newest.capture.cursor_x, 2)
         self.assertTrue(any(row.request_id == first_id and row.error for row in results))
 
+    def test_capture_failure_is_reported_without_starting_worker_ocr(self):
+        scanner_called = threading.Event()
+
+        def capture_factory():
+            raise hover_ocr.HoverCaptureError("Hover scan only captures EverQuest.")
+
+        def scanner(_capture, _cancel):
+            scanner_called.set()
+            return [], []
+
+        service = HoverOcrService(scanner, capture_factory)
+        self.addCleanup(service.close)
+        request_id = service.submit()
+        results = service.poll()
+        self.assertEqual(results[0].request_id, request_id)
+        self.assertIn("EverQuest", results[0].error)
+        self.assertFalse(scanner_called.is_set())
+
     def test_close_cancels_worker_and_submit_after_close_is_rejected(self):
+        capture = make_capture()
         started = threading.Event()
         stopped = threading.Event()
 
-        def scanner(_cursor, cancel):
+        def scanner(_capture, cancel):
             started.set()
             cancel.wait(2.0)
             stopped.set()
             raise RuntimeError("cancelled")
 
-        service = HoverOcrService(scanner)
-        service.submit((1, 1))
+        service = HoverOcrService(scanner, lambda: capture)
+        service.submit(capture)
         self.assertTrue(started.wait(0.5))
         service.close()
         self.assertTrue(stopped.wait(0.2))
         with self.assertRaises(RuntimeError):
-            service.submit((2, 2))
+            service.submit(capture)
 
 
 if __name__ == "__main__":
