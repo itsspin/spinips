@@ -7,7 +7,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>216</CX>
-			<CY>22</CY>
+			<CY>20</CY>
 		</Size>
 		<Template>BDT_PlayerBuff</Template>
 		<DecalOffset>
@@ -46,7 +46,7 @@
 		<Font>2</Font>
 		<Location>
 			<X>0</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>27</CX>
@@ -60,7 +60,7 @@
 		<Font>2</Font>
 		<Location>
 			<X>206</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>10</CX>
@@ -81,7 +81,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -93,7 +93,7 @@
 	<Screen item="SDBW_00_Screen">
 		<Size>
 			<CX>216</CX>
-			<CY>22</CY>
+			<CY>20</CY>
 		</Size>
 			<Pieces>SDBW_Buff_FrontSpacer</Pieces>
 			<Pieces>SDBW_Buff0</Pieces>
@@ -112,7 +112,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -139,7 +139,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -166,7 +166,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -193,7 +193,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -220,7 +220,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -247,7 +247,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -274,7 +274,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -301,7 +301,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -328,7 +328,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -355,7 +355,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -382,7 +382,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -409,7 +409,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -436,7 +436,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -463,7 +463,7 @@
 		<Style_Tooltip>false</Style_Tooltip>
 		<Location>
 			<X>27</X>
-			<Y>2</Y>
+			<Y>1</Y>
 		</Location>
 		<Size>
 			<CX>179</CX>
@@ -524,11 +524,12 @@
 	<BottomAnchorToTop>false</BottomAnchorToTop>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>true</Style_Transparent>
 		<DrawTemplate>WDT_InsetStone</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
 		<Style_Closebox>false</Style_Closebox>
 		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>true</Style_Border>
+		<Style_Border>false</Style_Border>
 		<Style_Sizable>false</Style_Sizable>
 		<Pieces>TileLayoutBox:SDBW_Buttons</Pieces>
 		<Pieces>TileLayoutBox:SDBW_Labels</Pieces>
@@ -542,17 +543,18 @@
 		</Location>
 		<Size>
 			<CX>216</CX>
-			<CY>367</CY>
+			<CY>324</CY>
 		</Size>
-		<Style_Transparent>false</Style_Transparent>
-		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_RoundedTransparentNoArrow</DrawTemplate>
 		<Style_Titlebar>true</Style_Titlebar>
 		<Style_Closebox>true</Style_Closebox>
 		<Style_Minimizebox>true</Style_Minimizebox>
-		<Style_Border>true</Style_Border>
+		<Style_Border>false</Style_Border>
 		<Style_Sizable>false</Style_Sizable>
 		<Escapable>false</Escapable>
 		<Style_ClientMovable>true</Style_ClientMovable>
+		<ClickThroughEmptyBuffs>true</ClickThroughEmptyBuffs>
 		<KeepOnScreen>true</KeepOnScreen>
 		<KeepOnScreenOffset>
 			<X>-3</X>

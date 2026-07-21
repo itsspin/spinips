@@ -134,9 +134,9 @@ PLACEMENTS: dict[str, dict] = {
     # July Legends-native effect rows: icon + readable name, backed by the
     # current 500..529 / 600..614 EQType bindings. Older menu variants remain
     # parked but hidden because they predate the Legends row schema.
-    "BuffWindow":                 P(3224, 8, show=1),           # 216x712 (XML)
+    "BuffWindow":                 P(3224, 8, show=1),           # 216x640 (XML)
     "BuffWindow_13":              P(3224, 8, show=0),
-    "ShortDurationBuffWindow":    P(3008, 8, show=1),           # 216x367 (XML)
+    "ShortDurationBuffWindow":    P(3008, 8, show=1),           # 216x324 (XML)
     "ShortDurationBuffWindow_13": P(3008, 8, show=0),
     "GroupWindow":             P(3210, 728, show=1),
     "ExtendedTargetWnd":       P(3024, 728, 178, 300),          # Show per base
@@ -365,10 +365,12 @@ def rebuild_chat_manager(lines: list[str]) -> list[str]:
 
 # XML-fixed sizes for windows the INI cannot size (from the window XMLs).
 XML_SIZES = {
+    # Player/Target keep their full transparent interaction and buff hosts for
+    # placement math even though only the compact lower subframes are painted.
     "PlayerWindow": (360, 193), "TargetWindow": (360, 193),
-    "PetInfoWindow": (311, 190), "BuffWindow": (216, 712),
-    "BuffWindow_13": (200, 712), "ShortDurationBuffWindow": (216, 367),
-    "ShortDurationBuffWindow_13": (200, 367), "BigBankWnd": (287, 390),
+    "PetInfoWindow": (311, 190), "BuffWindow": (216, 640),
+    "BuffWindow_13": (216, 640), "ShortDurationBuffWindow": (216, 324),
+    "ShortDurationBuffWindow_13": (216, 324), "BigBankWnd": (287, 390),
     "InventoryWindow": (780, 800), "BreathWindow": (118, 32),
     "GroupWindow": (230, 204),   # four-player Legends group = three companion rows
     "CompassWindow": (460, 36),

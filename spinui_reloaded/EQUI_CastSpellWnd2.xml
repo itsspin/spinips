@@ -29,10 +29,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell1">
 		<ScreenID>CSPW_Spell1</ScreenID>
@@ -46,10 +46,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell2">
 		<ScreenID>CSPW_Spell2</ScreenID>
@@ -63,10 +63,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell3">
 		<ScreenID>CSPW_Spell3</ScreenID>
@@ -80,10 +80,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell4">
 		<ScreenID>CSPW_Spell4</ScreenID>
@@ -97,10 +97,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell5">
 		<ScreenID>CSPW_Spell5</ScreenID>
@@ -114,10 +114,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell6">
 		<ScreenID>CSPW_Spell6</ScreenID>
@@ -131,10 +131,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell7">
 		<ScreenID>CSPW_Spell7</ScreenID>
@@ -148,10 +148,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell8">
 		<ScreenID>CSPW_Spell8</ScreenID>
@@ -165,10 +165,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell9">
 		<ScreenID>CSPW_Spell9</ScreenID>
@@ -182,10 +182,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell10">
 		<ScreenID>CSPW_Spell10</ScreenID>
@@ -199,10 +199,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell11">
 		<ScreenID>CSPW_Spell11</ScreenID>
@@ -216,10 +216,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell12">
 		<ScreenID>CSPW_Spell12</ScreenID>
@@ -233,10 +233,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<SpellGem item="CSPW_Spell13">
 		<ScreenID>CSPW_Spell13</ScreenID>
@@ -250,10 +250,10 @@
 			<Background>A_SpellGemBackground</Background>
 			<Highlight>A_SpellGemHighlight</Highlight>
 		</SpellGemDrawTemplate>
-		<SpellIconOffsetX>13</SpellIconOffsetX>
-		<SpellIconOffsetY>8</SpellIconOffsetY>
-		<SpellIconSizeX>24</SpellIconSizeX>
-		<SpellIconSizeY>24</SpellIconSizeY>
+		<SpellIconOffsetX>2</SpellIconOffsetX>
+		<SpellIconOffsetY>2</SpellIconOffsetY>
+		<SpellIconSizeX>36</SpellIconSizeX>
+		<SpellIconSizeY>36</SpellIconSizeY>
 	</SpellGem>
 	<Label item="CSPW_BookSpacer">
 		<ScreenID>CSPW_BookSpacer</ScreenID>

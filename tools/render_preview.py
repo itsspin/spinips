@@ -220,36 +220,49 @@ def draw_chat(canvas, x, y, w, h, name, lines, input_line=""):
         text(canvas, (x + 14, y + h - 17), input_line, size=12, color=DIM, anchor="lm")
 
 
+def draw_command_buffs(canvas, x, y, count=7):
+    """Paint only populated buff slots; the host canvas has no perimeter."""
+    for i in range(count):
+        slot(canvas, x + 6 + i * 23, y + 50, 22, ICONS[i % len(ICONS)])
+
+
 def draw_player(canvas, x, y):
-    ix0, iy0, ix1, iy1 = std_window(canvas, x, y, 336, 193, title=None)
-    text(canvas, (x + 12, y + 12), "Spin", size=17, color=GOLD_BRIGHT, bold=True)
-    text(canvas, (x + 324, y + 14), "40  WAR/DRU/BRD", size=12, color=DIM, anchor="ra")
-    gauge(canvas, x + 12, y + 42, 312, 18, 0.93, HP, "HP", "3206 / 3446   93%")
-    gauge(canvas, x + 12, y + 66, 312, 14, 0.72, MANA, "MANA", "1622 / 2251   72%")
-    gauge(canvas, x + 12, y + 86, 312, 14, 0.98, ENDUR, "END", "2212 / 2251   98%")
-    gauge(canvas, x + 12, y + 108, 312, 10, 0.64, PET, None, None)
-    text(canvas, (x + 12, y + 122), "Gann (pet)  64%", size=10, color=DIM)
-    gauge(canvas, x + 12, y + 144, 250, 8, 0.06, GOLD, None, None, ticks=True)
-    text(canvas, (x + 324, y + 141), "EXP 6%", size=10, color=DIM, anchor="ra")
-    gauge(canvas, x + 12, y + 162, 250, 8, 0.17, CYAN, None, None, ticks=True)
-    text(canvas, (x + 324, y + 159), "AA 17%", size=10, color=DIM, anchor="ra")
+    # PlayerWindow remains a 360x193 interaction/buff host, but only its
+    # compact subwindow is visible.  This mirrors the borderless live XML.
+    draw_command_buffs(canvas, x, y)
+    glass_window(canvas, x, y + 70, 360, 123, alpha=248)
+    text(canvas, (x + 6, y + 76), "39 WAR/DRU/BRD", size=11,
+         color=TEXT, bold=True)
+    ImageDraw.Draw(canvas).ellipse([x + 342, y + 77, x + 352, y + 87],
+                                   fill=GREEN + (255,))
+    gauge(canvas, x + 6, y + 90, 348, 18, 1.0, HP, None, "3025/3025")
+    gauge(canvas, x + 6, y + 111, 348, 14, 1.0, MANA, None, "1599/1599")
+    gauge(canvas, x + 6, y + 128, 348, 14, 1.0, ENDUR, None, "2119/2119")
+    gauge(canvas, x + 6, y + 145, 348, 9, .31, GOLD, None, None, ticks=True)
+    gauge(canvas, x + 6, y + 157, 348, 9, .17, CYAN, None, None, ticks=True)
+    gauge(canvas, x + 6, y + 169, 278, 6, .80, MANA, None, None, ticks=True)
+    d = ImageDraw.Draw(canvas)
+    d.rectangle([x + 4, y + 178, x + 355, y + 191], fill=VOID + (230,))
+    d.line([x + 4, y + 177, x + 228, y + 177], fill=GOLD + (190,))
+    d.line([x + 232, y + 177, x + 355, y + 177], fill=CYAN + (190,))
+    text(canvas, (x + 6, y + 185), "Defensive Stance", size=10,
+         color=GOLD_BRIGHT, anchor="lm")
+    text(canvas, (x + 354, y + 185), "Empower", size=10,
+         color=CYAN, anchor="rm")
 
 
 def draw_target(canvas, x, y):
-    std_window(canvas, x, y, 336, 193, title=None)
-    text(canvas, (x + 12, y + 10), "a froglok shin knight", size=16, color=TEXT, bold=True)
-    gauge(canvas, x + 12, y + 40, 312, 22, 0.74, HP, None, "74%")
-    text(canvas, (x + 12, y + 70), "Level 38 · Warrior", size=11, color=DIM)
-    # target casting bar
-    gauge(canvas, x + 12, y + 92, 312, 10, 0.42, CYAN, None, None)
-    text(canvas, (x + 12, y + 106), "Casting: Frogloktik Curse", size=10, color=CYAN)
-    # target of target
-    text(canvas, (x + 12, y + 130), "ToT:", size=11, color=DIM)
-    gauge(canvas, x + 48, y + 128, 200, 12, 0.93, HP, None, None)
-    text(canvas, (x + 56, y + 133), "Spin", size=10, color=TEXT, anchor="lm")
-    # debuff icon strip
-    for i in range(6):
-        slot(canvas, x + 12 + i * 26, y + 152, 22, ICONS[i] if i < 4 else None)
+    draw_command_buffs(canvas, x, y)
+    glass_window(canvas, x, y + 70, 360, 123, alpha=248)
+    text(canvas, (x + 6, y + 76), "39 WAR/DRU/BRD", size=11,
+         color=TEXT, bold=True)
+    gauge(canvas, x + 6, y + 90, 348, 18, 1.0, HP, "Spin", "100")
+    gauge(canvas, x + 6, y + 111, 348, 14, 1.0, MANA, None, "100")
+    gauge(canvas, x + 6, y + 128, 348, 14, 1.0, ENDUR, None, "100")
+    gauge(canvas, x + 6, y + 145, 348, 10, .42, CYAN, None, None)
+    gauge(canvas, x + 6, y + 158, 348, 14, 1.0, HP, "Spin", "100")
+    text(canvas, (x + 30, y + 177), "39 WAR/DRU/BRD", size=10,
+         color=TEXT)
 
 
 def draw_stance(canvas, x, y, w, h):
@@ -310,8 +323,8 @@ def draw_gems(canvas, x, y, w, h):
         canvas.alpha_composite(cell("window_pieces02.tga", 208, 216, 40, 40), (x + 6, gy))
         d = ImageDraw.Draw(canvas)
         if i != 11:
-            d.ellipse([x + 12, gy + 6, x + 39, gy + 33], fill=gem_colors[i] + (255,))
-            d.ellipse([x + 19, gy + 10, x + 31, gy + 16], fill=(255, 255, 255, 32))
+            d.ellipse([x + 8, gy + 2, x + 43, gy + 37], fill=gem_colors[i] + (255,))
+            d.ellipse([x + 17, gy + 7, x + 34, gy + 15], fill=(255, 255, 255, 32))
 
 
 def draw_group(canvas, x, y):
@@ -330,17 +343,27 @@ def draw_group(canvas, x, y):
 
 
 def draw_buffs(canvas, x, y, title, rows, w=200, h=None):
-    h = h or (24 + rows * 24 + 8)
-    std_window(canvas, x, y, w, h, title=title, alpha=240)
+    h = h or (18 + rows * 20 + 6)
+    # Match the transparent, click-through maximum-slot canvas used by the
+    # real Buff/Song windows: only the slim header and populated rows paint.
+    d = ImageDraw.Draw(canvas)
+    d.rectangle([x, y, x + w - 1, y + 15], fill=BG1 + (224,),
+                outline=LINE + (245,))
+    d.line([(x + 4, y), (x + 56, y)], fill=CYAN + (235,), width=2)
+    text(canvas, (x + w // 2, y + 8), title.upper(), size=9,
+         color=DIM, bold=True, anchor="mm")
     names = ["Chloroplast", "Talisman of Altuna", "Storm Strength", "Guard of the Glade",
              "Chant of Battle", "Hymn of Restoration", "Psalm of Warmth", "Jonthan's Whistling Warsong",
              "Spirit of Wolf", "Clarity", "Temperance", "Shield of Barbs", "Regrowth",
              "Aegolism", "Speed of the Shissar", "Riotous Health", "Heroic Bond", "Form of Protection"]
     for i in range(rows):
-        by = y + 26 + i * 24
-        slot(canvas, x + 8, by, 20, ICONS[i % len(ICONS)])
-        text(canvas, (x + 34, by + 3), names[i % len(names)], size=11, color=TEXT)
-        text(canvas, (x + w - 8, by + 4), f"{27 - i}m", size=10, color=DIM, anchor="ra")
+        by = y + 18 + i * 20
+        d.rectangle([x + 1, by, x + w - 2, by + 19],
+                    fill=BG1 + (190,), outline=LINE_SOFT + (150,))
+        slot(canvas, x + 3, by, 20, ICONS[i % len(ICONS)])
+        text(canvas, (x + 27, by + 2), names[i % len(names)], size=10, color=TEXT)
+        text(canvas, (x + w - 6, by + 2), f"{27 - i}m", size=9,
+             color=DIM, anchor="ra")
 
 
 def draw_map(canvas, x, y, w, h):
@@ -518,7 +541,7 @@ def draw_compass(canvas, x, y, w=460, h=34):
 
 
 def draw_songs(canvas, x, y):
-    draw_buffs(canvas, x, y, "Song Effects", 6, w=200, h=24 + 6 * 24 + 8)
+    draw_buffs(canvas, x, y, "Song Effects", 6, w=216, h=324)
 
 
 # ---------------------------------------------------------------------------
@@ -603,7 +626,7 @@ def main():
 
     # right column
     x, y, w, h = xy("BuffWindow")
-    draw_buffs(canvas, x, y, "Spell Effects", 18, w=200, h=712)
+    draw_buffs(canvas, x, y, "Spell Effects", 18, w=216, h=640)
     x, y, w, h = xy("ShortDurationBuffWindow")
     draw_songs(canvas, x, y)
     draw_group(canvas, *xy("GroupWindow")[:2])

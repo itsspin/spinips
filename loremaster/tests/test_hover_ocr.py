@@ -62,6 +62,23 @@ class HoverCandidateTests(unittest.TestCase):
     def test_zero_candidate_limit_is_respected(self):
         self.assertEqual(rank_item_candidates([OcrLine("Cloak of Flames")], limit=0), [])
 
+    def test_legends_bracer_title_beats_wrapped_classes_and_upgrade_controls(self):
+        lines = [
+            OcrLine("Pristine Studded Leather Bracer +3", 118, 2, 192, 10),
+            OcrLine("Description", 177, 24, 63, 12),
+            OcrLine("Pristine Studded Leather Bracer +3", 69, 54, 192, 10),
+            OcrLine("No Trade", 69, 70, 51, 10),
+            OcrLine("Class: WAR CLR PAL RNG SHD DRU MNK BRD ROG", 69, 86, 296, 10),
+            OcrLine("SHM BST BER", 69, 102, 80, 10),
+            OcrLine("Wrist", 69, 118, 30, 10),
+            OcrLine("Tier 3", 124, 159, 31, 10),
+            OcrLine("Merge Place", 28, 164, 84, 12),
+        ]
+        candidates = rank_item_candidates(lines, cursor_x=58, cursor_y=94)
+        self.assertEqual(candidates[0], "Pristine Studded Leather Bracer")
+        for noise in ("No Trade", "SHM BST BER", "Wrist", "Tier 3", "Merge Place"):
+            self.assertNotIn(noise, candidates)
+
 
 class CaptureArtifactTests(unittest.TestCase):
     def test_capture_and_metadata_are_immutable_and_local_cursor_is_exact(self):

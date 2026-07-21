@@ -9,6 +9,7 @@ on:
       - "loremaster/**"
       - "installer/**"
       - "tools/**"
+      - "docs/**"
       - "UI_Spin_qeynos_LO1.ini"
       - "README.md"
       - ".github/workflows/build-loremaster.yml"
@@ -78,6 +79,7 @@ jobs:
           foreach ($package in @($installerPackage, $manualPackage)) {
             Copy-Item -Recurse -Force spinui_reloaded (Join-Path $package 'spinui_reloaded')
             Copy-Item -Recurse -Force layouts (Join-Path $package 'layouts')
+            Copy-Item -Recurse -Force docs (Join-Path $package 'docs')
             Copy-Item -Force UI_Spin_qeynos_LO1.ini $package
             Copy-Item -Force README.md $package
             Copy-Item -Force installer/INSTALL-MANUAL.md (Join-Path $package 'INSTALL.md')

@@ -86,6 +86,10 @@ def dimensions(node: ET.Element) -> tuple[int, int]:
     return child_int(node, "Size/CX"), child_int(node, "Size/CY")
 
 
+def dimensions_at(node: ET.Element, path: str) -> tuple[int, int]:
+    return child_int(node, f"{path}/CX"), child_int(node, f"{path}/CY")
+
+
 def color(node: ET.Element, container: str) -> tuple[int, int, int]:
     return tuple(child_int(node, f"{container}/{channel}")
                  for channel in ("R", "G", "B"))
@@ -120,8 +124,12 @@ def audit_player_and_target() -> None:
     require_binding(player, "Label", "Player_ManaLabel", "ManaLabel", 1009)
     require_binding(player, "Label", "PW_MPNumbers", "PW_MPNumbers", 128)
     require_binding(player, "Label", "PW_ENNumbers", "PW_ENNumbers", 129)
-    require_binding(player, "Label", "PW_StanceLabel", "PW_StanceLabel", 1026)
-    require_binding(player, "Label", "PW_InvocationInfo", "PW_InvocationInfo", 1017)
+    stance = require_binding(
+        player, "Label", "PW_StanceLabel", "PW_StanceLabel", 1026
+    )
+    invocation = require_binding(
+        player, "Label", "PW_InvocationInfo", "PW_InvocationInfo", 1017
+    )
     require_binding(player, "Label", "PW_AggroPctPlayerLabel",
                     "PW_AggroPctPlayerLabel", 306)
     require_binding(player, "Label", "PW_AggroNameSecondaryLabel",
@@ -131,8 +139,34 @@ def audit_player_and_target() -> None:
     require_binding(player, "DragBox", "PW_DragBox", "PW_DragBox")
     require_binding(player, "DragBox", "PW_DragBox2", "PW_DragBox2")
     item(player, "Screen", "IW_Gauges_Background")
-    if dimensions(item(player, "Screen", "PlayerWindow")) != (360, 193):
+    player_subwindow = item(player, "Screen", "PlayerSubWindow")
+    if child_text(player_subwindow, "Style_Border") != "true":
+        fail("PlayerSubWindow must remain the visible compact command frame")
+    player_window = item(player, "Screen", "PlayerWindow")
+    if dimensions(player_window) != (360, 193):
         fail("PlayerWindow must remain 360x193")
+    if (child_text(player_window, "Style_Border") != "false" or
+            child_text(player_window, "Style_Transparent") != "true"):
+        fail("PlayerWindow reintroduced the faint maximum-canvas perimeter")
+    if (child_text(player_window, "Style_ClientMovable") != "true" or
+            child_text(player_window, "ClickThroughEmptyBuffs") != "true"):
+        fail("PlayerWindow interaction or empty-buff click-through changed")
+    for label, expected, alignment in (
+        (stance, (91, 107, 6, 132), "false"),
+        (invocation, (91, 107, 232, 6), "true"),
+    ):
+        actual = tuple(
+            child_int(label, tag) for tag in (
+                "TopAnchorOffset", "BottomAnchorOffset",
+                "LeftAnchorOffset", "RightAnchorOffset",
+            )
+        )
+        if actual != expected:
+            fail(f"{label.get('item')} bottom-rail geometry changed")
+        if child_text(label, "AlignRight") != alignment:
+            fail(f"{label.get('item')} bottom-rail alignment changed")
+        if child_int(label, "Font") != 4 or child_text(label, "NoWrap") != "true":
+            fail(f"{label.get('item')} lost its readable single-line treatment")
     for name, expected in (("Player_HP", HP), ("Player_Mana", MANA),
                            ("Player_Fatigue", ENDURANCE), ("Pet_HP", PET),
                            ("PW_ExpGauge", ENDURANCE),
@@ -148,8 +182,18 @@ def audit_player_and_target() -> None:
     require_binding(target, "Label", "Target_ENDNumbers", "Target_ENDNumbers", 1013)
     require_binding(target, "DragBox", "TW_DragBox", "TW_DragBox")
     item(target, "Screen", "Target_Gauges_Background")
-    if dimensions(item(target, "Screen", "TargetWindow")) != (360, 193):
+    target_subwindow = item(target, "Screen", "TargetSubWindow")
+    if child_text(target_subwindow, "Style_Border") != "true":
+        fail("TargetSubWindow must remain the visible compact command frame")
+    target_window = item(target, "Screen", "TargetWindow")
+    if dimensions(target_window) != (360, 193):
         fail("TargetWindow must remain 360x193")
+    if (child_text(target_window, "Style_Border") != "false" or
+            child_text(target_window, "Style_Transparent") != "true"):
+        fail("TargetWindow reintroduced the faint maximum-canvas perimeter")
+    if (child_text(target_window, "Style_ClientMovable") != "true" or
+            child_text(target_window, "ClickThroughEmptyBuffs") != "true"):
+        fail("TargetWindow interaction or empty-buff click-through changed")
     for name, expected in (("Target_HP", HP), ("Target_HP_NameOnly", HP),
                            ("TTargetOfTarget_HP", HP),
                            ("Target_Mana", MANA),
@@ -217,24 +261,72 @@ def audit_group_and_extended_targets() -> None:
 
 def audit_effects_casting_and_bars() -> None:
     buffs = root_for("EQUI_BuffWindow.xml")
-    if dimensions(item(buffs, "Screen", "BuffWindow")) != (216, 712):
-        fail("BuffWindow must remain 216x712")
+    buff_window = item(buffs, "Screen", "BuffWindow")
+    if dimensions(buff_window) != (216, 640):
+        fail("BuffWindow must remain 216x640")
+    if child_text(buff_window, "Style_Transparent") != "true":
+        fail("BuffWindow must not paint an opaque maximum-slot canvas")
+    if child_text(buff_window, "DrawTemplate") != "WDT_RoundedTransparentNoArrow":
+        fail("BuffWindow lost its slim transparent command header")
+    if child_text(buff_window, "Style_Border") != "false":
+        fail("BuffWindow reintroduced the full-height maximum-slot perimeter")
+    if child_text(buff_window, "ClickThroughEmptyBuffs") != "true":
+        fail("BuffWindow empty slots must remain click-through")
+    buff_background = item(buffs, "Screen", "BW_Background")
+    if (child_text(buff_background, "Style_Transparent") != "true" or
+            child_text(buff_background, "Style_Border") != "false"):
+        fail("BuffWindow inset background became opaque")
+    buff_template = item(buffs, "Button", "BW_Player_Buff_Template")
+    if dimensions(buff_template) != (216, 20):
+        fail("BuffWindow rows must remain tightly packed at 216x20")
+    if dimensions_at(buff_template, "DecalSize") != (20, 20):
+        fail("BuffWindow icon geometry drifted")
+    if dimensions(item(buffs, "Screen", "BW_00_Screen")) != (216, 20):
+        fail("BuffWindow label row template drifted")
     for index in range(30):
         label = require_binding(buffs, "Label", f"BW_Buff{index}",
                                 f"Buff{index}Label", 500 + index)
         if child_int(label, "Font") < 3:
             fail(f"BW_Buff{index} fell below the accessible font tier")
+        if dimensions(label) != (179, 18):
+            fail(f"BW_Buff{index} geometry drifted")
+        if (child_int(label, "Location/X"), child_int(label, "Location/Y")) != (27, 1):
+            fail(f"BW_Buff{index} lost compact row alignment")
         item(buffs, "Screen", f"BW_{index:02d}_Screen")
 
     songs = root_for("EQUI_ShortDurationBuffWindow.xml")
-    if dimensions(item(songs, "Screen", "ShortDurationBuffWindow")) != (216, 367):
-        fail("ShortDurationBuffWindow must remain 216x367")
+    song_window = item(songs, "Screen", "ShortDurationBuffWindow")
+    if dimensions(song_window) != (216, 324):
+        fail("ShortDurationBuffWindow must remain 216x324")
+    if child_text(song_window, "Style_Transparent") != "true":
+        fail("ShortDurationBuffWindow must not paint an opaque maximum-slot canvas")
+    if child_text(song_window, "DrawTemplate") != "WDT_RoundedTransparentNoArrow":
+        fail("ShortDurationBuffWindow lost its slim transparent command header")
+    if child_text(song_window, "Style_Border") != "false":
+        fail("ShortDurationBuffWindow reintroduced the full-height maximum-slot perimeter")
+    if child_text(song_window, "ClickThroughEmptyBuffs") != "true":
+        fail("ShortDurationBuffWindow empty slots must remain click-through")
+    song_background = item(songs, "Screen", "SDBW_Background")
+    if (child_text(song_background, "Style_Transparent") != "true" or
+            child_text(song_background, "Style_Border") != "false"):
+        fail("ShortDurationBuffWindow inset background became opaque")
+    song_template = item(songs, "Button", "SDBW_Player_Buff_Template")
+    if dimensions(song_template) != (216, 20):
+        fail("ShortDurationBuffWindow rows must remain tightly packed at 216x20")
+    if dimensions_at(song_template, "DecalSize") != (20, 20):
+        fail("ShortDurationBuffWindow icon geometry drifted")
+    if dimensions(item(songs, "Screen", "SDBW_00_Screen")) != (216, 20):
+        fail("ShortDurationBuffWindow label row template drifted")
     for index in range(15):
         screen_id = "Buff1Label" if index == 1 else f"SDBuff{index}Label"
         label = require_binding(songs, "Label", f"SDBW_Buff{index}",
                                 screen_id, 600 + index)
         if child_int(label, "Font") < 3:
             fail(f"SDBW_Buff{index} fell below the accessible font tier")
+        if dimensions(label) != (179, 18):
+            fail(f"SDBW_Buff{index} geometry drifted")
+        if (child_int(label, "Location/X"), child_int(label, "Location/Y")) != (27, 1):
+            fail(f"SDBW_Buff{index} lost compact row alignment")
         item(songs, "Screen", f"SDBW_{index:02d}_Screen")
 
     casting = root_for("EQUI_CastingWindow.xml")
@@ -251,7 +343,17 @@ def audit_effects_casting_and_bars() -> None:
     spells = root_for("EQUI_CastSpellWnd.xml")
     item(spells, "Ui2DAnimation", "Spell_Gem_Background")
     for index in range(14):
-        require_binding(spells, "SpellGem", f"CSPW_Spell{index}", f"CSPW_Spell{index}")
+        gem = require_binding(
+            spells, "SpellGem", f"CSPW_Spell{index}", f"CSPW_Spell{index}"
+        )
+        if dimensions(gem) != (40, 40):
+            fail(f"CSPW_Spell{index} socket geometry drifted")
+        if (child_int(gem, "SpellIconOffsetX"),
+                child_int(gem, "SpellIconOffsetY")) != (2, 2):
+            fail(f"CSPW_Spell{index} icon is no longer centered")
+        if (child_int(gem, "SpellIconSizeX"),
+                child_int(gem, "SpellIconSizeY")) != (36, 36):
+            fail(f"CSPW_Spell{index} icon no longer fills its socket")
     if dimensions(item(spells, "Screen", "CastSpellWnd")) != (52, 623):
         fail("CastSpellWnd must expose all 14 Legends gems at 52x623")
 
@@ -390,6 +492,23 @@ def audit_variant_safety() -> None:
     checked = 0
     for canonical_name, variants in CANONICAL_VARIANTS.items():
         expected = binding_map(SKIN / canonical_name)
+        canonical_root = root_for(canonical_name)
+
+        def semantic_signature(node: ET.Element):
+            """Compare aliases without whitespace/comments or picker labels."""
+            children = tuple(
+                semantic_signature(child)
+                for child in list(node)
+                if child.tag != "MenuName"
+            )
+            return (
+                node.tag,
+                tuple(sorted(node.attrib.items())),
+                (node.text or "").strip(),
+                children,
+            )
+
+        expected_visuals = semantic_signature(canonical_root)
         for variant_name in variants:
             path = SKIN / variant_name
             if not path.exists():
@@ -408,6 +527,8 @@ def audit_variant_safety() -> None:
             variant_root = ET.parse(path).getroot()
             if variant_root.find(".//MenuName") is not None:
                 fail(f"retired duplicate variant is still exposed: {variant_name}")
+            if semantic_signature(variant_root) != expected_visuals:
+                fail(f"compatibility variant visual drift: {variant_name}")
             checked += 1
 
     # Stance keeps two genuinely useful text-position alternatives.  They must

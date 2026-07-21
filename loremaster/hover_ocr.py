@@ -94,15 +94,20 @@ _PROPERTY_PREFIXES = (
     "ac", "agility", "agi", "attack", "attunable", "augment", "charisma",
     "cha", "class", "click effect", "damage", "delay", "description",
     "dex", "dexterity", "effect", "endurance", "focus effect", "haste",
-    "heirloom", "hp", "int", "intelligence", "lore", "magic item", "mana",
-    "no drop", "placeable", "prestige", "proc effect", "race", "recommended",
-    "required", "size", "slot", "sta", "stamina", "str", "strength",
+    "heirloom", "hp", "int", "intelligence", "lore", "lore equipped",
+    "magic item", "mana", "no drop", "no trade", "placeable", "prestige",
+    "proc effect", "race", "recommended",
+    "required", "size", "slot", "sta", "stamina", "str", "strength", "tier",
     "tribute", "unmodified", "value", "weight", "wis", "wisdom", "worn effect",
     "wt",
 )
 _UI_NOISE = {
     "inventory", "equipment", "pet", "loadouts", "storage", "destroy",
     "skills", "achievements", "find item", "done", "inspect", "close",
+    "merge", "merge place", "place item",
+    "charm", "ear", "head", "face", "neck", "shoulders", "arms", "back",
+    "wrist", "range", "hands", "primary", "secondary", "finger", "chest",
+    "legs", "feet", "waist", "ammo",
 }
 
 
@@ -120,7 +125,7 @@ def _candidate_score(line: OcrLine, cursor_x: float, cursor_y: float) -> float |
     folded = text.casefold()
     if not 3 <= len(text) <= 90 or not re.search(r"[A-Za-z]", text):
         return None
-    if folded in _UI_NOISE or any(
+    if folded in _UI_NOISE or folded.startswith("tier ") or any(
             folded == prefix or folded.startswith(prefix + ":")
             for prefix in _PROPERTY_PREFIXES):
         return None
@@ -131,6 +136,14 @@ def _candidate_score(line: OcrLine, cursor_x: float, cursor_y: float) -> float |
         return None
     words = re.findall(r"[A-Za-z0-9][A-Za-z0-9'`-]*", text)
     if not 1 <= len(words) <= 9:
+        return None
+    # Wrapped class lists in Legends tooltips are otherwise plausible-looking
+    # all-caps candidates (for example ``SHM BST BER``).
+    class_codes = {
+        "WAR", "CLR", "PAL", "RNG", "SHD", "DRU", "MNK", "BRD",
+        "ROG", "SHM", "NEC", "WIZ", "MAG", "ENC", "BST", "BER",
+    }
+    if len(words) >= 2 and all(word.upper() in class_codes for word in words):
         return None
     title_words = sum(1 for word in words if word[:1].isupper())
     score = min(18.0, max(0.0, line.height) * 1.4)
