@@ -379,6 +379,26 @@ def audit_effects_casting_and_bars() -> None:
     if "Screen:SW_DisplayStanceInvocation" not in pieces:
         fail("active stance bar lost its stance/invocation text rail")
 
+    # Twin-wing rail: static captions bracket the bar, the dynamic names sit
+    # inside their wing, and the ember gem marks the split.
+    for caption, expected_text in (("SW_StanceCaption", "STANCE"),
+                                   ("SW_InvocationCaption", "INVOCATION")):
+        node = item(stance, "Label", caption)
+        if child_text(node, "Text") != expected_text:
+            fail(f"{caption} lost its wing caption text")
+    item(stance, "StaticAnimation", "SW_WingGem")
+    item(stance, "Ui2DAnimation", "A_SpinWingGem")
+    rail = item(stance, "Screen", "SW_DisplayStanceInvocation")
+    rail_pieces = [node.text for node in rail.findall("Pieces") if node.text]
+    for piece in ("SW_StanceCaption", "SW_InvocationCaption", "SW_WingGem"):
+        if piece not in rail_pieces:
+            fail(f"stance rail lost wing piece {piece}")
+    if rail_pieces.index("SW_WingGem") > rail_pieces.index("SW_StanceLabel"):
+        fail("wing gem must render beneath the dynamic stance name")
+    if (child_int(stance_label, "LeftAnchorOffset") != 48
+            or child_int(invocation_label, "RightAnchorOffset") != 64):
+        fail("dynamic stance/invocation names left their wings")
+
 
 def audit_raid_and_actions() -> None:
     raid = root_for("EQUI_RaidWindow.xml")

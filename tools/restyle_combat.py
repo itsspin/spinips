@@ -24,6 +24,7 @@ TEXT_DIM = (146, 161, 169)
 GOLD = (219, 158, 42)
 GOLD_BRIGHT = (250, 205, 95)
 CYAN = (52, 218, 190)
+CYAN_BRIGHT = (150, 240, 222)
 HP = (222, 62, 72)
 MANA = (66, 126, 244)
 ENDURANCE = (219, 158, 42)
@@ -180,8 +181,12 @@ def set_font(block: str, value: int) -> str:
     return block[:match.end()] + f"\n{indent}<Font>{value}</Font>" + block[match.end():]
 
 
-def style_gauge(block: str, color: tuple[int, int, int]) -> str:
-    return set_color(block, "FillTint", color)
+def style_gauge(block: str, color: tuple[int, int, int],
+                lines: tuple[int, int, int] | None = None) -> str:
+    block = set_color(block, "FillTint", color)
+    if lines is not None:
+        block = set_color(block, "LinesFillTint", lines)
+    return block
 
 
 def set_root_widths(block: str, width: int) -> str:
@@ -274,18 +279,21 @@ def style_buff_file(path: Path, prefix: str, count: int,
 def style_player() -> None:
     path = SKIN / "EQUI_PlayerWindow.xml"
     text = path.read_text(encoding="ascii")
+    # XP is ember gold, AA is venom — including the LinesFill sub-tick
+    # overlay, which the stock skin left pure blue on both bars and made the
+    # two gauges indistinguishable at a glance.
     gauges = {
-        "Player_HP": HP,
-        "Player_Mana": MANA,
-        "Player_Fatigue": ENDURANCE,
-        "Pet_HP": PET,
-        "PW_ExpGauge": GOLD,
-        "PW_AltAdvGauge": CYAN,
-        "PW_Castspell_Gauge": CYAN,
+        "Player_HP": (HP, None),
+        "Player_Mana": (MANA, None),
+        "Player_Fatigue": (ENDURANCE, None),
+        "Pet_HP": (PET, None),
+        "PW_ExpGauge": (GOLD, GOLD_BRIGHT),
+        "PW_AltAdvGauge": (CYAN, CYAN_BRIGHT),
+        "PW_Castspell_Gauge": (CYAN, None),
     }
-    for name, color in gauges.items():
+    for name, (color, lines) in gauges.items():
         text = change_item(text, "Gauge", name,
-                           lambda b, c=color: style_gauge(b, c))
+                           lambda b, c=color, l=lines: style_gauge(b, c, l))
     for name, color in (("PW_Level", GOLD_BRIGHT), ("PW_Class", TEXT),
                         ("PW_StanceLabel", GOLD_BRIGHT),
                         ("PW_InvocationInfo", CYAN)):
@@ -522,15 +530,133 @@ def style_hotbuttons() -> None:
     write_ascii(path, text)
 
 
+CYAN_DIM = (36, 152, 133)
+
+# Twin-wing rail: static STANCE / INVOCATION captions bracket the bar, the
+# dynamic names sit inside their wing, and an ember gem marks the split.
+WING_BLOCK = """	<!-- SPIN-WING: stance / invocation twin-wing rail -->
+	<TextureInfo item="spin_deco.tga">
+		<Size>
+			<CX>128</CX>
+			<CY>128</CY>
+		</Size>
+	</TextureInfo>
+	<Ui2DAnimation item="A_SpinWingGem">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>spin_deco.tga</Texture>
+			<Location>
+				<X>112</X>
+				<Y>64</Y>
+			</Location>
+			<Size>
+				<CX>12</CX>
+				<CY>12</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+	<Label item="SW_StanceCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>46</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>STANCE</Text>
+		<TextColor>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AlignLeft>true</AlignLeft>
+	</Label>
+	<Label item="SW_InvocationCaption">
+		<Font>1</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>13</BottomAnchorOffset>
+		<LeftAnchorOffset>62</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>INVOCATION</Text>
+		<TextColor>
+			<R>36</R>
+			<G>152</G>
+			<B>133</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+		<AlignLeft>false</AlignLeft>
+	</Label>
+	<StaticAnimation item="SW_WingGem">
+		<ScreenID>SW_WingGem</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>214</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>12</CX>
+			<CY>12</CY>
+		</Size>
+		<Animation>A_SpinWingGem</Animation>
+	</StaticAnimation>
+"""
+
+WING_PIECES = """		<Pieces>SW_StanceCaption</Pieces>
+		<Pieces>SW_InvocationCaption</Pieces>
+		<Pieces>SW_WingGem</Pieces>
+"""
+
+
 def style_stance_file(path: Path, menu_name: str | None = None) -> None:
     text = path.read_text(encoding="ascii")
+    if 'item="SW_StanceCaption"' not in text:
+        schema = re.search(r"<Schema[^>]*/>", text)
+        if schema is None:
+            fail(f"missing Schema in {path.name}")
+        text = text[:schema.end()] + "\n" + WING_BLOCK + text[schema.end():]
+        rail_anchor = "\t\t<Pieces>SW_StanceLabel</Pieces>\n"
+        if rail_anchor not in text:
+            fail(f"missing stance rail pieces in {path.name}")
+        text = text.replace(rail_anchor, WING_PIECES + rail_anchor, 1)
+    def center_in_wing(block: str, color, left: int, right: int) -> str:
+        # The dynamic names center inside their wing box, so any stance or
+        # invocation name the client returns sits balanced with no overlap —
+        # the boxes stop short of the center gem on both sides.
+        block = set_color(set_font(block, 3), "TextColor", color)
+        block = set_value(block, "LeftAnchorOffset", left)
+        block = set_value(block, "RightAnchorOffset", right)
+        block = set_value(block, "AlignCenter", "true")
+        block = set_value(block, "AlignLeft", "false")
+        block = set_value(block, "AlignRight", "false")
+        return block
+
     text = change_item(
         text, "Label", "SW_StanceLabel",
-        lambda b: set_color(set_font(b, 3), "TextColor", GOLD_BRIGHT),
+        lambda b: center_in_wing(b, GOLD_BRIGHT, 48, 208),
     )
     text = change_item(
         text, "Label", "SW_InvocationLabel",
-        lambda b: set_color(set_font(b, 3), "TextColor", CYAN),
+        lambda b: center_in_wing(b, CYAN, 208, 64),
     )
     text = change_item(text, "Button", "SW_ButtonTemplate",
                        lambda b: set_font(b, 2))
@@ -577,6 +703,28 @@ def sync_canonical_variants() -> None:
             write_ascii(SKIN / variant_name, source)
 
 
+def style_experience_gauges() -> None:
+    """One color identity per progression bar, everywhere it appears.
+
+    XP is ember gold and AA is venom — including the LinesFill sub-tick
+    overlay, which the stock skin left pure blue on every experience-type
+    gauge so the two bars were indistinguishable at a glance.
+    """
+    path = SKIN / "EQUI_InventoryWindow.xml"
+    text = path.read_text(encoding="utf-8")
+    text = change_item(text, "Gauge", "IW_ExpGauge",
+                       lambda b: style_gauge(b, GOLD, GOLD_BRIGHT))
+    text = change_item(text, "Gauge", "IW_AltAdvGauge",
+                       lambda b: style_gauge(b, CYAN, CYAN_BRIGHT))
+    path.write_text(text, encoding="utf-8")
+
+    path = SKIN / "EQUI_AAWindow.xml"
+    text = path.read_text(encoding="ascii")
+    text = change_item(text, "Gauge", "AAW_ExpGauge",
+                       lambda b: style_gauge(b, CYAN, CYAN_BRIGHT))
+    write_ascii(path, text)
+
+
 def style_raid() -> None:
     path = SKIN / "EQUI_RaidWindow.xml"
     text = path.read_text(encoding="ascii")
@@ -603,6 +751,7 @@ def main() -> int:
     style_spell_gems()
     style_hotbuttons()
     style_stance()
+    style_experience_gauges()
     style_raid()
     sync_canonical_variants()
     print("Combat Command Center restyle: complete")

@@ -1359,17 +1359,19 @@ def check_alerts(kind: str, g: dict, raw_msg: str, character: str, cfg: dict):
     if not cfg.get("alerts_enabled", True):
         return []
     out = []
-    if kind == "tell_in":
+    if kind == "tell_in" and cfg.get("alert_tells", True):
         out.append(("info", f"TELL \u2014 {g['sender']}: {g['msg'][:60]}"))
-    elif kind == "summoned":
+    elif kind == "summoned" and cfg.get("alert_summon", True):
         out.append(("danger", "YOU HAVE BEEN SUMMONED"))
-    elif kind == "death_you":
+    elif kind == "death_you" and cfg.get("alert_death", True):
         out.append(("danger", f"YOU DIED \u2014 {g.get('killer', '?')}"))
-    elif kind in ("melee_in", "nuke_in", "dot_in", "nonmelee_in"):
+    elif (kind in ("melee_in", "nuke_in", "dot_in", "nonmelee_in")
+            and cfg.get("alert_big_hit", True)):
         dmg = int(g.get("dmg", 0))
         if dmg >= int(cfg.get("big_hit_threshold", 800)):
             out.append(("warn", f"BIG HIT \u2014 {dmg}"))
-    if character and character != "?" and raw_msg:
+    if (cfg.get("alert_name_called", True)
+            and character and character != "?" and raw_msg):
         m = re.match(r"^(?P<who>[A-Za-z]+) tells the (?:group|raid|guild), '(?P<what>.*)'$", raw_msg)
         if m and character.lower() in m.group("what").lower() and m.group("who") != character:
             out.append(("warn", f"{m.group('who').upper()} CALLED YOU \u2014 {m.group('what')[:60]}"))
@@ -1380,6 +1382,23 @@ def check_alerts(kind: str, g: dict, raw_msg: str, character: str, cfg: dict):
         except re.error:
             continue
     return out
+
+
+def invalid_custom_alert_patterns(rules) -> list[str]:
+    """Return each custom alert pattern that is broken regex (never matches)."""
+    bad = []
+    for rule in rules if isinstance(rules, list) else []:
+        pattern = rule.get("pattern", "") if isinstance(rule, dict) else ""
+        try:
+            re.compile(pattern or "$^")
+        except re.error:
+            bad.append(str(pattern))
+    return bad
+
+
+def fight_toasts_active(cfg: dict) -> bool:
+    """Fight-end toasts honor both the master switch and their own toggle."""
+    return bool(cfg.get("alerts_enabled", True) and cfg.get("fight_toasts", True))
 
 
 def load_config() -> dict:
@@ -1400,6 +1419,12 @@ def load_config() -> dict:
         "big_hit_threshold": 800,
         "alert_position": None,
         "fight_toasts": True,
+        # Per-trigger switches for the built-in alert banners.
+        "alert_tells": True,
+        "alert_summon": True,
+        "alert_death": True,
+        "alert_big_hit": True,
+        "alert_name_called": True,
         "auto_reset_minutes": 0,
         "custom_alerts": [],
         # Exact EQL three-class identity.  Profiles are keyed by character so
@@ -1451,6 +1476,13 @@ def load_config() -> dict:
         except (TypeError, ValueError):
             cfg["opacity"] = 1.0
     cfg["ui_rendering_version"] = 2
+    # Broken custom alert regexes are skipped silently per log line; warn
+    # exactly once here so the config author can find and fix them.
+    bad_patterns = invalid_custom_alert_patterns(cfg.get("custom_alerts", []))
+    if bad_patterns:
+        preview = ", ".join(repr(p) for p in bad_patterns[:3])
+        print(f"Loremaster: ignoring {len(bad_patterns)} invalid custom alert "
+              f"pattern(s): {preview}")
     return cfg
 
 
@@ -1699,6 +1731,58 @@ class DemoFeed:
 
 
 # ---------------------------------------------------------------------------
+# Overlay geometry & status helpers (pure where possible, for the test suite)
+# ---------------------------------------------------------------------------
+def desktop_bounds(root) -> tuple[int, int, int, int]:
+    """Return the full virtual desktop in this process's (logical) pixels."""
+    if os.name == "nt":
+        try:
+            import ctypes
+            user32 = ctypes.windll.user32
+            return (user32.GetSystemMetrics(76), user32.GetSystemMetrics(77),
+                    user32.GetSystemMetrics(78), user32.GetSystemMetrics(79))
+        except (AttributeError, OSError):
+            pass
+    return 0, 0, root.winfo_screenwidth(), root.winfo_screenheight()
+
+
+def clamp_alert_position(pos, width, height, bounds, default_x, default_y):
+    """Keep a remembered banner fully reachable on the virtual desktop."""
+    try:
+        x, y = int(pos[0]), int(pos[1])
+    except (TypeError, ValueError, IndexError, KeyError):
+        x, y = int(default_x), int(default_y)
+    vx, vy, vw, vh = bounds
+    x = max(vx, min(x, vx + max(0, vw - width)))
+    y = max(vy, min(y, vy + max(0, vh - height)))
+    return x, y
+
+
+def rescale_capture_anchor(cursor_x, cursor_y, physical_bounds, tk_bounds):
+    """Map a DPI-aware physical cursor onto Tk's logical virtual desktop.
+
+    Hover OCR captures run PER_MONITOR_AWARE_V2 and report physical pixels,
+    while the DPI-unaware Tk process positions windows in logical pixels.
+    """
+    px, py, pw, ph = physical_bounds
+    tx, ty, tw, th = tk_bounds
+    if pw <= 0 or ph <= 0 or tw <= 0 or th <= 0:
+        return int(cursor_x), int(cursor_y)
+    x = tx + (int(cursor_x) - px) * tw / pw
+    y = ty + (int(cursor_y) - py) * th / ph
+    return int(round(x)), int(round(y))
+
+
+def wiki_status_label(item) -> str:
+    """Three honest freshness states: stale cache, valid cache, live fetch."""
+    if item.stale:
+        return f"STALE CACHE {format_cache_age(item).upper()}"
+    if item.cached:
+        return f"CACHED {format_cache_age(item).upper()}"
+    return "LIVE"
+
+
+# ---------------------------------------------------------------------------
 # Alert banners — frameless EQ-overlay strips, center-top, auto-fading
 # ---------------------------------------------------------------------------
 class AlertManager:
@@ -1745,13 +1829,17 @@ class AlertManager:
         tk.Label(inner, text=text_msg, fg="#e8eaf0", bg=body,
                  font=("Segoe UI Semibold", 14)).pack()
         win.update_idletasks()
+        width, height = win.winfo_width(), win.winfo_height()
+        bounds = desktop_bounds(self.root)
+        default_x = (win.winfo_screenwidth() - width) // 2
+        default_y = 64
         pos = self.cfg.get("alert_position")
-        if pos:
-            ax, ay = pos
-        else:
-            ax = (win.winfo_screenwidth() - win.winfo_width()) // 2
-            ay = 64
-        win.geometry(f"+{ax}+{ay + len(self.active) * 56}")
+        ax, ay = clamp_alert_position(
+            pos if pos else (default_x, default_y), width, height, bounds,
+            default_x, default_y)
+        ax, ay = clamp_alert_position(
+            (ax, ay + len(self.active) * 56), width, height, bounds, ax, ay)
+        win.geometry(f"+{ax}+{ay}")
         win.deiconify()
         self.active.append(win)
         self._beep(severity)
@@ -2120,15 +2208,7 @@ def run_gui(args):
 
     def virtual_desktop_bounds():
         """Return the complete Windows desktop, including left-side monitors."""
-        if os.name == "nt":
-            try:
-                import ctypes
-                user32 = ctypes.windll.user32
-                return (user32.GetSystemMetrics(76), user32.GetSystemMetrics(77),
-                        user32.GetSystemMetrics(78), user32.GetSystemMetrics(79))
-            except (AttributeError, OSError):
-                pass
-        return 0, 0, root.winfo_screenwidth(), root.winfo_screenheight()
+        return desktop_bounds(root)
 
     def clamped_position(pos, width, height, default_x, default_y):
         """Keep a remembered overlay reachable after resolution/monitor changes."""
@@ -2329,10 +2409,14 @@ def run_gui(args):
             if len(rows) > 22:
                 _wiki_text(f"  ...and {len(rows) - 22} more entries\n", tag="muted")
         _wiki_finish()
-        state_label = "STALE CACHE" if item.stale else "CACHED"
+        if item.stale:
+            state_color = T["ember"]
+        elif item.cached:
+            state_color = T["dim"]
+        else:
+            state_color = T["green"]
         wiki_ui["status"].configure(
-            text=f"EQL WIKI  •  {state_label} {format_cache_age(item).upper()}",
-            fg=T["ember"] if item.stale else T["dim"])
+            text=f"EQL WIKI  •  {wiki_status_label(item)}", fg=state_color)
         wiki_ui["open"].configure(state="normal", fg=T["cyan"])
 
     def _wiki_render_error(error, query):
@@ -2372,10 +2456,12 @@ def run_gui(args):
             shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
             _wiki_render_prompt(
                 f"Type an item name above, or hover it and press {shortcut}.\n\n")
-            try:
-                wiki_ui["entry"].focus_force()
-            except tk.TclError:
-                pass
+            # Never yank keyboard focus away from a foreground EverQuest.
+            if not _wiki_eq_is_foreground():
+                try:
+                    wiki_ui["entry"].focus_force()
+                except tk.TclError:
+                    pass
             return
         wiki_ui["entry"].delete(0, "end")
         wiki_ui["entry"].insert(0, query)
@@ -2427,11 +2513,38 @@ def run_gui(args):
         shell = tk.Frame(win, bg=T["bg"], padx=1, pady=1)
         shell.pack(fill="both", expand=True, padx=1, pady=1)
 
-        head = tk.Frame(shell, bg=T["panel"])
+        head = tk.Frame(shell, bg=T["panel"], cursor="fleur")
         head.pack(fill="x")
         tk.Frame(head, bg=T["cyan"], width=3).pack(side="left", fill="y")
-        L(head, "LORE LENS", fg=T["gold_bright"], font=FONT_TITLE,
-          bg=T["panel"]).pack(side="left", padx=9, pady=7)
+        lens_title = L(head, "LORE LENS", fg=T["gold_bright"], font=FONT_TITLE,
+                       bg=T["panel"], cursor="fleur")
+        lens_title.pack(side="left", padx=9, pady=7)
+
+        wiki_drag = {"x": 0, "y": 0}
+
+        def start_wiki_drag(event):
+            wiki_drag["x"] = event.x_root - win.winfo_x()
+            wiki_drag["y"] = event.y_root - win.winfo_y()
+
+        def move_wiki(event):
+            width, height = win.winfo_width(), win.winfo_height()
+            desired_x = event.x_root - wiki_drag["x"]
+            desired_y = event.y_root - wiki_drag["y"]
+            x, y = clamped_position(
+                [desired_x, desired_y], width, height, desired_x, desired_y)
+            win.geometry(f"{x:+d}{y:+d}")
+
+        def end_wiki_drag(_event):
+            x, y = clamped_position(
+                [win.winfo_x(), win.winfo_y()], win.winfo_width(),
+                win.winfo_height(), win.winfo_x(), win.winfo_y())
+            cfg["wiki_position"] = [x, y]
+            save_config(cfg)
+
+        for drag_target in (head, lens_title):
+            drag_target.bind("<Button-1>", start_wiki_drag)
+            drag_target.bind("<B1-Motion>", move_wiki)
+            drag_target.bind("<ButtonRelease-1>", end_wiki_drag)
         close = tk.Label(head, text="X", fg=T["dim"], bg=T["panel"],
                          font=FONT_B, cursor="hand2", padx=8)
         close.pack(side="right", fill="y")
@@ -2505,7 +2618,14 @@ def run_gui(args):
         if badge:
             _set_text(badge, str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper())
         width, height = 392, 560
-        x, y = _wiki_cursor_position(width, height, anchor)
+        # A player who dragged the lens pinned it; otherwise follow the cursor.
+        pinned = cfg.get("wiki_position")
+        if pinned:
+            x, y = clamped_position(
+                pinned, width, height,
+                *_wiki_cursor_position(width, height, anchor))
+        else:
+            x, y = _wiki_cursor_position(width, height, anchor)
         win.geometry(f"{width}x{height}{x:+d}{y:+d}")
         win.deiconify()
         win.lift()
@@ -2521,11 +2641,13 @@ def run_gui(args):
         _wiki_render_prompt(message or (
             "No hovered item title was recognized. Review the prefilled name "
             "or type one, then press Enter.\n\n"))
-        try:
-            wiki_ui["entry"].focus_force()
-            wiki_ui["entry"].selection_range(0, "end")
-        except tk.TclError:
-            pass
+        # Never yank keyboard focus away from a foreground EverQuest.
+        if not _wiki_eq_is_foreground():
+            try:
+                wiki_ui["entry"].focus_force()
+                wiki_ui["entry"].selection_range(0, "end")
+            except tk.TclError:
+                pass
 
     def _wiki_eq_is_foreground():
         if os.name != "nt":
@@ -2644,8 +2766,14 @@ def run_gui(args):
             drag_target.bind("<Button-1>", start_settings_drag)
             drag_target.bind("<B1-Motion>", move_settings)
 
-        frame = tk.Frame(shell, bg=T["bg"], padx=16, pady=14)
-        frame.pack(fill="both", expand=True)
+        columns = tk.Frame(shell, bg=T["bg"], padx=16, pady=14)
+        columns.pack(fill="both", expand=True)
+        frame = tk.Frame(columns, bg=T["bg"])
+        frame.pack(side="left", fill="both", expand=True)
+        tk.Frame(columns, bg=T["line_soft"], width=1).pack(
+            side="left", fill="y", padx=14)
+        alerts_frame = tk.Frame(columns, bg=T["bg"])
+        alerts_frame.pack(side="left", fill="both", expand=True)
         L(frame, "LORE LENS ITEM LOOKUP", fg=T["cyan"], font=FONT_B).pack(
             fill="x")
         L(frame, "Hover an item in EQ and use the global key. Loremaster captures "
@@ -2660,8 +2788,8 @@ def run_gui(args):
         contrast_var = tk.BooleanVar(value=bool(cfg.get("high_contrast", False)))
         motion_var = tk.BooleanVar(value=bool(cfg.get("reduced_motion", False)))
 
-        def check(text_value, variable):
-            c = tk.Checkbutton(frame, text=text_value, variable=variable,
+        def check(text_value, variable, parent=None):
+            c = tk.Checkbutton(parent or frame, text=text_value, variable=variable,
                                bg=T["bg"], fg=T["text"], selectcolor=T["raised"],
                                activebackground=T["bg"], activeforeground=T["gold_bright"],
                                font=FONT_S, anchor="w")
@@ -2704,8 +2832,96 @@ def run_gui(args):
         scale_entry.pack(side="right", ipady=3)
         scale_entry.insert(0, str(cfg.get("font_scale", 1.0)))
 
-        actions = tk.Frame(frame, bg=T["bg"])
-        actions.pack(fill="x", pady=(12, 0))
+        # ---- Alerts & notifications ----------------------------------
+        L(alerts_frame, "ALERTS & NOTIFICATIONS", fg=T["cyan"],
+          font=FONT_B).pack(fill="x")
+        bad_patterns = invalid_custom_alert_patterns(cfg.get("custom_alerts", []))
+        alerts_blurb = ("DBM-style banners driven by your own log lines. "
+                        "Pick which triggers fire and how long banners stay up.")
+        if bad_patterns:
+            alerts_blurb += (f" NOTE: {len(bad_patterns)} custom alert "
+                             "pattern(s) in the config file are invalid regex "
+                             "and are ignored.")
+        L(alerts_frame, alerts_blurb, fg=T["dim"], font=FONT_S, justify="left",
+          wraplength=410).pack(fill="x", pady=(2, 10))
+
+        alerts_enabled_var = tk.BooleanVar(value=bool(cfg.get("alerts_enabled", True)))
+        sound_var = tk.BooleanVar(value=bool(cfg.get("alert_sound", True)))
+        toast_var = tk.BooleanVar(value=bool(cfg.get("fight_toasts", True)))
+        tells_var = tk.BooleanVar(value=bool(cfg.get("alert_tells", True)))
+        summon_var = tk.BooleanVar(value=bool(cfg.get("alert_summon", True)))
+        death_var = tk.BooleanVar(value=bool(cfg.get("alert_death", True)))
+        big_hit_var = tk.BooleanVar(value=bool(cfg.get("alert_big_hit", True)))
+        name_called_var = tk.BooleanVar(value=bool(
+            cfg.get("alert_name_called", True)))
+
+        check("Enable alert banners", alerts_enabled_var, alerts_frame)
+        check("Play alert sound", sound_var, alerts_frame)
+        check("Fight-end toast", toast_var, alerts_frame)
+        check("Incoming tells", tells_var, alerts_frame)
+        check("You are summoned", summon_var, alerts_frame)
+        check("You die", death_var, alerts_frame)
+        check("Big hits on you", big_hit_var, alerts_frame)
+        check("Your name is called in chat", name_called_var, alerts_frame)
+
+        threshold_row = tk.Frame(alerts_frame, bg=T["bg"])
+        threshold_row.pack(fill="x", pady=(8, 2))
+        L(threshold_row, "Big-hit threshold", fg=T["gold"],
+          font=FONT_S).pack(side="left")
+        threshold_entry = tk.Entry(threshold_row, width=8, bg=T["void"],
+                                   fg=T["text"], insertbackground=T["cyan"],
+                                   relief="flat", font=FONT)
+        threshold_entry.pack(side="right", ipady=3)
+        threshold_entry.insert(0, str(cfg.get("big_hit_threshold", 800)))
+
+        seconds_row = tk.Frame(alerts_frame, bg=T["bg"])
+        seconds_row.pack(fill="x", pady=(4, 2))
+        L(seconds_row, "Banner seconds (1-15)", fg=T["gold"],
+          font=FONT_S).pack(side="left")
+        seconds_entry = tk.Entry(seconds_row, width=8, bg=T["void"],
+                                 fg=T["text"], insertbackground=T["cyan"],
+                                 relief="flat", font=FONT)
+        seconds_entry.pack(side="right", ipady=3)
+        seconds_entry.insert(0, str(cfg.get("alert_seconds", 4)))
+
+        alert_status = L(alerts_frame, "", fg=T["dim"], font=FONT_S,
+                         wraplength=410)
+        alert_status.pack(fill="x", pady=(6, 0))
+
+        def test_alert():
+            # Preview with the on-screen sound/duration choices, unsaved.
+            previous = {"alert_sound": cfg.get("alert_sound", True),
+                        "alert_seconds": cfg.get("alert_seconds", 4)}
+            cfg["alert_sound"] = bool(sound_var.get())
+            try:
+                cfg["alert_seconds"] = max(1, min(15, int(seconds_entry.get())))
+            except (TypeError, ValueError):
+                pass
+            try:
+                alerts.show("info", "TEST ALERT — this is how alerts look")
+            finally:
+                cfg.update(previous)
+
+        def reset_banner_position():
+            cfg["alert_position"] = None
+            save_config(cfg)
+            alert_status.configure(
+                text="Banner position reset to the default top-center.",
+                fg=T["green"])
+
+        alert_actions = tk.Frame(alerts_frame, bg=T["bg"])
+        alert_actions.pack(fill="x", pady=(8, 0))
+        tk.Button(alert_actions, text="TEST ALERT", command=test_alert,
+                  bg=T["raised"], fg=T["cyan"], activebackground=T["panel"],
+                  relief="flat", font=FONT_RUNE, padx=10,
+                  pady=4).pack(side="left")
+        tk.Button(alert_actions, text="RESET BANNER POSITION",
+                  command=reset_banner_position, bg=T["panel"], fg=T["dim"],
+                  activebackground=T["raised"], relief="flat", font=FONT_RUNE,
+                  padx=10, pady=4).pack(side="left", padx=6)
+
+        actions = tk.Frame(shell, bg=T["bg"])
+        actions.pack(fill="x", padx=16, pady=(0, 14))
 
         def save_settings():
             try:
@@ -2714,6 +2930,18 @@ def run_gui(args):
             except (ValueError, TypeError) as exc:
                 status.configure(text=str(exc), fg=T["hp"])
                 return
+            # Invalid alert numbers keep their prior saved values.
+            try:
+                threshold_value = int(str(threshold_entry.get()).strip())
+                if threshold_value <= 0:
+                    raise ValueError
+            except (ValueError, TypeError):
+                threshold_value = int(cfg.get("big_hit_threshold", 800))
+            try:
+                seconds_value = int(str(seconds_entry.get()).strip())
+            except (ValueError, TypeError):
+                seconds_value = int(cfg.get("alert_seconds", 4))
+            seconds_value = max(1, min(15, seconds_value))
             active_before = hotkey_service.status(HOTKEY_WIKI)
             rebind = None
             if (canonical != active_before.binding.label
@@ -2730,9 +2958,23 @@ def run_gui(args):
                        wiki_hotkey=active_after.binding.label,
                        wiki_hotkey_customized=True,
                        high_contrast=bool(contrast_var.get()),
-                       reduced_motion=bool(motion_var.get()), font_scale=scale_value)
+                       reduced_motion=bool(motion_var.get()), font_scale=scale_value,
+                       alerts_enabled=bool(alerts_enabled_var.get()),
+                       alert_sound=bool(sound_var.get()),
+                       fight_toasts=bool(toast_var.get()),
+                       alert_tells=bool(tells_var.get()),
+                       alert_summon=bool(summon_var.get()),
+                       alert_death=bool(death_var.get()),
+                       alert_big_hit=bool(big_hit_var.get()),
+                       alert_name_called=bool(name_called_var.get()),
+                       big_hit_threshold=threshold_value,
+                       alert_seconds=seconds_value)
             wiki_client.network_enabled = cfg["wiki_network_enabled"]
             save_config(cfg)
+            threshold_entry.delete(0, "end")
+            threshold_entry.insert(0, str(cfg["big_hit_threshold"]))
+            seconds_entry.delete(0, "end")
+            seconds_entry.insert(0, str(cfg["alert_seconds"]))
             refresh(force_detail=True)
             if cfg["wiki_enabled"] and not hotkey["wiki_registered"]:
                 status.configure(text="CONFLICT — " + (hotkey["wiki_error"] or
@@ -2783,6 +3025,21 @@ def run_gui(args):
             if not state["closing"]:
                 root.after(80, poll_wiki_results)
 
+    def _capture_anchor(capture):
+        """Convert a physical OCR cursor to Tk's logical pixels when possible."""
+        physical = (
+            int(getattr(capture, "virtual_left", 0) or 0),
+            int(getattr(capture, "virtual_top", 0) or 0),
+            int(getattr(capture, "virtual_width", 0) or 0),
+            int(getattr(capture, "virtual_height", 0) or 0),
+        )
+        if physical[2] <= 0 or physical[3] <= 0:
+            # Older captures/mocks lack the DPI-aware desktop; keep raw pixels.
+            return capture.cursor_x, capture.cursor_y
+        return rescale_capture_anchor(
+            capture.cursor_x, capture.cursor_y, physical,
+            virtual_desktop_bounds())
+
     def poll_hover_ocr_results():
         if state["closing"]:
             return
@@ -2793,7 +3050,7 @@ def run_gui(args):
                 clipboard = wiki_ui.get("ocr_clipboard", "")
                 anchor = None
                 if result.capture is not None:
-                    anchor = (result.capture.cursor_x, result.capture.cursor_y)
+                    anchor = _capture_anchor(result.capture)
                 if result.candidates:
                     _wiki_show_window(anchor)
                     wiki_lookup_candidates(result.candidates, "hover scan")
@@ -3506,6 +3763,11 @@ def run_gui(args):
             font=FONT_RUNE, cursor="hand2", padx=5)
         widgets["mini_lock"].pack(side="left", pady=3)
         widgets["mini_lock"].bind("<Button-1>", lambda _e: toggle_lock())
+        widgets["mini_settings"] = tk.Label(
+            controls, text="SET", fg=T["dim"], bg=T["raised"],
+            font=FONT_RUNE, cursor="hand2", padx=5)
+        widgets["mini_settings"].pack(side="left", padx=(3, 0), pady=3)
+        widgets["mini_settings"].bind("<Button-1>", open_settings)
         details = tk.Label(controls, text="DETAILS", fg=T["cyan"], bg=T["raised"],
                            font=FONT_RUNE, cursor="hand2", padx=6)
         details.pack(side="left", padx=(3, 0), pady=3)
@@ -3731,13 +3993,13 @@ def run_gui(args):
             else:
                 next_delay = 16
 
-            if cfg.get("fight_toasts", True):
-                done = len(stats.fights)
-                if done > state["fights_seen"] and stats.fights:
-                    f = stats.fights[-1]
-                    alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  "
-                                f"({fmt_num(f.damage)} in {fmt_dur(f.seconds)})")
-                state["fights_seen"] = done
+            done = len(stats.fights)
+            if (fight_toasts_active(cfg) and done > state["fights_seen"]
+                    and stats.fights):
+                f = stats.fights[-1]
+                alerts.show("info", f"{f.name}  \u2014  {fmt_num(f.dps)} dps  "
+                            f"({fmt_num(f.damage)} in {fmt_dur(f.seconds)})")
+            state["fights_seen"] = done
 
             now_mono = time.monotonic()
             if now_mono - state["last_render"] >= 0.25:

@@ -84,7 +84,7 @@ Window XML polish applied on top (133+ verified value-level edits): vivid gauge 
 
 Everything important lives in a band across the bottom — eyes stay near your character. The vertical center of the screen is kept clear.
 
-This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. The stock-height 1080p and 4K defaults remain included as well.
+This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. **4K is a first-class target too:** `default4k.ini` is a separately generated, overlap-validated **3840x2160** composition — symmetrical three-pane chat row, the combat cluster perfectly centered on the screen midline, buffs/songs flush to the real right edge, and chat set to the client's largest font so text stays comfortably readable at 4K pixel density. The stock 1080p default remains included as well, and the installer detects your resolution from `eqclient.ini` (read-only) and tells you which default will apply.
 
 <details>
 <summary><strong>Technical 3440×1440 layout map</strong></summary>
@@ -112,13 +112,13 @@ This is the optional character-layout preset shown in the full HUD screenshot. I
 Zone by zone:
 
 * **Chat row (y 1152-1432):** Main Chat, Social, and Combat side by side across the bottom — every message stream visible at once, nothing stacked or tabbed away.
-* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. Between and below them sit the standalone stance bar, centered cast bar, and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right — nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
+* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. Between and below them sit the **twin-wing stance bar** — a `STANCE` wing in ember gold on the left and an `INVOCATION` wing in venom on the right, each carrying its active name, split by a small ember gem (the ability buttons remain one client-managed row, flowing from the gold wing toward the venom wing) — plus the centered cast bar and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right — nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
 * **Right column:** Spell Effects and Song Effects pin top-right in slim transparent rails with 20px icons and contiguous authored rows—no oversized black backplates or artificial gutters. They use the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group sits below them; Extended Target keeps a tidy parking spot for whenever you enable it. A sparse engine-assigned effect slot can still reserve its own row, because SpinUI does not rewrite live buff-slot identity.
 * **Top-right glass:** the Map (toggleable) — see [The map](#the-map).
 * **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD — this is where **Loremaster** docks and where your **inventory bags tile** when opened.
 * **Openable windows** (inventory, bank, loot, merchant…) spawn center-left/center so they never cover the chat row or the combat cluster.
 
-The layout generator validates two distinct targets: every window fully on-screen with zero default-visible overlaps for the optional 3440x1440 presets, and the same guarantees for the standard 2560x1440 skin default.
+The layout generator validates three distinct targets: every window fully on-screen with zero default-visible overlaps for the optional 3440x1440 presets, and the same guarantees for the standard 2560x1440 and 3840x2160 (4K) skin defaults.
 
 ### Quality-of-life defaults changed vs. your old file
 
@@ -127,7 +127,8 @@ The layout generator validates two distinct targets: every window fully on-scree
 | Buff window | hidden | **shown** (top-right) | buff awareness; `ALT+B` to toggle |
 | Song window | hidden | **shown** (under buffs) | bard songs at a glance |
 | Casting bar | hidden | **shown** (centered) | see your own cast progress |
-| Chat font | size 3 | **size 5** | 3440x1440 readability (right-click chat → Font to change) |
+| Chat font | size 3 | **size 5** (size 6 in the 4K default) | readability at 1440p and 4K pixel density (right-click chat → Font to change) |
+| XP vs AA bars | both overlaid pure blue | **XP ember gold, AA venom** — fills *and* sub-tick overlays, in the player plate, inventory, and AA window | tell the two progression bars apart at a glance |
 | Buff/Song style | RIGHT + number rail | **slim LEFT list, no numbering** | larger readable icons, transparent rows, no heavy black slab |
 | Player/Target rails | opaque bands and tight text | **transparent, full-width** | effects float cleanly; stance/empower labels fit |
 | HUD label fonts | 2-4 | **+1 across the board** | mana/end numbers, level/class, stance, group names |
@@ -190,7 +191,7 @@ The presets differ only in the chat row:
 
 | Preset | Main | Social | Combat | For |
 |---|---|---|---|---|
-| `combat-focus` *(default)* | 700px | 700px | **1060px** | parsing every swing on a wide pane |
+| `combat-focus` *(default)* | **820px** | **820px** | **820px** | a clean symmetrical chat row — three equal panes |
 | `social-focus` | 800px | **1000px** | 660px | raid/guild chatter first |
 | `hybrid` | 900px | 1000px | **560px, half-height** | combat as a compact self-ticker |
 
@@ -212,17 +213,14 @@ Tuned for **running with the map open**:
 
 ## The equipment screen
 
-Inspired by WoW's **Narcissus**, the Equipment tab was rebuilt as a cinematic composition (window grows to 780x800):
+Inspired by WoW's **Narcissus** and tightened for v3, the Equipment tab is a compact cinematic composition — the window is now **680x700** (down from 780x800, about a quarter less screen area) with no information removed:
 
-* **Two floating slot rails** — armor down the left and jewelry down the right — every one of the **23 equipment slots** seated on a custom-drawn **obsidian hex plate** with a steel edge and ember tick-marks (`spin_deco.tga`).
-* **Bottom equipment row** keeps Primary · Secondary · Range · Ammo together on gold-edged hexes, followed by a breathing-space gap and the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`) on steel-edged hexes. Inventory bags never masquerade as equipment slots.
-* **All 12 bag slots live under Destroy** in a dedicated two-column right rail. The wider identity area keeps `Spin` and `39 WAR/DRU/BRD` comfortably separated, while every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Destroy, Done) stays intact.
-* **Every stat block is intact** — Character Vitals (through Velocity, regens and all three DPS lines), Stats & Resists (incl. SV. Void), the full Additional Modifiers block (shieldings included) and Bind/Origin/Deity. The columns scroll if a future patch adds more.
-* **Native class-emblem centerpiece** — EQ's live Warrior swords, caster spellbook, and other class artwork keeps its original `75x142` proportions inside an `85x171` obsidian frame. It remains the functional *drop-to-auto-equip* target instead of being clipped into a small square.
-* **Multiclass Loadouts is now a first-class page** — the old 388x401 legacy panel (including a broken 0x0 equipment container) was rebuilt on the full 585x720 tab canvas. All 23 loadout equipment slots use aligned SpinUI hex plates around EQ Legends' native model, with a centered Primary · Secondary · Range · Ammo row, separated Any · Any pair, roomy loadout table/actions, and class-level cards below. The client still calls some bindings `PersonaInvSlot` internally; SpinUI preserves those required identifiers but does not depend on EverQuest Live's Alternate Persona system.
-* **Stat columns flow between the rails**: Character Vitals and Stats & Resists as clean ruled columns, heroic mods beneath.
+* **Two 12-position slot rails** on tightened 46px obsidian hex plates (`spin_deco.tga`, 50px pitch). The **left rail** runs the 8 armor slots top-to-bottom on steel plates with **Primary · Secondary · Range · Ammo continuing on gold plates at its base**; the **right rail** holds the 9 jewelry slots, a deliberate breathing gap, then the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`) seated at its base. All **23 equipment slots**, no separate bottom row eating height.
+* **The center is a pure stat ledger** — Character Vitals and Stats & Resists as ruled two-column blocks, the full Additional Modifiers block beneath, and Bind/Origin/Deity at the base. Every stock stat row is intact (regens, all three DPS lines, shieldings, SV. Void); nothing scrolled away, nothing floating in dead space.
+* **The identity rail is now a character card** — name and class over the **native class crest** (EQ's live Warrior swords, caster spellbook, etc., kept at its original `75x142` proportions inside the `85x171` frame), XP/AA gauges, weight, Destroy, the 12-slot bag grid, and every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Done). Because the crest sits at window level it stays visible — and remains the functional *drop-to-auto-equip* target — on every tab.
+* **Multiclass Loadouts matches the compact canvas** — the tab re-flows onto 485x620: a 2x4 armor cluster left, the native character model centered, a 3x3 jewelry cluster right, a centered weapon row plus separated Any pair, then the loadout table, actions, and class-level cards. EverQuest Legends has no Persona system — the tab is pure multiclass loadouts — but the client still names some bindings `PersonaInvSlot` internally, so SpinUI preserves those required identifiers while showing only Loadout language on screen.
 * Every slot keeps its ScreenID and EQType — pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
-* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py`; `tools/audit_spinui.py` verifies slot membership, native art dimensions, plate alignment, canvas bounds, bag count and critical spacing.
+* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py` (46px hex frames come from `tools/add_spin_deco_small_hexes.py`); `tools/audit_spinui.py` verifies slot membership, rail alignment, native art dimensions, canvas bounds, bag count and critical spacing.
 
 ---
 
@@ -277,7 +275,8 @@ Lore Lens turns [EQL Wiki](https://eqlwiki.com/) item pages into a compact obsid
 * **Ctrl+Shift+E by default, fully rebindable:** a dedicated native Windows owner holds both Loremaster shortcuts for the process lifetime, including while the HUD is tray-hidden. `READY` means reserved, `CONFLICT` means another app owns the requested binding, and `DISABLED` means Lore Lens is off. Actions are accepted only while EverQuest or Loremaster is foreground. Rebinding is atomic; if a new shortcut conflicts, the prior working shortcut remains active.
 * **True on-demand Hover Scan:** press the shortcut while EverQuest is foreground. Loremaster verifies the foreground process, freezes one bounded mixed-DPI, multi-monitor-safe tooltip region before Lore Lens can cover it, then opens **READING HOVERED ITEM…** and validates the recognized candidates against exact EQL Wiki item pages. The cursor can move immediately after the keypress; nothing is captured continuously.
 * **Safe by design:** Loremaster uses Windows' own OCR, never injects into EverQuest, and never reads game memory. Arbitrary clipboard text is never transmitted automatically—it can only prefill the focused search field for your confirmation.
-* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. OCR recognition, Wiki I/O, and log ingestion run off Tk's rendering thread; only the bounded GDI snapshot is synchronous so a tooltip cannot disappear mid-capture.
+* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. The status line is honest about provenance — **LIVE** for a fresh network fetch, **CACHED** with its age, or **STALE CACHE** when the wiki was unreachable.
+* **Sits where you want it:** the card opens beside the hovered tooltip (DPI-aware on scaled and multi-monitor displays), and you can **drag it by its header** to pin a preferred spot — the position is remembered and kept on-screen. OCR recognition, Wiki I/O, and log ingestion run off Tk's rendering thread; only the bounded GDI snapshot is synchronous so a tooltip cannot disappear mid-capture.
 * **Honest states:** `READY / CONFLICT / DISABLED`, loading, offline, stale-cache, no-exact-match, and disabled-network states are visually distinct and actionable in both full and compact modes.
 * **Source attribution:** every result remains identified as EQL Wiki data, carries a cache-age indicator, and links back to the original page.
 
@@ -324,7 +323,9 @@ Loremaster doubles as an alert engine: big center-screen banners (red / gold / c
 | Your **name is called** in group/raid/guild chat | gold — `GRIMLORD CALLED YOU — Spin to the east wall` |
 | A **fight ends** | cyan toast with the fight's damage/duration/DPS |
 
-Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\loremaster_config.json` — any regex over log lines. This file is created automatically; selecting a log never requires editing it:
+**Every notification is now controllable from SETTINGS** — no JSON editing required: a master *Enable alert banners* switch, *Play alert sound*, *Fight-end toast*, an individual on/off toggle for each built-in trigger (tells, summons, deaths, big hits, name-called), the big-hit threshold, banner duration (1–15s), a **TEST ALERT** button to preview placement and sound, and **RESET BANNER POSITION** to recover banners moved off-screen. The master switch silences everything, including fight-end toasts.
+
+Advanced users can additionally add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\loremaster_config.json` — any regex over log lines. This file is created automatically; selecting a log never requires editing it (invalid patterns are reported once at startup instead of failing silently):
 
 ```json
 "custom_alerts": [
@@ -333,7 +334,7 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 ]
 ```
 
-`alerts_enabled`, `alert_sound`, `alert_seconds`, `big_hit_threshold` and `alert_position` are all in the same config file.
+`alert_position` and the same alert switches also live in that config file for scripted setups.
 
 ### The overlay
 
@@ -342,7 +343,7 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 * **Safe click-through**: full mode's **CLICK-THRU** lets mouse input reach EverQuest. The active label becomes **PASS ON**, a banner explains recovery, and **Ctrl+Alt+L** restores mouse control. It remains disabled unless that recovery key was registered successfully and always starts off after relaunch.
 * **Incremental live details**: changing combat values update existing labels and meter canvases in place. The panel rebuilds structure only when a genuinely new row appears, instead of destroying the whole combat card every polling cycle.
 * **LOCATE LOG** opens a folder picker; **RESET** clears only the live session. Config is materialized automatically on first run.
-* **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access, plus high contrast, reduced motion and text scale.
+* **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access; every alert and notification toggle (master switch, sound, fight toasts, per-trigger switches, big-hit threshold, banner duration, test alert, banner-position reset); plus high contrast, reduced motion and text scale. It is reachable from full mode, from the Lore Lens window, and via the **SET** control in mini mode.
 
 ---
 
@@ -354,6 +355,7 @@ Everything was *generated* — change a constant, rerun, done. From the repo roo
 pip install pillow                                # only needed for the two art scripts
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
+python3 tools/add_spin_deco_small_hexes.py         # refresh the 46px hex plate frames
 python3 tools/restyle_persona.py                   # rebuild the Multiclass Loadouts composition
 python3 tools/render_preview.py                   # re-render the full-screen preview
 python3 tools/audit_spinui.py                     # audit XML, references, assets and critical geometry
@@ -363,7 +365,7 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).
 * **Move a window:** edit its pixel coordinates in `PLACEMENTS` in `generate_spinui_layout.py` — the script converts to the client's percentage format and re-validates the whole screen for overlaps/off-screen.
 * **New chat preset:** add an entry to `CHAT_PRESETS` — it lands in `layouts/<name>/` automatically.
-* The generators always start from the **pristine** stock files in git history, so reruns never compound.
+* The texture and layout generators always start from the **pristine** stock files in git history, so reruns never compound. The two `restyle_*` scripts are staged, marker-guarded migrations (`SPIN-DECO-3` / `SPIN-PERSONA-3`) — rerunning them on an already-migrated file is a clean no-op.
 
 ---
 
@@ -378,7 +380,8 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 | Chat font too big/small | Right-click the chat window → Font. |
 | Loremaster shows "awaits your log" | Type `/log on` in game, then click **LOCATE LOG** and choose the EverQuest folder or its `Logs` folder. |
 | Time-to-level shows — | Needs XP % in log lines (Legends logs them) and a few minutes of kills to establish a rate. |
-| Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin now ships a separately generated, overlap-validated 2560x1440 default. |
+| Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin ships a separately generated, overlap-validated 2560x1440 default. |
+| Playing at 4K (3840x2160) | Leave the optional 3440x1440 character layout unchecked. The skin ships a dedicated, overlap-validated `default4k.ini` — centered combat cluster, symmetrical chat at the largest client font. `/loadskin spinui_reloaded` (without the `1`) applies it. |
 | Loremaster will not move | Click **MOVE**; this means the overlay is locked. |
 | Loremaster is click-through | Press **Ctrl+Alt+L** to restore interaction. Pass-through is never saved across launches. |
 | Loremaster vanished or is behind EQ | Click the gold-and-cyan Loremaster icon beside the Windows clock. If it is not visible, open the **^** notification-area drawer; left-click restores the HUD and right-click offers Open, Hide, and Exit. |
@@ -396,7 +399,8 @@ spinips/
 ├── spinui_reloaded/            the skin (drop into uifiles/)
 │   ├── EQUI_*.xml              window definitions (themed)
 │   ├── window_*.tga, wnd_*.tga redrawn chrome textures
-│   └── default1440.ini         safe standard 2560x1440 layout
+│   ├── default1440.ini         safe standard 2560x1440 layout
+│   └── default4k.ini           deliberate 3840x2160 (4K) layout
 ├── UI_Spin_qeynos_LO1.ini      example 3440×1440 Combat Focus profile
 ├── layouts/
 │   ├── combat-focus/ social-focus/ hybrid/   optional ultrawide profiles
@@ -414,7 +418,7 @@ spinips/
 │   ├── generate_spinui_textures.py   theme painter
 │   ├── generate_spinui_layout.py     layout builder + validator
 │   ├── build_showcase_media.py       privacy-safe gallery builder
-│   ├── restyle_persona.py             Personas/Loadouts composition
+│   ├── restyle_persona.py             Multiclass Loadouts composition
 │   └── render_preview.py             full-screen preview renderer
 └── docs/
     ├── screenshots/             reviewed real in-game showcase media

@@ -59,8 +59,8 @@ KEEP_LAYOUT = "keep-existing"
 DEFAULT_LAYOUT_PRESET = "combat-focus"
 LAYOUT_PRESETS: dict[str, LayoutPreset] = {
     "combat-focus": LayoutPreset(
-        "combat-focus", "COMBAT FOCUS", "A wide combat feed for every swing.",
-        (700, 700, 1060),
+        "combat-focus", "COMBAT FOCUS", "Three equal panes — a symmetrical chat row.",
+        (820, 820, 820),
     ),
     "social-focus": LayoutPreset(
         "social-focus", "SOCIAL FOCUS", "More room for group, guild, and raid chat.",
@@ -614,6 +614,62 @@ def is_eq_root(path: Path) -> bool:
     return path.is_dir() and (path / "eqgame.exe").is_file()
 
 
+def detect_client_resolution(eq_root: Path) -> tuple[int, int] | None:
+    """Best-effort read of the client's display resolution from eqclient.ini.
+
+    Read-only: the installer never writes eqclient.ini. Key names vary across
+    client generations, so any key containing width/xres (and height/yres)
+    with a plausible pixel value counts; fullscreen keys outrank windowed
+    ones, and the largest plausible pair wins within a rank.
+    """
+    ini = eq_root / "eqclient.ini"
+    try:
+        text = ini.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    widths: list[tuple[int, int]] = []
+    heights: list[tuple[int, int]] = []
+    for line in text.splitlines():
+        if "=" not in line:
+            continue
+        key, _, raw = line.partition("=")
+        key = key.strip().lower()
+        try:
+            value = int(raw.strip())
+        except ValueError:
+            continue
+        rank = 1 if "fullscreen" in key else 0
+        if ("width" in key or "xres" in key) and 640 <= value <= 7680:
+            widths.append((rank, value))
+        elif ("height" in key or "yres" in key) and 480 <= value <= 4320:
+            heights.append((rank, value))
+    if not widths or not heights:
+        return None
+    return max(widths)[1], max(heights)[1]
+
+
+def resolution_note(resolution: tuple[int, int] | None) -> str:
+    """Layout-page guidance for the detected display."""
+    if resolution is None:
+        return ("Display not detected — SpinUI ships deliberate defaults for "
+                "1440p and 4K plus the ultrawide presets below.")
+    width, height = resolution
+    if (width, height) == (3440, 1440):
+        return ("3440×1440 detected — the presets below are pixel-fit "
+                "for your display.")
+    if height >= 2000:
+        return (f"{width}×{height} detected — SpinUI's dedicated 4K default "
+                "layout applies automatically with the skin; the presets "
+                "below are sized for 3440×1440 ultrawide.")
+    if (width, height) == (2560, 1440):
+        return ("2560×1440 detected — SpinUI's 1440p default layout applies "
+                "automatically with the skin; the presets below are sized "
+                "for 3440×1440 ultrawide.")
+    return (f"{width}×{height} detected — the closest SpinUI resolution "
+            "default (1440p or 4K) applies automatically; the presets below "
+            "are sized for 3440×1440 ultrawide.")
+
+
 def steam_libraries() -> list[Path]:
     roots = [
         Path(r"C:\Program Files (x86)\Steam"),
@@ -938,6 +994,26 @@ def selftest() -> int:
         )
     assert _replace_ini_value("XPos=1%;keep me\r\n", "2%") == "XPos=2%;keep me\r\n"
     assert _replace_ini_value("XPos=1%  # keep me\n", "2%") == "XPos=2%  # keep me\n"
+
+    with tempfile.TemporaryDirectory() as td:
+        eq = Path(td)
+        assert detect_client_resolution(eq) is None
+        (eq / "eqclient.ini").write_text(
+            "[Defaults]\nWindowedWidth=1720\nWindowedHeight=720\n"
+            "FullscreenWidth=3440\nFullscreenHeight=1440\nBitsPerPixel=32\n",
+            encoding="utf-8")
+        assert detect_client_resolution(eq) == (3440, 1440)
+        (eq / "eqclient.ini").write_text(
+            "[Defaults]\nXRes=3840\nYRes=2160\n", encoding="utf-8")
+        assert detect_client_resolution(eq) == (3840, 2160)
+        (eq / "eqclient.ini").write_text(
+            "[Defaults]\nWidth=notanumber\nSoundVolume=100\n", encoding="utf-8")
+        assert detect_client_resolution(eq) is None
+    assert "pixel-fit" in resolution_note((3440, 1440))
+    assert "4K" in resolution_note((3840, 2160))
+    assert "1440p default" in resolution_note((2560, 1440))
+    assert "closest" in resolution_note((1920, 1080))
+    assert "not detected" in resolution_note(None)
 
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
@@ -1468,9 +1544,13 @@ def run_gui() -> int:
     tk.Label(
         layout_page,
         text=("Keep Existing is recommended. Optional 3440×1440 presets adjust window "
-              "anchors, positions, and sizes without replacing character data."),
+              "anchors, positions, and sizes without replacing character data. "
+              "SpinUI's 1440p and 4K defaults apply automatically at any resolution."),
         bg=BG, fg=DIM, font=("Segoe UI", 10),
-    ).pack(anchor="w", pady=(0, 12))
+    ).pack(anchor="w", pady=(0, 4))
+    resolution_hint = tk.Label(layout_page, text=resolution_note(None),
+                               bg=BG, fg=CYAN, font=("Segoe UI", 9))
+    resolution_hint.pack(anchor="w", pady=(0, 12))
 
     layout_choice = tk.StringVar(value=KEEP_LAYOUT)
     keep_card = tk.Frame(
@@ -1759,6 +1839,8 @@ def run_gui() -> int:
             text=("Ready · eqgame.exe found" if valid else "Choose the folder containing eqgame.exe"),
             fg=(CYAN if valid else DIM),
         )
+        resolution_hint.configure(
+            text=resolution_note(detect_client_resolution(eq) if valid else None))
         if labels and target_mode.get() not in {"existing", "manual"}:
             target_mode.set("existing")
         elif not labels:

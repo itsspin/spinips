@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a mock of the Narcissus-style Equipment screen at its real geometry.
+"""Render a mock of the compact v3 Equipment screen at its real geometry.
 
 Outputs docs/previews/equipment_page.png (2x scale for detail review).
 Run from repo root:  python3 tools/render_equipment_preview.py
@@ -12,8 +12,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
-from restyle_inventory import (ANY_ROW, LEFT_RAIL, RIGHT_RAIL, WEAPON_ROW,  # noqa: E402
-                               PITCH, PLATE, L_X, R_X, RAIL_Y, W_Y, W_X0, slot_pos)
+from restyle_inventory import (ANY_ROW, BAGS, CREST, LEFT_RAIL,  # noqa: E402
+                               PLATE, RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
+                               STATS3, WEAPON_ROW, WINDOW, slot_pos)
 from spinui_theme import (BG1, BG2, CYAN, GOLD, GOLD_BRIGHT, LINE, LINE_SOFT,
                           TEXT, TEXT_DIM)
 
@@ -38,6 +39,11 @@ SLOT_NAMES = {0: "Any", 1: "Ear", 2: "Head", 3: "Face", 4: "Ear", 5: "Neck",
               11: "Range", 12: "Hands", 13: "Primary", 14: "Secondary",
               15: "Ring", 16: "Ring", 17: "Chest", 18: "Legs", 19: "Feet",
               20: "Waist", 21: "Any", 22: "Ammo"}
+SLOT_ABBR = {0: "ANY", 1: "EAR", 2: "HEAD", 3: "FACE", 4: "EAR", 5: "NECK",
+             6: "SHLD", 7: "ARMS", 8: "BACK", 9: "WRST", 10: "WRST",
+             11: "RNG", 12: "HAND", 13: "PRI", 14: "SEC", 15: "RING",
+             16: "RING", 17: "CHST", 18: "LEGS", 19: "FEET", 20: "WAIST",
+             21: "ANY", 22: "AMMO"}
 FILLED = {2: (96, 60, 140), 5: (60, 96, 140), 6: (140, 90, 50), 8: (60, 120, 80),
           17: (150, 60, 60), 7: (90, 70, 130), 12: (50, 110, 120), 1: (130, 90, 50),
           4: (80, 80, 120), 9: (120, 60, 60), 10: (150, 120, 50), 20: (96, 60, 40),
@@ -45,8 +51,24 @@ FILLED = {2: (96, 60, 140), 5: (60, 96, 140), 6: (140, 90, 50), 8: (60, 120, 80)
           11: (60, 140, 130), 16: (140, 100, 160)}
 
 
+def ledger(d, ox, oy, box, rows):
+    """Flow (label, value) rows through a tile box exactly like the client."""
+    bx, by, bw, bh = box
+    capacity = (bh + 2) // 16
+    for i, (lab, val) in enumerate(rows):
+        col, row = divmod(i, capacity)
+        x = ox + bx + col * 181
+        y = oy + by + row * 16
+        if val is None:
+            d.text((x, y), lab.upper(), font=F(9, True), fill=GOLD)
+            d.line([(x, y + 13), (x + 175, y + 13)], fill=GOLD + (110,))
+        else:
+            d.text((x, y + 1), lab, font=F(9), fill=DIM)
+            d.text((x + 175, y + 1), val, font=F(9, True), fill=TEXT, anchor="ra")
+
+
 def main():
-    W, H = 780, 800
+    W, H = WINDOW
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
@@ -72,7 +94,7 @@ def main():
         d.text((tx + tw // 2, 34), t, font=F(11, active), fill=TEXT if active else DIM, anchor="mm")
         tx += tw + 4
 
-    # right sidebar
+    # ---- identity rail: name, class, gauges, Destroy, crest, bags, buttons --
     sx = W - 165
     d.line([(sx - 4, 24), (sx - 4, H - 30)], fill=LINE_SOFT + (255,))
     d.text((sx + 82, 33), "Spin", font=F(17, True), fill=GOLD_BRIGHT, anchor="mm")
@@ -84,48 +106,13 @@ def main():
         d.text((sx + 160, y), f"{int(pct*100)}%", font=F(8), fill=TEXT, anchor="ra")
     d.text((sx + 4, 105), "WEIGHT", font=F(7), fill=DIM)
     d.text((sx + 160, 105), "85 / 172  ·  WORN 38", font=F(7), fill=TEXT, anchor="ra")
-    for i, (c, amt) in enumerate((((222, 188, 96), "4,087"), ((218, 165, 32), "4,699"),
-                                  ((192, 192, 200), "4,256"), ((184, 115, 51), "1,853"))):
-        bx = sx + 8 + (i % 2) * 78
-        y = 602 + (i // 2) * 22
-        d.ellipse([bx, y, bx + 14, y + 14], fill=c + (255,), outline=(0, 0, 0, 180))
-        d.text((bx + 19, y + 2), amt, font=F(9), fill=TEXT)
-    # twelve bag slots, two clean columns (the IW_Slots tile box)
-    slots_img = Image.open(SKIN / "window_pieces01.tga").convert("RGBA").crop((180, 110, 221, 151))
-    bagcols = [(150, 110, 60), (96, 70, 40), None, (120, 90, 60), (140, 100, 50),
-               None, (110, 80, 45), (150, 110, 60), None, (100, 75, 50),
-               (88, 110, 120), None]
-    for i in range(12):
-        bx = sx + 29 + (i % 2) * 46
-        by = 150 + (i // 2) * 46
-        img.alpha_composite(slots_img.resize((42, 42)), (bx, by))
-        if bagcols[i]:
-            d.polygon([(bx + 21, by + 8), (bx + 33, by + 16), (bx + 33, by + 30),
-                       (bx + 21, by + 36), (bx + 9, by + 30), (bx + 9, by + 16)],
-                      fill=bagcols[i] + (255,))
-            d.ellipse([bx + 15, by + 8, bx + 27, by + 16], fill=(70, 50, 30, 255))
-    # buttons — the full stock set, right-anchored like the client draws them
-    d.rounded_rectangle([sx + 4, 654, sx + 160, 674], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
-    d.text((sx + 82, 664), "Appear.", font=F(10), fill=TEXT, anchor="mm")
-    for i, lab in enumerate(("Skills", "Alt. Adv.", "Achiev.", "Find Item")):
-        bx = sx + 4 + (i % 2) * 80
-        by = 680 + (i // 2) * 26
-        d.rounded_rectangle([bx, by, bx + 76, by + 20], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
-        d.text((bx + 38, by + 10), lab, font=F(8), fill=TEXT, anchor="mm")
-    d.rounded_rectangle([sx + 15, 120, sx + 150, 140], radius=3, fill=(120, 30, 30, 255), outline=LINE + (255,))
-    d.text((sx + 82, 130), "Destroy", font=F(10, True), fill=TEXT, anchor="mm")
-    d.rounded_rectangle([sx + 4, 744, sx + 160, 764], radius=3, fill=BG2 + (255,), outline=GOLD + (255,))
-    d.text((sx + 82, 754), "Done", font=F(10, True), fill=GOLD_BRIGHT, anchor="mm")
 
-    # ---- equipment page (0,22)+(6,6) origin -> page content at (8, 50) ----
-    ox, oy = 8, 50
-    hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
-    hex_steel = hexes.crop((0, 0, 56, 56))
-    hex_gold = hexes.crop((64, 0, 120, 56))
+    d.rounded_rectangle([sx + 15, 120, sx + 150, 138], radius=3, fill=(120, 30, 30, 255), outline=LINE + (255,))
+    d.text((sx + 82, 129), "Destroy", font=F(10, True), fill=TEXT, anchor="mm")
 
-    # Native-proportion live class emblem. EQ supplies this artwork at runtime;
-    # crossed blades represent the Warrior variant in this static preview.
-    cx, cy = ox + 244, oy
+    # Native-proportion live class emblem on the rail. EQ supplies this artwork
+    # at runtime; crossed blades represent the Warrior variant in this preview.
+    cx, cy = CREST
     d.rounded_rectangle([cx, cy, cx + 85, cy + 171], radius=4,
                         fill=(7, 11, 15, 255), outline=GOLD + (220,))
     d.rounded_rectangle([cx + 5, cy + 7, cx + 80, cy + 153], radius=3,
@@ -139,65 +126,87 @@ def main():
     d.line([(cx + 69, cy + 91), (cx + 50, cy + 102)], fill=GOLD_BRIGHT + (255,), width=4)
     d.text((cx + 42, cy + 160), "WARRIOR", font=F(7, True), fill=GOLD_BRIGHT, anchor="mm")
 
+    # twelve bag slots, two clean columns (the IW_Slots tile box)
+    slots_img = Image.open(SKIN / "window_pieces01.tga").convert("RGBA").crop((180, 110, 221, 151))
+    bagcols = [(150, 110, 60), (96, 70, 40), None, (120, 90, 60), (140, 100, 50),
+               None, (110, 80, 45), (150, 110, 60), None, (100, 75, 50),
+               (88, 110, 120), None]
+    for i in range(12):
+        bx = BAGS[0] + (i % 2) * 43
+        by = BAGS[1] + (i // 2) * 43
+        img.alpha_composite(slots_img.resize((40, 40)), (bx, by))
+        if bagcols[i]:
+            d.polygon([(bx + 20, by + 7), (bx + 31, by + 15), (bx + 31, by + 28),
+                       (bx + 20, by + 34), (bx + 9, by + 28), (bx + 9, by + 15)],
+                      fill=bagcols[i] + (255,))
+            d.ellipse([bx + 14, by + 7, bx + 26, by + 15], fill=(70, 50, 30, 255))
+
+    # buttons — the full stock set, bottom-anchored like the client draws them
+    d.rounded_rectangle([sx + 4, H - 80, sx + 160, H - 62], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
+    d.text((sx + 82, H - 71), "Appear.", font=F(9), fill=TEXT, anchor="mm")
+    for i, lab in enumerate(("Skills", "Alt. Adv.", "Achiev.", "Find Item")):
+        bx = sx + 4 + (i % 2) * 80
+        by = H - 60 + (i // 2) * 20
+        d.rounded_rectangle([bx, by, bx + 76, by + 16], radius=3, fill=BG2 + (255,), outline=LINE + (255,))
+        d.text((bx + 38, by + 8), lab, font=F(8), fill=TEXT, anchor="mm")
+    d.rounded_rectangle([sx + 44, H - 20, sx + 160, H - 4], radius=3, fill=BG2 + (255,), outline=GOLD + (255,))
+    d.text((sx + 102, H - 12), "Done", font=F(9, True), fill=GOLD_BRIGHT, anchor="mm")
+
+    # money row under the page, bottom-left as the client anchors it
+    for i, (c, amt) in enumerate((((222, 188, 96), "4,087"), ((218, 165, 32), "4,699"),
+                                  ((192, 192, 200), "4,256"), ((184, 115, 51), "1,853"))):
+        bx = 10 + i * 96
+        y = H - 22
+        d.ellipse([bx, y, bx + 14, y + 14], fill=c + (255,), outline=(0, 0, 0, 180))
+        d.text((bx + 19, y + 2), amt, font=F(9), fill=TEXT)
+
+    # ---- equipment page (0,22)+(6,6) origin -> page content at (8, 50) ----
+    ox, oy = 8, 50
+    hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
+    hex_steel = hexes.crop((0, 64, 46, 110))
+    hex_gold = hexes.crop((64, 64, 110, 110))
+
     for slot_id in range(23):
         (px, py), gold = slot_pos(slot_id)
         plate = hex_gold if gold else hex_steel
         img.alpha_composite(plate, (ox + px, oy + py))
+        inner = (ox + px + SLOT_INSET, oy + py + SLOT_INSET)
         if slot_id in FILLED:
             c = FILLED[slot_id]
-            d.rounded_rectangle([ox + px + 9, oy + py + 9, ox + px + 46, oy + py + 46],
+            d.rounded_rectangle([inner[0] + 4, inner[1] + 4, inner[0] + 36, inner[1] + 36],
                                 radius=3, fill=c + (255,))
-            d.rectangle([ox + px + 9, oy + py + 9, ox + px + 46, oy + py + 17],
+            d.rectangle([inner[0] + 4, inner[1] + 4, inner[0] + 36, inner[1] + 11],
                         fill=(255, 255, 255, 26))
-        # Bottom-row captions; the utility pair is deliberately separated.
-        if slot_id in WEAPON_ROW or slot_id in ANY_ROW:
-            d.text((ox + px + PLATE // 2, oy + py + PLATE + 3), SLOT_NAMES[slot_id],
-                   font=F(9), fill=DIM, anchor="ma")
+        else:
+            d.text((ox + px + PLATE // 2, oy + py + PLATE // 2), SLOT_ABBR[slot_id],
+                   font=F(7), fill=DIM, anchor="mm")
 
-    # stat columns between the rails
-    stats_l = [("Character Vitals", None), ("HP", "3,025 / 3,025"), ("Mana", "1,622 / 1,622"),
-               ("End", "2,212 / 2,212"), ("AC", "337/388 | 351"), ("Attack", "296 | 511"),
-               ("Attack Speed %", "113"), ("Velocity", "0"), ("HP Regen", "112"),
-               ("Mana Regen", "20"), ("End Regen", "36"), ("Primary DPS", "184.2"),
-               ("Secondary DPS", "62.4"), ("Ranged DPS", "96.0")]
-    stats_r = [("Stats & Resists", None), ("Strength", "196/510 +0"), ("Stamina", "183/510 +0"),
-               ("Intelligence", "65/510 +0"), ("Wisdom", "87/510 +0"), ("Agility", "92/510 +0"),
-               ("Dexterity", "120/510 +0"), ("Charisma", "52/510 +0"), ("SV. Magic", "70/1000"),
-               ("SV. Fire", "71/1000"), ("SV. Cold", "25/1000"), ("SV. Disease", "25/1000"),
-               ("SV. Poison", "15/1000"), ("SV. Void", "50/1000")]
-    for col, sxx in ((stats_l, ox + 92), (stats_r, ox + 302)):
-        yy = oy + 182
-        for lab, val in col:
-            if val is None:
-                d.text((sxx, yy), lab.upper(), font=F(9, True), fill=GOLD)
-                d.line([(sxx, yy + 14), (sxx + 190, yy + 14)], fill=GOLD + (110,))
-                yy += 22
-            else:
-                d.text((sxx, yy), lab, font=F(10), fill=DIM)
-                d.text((sxx + 190, yy), val, font=F(10, True), fill=TEXT, anchor="ra")
-                yy += 19
-
-    # additional modifiers — the complete stock block
-    d.text((ox + 92, oy + 478), "ADDITIONAL MODIFIERS", font=F(9, True), fill=GOLD)
-    d.line([(ox + 92, oy + 492), (ox + 492, oy + 492)], fill=GOLD + (110,))
-    mods = (("Accuracy", "0/150"), ("Damage Shielding", "0/35"),
-            ("Avoidance", "0/100"), ("Damage Shield Mitig", "0/25"),
-            ("Combat Effects", "0/100"), ("DoT Shielding", "0/35"),
-            ("Strike Through", "0/35"), ("Melee Shielding", "0/35"),
-            ("Stun Resist", "0/35"), ("Spell Shielding", "0/35"))
-    for i, (lab, val) in enumerate(mods):
-        colx = ox + 92 + (i % 2) * 210
-        rowy = oy + 500 + (i // 2) * 17
-        d.text((colx, rowy), lab, font=F(9), fill=DIM)
-        d.text((colx + 190, rowy), val, font=F(9, True), fill=CYAN, anchor="ra")
-
-    d.text((ox + 92, oy + 594), "ADDITIONAL INFORMATION", font=F(9, True), fill=GOLD)
-    d.line([(ox + 92, oy + 608), (ox + 492, oy + 608)], fill=GOLD + (110,))
-    for i, (lab, val) in enumerate((("Bind", "Dagnor's Cauldron"), ("Origin", "Oggok"),
-                                    ("Deity", "Agnostic"))):
-        rowy = oy + 616 + i * 16
-        d.text((ox + 92, rowy), lab, font=F(9), fill=DIM)
-        d.text((ox + 492, rowy), val, font=F(9), fill=TEXT, anchor="ra")
+    # ---- the stat ledger between the rails ----
+    vitals = [("Character Vitals", None), ("HP", "3,025 / 3,025"), ("Mana", "1,622 / 1,622"),
+              ("End", "2,212 / 2,212"), ("AC", "337/388 | 351"), ("Attack", "296 | 511"),
+              ("Attack Speed %", "113"), ("Velocity", "0"), ("HP Regen", "112"),
+              ("Mana Regen", "20"), ("End Regen", "36"), ("Primary DPS", "184.2"),
+              ("Secondary DPS", "62.4"), ("Ranged DPS", "96.0"),
+              ("Stats & Resists", None), ("Strength", "196/510 +0"), ("Stamina", "183/510 +0"),
+              ("Intelligence", "65/510 +0"), ("Wisdom", "87/510 +0"), ("Agility", "92/510 +0"),
+              ("Dexterity", "120/510 +0"), ("Charisma", "52/510 +0"), ("Luck", "3"),
+              ("SV. Magic", "70/1000"), ("SV. Fire", "71/1000"), ("SV. Cold", "25/1000"),
+              ("SV. Disease", "25/1000"), ("SV. Poison", "15/1000"), ("SV. Void", "50/1000")]
+    heroics = [("Additional Modifiers", None), ("Accuracy", "0/150"), ("Avoidance", "0/100"),
+               ("Combat Effects", "0/100"), ("Strike Through", "0/35"), ("Stun Resist", "0/35"),
+               ("Damage Shielding", "0/35"), ("Damage Shield Mitig", "0/25"),
+               ("DoT Shielding", "0/35"), ("Melee Shielding", "0/35"), ("Spell Shielding", "0/35"),
+               ("Heroic Strength", "0"), ("Heroic Stamina", "0"), ("Heroic Intelligence", "0"),
+               ("Heroic Wisdom", "0"), ("Heroic Agility", "0"), ("Heroic Dexterity", "0"),
+               ("Heroic Charisma", "0"), ("Spell Damage", "0"), ("Healing Amount", "0"),
+               ("Clairvoyance", "0"), ("DoT Damage", "0"), ("Endurance Regen", "36"),
+               ("Combat HP Regen", "112"), ("Combat Mana Regen", "20"), ("Item HP Regen", "8"),
+               ("Item Mana Regen", "4"), ("Item End Regen", "2")]
+    extra = [("Additional Information", None), ("Bind", "Dagnor's Cauldron"),
+             ("Origin", "Oggok"), ("Deity", "Agnostic")]
+    ledger(d, ox, oy, STATS1, vitals)
+    ledger(d, ox, oy, STATS2, heroics)
+    ledger(d, ox, oy, STATS3, extra)
 
     OUT.mkdir(parents=True, exist_ok=True)
     img2 = img.resize((W * 2, H * 2), Image.LANCZOS)

@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
-"""Bring the Loadouts/Personas tab up to SpinUI's equipment-screen quality.
+"""Compact Loadouts/Personas tab for Spin's UI Reloaded (v3).
 
-The stock tab is a 388x401 legacy panel and declares its persona equipment
-container as 0x0.  This pass uses the full 585x720 Inventory canvas, gives the
-client-owned persona model its native viewport, arranges all 23 equipment
-slots on SpinUI hex plates, and preserves the loadout and class controls below.
+Migrates the v2 full-size persona composition (SPIN-PERSONA, 585x720 page)
+to the compact v3 canvas that matches the 680x700 inventory window:
 
-Idempotent: the SPIN-PERSONA marker is written with the generated plate block.
-Run from the repository root after ``restyle_inventory.py``.
+* Page shrinks to the 485x620 tab canvas.
+* Equipment condenses to a 469x270 composition on 46px hex plates: a 2x4
+  armor cluster left, the native persona model centered, a 3x3 jewelry
+  cluster right, and a centered weapon row plus separated Any pair below.
+* Loadout table, actions, and class-level cards re-flow beneath.
+
+The client-required PersonaInvSlot identifiers, the 85x171 model viewport,
+and the 75x142 native art are preserved.
+
+Idempotent: looks for the SPIN-PERSONA-3 marker. Requires v2 (SPIN-PERSONA)
+and the v3 equipment pass (SPIN-DECO-3) to have run first.
+Run from repo root:  python3 tools/restyle_persona.py
 """
 
 import re
@@ -18,19 +26,26 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 XMLF = REPO / "spinui_reloaded" / "EQUI_InventoryWindow.xml"
 
-SLOT_POSITIONS = {
-    # left equipment rail
-    1: (35, 10), 5: (95, 10), 6: (35, 66), 9: (95, 66),
-    15: (35, 122), 7: (95, 122), 17: (35, 178), 8: (95, 178),
-    # right equipment rail
-    4: (394, 10), 3: (454, 10), 2: (394, 66), 10: (454, 66),
-    16: (394, 122), 12: (454, 122), 20: (394, 178),
-    18: (454, 178), 19: (514, 178),
+PLATE = 46
+SLOT_INSET = 3
+
+# plate coordinates inside the 469x270 IWP_Equipment canvas
+PLATE_POSITIONS = {
+    # left armor cluster, 2x4: ear/neck, shoulder/wrist, ring/arms, chest/back
+    1: (8, 8), 5: (58, 8), 6: (8, 58), 9: (58, 58),
+    15: (8, 108), 7: (58, 108), 17: (8, 158), 8: (58, 158),
+    # right jewelry cluster, 3x3
+    4: (323, 8), 3: (373, 8), 2: (423, 8),
+    10: (323, 58), 16: (373, 58), 12: (423, 58),
+    20: (323, 108), 18: (373, 108), 19: (423, 108),
     # centered weapon row plus separated Any pair
-    13: (124, 240), 14: (176, 240), 11: (228, 240), 22: (280, 240),
-    0: (352, 240), 21: (404, 240),
+    13: (72, 216), 14: (122, 216), 11: (172, 216), 22: (222, 216),
+    0: (296, 216), 21: (346, 216),
 }
 GOLD_SLOTS = {13, 14, 11, 22}
+
+EQUIP_CANVAS = (469, 270)
+PAGE = (485, 620)
 
 
 def set_location(text, kind, item, x, y, cx=None, cy=None):
@@ -56,86 +71,73 @@ def set_anchor(text, kind, item, field, value):
     return text
 
 
-def plate(slot_id, x, y):
-    anim = "A_SpinHexGold" if slot_id in GOLD_SLOTS else "A_SpinHex"
-    return f'''\t<StaticAnimation item="IWP_HexPlate{slot_id}">
-\t\t<ScreenID>IWP_HexPlate{slot_id}</ScreenID>
-\t\t<RelativePosition>true</RelativePosition>
-\t\t<Location><X>{x - 8}</X><Y>{y - 8}</Y></Location>
-\t\t<Size><CX>56</CX><CY>56</CY></Size>
-\t\t<Animation>{anim}</Animation>
-\t</StaticAnimation>
-'''
+def set_field(text, kind, item, field, value):
+    pattern = re.compile(
+        rf'(<{kind} item="{re.escape(item)}">.*?<{field}>)[^<]*(</{field}>)', re.S)
+    text, count = pattern.subn(rf'\g<1>{value}\g<2>', text, count=1)
+    assert count == 1, f"{field} {item}"
+    return text
 
 
 def main():
     text = XMLF.read_text(encoding="utf-8")
-    if "SPIN-PERSONA" in text:
-        print("persona tab already restyled — nothing to do")
+    if "SPIN-PERSONA-3" in text:
+        print("persona tab already at v3 — nothing to do")
         return 0
-    assert 'item="A_SpinHex"' in text, "run restyle_inventory.py first"
+    assert "SPIN-PERSONA" in text, "run history: restyle_persona v2 first"
+    assert "SPIN-DECO-3" in text, "run restyle_inventory.py (v3) first"
 
-    for slot_id, (x, y) in SLOT_POSITIONS.items():
-        text = set_location(text, "InvSlot", f"PersonaInvSlot{slot_id}", x, y)
+    text = text.replace(
+        "<!-- SPIN-PERSONA: full-size persona equipment composition -->",
+        "<!-- SPIN-PERSONA-3: compact persona equipment composition -->", 1)
 
-    plates = "\t<!-- SPIN-PERSONA: full-size persona equipment composition -->\n"
-    plates += "".join(plate(slot_id, *SLOT_POSITIONS[slot_id]) for slot_id in range(23))
-    anchor = '\t<Screen item="IWP_Equipment">'
-    assert anchor in text
-    text = text.replace(anchor, plates + anchor, 1)
-    pieces = "".join(
-        f"\t\t<Pieces>IWP_HexPlate{slot_id}</Pieces>\n" for slot_id in range(23))
-    anchor = "\t\t<Pieces>PersonaInvSlot0</Pieces>"
-    assert anchor in text
-    text = text.replace(anchor, pieces + anchor, 1)
+    for slot_id, (px, py) in PLATE_POSITIONS.items():
+        text = set_location(text, "InvSlot", f"PersonaInvSlot{slot_id}",
+                            px + SLOT_INSET, py + SLOT_INSET)
+        text = set_location(text, "StaticAnimation", f"IWP_HexPlate{slot_id}",
+                            px, py, PLATE, PLATE)
+        text = set_field(
+            text, "StaticAnimation", f"IWP_HexPlate{slot_id}", "Animation",
+            "A_SpinHexGoldSm" if slot_id in GOLD_SLOTS else "A_SpinHexSm")
 
-    # IWP_Equipment carries a commented legacy Size before its active 0x0
-    # values, so replace that Size block explicitly instead of allowing a
-    # cross-element regex to reach PersonaAnim.
     text = set_location(text, "Screen", "IWP_Equipment", 8, 24)
     pattern = re.compile(
         r'(<Screen item="IWP_Equipment">.*?<Size>).*?(</Size>)', re.S)
-    replacement = (r'\g<1>\n\t\t\t<CX>569</CX>\n'
-                   r'\t\t\t<CY>292</CY>\n\t\t\g<2>')
+    replacement = (rf'\g<1>\n\t\t\t<CX>{EQUIP_CANVAS[0]}</CX>\n'
+                   rf'\t\t\t<CY>{EQUIP_CANVAS[1]}</CY>\n\t\t\g<2>')
     text, count = pattern.subn(replacement, text, count=1)
     assert count == 1, "persona equipment size"
-    text = set_location(text, "StaticAnimation", "PersonaAnim", 3, 11, 75, 142)
-    text = set_location(text, "Screen", "IWP_CharacterView", 242, 25, 85, 171)
-    text = set_location(text, "Page", "IW_LoadoutPage", 0, 22, 585, 720)
+    text = set_location(text, "Screen", "IWP_CharacterView", 192, 8, 85, 171)
+    text = set_location(text, "Page", "IW_LoadoutPage", 0, 22, *PAGE)
     text = set_location(text, "Label", "IWP_EquipmentLabel", 12, 5, 220, 14)
-    text = set_location(text, "Label", "IWP_LoadoutLabel", 12, 320, 220, 14)
-    text = set_location(text, "Label", "IWP_ClassesLabel", 12, 562, 220, 14)
+    text = set_location(text, "Label", "IWP_LoadoutLabel", 12, 300, 220, 14)
+    text = set_location(text, "Label", "IWP_ClassesLabel", 12, 480, 220, 14)
 
-    for field, value in (("LeftAnchorOffset", 8), ("TopAnchorOffset", 338),
-                         ("RightAnchorOffset", 8), ("BottomAnchorOffset", 518)):
+    for field, value in (("LeftAnchorOffset", 8), ("TopAnchorOffset", 316),
+                         ("RightAnchorOffset", 8), ("BottomAnchorOffset", 440)):
         text = set_anchor(text, "Listbox", "IWP_LoadoutList", field, value)
     for item, left, right in (("IWP_AddLoadout", 8, 86),
                               ("IWP_EditLoadout", 92, 170),
                               ("IWP_SwapLoadout", 176, 254)):
         for field, value in (("LeftAnchorOffset", left), ("RightAnchorOffset", right),
-                             ("TopAnchorOffset", 526), ("BottomAnchorOffset", 550)):
+                             ("TopAnchorOffset", 448), ("BottomAnchorOffset", 472)):
             text = set_anchor(text, "Button", item, field, value)
-    text = set_location(text, "Label", "IWP_LoadoutSwapAvailableLabel", 276, 531, 128, 14)
-    text = set_location(text, "Label", "IWP_LoadoutSwapAvailable", 406, 531, 40, 14)
+    text = set_location(text, "Label", "IWP_LoadoutSwapAvailableLabel", 276, 453, 128, 14)
+    text = set_location(text, "Label", "IWP_LoadoutSwapAvailable", 406, 453, 40, 14)
 
-    for index, x in enumerate((98, 190, 282, 374), 1):
-        text = set_location(text, "Screen", f"IWP_CharacterLevels{index}", x, 582, 90, 75)
-    for field, value in (("LeftAnchorOffset", 8), ("TopAnchorOffset", 582),
-                         ("RightAnchorOffset", 8), ("BottomAnchorOffset", 710)):
+    for index, x in enumerate((8, 134, 260, 386), 1):
+        text = set_location(text, "Screen", f"IWP_CharacterLevels{index}", x, 496, 90, 75)
+    for field, value in (("LeftAnchorOffset", 8), ("TopAnchorOffset", 496),
+                         ("RightAnchorOffset", 8), ("BottomAnchorOffset", 610)):
         text = set_anchor(text, "Listbox", "IWP_ClassList", field, value)
-
-    # The equipment heading was commented out in the legacy tab.
-    text, count = re.subn(
-        r'<!--\s*<Pieces>IWP_EquipmentLabel</Pieces>\s*-->',
-        '<Pieces>IWP_EquipmentLabel</Pieces>', text, count=1)
-    assert count == 1, "equipment label piece"
 
     XMLF.write_text(text, encoding="utf-8")
     ET.parse(XMLF)
     for slot_id in range(23):
         assert f'item="IWP_HexPlate{slot_id}"' in text
         assert f"<Pieces>IWP_HexPlate{slot_id}</Pieces>" in text
-    print("persona/loadouts tab restyled: 23 slots + model + loadouts + class levels — parse OK")
+    print("persona/loadouts tab compacted: clustered slots + model + loadouts "
+          f"+ class levels on the {PAGE[0]}x{PAGE[1]} canvas — parse OK")
     return 0
 
 
