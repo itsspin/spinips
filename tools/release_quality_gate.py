@@ -21,6 +21,8 @@ import gc
 import hashlib
 import importlib.util
 import os
+import re
+import struct
 import subprocess
 import sys
 import time
@@ -59,15 +61,22 @@ SOURCE_REQUIRED = (
     "docs/previews/loremaster_panel.png",
     "docs/previews/persona_page.png",
     "docs/previews/spinui_reloaded_3440.png",
+    "docs/screenshots/inventory-live.jpg",
+    "docs/screenshots/loremaster-encounter-live.png",
+    "docs/screenshots/loremaster-live-tour.gif",
+    "docs/screenshots/loremaster-session-live.png",
+    "docs/screenshots/spinui-live-hero.jpg",
     "loremaster/hover_ocr.py",
     "loremaster/loremaster.py",
     "loremaster/log_ingest.py",
+    "loremaster/windows_hotkeys.py",
     "loremaster/windows_tray.py",
     "loremaster/wiki_overlay.py",
     "loremaster/tests/test_compositions.py",
     "loremaster/tests/test_config.py",
     "loremaster/tests/test_hover_ocr.py",
     "loremaster/tests/test_log_ingest.py",
+    "loremaster/tests/test_windows_hotkeys.py",
     "loremaster/tests/test_windows_tray.py",
     "loremaster/tests/test_wiki_overlay.py",
     "loremaster/tests/fixtures/cloak_of_flames.json",
@@ -76,11 +85,23 @@ SOURCE_REQUIRED = (
     "installer/INSTALL-MANUAL.md",
     "tools/audit_combat_ui.py",
     "tools/audit_spinui.py",
+    "tools/build_showcase_media.py",
     "tools/generate_spinui_layout.py",
+    "tools/render_loremaster_preview.py",
     ".github/workflows/build-loremaster.yml",
 )
 
+README_MEDIA = {
+    "docs/screenshots/spinui-live-hero.jpg": ("JPEG", 1600, 620, 1_000_000),
+    "docs/screenshots/inventory-live.jpg": ("JPEG", 763, 800, 1_000_000),
+    "docs/screenshots/loremaster-encounter-live.png": ("PNG", 400, 480, 1_000_000),
+    "docs/screenshots/loremaster-session-live.png": ("PNG", 400, 480, 1_000_000),
+    "docs/screenshots/loremaster-live-tour.gif": ("GIF", 960, 540, 4_000_000),
+    "docs/previews/loremaster_panel.png": ("PNG", 1704, 1658, 2_000_000),
+}
+
 COMMON_PACKAGE_TOP_LEVEL = {
+    "docs",
     "spinui_reloaded",
     "layouts",
     "UI_Spin_qeynos_LO1.ini",
@@ -177,14 +198,112 @@ def check_source_manifest() -> None:
     )
 
 
-def check_no_retired_demo_item_references() -> None:
-    """Keep the retired wiki-demo item out of all repository text."""
+def _jpeg_dimensions(payload: bytes) -> tuple[int, int]:
+    """Return JPEG dimensions without adding an image-library CI dependency."""
+
+    if not payload.startswith(b"\xff\xd8"):
+        fail("invalid JPEG start-of-image marker")
+    position = 2
+    sof_markers = {
+        0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
+        0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF,
+    }
+    while position + 4 <= len(payload):
+        while position < len(payload) and payload[position] == 0xFF:
+            position += 1
+        if position >= len(payload):
+            break
+        marker = payload[position]
+        position += 1
+        if marker in {0x01, *range(0xD0, 0xDA)}:
+            continue
+        if position + 2 > len(payload):
+            break
+        segment_length = struct.unpack(">H", payload[position:position + 2])[0]
+        if segment_length < 2 or position + segment_length > len(payload):
+            fail("invalid JPEG segment length")
+        if marker in sof_markers:
+            if segment_length < 7:
+                fail("invalid JPEG frame header")
+            height, width = struct.unpack(
+                ">HH", payload[position + 3:position + 7])
+            return width, height
+        position += segment_length
+    fail("JPEG has no supported frame header")
+
+
+def _image_identity(path: Path) -> tuple[str, int, int]:
+    payload = path.read_bytes()
+    if payload.startswith(b"\x89PNG\r\n\x1a\n"):
+        if len(payload) < 24 or payload[12:16] != b"IHDR":
+            fail(f"invalid PNG header: {path.relative_to(REPO)}")
+        width, height = struct.unpack(">II", payload[16:24])
+        return "PNG", width, height
+    if payload[:6] in {b"GIF87a", b"GIF89a"}:
+        if len(payload) < 10:
+            fail(f"invalid GIF header: {path.relative_to(REPO)}")
+        width, height = struct.unpack("<HH", payload[6:10])
+        return "GIF", width, height
+    if payload.startswith(b"\xff\xd8"):
+        width, height = _jpeg_dimensions(payload)
+        return "JPEG", width, height
+    fail(f"unsupported or corrupt image: {path.relative_to(REPO)}")
+
+
+def check_readme_media() -> None:
+    """Keep the public and packaged README gallery complete and lightweight."""
+
+    section("README showcase media")
+    readme = (REPO / "README.md").read_text(encoding="utf-8")
+    raw_links = re.findall(r"!\[[^\]]*\]\(([^)\s]+)", readme)
+    local_links = {
+        link.replace("\\", "/")
+        for link in raw_links
+        if "://" not in link and not link.startswith("#")
+    }
+    expected = set(README_MEDIA)
+    missing_links = sorted(expected - local_links)
+    if missing_links:
+        fail("README does not display required showcase media: " + ", ".join(missing_links))
+    for relative in sorted(local_links):
+        candidate = (REPO / relative).resolve()
+        try:
+            candidate.relative_to(REPO.resolve())
+        except ValueError:
+            fail(f"README media escapes the repository: {relative}")
+        if not candidate.is_file():
+            fail(f"README media link is broken: {relative}")
+    for relative, (kind, width, height, size_limit) in README_MEDIA.items():
+        path = REPO / relative
+        actual_kind, actual_width, actual_height = _image_identity(path)
+        if (actual_kind, actual_width, actual_height) != (kind, width, height):
+            fail(
+                f"{relative} identity drifted: expected {kind} {width}x{height}, "
+                f"got {actual_kind} {actual_width}x{actual_height}"
+            )
+        if path.stat().st_size > size_limit:
+            fail(
+                f"{relative} is too large for the public README "
+                f"({path.stat().st_size:,} > {size_limit:,} bytes)"
+            )
+    print(
+        f"[PASS] {len(README_MEDIA)} linked assets | headers, dimensions, and size caps",
+        flush=True,
+    )
+
+
+def check_no_retired_content_references() -> None:
+    """Keep retired demo and legacy-product names out of repository text."""
 
     section("Retired demo content")
-    # Keep the retired sample's bytes out of source and documentation too, so
-    # the guard cannot become the last reference it is intended to prevent.
-    retired_phrase = bytes.fromhex(
-        "72 75 6e 65 64 20 62 6f 6c 73 74 65 72 20 62 65 6c 74")
+    # Keep the forbidden bytes out of source and documentation too, so this
+    # guard cannot become the last reference it is intended to prevent.
+    retired_phrases = (
+        bytes.fromhex(
+            "72 75 6e 65 64 20 62 6f 6c 73 74 65 72 20 62 65 6c 74"),
+        bytes.fromhex("65 71 62 75 64 64 79"),
+        bytes.fromhex("65 71 20 62 75 64 64 79"),
+    )
     try:
         listed = subprocess.run(
             ["git", "ls-files", "-co", "--exclude-standard", "-z"],
@@ -214,11 +333,11 @@ def check_no_retired_demo_item_references() -> None:
         # Match ripgrep's normal behavior by ignoring binary payloads.
         if b"\0" in payload[:4096]:
             continue
-        if retired_phrase in payload.lower():
+        if any(phrase in payload.lower() for phrase in retired_phrases):
             matches.append(relative.as_posix())
     if matches:
-        fail("retired demo item still appears in: " + ", ".join(matches))
-    print("[PASS] retired demo item has zero repository text references", flush=True)
+        fail("retired content still appears in: " + ", ".join(matches))
+    print("[PASS] retired demo and legacy names have zero text references", flush=True)
 
 
 def run_discovered_audits() -> None:
@@ -597,6 +716,9 @@ def check_staged_package(kind: str, package_root: Path) -> None:
     layout_files = _compare_packaged_tree(
         REPO / "layouts", package_root / "layouts", f"{kind}/layouts"
     )
+    docs_files = _compare_packaged_tree(
+        REPO / "docs", package_root / "docs", f"{kind}/docs"
+    )
     _check_same_file(
         REPO / "UI_Spin_qeynos_LO1.ini",
         package_root / "UI_Spin_qeynos_LO1.ini",
@@ -613,7 +735,7 @@ def check_staged_package(kind: str, package_root: Path) -> None:
         _check_windows_executable(package_root / "SpinUIInstaller.exe")
     print(
         f"[PASS] {kind} package | skin files {skin_files} | "
-        f"layout files {layout_files} | exact source payload",
+        f"layout files {layout_files} | docs files {docs_files} | exact source payload",
         flush=True,
     )
 
@@ -662,7 +784,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if not args.packages_only:
             check_source_manifest()
-            check_no_retired_demo_item_references()
+            check_readme_media()
+            check_no_retired_content_references()
             run_discovered_audits()
             if args.reference_ui is not None:
                 check_reference_ui(args.reference_ui.resolve())

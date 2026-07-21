@@ -60,39 +60,44 @@ def world() -> Image.Image:
     return image
 
 
+def command_buffs(canvas: Image.Image, x: int, y: int, count: int = 7) -> None:
+    """Populate the transparent host without drawing its maximum perimeter."""
+    for index in range(count):
+        ui.slot(canvas, x + 6 + index * 23, y + 50, 22,
+                ui.ICONS[index % len(ui.ICONS)])
+
+
 def player(canvas: Image.Image, x: int, y: int) -> None:
-    ui.glass_window(canvas, x, y, 360, 193, alpha=250)
-    ui.text(canvas, (x + 12, y + 12), "SPIN", 16, GOLD_BRIGHT, True)
-    ui.text(canvas, (x + 348, y + 13), "40  WAR / DRU / BRD", 11,
-            TEXT_DIM, anchor="ra")
-    ui.text(canvas, (x + 12, y + 31), "CHANNELER  /  INVOCATION: THORNS", 9,
-            CYAN, True)
-    ui.gauge(canvas, x + 12, y + 49, 336, 18, .93, HP, "HP", "3206 / 3446")
-    ui.gauge(canvas, x + 12, y + 73, 336, 14, .72, MANA, "MANA", "1622 / 2251")
-    ui.gauge(canvas, x + 12, y + 93, 336, 14, .98, ENDUR, "END", "2212 / 2251")
-    ui.gauge(canvas, x + 12, y + 115, 336, 9, .64, PET)
-    ui.text(canvas, (x + 12, y + 129), "Gann  /  pet 64%", 10, TEXT_DIM)
-    ui.gauge(canvas, x + 12, y + 149, 270, 8, .06, GOLD, ticks=True)
-    ui.text(canvas, (x + 348, y + 146), "EXP 6%", 10, GOLD_BRIGHT, anchor="ra")
-    ui.gauge(canvas, x + 12, y + 169, 270, 8, .17, CYAN, ticks=True)
-    ui.text(canvas, (x + 348, y + 166), "AA 17%", 10, CYAN, anchor="ra")
+    command_buffs(canvas, x, y)
+    ui.glass_window(canvas, x, y + 70, 360, 123, alpha=250)
+    ui.text(canvas, (x + 6, y + 76), "39 WAR/DRU/BRD", 11, TEXT, True)
+    ImageDraw.Draw(canvas).ellipse((x + 342, y + 77, x + 352, y + 87),
+                                   fill=(42, 207, 91, 255))
+    ui.gauge(canvas, x + 6, y + 90, 348, 18, 1.0, HP, None, "3025/3025")
+    ui.gauge(canvas, x + 6, y + 111, 348, 14, 1.0, MANA, None, "1599/1599")
+    ui.gauge(canvas, x + 6, y + 128, 348, 14, 1.0, ENDUR, None, "2119/2119")
+    ui.gauge(canvas, x + 6, y + 145, 348, 9, .31, GOLD, ticks=True)
+    ui.gauge(canvas, x + 6, y + 157, 348, 9, .17, CYAN, ticks=True)
+    ui.gauge(canvas, x + 6, y + 169, 278, 6, .80, MANA, ticks=True)
+    draw = ImageDraw.Draw(canvas)
+    draw.rectangle((x + 4, y + 178, x + 355, y + 191), fill=BG1 + (232,))
+    draw.line((x + 4, y + 177, x + 228, y + 177), fill=GOLD + (190,))
+    draw.line((x + 232, y + 177, x + 355, y + 177), fill=CYAN + (190,))
+    ui.text(canvas, (x + 6, y + 185), "Defensive Stance", 10,
+            GOLD_BRIGHT, anchor="lm")
+    ui.text(canvas, (x + 354, y + 185), "Empower", 10, CYAN, anchor="rm")
 
 
 def target(canvas: Image.Image, x: int, y: int) -> None:
-    ui.glass_window(canvas, x, y, 360, 193, alpha=250)
-    ui.text(canvas, (x + 12, y + 12), "A FROGLOK SHIN KNIGHT", 14, TEXT, True)
-    ui.text(canvas, (x + 348, y + 13), "LV 38  /  WARRIOR", 10,
-            GOLD_BRIGHT, anchor="ra")
-    ui.gauge(canvas, x + 12, y + 42, 336, 20, .74, HP, "HOSTILE", "74%")
-    ui.gauge(canvas, x + 12, y + 70, 336, 12, .36, MANA, "MANA", "36%")
-    ui.gauge(canvas, x + 12, y + 88, 336, 12, .81, ENDUR, "END", "81%")
-    ui.gauge(canvas, x + 12, y + 112, 336, 10, .42, CYAN)
-    ui.text(canvas, (x + 12, y + 126), "CASTING  /  Frogloktik Curse", 10,
-            CYAN, True)
-    for index in range(7):
-        ui.slot(canvas, x + 12 + index * 27, y + 151, 22,
-                ui.ICONS[index] if index < 5 else None)
-    ui.text(canvas, (x + 348, y + 157), "DEBUFFS", 9, TEXT_DIM, anchor="ra")
+    command_buffs(canvas, x, y)
+    ui.glass_window(canvas, x, y + 70, 360, 123, alpha=250)
+    ui.text(canvas, (x + 6, y + 76), "39 WAR/DRU/BRD", 11, TEXT, True)
+    ui.gauge(canvas, x + 6, y + 90, 348, 18, 1.0, HP, "Spin", "100")
+    ui.gauge(canvas, x + 6, y + 111, 348, 14, 1.0, MANA, None, "100")
+    ui.gauge(canvas, x + 6, y + 128, 348, 14, 1.0, ENDUR, None, "100")
+    ui.gauge(canvas, x + 6, y + 145, 348, 10, .42, CYAN)
+    ui.gauge(canvas, x + 6, y + 158, 348, 14, 1.0, HP, "Spin", "100")
+    ui.text(canvas, (x + 30, y + 177), "39 WAR/DRU/BRD", 10, TEXT)
 
 
 def target_of_target(canvas: Image.Image, x: int, y: int) -> None:
@@ -140,12 +145,20 @@ def extended_targets(canvas: Image.Image, x: int, y: int) -> None:
 
 def effects(canvas: Image.Image, x: int, y: int, title: str,
             names: tuple[str, ...], height: int) -> None:
-    ui.std_window(canvas, x, y, 216, height, title=title, alpha=244)
+    # The live windows retain only a slim draggable header; unused maximum
+    # buff-slot space is transparent and click-through.
+    draw = ImageDraw.Draw(canvas)
+    draw.rectangle((x, y, x + 215, y + 15), fill=BG1 + (224,),
+                   outline=LINE + (245,))
+    draw.line((x + 4, y, x + 56, y), fill=CYAN + (235,), width=2)
+    ui.text(canvas, (x + 108, y + 8), title, 9, TEXT_DIM, True, anchor="mm")
     for index, name in enumerate(names):
-        row = y + 24 + index * 22
-        ui.slot(canvas, x + 5, row, 20, ui.ICONS[index % len(ui.ICONS)])
-        ui.text(canvas, (x + 31, row + 3), name, 10, TEXT)
-        ui.text(canvas, (x + 208, row + 3), f"{27 - index}m", 9,
+        row = y + 18 + index * 20
+        draw.rectangle((x + 1, row, x + 214, row + 19),
+                       fill=BG1 + (190,), outline=LINE + (150,))
+        ui.slot(canvas, x + 3, row, 20, ui.ICONS[index % len(ui.ICONS)])
+        ui.text(canvas, (x + 27, row + 2), name, 10, TEXT)
+        ui.text(canvas, (x + 210, row + 2), f"{27 - index}m", 9,
                 TEXT_DIM, anchor="ra")
 
 
@@ -162,14 +175,14 @@ def main() -> int:
         "Resist Disease", "Resist Fire", "Resist Cold", "Levitation",
         "Enduring Breath", "Ultravision", "See Invisible", "Rune",
         "Damage Shield", "Alliance",
-    ), 712)
+    ), 640)
     effects(canvas, 1488, 8, "SONG EFFECTS", (
         "Chant of Battle", "Hymn of Restoration", "Psalm of Warmth",
         "Jonthan's Warsong", "Elemental Rhythms", "Guardian Rhythms",
         "Purifying Rhythms", "Anthem de Arms", "Cassindra's Chorus",
         "Verses of Victory", "Selo's Accelerando", "Denon's Disruptive Discord",
         "Chords of Dissonance", "Largo's Absonant Binding", "Kelin's Lucid Lullaby",
-    ), 367)
+    ), 324)
 
     ui.draw_gems(canvas, 16, 401, 52, 623)
     ui.draw_hotbar_v(canvas, 72, 508, 96, 520, 1)

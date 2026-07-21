@@ -196,7 +196,7 @@ def style_buff_file(path: Path, prefix: str, count: int,
     text = change_item(
         text, "Button", template,
         lambda b: set_container(
-            set_container(set_font(b, 2), "Size", CX=216, CY=22),
+            set_container(set_font(b, 2), "Size", CX=216, CY=20),
             "DecalSize", CX=20, CY=20,
         ),
     )
@@ -205,7 +205,7 @@ def style_buff_file(path: Path, prefix: str, count: int,
 
         def label_style(block: str) -> str:
             block = set_font(block, 3)
-            block = set_container(block, "Location", X=27, Y=2)
+            block = set_container(block, "Location", X=27, Y=1)
             block = set_container(block, "Size", CX=179, CY=18)
             return set_color(block, "TextColor", TEXT, insert=True)
 
@@ -214,18 +214,18 @@ def style_buff_file(path: Path, prefix: str, count: int,
     text = change_item(
         text, "Label", f"{prefix}_Buff_FrontSpacer",
         lambda b: set_container(
-            set_container(b, "Location", X=0, Y=2), "Size", CX=27, CY=18
+            set_container(b, "Location", X=0, Y=1), "Size", CX=27, CY=18
         ),
     )
     text = change_item(
         text, "Label", f"{prefix}_Buff_BackSpacer",
         lambda b: set_container(
-            set_container(b, "Location", X=206, Y=2), "Size", CX=10, CY=18
+            set_container(b, "Location", X=206, Y=1), "Size", CX=10, CY=18
         ),
     )
     text = change_item(
         text, "Screen", f"{prefix}_00_Screen",
-        lambda b: set_container(b, "Size", CX=216, CY=22),
+        lambda b: set_container(b, "Size", CX=216, CY=20),
     )
     text = change_item(
         text, "TileLayoutBox", f"{prefix}_Buttons",
@@ -236,11 +236,34 @@ def style_buff_file(path: Path, prefix: str, count: int,
         lambda b: set_value(set_value(b, "LeftAnchorOffset", 1), "Spacing", 0),
     )
     window_name = "BuffWindow" if prefix == "BW" else "ShortDurationBuffWindow"
+    background_name = f"{prefix}_Background"
+
+    def background_style(block: str) -> str:
+        # Active effect buttons remain fully interactive, while the unused
+        # maximum-slot canvas no longer paints an opaque inset rectangle.
+        block = set_or_add_value(
+            block, "Style_Transparent", "true", after="Style_HScroll"
+        )
+        return set_value(block, "Style_Border", "false")
+
+    text = change_item(text, "Screen", background_name, background_style)
 
     def window_style(block: str) -> str:
         block = set_value(block, "Text", title)
         block = set_container(block, "Size", CX=216, CY=height)
+        block = set_value(block, "Style_Transparent", "true")
+        block = set_value(block, "DrawTemplate", "WDT_RoundedTransparentNoArrow")
+        block = set_value(block, "Style_Titlebar", "true")
+        # Keep the title rail for dragging, but never draw a perimeter around
+        # the entire maximum buff-slot canvas.  That outline is visible even
+        # when most effect rows are empty and recreates the oversized slab the
+        # transparent treatment is intended to remove.
+        block = set_value(block, "Style_Border", "false")
         block = set_value(block, "Style_ClientMovable", "true")
+        block = set_or_add_value(
+            block, "ClickThroughEmptyBuffs", "true",
+            after="Style_ClientMovable",
+        )
         block = set_value(block, "KeepOnScreen", "true")
         return block
 
@@ -272,9 +295,37 @@ def style_player() -> None:
                                          insert=True),
         )
 
+    def stance_rail(block: str) -> str:
+        # Legends can return a longer stance name (for example "Defensive
+        # Stance") than the stock two-point font was designed around.  Give
+        # the left rail a real, inset column and enough line height for Font 4
+        # descenders without letting it collide with invocation text.
+        block = set_value(block, "TopAnchorOffset", 91)
+        block = set_value(block, "BottomAnchorOffset", 107)
+        block = set_value(block, "LeftAnchorOffset", 6)
+        block = set_value(block, "RightAnchorOffset", 132)
+        return block
+
+    def invocation_rail(block: str) -> str:
+        # Reserve an independent right-aligned column for values such as
+        # "Empower".  The four-pixel gutter keeps both dynamic labels legible
+        # even when the three-class identity uses the full command-frame width.
+        block = set_value(block, "TopAnchorOffset", 91)
+        block = set_value(block, "BottomAnchorOffset", 107)
+        block = set_value(block, "LeftAnchorOffset", 232)
+        block = set_value(block, "RightAnchorOffset", 6)
+        return block
+
+    text = change_item(text, "Label", "PW_StanceLabel", stance_rail)
+    text = change_item(text, "Label", "PW_InvocationInfo", invocation_rail)
+
     def root_style(block: str) -> str:
         block = set_container(block, "Size", CX=360, CY=193)
         block = set_value(block, "MenuName", "Legends Command Frame - Buffs on Top")
+        # The root exists mostly to host the interaction/buff canvas.  Painting
+        # its full 360x193 border creates the large faint perimeter seen in the
+        # live client; the compact PlayerSubWindow remains the visible frame.
+        block = set_value(block, "Style_Border", "false")
         return block
 
     text = change_item(text, "Screen", "PlayerWindow", root_style)
@@ -306,6 +357,9 @@ def style_target() -> None:
     def root_style(block: str) -> str:
         block = set_container(block, "Size", CX=360, CY=193)
         block = set_value(block, "MenuName", "Legends Command Frame - Buffs on Top")
+        # Keep the root transparent and interactive while letting the compact
+        # TargetSubWindow provide the only visible perimeter.
+        block = set_value(block, "Style_Border", "false")
         return block
 
     text = change_item(text, "Screen", "TargetWindow", root_style)
@@ -433,6 +487,17 @@ def style_casting() -> None:
 def style_spell_gems() -> None:
     path = SKIN / "EQUI_CastSpellWnd.xml"
     text = path.read_text(encoding="ascii")
+    for index in range(14):
+        def gem_style(block: str) -> str:
+            # Legends' own default_modern skin uses a 36px icon centered in
+            # this exact 40px socket.  The former 24px/13px geometry left the
+            # art undersized and visibly off-center in horizontal layouts.
+            block = set_value(block, "SpellIconOffsetX", 2)
+            block = set_value(block, "SpellIconOffsetY", 2)
+            block = set_value(block, "SpellIconSizeX", 36)
+            return set_value(block, "SpellIconSizeY", 36)
+
+        text = change_item(text, "SpellGem", f"CSPW_Spell{index}", gem_style)
     text = change_item(
         text, "Screen", "CastSpellWnd",
         lambda b: set_or_add_value(
@@ -526,9 +591,9 @@ def style_raid() -> None:
 
 def main() -> int:
     style_buff_file(SKIN / "EQUI_BuffWindow.xml", "BW", 30,
-                    "SPELL EFFECTS", 712)
+                    "SPELL EFFECTS", 640)
     style_buff_file(SKIN / "EQUI_ShortDurationBuffWindow.xml", "SDBW", 15,
-                    "SONG EFFECTS", 367)
+                    "SONG EFFECTS", 324)
     style_player()
     style_target()
     style_target_of_target()

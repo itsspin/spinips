@@ -166,7 +166,7 @@ def main():
     d.text((width - 10, 48), "session 1h44m · since 3:38 PM", font=F(8), fill=DIM, anchor="rm")
     d.text((10, 64), "Blackburrow", font=F(9), fill=TEXT, anchor="lm")
     d.rectangle([218, 55, width - 10, 72], fill=RAISED)
-    d.text((width - 16, 64), f"LORE LENS  •  {LORE_HOTKEY}",
+    d.text((width - 16, 64), f"LORE LENS  •  {LORE_HOTKEY}  •  READY",
            font=F(7, serif=True), fill=CYAN, anchor="rm")
 
     d.rectangle([10, 75, width - 10, 98], fill=VOID)
@@ -286,7 +286,7 @@ def main():
     md.rectangle([controls_left, 4, mini_w - 132, mini_h - 5],
                  fill=RAISED, outline=LINE)
     md.text(((controls_left + mini_w - 132) // 2, mini_h // 2),
-            f"LORE LENS  {LORE_HOTKEY}", font=F(6, serif=True),
+            f"LORE LENS  {LORE_HOTKEY}  READY", font=F(6, serif=True),
             fill=CYAN, anchor="mm")
     md.text((mini_w - 126, mini_h // 2), "● LIVE", font=F(6, bold=True),
             fill=GREEN, anchor="rm")

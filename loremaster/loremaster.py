@@ -63,6 +63,12 @@ from log_ingest import (
     StatusRecord,
     SwitchRecord,
 )
+from windows_hotkeys import (
+    HOTKEY_RECOVERY,
+    HOTKEY_WIKI,
+    HotkeyBinding,
+    WindowsHotkeyService,
+)
 from windows_tray import (
     TRAY_EXIT,
     TRAY_HIDE,
@@ -154,6 +160,44 @@ MAX_FIGHT_HISTORY = 500
 TIMELINE_BUCKET_SECONDS = 2
 MINI_BASE_WIDTH = 720
 MINI_BASE_HEIGHT = 34
+
+MINI_CARD_LABELS = {
+    "combat": "COMBAT",
+    "kills": "SLAYING",
+    "loot": "SPOILS",
+    "money": "COIN",
+    "progress": "PROGRESSION",
+    "faction": "STANDING",
+    "travels": "JOURNEY",
+}
+MINI_COMPACT_LABELS = {"progress": "XP"}
+
+
+def mini_stat_label_plan(keys, available_width: int,
+                         full_widths: dict[str, int],
+                         compact_widths: dict[str, int],
+                         divider_width: int = 9) -> dict[str, str]:
+    """Choose whole mini-HUD labels without ever clipping a word in half.
+
+    Widths include each label, its live value, and local padding.  The caller
+    measures with the real Tk fonts; this pure planner makes the 720px packing
+    rule deterministic and independently testable.
+    """
+    ordered = [key for key in keys if key in MINI_CARD_LABELS]
+    labels = {key: MINI_CARD_LABELS[key] for key in ordered}
+    required = sum(max(0, int(full_widths.get(key, 0))) for key in ordered)
+    required += max(0, len(ordered) - 1) * max(0, int(divider_width))
+    if required <= max(0, int(available_width)):
+        return labels
+    for key in ("progress",):
+        if key not in labels or key not in MINI_COMPACT_LABELS:
+            continue
+        required -= max(0, int(full_widths.get(key, 0)))
+        required += max(0, int(compact_widths.get(key, full_widths.get(key, 0))))
+        labels[key] = MINI_COMPACT_LABELS[key]
+        if required <= max(0, int(available_width)):
+            break
+    return labels
 
 TS_FORMAT = "%a %b %d %H:%M:%S %Y"
 _EQ_PID_CACHE = {"expires": 0.0, "ids": set()}
@@ -1765,6 +1809,7 @@ class AlertManager:
 def run_gui(args):
     try:
         import tkinter as tk
+        from tkinter import font as tkfont
     except ImportError:
         print("Spin\'s Loremaster needs Python's tkinter module (bundled with the")
         print("standard python.org Windows installer).")
@@ -1839,6 +1884,21 @@ def run_gui(args):
     hotkey = {"registered": False, "id": 0x534C,
               "wiki_registered": False, "wiki_id": 0x5345,
               "wiki_error": ""}
+    try:
+        wiki_modifiers, wiki_virtual_key, wiki_canonical = parse_hotkey(
+            cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
+    except ValueError:
+        wiki_modifiers, wiki_virtual_key, wiki_canonical = parse_hotkey(
+            "Ctrl+Shift+E")
+        cfg["wiki_hotkey"] = wiki_canonical
+    hotkey_service = WindowsHotkeyService(
+        HotkeyBinding(
+            HOTKEY_RECOVERY, hotkey["id"],
+            0x0001 | 0x0002 | 0x4000, ord("L"), "Ctrl+Alt+L"),
+        HotkeyBinding(
+            HOTKEY_WIKI, hotkey["wiki_id"],
+            wiki_modifiers, wiki_virtual_key, wiki_canonical),
+    )
 
     def _window_handle():
         if os.name != "nt":
@@ -1909,88 +1969,72 @@ def run_gui(args):
             alerts.show("info", "MOUSE CONTROL RESTORED")
         refresh(force_detail=True)
 
+    def sync_hotkey_status():
+        recovery_status = hotkey_service.status(HOTKEY_RECOVERY)
+        wiki_status = hotkey_service.status(HOTKEY_WIKI)
+        hotkey["registered"] = bool(recovery_status.registered)
+        hotkey["wiki_registered"] = bool(wiki_status.registered)
+        hotkey["wiki_error"] = wiki_status.error
+        cfg["wiki_hotkey"] = wiki_status.binding.label
+
     def install_recovery_hotkey():
-        if os.name != "nt":
-            return
-        try:
-            import ctypes
-            from ctypes import wintypes
-            user32 = ctypes.windll.user32
-            user32.RegisterHotKey.argtypes = [wintypes.HWND, ctypes.c_int,
-                                               wintypes.UINT, wintypes.UINT]
-            user32.RegisterHotKey.restype = wintypes.BOOL
-            # MOD_ALT | MOD_CONTROL | MOD_NOREPEAT, virtual key L
-            hotkey["registered"] = bool(user32.RegisterHotKey(
-                None, hotkey["id"], 0x0001 | 0x0002 | 0x4000, ord("L")))
-        except (AttributeError, OSError):
-            hotkey["registered"] = False
+        hotkey_service.start(timeout=1.0)
+        sync_hotkey_status()
 
     def install_wiki_hotkey():
-        hotkey["wiki_registered"] = False
-        hotkey["wiki_error"] = ""
-        if os.name != "nt" or not cfg.get("wiki_enabled", True):
-            return
-        try:
-            import ctypes
-            from ctypes import wintypes
-            mods, virtual_key, canonical = parse_hotkey(
-                cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
-            cfg["wiki_hotkey"] = canonical
-            user32 = ctypes.windll.user32
-            user32.RegisterHotKey.argtypes = [wintypes.HWND, ctypes.c_int,
-                                               wintypes.UINT, wintypes.UINT]
-            user32.RegisterHotKey.restype = wintypes.BOOL
-            hotkey["wiki_registered"] = bool(user32.RegisterHotKey(
-                None, hotkey["wiki_id"], mods, virtual_key))
-            if not hotkey["wiki_registered"]:
-                hotkey["wiki_error"] = f"{canonical} is already in use"
-        except (AttributeError, OSError, ValueError) as exc:
-            hotkey["wiki_error"] = str(exc)
+        # Both bindings are owned for the lifetime of the native service. The
+        # Tk thread only mirrors status and filters whether an action may run.
+        sync_hotkey_status()
 
     def remove_wiki_hotkey():
-        if hotkey["wiki_registered"] and os.name == "nt":
-            try:
-                import ctypes
-                ctypes.windll.user32.UnregisterHotKey(None, hotkey["wiki_id"])
-            except (AttributeError, OSError):
-                pass
-        hotkey["wiki_registered"] = False
+        # Intentional no-op: unregistering on foreground changes created the
+        # exact race this native owner exists to remove.
+        sync_hotkey_status()
 
-    def reinstall_wiki_hotkey():
-        remove_wiki_hotkey()
-        install_wiki_hotkey()
+    def reinstall_wiki_hotkey(canonical=None):
+        try:
+            modifiers, virtual_key, label = parse_hotkey(
+                canonical or cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
+        except ValueError as exc:
+            hotkey["wiki_error"] = str(exc)
+            return None
+        result = hotkey_service.rebind_wiki(
+            modifiers, virtual_key, label, timeout=1.0)
+        sync_hotkey_status()
+        if not result.success:
+            hotkey["wiki_error"] = result.status.error
+        return result
 
     def poll_recovery_hotkey():
         if state["closing"]:
             return
         try:
-            if ((hotkey["registered"] or hotkey["wiki_registered"])
-                    and os.name == "nt"):
-                import ctypes
-                from ctypes import wintypes
-                msg = wintypes.MSG()
-                while ctypes.windll.user32.PeekMessageW(
-                        ctypes.byref(msg), None, 0x0312, 0x0312, 0x0001):
-                    if int(msg.wParam) == hotkey["id"] and state["click_through"]:
-                        toggle_click_through()
-                    elif (int(msg.wParam) == hotkey["wiki_id"]
-                          and foreground_is_everquest_or_loremaster(root.winfo_id())):
-                        open_wiki_from_hotkey()
-        except (AttributeError, OSError):
+            sync_hotkey_status()
+            for command in hotkey_service.poll(limit=8):
+                if command == HOTKEY_RECOVERY and state["click_through"]:
+                    toggle_click_through()
+                elif (command == HOTKEY_WIKI
+                      and foreground_is_everquest_or_loremaster(root.winfo_id())):
+                    open_wiki_from_hotkey()
+        except (AttributeError, OSError, KeyError):
             pass
         finally:
             if not state["closing"]:
                 root.after(100, poll_recovery_hotkey)
 
     def remove_recovery_hotkey():
-        if hotkey["registered"] and os.name == "nt":
-            try:
-                import ctypes
-                ctypes.windll.user32.UnregisterHotKey(None, hotkey["id"])
-            except (AttributeError, OSError):
-                pass
+        hotkey_service.close(timeout=1.0)
         hotkey["registered"] = False
-        remove_wiki_hotkey()
+        hotkey["wiki_registered"] = False
+
+    def wiki_hotkey_presentation():
+        sync_hotkey_status()
+        shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+        if not cfg.get("wiki_enabled", True):
+            return shortcut, "DISABLED", T["dim"]
+        if hotkey["wiki_registered"]:
+            return shortcut, "READY", T["cyan"]
+        return shortcut, "CONFLICT", T["hp"]
 
     # ---- window drag + position persistence ----
     drag = {"x": 0, "y": 0, "active": False,
@@ -2500,6 +2544,14 @@ def run_gui(args):
 
     def open_wiki_from_hotkey(_event=None):
         if not cfg.get("wiki_enabled", True):
+            open_settings()
+            return
+        sync_hotkey_status()
+        if _event is not None and not hotkey["wiki_registered"]:
+            _wiki_plaintext_fallback(
+                "", "HOTKEY CONFLICT\n\n" + (hotkey["wiki_error"] or
+                "Windows could not reserve the configured Lore Lens shortcut.")
+                + "\nOpen Settings and choose another modified shortcut.\n\n")
             return
         try:
             clipboard = root.clipboard_get()
@@ -2628,8 +2680,19 @@ def run_gui(args):
         hotkey_entry.insert(0, cfg.get("wiki_hotkey", "Ctrl+Shift+E"))
         status = L(frame, "", fg=T["dim"], font=FONT_S, wraplength=410)
         status.pack(fill="x", pady=(0, 8))
-        if hotkey.get("wiki_error"):
-            status.configure(text="Current hotkey: " + hotkey["wiki_error"], fg=T["ember"])
+        _shortcut, current_state, current_color = wiki_hotkey_presentation()
+        if current_state == "READY":
+            status.configure(
+                text=f"{_shortcut} READY — owned by Loremaster's native hotkey service.",
+                fg=current_color)
+        elif current_state == "DISABLED":
+            status.configure(text=f"{_shortcut} is reserved; Lore Lens is disabled.",
+                             fg=current_color)
+        else:
+            status.configure(
+                text="CONFLICT — " + (hotkey.get("wiki_error") or
+                                      "Windows could not reserve this shortcut."),
+                fg=current_color)
         check("High-contrast palette (applies next launch)", contrast_var)
         check("Reduced motion", motion_var)
         scale_row = tk.Frame(frame, bg=T["bg"])
@@ -2651,21 +2714,37 @@ def run_gui(args):
             except (ValueError, TypeError) as exc:
                 status.configure(text=str(exc), fg=T["hp"])
                 return
+            active_before = hotkey_service.status(HOTKEY_WIKI)
+            rebind = None
+            if (canonical != active_before.binding.label
+                    or (bool(enabled_var.get()) and not active_before.registered)):
+                rebind = reinstall_wiki_hotkey(canonical)
+            sync_hotkey_status()
+            active_after = hotkey_service.status(HOTKEY_WIKI)
+            if rebind is not None and not rebind.success:
+                hotkey_entry.delete(0, "end")
+                hotkey_entry.insert(0, active_after.binding.label)
             cfg.update(wiki_enabled=bool(enabled_var.get()),
                        wiki_network_enabled=bool(network_var.get()),
                        wiki_hover_ocr_enabled=bool(hover_ocr_var.get()),
-                       wiki_hotkey=canonical, wiki_hotkey_customized=True,
+                       wiki_hotkey=active_after.binding.label,
+                       wiki_hotkey_customized=True,
                        high_contrast=bool(contrast_var.get()),
                        reduced_motion=bool(motion_var.get()), font_scale=scale_value)
             wiki_client.network_enabled = cfg["wiki_network_enabled"]
             save_config(cfg)
             refresh(force_detail=True)
-            reinstall_wiki_hotkey()
             if cfg["wiki_enabled"] and not hotkey["wiki_registered"]:
-                status.configure(text=hotkey["wiki_error"] or "Hotkey could not be reserved.",
+                status.configure(text="CONFLICT — " + (hotkey["wiki_error"] or
+                                 "Hotkey could not be reserved."),
                                  fg=T["hp"])
                 return
-            message = (f"Saved. {canonical} is ready while EQ/Loremaster is active."
+            if rebind is not None and not rebind.success:
+                status.configure(text="CONFLICT — " + rebind.status.error +
+                                 f". Kept {active_after.binding.label} active.",
+                                 fg=T["hp"])
+                return
+            message = (f"Saved. {active_after.binding.label} READY."
                        if cfg["wiki_enabled"] else "Saved. Lore Lens is disabled.")
             status.configure(text=message, fg=T["green"])
 
@@ -3181,9 +3260,11 @@ def run_gui(args):
         sub.pack(fill="x", padx=10)
         widgets["zone"] = L(sub, "", fg=T["text"], font=FONT_S)
         widgets["zone"].pack(side="left", pady=1)
-        wiki_hotkey_label = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+        wiki_hotkey_label, wiki_state_label, wiki_state_color = (
+            wiki_hotkey_presentation())
         widgets["lore_shortcut"] = tk.Label(
-            sub, text=f"LORE LENS  •  {wiki_hotkey_label}", fg=T["cyan"], bg=T["raised"],
+            sub, text=(f"LORE LENS  •  {wiki_hotkey_label}  •  "
+                       f"{wiki_state_label}"), fg=wiki_state_color, bg=T["raised"],
             font=FONT_RUNE, cursor="hand2", padx=6, pady=2, anchor="e")
         widgets["lore_shortcut"].pack(side="right")
         widgets["lore_shortcut"].bind("<Button-1>", open_wiki_from_hotkey)
@@ -3356,11 +3437,45 @@ def run_gui(args):
         default_y = max(8, root.winfo_screenheight() - height - 300)
         place_window(width, height, pos, default_x, default_y)
 
+    def fit_mini_stat_labels():
+        name_widgets = widgets.get("mini_names") or {}
+        value_widgets = widgets.get("mini_items") or {}
+        keys = list(name_widgets)
+        if not keys:
+            return
+        controls = widgets.get("mini_controls")
+        if controls:
+            controls.update_idletasks()
+            controls_reserved = controls.winfo_reqwidth() + 4
+            widgets["mini_available_width"] = max(
+                80, int(widgets.get("mini_width", MINI_BASE_WIDTH))
+                - controls_reserved - 3 - 2 - 8 - 8)
+        rune_font = tkfont.Font(root=root, font=FONT_RUNE)
+        value_font = tkfont.Font(root=root, font=FONT_B)
+        full_widths = {}
+        compact_widths = {}
+        for key in keys:
+            value_text = str(value_widgets[key].cget("text"))
+            value_width = value_font.measure(value_text) + 3
+            full_widths[key] = (
+                rune_font.measure(MINI_CARD_LABELS[key]) + value_width)
+            compact_widths[key] = (
+                rune_font.measure(MINI_COMPACT_LABELS.get(
+                    key, MINI_CARD_LABELS[key])) + value_width)
+        labels = mini_stat_label_plan(
+            keys, int(widgets.get("mini_available_width", 0)),
+            full_widths, compact_widths)
+        for key, label in labels.items():
+            _set_text(name_widgets[key], label)
+
     def build_mini():
         clear_scroll_bindings()
         for w in body.winfo_children():
             w.destroy()
         card_widgets.clear()
+        pos = cfg.get("mini_position")
+        mini_width = min(1000, int(MINI_BASE_WIDTH * max(1.0, font_scale)))
+        mini_height = min(48, int(MINI_BASE_HEIGHT * max(1.0, font_scale)))
         strip = tk.Frame(body, bg=T["bg"])
         strip.pack(fill="both", expand=True)
         cap = tk.Frame(strip, bg=T["gold"], width=3)
@@ -3370,10 +3485,14 @@ def run_gui(args):
         # the exact 720x34 production size.
         controls = tk.Frame(strip, bg=T["bg"])
         controls.pack(side="right", fill="y", padx=(1, 3))
-        wiki_hotkey_label = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
+        widgets["mini_controls"] = controls
+        widgets["mini_width"] = mini_width
+        wiki_hotkey_label, wiki_state_label, wiki_state_color = (
+            wiki_hotkey_presentation())
         widgets["mini_wiki"] = tk.Label(
-            controls, text=f"LORE LENS  {wiki_hotkey_label}",
-            fg=T["cyan"], bg=T["raised"], font=FONT_RUNE,
+            controls, text=(f"LORE LENS  {wiki_hotkey_label}  "
+                            f"{wiki_state_label}"),
+            fg=wiki_state_color, bg=T["raised"], font=FONT_RUNE,
             cursor="hand2", padx=5)
         widgets["mini_wiki"].pack(side="left", pady=3)
         widgets["mini_wiki"].bind("<Button-1>", open_wiki_from_hotkey)
@@ -3391,29 +3510,37 @@ def run_gui(args):
                            font=FONT_RUNE, cursor="hand2", padx=6)
         details.pack(side="left", padx=(3, 0), pady=3)
         details.bind("<Button-1>", lambda _e: toggle_mini())
+        controls.update_idletasks()
+        # Account for the 1px outer frame, ember cap, external pack padding,
+        # and a small anti-clipping safety margin. Controls are measured first
+        # and therefore can never steal pixels from a partially drawn stat word.
+        controls_reserved = controls.winfo_reqwidth() + 4
+        widgets["mini_available_width"] = max(
+            80, mini_width - controls_reserved - 3 - 2 - 8 - 8)
         cells = tk.Frame(strip, bg=T["bg"])
         cells.pack(side="left", fill="both", expand=True, padx=4, pady=3)
         widgets["mini_cells"] = cells
         widgets["mini_items"] = {}
-        names = dict(CARDS)
+        widgets["mini_names"] = {}
+        names = MINI_CARD_LABELS
         starred = [k for k in (cfg.get("starred_cards") or ["combat"])
                    if k in names][:4]
         for i, key in enumerate(starred):
             if i:
                 tk.Frame(cells, bg=T["gold"], width=1, height=14).pack(
                     side="left", padx=4, pady=2)
-            tk.Label(cells, text=names[key], fg=T["gold"], bg=T["bg"],
-                     font=FONT_RUNE).pack(side="left")
+            name = tk.Label(cells, text=names[key], fg=T["gold"], bg=T["bg"],
+                            font=FONT_RUNE)
+            name.pack(side="left")
             value = tk.Label(cells, text="—", fg=T["text"], bg=T["bg"], font=FONT_B)
             value.pack(side="left", padx=(3, 0))
+            widgets["mini_names"][key] = name
             widgets["mini_items"][key] = value
-        pos = cfg.get("mini_position")
+        fit_mini_stat_labels()
         # Four default ledger cards plus log health, Lore Lens, lock, and
         # details controls need 720 px at the standard font size.  Keeping an
         # explicit width also makes the companion reservation deterministic
         # for installer-provided layouts instead of clipping right-side tools.
-        mini_width = min(1000, int(MINI_BASE_WIDTH * max(1.0, font_scale)))
-        mini_height = min(48, int(MINI_BASE_HEIGHT * max(1.0, font_scale)))
         default_x = max(8, root.winfo_screenwidth() - mini_width - 12)
         default_y = max(8, root.winfo_screenheight() - mini_height - 284)
         place_window(mini_width, mini_height, pos, default_x, default_y)
@@ -3766,8 +3893,12 @@ def run_gui(args):
                     fg=T["gold_bright"] if state["locked"] else T["dim"])
             mini_wiki = widgets.get("mini_wiki")
             if mini_wiki:
-                shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
-                _set_widget(mini_wiki, text=f"LORE LENS  {shortcut}", fg=T["cyan"])
+                shortcut, hotkey_state, hotkey_color = wiki_hotkey_presentation()
+                _set_widget(
+                    mini_wiki,
+                    text=f"LORE LENS  {shortcut}  {hotkey_state}",
+                    fg=hotkey_color)
+            fit_mini_stat_labels()
             return
 
         title = snap["character"]
@@ -3779,9 +3910,11 @@ def run_gui(args):
         _set_text(widgets["zone"], snap["zone"] or "\u2014")
         lore_shortcut = widgets.get("lore_shortcut")
         if lore_shortcut:
-            shortcut = str(cfg.get("wiki_hotkey", "Ctrl+Shift+E")).upper()
-            _set_widget(lore_shortcut, text=f"LORE LENS  \u2022  {shortcut}",
-                        fg=T["cyan"])
+            shortcut, hotkey_state, hotkey_color = wiki_hotkey_presentation()
+            _set_widget(
+                lore_shortcut,
+                text=f"LORE LENS  \u2022  {shortcut}  \u2022  {hotkey_state}",
+                fg=hotkey_color)
         session_text = "session \u2014"
         if snap["session_start"]:
             dur = fmt_dur(snap["hours"] * 3600)
@@ -3955,15 +4088,6 @@ def run_gui(args):
                     z_order["window_hidden"] = False
                 floating = foreground_is_everquest_or_loremaster(root.winfo_id())
 
-            # Hiding the combat HUD does not disable the explicit Lore Lens
-            # hotkey while EverQuest remains foreground.
-            wiki_context = foreground_is_everquest_or_loremaster(root.winfo_id())
-            if (wiki_context and cfg.get("wiki_enabled", True)
-                    and not hotkey["wiki_registered"]):
-                install_wiki_hotkey()
-            elif not wiki_context and hotkey["wiki_registered"]:
-                remove_wiki_hotkey()
-
             if floating != z_order["floating"]:
                 try:
                     root.attributes("-topmost", floating)
@@ -3987,6 +4111,9 @@ def run_gui(args):
     install_wiki_hotkey()
     root.protocol("WM_DELETE_WINDOW", do_quit)
     (build_mini if state["mini"] else build_full)()
+    if cfg.get("wiki_enabled", True) and not hotkey["wiki_registered"]:
+        alerts.show(
+            "warn", "LORE LENS HOTKEY CONFLICT — OPEN SETTINGS TO REBIND")
     tray.start(timeout=0.75)
     try:
         sync_z_order()
@@ -3997,6 +4124,7 @@ def run_gui(args):
         tick()
         root.mainloop()
     finally:
+        hotkey_service.close(timeout=1.0)
         tray.close(timeout=1.0)
     return 0
 

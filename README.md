@@ -1,26 +1,30 @@
 # Spin's UI Reloaded
 
-**A complete "Obsidian, Venom & Ember" interface overhaul for EverQuest Legends** — with a safe standard 2560x1440 default, an optional pixel-planned 3440x1440 ultrawide layout, and **Spin's Loremaster**, a real-time Encounter Lab and cached EQL Wiki companion that docks cleanly into the UI.
+**A complete Obsidian, Venom & Ember interface for EverQuest Legends.** SpinUI rebuilds the aging EQ presentation around a crisp combat dock, cinematic equipment screen, readable effects and spell controls, safe 2560×1440 defaults, optional 3440×1440 layouts, and **Spin's Loremaster**—a live Encounter Lab and EQL Wiki companion that never injects into the game.
 
-## Screenshots
+[**Download the latest release**](https://github.com/itsspin/spinips/releases/latest) · Windows · EverQuest Legends · Log-only companion · Standard-library runtime
 
-### Complete 3440x1440 HUD
+## Real in-game showcase
 
-![Spin's UI Reloaded — complete 3440x1440 HUD](docs/previews/spinui_reloaded_3440.png)
+![SpinUI running in EverQuest Legends at 3440x1440](docs/screenshots/spinui-live-hero.jpg)
 
-### Unified Combat Command Center
+*A real 3440×1440 in-game capture supplied by the author, privacy-cropped above the chat row. No mock game scene and no AI-generated interface art.*
 
-![EverQuest Legends unified combat command center](docs/previews/combat_command_center.png)
+### Loremaster in action
 
-| Cinematic equipment | Multiclass loadouts |
+![Animated tour of Spin's Loremaster using real in-game captures](docs/screenshots/loremaster-live-tour.gif)
+
+*Animated feature tour assembled from real Loremaster captures. The alert rail uses the application's actual notification styling and values from the captured session; it is not presented as continuous gameplay footage.*
+
+| Cinematic equipment—live in game | Encounter Lab—live in game |
 |:---:|:---:|
-| ![Equipment screen](docs/previews/equipment_page.png) | ![Multiclass loadouts screen](docs/previews/persona_page.png) |
+| ![Real SpinUI equipment screen](docs/screenshots/inventory-live.jpg) | ![Real Loremaster encounter overview](docs/screenshots/loremaster-encounter-live.png) |
 
-### Spin's Loremaster
+| Loremaster session analysis | Lore Lens feature reference |
+|:---:|:---:|
+| ![Real Loremaster session analysis](docs/screenshots/loremaster-session-live.png) | ![Rendered Cloak of Flames Lore Lens reference](docs/previews/loremaster_panel.png) |
 
-![Spin's Loremaster Encounter Lab with the Cloak of Flames Lore Lens card](docs/previews/loremaster_panel.png)
-
-*The Lore Lens example uses the current structured [Cloak of Flames](https://eqlwiki.com/Cloak_of_Flames) profile and drop source from EQL Wiki. These previews are rendered from the real skin textures and layout coordinates by the repository's rendering tools.*
+*The Cloak of Flames panel is the one clearly labeled rendered feature reference in this gallery. It mirrors Loremaster's production visual system and uses a deterministic example verified against the structured [EQL Wiki Cloak of Flames page](https://eqlwiki.com/Cloak_of_Flames); every other gallery image is derived from the author's real in-game captures.*
 
 ---
 
@@ -45,12 +49,13 @@
 | Piece | What it is |
 |---|---|
 | `spinui_reloaded/` | The full UI skin — a themed overhaul of the modern default skin. Every window inherits the new look; the shipped 1440p default is safe at 2560x1440. |
-| `UI_Spin_qeynos_LO1.ini` | Drop-in personal layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (combat-focus preset). |
+| `UI_Spin_qeynos_LO1.ini` | Complete example layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (Combat Focus). Existing characters should use the installer's safe merge. |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements — pick your style. |
-| `layouts/original/` | Your pre-overhaul UI file, untouched, in case you ever want to roll back. |
+| `layouts/original/` | The author's pre-overhaul Spin profile, retained as project history—not a substitute for another player's backup. |
 | `loremaster/` | **Spin's Loremaster** — the real-time Encounter Lab, session tracker, DPS overlay, and Lore Lens item-wiki companion. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
-| `docs/previews/` | Rendered previews of the skin and the full-screen layout. |
+| `docs/screenshots/` | Privacy-reviewed, real in-game SpinUI and Loremaster captures used in this README. |
+| `docs/previews/` | Clearly labeled rendered references for features that are difficult to capture safely. |
 
 Design inspiration, translated into EverQuest's SIDL skin system: **ELVUI / TOXIC UI** (bottom-anchored flat-glass HUD), **Narcissus** (the cinematic equipment screen), **Details!** (Loremaster's meters), **WeakAuras / DBM** (Loremaster's alert banners), **SexyMap** (the glass map).
 
@@ -69,7 +74,7 @@ Every shared chrome texture was redrawn programmatically (see `tools/generate_sp
 | HP / Mana / Endurance | `#DE3E48` / `#427EF4` / `#DB9E2A` | every vitals gauge, group row, target HP |
 | Text | `#EEF2F3` primary / `#92A1A9` dim | high-contrast labels and secondary data |
 
-Gauges use a compact high-contrast gradient that the client tints per gauge, so HP reads deep red, mana electric blue, endurance amber, XP gold, and casting/AA venom-teal without losing a consistent material language. Spell **gem icons are untouched**—only the sockets gain matte obsidian wells and controlled signal accents.
+Gauges use a compact high-contrast gradient that the client tints per gauge, so HP reads deep red, mana electric blue, endurance amber, XP gold, and casting/AA venom-teal without losing a consistent material language. Spell art is now centered at a crisp **36×36** inside each native 40×40 socket, so the icons fill the rail cleanly without stretching or changing their function.
 
 Window XML polish applied on top (133+ verified value-level edits): vivid gauge tints in Player/Target/Group/Pet/ExtTarget/Casting/Breath/Aggro windows, readable label colors in the buff & song windows, map coordinate readouts flipped from black to light (they'd be invisible on the dark map), and target-name text bumped to a larger font.
 
@@ -81,7 +86,10 @@ Everything important lives in a band across the bottom — eyes stay near your c
 
 This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. The stock-height 1080p and 4K defaults remain included as well.
 
-```
+<details>
+<summary><strong>Technical 3440×1440 layout map</strong></summary>
+
+```text
 ┌────────────────────────────────────────────────────────────────────────────────┐
 │ Tracking (toggle)        Compass                     Map (toggle)  Songs  Buffs │
 │                                                      ┌─────────┐  ┌────┐ ┌────┐│
@@ -99,11 +107,13 @@ This is the optional character-layout preset shown in the full HUD screenshot. I
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</details>
+
 Zone by zone:
 
 * **Chat row (y 1152-1432):** Main Chat, Social, and Combat side by side across the bottom — every message stream visible at once, nothing stacked or tabbed away.
-* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; between and below them the stance bar (Legends stances), centered cast bar, and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right — nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
-* **Right column:** Spell Effects and Song Effects pinned top-right (both now **visible by default** — you're a WAR/DRU/BRD, you want your songs), using the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group window sits on the right edge below them. Extended Target keeps your "hidden" preference but has a tidy parking spot for when you enable it.
+* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. Between and below them sit the standalone stance bar, centered cast bar, and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right — nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
+* **Right column:** Spell Effects and Song Effects pin top-right in slim transparent rails with 20px icons and contiguous authored rows—no oversized black backplates or artificial gutters. They use the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group sits below them; Extended Target keeps a tidy parking spot for whenever you enable it. A sparse engine-assigned effect slot can still reserve its own row, because SpinUI does not rewrite live buff-slot identity.
 * **Top-right glass:** the Map (toggleable) — see [The map](#the-map).
 * **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD — this is where **Loremaster** docks and where your **inventory bags tile** when opened.
 * **Openable windows** (inventory, bank, loot, merchant…) spawn center-left/center so they never cover the chat row or the combat cluster.
@@ -118,8 +128,8 @@ The layout generator validates two distinct targets: every window fully on-scree
 | Song window | hidden | **shown** (under buffs) | bard songs at a glance |
 | Casting bar | hidden | **shown** (centered) | see your own cast progress |
 | Chat font | size 3 | **size 5** | 3440x1440 readability (right-click chat → Font to change) |
-| Buff/Song style | RIGHT + number rail | **LEFT list, no numbering** | icons beside names — clean |
-| Player/Target buff strip | opaque texture band | **transparent** | icons float on the window |
+| Buff/Song style | RIGHT + number rail | **slim LEFT list, no numbering** | larger readable icons, transparent rows, no heavy black slab |
+| Player/Target rails | opaque bands and tight text | **transparent, full-width** | effects float cleanly; stance/empower labels fit |
 | HUD label fonts | 2-4 | **+1 across the board** | mana/end numbers, level/class, stance, group names |
 | Chat/glass windows | opaque | soft-fade when inactive | sleekness; fades back up on hover |
 
@@ -135,9 +145,10 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 
 1. Download `SpinUI-Installer.zip` from the newest entry on the GitHub **Releases** page. Maintainers can also run **Actions → Build SpinUI Windows package**: leave **Publish these builds on the GitHub Releases page** enabled and choose the release tag to create or refresh.
 2. Extract the whole ZIP, close EverQuest, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`. Re-running it is a supported update path: the skin is cleanly refreshed so obsolete files cannot linger, while Loremaster's saved config and records remain intact.
-3. The installer always adds the skin and Loremaster. **Install the optional 3440x1440 character layout** is deliberately unchecked so another player's arrangement is never replaced accidentally. Standard 1440p players should leave it off and use the skin's safe 2560x1440 default or keep their own layout. When selected, choose the character INI to update; the original is preserved beside it as `.spinui-backup`.
-4. **Start Loremaster with Windows** and **Create a Loremaster desktop shortcut** are enabled by default. Startup remains hidden and virtually idle until `eqgame.exe` appears; the desktop shortcut opens the HUD directly.
-5. In game, type `/log on` once and use `/loadskin spinui_reloaded 1` if the skin is not already selected.
+3. The visual layout step defaults to **KEEP MY CURRENT LAYOUT**. Combat Focus, Social Focus, and Hybrid are opt-in 3440×1440 cards with miniature layout diagrams. Pick a detected character INI, or choose **Character not listed / create target**, enter the character name with exact capitalization, and select Erudin (European), Freeport, Halas, Neriak, Oggok, Paineel (European), Qeynos, or Rivervale. The wizard previews the exact filename—for example `UI_Spin_qeynos_LO1.ini`—before continuing.
+4. Applying a preset to an existing character is a surgical merge, not a file replacement. Only `UISkin` and the audited window anchors, positions, and sizes change. Chat routing and filters, visibility, locks, fades, map preferences, hotbuttons/macros, spell data, loadouts, client-added sections, and unknown future settings remain untouched. A timestamped byte-exact backup is created only when the merge actually changes the file; reapplying the same preset is a no-op. A genuinely new filename can be seeded only after the review page clearly identifies it as new.
+5. **Start Loremaster with Windows** and **Create a Loremaster desktop shortcut** are enabled by default. Startup remains hidden and virtually idle until `eqgame.exe` appears; the desktop shortcut opens the HUD directly.
+6. In game, type `/log on` once and use `/loadskin spinui_reloaded 1` if the skin is not already selected.
 
 ### Manual installation
 
@@ -149,17 +160,17 @@ Download `SpinUI-Manual` from the same workflow run or `SpinUI-Manual.zip` from 
    C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends\uifiles\spinui_reloaded\
    ```
 
-2. **Install the optional ultrawide layout** (for Spin @ qeynos, 3440x1440)
-   Copy `UI_Spin_qeynos_LO1.ini` into the EverQuest Legends **root** folder (next to `eqgame.exe`), replacing the existing file. Want a different chat arrangement? Take the file from `layouts/social-focus/` or `layouts/hybrid/` instead — same filename, same destination.
+2. **Optional: install a full ultrawide layout manually**
+   The preset INIs are complete 3440×1440 UI profiles. Copying one over an existing `UI_<Character>_<server>_LO1.ini` replaces that file's window preferences and chat configuration. Use the guided installer when you want the safe geometry-only merge described above. If you intentionally want a complete manual replacement, close EQ, make a byte-for-byte backup first, then choose the top-level Combat Focus file or the matching file under `layouts/social-focus/` or `layouts/hybrid/`.
 
-3. **Other characters**
-   Copy the same file and rename it: `UI_<Name>_<server>_LO1.ini` must match your character's existing UI file name in the EQ root folder.
+3. **Name the optional layout for the correct character**
+   The filename is case-sensitive for the character portion and uses the canonical lowercase server token: `UI_<ExactCharacterName>_<server>_LO1.ini`. For example, Spin on Qeynos is `UI_Spin_qeynos_LO1.ini`. Copy it into the EverQuest Legends **root** beside `eqgame.exe`. Never rename or replace the separate `<Character>_<server>_LO1.ini` or `eqclient.ini` files.
 
 4. **Log in.** The INI's `UISkin=spinui_reloaded` loads the skin automatically. If you ever need it manually: `/loadskin spinui_reloaded 1` (the `1` keeps window positions).
 
 5. *(Optional but recommended)* turn on logging for Loremaster: `/log on` in game, then see [Spin's Loremaster](#spins-loremaster).
 
-**Rollback:** copy `layouts/original/UI_Spin_qeynos_LO1.ini` back into the EQ root, and select the stock skin with `/loadskin default_modern 1`.
+**Rollback:** restore the exact character UI backup you made (the installer names its backups `.spinui-backup-YYYYMMDD-HHMMSS`), then select the stock skin with `/loadskin default_modern 1` if desired. `layouts/original/` remains Spin's historical profile, not a universal backup for another player.
 
 ---
 
@@ -257,17 +268,17 @@ Loremaster's face is its own — the same design language as the rest of Spin's 
 
 **Fight mode** is the Details-style deep dive: use **OLDER / NEWER / LIVE** to browse the rolling encounter history, then switch the Encounter Lab between **Overview, Damage, Healing, Targets, and Timeline**. It reports total damage, DPS, duration, enemies slain, target types, crits/misses, incoming damage and healing, observed actors, every ability's total/share/DPS/hits/average/max, effective healing/overheal, and damage by target. The bounded two-second timeline shows outgoing damage, incoming damage, healing and kills without retaining an unbounded event stream. One uninterrupted pull is one encounter: three shamans plus four warriors remain one seven-enemy fight until combat goes quiet, while repeated mob names still retain the individual kill count. Actor rows are explicitly observational: EverQuest logs nearby actions but do not guarantee a true group/raid roster, so Loremaster only reports contributors actually visible in your local log. **Session mode** aggregates combat, actor and ability totals, healing, XP, loot, coin, faction, travel, and casting since Loremaster launched or you pressed **RESET**. **Records mode** is intentionally selective: NPC and group kills with per-creature breakdown, deaths, and record fight DPS survive resets; volatile totals such as damage, healing, coin, and XP do not become misleading lifetime counters.
 
-**Pin a section** (✦) into **HUD mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play. A dedicated **LORE LENS · CTRL+SHIFT+E** control keeps item intelligence discoverable without crowding the combat values. **DETAILS** expands the full meter, **HUD** collapses it, and both positions are remembered separately. A colored `LIVE / READY / STALE / NO LOG` indicator makes log state obvious and doubles as the log-folder picker.
+**Pin a section** (✦) into **HUD mode** — a slim ember-capped strip with gold tick separators (`COMBAT 1,284 dps │ SLAYING 47 │ COIN 2p 9g`) for pure-minimal play. At 720px, the real font, value, and control widths are measured before packing; `PROGRESSION` remains whole when it fits and becomes the whole label `XP` only when required—never a clipped fragment. A dedicated **LORE LENS · CTRL+SHIFT+E · READY** control keeps item intelligence discoverable without crowding the combat values. **DETAILS** expands the full meter, **HUD** collapses it, and both positions are remembered separately. The Lore control ends in `READY / CONFLICT / DISABLED`; the separate colored `LIVE / READY / STALE / NO LOG` indicator describes log health and doubles as the log-folder picker.
 
 ### Lore Lens — EQL Wiki item intelligence
 
 Lore Lens turns [EQL Wiki](https://eqlwiki.com/) item pages into a compact obsidian reference card next to the item you are inspecting. It uses the wiki's structured MediaWiki endpoint—not presentation-page scraping—and shows the item profile, drop zones and NPCs, vendors, related quests, player-crafted status, and tradeskill uses. Empty sections remain explicit instead of being guessed, and **OPEN FULL WIKI PAGE** is always available for the complete source.
 
-* **Ctrl+Shift+E by default, fully rebindable:** change the shortcut in **SETTINGS**. Loremaster clearly reports if Windows cannot reserve the chosen key.
-* **True on-demand Hover Scan:** press **Ctrl+Shift+E** while EverQuest is foreground. The physical cursor position is snapped immediately and Lore Lens shows **READING HOVERED ITEM…** while one mixed-DPI, multi-monitor-safe screen region is recognized on a bounded background worker. Nothing is captured continuously.
-* **Safe by design:** Loremaster uses Windows' own OCR and rechecks that `eqgame.exe` is still foreground before capture. It never injects into EverQuest or reads game memory. Arbitrary clipboard text is never transmitted automatically—it can only prefill the focused search field for your confirmation.
-* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. OCR, Wiki I/O, and log ingestion never run on Tk's rendering thread.
-* **Honest failure states:** loading, offline, stale-cache, no-exact-match, hotkey-conflict, and disabled-network states are visually distinct and actionable.
+* **Ctrl+Shift+E by default, fully rebindable:** a dedicated native Windows owner holds both Loremaster shortcuts for the process lifetime, including while the HUD is tray-hidden. `READY` means reserved, `CONFLICT` means another app owns the requested binding, and `DISABLED` means Lore Lens is off. Actions are accepted only while EverQuest or Loremaster is foreground. Rebinding is atomic; if a new shortcut conflicts, the prior working shortcut remains active.
+* **True on-demand Hover Scan:** press the shortcut while EverQuest is foreground. Loremaster verifies the foreground process, freezes one bounded mixed-DPI, multi-monitor-safe tooltip region before Lore Lens can cover it, then opens **READING HOVERED ITEM…** and validates the recognized candidates against exact EQL Wiki item pages. The cursor can move immediately after the keypress; nothing is captured continuously.
+* **Safe by design:** Loremaster uses Windows' own OCR, never injects into EverQuest, and never reads game memory. Arbitrary clipboard text is never transmitted automatically—it can only prefill the focused search field for your confirmation.
+* **Fast and cached:** exact item pages are fetched on a background worker and cached locally for seven days. Repeat lookups do not touch the network; stale cached data remains available if the wiki is offline. OCR recognition, Wiki I/O, and log ingestion run off Tk's rendering thread; only the bounded GDI snapshot is synchronous so a tooltip cannot disappear mid-capture.
+* **Honest states:** `READY / CONFLICT / DISABLED`, loading, offline, stale-cache, no-exact-match, and disabled-network states are visually distinct and actionable in both full and compact modes.
 * **Source attribution:** every result remains identified as EQL Wiki data, carries a cache-age indicator, and links back to the original page.
 
 ### Accessibility
@@ -329,7 +340,7 @@ Advanced users can add DBM-style triggers in `%LOCALAPPDATA%\SpinsLoremaster\lor
 * Borderless obsidian panel with the ember-gold frame — **drag anywhere** to move; position remembered. It raises only while EverQuest/Loremaster is foreground and drops behind unrelated apps. It defaults to the layout's reserved right-side shelf, clear of the map, group window, hotbars, and bag dock.
 * **Mini mode**: a slim strip showing only your pinned sections. Click ✦ beside a section to pin or unpin it; **LOCK** prevents accidental repositioning.
 * **Safe click-through**: full mode's **CLICK-THRU** lets mouse input reach EverQuest. The active label becomes **PASS ON**, a banner explains recovery, and **Ctrl+Alt+L** restores mouse control. It remains disabled unless that recovery key was registered successfully and always starts off after relaunch.
-* **Flicker-free live details**: changing combat values update existing labels and meter canvases in place. The panel rebuilds structure only when a genuinely new row appears, instead of destroying the whole combat card every polling cycle.
+* **Incremental live details**: changing combat values update existing labels and meter canvases in place. The panel rebuilds structure only when a genuinely new row appears, instead of destroying the whole combat card every polling cycle.
 * **LOCATE LOG** opens a folder picker; **RESET** clears only the live session. Config is materialized automatically on first run.
 * **SETTINGS** controls Lore Lens, Hover Scan, its hotkey and network access, plus high contrast, reduced motion and text scale.
 
@@ -371,8 +382,8 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 | Loremaster will not move | Click **MOVE**; this means the overlay is locked. |
 | Loremaster is click-through | Press **Ctrl+Alt+L** to restore interaction. Pass-through is never saved across launches. |
 | Loremaster vanished or is behind EQ | Click the gold-and-cyan Loremaster icon beside the Windows clock. If it is not visible, open the **^** notification-area drawer; left-click restores the HUD and right-click offers Open, Hide, and Exit. |
-| Ctrl+Shift+E does not open Lore Lens | Open **SETTINGS** and choose another modified shortcut; another application may already own Ctrl+Shift+E. |
-| Hover Scan cannot identify an item | Keep the full EQ tooltip visible under the cursor, press **Ctrl+Shift+E**, and leave the cursor in place for a moment. Confirm Hover Scan is enabled in **SETTINGS**; copied EQ item links and typed names remain reliable fallbacks. |
+| Ctrl+Shift+E does not open Lore Lens | Read the state shown after the Lore control. `READY`: ensure EQ or Loremaster is foreground, Lore Lens and Hover Scan are enabled, and use the displayed binding. `CONFLICT`: rebind in **SETTINGS**; a failed rebind preserves the prior active key. `DISABLED`: enable Lore Lens. |
+| Hover Scan cannot identify an item | Keep the complete tooltip visible and the cursor over it only until you press the shortcut—the pixels freeze at keypress. If the capture is blank, try EQ in windowed/borderless mode. Typed names, copied EQ item links, and bracketed item names remain reliable fallbacks. |
 | Lore Lens says offline | Cached pages still work. Check **Allow network lookups** in SETTINGS, then retry when `eqlwiki.com` is reachable. |
 | Want everything locked | Right-click a window → Lock, once you're happy. |
 
@@ -386,12 +397,13 @@ spinips/
 │   ├── EQUI_*.xml              window definitions (themed)
 │   ├── window_*.tga, wnd_*.tga redrawn chrome textures
 │   └── default1440.ini         safe standard 2560x1440 layout
-├── UI_Spin_qeynos_LO1.ini      your personal layout (combat-focus)
+├── UI_Spin_qeynos_LO1.ini      example 3440×1440 Combat Focus profile
 ├── layouts/
-│   ├── combat-focus/ social-focus/ hybrid/   preset personal layouts
-│   └── original/               your pre-overhaul file (rollback)
+│   ├── combat-focus/ social-focus/ hybrid/   optional ultrawide profiles
+│   └── original/               Spin's historical pre-overhaul profile
 ├── loremaster/
 │   ├── loremaster.py           the tracker (stdlib-only)
+│   ├── windows_hotkeys.py      native Lore Lens hotkey owner
 │   └── Loremaster.bat          Windows launcher (from source)
 ├── installer/
 │   ├── spinui_installer.py     auto-detecting Windows installer
@@ -401,9 +413,12 @@ spinips/
 ├── tools/
 │   ├── generate_spinui_textures.py   theme painter
 │   ├── generate_spinui_layout.py     layout builder + validator
+│   ├── build_showcase_media.py       privacy-safe gallery builder
 │   ├── restyle_persona.py             Personas/Loadouts composition
 │   └── render_preview.py             full-screen preview renderer
-└── docs/previews/              rendered previews
+└── docs/
+    ├── screenshots/             reviewed real in-game showcase media
+    └── previews/                deterministic rendered references
 ```
 
 ---

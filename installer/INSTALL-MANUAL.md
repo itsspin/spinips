@@ -5,6 +5,17 @@ This package does not require the installer. It contains the complete
 INI, and the alternate ultrawide chat presets. The skin itself includes a
 separately generated standard 2560x1440 default.
 
+> **Safest layout option:** use `SpinUIInstaller.exe` from the guided Installer
+> package when you want an ultrawide preset without replacing character data.
+> **Keep Existing** is its recommended default. If you opt into Combat Focus,
+> Social Focus, or Hybrid, it changes only `UISkin` plus audited window
+> anchors, positions, and sizes. It preserves chat routing and filters, visibility,
+> locks, fades, click-through, hotbar and spell data, loadouts, client-added
+> settings, and all unknown values. An actual change receives a byte-exact,
+> timestamped backup such as
+> `UI_Spin_qeynos_LO1.ini.spinui-backup-20260720-214500`; applying an identical
+> preset again writes nothing and creates no extra backup.
+
 ## 1. Close EverQuest completely
 
 EverQuest rewrites character UI files when it exits. Do not copy or replace an
@@ -44,8 +55,11 @@ play at 3440x1440. Standard 2560x1440 players can use the skin's validated
 `default1440.ini`; the ultrawide character INI should not be squeezed onto a
 16:9 screen.
 
-Before replacing anything, make a backup of the character INI in the
-EverQuest folder. Its name follows this pattern:
+The Manual package cannot perform the guided installer's surgical merge.
+Copying one of its preset INIs over an existing character INI replaces that
+whole file, including any chat/window preferences stored there. Before doing
+so, make a separate backup of the character INI in the EverQuest folder. Its
+name follows this pattern:
 
 ```text
 UI_<Character>_<server>_LO1.ini
@@ -53,7 +67,33 @@ UI_<Character>_<server>_LO1.ini
 
 Choose `UI_Spin_qeynos_LO1.ini` for the combat-focused layout, or choose the
 same file from `layouts\social-focus` or `layouts\hybrid`. Rename the selected
-file to match your character's existing INI, then copy it beside `eqgame.exe`.
+file to match your character's **existing filename exactly**, then copy it
+beside `eqgame.exe`. Detected layouts can use `LO2`, `LO3`, and later slots;
+retain that existing suffix instead of forcing `LO1`.
+
+For a genuinely new character target, preserve the character's capitalization
+and use the canonical lowercase server token. New manual targets default to
+`LO1`:
+
+```text
+UI_Spin_qeynos_LO1.ini
+```
+
+| Server shown in Legends | Filename token |
+|---|---|
+| Erudin (European) | `erudin` |
+| Freeport | `freeport` |
+| Halas | `halas` |
+| Neriak | `neriak` |
+| Oggok | `oggok` |
+| Paineel (European) | `paineel` |
+| Qeynos | `qeynos` |
+| Rivervale | `rivervale` |
+
+The guided installer offers these exact choices and previews the final
+filename before writing. If a manually entered name resolves to an existing
+INI, it safely merges that file rather than treating the entry as permission
+to overwrite it.
 
 ## 4. Run Spin's Loremaster
 
