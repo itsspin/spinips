@@ -91,13 +91,10 @@ SOURCE_REQUIRED = (
     ".github/workflows/build-loremaster.yml",
 )
 
-# Values: (format, allowed dimensions, byte cap). Dimension sets allow a
-# deliberate transition — e.g. inventory-live.jpg is 763x800 from the legacy
-# capture and 704x724 once build_showcase_media.py reruns against the compact
-# v3 inventory window.
+# Values: (format, allowed dimensions, byte cap).
 README_MEDIA = {
     "docs/screenshots/spinui-live-hero.jpg": ("JPEG", {(1600, 620)}, 1_000_000),
-    "docs/screenshots/inventory-live.jpg": ("JPEG", {(763, 800), (704, 724)}, 1_000_000),
+    "docs/screenshots/inventory-live.jpg": ("JPEG", {(725, 745)}, 1_000_000),
     "docs/screenshots/loremaster-encounter-live.png": ("PNG", {(400, 480)}, 1_000_000),
     "docs/screenshots/loremaster-session-live.png": ("PNG", {(400, 480)}, 1_000_000),
     "docs/screenshots/loremaster-live-tour.gif": ("GIF", {(960, 540)}, 4_000_000),

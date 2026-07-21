@@ -58,19 +58,19 @@ def build_static(full_capture: Path, output: Path) -> tuple[Path, Path]:
     if source.size != (3440, 1440):
         raise ValueError(f"expected a 3440x1440 live capture, got {source.size}")
 
-    # Chat starts near y=1152 in every generated 3440 preset.  Stop higher so
-    # public media cannot expose chat and so this historical live capture does
-    # not showcase the already-fixed clipped mini-HUD at its lower-right edge.
-    # The crop remains at the 1600:620 output aspect ratio; nothing is retouched.
-    hero = source.crop((280, 80, 2875, 1085))
+    # Chat starts near y=1140 in the live layout.  Stop higher so public media
+    # cannot expose chat.  The crop frames the inventory, loadout picker,
+    # stance bar, and Lore Lens card from the 2026 capture at the 1600:620
+    # output aspect ratio; nothing is retouched.
+    hero = source.crop((166, 60, 2940, 1135))
     hero = hero.resize((1600, 620), Image.Resampling.LANCZOS)
     hero = ImageEnhance.Contrast(hero).enhance(1.025)
     hero_path = output / "spinui-live-hero.jpg"
     hero.save(hero_path, "JPEG", quality=90, optimize=True, progressive=True)
 
-    # The compact v3 inventory window is 680x700; the personal layout parks it
-    # at (175, 354), so a 12px-margin crop shows the full window plus air.
-    inventory = source.crop((163, 342, 867, 1066))
+    # The compact v3 inventory window is 680x700; the 2026 capture parks it
+    # near (155, 180), so this margin crop shows the full window plus air.
+    inventory = source.crop((150, 165, 875, 910))
     inventory_path = output / "inventory-live.jpg"
     inventory.save(
         inventory_path, "JPEG", quality=91, optimize=True, progressive=True)
