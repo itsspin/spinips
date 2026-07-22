@@ -9486,6 +9486,11 @@
 	<InvSlot item="InvSlot23">
 		<ScreenID>InvSlot23</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<!-- IW_Slots uses this first piece as the 40x40 template for all bags. -->
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
 		<Background>A_RecessedBox</Background>
 		<EQType>inventory/Equip 23</EQType>
 	</InvSlot>

@@ -140,6 +140,43 @@ def set_block_location(text, item_kind, item_name, x, y, cx=None, cy=None):
     return text
 
 
+def set_block_size(text, item_kind, item_name, cx, cy):
+    """Set or add an explicit size without requiring the block to have a location."""
+    pat = re.compile(
+        r'(<' + item_kind + r' item="' + re.escape(item_name) + r'">)(.*?)(</' + item_kind + r'>)',
+        re.S)
+
+    def update(match):
+        body = match.group(2)
+        size_pat = re.compile(
+            r'(<Size>\s*<CX>)\d+(</CX>\s*<CY>)\d+(</CY>\s*</Size>)',
+            re.S)
+        if size_pat.search(body):
+            body = size_pat.sub(
+                lambda size: (
+                    size.group(1) + str(cx) + size.group(2)
+                    + str(cy) + size.group(3)
+                ),
+                body,
+                count=1,
+            )
+        else:
+            anchor = re.compile(r'(<RelativePosition>true</RelativePosition>)')
+            size_xml = (
+                r'\1\n\t\t<Size>\n'
+                f'\t\t\t<CX>{cx}</CX>\n'
+                f'\t\t\t<CY>{cy}</CY>\n'
+                '\t\t</Size>'
+            )
+            body, inserted = anchor.subn(size_xml, body, count=1)
+            assert inserted == 1, f"size anchor {item_name}"
+        return match.group(1) + body + match.group(3)
+
+    text, n = pat.subn(update, text, count=1)
+    assert n == 1, f"size {item_name}"
+    return text
+
+
 def set_block_field(text, item_kind, item_name, field, value):
     pat = re.compile(
         r'(<' + item_kind + r' item="' + re.escape(item_name) + r'">.*?<' +
@@ -301,6 +338,10 @@ def main():
     s = set_block_location(s, "Screen", "IW_CharacterView", *CREST)
 
     # 5) bag grid drops below the crest on the identity rail
+    # InvSlot23 is FirstPieceTemplate: without this explicit size, all twelve
+    # inherited bag slots collapse to zero/undefined dimensions in the client.
+    s = set_block_size(
+        s, "InvSlot", "InvSlot23", BAG_SLOT_SIZE, BAG_SLOT_SIZE)
     s = set_block_location(s, "TileLayoutBox", "IW_Slots", *BAGS)
 
     XMLF.write_text(s)

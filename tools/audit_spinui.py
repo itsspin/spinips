@@ -330,6 +330,7 @@ def audit_inventory_geometry() -> None:
     view = item(root, "Screen", "IW_CharacterView")
     class_anim = item(root, "StaticAnimation", "ClassAnim")
     bags = item(root, "TileLayoutBox", "IW_Slots")
+    bag_template = item(root, "InvSlot", "InvSlot23")
     window = item(root, "Screen", "InventoryWindow")
 
     equip_slots = [n.text for n in equipment.findall("Pieces")
@@ -387,11 +388,29 @@ def audit_inventory_geometry() -> None:
         fail("bag rail exceeds the tightened inventory frame")
 
     # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
-    from restyle_inventory import (ANY_ROW, BAGS, BAG_GRID_WIDTH, CANVAS,
-                                   CREST, CREST_SIZE, LEFT_RAIL, L_X, PAGE,
+    from restyle_inventory import (ANY_ROW, BAGS, BAG_GRID_WIDTH,
+                                   BAG_SLOT_SIZE, BAG_SPACING, CANVAS, CREST,
+                                   CREST_SIZE, LEFT_RAIL, L_X, PAGE,
                                    PAGE_LOCATION, PITCH, PLATE, RIGHT_RAIL,
                                    R_X, SLOT_INSET, STATS1, STATS2, STATS3,
                                    WEAPON_ROW, slot_pos)
+
+    template_size = (
+        child_int(bag_template, "Size/CX"),
+        child_int(bag_template, "Size/CY"),
+    )
+    if template_size != (BAG_SLOT_SIZE, BAG_SLOT_SIZE):
+        fail(
+            "InvSlot23 must provide the explicit 40x40 FirstPieceTemplate "
+            f"that makes all bag slots visible, got {template_size}"
+        )
+    if bags.findtext("FirstPieceTemplate") != "true":
+        fail("bag rail must inherit geometry from the visible InvSlot23 template")
+    if (
+        child_int(bags, "Spacing") != BAG_SPACING
+        or child_int(bags, "SecondarySpacing") != BAG_SPACING
+    ):
+        fail("bag rail spacing no longer matches its centered grid geometry")
 
     if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != CREST_SIZE:
         fail(f"class artwork viewport must remain {CREST_SIZE[0]}x{CREST_SIZE[1]}")
