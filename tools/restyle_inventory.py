@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Compact cinematic equipment screen for Spin's UI Reloaded (v3).
+"""Compact cinematic equipment screen for Spin's UI Reloaded (v4).
 
-Migrates the v2 Narcissus composition (SPIN-DECO-2, 780x800) to the compact
-v3 layout (SPIN-DECO-3, 660x668):
+Migrates the earlier Narcissus composition to the compact v4 layout
+(SPIN-DECO-4, 660x668):
 
-* Hex plates tighten from 56px/62 pitch to 46px/50 pitch.
+* Native 40px Legends equipment wells replace the decorative hex underlays.
 * The vertical rails hold 8 armor slots on the left and 9 jewelry slots on
   the right.
 * Primary, Secondary, Range, Ammo, and the separated Any pair form one
@@ -17,11 +17,11 @@ v3 layout (SPIN-DECO-3, 660x668):
   visible on every tab and keeps its drop-to-auto-equip behavior.
 
 All 23 InvSlot items keep their ScreenIDs/EQTypes — only geometry moves.
-The 46px hex art lives in spin_deco.tga rows at y=64 (see
-tools/add_spin_deco_small_hexes.py).
+Their native backgrounds remain present so Legends can draw dynamic
+unusable/no-bonus state after a loadout change.
 
-Idempotent: refuses to run twice (looks for the SPIN-DECO-3 marker) and
-requires the v2 composition as input.
+Idempotent: an existing SPIN-DECO-4 marker is a clean no-op. The final polish
+also upgrades an already-generated SPIN-DECO-3 file in place.
 Run from repo root:  python3 tools/restyle_inventory.py
 """
 
@@ -40,25 +40,28 @@ RIGHT_RAIL = [1, 4, 9, 10, 20, 18, 19, 15, 16]  # ears wrists waist legs feet ri
 ANY_ROW = [0, 21]                               # IS_ANY1 / IS_ANY2 — right rail base, after a gap
 
 PITCH = 50
-PLATE = 46
-SLOT_INSET = 3
-L_X, R_X = 4, 420
-RAIL_Y = 4
+SLOT_SIZE = 40
+# Migration-only geometry used while converting a historical v2 file. The
+# v4 output removes these plates entirely.
+LEGACY_PLATE = 46
+LEGACY_SLOT_INSET = 3
+L_X, R_X = 7, 419
+RAIL_Y = 7
 BAG_SLOT_SIZE = 40
 BAG_SPACING = 3
 BAG_GRID_WIDTH = 2 * BAG_SLOT_SIZE + BAG_SPACING
 CREST_SIZE = (85, 171)
-FOOTER_Y = 432
+FOOTER_Y = 447
 FOOTER_SLOT_X = {
-    13: 60, 14: 118, 11: 176, 22: 234,
-    0: 308, 21: 366,
+    13: 63, 14: 121, 11: 179, 22: 237,
+    0: 311, 21: 369,
 }
 
 # retained for tools/render_equipment_preview.py compatibility
 W_Y = FOOTER_Y
 W_X0 = FOOTER_SLOT_X[WEAPON_ROW[0]]
 
-CANVAS = (472, 484)
+CANVAS = (472, 496)
 PAGE = (485, 620)
 PAGE_LOCATION = (5, 22)        # centers the 485px page inside the 495px tab host
 WINDOW = (660, 668)
@@ -70,15 +73,15 @@ BAGS = (537, 320)              # visible 83px bag grid centers under the 85px cr
 BAG_BOX = (112, 256)           # exact 2x6 grid height plus one safety pixel
 IDENTITY_LABEL_GEOMETRY = {
     # item: (font, left, right, top, bottom)
-    "IW_Name": (4, 162, 4, 1, 15),
-    "IW_Level": (3, 162, 130, 15, 30),
-    "IW_Class": (3, 128, 4, 15, 30),
+    "IW_Name": (4, 162, 4, 0, 20),
+    "IW_Level": (3, 162, 130, 20, 34),
+    "IW_Class": (3, 128, 4, 20, 34),
 }
 LEDGER_HEADER_GOLD = (219, 158, 42)
 
 
 def slot_pos(slot_id):
-    """Return ((plate_x, plate_y), gold) for an equipment slot id."""
+    """Return ((slot_x, slot_y), weapon_group) for an equipment slot id."""
     if slot_id in FOOTER_SLOT_X:
         return (FOOTER_SLOT_X[slot_id], FOOTER_Y), slot_id in WEAPON_ROW
     if slot_id in LEFT_RAIL:
@@ -226,6 +229,41 @@ def set_or_add_block_field(
     return text
 
 
+def set_or_add_block_field_after(
+        text, item_kind, item_name, field, value, after_field):
+    """Set a field, inserting it after its schema predecessor when absent."""
+    pattern = re.compile(
+        r'(<' + item_kind + r' item="' + re.escape(item_name)
+        + r'">)(.*?)(</' + item_kind + r'>)',
+        re.S,
+    )
+
+    def update(match):
+        body = match.group(2)
+        field_pattern = re.compile(
+            r'(<' + re.escape(field) + r'>)[^<]*(</'
+            + re.escape(field) + r'>)')
+        if field_pattern.search(body):
+            body = field_pattern.sub(
+                lambda found: found.group(1) + str(value) + found.group(2),
+                body,
+                count=1,
+            )
+        else:
+            anchor = f"</{after_field}>"
+            assert body.count(anchor) == 1, f"{after_field} anchor {item_name}"
+            body = body.replace(
+                anchor,
+                anchor + f"\n\t\t<{field}>{value}</{field}>",
+                1,
+            )
+        return match.group(1) + body + match.group(3)
+
+    text, count = pattern.subn(update, text, count=1)
+    assert count == 1, f"{field} {item_name}"
+    return text
+
+
 def set_label_style(text, item_name, font, color):
     """Set an inventory heading's explicit font and RGB without touching peers."""
     pat = re.compile(
@@ -330,10 +368,113 @@ def organize_stat_ledger(text):
     return text
 
 
+def remove_item_block(text, kind, item_name):
+    """Remove one complete top-level SIDL item definition."""
+    pattern = re.compile(
+        r'\n?\t<' + kind + r' item="' + re.escape(item_name)
+        + r'">.*?</' + kind + r'>[ \t]*(?:\r?\n)?',
+        re.S,
+    )
+    text, count = pattern.subn("\n", text, count=1)
+    assert count == 1, f"remove {kind} {item_name}"
+    return text
+
+
+def remove_piece(text, item_name):
+    pattern = re.compile(
+        r'^[ \t]*<Pieces>' + re.escape(item_name)
+        + r'</Pieces>[ \t]*(?:\r?\n)?',
+        re.M,
+    )
+    text, count = pattern.subn("", text, count=1)
+    assert count == 1, f"remove Pieces {item_name}"
+    return text
+
+
+def finalize_v4(text):
+    """Upgrade the compact v3 result to the native-slot Legends polish."""
+    assert "SPIN-DECO-3" in text, "expects compact v3 equipment input"
+    text = text.replace(
+        "<!-- SPIN-DECO-3: compact 46px hex plates -->",
+        "<!-- SPIN-DECO-4: native Legends runtime item-state bindings -->",
+        1,
+    )
+
+    # The decorative hexes were purely static underlays.  Native InvSlot
+    # controls remain untouched functionally so the client owns every visual
+    # usable/unusable transition after a loadout swap.
+    for slot_id in range(23):
+        text = remove_item_block(
+            text, "StaticAnimation", f"IW_HexPlate{slot_id}")
+        text = remove_piece(text, f"IW_HexPlate{slot_id}")
+        (slot_x, slot_y), _ = slot_pos(slot_id)
+        text = set_block_location(
+            text, "InvSlot", f"InvSlot{slot_id}", slot_x, slot_y,
+            SLOT_SIZE, SLOT_SIZE,
+        )
+
+    text = set_block_location(text, "Screen", "IW_Equipment", 6, 6, *CANVAS)
+    text = set_block_location(text, "TileLayoutBox", "IW_Stats", *STATS1)
+    text = set_block_location(text, "TileLayoutBox", "IW_Stats2", *STATS2)
+    text = set_block_location(text, "TileLayoutBox", "IW_Stats3", *STATS3)
+
+    # Give the identity stack the same 20px name height as current Legends,
+    # then move the gauges/weight rhythm down four pixels without approaching
+    # the Destroy control.
+    for label_name, (font, left, right, top, bottom) in IDENTITY_LABEL_GEOMETRY.items():
+        text = set_or_add_block_field(
+            text, "Label", label_name, "Font", font, "RelativePosition")
+        for field, value in (
+                ("LeftAnchorOffset", left), ("RightAnchorOffset", right),
+                ("TopAnchorOffset", top), ("BottomAnchorOffset", bottom)):
+            text = set_block_field(text, "Label", label_name, field, value)
+    text = set_or_add_block_field_after(
+        text, "Label", "IW_Name", "AlignVCenter", "true", "AlignRight")
+
+    identity_flow = {
+        "IW_NextLevel": (34, 49),
+        "IW_ExpLabel": (34, 49),
+        "IW_ExpPercLabel": (34, 49),
+        "IW_ExpGauge": (48, 58),
+        "IW_AltAdv": (60, 74),
+        "IW_AltAdvPct": (60, 74),
+        "IW_AltAdvPctLabel": (60, 74),
+        "IW_AltAdvGauge": (74, 84),
+        "IW_Weight": (86, 104),
+        "IW_CurrentWeight": (86, 104),
+        "IW_WeightNumber": (86, 104),
+        "IW_MaxWeight": (86, 104),
+        "IW_WeightWorn": (99, 114),
+        "IW_WornWeightNumber": (99, 114),
+    }
+    for item_name, (top, bottom) in identity_flow.items():
+        kind = "Gauge" if item_name.endswith("Gauge") else "Label"
+        text = set_block_field(text, kind, item_name, "TopAnchorOffset", top)
+        text = set_block_field(text, kind, item_name, "BottomAnchorOffset", bottom)
+
+    # Keep the three context rows at 347px while guaranteeing that the full
+    # word "Origin" has room at the in-game font metrics.
+    for key_name, value_name in (
+            ("IWS_Bind", "IWS_BindZone"),
+            ("IWS_Origin", "IWS_OriginZone"),
+            ("IWS_Deity", "IWS_DeityName")):
+        text = set_block_location(text, "Label", key_name, 0, 0, 44, 14)
+        text = set_block_location(text, "Label", value_name, 44, 0, 303, 14)
+
+    return text
+
+
 def main():
     s = XMLF.read_text()
+    if "SPIN-DECO-4" in s:
+        print("already at v4 - nothing to do")
+        return 0
     if "SPIN-DECO-3" in s:
-        print("already at v3 — nothing to do")
+        s = finalize_v4(s)
+        XMLF.write_text(s)
+        ET.parse(XMLF)
+        print("equipment screen finalized: native Legends slots + centered "
+              "footer + unclipped identity rail - parse OK")
         return 0
     assert "SPIN-DECO-2" in s, "expects the v2 composition (run history: restyle v2)"
 
@@ -346,9 +487,9 @@ def main():
     for slot_id in range(23):
         (px, py), gold = slot_pos(slot_id)
         s = set_block_location(s, "InvSlot", f"InvSlot{slot_id}",
-                               px + SLOT_INSET, py + SLOT_INSET)
+                               px + LEGACY_SLOT_INSET, py + LEGACY_SLOT_INSET)
         s = set_block_location(s, "StaticAnimation", f"IW_HexPlate{slot_id}",
-                               px, py, PLATE, PLATE)
+                               px, py, LEGACY_PLATE, LEGACY_PLATE)
         s = set_block_field(s, "StaticAnimation", f"IW_HexPlate{slot_id}",
                             "Animation", "A_SpinHexGoldSm" if gold else "A_SpinHexSm")
 
@@ -400,15 +541,17 @@ def main():
     s = set_or_add_block_field(
         s, "Label", "IW_Name", "FontShadow", "true", "NoWrap")
 
+    s = finalize_v4(s)
+
     XMLF.write_text(s)
     ET.parse(XMLF)
 
     # reference integrity
     for i in range(23):
-        assert f'item="IW_HexPlate{i}"' in s and f"<Pieces>IW_HexPlate{i}</Pieces>" in s
-    assert 'item="A_SpinHexSm"' in s and 'item="A_SpinHexGoldSm"' in s
-    assert (REPO / "spinui_reloaded" / "spin_deco.tga").exists()
-    print("equipment screen compacted: 12-slot rails + stat ledger + rail crest, "
+        assert f'item="IW_HexPlate{i}"' not in s
+        assert f"<ScreenID>InvSlot{i}</ScreenID>" in s
+        assert f"<EQType>inventory/Equip {i}</EQType>" in s
+    print("equipment screen compacted: native slots + stat ledger + rail crest, "
           f"window {WINDOW[0]}x{WINDOW[1]} — parse OK")
     return 0
 

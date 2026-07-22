@@ -112,7 +112,7 @@ This is the optional character-layout preset shown in the full HUD screenshot. I
 Zone by zone:
 
 * **Chat row (y 1152-1432):** Main Chat, Social, and Combat side by side across the bottom - every message stream visible at once, nothing stacked or tabbed away.
-* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. The expanded Pet command center has a measured parking spot immediately left of Player, with an 8px side gap and 7px clearance above the utility hotbars whenever it is enabled. Between and below the main plates sit the **twin-wing stance bar** - a `STANCE` wing in ember gold on the left and an `INVOCATION` wing in venom on the right, each carrying its active name, split by a small ember gem (the ability buttons remain one client-managed row, flowing from the gold wing toward the venom wing) - plus the centered cast bar and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right - nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
+* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. The low-profile Pet command center has a measured parking spot immediately left of Player, with an exact 8px side gap whenever it is enabled. Between and below the main plates sit the **twin-wing stance bar** - a `STANCE` wing in ember gold on the left and an `INVOCATION` wing in venom on the right, each carrying its active name, split by a small ember gem (the ability buttons remain one client-managed row, flowing from the gold wing toward the venom wing) - plus the centered cast bar and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right - nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
 * **Right column:** Spell Effects and Song Effects pin top-right in slim transparent rails with 20px icons and contiguous authored rows, no oversized black backplates or artificial gutters. They use the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group sits below them; Extended Target keeps a tidy parking spot for whenever you enable it. A sparse engine-assigned effect slot can still reserve its own row, because SpinUI does not rewrite live buff-slot identity.
 * **Top-right glass:** the Map (toggleable) - see [The map](#the-map).
 * **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD - this is where **Loremaster** docks and where your **inventory bags tile** when opened.
@@ -128,7 +128,7 @@ The layout generator validates three distinct targets: every window fully on-scr
 | Song window | hidden | **shown** (under buffs) | bard songs at a glance |
 | Casting bar | hidden | **shown** (centered) | see your own cast progress |
 | Chat font | size 3 | **size 5** (size 6 in the 4K default) | readability at 1440p and 4K pixel density (right-click chat → Font to change) |
-| Pet command window | cramped 311x190, 57px commands | **356x255, 84px four-column commands** | every command remains readable and reachable without clipping |
+| Pet command window | cramped 311x190, 57px commands | **513x181 fixed side rail, direct 78px four-column commands** | no overhead dark slab; all commands and 42 effect positions remain reachable |
 | XP vs AA bars | both overlaid pure blue | **XP ember gold, AA venom** - fills *and* sub-tick overlays, in the player plate, inventory, and AA window | tell the two progression bars apart at a glance |
 | Buff/Song style | RIGHT + number rail | **slim LEFT list, no numbering** | larger readable icons, transparent rows, no heavy black slab |
 | Player/Target rails | opaque bands and tight text | **transparent, full-width** | effects float cleanly; stance/empower labels fit |
@@ -214,25 +214,26 @@ Tuned for **running with the map open**:
 
 ## The equipment screen
 
-Inspired by WoW's **Narcissus** and tightened for v3, the Equipment tab is a compact cinematic composition - the window is now **660x668** (down from 780x800, with the remaining outer gutters tightened) with no information removed:
+Inspired by WoW's **Narcissus** and finalized for EverQuest Legends, the Equipment tab is a compact cinematic composition - the window is now **660x668** (down from 780x800, with the remaining outer gutters tightened) with no information removed:
 
-* **Two disciplined vertical rails plus one centered footer rail** use tightened 46px obsidian hex plates. The left rail holds the 8 armor slots and the right rail holds all 9 jewelry slots. Beneath Additional Information, **Primary · Secondary · Range · Ammo** sit horizontally on gold plates, followed by a measured gap and the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`). The six-slot footer has symmetric outer margins and preserves all **23 equipment slots**.
+* **Two disciplined vertical rails plus one centered footer rail** use Legends' native square equipment wells, with the decorative hexagons removed. The left rail holds the 8 armor slots; the 9-slot jewelry rail is pulled inward so no edge can clip. Beneath Additional Information, **Primary · Secondary · Range · Ammo** sit in a lowered horizontal row, followed by a measured gap and the real **Any · Any** slots (`IS_ANY1` / `IS_ANY2`). The six-slot footer has exact 63px outer margins and preserves all **23 equipment slots**.
 * **The center is a semantic stat ledger** - Character Vitals stays wholly in the left column; Primary Attributes uses the familiar STR / STA / AGI / DEX / WIS / INT / CHA order in the right column, followed by a dedicated Resists section. Additional Modifiers and Mitigation form a balanced 6-by-6 block beneath, while Bind/Origin/Deity moves directly above the horizontal equipment footer. Every live row remains intact (regens, all three DPS lines, shieldings, SV. Void); category boundaries can no longer break merely because the tile box wraps.
-* **The identity rail is now a character card** - a centered, width-safe player name plus separated level/class cells over the **native class crest** (EQ's live Warrior swords, caster spellbook, etc., kept at its original `75x142` proportions inside the `85x171` frame), XP/AA gauges, weight, Destroy, the 12-slot bag grid, and every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Done). Because the crest sits at window level it stays visible - and remains the functional *drop-to-auto-equip* target - on every tab.
-* **Multiclass Loadouts matches the compact canvas** - the tab re-flows onto 485x620: a 2x4 armor cluster left, the native character model centered, a 3x3 jewelry cluster right, a centered weapon row plus separated Any pair, then the loadout table, actions, and class-level cards. EverQuest Legends has no Persona system - the tab is pure multiclass loadouts - but the client still names some bindings `PersonaInvSlot` internally, so SpinUI preserves those required identifiers while showing only Loadout language on screen.
-* Every slot keeps its ScreenID and EQType - pure geometry + additive art, so drag/drop, tooltips and auto-equip behave exactly like stock.
-* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py` (46px hex frames come from `tools/add_spin_deco_small_hexes.py`); `tools/audit_spinui.py` verifies slot membership, rail alignment, native art dimensions, canvas bounds, bag count and critical spacing.
+* **The identity rail is now a character card** - a centered, width-safe player name in a full 20px Legends-height cell plus separated level/class cells over the **native class crest** (EQ's Warrior swords, caster spellbook, etc., kept at its original `75x142` proportions inside the `85x171` frame), XP/AA gauges, weight, Destroy, the 12-slot bag grid, and every stock button (Appear., Skills, Alt. Adv., Achiev., Find Item, Done). Because the crest sits at window level it stays visible - and remains the functional *drop-to-auto-equip* target - on every tab. Bind/Origin/Deity keys are width-safe too, so **Origin** is never truncated.
+* **Multiclass Loadouts matches the compact canvas** - the tab re-flows onto 485x620 with native square wells: a 2x4 armor cluster left, the native character model centered, a 3x3 jewelry cluster right, a centered weapon row plus separated Any pair, then the loadout table, actions, and class-level cards. The current Legends `IWP_LoadoutInfoStatus` / `IWP_LoadoutSwappableIndicator` bindings and allow/deny decals are present. EverQuest Legends has no Persona system - the tab is pure multiclass loadouts - but the client still names some bindings `PersonaInvSlot` internally, so SpinUI preserves those required identifiers while showing only Loadout language on screen.
+* Every equipment control keeps its exact native ScreenID, EQType and background, allowing Legends to supply its red/unusable visual when a loadout change makes an equipped item stop providing bonuses; drag/drop, tooltips and auto-equip also behave exactly like stock. Because that cue is client-driven rather than static XML, validate it once in game with a deliberately incompatible loadout swap.
+* Regenerate or tweak the compositions via `tools/restyle_inventory.py` and the legacy-named `tools/restyle_persona.py`; `tools/audit_spinui.py` verifies native runtime bindings, slot membership, rail alignment, loadout indicators, art dimensions, canvas bounds, bag count and critical spacing.
 
 ---
 
 ## The pet command center
 
-The active pet window is now a deliberate 356x255 command plate instead of a compressed strip:
+The active default is now a deliberate **513x181 low-profile command center** instead of a 356x255 stack with a 75px dark reserve above Companion. It converts that reserve into a full-height side rail: 29% less vertical obstruction, nearly the same total pixel footprint, and all **42 visible pet buff/debuff positions** retained with a measured 12px flow allowance.
 
 * Pet and target names use larger type, with their percentages separated at the right edge and HP/target colors tuned to the Obsidian, Ember and Venom palette.
-* All fourteen native pet commands flow into a clean 4-column grid on 84x23 targets; long commands such as Inventory no longer fight 57px buttons or fall below the old 190px canvas.
-* The buff rail has a framed 24px rhythm above the vitals, and the fixed, buffs-on-bottom, buffs-on-top and buffs-on-right variants share the same readable command geometry.
-* The 3440x1440 preset keeps the window hidden by default, preserving the existing preference, but parks it at a validated location that clears inventory, Player and the utility hotbars when enabled.
+* All fourteen native pet commands use explicit **Legends-validated** placement in a clean 4-column grid on 78x23 targets. Their `Pet0_Button` through `Pet13_Button` bindings remain untouched, so commands such as Inventory stay fully clickable instead of wrapping below the EverQuest Legends client frame. Legends injects each label and action through those bindings; SpinUI does not hardcode EverQuest Live command names.
+* The required `PetBuffWindow` / `PetBuffButtons` chain remains mounted with its native 24px template and click-through empty pixels. The fixed default flows 6x7 down the new right rail; it does not hide or discard effects for the sake of appearance.
+* Resizable buffs-on-bottom and buffs-on-top alternatives open at a compact **356x209** with one visible row, then devote every added pixel of height to more effect rows while the 356x181 command panel stays fixed. The compact resizable right-rail alternative opens at **441x181** with 21 positions, the same 12px flow allowance, and grows in both directions.
+* This is static XML geometry with no polling, animation loop or script overhead. The 3440x1440 preset keeps the window hidden by default, preserving the existing preference, but gives every variant a validated location with a shared right edge and bottom baseline: an exact 8px gutter before Player and 7px above the neighboring hotbars.
 
 ---
 
@@ -367,7 +368,7 @@ Everything was *generated* - change a constant, rerun, done. From the repo root:
 pip install pillow                                # only needed for the two art scripts
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
-python3 tools/add_spin_deco_small_hexes.py         # refresh the 46px hex plate frames
+python3 tools/restyle_inventory.py                 # rebuild the native-slot Equipment composition
 python3 tools/restyle_persona.py                   # rebuild the Multiclass Loadouts composition
 python3 tools/render_preview.py                   # re-render the full-screen preview
 python3 tools/audit_spinui.py                     # audit XML, references, assets and critical geometry
@@ -377,7 +378,7 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).
 * **Move a window:** edit its pixel coordinates in `PLACEMENTS` in `generate_spinui_layout.py` - the script converts to the client's percentage format and re-validates the whole screen for overlaps/off-screen.
 * **New chat preset:** add an entry to `CHAT_PRESETS` - it lands in `layouts/<name>/` automatically.
-* The texture and layout generators always start from the **pristine** stock files in git history, so reruns never compound. The two `restyle_*` scripts are staged, marker-guarded migrations (`SPIN-DECO-3` / `SPIN-PERSONA-3`) - rerunning them on an already-migrated file is a clean no-op.
+* The texture and layout generators always start from the **pristine** stock files in git history, so reruns never compound. The two `restyle_*` scripts are staged, marker-guarded migrations (`SPIN-DECO-4` / `SPIN-PERSONA-4`) - rerunning them on an already-migrated file is a clean no-op.
 
 ---
 

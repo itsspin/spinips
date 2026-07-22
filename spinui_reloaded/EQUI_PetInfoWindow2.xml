@@ -282,8 +282,12 @@
 	<Button item="PIW_Pet0_Button">
 		<ScreenID>Pet0_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>74</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -296,8 +300,12 @@
 	<Button item="PIW_Pet1_Button">
 		<ScreenID>Pet1_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>94</X>
+			<Y>74</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -310,8 +318,12 @@
 	<Button item="PIW_Pet2_Button">
 		<ScreenID>Pet2_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>178</X>
+			<Y>74</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -324,8 +336,12 @@
 	<Button item="PIW_Pet3_Button">
 		<ScreenID>Pet3_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>262</X>
+			<Y>74</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -338,8 +354,12 @@
 	<Button item="PIW_Pet4_Button">
 		<ScreenID>Pet4_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>99</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -352,8 +372,12 @@
 	<Button item="PIW_Pet5_Button">
 		<ScreenID>Pet5_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>94</X>
+			<Y>99</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -366,8 +390,12 @@
 	<Button item="PIW_Pet6_Button">
 		<ScreenID>Pet6_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>178</X>
+			<Y>99</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -380,8 +408,12 @@
 	<Button item="PIW_Pet7_Button">
 		<ScreenID>Pet7_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>262</X>
+			<Y>99</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -394,8 +426,12 @@
 	<Button item="PIW_Pet8_Button">
 		<ScreenID>Pet8_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>124</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -408,8 +444,12 @@
 	<Button item="PIW_Pet9_Button">
 		<ScreenID>Pet9_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>94</X>
+			<Y>124</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -422,8 +462,12 @@
 	<Button item="PIW_Pet10_Button">
 		<ScreenID>Pet10_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>178</X>
+			<Y>124</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -436,8 +480,12 @@
 	<Button item="PIW_Pet11_Button">
 		<ScreenID>Pet11_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>262</X>
+			<Y>124</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -450,8 +498,12 @@
 	<Button item="PIW_Pet12_Button">
 		<ScreenID>Pet12_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>94</X>
+			<Y>149</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -464,8 +516,12 @@
 	<Button item="PIW_Pet13_Button">
 		<ScreenID>Pet13_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>178</X>
+			<Y>149</Y>
+		</Location>
 		<Size>
-			<CX>84</CX>
+			<CX>78</CX>
 			<CY>23</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
@@ -515,39 +571,6 @@
 		<Pieces>PIW_PetBuff_Template</Pieces>
 	</TileLayoutBox>
 	
-	<TileLayoutBox item="PIW_PetButtons">
-		<ScreenID>PetButtons</ScreenID>
-		<RelativePosition>true</RelativePosition>
-		<AutoStretch>true</AutoStretch>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<TopAnchorOffset>74</TopAnchorOffset>
-		<BottomAnchorOffset>4</BottomAnchorOffset>
-		<LeftAnchorOffset>5</LeftAnchorOffset>
-		<RightAnchorOffset>5</RightAnchorOffset>
-		<Style_Transparent>true</Style_Transparent>
-		<Spacing>2</Spacing>
-		<SecondarySpacing>2</SecondarySpacing>
-		<HorizontalFirst>true</HorizontalFirst>
-		<AnchorToTop>true</AnchorToTop>
-		<AnchorToLeft>true</AnchorToLeft>
-		<FirstPieceTemplate>true</FirstPieceTemplate>
-		<Pieces>PIW_Pet0_Button</Pieces>
-		<Pieces>PIW_Pet1_Button</Pieces>
-		<Pieces>PIW_Pet2_Button</Pieces>
-		<Pieces>PIW_Pet3_Button</Pieces>
-		<Pieces>PIW_Pet4_Button</Pieces>
-		<Pieces>PIW_Pet5_Button</Pieces>
-		<Pieces>PIW_Pet6_Button</Pieces>
-		<Pieces>PIW_Pet7_Button</Pieces>
-		<Pieces>PIW_Pet8_Button</Pieces>
-		<Pieces>PIW_Pet9_Button</Pieces>
-		<Pieces>PIW_Pet10_Button</Pieces>
-		<Pieces>PIW_Pet11_Button</Pieces>
-		<Pieces>PIW_Pet12_Button</Pieces>		
-		<Pieces>PIW_Pet13_Button</Pieces>	
-	</TileLayoutBox>	
-	
 	<Screen item="PIW_BuffWindow">
 		<ScreenID>PetBuffWindow</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -555,20 +578,20 @@
 		<LeftAnchorOffset>4</LeftAnchorOffset>
 		<TopAnchorOffset>2</TopAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<BottomAnchorOffset>77</BottomAnchorOffset>
+		<BottomAnchorOffset>178</BottomAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
-		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
-		<Style_Transparent>false</Style_Transparent>
+		<Style_Transparent>true</Style_Transparent>
 		<TooltipReference>Buffs on your pet will show here</TooltipReference>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
 		<Style_Closebox>false</Style_Closebox>
 		<Style_Minimizebox>false</Style_Minimizebox>
-		<Style_Border>true</Style_Border>
+		<Style_Border>false</Style_Border>
 		<Style_Sizable>false</Style_Sizable>
 		<Pieces>TileLayoutBox:PIW_BuffButtons</Pieces>
 	</Screen>
@@ -576,14 +599,14 @@
 	<DragBox item="PIWDragBox1">
         <ScreenID>PIWDragBox1</ScreenID>
 		<AutoStretch>true</AutoStretch>		
-		<TopAnchorToTop>true</TopAnchorToTop>
+		<TopAnchorToTop>false</TopAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<BottomAnchorToTop>true</BottomAnchorToTop>
-		<TopAnchorOffset>74</TopAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>181</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
 		<RightAnchorOffset>0</RightAnchorOffset>
-		<BottomAnchorOffset>92</BottomAnchorOffset>
+		<BottomAnchorOffset>163</BottomAnchorOffset>
         <BackgroundTextureTint>
             <R>255</R>
             <G>0</G>
@@ -595,11 +618,11 @@
 	<Screen item="PetInfoSubWindow">
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorToTop>true</TopAnchorToTop>
+		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<TopAnchorOffset>74</TopAnchorOffset>
+		<TopAnchorOffset>181</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
 		<RightAnchorOffset>0</RightAnchorOffset>
 		<BottomAnchorOffset>0</BottomAnchorOffset>
@@ -619,7 +642,20 @@
 		<Pieces>PIW_PetTargetHPGauge</Pieces>
 		<Pieces>PIW_PetTargetHPGauge_NameOnly</Pieces>	
 		<Pieces>Pet_label</Pieces>
-		<Pieces>TileLayoutBox:PIW_PetButtons</Pieces>		
+		<Pieces>PIW_Pet0_Button</Pieces>
+		<Pieces>PIW_Pet1_Button</Pieces>
+		<Pieces>PIW_Pet2_Button</Pieces>
+		<Pieces>PIW_Pet3_Button</Pieces>
+		<Pieces>PIW_Pet4_Button</Pieces>
+		<Pieces>PIW_Pet5_Button</Pieces>
+		<Pieces>PIW_Pet6_Button</Pieces>
+		<Pieces>PIW_Pet7_Button</Pieces>
+		<Pieces>PIW_Pet8_Button</Pieces>
+		<Pieces>PIW_Pet9_Button</Pieces>
+		<Pieces>PIW_Pet10_Button</Pieces>
+		<Pieces>PIW_Pet11_Button</Pieces>
+		<Pieces>PIW_Pet12_Button</Pieces>
+		<Pieces>PIW_Pet13_Button</Pieces>
 		<Pieces>PetTarget_Indicator</Pieces>
 		<Pieces>PIW_PetHPGaugeLabel</Pieces>
 		<Pieces>PIW_PetTargetHPGaugeLabel</Pieces>
@@ -634,7 +670,7 @@
 		</Location>
 		<Size>
 			<CX>356</CX>
-			<CY>255</CY>
+			<CY>209</CY>
 		</Size>
 		<Style_VScroll>false</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
@@ -655,8 +691,8 @@
 		</KeepOnScreenOffset>	
 		<Escapable>false</Escapable>
 		<MinHSize>356</MinHSize>
-		<MinVSize>250</MinVSize>
-		<MaxHSize>600</MaxHSize>
+		<MinVSize>209</MinVSize>
+		<MaxHSize>356</MaxHSize>
 		<MaxVSize>480</MaxVSize>
 		<Pieces>Screen:PetInfoSubWindow</Pieces>
 		<Pieces>PIW_BuffWindow</Pieces>

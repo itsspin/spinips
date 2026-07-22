@@ -26623,4 +26623,43 @@
       </Size>
     </Frames>
   </Ui2DAnimation>  
+	<!-- Loadout Status Indicators -->
+	<Ui2DAnimation item="A_IWAllowLoadoutSwap">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>window_pieces11c.dds</Texture>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>30</CX>
+				<CY>30</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="A_IWNoLoadoutSwap">
+		<Cycle>true</Cycle>
+		<Frames>
+			<Texture>window_pieces11c.dds</Texture>
+			<Location>
+				<X>0</X>
+				<Y>90</Y>
+			</Location>
+			<Size>
+				<CX>30</CX>
+				<CY>30</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+			<Duration>1000</Duration>
+		</Frames>
+	</Ui2DAnimation>
 </XML>

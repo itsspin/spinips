@@ -10,8 +10,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from render_equipment_preview import FILLED, SLOT_ABBR  # noqa: E402
 from restyle_inventory import BAGS, CREST, WINDOW  # noqa: E402
-from restyle_persona import (EQUIP_CANVAS, GOLD_SLOTS, PLATE,  # noqa: E402
-                             PLATE_POSITIONS, SLOT_INSET)
+from restyle_persona import EQUIP_CANVAS, SLOT_POSITIONS, SLOT_SIZE  # noqa: E402
 from spinui_theme import (BG1, BG2, BG3, CYAN, GOLD, GOLD_BRIGHT, LINE,  # noqa: E402
                           LINE_SOFT, TEXT, TEXT_DIM)
 
@@ -67,21 +66,20 @@ def main():
     ox, oy = page_x + 8, page_y + 24
     d.rounded_rectangle([ox, oy, ox + EQUIP_CANVAS[0], oy + EQUIP_CANVAS[1]], radius=4,
                         fill=(7, 11, 15, 230), outline=LINE_SOFT + (255,))
-    hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
-    steel = hexes.crop((0, 64, 46, 110))
-    gold = hexes.crop((64, 64, 110, 110))
+    # Match the native InvSlot well; Legends supplies slot art and live state.
+    native_well = Image.open(SKIN / "window_pieces01.tga").convert("RGBA").crop(
+        (180, 110, 221, 151)).resize((SLOT_SIZE, SLOT_SIZE))
     for slot_id in range(23):
-        px, py = PLATE_POSITIONS[slot_id]
-        img.alpha_composite(gold if slot_id in GOLD_SLOTS else steel,
-                            (ox + px, oy + py))
+        px, py = SLOT_POSITIONS[slot_id]
+        img.alpha_composite(native_well, (ox + px, oy + py))
         color = FILLED.get(slot_id)
-        inner = (ox + px + SLOT_INSET, oy + py + SLOT_INSET)
+        inner = (ox + px, oy + py)
         if color:
             d.rounded_rectangle([inner[0] + 4, inner[1] + 4,
                                  inner[0] + 36, inner[1] + 36], radius=3,
                                 fill=color + (255,))
         else:
-            d.text((ox + px + PLATE // 2, oy + py + PLATE // 2), SLOT_ABBR[slot_id],
+            d.text((ox + px + SLOT_SIZE // 2, oy + py + SLOT_SIZE // 2), SLOT_ABBR[slot_id],
                    font=font(7), fill=TEXT_DIM, anchor="mm")
 
     # Client-owned persona art at the exact 85x171 native viewport.
@@ -120,8 +118,15 @@ def main():
     button(d, [page_x + 8, page_y + 448, page_x + 86, page_y + 472], "ADD")
     button(d, [page_x + 92, page_y + 448, page_x + 170, page_y + 472], "EDIT")
     button(d, [page_x + 176, page_y + 448, page_x + 254, page_y + 472], "SWAP", True)
-    d.text((page_x + 276, page_y + 460), "SWAPPING:  LIVE",
+    d.text((page_x + 276, page_y + 460), "Swapping available:",
+           font=font(8, True), fill=TEXT, anchor="lm")
+    d.text((page_x + 406, page_y + 460), "YES",
            font=font(8, True), fill=CYAN, anchor="lm")
+    ix, iy = page_x + 442, page_y + 450
+    d.rounded_rectangle([ix, iy, ix + 20, iy + 20], radius=3,
+                        fill=(13, 49, 43, 255), outline=CYAN + (255,))
+    d.line([(ix + 5, iy + 10), (ix + 9, iy + 14), (ix + 16, iy + 6)],
+           fill=CYAN + (255,), width=2)
 
     d.text((page_x + 12, page_y + 480), "CLASS LEVELS", font=font(9, True), fill=GOLD)
     for index, (name, level) in enumerate((("WARRIOR", 39), ("DRUID", 31),
