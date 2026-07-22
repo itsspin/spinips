@@ -118,14 +118,14 @@ PLACEMENTS: dict[str, dict] = {
     # pair is perfectly centered over the rows beneath (block midpoint 1720).
     "PlayerWindow":  P(1188, 770, 360, 193, show=1),
     "TargetWindow":  P(1892, 770, 360, 193, show=1),
-    # The expanded 356x255 pet plate sits on the same 8px grid as the combat
-    # cluster. It clears PlayerWindow on the right and the utility hotbars
-    # below, while remaining visible beside the open inventory window.
-    "PetInfoWindow": P(824, 710, 356, 255),                     # Show per base
-    "PetInfoWindow_1": P(824, 710, 356, 255, show=0),
-    "PetInfoWindow_2": P(824, 710, 356, 255, show=0),
-    # Right-buff variant is wider; align its right edge with the base plate.
-    "PetInfoWindow_3": P(720, 710, 460, 255, show=0),
+    # Every pet layout preserves the historical x=1180 right edge and y=965
+    # bottom baseline: 8px before PlayerWindow and 7px above the hotbar row.
+    # The fixed default spends ultrawide width on a full-capacity effect rail
+    # instead of stacking a dark tray overhead.
+    "PetInfoWindow": P(667, 784, 513, 181),                     # Show per base
+    "PetInfoWindow_1": P(824, 756, 356, 209, show=0),
+    "PetInfoWindow_2": P(824, 756, 356, 209, show=0),
+    "PetInfoWindow_3": P(739, 784, 441, 181, show=0),
     "StanceWnd":     P(1188, 970, 440, 56, show=1),
     "CastingWindow": P(1636, 978, 380, 36, show=1),
     "AggroMeterWnd": P(2032, 974, 220, 48),
@@ -205,12 +205,11 @@ def standard_1440_placements() -> dict[str, dict]:
         "CastSpellWnd": q(8, 521, 52, 623, show=1),
         "HotButtonWnd": q(64, 877, 94, 267),
         "HotButtonWnd11": q(162, 873, 98, 271),
-        # Preserve the old plate's right edge while accommodating the taller
-        # expanded pet layout without touching PlayerWindow or HotButtonWnd8.
-        "PetInfoWindow": q(592, 710, 356, 255),
-        "PetInfoWindow_1": q(592, 710, 356, 255, show=0),
-        "PetInfoWindow_2": q(592, 710, 356, 255, show=0),
-        "PetInfoWindow_3": q(488, 710, 460, 255, show=0),
+        # Preserve the shared x=948 right edge and y=965 bottom baseline.
+        "PetInfoWindow": q(435, 784, 513, 181),
+        "PetInfoWindow_1": q(592, 756, 356, 209, show=0),
+        "PetInfoWindow_2": q(592, 756, 356, 209, show=0),
+        "PetInfoWindow_3": q(507, 784, 441, 181, show=0),
         # Plates share the hotbar block's outer edges (midpoint 1488).
         "PlayerWindow": q(956, 770, 360, 193, show=1),
         "TargetWindow": q(1660, 770, 360, 193, show=1),
@@ -275,12 +274,11 @@ def standard_2160_placements() -> dict[str, dict]:
         "CastSpellWnd": q(8, 1221, 52, 623, show=1),
         "HotButtonWnd": q(64, 1577, 94, 267),
         "HotButtonWnd11": q(162, 1573, 98, 271),
-        # Preserve the old plate's right edge while accommodating the taller
-        # expanded pet layout without touching PlayerWindow or HotButtonWnd8.
-        "PetInfoWindow": q(1024, 1410, 356, 255),
-        "PetInfoWindow_1": q(1024, 1410, 356, 255, show=0),
-        "PetInfoWindow_2": q(1024, 1410, 356, 255, show=0),
-        "PetInfoWindow_3": q(920, 1410, 460, 255, show=0),
+        # Preserve the shared x=1380 right edge and y=1665 bottom baseline.
+        "PetInfoWindow": q(867, 1484, 513, 181),
+        "PetInfoWindow_1": q(1024, 1456, 356, 209, show=0),
+        "PetInfoWindow_2": q(1024, 1456, 356, 209, show=0),
+        "PetInfoWindow_3": q(939, 1484, 441, 181, show=0),
         # cluster centered on 1920: block 1388..2452, plates on its edges
         "PlayerWindow": q(1388, 1470, 360, 193, show=1),
         "TargetWindow": q(2092, 1470, 360, 193, show=1),
@@ -465,9 +463,9 @@ XML_SIZES = {
     # Player/Target keep their full transparent interaction and buff hosts for
     # placement math even though only the compact lower subframes are painted.
     "PlayerWindow": (360, 193), "TargetWindow": (360, 193),
-    "PetInfoWindow": (356, 255), "BuffWindow": (216, 640),
-    "PetInfoWindow_1": (356, 255), "PetInfoWindow_2": (356, 255),
-    "PetInfoWindow_3": (460, 255),
+    "PetInfoWindow": (513, 181), "BuffWindow": (216, 640),
+    "PetInfoWindow_1": (356, 209), "PetInfoWindow_2": (356, 209),
+    "PetInfoWindow_3": (441, 181),
     "BuffWindow_13": (216, 640), "ShortDurationBuffWindow": (216, 324),
     "ShortDurationBuffWindow_13": (216, 324), "BigBankWnd": (287, 390),
     "InventoryWindow": (660, 668), "BreathWindow": (118, 32),

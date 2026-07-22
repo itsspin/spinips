@@ -14,8 +14,8 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from restyle_inventory import (ANY_ROW, BAGS, BAG_SLOT_SIZE, BAG_SPACING,  # noqa: E402
                                CREST, CREST_SIZE, LEFT_RAIL, PAGE_LOCATION,
-                               PLATE, RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
-                               STATS3, WEAPON_ROW, WINDOW, slot_pos)
+                               RIGHT_RAIL, SLOT_SIZE, STATS1, STATS2, STATS3,
+                               WEAPON_ROW, WINDOW, slot_pos)
 from spinui_theme import (BG1, BG2, CYAN, GOLD, GOLD_BRIGHT, LINE, LINE_SOFT,
                           TEXT, TEXT_DIM)
 
@@ -164,15 +164,13 @@ def main():
 
     # ---- centered equipment page (5,22)+(6,6) -> content at (13, 50) ----
     ox, oy = 8 + PAGE_LOCATION[0], 50
-    hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
-    hex_steel = hexes.crop((0, 64, 46, 110))
-    hex_gold = hexes.crop((64, 64, 110, 110))
+    # Match the native InvSlot well; Legends supplies slot art and live state.
+    native_well = slots_img.resize((SLOT_SIZE, SLOT_SIZE))
 
     for slot_id in range(23):
-        (px, py), gold = slot_pos(slot_id)
-        plate = hex_gold if gold else hex_steel
-        img.alpha_composite(plate, (ox + px, oy + py))
-        inner = (ox + px + SLOT_INSET, oy + py + SLOT_INSET)
+        (px, py), _weapon_group = slot_pos(slot_id)
+        img.alpha_composite(native_well, (ox + px, oy + py))
+        inner = (ox + px, oy + py)
         if slot_id in FILLED:
             c = FILLED[slot_id]
             d.rounded_rectangle([inner[0] + 4, inner[1] + 4, inner[0] + 36, inner[1] + 36],
@@ -180,7 +178,7 @@ def main():
             d.rectangle([inner[0] + 4, inner[1] + 4, inner[0] + 36, inner[1] + 11],
                         fill=(255, 255, 255, 26))
         else:
-            d.text((ox + px + PLATE // 2, oy + py + PLATE // 2), SLOT_ABBR[slot_id],
+            d.text((ox + px + SLOT_SIZE // 2, oy + py + SLOT_SIZE // 2), SLOT_ABBR[slot_id],
                    font=F(7), fill=DIM, anchor="mm")
 
     # ---- the stat ledger between the rails ----

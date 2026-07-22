@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Build privacy-safe README media from real, user-supplied UI captures.
 
-The full capture is intentionally cropped above the chat row before anything
-is written to ``docs/screenshots``.  The animated tour uses only real
-Loremaster captures; its captions and notification rail are clearly presented
-as a feature tour rather than continuous gameplay footage.
+The full HUD capture supplies the showcase hero, while a dedicated lossless
+inventory capture preserves the Equipment tab's small text and slot art. The
+animated tour uses only real Loremaster captures; its captions and notification
+rail are clearly presented as a feature tour rather than continuous gameplay
+footage.
 """
 
 from __future__ import annotations
@@ -53,7 +54,8 @@ def _cover(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     return resized.crop((left, top, left + target_w, top + target_h))
 
 
-def build_static(full_capture: Path, output: Path) -> tuple[Path, Path]:
+def build_static(full_capture: Path, inventory_capture: Path,
+                 output: Path) -> tuple[Path, Path]:
     source = Image.open(full_capture).convert("RGB")
     if source.size != (3440, 1440):
         raise ValueError(f"expected a 3440x1440 live capture, got {source.size}")
@@ -66,12 +68,14 @@ def build_static(full_capture: Path, output: Path) -> tuple[Path, Path]:
     hero_path = output / "spinui-live-hero.jpg"
     hero.save(hero_path, "JPEG", quality=90, optimize=True, progressive=True)
 
-    # The compact v3 inventory window is 660x668; the 2026 capture parks it
-    # near (155, 180), so this margin crop shows the full window plus air.
-    inventory = source.crop((150, 165, 875, 910))
-    inventory_path = output / "inventory-live.jpg"
-    inventory.save(
-        inventory_path, "JPEG", quality=91, optimize=True, progressive=True)
+    # Preserve the author's dedicated live Equipment capture losslessly so its
+    # compact labels and item artwork stay crisp in GitHub's README renderer.
+    inventory = Image.open(inventory_capture)
+    if inventory.size != (670, 671):
+        raise ValueError(
+            f"expected a 670x671 live inventory capture, got {inventory.size}")
+    inventory_path = output / "inventory-live.png"
+    inventory.save(inventory_path, "PNG", optimize=True)
     return hero_path, inventory_path
 
 
@@ -177,13 +181,15 @@ def build_animation(hero_path: Path, encounter: Path, session: Path,
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full-capture", type=Path, required=True)
+    parser.add_argument("--inventory-capture", type=Path, required=True)
     parser.add_argument("--encounter", type=Path, required=True)
     parser.add_argument("--session", type=Path, required=True)
     parser.add_argument("--detail", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
     args.output.mkdir(parents=True, exist_ok=True)
-    hero, inventory = build_static(args.full_capture, args.output)
+    hero, inventory = build_static(
+        args.full_capture, args.inventory_capture, args.output)
     animation = build_animation(
         hero, args.encounter, args.session, args.detail, args.output)
     for path in (hero, inventory, animation):

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Compact Loadouts/Personas tab for Spin's UI Reloaded (v3).
+"""Compact Loadouts/Personas tab for Spin's UI Reloaded (v4).
 
 Migrates the v2 full-size persona composition (SPIN-PERSONA, 585x720 page)
-to the compact v3 canvas that matches the 660x668 inventory window:
+to the compact v4 canvas that matches the 660x668 inventory window:
 
 * Page shrinks to the 485x620 tab canvas.
-* Equipment condenses to a 469x270 composition on 46px hex plates: a 2x4
+* Equipment condenses to a 469x270 composition on native 40px wells: a 2x4
   armor cluster left, the native persona model centered, a 3x3 jewelry
   cluster right, and a centered weapon row plus separated Any pair below.
 * Loadout table, actions, and class-level cards re-flow beneath.
@@ -13,8 +13,8 @@ to the compact v3 canvas that matches the 660x668 inventory window:
 The client-required PersonaInvSlot identifiers, the 85x171 model viewport,
 and the 75x142 native art are preserved.
 
-Idempotent: looks for the SPIN-PERSONA-3 marker. Requires v2 (SPIN-PERSONA)
-and the v3 equipment pass (SPIN-DECO-3) to have run first.
+Idempotent: looks for the SPIN-PERSONA-4 marker and upgrades v3 in place.
+Requires the v4 equipment pass (SPIN-DECO-4) to have run first.
 Run from repo root:  python3 tools/restyle_persona.py
 """
 
@@ -26,11 +26,12 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 XMLF = REPO / "spinui_reloaded" / "EQUI_InventoryWindow.xml"
 
-PLATE = 46
-SLOT_INSET = 3
+SLOT_SIZE = 40
+LEGACY_PLATE = 46
+LEGACY_SLOT_INSET = 3
 
 # plate coordinates inside the 469x270 IWP_Equipment canvas
-PLATE_POSITIONS = {
+LEGACY_PLATE_POSITIONS = {
     # left armor cluster, 2x4: ear/neck, shoulder/wrist, ring/arms, chest/back
     1: (8, 8), 5: (58, 8), 6: (8, 58), 9: (58, 58),
     15: (8, 108), 7: (58, 108), 17: (8, 158), 8: (58, 158),
@@ -41,6 +42,11 @@ PLATE_POSITIONS = {
     # centered weapon row plus separated Any pair
     13: (72, 216), 14: (122, 216), 11: (172, 216), 22: (222, 216),
     0: (296, 216), 21: (346, 216),
+}
+# Actual native InvSlot coordinates in the same balanced composition.
+SLOT_POSITIONS = {
+    slot_id: (x + LEGACY_SLOT_INSET, y + LEGACY_SLOT_INSET)
+    for slot_id, (x, y) in LEGACY_PLATE_POSITIONS.items()
 }
 GOLD_SLOTS = {13, 14, 11, 22}
 
@@ -79,23 +85,167 @@ def set_field(text, kind, item, field, value):
     return text
 
 
+def remove_item_block(text, kind, item_name):
+    pattern = re.compile(
+        r'\n?\t<' + kind + r' item="' + re.escape(item_name)
+        + r'">.*?</' + kind + r'>[ \t]*(?:\r?\n)?',
+        re.S,
+    )
+    text, count = pattern.subn("\n", text, count=1)
+    assert count == 1, f"remove {kind} {item_name}"
+    return text
+
+
+def remove_piece(text, item_name):
+    pattern = re.compile(
+        r'^[ \t]*<Pieces>' + re.escape(item_name)
+        + r'</Pieces>[ \t]*(?:\r?\n)?',
+        re.M,
+    )
+    text, count = pattern.subn("", text, count=1)
+    assert count == 1, f"remove Pieces {item_name}"
+    return text
+
+
+LOADOUT_INFO = """\
+	<Label item="IWP_LoadoutInfoText">
+		<ScreenID>IWP_LoadoutInfoText</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>276</X>
+			<Y>453</Y>
+		</Location>
+		<Size>
+			<CX>128</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Swapping available:</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item="IWP_LoadoutInfoStatus">
+		<ScreenID>IWP_LoadoutInfoStatus</ScreenID>
+		<EQType>1027</EQType>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>406</X>
+			<Y>453</Y>
+		</Location>
+		<Size>
+			<CX>34</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>YesNo</Text>
+		<NoWrap>true</NoWrap>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Button item="IWP_LoadoutSwappableIndicator">
+		<ScreenID>IWP_LoadoutSwappableIndicator</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<DecalSize>
+			<CX>20</CX>
+			<CY>20</CY>
+		</DecalSize>
+		<AutoStretch>true</AutoStretch>
+		<AlignRight>true</AlignRight>
+		<TopAnchorOffset>450</TopAnchorOffset>
+		<BottomAnchorOffset>470</BottomAnchorOffset>
+		<LeftAnchorOffset>442</LeftAnchorOffset>
+		<RightAnchorOffset>462</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Button>
+"""
+
+
+def finalize_v4(text):
+    """Remove decorative hexes and sync current Legends loadout bindings."""
+    assert "SPIN-PERSONA-3" in text, "expects compact v3 persona input"
+    assert "SPIN-DECO-4" in text, "run restyle_inventory.py (v4) first"
+    text = text.replace(
+        "<!-- SPIN-PERSONA-3: compact persona equipment composition -->",
+        "<!-- SPIN-PERSONA-4: native Legends loadout equipment composition -->",
+        1,
+    )
+
+    for slot_id, (slot_x, slot_y) in SLOT_POSITIONS.items():
+        text = remove_item_block(
+            text, "StaticAnimation", f"IWP_HexPlate{slot_id}")
+        text = remove_piece(text, f"IWP_HexPlate{slot_id}")
+        text = set_location(
+            text, "InvSlot", f"PersonaInvSlot{slot_id}",
+            slot_x, slot_y, SLOT_SIZE, SLOT_SIZE,
+        )
+
+    # No inventory-page controls use the custom hex texture after both tabs
+    # are finalized. Other UI files may still use their own spin_deco assets.
+    text = remove_item_block(text, "TextureInfo", "spin_deco.tga")
+    for animation in (
+            "A_SpinHex", "A_SpinHexGold", "A_SpinHexSm",
+            "A_SpinHexGoldSm"):
+        text = remove_item_block(text, "Ui2DAnimation", animation)
+    text = re.sub(
+        r'\n?\t<!-- SPIN-DECO-2: Narcissus-style equipment rails -->'
+        r'[ \t]*(?:\r?\n)?',
+        "\n",
+        text,
+        count=1,
+    )
+
+    if "IWP_LoadoutSwapAvailableLabel" in text:
+        text = remove_item_block(
+            text, "Label", "IWP_LoadoutSwapAvailableLabel")
+        text = remove_item_block(
+            text, "Label", "IWP_LoadoutSwapAvailable")
+        anchor = '\t<Label item="IWP_EquipmentLabel">'
+        assert text.count(anchor) == 1, "loadout info insertion anchor"
+        text = text.replace(anchor, LOADOUT_INFO + "\n" + anchor, 1)
+        old_pieces = (
+            "\t\t<Pieces>IWP_LoadoutSwapAvailableLabel</Pieces>\n"
+            "\t\t<Pieces>IWP_LoadoutSwapAvailable</Pieces>"
+        )
+        new_pieces = (
+            "\t\t<Pieces>IWP_LoadoutInfoText</Pieces>\n"
+            "\t\t<Pieces>IWP_LoadoutInfoStatus</Pieces>\n"
+            "\t\t<Pieces>IWP_LoadoutSwappableIndicator</Pieces>"
+        )
+        assert text.count(old_pieces) == 1, "legacy loadout info pieces"
+        text = text.replace(old_pieces, new_pieces, 1)
+
+    return text
+
+
 def main():
     text = XMLF.read_text(encoding="utf-8")
+    if "SPIN-PERSONA-4" in text:
+        print("persona tab already at v4 - nothing to do")
+        return 0
     if "SPIN-PERSONA-3" in text:
-        print("persona tab already at v3 — nothing to do")
+        text = finalize_v4(text)
+        XMLF.write_text(text, encoding="utf-8")
+        ET.parse(XMLF)
+        print("persona/loadouts finalized: native Legends slots + current "
+              "swap-status binding - parse OK")
         return 0
     assert "SPIN-PERSONA" in text, "run history: restyle_persona v2 first"
-    assert "SPIN-DECO-3" in text, "run restyle_inventory.py (v3) first"
+    assert "SPIN-DECO-4" in text, "run restyle_inventory.py (v4) first"
 
     text = text.replace(
         "<!-- SPIN-PERSONA: full-size persona equipment composition -->",
         "<!-- SPIN-PERSONA-3: compact persona equipment composition -->", 1)
 
-    for slot_id, (px, py) in PLATE_POSITIONS.items():
+    for slot_id, (px, py) in LEGACY_PLATE_POSITIONS.items():
         text = set_location(text, "InvSlot", f"PersonaInvSlot{slot_id}",
-                            px + SLOT_INSET, py + SLOT_INSET)
+                            px + LEGACY_SLOT_INSET, py + LEGACY_SLOT_INSET)
         text = set_location(text, "StaticAnimation", f"IWP_HexPlate{slot_id}",
-                            px, py, PLATE, PLATE)
+                            px, py, LEGACY_PLATE, LEGACY_PLATE)
         text = set_field(
             text, "StaticAnimation", f"IWP_HexPlate{slot_id}", "Animation",
             "A_SpinHexGoldSm" if slot_id in GOLD_SLOTS else "A_SpinHexSm")
@@ -131,11 +281,14 @@ def main():
                          ("RightAnchorOffset", 8), ("BottomAnchorOffset", 610)):
         text = set_anchor(text, "Listbox", "IWP_ClassList", field, value)
 
+    text = finalize_v4(text)
+
     XMLF.write_text(text, encoding="utf-8")
     ET.parse(XMLF)
     for slot_id in range(23):
-        assert f'item="IWP_HexPlate{slot_id}"' in text
-        assert f"<Pieces>IWP_HexPlate{slot_id}</Pieces>" in text
+        assert f'item="IWP_HexPlate{slot_id}"' not in text
+        assert f"<ScreenID>PersonaInvSlot{slot_id}</ScreenID>" in text
+        assert f"<EQType>personaInventory/Equip {slot_id}</EQType>" in text
     print("persona/loadouts tab compacted: clustered slots + model + loadouts "
           f"+ class levels on the {PAGE[0]}x{PAGE[1]} canvas — parse OK")
     return 0

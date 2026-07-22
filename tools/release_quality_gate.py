@@ -61,7 +61,7 @@ SOURCE_REQUIRED = (
     "docs/previews/loremaster_panel.png",
     "docs/previews/persona_page.png",
     "docs/previews/spinui_reloaded_3440.png",
-    "docs/screenshots/inventory-live.jpg",
+    "docs/screenshots/inventory-live.png",
     "docs/screenshots/loremaster-encounter-live.png",
     "docs/screenshots/loremaster-live-tour.gif",
     "docs/screenshots/loremaster-session-live.png",
@@ -94,7 +94,7 @@ SOURCE_REQUIRED = (
 # Values: (format, allowed dimensions, byte cap).
 README_MEDIA = {
     "docs/screenshots/spinui-live-hero.jpg": ("JPEG", {(1600, 670)}, 1_000_000),
-    "docs/screenshots/inventory-live.jpg": ("JPEG", {(725, 745)}, 1_000_000),
+    "docs/screenshots/inventory-live.png": ("PNG", {(670, 671)}, 1_000_000),
     "docs/screenshots/loremaster-encounter-live.png": ("PNG", {(400, 480)}, 1_000_000),
     "docs/screenshots/loremaster-session-live.png": ("PNG", {(400, 480)}, 1_000_000),
     "docs/screenshots/loremaster-live-tour.gif": ("GIF", {(960, 540)}, 4_000_000),
