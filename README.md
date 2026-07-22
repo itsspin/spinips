@@ -18,7 +18,7 @@
 
 | Cinematic equipment, live in game | Encounter Lab, live in game |
 |:---:|:---:|
-| ![Real SpinUI equipment screen](docs/screenshots/inventory-live.jpg) | ![Real Loremaster encounter overview](docs/screenshots/loremaster-encounter-live.png) |
+| ![SpinUI cinematic Equipment tab captured live in EverQuest Legends](docs/screenshots/inventory-live.png) | ![Real Loremaster encounter overview](docs/screenshots/loremaster-encounter-live.png) |
 
 | Loremaster session analysis | Lore Lens feature reference |
 |:---:|:---:|
