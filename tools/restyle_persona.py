@@ -2,7 +2,7 @@
 """Compact Loadouts/Personas tab for Spin's UI Reloaded (v3).
 
 Migrates the v2 full-size persona composition (SPIN-PERSONA, 585x720 page)
-to the compact v3 canvas that matches the 680x700 inventory window:
+to the compact v3 canvas that matches the 660x700 inventory window:
 
 * Page shrinks to the 485x620 tab canvas.
 * Equipment condenses to a 469x270 composition on 46px hex plates: a 2x4

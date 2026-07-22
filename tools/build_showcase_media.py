@@ -66,7 +66,7 @@ def build_static(full_capture: Path, output: Path) -> tuple[Path, Path]:
     hero_path = output / "spinui-live-hero.jpg"
     hero.save(hero_path, "JPEG", quality=90, optimize=True, progressive=True)
 
-    # The compact v3 inventory window is 680x700; the 2026 capture parks it
+    # The compact v3 inventory window is 660x700; the 2026 capture parks it
     # near (155, 180), so this margin crop shows the full window plus air.
     inventory = source.crop((150, 165, 875, 910))
     inventory_path = output / "inventory-live.jpg"

@@ -13,8 +13,9 @@ from PIL import Image, ImageDraw, ImageFont
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
 from restyle_inventory import (ANY_ROW, BAGS, CREST, LEFT_RAIL,  # noqa: E402
-                               PLATE, RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
-                               STATS3, WEAPON_ROW, WINDOW, slot_pos)
+                               PAGE_LOCATION, PLATE, RIGHT_RAIL, SLOT_INSET,
+                               STATS1, STATS2, STATS3, WEAPON_ROW, WINDOW,
+                               slot_pos)
 from spinui_theme import (BG1, BG2, CYAN, GOLD, GOLD_BRIGHT, LINE, LINE_SOFT,
                           TEXT, TEXT_DIM)
 
@@ -160,8 +161,8 @@ def main():
         d.ellipse([bx, y, bx + 14, y + 14], fill=c + (255,), outline=(0, 0, 0, 180))
         d.text((bx + 19, y + 2), amt, font=F(9), fill=TEXT)
 
-    # ---- equipment page (0,22)+(6,6) origin -> page content at (8, 50) ----
-    ox, oy = 8, 50
+    # ---- centered equipment page (5,22)+(6,6) -> content at (13, 50) ----
+    ox, oy = 8 + PAGE_LOCATION[0], 50
     hexes = Image.open(SKIN / "spin_deco.tga").convert("RGBA")
     hex_steel = hexes.crop((0, 64, 46, 110))
     hex_gold = hexes.crop((64, 64, 110, 110))
@@ -182,26 +183,27 @@ def main():
                    font=F(7), fill=DIM, anchor="mm")
 
     # ---- the stat ledger between the rails ----
+    # Mirror only active XML pieces.  The blank fifteenth item is the 8px
+    # column-break screen that keeps all Vitals left and all attributes/
+    # resists right in the client's vertical-first TileLayoutBox.
     vitals = [("Character Vitals", None), ("HP", "3,025 / 3,025"), ("Mana", "1,622 / 1,622"),
               ("End", "2,212 / 2,212"), ("AC", "337/388 | 351"), ("Attack", "296 | 511"),
               ("Attack Speed %", "113"), ("Velocity", "0"), ("HP Regen", "112"),
               ("Mana Regen", "20"), ("End Regen", "36"), ("Primary DPS", "184.2"),
-              ("Secondary DPS", "62.4"), ("Ranged DPS", "96.0"),
-              ("Stats & Resists", None), ("Strength", "196/510 +0"), ("Stamina", "183/510 +0"),
-              ("Intelligence", "65/510 +0"), ("Wisdom", "87/510 +0"), ("Agility", "92/510 +0"),
-              ("Dexterity", "120/510 +0"), ("Charisma", "52/510 +0"), ("Luck", "3"),
-              ("SV. Magic", "70/1000"), ("SV. Fire", "71/1000"), ("SV. Cold", "25/1000"),
-              ("SV. Disease", "25/1000"), ("SV. Poison", "15/1000"), ("SV. Void", "50/1000")]
-    heroics = [("Additional Modifiers", None), ("Accuracy", "0/150"), ("Avoidance", "0/100"),
-               ("Combat Effects", "0/100"), ("Strike Through", "0/35"), ("Stun Resist", "0/35"),
-               ("Damage Shielding", "0/35"), ("Damage Shield Mitig", "0/25"),
-               ("DoT Shielding", "0/35"), ("Melee Shielding", "0/35"), ("Spell Shielding", "0/35"),
-               ("Heroic Strength", "0"), ("Heroic Stamina", "0"), ("Heroic Intelligence", "0"),
-               ("Heroic Wisdom", "0"), ("Heroic Agility", "0"), ("Heroic Dexterity", "0"),
-               ("Heroic Charisma", "0"), ("Spell Damage", "0"), ("Healing Amount", "0"),
-               ("Clairvoyance", "0"), ("DoT Damage", "0"), ("Endurance Regen", "36"),
-               ("Combat HP Regen", "112"), ("Combat Mana Regen", "20"), ("Item HP Regen", "8"),
-               ("Item Mana Regen", "4"), ("Item End Regen", "2")]
+              ("Secondary DPS", "62.4"), ("Ranged DPS", "96.0"), ("", ""),
+              ("Primary Attributes", None), ("Strength", "196/510 +0"),
+              ("Stamina", "183/510 +0"), ("Agility", "92/510 +0"),
+              ("Dexterity", "120/510 +0"), ("Wisdom", "87/510 +0"),
+              ("Intelligence", "65/510 +0"), ("Charisma", "52/510 +0"),
+              ("Resists", None), ("SV. Magic", "70/1000"), ("SV. Fire", "71/1000"),
+              ("SV. Cold", "25/1000"), ("SV. Disease", "25/1000"),
+              ("SV. Poison", "15/1000"), ("SV. Void", "50/1000")]
+    heroics = [("Additional Modifiers", None), ("Accuracy", "0/150"),
+               ("Avoidance", "0/100"), ("Combat Effects", "0/100"),
+               ("Strike Through", "0/35"), ("Stun Resist", "0/35"),
+               ("Mitigation", None), ("Damage Shielding", "0/35"),
+               ("Damage Shield Mitig", "0/25"), ("DoT Shielding", "0/35"),
+               ("Melee Shielding", "0/35"), ("Spell Shielding", "0/35")]
     extra = [("Additional Information", None), ("Bind", "Dagnor's Cauldron"),
              ("Origin", "Oggok"), ("Deity", "Agnostic")]
     ledger(d, ox, oy, STATS1, vitals)

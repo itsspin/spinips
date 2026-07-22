@@ -43,6 +43,35 @@ def child_int(node: ET.Element, path: str) -> int:
     return int(value)
 
 
+def vertical_tile_columns(root: ET.Element, box: ET.Element) -> list[list[str]]:
+    """Resolve a vertical-first TileLayoutBox into the columns EQ will draw."""
+    if (box.findtext("HorizontalFirst") or "").strip().casefold() != "false":
+        fail(f"{box.get('item', '')} must remain vertical-first")
+    height = child_int(box, "Size/CY")
+    spacing = child_int(box, "Spacing")
+    columns: list[list[str]] = [[]]
+    used = 0
+    for piece in box.findall("Pieces"):
+        reference = (piece.text or "").strip()
+        if not reference:
+            continue
+        tag, separator, name = reference.partition(":")
+        if not separator:
+            tag, name = "Screen", reference
+        row = item(root, tag, name)
+        row_height = child_int(row, "Size/CY")
+        needed = row_height if not columns[-1] else spacing + row_height
+        if columns[-1] and used + needed > height:
+            columns.append([])
+            used = 0
+            needed = row_height
+        if row_height > height:
+            fail(f"{box.get('item', '')} row {name} exceeds its column")
+        columns[-1].append(name)
+        used += needed
+    return columns
+
+
 def audit_window_draw_templates(
         roots: dict[Path, ET.Element]) -> tuple[int, int]:
     """Mirror EQ's global WindowDrawTemplate symbol-table validation.
@@ -157,10 +186,147 @@ def audit_binary_assets() -> tuple[int, int, int]:
     return len(tga_files), len(dds_files), len(cur_files)
 
 
+def _anchor_flag(node: ET.Element, tag: str, default: bool) -> bool:
+    value = node.findtext(tag)
+    if value is None:
+        return default
+    return value.strip().casefold() == "true"
+
+
+def _stretched_rect(
+        node: ET.Element, parent_width: int, parent_height: int,
+        *, label: str) -> tuple[int, int, int, int]:
+    """Resolve the anchored rectangles used by the polished pet layout."""
+
+    left_offset = child_int(node, "LeftAnchorOffset")
+    right_offset = child_int(node, "RightAnchorOffset")
+    top_offset = child_int(node, "TopAnchorOffset")
+    bottom_offset = child_int(node, "BottomAnchorOffset")
+    left = left_offset if _anchor_flag(node, "LeftAnchorToLeft", True) else parent_width - left_offset
+    right = right_offset if _anchor_flag(node, "RightAnchorToLeft", False) else parent_width - right_offset
+    top = top_offset if _anchor_flag(node, "TopAnchorToTop", True) else parent_height - top_offset
+    bottom = bottom_offset if _anchor_flag(node, "BottomAnchorToTop", True) else parent_height - bottom_offset
+    if not (0 <= left < right <= parent_width and 0 <= top < bottom <= parent_height):
+        fail(
+            f"{label} leaves its parent: "
+            f"({left}, {top})-({right}, {bottom}) in {parent_width}x{parent_height}"
+        )
+    return left, top, right, bottom
+
+
+def _rects_overlap(
+        first: tuple[int, int, int, int],
+        second: tuple[int, int, int, int]) -> bool:
+    return not (
+        first[2] <= second[0] or second[2] <= first[0]
+        or first[3] <= second[1] or second[3] <= first[1]
+    )
+
+
+def audit_pet_geometry() -> None:
+    """Guard the readable 1440p pet hierarchy and every EQ layout variant."""
+
+    variants = {
+        "EQUI_PetInfoWindow.xml": (356, 255),
+        "EQUI_PetInfoWindow1.xml": (356, 255),
+        "EQUI_PetInfoWindow2.xml": (356, 255),
+        "EQUI_PetInfoWindow3.xml": (460, 255),
+    }
+    command_items = [f"PIW_Pet{i}_Button" for i in range(14)]
+    command_pieces = command_items.copy()
+
+    for filename, expected_size in variants.items():
+        path = SKIN / filename
+        try:
+            root = ET.parse(path).getroot()
+        except (OSError, ET.ParseError) as exc:
+            fail(f"invalid pet layout variant {filename}: {exc}")
+
+        window = item(root, "Screen", "PetInfoWindow")
+        actual_size = (child_int(window, "Size/CX"), child_int(window, "Size/CY"))
+        if actual_size != expected_size:
+            fail(f"{filename} pet window must remain {expected_size[0]}x{expected_size[1]}")
+
+        definitions = [
+            node.get("item", "") for node in root.findall(".//Button")
+            if node.get("item", "").startswith("PIW_Pet")
+            and node.get("item", "").endswith("_Button")
+        ]
+        if definitions != command_items or len(set(definitions)) != 14:
+            fail(f"{filename} pet command definitions changed: {definitions}")
+
+        for index, button_name in enumerate(command_items):
+            button = item(root, "Button", button_name)
+            if button.findtext("ScreenID") != f"Pet{index}_Button":
+                fail(f"{filename} {button_name} lost its EQ command binding")
+            if (child_int(button, "Size/CX"), child_int(button, "Size/CY")) != (84, 23):
+                fail(f"{filename} {button_name} must remain 84x23")
+
+        tile = item(root, "TileLayoutBox", "PIW_PetButtons")
+        pieces = [node.text for node in tile.findall("Pieces") if node.text]
+        if pieces != command_pieces:
+            fail(f"{filename} must contain each pet command exactly once: {pieces}")
+        if tile.findtext("HorizontalFirst", "").strip().casefold() != "true":
+            fail(f"{filename} pet commands must flow row-first")
+
+        window_width, window_height = actual_size
+        subwindow = item(root, "Screen", "PetInfoSubWindow")
+        sub_left, sub_top, sub_right, sub_bottom = _stretched_rect(
+            subwindow, window_width, window_height,
+            label=f"{filename} pet info panel",
+        )
+        sub_width = sub_right - sub_left
+        sub_height = sub_bottom - sub_top
+        tile_left, tile_top, tile_right, tile_bottom = _stretched_rect(
+            tile, sub_width, sub_height,
+            label=f"{filename} pet command grid",
+        )
+        tile_width = tile_right - tile_left
+        tile_height = tile_bottom - tile_top
+        spacing = child_int(tile, "Spacing")
+        secondary_spacing = child_int(tile, "SecondarySpacing")
+        button_width, button_height = 84, 23
+        columns = (tile_width + spacing) // (button_width + spacing)
+        if columns != 4:
+            fail(f"{filename} pet commands must retain four readable columns")
+
+        button_rects: list[tuple[int, int, int, int]] = []
+        for index, button_name in enumerate(command_items):
+            column = index % columns
+            row = index // columns
+            left = tile_left + column * (button_width + spacing)
+            top = tile_top + row * (button_height + secondary_spacing)
+            rect = (left, top, left + button_width, top + button_height)
+            if rect[2] > tile_right or rect[3] > tile_bottom:
+                fail(f"{filename} {button_name} clips outside the command grid")
+            if any(_rects_overlap(rect, prior) for prior in button_rects):
+                fail(f"{filename} {button_name} overlaps another pet command")
+            button_rects.append(rect)
+
+        gauges = {
+            name: _stretched_rect(
+                item(root, "Gauge", name), sub_width, sub_height,
+                label=f"{filename} {name}",
+            )
+            for name in (
+                "PIW_PetHPGauge",
+                "PIW_PetHPGauge_NameOnly",
+                "PIW_PetTargetHPGauge",
+                "PIW_PetTargetHPGauge_NameOnly",
+            )
+        }
+        if _rects_overlap(gauges["PIW_PetHPGauge"], gauges["PIW_PetTargetHPGauge"]):
+            fail(f"{filename} pet and target gauges overlap")
+
+
 def audit_inventory_geometry() -> None:
     root = ET.parse(SKIN / "EQUI_InventoryWindow.xml").getroot()
     equipment = item(root, "Screen", "IW_Equipment")
     page = item(root, "Page", "IW_InvPage")
+    pet_page = item(root, "Page", "IW_PetInvPage")
+    loadout_page = item(root, "Page", "IW_LoadoutPage")
+    storage_page = item(root, "Page", "IW_StoragePage")
+    tab_host = item(root, "TabBox", "IW_Subwindows")
     view = item(root, "Screen", "IW_CharacterView")
     class_anim = item(root, "StaticAnimation", "ClassAnim")
     bags = item(root, "TileLayoutBox", "IW_Slots")
@@ -182,8 +348,23 @@ def audit_inventory_geometry() -> None:
         fail("native class artwork must remain 75x142")
     if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != (85, 171):
         fail("class artwork viewport must remain 85x171")
-    if child_int(window, "Size/CX") != 680 or child_int(window, "Size/CY") != 700:
-        fail("inventory window must remain 680x700")
+    if child_int(window, "Size/CX") != 660 or child_int(window, "Size/CY") != 700:
+        fail("inventory window must remain 660x700")
+    host_width = (
+        child_int(window, "Size/CX")
+        - child_int(tab_host, "LeftAnchorOffset")
+        - child_int(tab_host, "RightAnchorOffset")
+    )
+    if host_width != 495:
+        fail(f"inventory tab host must remain 495px wide, got {host_width}")
+    for tab_page in (page, pet_page, loadout_page, storage_page):
+        page_left = child_int(tab_page, "Location/X")
+        page_right = page_left + child_int(tab_page, "Size/CX")
+        if page_left < 0 or page_right > host_width:
+            fail(
+                f"{tab_page.get('item')} exceeds the tightened tab host: "
+                f"{page_left}..{page_right} of {host_width}"
+            )
     if child_int(equipment, "Location/Y") + child_int(equipment, "Size/CY") > child_int(page, "Size/CY"):
         fail("equipment canvas exceeds the inventory page")
 
@@ -204,14 +385,57 @@ def audit_inventory_geometry() -> None:
         fail("bag rail overlaps the class crest")
     if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != (112, 280):
         fail("bag rail geometry changed")
+    if child_int(bags, "Location/X") + child_int(bags, "Size/CX") > child_int(window, "Size/CX"):
+        fail("bag rail exceeds the tightened inventory frame")
 
     # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
-    from restyle_inventory import (ANY_ROW, LEFT_RAIL, PLATE, RIGHT_RAIL,
-                                   SLOT_INSET, WEAPON_ROW, slot_pos)
+    from restyle_inventory import (ANY_ROW, BAGS, CREST, LEFT_RAIL,
+                                   PAGE, PAGE_LOCATION, PITCH, PLATE,
+                                   RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
+                                   STATS3, WEAPON_ROW, slot_pos)
+
+    page_geometry = (
+        child_int(page, "Location/X"), child_int(page, "Location/Y"),
+        child_int(page, "Size/CX"), child_int(page, "Size/CY"),
+    )
+    if page_geometry != (*PAGE_LOCATION, *PAGE):
+        fail(
+            "equipment page lost its centered tab-host alignment: "
+            f"{page_geometry}"
+        )
+    bag_geometry = (
+        child_int(bags, "Location/X"), child_int(bags, "Location/Y"),
+    )
+    if bag_geometry != BAGS:
+        fail(f"bag rail left its class-card alignment: {bag_geometry}")
+    if child_int(bags, "Location/X") != child_int(view, "Location/X"):
+        fail("bag columns must share the class crest's left edge")
+    if (child_int(view, "Location/X"), child_int(view, "Location/Y")) != CREST:
+        fail("class crest left its identity-rail anchor")
+    expected_slot_groups = {
+        "armor": [2, 3, 5, 6, 8, 17, 7, 12],
+        "weapons": [13, 14, 11, 22],
+        "jewelry": [1, 4, 9, 10, 20, 18, 19, 15, 16],
+        "utility": [0, 21],
+    }
+    actual_slot_groups = {
+        "armor": LEFT_RAIL,
+        "weapons": WEAPON_ROW,
+        "jewelry": RIGHT_RAIL,
+        "utility": ANY_ROW,
+    }
+    if actual_slot_groups != expected_slot_groups:
+        fail(f"equipment rail ordering changed: {actual_slot_groups}")
+
+    for group_name, slot_ids in actual_slot_groups.items():
+        positions = [slot_pos(slot_id)[0][1] for slot_id in slot_ids]
+        if any(second - first != PITCH
+               for first, second in zip(positions, positions[1:])):
+            fail(f"{group_name} rail lost its {PITCH}px pitch: {positions}")
     canvas_w = child_int(equipment, "Size/CX")
     canvas_h = child_int(equipment, "Size/CY")
     for slot_id in range(23):
-        (px, py), _gold = slot_pos(slot_id)
+        (px, py), gold = slot_pos(slot_id)
         slot = item(root, "InvSlot", f"InvSlot{slot_id}")
         plate = item(root, "StaticAnimation", f"IW_HexPlate{slot_id}")
         if (child_int(plate, "Location/X"), child_int(plate, "Location/Y")) != (px, py):
@@ -221,8 +445,20 @@ def audit_inventory_geometry() -> None:
         if (child_int(slot, "Location/X") != px + SLOT_INSET
                 or child_int(slot, "Location/Y") != py + SLOT_INSET):
             fail(f"equipment slot {slot_id} lost its hex alignment")
+        if (child_int(slot, "Size/CX"), child_int(slot, "Size/CY")) != (40, 40):
+            fail(f"equipment slot {slot_id} must remain 40x40")
+        expected_animation = "A_SpinHexGoldSm" if gold else "A_SpinHexSm"
+        if plate.findtext("Animation") != expected_animation:
+            fail(f"equipment plate {slot_id} lost its semantic rail treatment")
+        if not (slot.findtext("Background") or "").strip():
+            fail(f"equipment slot {slot_id} lost its native slot label art")
         if px < 0 or py < 0 or px + PLATE > canvas_w or py + PLATE > canvas_h:
             fail(f"equipment plate {slot_id} exceeds the canvas")
+        slot_x = child_int(slot, "Location/X")
+        slot_y = child_int(slot, "Location/Y")
+        if (slot_x < px or slot_y < py
+                or slot_x + 40 > px + PLATE or slot_y + 40 > py + PLATE):
+            fail(f"equipment slot {slot_id} clips outside its hex plate")
     jewelry_bottom = slot_pos(RIGHT_RAIL[-1])[0][1] + PLATE
     any_top = slot_pos(ANY_ROW[0])[0][1]
     if any_top - jewelry_bottom < 16:
@@ -231,6 +467,96 @@ def audit_inventory_geometry() -> None:
     armor_bottom = slot_pos(LEFT_RAIL[-1])[0][1] + PLATE
     if weapons_top < armor_bottom:
         fail("weapon slots overlap the armor rail")
+    if weapons_top - slot_pos(LEFT_RAIL[-1])[0][1] != PITCH:
+        fail("weapon rail lost alignment with the armor rail")
+    if any_top - slot_pos(RIGHT_RAIL[-1])[0][1] != 2 * PITCH:
+        fail("utility slots must retain one empty row below jewelry")
+
+    # The ledger's container height is part of its information architecture:
+    # it forces semantic, not accidental, vertical-first column breaks.
+    stats_boxes = {
+        "IW_Stats": STATS1,
+        "IW_Stats2": STATS2,
+        "IW_Stats3": STATS3,
+    }
+    for name, expected in stats_boxes.items():
+        box = item(root, "TileLayoutBox", name)
+        actual = (
+            child_int(box, "Location/X"), child_int(box, "Location/Y"),
+            child_int(box, "Size/CX"), child_int(box, "Size/CY"),
+        )
+        if actual != expected:
+            fail(f"{name} geometry changed: {actual}, expected {expected}")
+        if child_int(box, "Spacing") != 2 or child_int(box, "SecondarySpacing") != 6:
+            fail(f"{name} lost its 2px row / 6px column rhythm")
+
+    expected_stats_columns = [
+        [
+            "IWS_VitalsLabelScreen", "IWS_HPScreen", "IWS_ManaScreen",
+            "IWS_EnduranceScreen", "IWS_ArmorClassScreen", "IWS_AttackScreen",
+            "IWS_HasteScreen", "IWS_VelocityScreen", "IWS_CombatHPRegenScreen",
+            "IWS_CombatManaRegenScreen", "IWS_CombatEndRegenScreen",
+            "IWS_PrimaryDPSScreen", "IWS_SecondaryDPSScreen", "IWS_RangeDPSScreen",
+            "IWS_StatsSpacerScreen",
+        ],
+        [
+            "IWS_StatsLabelScreen", "IWS_StrengthScreen", "IWS_StaminaScreen",
+            "IWS_AgilityScreen", "IWS_DexterityScreen", "IWS_WisdomScreen",
+            "IWS_IntelligenceScreen", "IWS_CharismaScreen",
+            "IWS_ResistsLabelScreen", "IWS_MagicScreen", "IWS_FireScreen",
+            "IWS_ColdScreen", "IWS_DiseaseScreen", "IWS_PoisonScreen",
+            "IWS_CorruptionScreen",
+        ],
+    ]
+    expected_mod_columns = [
+        [
+            "IWS_HeroicModsLabelScreen", "IWS_ItemAccuracyScreen",
+            "IWS_ItemAvoidanceScreen", "IWS_CombatEffectsScreen",
+            "IWS_StrikeThroughScreen", "IWS_StunResistScreen",
+        ],
+        [
+            "IWS_ModsLabelScreen", "IWS_DamageShieldingScreen",
+            "IWS_DamageShieldMitigationScreen", "IWS_DoTShieldingScreen",
+            "IWS_ShieldingScreen", "IWS_SpellShieldScreen",
+        ],
+    ]
+    if vertical_tile_columns(root, item(root, "TileLayoutBox", "IW_Stats")) != expected_stats_columns:
+        fail("primary inventory ledger lost its Vitals | Attributes/Resists columns")
+    if vertical_tile_columns(root, item(root, "TileLayoutBox", "IW_Stats2")) != expected_mod_columns:
+        fail("modifier ledger lost its Additional Modifiers | Mitigation columns")
+    ledger_headings = {
+        "IWS_VitalsLabel": "Character Vitals",
+        "IWS_StatsLabel": "Primary Attributes",
+        "IWS_ResistsLabel": "Resists",
+        "IWS_HeroicModsLabel": "Additional Modifiers",
+        "IWS_ModsLabel": "Mitigation",
+        "IWS_AdditionalLabel": "Additional Information",
+    }
+    for label_name, expected_text in ledger_headings.items():
+        label = item(root, "Label", label_name)
+        if label.findtext("Text") != expected_text:
+            fail(f"inventory ledger heading changed: {label_name}")
+        if (child_int(label, "Font") != 3
+                or (child_int(label, "Size/CX"), child_int(label, "Size/CY")) != (175, 14)):
+            fail(f"inventory ledger heading is not legible: {label_name}")
+        color = (
+            child_int(label, "TextColor/R"), child_int(label, "TextColor/G"),
+            child_int(label, "TextColor/B"),
+        )
+        if color != (219, 158, 42):
+            fail(f"inventory ledger heading lost canonical gold: {label_name}")
+
+    stats1_bottom = STATS1[1] + STATS1[3]
+    stats2_bottom = STATS2[1] + STATS2[3]
+    stats3_bottom = STATS3[1] + STATS3[3]
+    if STATS2[1] - stats1_bottom != 8:
+        fail("inventory ledger must retain its 8px primary section gap")
+    lower_gap = STATS3[1] - stats2_bottom
+    lower_margin = canvas_h - stats3_bottom
+    if lower_gap <= 0 or lower_margin <= 0 or abs(lower_gap - lower_margin) > 20:
+        fail("lower context block no longer balances the weapon-rail canvas")
+    if stats3_bottom > canvas_h:
+        fail("inventory ledger exceeds the equipment canvas")
 
     persona = item(root, "Screen", "IWP_Equipment")
     persona_page = item(root, "Page", "IW_LoadoutPage")
@@ -268,13 +594,15 @@ def audit_inventory_geometry() -> None:
 def main() -> int:
     xml_files, texture_refs, template_count, template_reference_files = audit_xml()
     tga_count, dds_count, cur_count = audit_binary_assets()
+    audit_pet_geometry()
     audit_inventory_geometry()
     print("SpinUI asset audit: ALL PASS")
     print(f"  XML {len(xml_files)} | texture refs {len(texture_refs)} | "
           f"TGA {tga_count} | DDS {dds_count} | CUR {cur_count}")
     print(f"  window templates {template_count} | "
           f"reference files {template_reference_files} | no unresolved symbols")
-    print("  inventory 680x700 | equipment 23 | persona 23 | rail Any 2 | bags 12 | class art 75x142")
+    print("  pet 356x255 | commands 14 | four columns | variants 4")
+    print("  inventory 660x700 | equipment 23 | ledger 15/15 + 6/6 | persona 23 | rail Any 2 | bags 12")
     return 0
 
 

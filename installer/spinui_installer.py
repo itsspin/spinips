@@ -108,7 +108,8 @@ LAYOUT_GEOMETRY_SECTIONS = frozenset({
     "HotButtonWnd3", "HotButtonWnd4", "HotButtonWnd5", "HotButtonWnd6",
     "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9", "HotButtonWnd10",
     "HotButtonWnd11", "InventoryWindow", "MainChat", "MapViewWnd",
-    "PetInfoWindow", "PlayerWindow", "ShortDurationBuffWindow",
+    "PetInfoWindow", "PetInfoWindow_1", "PetInfoWindow_2", "PetInfoWindow_3",
+    "PlayerWindow", "ShortDurationBuffWindow",
     "ShortDurationBuffWindow_13", "StanceWnd", "TargetOfTargetWindow",
     "TargetWindow", "TrackingWnd",
 })
