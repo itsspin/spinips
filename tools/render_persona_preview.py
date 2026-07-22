@@ -138,8 +138,9 @@ def main():
     # Stable identity rail: name, Destroy, class crest, and the bag grid.
     rail_x = w - 165
     d.line([(rail_x - 4, 24), (rail_x - 4, h - 28)], fill=LINE_SOFT + (255,))
-    d.text((rail_x + 82, 35), "Spin", font=font(17, True), fill=GOLD_BRIGHT, anchor="mm")
-    d.text((rail_x + 82, 55), "39 WAR/DRU/BRD", font=font(10, True), fill=TEXT, anchor="mm")
+    d.text((rail_x + 82, 35), "Spin", font=font(15, True), fill=GOLD_BRIGHT, anchor="mm")
+    d.text((rail_x + 4, 55), "39", font=font(9, True), fill=TEXT, anchor="lm")
+    d.text((rail_x + 160, 55), "WAR/DRU/BRD", font=font(9, True), fill=TEXT, anchor="rm")
     button(d, [rail_x + 14, 120, rail_x + 150, 138], "DESTROY")
     ccx, ccy = CREST
     d.rounded_rectangle([ccx, ccy, ccx + 85, ccy + 171], radius=4,

@@ -2,13 +2,13 @@
 """Compact cinematic equipment screen for Spin's UI Reloaded (v3).
 
 Migrates the v2 Narcissus composition (SPIN-DECO-2, 780x800) to the compact
-v3 layout (SPIN-DECO-3, 660x700):
+v3 layout (SPIN-DECO-3, 660x668):
 
 * Hex plates tighten from 56px/62 pitch to 46px/50 pitch.
-* The left rail becomes a single 12-slot column — 8 armor slots on steel
-  plates with the 4 weapon slots continuing on gold plates at its base.
-* The right rail holds the 9 jewelry slots, a deliberate gap, then the two
-  Any slots seated at its base — no separate bottom row.
+* The vertical rails hold 8 armor slots on the left and 9 jewelry slots on
+  the right.
+* Primary, Secondary, Range, Ammo, and the separated Any pair form one
+  centered horizontal footer rail beneath Additional Information.
 * The center is a pure stat ledger: Vitals, Primary Attributes, Resists,
   Additional Modifiers, Mitigation, and Bind/Origin/Deity are kept in
   categorical columns with a balanced lower context anchor.
@@ -44,42 +44,50 @@ PLATE = 46
 SLOT_INSET = 3
 L_X, R_X = 4, 420
 RAIL_Y = 4
-ANY_GAP_ROWS = 1          # empty rail positions between jewelry and the Any pair
 BAG_SLOT_SIZE = 40
 BAG_SPACING = 3
 BAG_GRID_WIDTH = 2 * BAG_SLOT_SIZE + BAG_SPACING
 CREST_SIZE = (85, 171)
+FOOTER_Y = 432
+FOOTER_SLOT_X = {
+    13: 60, 14: 118, 11: 176, 22: 234,
+    0: 308, 21: 366,
+}
 
 # retained for tools/render_equipment_preview.py compatibility
-W_Y = RAIL_Y + 8 * PITCH  # first weapon plate y (left rail, position 8)
-W_X0 = L_X
+W_Y = FOOTER_Y
+W_X0 = FOOTER_SLOT_X[WEAPON_ROW[0]]
 
-CANVAS = (472, 606)
+CANVAS = (472, 484)
 PAGE = (485, 620)
 PAGE_LOCATION = (5, 22)        # centers the 485px page inside the 495px tab host
-WINDOW = (660, 700)
+WINDOW = (660, 668)
 STATS1 = (60, 6, 356, 238)     # Vitals + break | attributes + Resists (15 pieces each)
 STATS2 = (60, 252, 356, 94)    # Additional Modifiers | Mitigation (6 rows each)
-STATS3 = (60, 436, 356, 62)    # Lower-rail anchor: Bind / Origin / Deity
+STATS3 = (60, 354, 356, 62)    # Bind / Origin / Deity directly above the footer rail
 CREST = (536, 142)             # window-level identity-rail crest (85x171)
 BAGS = (537, 320)              # visible 83px bag grid centers under the 85px crest
+BAG_BOX = (112, 256)           # exact 2x6 grid height plus one safety pixel
+IDENTITY_LABEL_GEOMETRY = {
+    # item: (font, left, right, top, bottom)
+    "IW_Name": (4, 162, 4, 1, 15),
+    "IW_Level": (3, 162, 130, 15, 30),
+    "IW_Class": (3, 128, 4, 15, 30),
+}
 LEDGER_HEADER_GOLD = (219, 158, 42)
 
 
 def slot_pos(slot_id):
     """Return ((plate_x, plate_y), gold) for an equipment slot id."""
+    if slot_id in FOOTER_SLOT_X:
+        return (FOOTER_SLOT_X[slot_id], FOOTER_Y), slot_id in WEAPON_ROW
     if slot_id in LEFT_RAIL:
         i = LEFT_RAIL.index(slot_id)
         return (L_X, RAIL_Y + i * PITCH), False
-    if slot_id in WEAPON_ROW:
-        i = WEAPON_ROW.index(slot_id)
-        return (L_X, RAIL_Y + (len(LEFT_RAIL) + i) * PITCH), True
     if slot_id in RIGHT_RAIL:
         i = RIGHT_RAIL.index(slot_id)
         return (R_X, RAIL_Y + i * PITCH), False
-    i = ANY_ROW.index(slot_id)
-    row = len(RIGHT_RAIL) + ANY_GAP_ROWS + i
-    return (R_X, RAIL_Y + row * PITCH), False
+    raise ValueError(f"unknown equipment slot id: {slot_id}")
 
 
 SMALL_HEX_ART = """
@@ -182,6 +190,38 @@ def set_block_field(text, item_kind, item_name, field, value):
         r'(<' + item_kind + r' item="' + re.escape(item_name) + r'">.*?<' +
         re.escape(field) + r'>)([^<]*)(</' + re.escape(field) + r'>)', re.S)
     text, n = pat.subn(lambda m: m.group(1) + str(value) + m.group(3), text, count=1)
+    assert n == 1, f"{field} {item_name}"
+    return text
+
+
+def set_or_add_block_field(
+        text, item_kind, item_name, field, value, before_field):
+    """Set a field, inserting it at a schema-safe anchor when absent."""
+    pat = re.compile(
+        r'(<' + item_kind + r' item="' + re.escape(item_name) + r'">)(.*?)(</' + item_kind + r'>)',
+        re.S)
+
+    def update(match):
+        body = match.group(2)
+        field_pat = re.compile(
+            r'(<' + re.escape(field) + r'>)[^<]*(</' + re.escape(field) + r'>)')
+        if field_pat.search(body):
+            body = field_pat.sub(
+                lambda found: found.group(1) + str(value) + found.group(2),
+                body,
+                count=1,
+            )
+        else:
+            anchor = f"<{before_field}>"
+            assert body.count(anchor) == 1, f"{before_field} anchor {item_name}"
+            body = body.replace(
+                anchor,
+                f"<{field}>{value}</{field}>\n\t\t{anchor}",
+                1,
+            )
+        return match.group(1) + body + match.group(3)
+
+    text, n = pat.subn(update, text, count=1)
     assert n == 1, f"{field} {item_name}"
     return text
 
@@ -342,7 +382,23 @@ def main():
     # inherited bag slots collapse to zero/undefined dimensions in the client.
     s = set_block_size(
         s, "InvSlot", "InvSlot23", BAG_SLOT_SIZE, BAG_SLOT_SIZE)
-    s = set_block_location(s, "TileLayoutBox", "IW_Slots", *BAGS)
+    s = set_block_location(s, "TileLayoutBox", "IW_Slots", *BAGS, *BAG_BOX)
+
+    # Give the identity header its full rail width, a readable name font, and
+    # separate non-overlapping level/class cells.
+    for label_name, (font, left, right, top, bottom) in IDENTITY_LABEL_GEOMETRY.items():
+        s = set_or_add_block_field(
+            s, "Label", label_name, "Font", font, "RelativePosition")
+        for field, value in (
+                ("LeftAnchorOffset", left), ("RightAnchorOffset", right),
+                ("TopAnchorOffset", top), ("BottomAnchorOffset", bottom)):
+            s = set_block_field(s, "Label", label_name, field, value)
+    s = set_block_field(s, "Label", "IW_Name", "AlignCenter", "true")
+    s = set_block_field(s, "Label", "IW_Name", "AlignRight", "false")
+    s = set_block_field(s, "Label", "IW_Level", "AlignRight", "false")
+    s = set_block_field(s, "Label", "IW_Class", "AlignRight", "true")
+    s = set_or_add_block_field(
+        s, "Label", "IW_Name", "FontShadow", "true", "NoWrap")
 
     XMLF.write_text(s)
     ET.parse(XMLF)
