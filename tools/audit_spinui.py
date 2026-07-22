@@ -331,6 +331,9 @@ def audit_inventory_geometry() -> None:
     class_anim = item(root, "StaticAnimation", "ClassAnim")
     bags = item(root, "TileLayoutBox", "IW_Slots")
     bag_template = item(root, "InvSlot", "InvSlot23")
+    name_label = item(root, "Label", "IW_Name")
+    level_label = item(root, "Label", "IW_Level")
+    class_label = item(root, "Label", "IW_Class")
     window = item(root, "Screen", "InventoryWindow")
 
     equip_slots = [n.text for n in equipment.findall("Pieces")
@@ -347,8 +350,8 @@ def audit_inventory_geometry() -> None:
 
     if (child_int(class_anim, "Size/CX"), child_int(class_anim, "Size/CY")) != (75, 142):
         fail("native class artwork must remain 75x142")
-    if child_int(window, "Size/CX") != 660 or child_int(window, "Size/CY") != 700:
-        fail("inventory window must remain 660x700")
+    if child_int(window, "Size/CX") != 660 or child_int(window, "Size/CY") != 668:
+        fail("inventory window must remain 660x668")
     host_width = (
         child_int(window, "Size/CX")
         - child_int(tab_host, "LeftAnchorOffset")
@@ -356,13 +359,22 @@ def audit_inventory_geometry() -> None:
     )
     if host_width != 495:
         fail(f"inventory tab host must remain 495px wide, got {host_width}")
+    host_height = (
+        child_int(window, "Size/CY")
+        - child_int(tab_host, "TopAnchorOffset")
+        - child_int(tab_host, "BottomAnchorOffset")
+    )
     for tab_page in (page, pet_page, loadout_page, storage_page):
         page_left = child_int(tab_page, "Location/X")
         page_right = page_left + child_int(tab_page, "Size/CX")
-        if page_left < 0 or page_right > host_width:
+        page_top = child_int(tab_page, "Location/Y")
+        page_bottom = page_top + child_int(tab_page, "Size/CY")
+        if (page_left < 0 or page_right > host_width
+                or page_top < 0 or page_bottom > host_height):
             fail(
                 f"{tab_page.get('item')} exceeds the tightened tab host: "
-                f"{page_left}..{page_right} of {host_width}"
+                f"{page_left}..{page_right} x {page_top}..{page_bottom} "
+                f"of {host_width}x{host_height}"
             )
     if child_int(equipment, "Location/Y") + child_int(equipment, "Size/CY") > child_int(page, "Size/CY"):
         fail("equipment canvas exceeds the inventory page")
@@ -382,18 +394,55 @@ def audit_inventory_geometry() -> None:
         fail("class crest overlaps the Destroy button")
     if crest_bottom + 4 > child_int(bags, "Location/Y"):
         fail("bag rail overlaps the class crest")
-    if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != (112, 280):
+    if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != (112, 256):
         fail("bag rail geometry changed")
     if child_int(bags, "Location/X") + child_int(bags, "Size/CX") > child_int(window, "Size/CX"):
         fail("bag rail exceeds the tightened inventory frame")
+    appearance = item(root, "Button", "IW_FacePick")
+    bag_bottom = child_int(bags, "Location/Y") + child_int(bags, "Size/CY")
+    appearance_top = child_int(window, "Size/CY") - child_int(
+        appearance, "TopAnchorOffset")
+    if appearance_top - bag_bottom != 12:
+        fail("bag rail must retain 12px clearance above the bottom controls")
 
     # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
-    from restyle_inventory import (ANY_ROW, BAGS, BAG_GRID_WIDTH,
+    from restyle_inventory import (ANY_ROW, BAGS, BAG_BOX, BAG_GRID_WIDTH,
                                    BAG_SLOT_SIZE, BAG_SPACING, CANVAS, CREST,
-                                   CREST_SIZE, LEFT_RAIL, L_X, PAGE,
-                                   PAGE_LOCATION, PITCH, PLATE, RIGHT_RAIL,
-                                   R_X, SLOT_INSET, STATS1, STATS2, STATS3,
-                                   WEAPON_ROW, slot_pos)
+                                   CREST_SIZE, FOOTER_SLOT_X, FOOTER_Y,
+                                   IDENTITY_LABEL_GEOMETRY, LEFT_RAIL, L_X,
+                                   PAGE, PAGE_LOCATION, PITCH, PLATE,
+                                   RIGHT_RAIL, R_X, SLOT_INSET, STATS1,
+                                   STATS2, STATS3, WEAPON_ROW, slot_pos)
+
+    if (child_int(bags, "Size/CX"), child_int(bags, "Size/CY")) != BAG_BOX:
+        fail(f"bag rail must remain the exact visible-grid box: {BAG_BOX}")
+
+    identity_labels = {
+        "IW_Name": name_label,
+        "IW_Level": level_label,
+        "IW_Class": class_label,
+    }
+    for label_name, label in identity_labels.items():
+        expected = IDENTITY_LABEL_GEOMETRY[label_name]
+        actual = (
+            child_int(label, "Font"), child_int(label, "LeftAnchorOffset"),
+            child_int(label, "RightAnchorOffset"),
+            child_int(label, "TopAnchorOffset"),
+            child_int(label, "BottomAnchorOffset"),
+        )
+        if actual != expected:
+            fail(f"{label_name} lost its readable identity-rail geometry: {actual}")
+    if (
+        name_label.findtext("FontShadow") != "true"
+        or name_label.findtext("AlignCenter") != "true"
+        or name_label.findtext("AlignRight") != "false"
+    ):
+        fail("player name must remain centered, shadowed, and unclipped")
+    if (
+        level_label.findtext("AlignRight") != "false"
+        or class_label.findtext("AlignRight") != "true"
+    ):
+        fail("level and class must remain in separate identity-rail cells")
 
     template_size = (
         child_int(bag_template, "Size/CX"),
@@ -459,7 +508,8 @@ def audit_inventory_geometry() -> None:
             f"{ledger_left_gap}/{ledger_right_gap}/{right_canvas_margin}"
         )
 
-    for group_name, slot_ids in actual_slot_groups.items():
+    for group_name, slot_ids in (
+            ("armor", LEFT_RAIL), ("jewelry", RIGHT_RAIL)):
         positions = [slot_pos(slot_id)[0][1] for slot_id in slot_ids]
         if any(second - first != PITCH
                for first, second in zip(positions, positions[1:])):
@@ -491,18 +541,30 @@ def audit_inventory_geometry() -> None:
         if (slot_x < px or slot_y < py
                 or slot_x + 40 > px + PLATE or slot_y + 40 > py + PLATE):
             fail(f"equipment slot {slot_id} clips outside its hex plate")
-    jewelry_bottom = slot_pos(RIGHT_RAIL[-1])[0][1] + PLATE
-    any_top = slot_pos(ANY_ROW[0])[0][1]
-    if any_top - jewelry_bottom < 16:
-        fail("Any slots lost their visual gap below the jewelry rail")
-    weapons_top = slot_pos(WEAPON_ROW[0])[0][1]
-    armor_bottom = slot_pos(LEFT_RAIL[-1])[0][1] + PLATE
-    if weapons_top < armor_bottom:
-        fail("weapon slots overlap the armor rail")
-    if weapons_top - slot_pos(LEFT_RAIL[-1])[0][1] != PITCH:
-        fail("weapon rail lost alignment with the armor rail")
-    if any_top - slot_pos(RIGHT_RAIL[-1])[0][1] != 2 * PITCH:
-        fail("utility slots must retain one empty row below jewelry")
+    footer_ids = WEAPON_ROW + ANY_ROW
+    footer_positions = [slot_pos(slot_id)[0] for slot_id in footer_ids]
+    expected_footer_positions = [
+        (FOOTER_SLOT_X[slot_id], FOOTER_Y) for slot_id in footer_ids
+    ]
+    if footer_positions != expected_footer_positions:
+        fail(f"equipment footer ordering changed: {footer_positions}")
+    weapon_x = [FOOTER_SLOT_X[slot_id] for slot_id in WEAPON_ROW]
+    any_x = [FOOTER_SLOT_X[slot_id] for slot_id in ANY_ROW]
+    if (
+        any(second - first != 58
+            for first, second in zip(weapon_x, weapon_x[1:]))
+        or any_x[1] - any_x[0] != 58
+    ):
+        fail("equipment footer must retain its 12px intra-group gaps")
+    if any_x[0] - (weapon_x[-1] + PLATE) != 28:
+        fail("Any pair must retain its deliberate 28px footer separation")
+    footer_left_margin = weapon_x[0]
+    footer_right_margin = canvas_w - (any_x[-1] + PLATE)
+    if (footer_left_margin, footer_right_margin) != (60, 60):
+        fail("equipment footer must remain exactly centered in the canvas")
+    footer_to_right_rail = R_X - (any_x[-1] + PLATE)
+    if footer_to_right_rail != 8:
+        fail("equipment footer must retain 8px beside the jewelry rail")
 
     # The ledger's container height is part of its information architecture:
     # it forces semantic, not accidental, vertical-first column breaks.
@@ -583,10 +645,12 @@ def audit_inventory_geometry() -> None:
     stats3_bottom = STATS3[1] + STATS3[3]
     if STATS2[1] - stats1_bottom != 8:
         fail("inventory ledger must retain its 8px primary section gap")
-    lower_gap = STATS3[1] - stats2_bottom
-    lower_margin = canvas_h - stats3_bottom
-    if lower_gap <= 0 or lower_margin <= 0 or abs(lower_gap - lower_margin) > 20:
-        fail("lower context block no longer balances the weapon-rail canvas")
+    if STATS3[1] - stats2_bottom != 8:
+        fail("Additional Information must sit 8px below the modifier ledger")
+    if FOOTER_Y - stats3_bottom != 16:
+        fail("equipment footer must sit 16px below Additional Information")
+    if canvas_h - (FOOTER_Y + PLATE) != 6:
+        fail("equipment footer must retain its 6px lower canvas margin")
     if stats3_bottom > canvas_h:
         fail("inventory ledger exceeds the equipment canvas")
 
@@ -634,7 +698,7 @@ def main() -> int:
     print(f"  window templates {template_count} | "
           f"reference files {template_reference_files} | no unresolved symbols")
     print("  pet 356x255 | commands 14 | four columns | variants 4")
-    print("  inventory 660x700 | equipment 23 | ledger 15/15 + 6/6 | persona 23 | rail Any 2 | bags 12")
+    print("  inventory 660x668 | equipment 23 | ledger 15/15 + 6/6 | footer 6 | persona 23 | bags 12")
     return 0
 
 

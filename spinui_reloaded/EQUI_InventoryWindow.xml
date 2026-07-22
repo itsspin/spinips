@@ -322,8 +322,8 @@
 		<ScreenID>InvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>423</X>
-			<Y>507</Y>
+			<X>311</X>
+			<Y>435</Y>
 		</Location>		
 		<Size>
 			<CX>40</CX>
@@ -487,8 +487,8 @@
 		<ScreenID>InvSlot11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>7</X>
-			<Y>507</Y>
+			<X>179</X>
+			<Y>435</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -517,8 +517,8 @@
 		<ScreenID>InvSlot13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>7</X>
-			<Y>407</Y>
+			<X>63</X>
+			<Y>435</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -532,8 +532,8 @@
 		<ScreenID>InvSlot14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>7</X>
-			<Y>457</Y>
+			<X>121</X>
+			<Y>435</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -637,8 +637,8 @@
 		<ScreenID>InvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>423</X>
-			<Y>557</Y>
+			<X>369</X>
+			<Y>435</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -652,8 +652,8 @@
 		<ScreenID>InvSlot22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>7</X>
-			<Y>557</Y>
+			<X>237</X>
+			<Y>435</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -666,8 +666,8 @@
 		<ScreenID>IW_HexPlate0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>420</X>
-			<Y>504</Y>
+			<X>308</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -809,8 +809,8 @@
 		<ScreenID>IW_HexPlate11</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>4</X>
-			<Y>504</Y>
+			<X>176</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -835,8 +835,8 @@
 		<ScreenID>IW_HexPlate13</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>4</X>
-			<Y>404</Y>
+			<X>60</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -848,8 +848,8 @@
 		<ScreenID>IW_HexPlate14</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>4</X>
-			<Y>454</Y>
+			<X>118</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -939,8 +939,8 @@
 		<ScreenID>IW_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>420</X>
-			<Y>554</Y>
+			<X>366</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -952,8 +952,8 @@
 		<ScreenID>IW_HexPlate22</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>4</X>
-			<Y>554</Y>
+			<X>234</X>
+			<Y>432</Y>
 		</Location>
 		<Size>
 			<CX>46</CX>
@@ -970,7 +970,7 @@
 		</Location>
 		<Size>
 			<CX>472</CX>
-			<CY>606</CY>
+			<CY>484</CY>
 		</Size>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Style_Titlebar>false</Style_Titlebar>
@@ -5402,12 +5402,12 @@
 		<Pieces>Screen:IWS_TigerClawScreen</Pieces>	 -->
 	</TileLayoutBox>
 
-	<!-- Context block anchors the lower weapon rail and balances the open canvas. -->
+	<!-- Context block sits directly above the centered six-slot equipment footer. -->
 	<TileLayoutBox item="IW_Stats3">
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>60</X>
-			<Y>436</Y>
+			<Y>354</Y>
 		</Location>
 		<Size>
 			<CX>356</CX>
@@ -9569,7 +9569,7 @@
 		</Location>
 		<Size>
 			<CX>112</CX>
-			<CY>280</CY>
+			<CY>256</CY>
 		</Size>
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>3</Spacing>
@@ -9597,7 +9597,7 @@
 	<Label item="IW_Name">
 		<ScreenID>NameLabel</ScreenID>
 		<EQType>1</EQType>
-		<Font>5</Font>
+		<Font>4</Font>
 		<TextColor>
 			<R>232</R>
 			<G>197</G>
@@ -9608,19 +9608,21 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>16</BottomAnchorOffset>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>158</LeftAnchorOffset>
+		<LeftAnchorOffset>162</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>Playername123456</Text>
+		<FontShadow>true</FontShadow>
 		<NoWrap>true</NoWrap>
-		<AlignCenter>false</AlignCenter>
+		<AlignCenter>true</AlignCenter>
 		<AlignRight>false</AlignRight>
 	</Label>
 	<Label item="IW_Level">
 		<ScreenID>LevelClassLabel</ScreenID>
 		<EQType>2</EQType>
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
@@ -9628,8 +9630,8 @@
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>30</BottomAnchorOffset>
-		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>158</LeftAnchorOffset>
+		<RightAnchorOffset>130</RightAnchorOffset>
+		<LeftAnchorOffset>162</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>60 Shadow Knight</Text>
 		<NoWrap>true</NoWrap>
@@ -9638,6 +9640,7 @@
 	</Label>
 	<Label item="IW_Class">
 		<EQType>3</EQType>
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
@@ -9646,7 +9649,7 @@
 		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>30</BottomAnchorOffset>
 		<RightAnchorOffset>4</RightAnchorOffset>
-		<LeftAnchorOffset>158</LeftAnchorOffset>
+		<LeftAnchorOffset>128</LeftAnchorOffset>
 		<AutoStretch>true</AutoStretch>
 		<Text>60 Shadow Knight</Text>
 		<NoWrap>true</NoWrap>
@@ -9950,7 +9953,7 @@
 		</Location>
 		<Size>
 			<CX>660</CX>
-			<CY>700</CY>
+			<CY>668</CY>
 		</Size>
 		<KeepOnScreen>true</KeepOnScreen>
 		<KeepOnScreenOffset>

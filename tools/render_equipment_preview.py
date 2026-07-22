@@ -98,8 +98,9 @@ def main():
     # ---- identity rail: name, class, gauges, Destroy, crest, bags, buttons --
     sx = W - 165
     d.line([(sx - 4, 24), (sx - 4, H - 30)], fill=LINE_SOFT + (255,))
-    d.text((sx + 82, 33), "Spin", font=F(17, True), fill=GOLD_BRIGHT, anchor="mm")
-    d.text((sx + 82, 51), "39 WAR/DRU/BRD", font=F(10, True), fill=TEXT, anchor="mm")
+    d.text((sx + 82, 33), "Spin", font=F(15, True), fill=GOLD_BRIGHT, anchor="mm")
+    d.text((sx + 4, 51), "39", font=F(9, True), fill=TEXT, anchor="lm")
+    d.text((sx + 160, 51), "WAR/DRU/BRD", font=F(9, True), fill=TEXT, anchor="rm")
     for lab, pct, col, y in (("NEXT LEVEL", 0.06, GOLD, 61), ("NEXT AA", 0.17, CYAN, 83)):
         d.text((sx + 4, y), lab, font=F(8), fill=DIM)
         d.rectangle([sx + 4, y + 11, sx + 160, y + 19], fill=(8, 10, 14, 255), outline=LINE_SOFT + (255,))
