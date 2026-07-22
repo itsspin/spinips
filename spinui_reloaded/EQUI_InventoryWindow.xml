@@ -322,7 +322,7 @@
 		<ScreenID>InvSlot0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>507</Y>
 		</Location>		
 		<Size>
@@ -337,7 +337,7 @@
 		<ScreenID>InvSlot1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>7</Y>
 		</Location>
 		<Size>
@@ -382,7 +382,7 @@
 		<ScreenID>InvSlot4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>57</Y>
 		</Location>
 		<Size>
@@ -457,7 +457,7 @@
 		<ScreenID>InvSlot9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>107</Y>
 		</Location>
 		<Size>
@@ -472,7 +472,7 @@
 		<ScreenID>InvSlot10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>157</Y>
 		</Location>
 		<Size>
@@ -547,7 +547,7 @@
 		<ScreenID>InvSlot15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>357</Y>
 		</Location>
 		<Size>
@@ -562,7 +562,7 @@
 		<ScreenID>InvSlot16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>407</Y>		
 		</Location>
 		<Size>
@@ -592,7 +592,7 @@
 		<ScreenID>InvSlot18</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>257</Y>
 		</Location>
 		<Size>
@@ -607,7 +607,7 @@
 		<ScreenID>InvSlot19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>307</Y>	
 		</Location>
 		<Size>
@@ -622,7 +622,7 @@
 		<ScreenID>InvSlot20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>207</Y>
 		</Location>
 		<Size>
@@ -637,7 +637,7 @@
 		<ScreenID>InvSlot21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>425</X>
+			<X>423</X>
 			<Y>557</Y>
 		</Location>
 		<Size>
@@ -666,7 +666,7 @@
 		<ScreenID>IW_HexPlate0</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>504</Y>
 		</Location>
 		<Size>
@@ -679,7 +679,7 @@
 		<ScreenID>IW_HexPlate1</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>4</Y>
 		</Location>
 		<Size>
@@ -718,7 +718,7 @@
 		<ScreenID>IW_HexPlate4</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -783,7 +783,7 @@
 		<ScreenID>IW_HexPlate9</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>104</Y>
 		</Location>
 		<Size>
@@ -796,7 +796,7 @@
 		<ScreenID>IW_HexPlate10</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>154</Y>
 		</Location>
 		<Size>
@@ -861,7 +861,7 @@
 		<ScreenID>IW_HexPlate15</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>354</Y>
 		</Location>
 		<Size>
@@ -874,7 +874,7 @@
 		<ScreenID>IW_HexPlate16</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>404</Y>
 		</Location>
 		<Size>
@@ -900,7 +900,7 @@
 		<ScreenID>IW_HexPlate18</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>254</Y>
 		</Location>
 		<Size>
@@ -913,7 +913,7 @@
 		<ScreenID>IW_HexPlate19</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>304</Y>
 		</Location>
 		<Size>
@@ -926,7 +926,7 @@
 		<ScreenID>IW_HexPlate20</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>204</Y>
 		</Location>
 		<Size>
@@ -939,7 +939,7 @@
 		<ScreenID>IW_HexPlate21</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>422</X>
+			<X>420</X>
 			<Y>554</Y>
 		</Location>
 		<Size>
@@ -5306,7 +5306,7 @@
 	<TileLayoutBox item="IW_Stats">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>58</X>
+			<X>60</X>
 			<Y>6</Y>
 		</Location>
 		<Size>
@@ -5358,7 +5358,7 @@
 	<TileLayoutBox item="IW_Stats2">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>58</X>
+			<X>60</X>
 			<Y>252</Y>
 		</Location>
 		<Size>
@@ -5406,7 +5406,7 @@
 	<TileLayoutBox item="IW_Stats3">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>58</X>
+			<X>60</X>
 			<Y>436</Y>
 		</Location>
 		<Size>
@@ -9559,7 +9559,7 @@
 	<TileLayoutBox item="IW_Slots">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>536</X>
+			<X>537</X>
 			<Y>320</Y>
 		</Location>
 		<Size>

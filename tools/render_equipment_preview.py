@@ -12,10 +12,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "tools"))
-from restyle_inventory import (ANY_ROW, BAGS, CREST, LEFT_RAIL,  # noqa: E402
-                               PAGE_LOCATION, PLATE, RIGHT_RAIL, SLOT_INSET,
-                               STATS1, STATS2, STATS3, WEAPON_ROW, WINDOW,
-                               slot_pos)
+from restyle_inventory import (ANY_ROW, BAGS, BAG_SLOT_SIZE, BAG_SPACING,  # noqa: E402
+                               CREST, CREST_SIZE, LEFT_RAIL, PAGE_LOCATION,
+                               PLATE, RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
+                               STATS3, WEAPON_ROW, WINDOW, slot_pos)
 from spinui_theme import (BG1, BG2, CYAN, GOLD, GOLD_BRIGHT, LINE, LINE_SOFT,
                           TEXT, TEXT_DIM)
 
@@ -114,7 +114,7 @@ def main():
     # Native-proportion live class emblem on the rail. EQ supplies this artwork
     # at runtime; crossed blades represent the Warrior variant in this preview.
     cx, cy = CREST
-    d.rounded_rectangle([cx, cy, cx + 85, cy + 171], radius=4,
+    d.rounded_rectangle([cx, cy, cx + CREST_SIZE[0], cy + CREST_SIZE[1]], radius=4,
                         fill=(7, 11, 15, 255), outline=GOLD + (220,))
     d.rounded_rectangle([cx + 5, cy + 7, cx + 80, cy + 153], radius=3,
                         fill=(12, 18, 24, 255), outline=LINE_SOFT + (255,))
@@ -133,9 +133,9 @@ def main():
                None, (110, 80, 45), (150, 110, 60), None, (100, 75, 50),
                (88, 110, 120), None]
     for i in range(12):
-        bx = BAGS[0] + (i % 2) * 43
-        by = BAGS[1] + (i // 2) * 43
-        img.alpha_composite(slots_img.resize((40, 40)), (bx, by))
+        bx = BAGS[0] + (i % 2) * (BAG_SLOT_SIZE + BAG_SPACING)
+        by = BAGS[1] + (i // 2) * (BAG_SLOT_SIZE + BAG_SPACING)
+        img.alpha_composite(slots_img.resize((BAG_SLOT_SIZE, BAG_SLOT_SIZE)), (bx, by))
         if bagcols[i]:
             d.polygon([(bx + 20, by + 7), (bx + 31, by + 15), (bx + 31, by + 28),
                        (bx + 20, by + 34), (bx + 9, by + 28), (bx + 9, by + 15)],
