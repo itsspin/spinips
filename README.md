@@ -8,7 +8,7 @@
 
 ![SpinUI running in EverQuest Legends at 3440x1440](docs/screenshots/spinui-live-hero.jpg)
 
-*A real 3440×1440 in-game capture supplied by the author, privacy-cropped above the chat row. No mock game scene and no AI-generated interface art.*
+*A real 3440×1440 in-game capture supplied by the author*
 
 ### Loremaster in action
 
