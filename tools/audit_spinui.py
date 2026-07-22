@@ -346,8 +346,6 @@ def audit_inventory_geometry() -> None:
 
     if (child_int(class_anim, "Size/CX"), child_int(class_anim, "Size/CY")) != (75, 142):
         fail("native class artwork must remain 75x142")
-    if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != (85, 171):
-        fail("class artwork viewport must remain 85x171")
     if child_int(window, "Size/CX") != 660 or child_int(window, "Size/CY") != 700:
         fail("inventory window must remain 660x700")
     host_width = (
@@ -389,10 +387,14 @@ def audit_inventory_geometry() -> None:
         fail("bag rail exceeds the tightened inventory frame")
 
     # v3 rails: 12-position columns on 46px plates at pitch 50, slots inset 3.
-    from restyle_inventory import (ANY_ROW, BAGS, CREST, LEFT_RAIL,
-                                   PAGE, PAGE_LOCATION, PITCH, PLATE,
-                                   RIGHT_RAIL, SLOT_INSET, STATS1, STATS2,
-                                   STATS3, WEAPON_ROW, slot_pos)
+    from restyle_inventory import (ANY_ROW, BAGS, BAG_GRID_WIDTH, CANVAS,
+                                   CREST, CREST_SIZE, LEFT_RAIL, L_X, PAGE,
+                                   PAGE_LOCATION, PITCH, PLATE, RIGHT_RAIL,
+                                   R_X, SLOT_INSET, STATS1, STATS2, STATS3,
+                                   WEAPON_ROW, slot_pos)
+
+    if (child_int(view, "Size/CX"), child_int(view, "Size/CY")) != CREST_SIZE:
+        fail(f"class artwork viewport must remain {CREST_SIZE[0]}x{CREST_SIZE[1]}")
 
     page_geometry = (
         child_int(page, "Location/X"), child_int(page, "Location/Y"),
@@ -408,8 +410,10 @@ def audit_inventory_geometry() -> None:
     )
     if bag_geometry != BAGS:
         fail(f"bag rail left its class-card alignment: {bag_geometry}")
-    if child_int(bags, "Location/X") != child_int(view, "Location/X"):
-        fail("bag columns must share the class crest's left edge")
+    bag_center2 = 2 * child_int(bags, "Location/X") + BAG_GRID_WIDTH
+    crest_center2 = 2 * child_int(view, "Location/X") + CREST_SIZE[0]
+    if bag_center2 != crest_center2:
+        fail("visible bag columns must center directly under the class crest")
     if (child_int(view, "Location/X"), child_int(view, "Location/Y")) != CREST:
         fail("class crest left its identity-rail anchor")
     expected_slot_groups = {
@@ -426,6 +430,15 @@ def audit_inventory_geometry() -> None:
     }
     if actual_slot_groups != expected_slot_groups:
         fail(f"equipment rail ordering changed: {actual_slot_groups}")
+
+    ledger_left_gap = STATS1[0] - (L_X + PLATE)
+    ledger_right_gap = R_X - (STATS1[0] + STATS1[2])
+    right_canvas_margin = CANVAS[0] - (R_X + PLATE)
+    if (ledger_left_gap, ledger_right_gap, right_canvas_margin) != (10, 4, 6):
+        fail(
+            "equipment rail/ledger spacing changed: "
+            f"{ledger_left_gap}/{ledger_right_gap}/{right_canvas_margin}"
+        )
 
     for group_name, slot_ids in actual_slot_groups.items():
         positions = [slot_pos(slot_id)[0][1] for slot_id in slot_ids]

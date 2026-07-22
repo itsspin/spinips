@@ -42,9 +42,13 @@ ANY_ROW = [0, 21]                               # IS_ANY1 / IS_ANY2 — right ra
 PITCH = 50
 PLATE = 46
 SLOT_INSET = 3
-L_X, R_X = 4, 422
+L_X, R_X = 4, 420
 RAIL_Y = 4
 ANY_GAP_ROWS = 1          # empty rail positions between jewelry and the Any pair
+BAG_SLOT_SIZE = 40
+BAG_SPACING = 3
+BAG_GRID_WIDTH = 2 * BAG_SLOT_SIZE + BAG_SPACING
+CREST_SIZE = (85, 171)
 
 # retained for tools/render_equipment_preview.py compatibility
 W_Y = RAIL_Y + 8 * PITCH  # first weapon plate y (left rail, position 8)
@@ -54,11 +58,11 @@ CANVAS = (472, 606)
 PAGE = (485, 620)
 PAGE_LOCATION = (5, 22)        # centers the 485px page inside the 495px tab host
 WINDOW = (660, 700)
-STATS1 = (58, 6, 356, 238)     # Vitals + break | attributes + Resists (15 pieces each)
-STATS2 = (58, 252, 356, 94)    # Additional Modifiers | Mitigation (6 rows each)
-STATS3 = (58, 436, 356, 62)    # Lower-rail anchor: Bind / Origin / Deity
+STATS1 = (60, 6, 356, 238)     # Vitals + break | attributes + Resists (15 pieces each)
+STATS2 = (60, 252, 356, 94)    # Additional Modifiers | Mitigation (6 rows each)
+STATS3 = (60, 436, 356, 62)    # Lower-rail anchor: Bind / Origin / Deity
 CREST = (536, 142)             # window-level identity-rail crest (85x171)
-BAGS = (536, 320)              # visible bag columns align with the class crest
+BAGS = (537, 320)              # visible 83px bag grid centers under the 85px crest
 LEDGER_HEADER_GOLD = (219, 158, 42)
 
 
