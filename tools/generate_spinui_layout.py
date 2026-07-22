@@ -104,7 +104,9 @@ PLACEMENTS: dict[str, dict] = {
     "MainChat": P(8, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
     "Chat 1":  P(716, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
     "Chat 2":  P(1424, CHAT_TOP, 1060, 280, extra=CHAT_ALPHA),
-    "Chat 3":  P(2492, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
+    # Legacy fourth container is explicitly parked and hidden; the active
+    # three-pane ChatManager ends at x=2484, leaving the bag dock unobstructed.
+    "Chat 3":  P(2492, CHAT_TOP, 700, 280, show=0, extra=CHAT_ALPHA),
 
     # --- left column: spell gems + vertical hotbars -------------------------
     "CastSpellWnd":   P(8, 521, 52, 623, show=1),
@@ -116,7 +118,14 @@ PLACEMENTS: dict[str, dict] = {
     # pair is perfectly centered over the rows beneath (block midpoint 1720).
     "PlayerWindow":  P(1188, 770, 360, 193, show=1),
     "TargetWindow":  P(1892, 770, 360, 193, show=1),
-    "PetInfoWindow": P(864, 770, 311, 190),                     # Show per base
+    # The expanded 356x255 pet plate sits on the same 8px grid as the combat
+    # cluster. It clears PlayerWindow on the right and the utility hotbars
+    # below, while remaining visible beside the open inventory window.
+    "PetInfoWindow": P(824, 710, 356, 255),                     # Show per base
+    "PetInfoWindow_1": P(824, 710, 356, 255, show=0),
+    "PetInfoWindow_2": P(824, 710, 356, 255, show=0),
+    # Right-buff variant is wider; align its right edge with the base plate.
+    "PetInfoWindow_3": P(720, 710, 460, 255, show=0),
     "StanceWnd":     P(1188, 970, 440, 56, show=1),
     "CastingWindow": P(1636, 978, 380, 36, show=1),
     "AggroMeterWnd": P(2032, 974, 220, 48),
@@ -154,8 +163,10 @@ PLACEMENTS: dict[str, dict] = {
     "TrackingWnd":   P(8, 120, 340, 390),                       # druid/bard tracking
 
     # --- openable windows ---------------------------------------------------
-    "InventoryWindow": P(420, 140),
-    "BigBankWnd":      P(1000, 330),
+    # Inventory clears TrackingWnd horizontally and parks 8px above the pet.
+    # The bank suite forms a separate center-left workspace beside it.
+    "InventoryWindow": P(400, 2),
+    "BigBankWnd":      P(1088, 300),
     "BreathWindow":    P(1661, 700),
 }
 
@@ -166,10 +177,11 @@ EQMAIN = {"XRef": "right", "YRef": "bottom", "XPos": pct_x(8), "YPos": pct_y(4),
 for i in range(1, 9):
     PLACEMENTS[f"BagInv{i}"] = P(2500 + (i - 1) * 100, 1160, 96, 194)
 
-# Bank bags: 8x2 grid right of the bank window, clear of the combat cluster.
+# Bank bags: 8x2 grid right of the bank window, clear of inventory, the map,
+# and the combat cluster.
 for i in range(1, 17):
     col, row = (i - 1) % 8, (i - 1) // 8
-    PLACEMENTS[f"BagBank{i}"] = P(1330 + col * 100, 330 + row * 204, 96, 194)
+    PLACEMENTS[f"BagBank{i}"] = P(1384 + col * 100, 300 + row * 204, 96, 194)
 
 
 def standard_1440_placements() -> dict[str, dict]:
@@ -193,7 +205,12 @@ def standard_1440_placements() -> dict[str, dict]:
         "CastSpellWnd": q(8, 521, 52, 623, show=1),
         "HotButtonWnd": q(64, 877, 94, 267),
         "HotButtonWnd11": q(162, 873, 98, 271),
-        "PetInfoWindow": q(632, 770, 311, 190),
+        # Preserve the old plate's right edge while accommodating the taller
+        # expanded pet layout without touching PlayerWindow or HotButtonWnd8.
+        "PetInfoWindow": q(592, 710, 356, 255),
+        "PetInfoWindow_1": q(592, 710, 356, 255, show=0),
+        "PetInfoWindow_2": q(592, 710, 356, 255, show=0),
+        "PetInfoWindow_3": q(488, 710, 460, 255, show=0),
         # Plates share the hotbar block's outer edges (midpoint 1488).
         "PlayerWindow": q(956, 770, 360, 193, show=1),
         "TargetWindow": q(1660, 770, 360, 193, show=1),
@@ -258,7 +275,12 @@ def standard_2160_placements() -> dict[str, dict]:
         "CastSpellWnd": q(8, 1221, 52, 623, show=1),
         "HotButtonWnd": q(64, 1577, 94, 267),
         "HotButtonWnd11": q(162, 1573, 98, 271),
-        "PetInfoWindow": q(1064, 1470, 311, 190),
+        # Preserve the old plate's right edge while accommodating the taller
+        # expanded pet layout without touching PlayerWindow or HotButtonWnd8.
+        "PetInfoWindow": q(1024, 1410, 356, 255),
+        "PetInfoWindow_1": q(1024, 1410, 356, 255, show=0),
+        "PetInfoWindow_2": q(1024, 1410, 356, 255, show=0),
+        "PetInfoWindow_3": q(920, 1410, 460, 255, show=0),
         # cluster centered on 1920: block 1388..2452, plates on its edges
         "PlayerWindow": q(1388, 1470, 360, 193, show=1),
         "TargetWindow": q(2092, 1470, 360, 193, show=1),
@@ -443,10 +465,12 @@ XML_SIZES = {
     # Player/Target keep their full transparent interaction and buff hosts for
     # placement math even though only the compact lower subframes are painted.
     "PlayerWindow": (360, 193), "TargetWindow": (360, 193),
-    "PetInfoWindow": (311, 190), "BuffWindow": (216, 640),
+    "PetInfoWindow": (356, 255), "BuffWindow": (216, 640),
+    "PetInfoWindow_1": (356, 255), "PetInfoWindow_2": (356, 255),
+    "PetInfoWindow_3": (460, 255),
     "BuffWindow_13": (216, 640), "ShortDurationBuffWindow": (216, 324),
     "ShortDurationBuffWindow_13": (216, 324), "BigBankWnd": (287, 390),
-    "InventoryWindow": (680, 700), "BreathWindow": (118, 32),
+    "InventoryWindow": (660, 700), "BreathWindow": (118, 32),
     "GroupWindow": (230, 204),   # four-player Legends group = three companion rows
     "CompassWindow": (460, 36),
 }
@@ -460,6 +484,36 @@ VISIBLE = [
     "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9",
     "HotButtonWnd10", "GroupWindow", "BuffWindow", "ShortDurationBuffWindow",
 ]
+
+# PetInfoWindow is character/state dependent, so its Show flag is preserved.
+# Validate its active state independently to guarantee that summoning a pet
+# cannot introduce a collision into the otherwise default-visible HUD.
+OPTIONAL_VISIBLE = {
+    "pet-active": ["PetInfoWindow"],
+    "pet-layout-1": ["PetInfoWindow_1"],
+    "pet-layout-2": ["PetInfoWindow_2"],
+    "pet-right-buffs": ["PetInfoWindow_3"],
+}
+
+# Common 3440x1440 toggle/open combinations. These windows are not all shown
+# at login, but they are routinely used together and should still compose as
+# one intentional workspace when opened.
+OPTIONAL_VISIBLE_3440 = {
+    "inventory-pet-tracking": [
+        "InventoryWindow", "PetInfoWindow", "TrackingWnd",
+    ],
+    "inventory-pet-right-buffs": [
+        "InventoryWindow", "PetInfoWindow_3", "TrackingWnd",
+    ],
+    "banking": [
+        "InventoryWindow", "BigBankWnd",
+        *[f"BagBank{i}" for i in range(1, 17)],
+    ],
+    "right-utilities": [
+        "MapViewWnd", "TargetOfTargetWindow", "ExtendedTargetWnd",
+    ],
+    "inventory-bags": [f"BagInv{i}" for i in range(1, 9)],
+}
 
 
 def rect_of(name):
@@ -488,6 +542,20 @@ def validate_profile(placements, screen_w, screen_h) -> list[str]:
             bx0, by0, bx1, by1 = profile_rect(b)
             if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
                 problems.append(f"OVERLAP {a} x {b}")
+    optional_states = dict(OPTIONAL_VISIBLE)
+    if (screen_w, screen_h) == (SCREEN_W, SCREEN_H):
+        optional_states.update(OPTIONAL_VISIBLE_3440)
+    for state, optional in optional_states.items():
+        state_visible = visible + [name for name in optional if name in placements]
+        for i, a in enumerate(state_visible):
+            ax0, ay0, ax1, ay1 = profile_rect(a)
+            for b in state_visible[i + 1:]:
+                # Default/default pairs were already checked above.
+                if a in visible and b in visible:
+                    continue
+                bx0, by0, bx1, by1 = profile_rect(b)
+                if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
+                    problems.append(f"OVERLAP [{state}] {a} x {b}")
     return problems
 
 
@@ -503,6 +571,19 @@ def validate() -> list[str]:
             bx0, by0, bx1, by1 = rect_of(b)
             if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
                 problems.append(f"OVERLAP {a} x {b}")
+    optional_states = dict(OPTIONAL_VISIBLE)
+    optional_states.update(OPTIONAL_VISIBLE_3440)
+    for state, optional in optional_states.items():
+        state_visible = VISIBLE + optional
+        for i, a in enumerate(state_visible):
+            ax0, ay0, ax1, ay1 = rect_of(a)
+            for b in state_visible[i + 1:]:
+                # Default/default pairs were already checked above.
+                if a in VISIBLE and b in VISIBLE:
+                    continue
+                bx0, by0, bx1, by1 = rect_of(b)
+                if ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1:
+                    problems.append(f"OVERLAP [{state}] {a} x {b}")
     return problems
 
 
@@ -527,17 +608,14 @@ def preset_placements(preset: str) -> dict[str, dict]:
 
 
 def personal_placements(preset: str) -> dict[str, dict]:
-    """Overlay for the player's live layout.
+    """Return the complete, validated 3440x1440 placement for a preset.
 
-    Only the deliberately-configurable pieces are touched: the chat row
-    (per preset), the bottom-right bag dock, and a few parked utility
-    windows. The combat cluster — player/target plates, stance bar, cast
-    bar, spell bar, hotbars — is the player's hand-centered arrangement
-    from layouts/spin-live and is preserved verbatim."""
-    placements = {k: dict(PLACEMENTS[k]) for k in PERSONAL_FIXES}
-    for section, (x, w, h, y) in CHAT_PRESETS[preset].items():
-        placements[section] = P(x, y, w, h, extra=CHAT_ALPHA)
-    return placements
+    The live profile remains the source for client-specific settings, but its
+    older hand-positioned geometry is intentionally replaced. Applying the
+    same table that validate_all_presets() checks prevents generated personal
+    profiles from silently drifting away from the documented composition.
+    """
+    return preset_placements(preset)
 
 
 def transform(text: str, preset: str, placements: dict | None = None,
@@ -571,14 +649,17 @@ def merge_missing(personal: str, default_text: str) -> str:
 
 def validate_all_presets() -> None:
     problems = []
-    base_rects = {k: v["_rect"] for k, v in PLACEMENTS.items()}
-    for preset in CHAT_PRESETS:
-        placements = preset_placements(preset)
-        PLACEMENTS.update(placements)  # rect_of reads PLACEMENTS
-        problems += [f"[{preset}] {p}" for p in validate()]
-    # restore
-    for k, r in base_rects.items():
-        PLACEMENTS[k]["_rect"] = r
+    base_placements = {k: dict(v) for k, v in PLACEMENTS.items()}
+    try:
+        for preset in CHAT_PRESETS:
+            placements = preset_placements(preset)
+            PLACEMENTS.update(placements)  # rect_of reads PLACEMENTS
+            problems += [f"[{preset}] {p}" for p in validate()]
+    finally:
+        # Validation must not leak the final preset's chat geometry into the
+        # subsequent generation pass.
+        PLACEMENTS.clear()
+        PLACEMENTS.update(base_placements)
     if problems:
         for p in problems:
             print("LAYOUT ERROR:", p)
@@ -588,15 +669,10 @@ def validate_all_presets() -> None:
 
 DEFAULT_PRESET = "combat-focus"
 
-# The player's own in-game arrangement is the source of truth for the
-# personal files.  Only objectively-safe improvements are overlaid on it;
-# everything they placed by hand is preserved verbatim.
+# The player's own in-game file supplies client-specific settings and unknown
+# future sections. Geometry and visibility are supplied by the complete,
+# validated 3440x1440 preset table above.
 PERSONAL_BASE = "layouts/spin-live/UI_Spin_qeynos_LO1.ini"
-PERSONAL_FIXES = [
-    "MapViewWnd",              # bigger, clearer glass map (visibility untouched)
-    "TargetOfTargetWindow",    # tidy parking spot (hidden)
-    "ExtendedTargetWnd",       # tidy parking spot (hidden)
-] + [f"BagInv{i}" for i in range(1, 9)]  # the bottom-right bag dock row
 
 
 def main():

@@ -282,7 +282,7 @@
 		<ScreenID>IW_CharacterView</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>556</X>
+			<X>536</X>
 			<Y>142</Y>
 		</Location>
 		<Size>
@@ -1029,20 +1029,21 @@
 			
 	<!-- START STATS -->
 	<Label item="IWS_VitalsLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>122</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Character Vitals</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -1892,28 +1893,29 @@
 		<Pieces>IWS_RangeDPS</Pieces>
 		<Pieces>IWS_RangeDPSNumber</Pieces>
 	</Screen>		
-<!-- 	<Screen item="IWS_StatsSpacerScreen">
+	<Screen item="IWS_StatsSpacerScreen">
 		<RelativePosition>true</RelativePosition>
 		<Size>
 			<CX>175</CX>
 			<CY>8</CY>
 		</Size>
-	</Screen> -->
+	</Screen>
 	<Label item="IWS_StatsLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
-		<Text>Stats and Resists</Text>
+		<Text>Primary Attributes</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -2815,22 +2817,23 @@
 			<CX>175</CX>
 			<CY>8</CY>
 		</Size>
-	</Screen>
+	</Screen> -->
 	<Label item="IWS_ResistsLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Resists</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -2843,7 +2846,7 @@
 			<CY>14</CY>
 		</Size>
 		<Pieces>IWS_ResistsLabel</Pieces>
-	</Screen> -->
+	</Screen>
 	<Label item="IWS_Magic">
 		<RelativePosition>true</RelativePosition>
 		<Location>
@@ -3331,20 +3334,21 @@
 		<Pieces>IWS_MaxCorruption</Pieces>
 	</Screen>
 	<Label item="IWS_HeroicModsLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Additional Modifiers</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -4176,20 +4180,21 @@
 		</Size>
 	</Screen>
 	<Label item="IWS_ModsLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
-		<Text>Spell Mods</Text>
+		<Text>Mitigation</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -5143,20 +5148,21 @@
 		</Size>
 	</Screen>
 	<Label item="IWS_AdditionalLabel">
+		<Font>3</Font>
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>160</CX>
+			<CX>175</CX>
 			<CY>14</CY>
 		</Size>
 		<Text>Additional Information</Text>
 		<TextColor>
-			<R>138</R>
-			<G>163</G>
-			<B>255</B>
+			<R>219</R>
+			<G>158</G>
+			<B>42</B>
 		</TextColor>
 		<NoWrap>true</NoWrap>
 		<AlignCenter>false</AlignCenter>
@@ -5305,7 +5311,7 @@
 		</Location>
 		<Size>
 			<CX>356</CX>
-			<CY>270</CY>
+			<CY>238</CY>
 		</Size>		
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>2</Spacing>
@@ -5330,17 +5336,17 @@
 		<Pieces>Screen:IWS_PrimaryDPSScreen</Pieces>
 		<Pieces>Screen:IWS_SecondaryDPSScreen</Pieces>
 		<Pieces>Screen:IWS_RangeDPSScreen</Pieces>
-<!-- 		<Pieces>Screen:IWS_StatsSpacerScreen</Pieces> -->
+		<!-- Deliberate column break: Vitals left, attributes/resists right. -->
+		<Pieces>Screen:IWS_StatsSpacerScreen</Pieces>
 		<Pieces>Screen:IWS_StatsLabelScreen</Pieces>
 		<Pieces>Screen:IWS_StrengthScreen</Pieces>
 		<Pieces>Screen:IWS_StaminaScreen</Pieces>
-		<Pieces>Screen:IWS_IntelligenceScreen</Pieces>
-		<Pieces>Screen:IWS_WisdomScreen</Pieces>
 		<Pieces>Screen:IWS_AgilityScreen</Pieces>
 		<Pieces>Screen:IWS_DexterityScreen</Pieces>
+		<Pieces>Screen:IWS_WisdomScreen</Pieces>
+		<Pieces>Screen:IWS_IntelligenceScreen</Pieces>
 		<Pieces>Screen:IWS_CharismaScreen</Pieces>
-<!-- 		<Pieces>Screen:IWS_ResistsSpacerScreen</Pieces>
-		<Pieces>Screen:IWS_ResistsLabelScreen</Pieces> -->
+		<Pieces>Screen:IWS_ResistsLabelScreen</Pieces>
 		<Pieces>Screen:IWS_MagicScreen</Pieces>
 		<Pieces>Screen:IWS_FireScreen</Pieces>
 		<Pieces>Screen:IWS_ColdScreen</Pieces>
@@ -5353,11 +5359,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>58</X>
-			<Y>284</Y>
+			<Y>252</Y>
 		</Location>
 		<Size>
 			<CX>356</CX>
-			<CY>222</CY>
+			<CY>94</CY>
 		</Size>		
 		<Style_Transparent>true</Style_Transparent>
 		<Spacing>2</Spacing>
@@ -5372,7 +5378,7 @@
 		<Pieces>Screen:IWS_CombatEffectsScreen</Pieces>		
 		<Pieces>Screen:IWS_StrikeThroughScreen</Pieces>
 		<Pieces>Screen:IWS_StunResistScreen</Pieces>		
-		<Pieces>Screen:IWS_ModsSpacerScreen</Pieces>
+		<Pieces>Screen:IWS_ModsLabelScreen</Pieces>
 		<Pieces>Screen:IWS_DamageShieldingScreen</Pieces>
 		<Pieces>Screen:IWS_DamageShieldMitigationScreen</Pieces>	
 		<Pieces>Screen:IWS_DoTShieldingScreen</Pieces>
@@ -5396,11 +5402,12 @@
 		<Pieces>Screen:IWS_TigerClawScreen</Pieces>	 -->
 	</TileLayoutBox>
 
+	<!-- Context block anchors the lower weapon rail and balances the open canvas. -->
 	<TileLayoutBox item="IW_Stats3">
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>58</X>
-			<Y>514</Y>
+			<Y>436</Y>
 		</Location>
 		<Size>
 			<CX>356</CX>
@@ -5497,7 +5504,7 @@
 		<Pieces>TileLayoutBox:IW_Stats2</Pieces>
 		<Pieces>TileLayoutBox:IW_Stats3</Pieces>
 		<Location>
-			<X>0</X>
+			<X>5</X>
 			<Y>22</Y>
 		</Location>
 		<Size>
@@ -9552,7 +9559,7 @@
 	<TileLayoutBox item="IW_Slots">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>544</X>
+			<X>536</X>
 			<Y>320</Y>
 		</Location>
 		<Size>
@@ -9937,7 +9944,7 @@
 			<Y>50</Y>
 		</Location>
 		<Size>
-			<CX>680</CX>
+			<CX>660</CX>
 			<CY>700</CY>
 		</Size>
 		<KeepOnScreen>true</KeepOnScreen>

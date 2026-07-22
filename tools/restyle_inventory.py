@@ -2,15 +2,16 @@
 """Compact cinematic equipment screen for Spin's UI Reloaded (v3).
 
 Migrates the v2 Narcissus composition (SPIN-DECO-2, 780x800) to the compact
-v3 layout (SPIN-DECO-3, 680x700):
+v3 layout (SPIN-DECO-3, 660x700):
 
 * Hex plates tighten from 56px/62 pitch to 46px/50 pitch.
 * The left rail becomes a single 12-slot column — 8 armor slots on steel
   plates with the 4 weapon slots continuing on gold plates at its base.
 * The right rail holds the 9 jewelry slots, a deliberate gap, then the two
   Any slots seated at its base — no separate bottom row.
-* The center is a pure stat ledger: Vitals & Resists, Heroic Mods, and
-  Bind/Origin/Deity stacked with no dead bands.
+* The center is a pure stat ledger: Vitals, Primary Attributes, Resists,
+  Additional Modifiers, Mitigation, and Bind/Origin/Deity are kept in
+  categorical columns with a balanced lower context anchor.
 * The native class crest (85x171 viewport, 75x142 art) moves to the identity
   rail between Destroy and the bag grid, forming one character card that is
   visible on every tab and keeps its drop-to-auto-equip behavior.
@@ -51,12 +52,14 @@ W_X0 = L_X
 
 CANVAS = (472, 606)
 PAGE = (485, 620)
-WINDOW = (680, 700)
-STATS1 = (58, 6, 356, 270)     # Character Vitals + Stats & Resists (33 rows, 2 cols)
-STATS2 = (58, 284, 356, 222)   # Heroic / additional modifiers (28 rows, 2 cols)
-STATS3 = (58, 514, 356, 62)    # Bind / Origin / Deity (4 rows, 1 col)
-CREST = (556, 142)             # window-level identity-rail crest (85x171)
-BAGS = (544, 320)              # window-level 2x6 bag grid (112x280)
+PAGE_LOCATION = (5, 22)        # centers the 485px page inside the 495px tab host
+WINDOW = (660, 700)
+STATS1 = (58, 6, 356, 238)     # Vitals + break | attributes + Resists (15 pieces each)
+STATS2 = (58, 252, 356, 94)    # Additional Modifiers | Mitigation (6 rows each)
+STATS3 = (58, 436, 356, 62)    # Lower-rail anchor: Bind / Origin / Deity
+CREST = (536, 142)             # window-level identity-rail crest (85x171)
+BAGS = (536, 320)              # visible bag columns align with the class crest
+LEDGER_HEADER_GOLD = (219, 158, 42)
 
 
 def slot_pos(slot_id):
@@ -142,6 +145,110 @@ def set_block_field(text, item_kind, item_name, field, value):
     return text
 
 
+def set_label_style(text, item_name, font, color):
+    """Set an inventory heading's explicit font and RGB without touching peers."""
+    pat = re.compile(
+        r'(<Label item="' + re.escape(item_name) + r'">)(.*?)(</Label>)',
+        re.S)
+
+    def update(match):
+        body = match.group(2)
+        font_pat = re.compile(r'<Font>\d+</Font>')
+        if font_pat.search(body):
+            body = font_pat.sub(f'<Font>{font}</Font>', body, count=1)
+        else:
+            body = f'\n\t\t<Font>{font}</Font>' + body
+        size_pat = re.compile(r'(<Size>\s*<CX>)\d+(</CX>)', re.S)
+        body, resized = size_pat.subn(r'\g<1>175\g<2>', body, count=1)
+        assert resized == 1, f"Size {item_name}"
+        color_pat = re.compile(
+            r'(<TextColor>\s*<R>)\d+(</R>\s*<G>)\d+(</G>\s*<B>)\d+(</B>\s*</TextColor>)',
+            re.S)
+        body, changed = color_pat.subn(
+            lambda color_match: (
+                color_match.group(1) + str(color[0])
+                + color_match.group(2) + str(color[1])
+                + color_match.group(3) + str(color[2])
+                + color_match.group(4)
+            ),
+            body,
+            count=1,
+        )
+        assert changed == 1, f"TextColor {item_name}"
+        return match.group(1) + body + match.group(3)
+
+    text, n = pat.subn(update, text, count=1)
+    assert n == 1, f"Label {item_name}"
+    return text
+
+
+def organize_stat_ledger(text):
+    """Activate the semantic headings and make both tile flows deterministic."""
+    # The stock definitions ship commented out.  Keep the 8px Vitals spacer
+    # as the explicit column break, and expose only the Resists heading from
+    # the second commented group (its own spacer is not needed).
+    pat = re.compile(
+        r'<!--\s*(<Screen item="IWS_StatsSpacerScreen">.*?</Screen>)\s*-->',
+        re.S)
+    text, n = pat.subn(r'\1', text, count=1)
+    assert n == 1, "IWS_StatsSpacerScreen definition"
+
+    pat = re.compile(
+        r'(<!--\s*<Screen item="IWS_ResistsSpacerScreen">.*?</Screen>)\s*'
+        r'(<Label item="IWS_ResistsLabel">.*?</Label>\s*'
+        r'<Screen item="IWS_ResistsLabelScreen">.*?</Screen>)\s*-->',
+        re.S)
+    text, n = pat.subn(r'\1 -->\n\t\2', text, count=1)
+    assert n == 1, "IWS_ResistsLabel definition"
+
+    pat = re.compile(
+        r'<!--\s*<Pieces>Screen:IWS_StatsSpacerScreen</Pieces>\s*-->')
+    text, n = pat.subn(
+        '<!-- Deliberate column break: Vitals left, attributes/resists right. -->\n'
+        '\t\t<Pieces>Screen:IWS_StatsSpacerScreen</Pieces>', text, count=1)
+    assert n == 1, "IWS_StatsSpacerScreen piece"
+
+    pat = re.compile(
+        r'<!--\s*<Pieces>Screen:IWS_ResistsSpacerScreen</Pieces>\s*'
+        r'<Pieces>Screen:IWS_ResistsLabelScreen</Pieces>\s*-->')
+    text, n = pat.subn(
+        '<Pieces>Screen:IWS_ResistsLabelScreen</Pieces>', text, count=1)
+    assert n == 1, "IWS_ResistsLabelScreen piece"
+
+    old_attributes = """\
+\t\t<Pieces>Screen:IWS_StrengthScreen</Pieces>
+\t\t<Pieces>Screen:IWS_StaminaScreen</Pieces>
+\t\t<Pieces>Screen:IWS_IntelligenceScreen</Pieces>
+\t\t<Pieces>Screen:IWS_WisdomScreen</Pieces>
+\t\t<Pieces>Screen:IWS_AgilityScreen</Pieces>
+\t\t<Pieces>Screen:IWS_DexterityScreen</Pieces>
+\t\t<Pieces>Screen:IWS_CharismaScreen</Pieces>"""
+    new_attributes = """\
+\t\t<Pieces>Screen:IWS_StrengthScreen</Pieces>
+\t\t<Pieces>Screen:IWS_StaminaScreen</Pieces>
+\t\t<Pieces>Screen:IWS_AgilityScreen</Pieces>
+\t\t<Pieces>Screen:IWS_DexterityScreen</Pieces>
+\t\t<Pieces>Screen:IWS_WisdomScreen</Pieces>
+\t\t<Pieces>Screen:IWS_IntelligenceScreen</Pieces>
+\t\t<Pieces>Screen:IWS_CharismaScreen</Pieces>"""
+    assert text.count(old_attributes) == 1, "primary attribute order"
+    text = text.replace(old_attributes, new_attributes, 1)
+
+    old_piece = "\t\t<Pieces>Screen:IWS_ModsSpacerScreen</Pieces>"
+    new_piece = "\t\t<Pieces>Screen:IWS_ModsLabelScreen</Pieces>"
+    assert text.count(old_piece) == 1, "Mitigation column heading"
+    text = text.replace(old_piece, new_piece, 1)
+    text = set_block_field(
+        text, "Label", "IWS_StatsLabel", "Text", "Primary Attributes")
+    text = set_block_field(
+        text, "Label", "IWS_ModsLabel", "Text", "Mitigation")
+    for heading in (
+            "IWS_VitalsLabel", "IWS_StatsLabel", "IWS_ResistsLabel",
+            "IWS_HeroicModsLabel", "IWS_ModsLabel", "IWS_AdditionalLabel"):
+        text = set_label_style(text, heading, 3, LEDGER_HEADER_GOLD)
+    return text
+
+
 def main():
     s = XMLF.read_text()
     if "SPIN-DECO-3" in s:
@@ -169,10 +276,9 @@ def main():
     s = set_block_location(s, "TileLayoutBox", "IW_Stats", *STATS1)
     s = set_block_location(s, "TileLayoutBox", "IW_Stats2", *STATS2)
     s = set_block_location(s, "TileLayoutBox", "IW_Stats3", *STATS3)
-
-    pat = re.compile(r'(<Page item="IW_InvPage">.*?<Size>\s*<CX>)585(</CX>\s*<CY>)720(</CY>)', re.S)
-    s, n = pat.subn(rf'\g<1>{PAGE[0]}\g<2>{PAGE[1]}\g<3>', s, count=1)
-    assert n == 1, "page size"
+    s = organize_stat_ledger(s)
+    s = set_block_location(
+        s, "Page", "IW_InvPage", *PAGE_LOCATION, *PAGE)
 
     pat = re.compile(r'(<Screen item="InventoryWindow">.*?<Size>\s*<CX>)780(</CX>\s*<CY>)800(</CY>)', re.S)
     s, n = pat.subn(rf'\g<1>{WINDOW[0]}\g<2>{WINDOW[1]}\g<3>', s, count=1)
