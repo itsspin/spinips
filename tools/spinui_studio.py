@@ -24,7 +24,9 @@ import re
 import shutil
 import sys
 import tempfile
+import traceback
 from dataclasses import asdict, dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
@@ -43,10 +45,14 @@ from spinui_theme import (DEFAULT_ACCENTS, accent_palette, hex_from_rgb,  # noqa
 
 
 APP_NAME = "SpinUI Studio"
-PROJECT_SCHEMA = 1
+PROJECT_SCHEMA = 2
 DEFAULT_SCREEN = (3440, 1440)
 DEFAULT_SKIN_NAME = "spinui_custom"
 DEFAULT_INI_NAME = "UI_Spin_qeynos_LO1.ini"
+CUSTOM_PRESET_LABEL = "custom / imported INI"
+LOAD_PRESERVE = "Preserve current INI"
+LOAD_SHOW = "Show when UI loads"
+LOAD_HIDE = "Hide when UI loads"
 
 BG = "#090c11"
 PANEL = "#10161d"
@@ -95,6 +101,50 @@ def safe_ini_name(value: str) -> str:
     return value
 
 
+def discover_character_inis(extra_roots: Iterable[Path] = ()) -> list[Path]:
+    """Find live character UI files without walking unrelated user folders."""
+    candidates = [
+        Path(r"C:\EQLegends"),
+        Path(r"C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends"),
+        Path(r"C:\Program Files (x86)\Steam\steamapps\common\EverQuest"),
+        *extra_roots,
+    ]
+    seen: set[Path] = set()
+    found: list[Path] = []
+    pattern = re.compile(
+        r"UI_[A-Za-z]{1,32}_[a-z]{2,24}_LO[1-9][0-9]?\.ini")
+    for root in candidates:
+        try:
+            resolved = root.resolve()
+        except OSError:
+            continue
+        if resolved in seen or not (resolved / "eqgame.exe").is_file():
+            continue
+        seen.add(resolved)
+        try:
+            for path in resolved.glob("UI_*_*_LO*.ini"):
+                if path.is_file() and pattern.fullmatch(path.name):
+                    found.append(path)
+        except OSError:
+            continue
+    return sorted(
+        found,
+        key=lambda path: path.stat().st_mtime if path.exists() else 0,
+        reverse=True,
+    )
+
+
+def write_crash_log(message: str) -> Path:
+    root = Path(os.environ.get("LOCALAPPDATA", tempfile.gettempdir()))
+    folder = root / "SpinUIStudio"
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / "spinui-studio.log"
+    stamp = datetime.now().isoformat(timespec="seconds")
+    with path.open("a", encoding="utf-8") as stream:
+        stream.write(f"\n[{stamp}] {message.rstrip()}\n")
+    return path
+
+
 def percent(value: float, total: int) -> str:
     return f"{value / total * 100:.6f}%"
 
@@ -113,7 +163,11 @@ def reference_pixel(ref: str, fraction: float, total: int, size: int) -> int:
     if ref in {"right", "bottom"}:
         return round(total - fraction * total - size)
     if ref == "center":
-        return round(total / 2 + fraction * total - size / 2)
+        # EverQuest measures center-relative percentages across one half of
+        # the viewport, then anchors the window by its own center. Using the
+        # full viewport here shifts imported center-anchored windows by
+        # hundreds of pixels at 3440x1440.
+        return round(total / 2 + fraction * (total / 2) - size / 2)
     raise ValueError(f"unsupported INI reference: {ref}")
 
 
@@ -126,6 +180,7 @@ class WindowState:
     height: int
     visible: bool
     resizable: bool
+    show_on_load: bool | None = None
 
     def rect(self) -> tuple[int, int, int, int]:
         return self.x, self.y, self.x + self.width, self.y + self.height
@@ -137,7 +192,11 @@ RESIZABLE = {
     "BuffWindow", "BuffWindow_13",
     "ShortDurationBuffWindow", "ShortDurationBuffWindow_13",
     "PetInfoWindow_1", "PetInfoWindow_2", "PetInfoWindow_3",
-    "BigBankWnd",
+    "BigBankWnd", "CastSpellWnd", "StanceWnd", "CastingWindow",
+    "AggroMeterWnd",
+    "HotButtonWnd", "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4",
+    "HotButtonWnd5", "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8",
+    "HotButtonWnd9", "HotButtonWnd10", "HotButtonWnd11",
 }
 
 MINIMUMS = {
@@ -147,7 +206,14 @@ MINIMUMS = {
     "BuffWindow": (160, 160), "ShortDurationBuffWindow": (160, 120),
     "PetInfoWindow_1": (356, 209), "PetInfoWindow_2": (356, 209),
     "PetInfoWindow_3": (441, 181), "BigBankWnd": (287, 280),
+    "CastSpellWnd": (48, 48), "StanceWnd": (320, 48),
+    "CastingWindow": (220, 28), "AggroMeterWnd": (160, 36),
 }
+for _hotbar_name in (
+        "HotButtonWnd", "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4",
+        "HotButtonWnd5", "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8",
+        "HotButtonWnd9", "HotButtonWnd10", "HotButtonWnd11"):
+    MINIMUMS[_hotbar_name] = (48, 48)
 
 FALLBACK_SIZES = {
     "EQMainWnd": (392, 36),
@@ -155,6 +221,17 @@ FALLBACK_SIZES = {
     "StanceWnd": (440, 56),
     "CastingWindow": (380, 36),
     "AggroMeterWnd": (220, 48),
+}
+
+# EverQuest omits Show= for a few persistent windows. Optional windows also
+# commonly omit it when closed, so inheriting the Studio preset's visibility
+# produces a misleading preview (most visibly, hotbars 3-11). Keep this list
+# deliberately narrow and let explicit Show= values remain authoritative.
+IMPLICIT_IMPORT_VISIBLE = {
+    "MainChat",
+    "Chat 1",
+    "Chat 2",
+    "HotButtonWnd",
 }
 
 
@@ -181,12 +258,14 @@ class StudioModel:
         self.palette = palette_from_hex(self.accent_hex)
         self.windows: dict[str, WindowState] = {}
         self.base_ini_text: str | None = None
+        self.preserve_imported_chat = False
         self.reset_preset(preset)
 
     def reset_preset(self, preset: str) -> None:
         if preset not in layout.CHAT_PRESETS:
             raise ValueError(f"unknown layout preset: {preset}")
         self.preset = preset
+        self.preserve_imported_chat = False
         specs = layout.preset_placements(preset)
         windows: dict[str, WindowState] = {}
         for name, spec in specs.items():
@@ -201,6 +280,7 @@ class StudioModel:
             windows[name] = WindowState(
                 name, round(x), round(y), int(width), int(height),
                 visible, name in RESIZABLE,
+                None if show is None else show == "1",
             )
         # EQMain is generated separately from PLACEMENTS.
         eq_width, eq_height = FALLBACK_SIZES["EQMainWnd"]
@@ -208,7 +288,7 @@ class StudioModel:
             "EQMainWnd",
             self.screen_width - 8 - eq_width,
             self.screen_height - 8 - eq_height,
-            eq_width, eq_height, True, False,
+            eq_width, eq_height, True, False, True,
         )
         self.windows = windows
 
@@ -235,6 +315,9 @@ class StudioModel:
 
     def set_visible(self, name: str, visible: bool) -> None:
         self.windows[name].visible = bool(visible)
+
+    def set_show_on_load(self, name: str, value: bool | None) -> None:
+        self.windows[name].show_on_load = value
 
     def ordered_names(self) -> list[str]:
         preferred = list(layout.preset_placements(self.preset))
@@ -274,9 +357,12 @@ class StudioModel:
                 "XPos": percent(state.x, self.screen_width),
                 "YPos": percent(state.y, self.screen_height),
                 "Width": str(state.width), "Height": str(state.height),
-                "Show": "1" if state.visible else "0",
                 "_rect": (state.x, state.y, state.width, state.height),
             })
+            if state.show_on_load is None:
+                spec.pop("Show", None)
+            else:
+                spec["Show"] = "1" if state.show_on_load else "0"
             specs[name] = spec
         eq = self.windows["EQMainWnd"]
         eqmain = {
@@ -284,7 +370,7 @@ class StudioModel:
             "XPos": percent(eq.x, self.screen_width),
             "YPos": percent(eq.y, self.screen_height),
             "Width": str(eq.width), "Height": str(eq.height),
-            "Show": "1" if eq.visible else "0",
+            "Show": "1" if eq.show_on_load is not False else "0",
         }
         return specs, eqmain
 
@@ -307,6 +393,7 @@ class StudioModel:
         transformed = layout.transform(
             self._default_ini_text(), self.preset, specs, eqmain,
             skin_name=self.skin_name,
+            rebuild_chat=not self.preserve_imported_chat,
         )
         default_path = self.source_skin / "default1440.ini"
         if default_path.is_file():
@@ -317,7 +404,31 @@ class StudioModel:
     def export_ini(self, path: Path) -> Path:
         path = path.resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(self.export_ini_text(), encoding="utf-8", newline="\r\n")
+        normalized = self.export_ini_text().replace("\r\n", "\n").replace("\r", "\n")
+        payload = normalized.replace("\n", "\r\n").encode("utf-8")
+        if path.is_file() and path.read_bytes() == payload:
+            return path
+        if path.is_file():
+            stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            backup = path.with_name(f"{path.name}.studio-backup-{stamp}")
+            suffix = 1
+            while backup.exists():
+                backup = path.with_name(
+                    f"{path.name}.studio-backup-{stamp}-{suffix}")
+                suffix += 1
+            shutil.copy2(path, backup)
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+        temporary = Path(temporary_name)
+        try:
+            with os.fdopen(descriptor, "wb") as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temporary, path)
+        finally:
+            if temporary.exists():
+                temporary.unlink()
         return path
 
     def import_ini(self, path: Path) -> None:
@@ -331,23 +442,40 @@ class StudioModel:
             if section_name is None:
                 continue
             section = parser[section_name]
+            has_width = "Width" in section
+            has_height = "Height" in section
             width = int(section.get("Width", state.width))
             height = int(section.get("Height", state.height))
+            if width <= 0 or height <= 0:
+                raise ValueError(f"{section_name} has an invalid {width}x{height} size.")
             x_fraction = parse_percent(section.get("XPos", percent(state.x, self.screen_width)))
             y_fraction = parse_percent(section.get("YPos", percent(state.y, self.screen_height)))
             x = reference_pixel(section.get("XRef", "left"), x_fraction,
                                 self.screen_width, width)
             y = reference_pixel(section.get("YRef", "top"), y_fraction,
                                 self.screen_height, height)
-            if state.resizable:
-                self.resize(name, width, height)
+            # If the client wrote explicit dimensions, they are authoritative
+            # even when the current preset normally treats the XML window as
+            # fixed. This preserves spell-gem/hotbar orientation and scale.
+            if has_width:
+                state.width = min(width, self.screen_width)
+            if has_height:
+                state.height = min(height, self.screen_height)
             self.move(name, x, y)
             if "Show" in section:
-                state.visible = section["Show"].strip() == "1"
+                state.show_on_load = section["Show"].strip() == "1"
+                state.visible = state.show_on_load
+            else:
+                state.show_on_load = None
+                state.visible = name in IMPLICIT_IMPORT_VISIBLE
         main_name = by_folded.get("main")
         if main_name is not None:
             self.skin_name = parser[main_name].get("UISkin", self.skin_name)
+        if re.fullmatch(r"UI_[A-Za-z]{1,32}_[a-z]{2,24}_LO[1-9][0-9]?\.ini",
+                        path.name):
+            self.ini_name = path.name
         self.base_ini_text = text
+        self.preserve_imported_chat = True
 
     def project_payload(self) -> dict:
         return {
@@ -357,6 +485,8 @@ class StudioModel:
             "skin_name": self.skin_name,
             "ini_name": self.ini_name,
             "accents": dict(self.accent_hex),
+            "base_ini_text": self.base_ini_text,
+            "preserve_imported_chat": self.preserve_imported_chat,
             "windows": {
                 name: asdict(state) for name, state in self.windows.items()
             },
@@ -375,7 +505,8 @@ class StudioModel:
 
     def load_project(self, path: Path) -> None:
         payload = json.loads(path.read_text(encoding="utf-8"))
-        if payload.get("schema") != PROJECT_SCHEMA:
+        schema = payload.get("schema")
+        if schema not in {1, PROJECT_SCHEMA}:
             raise ValueError("Unsupported SpinUI Studio project schema.")
         width, height = payload["resolution"]
         self.screen_width, self.screen_height = int(width), int(height)
@@ -384,6 +515,9 @@ class StudioModel:
         self.ini_name = safe_ini_name(payload["ini_name"])
         self.accent_hex = dict(payload["accents"])
         self.palette = palette_from_hex(self.accent_hex)
+        self.base_ini_text = payload.get("base_ini_text")
+        self.preserve_imported_chat = bool(
+            payload.get("preserve_imported_chat", False))
         for name, values in payload["windows"].items():
             if name not in self.windows:
                 continue
@@ -393,6 +527,13 @@ class StudioModel:
             state.width = int(values["width"])
             state.height = int(values["height"])
             state.visible = bool(values["visible"])
+            if schema == 1:
+                state.show_on_load = state.visible
+            else:
+                show_on_load = values.get("show_on_load")
+                state.show_on_load = (
+                    None if show_on_load is None else bool(show_on_load)
+                )
             self.move(name, state.x, state.y)
 
     def build_bundle(self, destination: Path) -> Path:
@@ -482,6 +623,7 @@ def apply_preview_palette(palette: dict[str, tuple[int, int, int]]) -> None:
 
 _BACKGROUND_CACHE: dict[tuple[int, int], Image.Image] = {}
 _INVENTORY_CACHE: dict[tuple[tuple[str, tuple[int, int, int]], ...], Image.Image] = {}
+_ACTIVE_PREVIEW_SKIN: Path | None = None
 
 
 def studio_background(width: int, height: int) -> Image.Image:
@@ -590,6 +732,61 @@ def _draw_pet(canvas: Image.Image, state: WindowState) -> None:
             )
 
 
+def _best_grid(width: int, height: int, count: int,
+               candidates: Iterable[tuple[int, int]]) -> tuple[int, int, int]:
+    """Choose the largest square-cell grid that fits the current INI size."""
+    best = (1, count, 1)
+    for columns, rows in candidates:
+        if columns * rows < count:
+            continue
+        size = max(1, min((width - 8) // columns, (height - 8) // rows, 40))
+        if size > best[2]:
+            best = columns, rows, size
+    return best
+
+
+def _draw_hotbar(canvas: Image.Image, state: WindowState, page: int) -> None:
+    x, y, width, height = state.x, state.y, state.width, state.height
+    preview.glass_window(canvas, x, y, width, height, alpha=242)
+    columns, rows, size = _best_grid(
+        width, height, 12, ((12, 1), (6, 2), (2, 6), (1, 12)))
+    step_x = (width - 8) / columns
+    step_y = (height - 8) / rows
+    for index in range(12):
+        column = index % columns
+        row = index // columns
+        sx = round(x + 4 + column * step_x + (step_x - size) / 2)
+        sy = round(y + 4 + row * step_y + (step_y - size) / 2)
+        preview.slot(
+            canvas, sx, sy, size,
+            preview.ICONS[(index * 3 + page) % len(preview.ICONS)]
+            if index < 8 else None,
+        )
+        if size >= 26:
+            preview.text(
+                canvas, (sx + 2, sy + 1), str(index + 1), 7,
+                preview.DIM,
+            )
+
+
+def _draw_gems_adaptive(canvas: Image.Image, state: WindowState) -> None:
+    x, y, width, height = state.x, state.y, state.width, state.height
+    preview.glass_window(canvas, x, y, width, height, alpha=242)
+    columns, rows, size = _best_grid(
+        width, height, 14, ((14, 1), (1, 14)))
+    step_x = (width - 8) / columns
+    step_y = (height - 8) / rows
+    for index in range(14):
+        column = index % columns
+        row = index // columns
+        sx = round(x + 4 + column * step_x + (step_x - size) / 2)
+        sy = round(y + 4 + row * step_y + (step_y - size) / 2)
+        preview.slot(
+            canvas, sx, sy, size,
+            preview.ICONS[index % len(preview.ICONS)] if index != 11 else None,
+        )
+
+
 def _inventory_image(model: StudioModel) -> Image.Image | None:
     key = tuple(sorted(model.palette.items()))
     if key in _INVENTORY_CACHE:
@@ -604,11 +801,17 @@ def _inventory_image(model: StudioModel) -> Image.Image | None:
         DEFAULT_ACCENTS[name]: model.palette[name]
         for name in DEFAULT_ACCENTS if name in model.palette
     }
+    source_pixels = (
+        image.get_flattened_data()
+        if hasattr(image, "get_flattened_data") else image.getdata()
+    )
     pixels = [
         replacements.get(pixel[:3], pixel[:3]) + (pixel[3],)
-        for pixel in image.getdata()
+        for pixel in source_pixels
     ]
     image.putdata(pixels)
+    if len(_INVENTORY_CACHE) >= 8:
+        _INVENTORY_CACHE.pop(next(iter(_INVENTORY_CACHE)))
     _INVENTORY_CACHE[key] = image
     return image.copy()
 
@@ -642,9 +845,12 @@ CHAT_LINES = {
 
 
 def render_scene(model: StudioModel) -> Image.Image:
+    global _ACTIVE_PREVIEW_SKIN
     apply_preview_palette(model.palette)
-    preview.SKIN = model.source_skin
-    preview.TEX.clear()
+    if _ACTIVE_PREVIEW_SKIN != model.source_skin:
+        preview.SKIN = model.source_skin
+        preview.TEX.clear()
+        _ACTIVE_PREVIEW_SKIN = model.source_skin
     canvas = studio_background(model.screen_width, model.screen_height)
     for name in model.visible_names():
         state = model.windows[name]
@@ -670,13 +876,11 @@ def render_scene(model: StudioModel) -> Image.Image:
         elif name == "AggroMeterWnd":
             preview.draw_aggro(canvas, x, y, width, height)
         elif name == "CastSpellWnd":
-            preview.draw_gems(canvas, x, y, width, height)
-        elif name == "HotButtonWnd" or name == "HotButtonWnd11":
-            preview.draw_hotbar_v(canvas, x, y, width, height, 1)
+            _draw_gems_adaptive(canvas, state)
         elif name.startswith("HotButtonWnd"):
             suffix = name.removeprefix("HotButtonWnd")
             page = int(suffix) if suffix.isdigit() else 1
-            preview.draw_hotbar_h(canvas, x, y, width, height, page, 8)
+            _draw_hotbar(canvas, state, page)
         elif name in {"BuffWindow", "BuffWindow_13"}:
             preview.draw_buffs(canvas, x, y, "Spell Effects", 18, width, height)
         elif name in {"ShortDurationBuffWindow", "ShortDurationBuffWindow_13"}:
@@ -710,7 +914,8 @@ def render_scene(model: StudioModel) -> Image.Image:
 
 
 class StudioApp:
-    def __init__(self, model: StudioModel, project: Path | None = None):
+    def __init__(self, model: StudioModel, project: Path | None = None,
+                 *, offer_import: bool = True):
         import tkinter as tk
         from tkinter import ttk
 
@@ -724,20 +929,29 @@ class StudioApp:
         self.root.configure(bg=BG)
         self.root.option_add("*Font", ("Segoe UI", 9))
         self.selected: str | None = None
-        self.drag_origin: tuple[int, int, int, int] | None = None
+        self.drag_origin: tuple[str, int, int, int, int, int, int] | None = None
         self.photo = None
         self.scale = .4
         self.project_path = project
+        self.render_after_id = None
+        self.rendering = False
+        self.render_pending = False
         self.status = tk.StringVar(value="Ready")
         self.preset_var = tk.StringVar(value=model.preset)
         self.skin_var = tk.StringVar(value=model.skin_name)
         self.ini_var = tk.StringVar(value=model.ini_name)
         self.show_var = tk.BooleanVar(value=False)
+        self.load_mode_var = tk.StringVar(value=LOAD_PRESERVE)
         self.inspector_vars = {
             key: tk.StringVar() for key in ("x", "y", "width", "height")
         }
+        self.root.report_callback_exception = self.report_callback_exception
         self._build()
-        self.root.after(50, self.render)
+        self.root.bind("<Control-s>", lambda _event: self.save_project())
+        self.root.bind("<KeyPress>", self.key_nudge)
+        self.schedule_render(50)
+        if offer_import:
+            self.root.after(400, self.offer_current_ini)
 
     def _build(self) -> None:
         tk, ttk = self.tk, self.ttk
@@ -750,7 +964,7 @@ class StudioApp:
         for label, command in (
             ("OPEN PROJECT", self.open_project),
             ("SAVE PROJECT", self.save_project),
-            ("IMPORT INI", self.import_ini),
+            ("IMPORT CURRENT INI", self.import_ini),
             ("EXPORT INI", self.export_ini),
             ("SAVE PREVIEW", self.save_preview),
             ("BUILD FINAL UI", self.build_bundle),
@@ -764,7 +978,7 @@ class StudioApp:
             side="left", padx=(18, 5))
         preset = ttk.Combobox(
             toolbar, textvariable=self.preset_var, state="readonly", width=14,
-            values=tuple(layout.CHAT_PRESETS),
+            values=(CUSTOM_PRESET_LABEL, *tuple(layout.CHAT_PRESETS)),
         )
         preset.pack(side="left")
         preset.bind("<<ComboboxSelected>>", self.change_preset)
@@ -774,25 +988,29 @@ class StudioApp:
             sashrelief="flat")
         body.pack(fill="both", expand=True)
 
-        left = tk.Frame(body, bg=PANEL, width=270)
-        body.add(left, minsize=230)
+        left = tk.Frame(body, bg=PANEL, width=300)
+        body.add(left, minsize=285)
         tk.Label(
             left, text="WINDOWS", bg=PANEL, fg=GOLD_BRIGHT,
             font=("Segoe UI Semibold", 10),
         ).pack(anchor="w", padx=12, pady=(12, 6))
         self.tree = ttk.Treeview(
-            left, columns=("show", "geometry"), show="headings", selectmode="browse")
-        self.tree.heading("show", text="ON")
+            left, columns=("preview", "load", "geometry"),
+            show="headings", selectmode="browse")
+        self.tree.heading("preview", text="VIEW")
+        self.tree.heading("load", text="LOAD")
         self.tree.heading("geometry", text="WINDOW · X,Y · W×H")
-        self.tree.column("show", width=38, anchor="center", stretch=False)
-        self.tree.column("geometry", width=220, anchor="w")
+        self.tree.column("preview", width=42, anchor="center", stretch=False)
+        self.tree.column("load", width=42, anchor="center", stretch=False)
+        self.tree.column("geometry", width=196, anchor="w")
         self.tree.pack(fill="both", expand=True, padx=8, pady=(0, 8))
         self.tree.bind("<<TreeviewSelect>>", self.select_tree)
         self.tree.bind("<Double-1>", self.toggle_tree)
         tk.Label(
             left,
-            text="Double-click a row to show/hide it.\nDrag visible windows directly on the preview.",
-            bg=PANEL, fg=DIM, justify="left", wraplength=240,
+            text="Double-click toggles preview only. Drag to move; drag the "
+                 "gold corner to resize. Arrow keys nudge 1px; Shift = 10px.",
+            bg=PANEL, fg=DIM, justify="left", wraplength=270,
         ).pack(anchor="w", padx=12, pady=(0, 12))
 
         center = tk.Frame(body, bg="#05070a")
@@ -803,7 +1021,7 @@ class StudioApp:
         self.canvas.bind("<Button-1>", self.canvas_down)
         self.canvas.bind("<B1-Motion>", self.canvas_drag)
         self.canvas.bind("<ButtonRelease-1>", self.canvas_up)
-        self.canvas.bind("<Configure>", lambda _event: self.root.after_idle(self.render))
+        self.canvas.bind("<Configure>", lambda _event: self.schedule_render(80))
 
         right = tk.Frame(body, bg=PANEL, width=280)
         body.add(right, minsize=260)
@@ -841,11 +1059,29 @@ class StudioApp:
             ).grid(row=row, column=1, sticky="ew", pady=3)
         grid.columnconfigure(1, weight=1)
         tk.Checkbutton(
-            parent, text="Visible", variable=self.show_var,
-            command=self.apply_inspector, bg=PANEL, fg=TEXT,
+            parent, text="Preview on canvas", variable=self.show_var,
+            command=self.toggle_selected_preview, bg=PANEL, fg=TEXT,
             selectcolor=RAISED, activebackground=PANEL,
             activeforeground=TEXT,
         ).pack(anchor="w", padx=14, pady=(8, 4))
+        tk.Label(parent, text="IN-GAME START STATE", bg=PANEL, fg=DIM).pack(
+            anchor="w", padx=14, pady=(4, 2))
+        load_mode = self.ttk.Combobox(
+            parent, textvariable=self.load_mode_var, state="readonly",
+            values=(LOAD_PRESERVE, LOAD_SHOW, LOAD_HIDE))
+        load_mode.pack(fill="x", padx=14)
+        load_mode.bind("<<ComboboxSelected>>", self.apply_load_mode)
+        actions = tk.Frame(parent, bg=PANEL)
+        actions.pack(fill="x", padx=14, pady=(8, 6))
+        for label, command in (
+                ("CENTER", self.center_selected),
+                ("SHOW", lambda: self.set_selected_preview(True)),
+                ("HIDE", lambda: self.set_selected_preview(False))):
+            tk.Button(
+                actions, text=label, command=command, bg=RAISED, fg=TEXT,
+                activebackground=CYAN, activeforeground=BG, relief="flat",
+                padx=5, pady=4,
+            ).pack(side="left", fill="x", expand=True, padx=2)
         tk.Button(
             parent, text="APPLY GEOMETRY", command=self.apply_inspector,
             bg=CYAN, fg=BG, relief="flat", padx=10, pady=6,
@@ -897,8 +1133,13 @@ class StudioApp:
         for name in self.model.ordered_names():
             state = self.model.windows[name]
             geometry = f"{name} · {state.x},{state.y} · {state.width}×{state.height}"
+            load_state = (
+                "—" if state.show_on_load is None
+                else ("●" if state.show_on_load else "○")
+            )
             self.tree.insert(
-                "", "end", iid=name, values=("●" if state.visible else "○", geometry))
+                "", "end", iid=name,
+                values=("●" if state.visible else "○", load_state, geometry))
         if selected in self.model.windows:
             self.tree.selection_set(selected)
 
@@ -920,6 +1161,10 @@ class StudioApp:
             value = getattr(state, key)
             self.inspector_vars[key].set(str(value))
         self.show_var.set(state.visible)
+        self.load_mode_var.set(
+            LOAD_PRESERVE if state.show_on_load is None
+            else (LOAD_SHOW if state.show_on_load else LOAD_HIDE)
+        )
         self.tree.selection_set(name)
         self.tree.see(name)
         self.draw_selection()
@@ -933,11 +1178,69 @@ class StudioApp:
         selection = self.tree.selection()
         if not selection:
             return
-        name = selection[0]
-        self.model.set_visible(name, not self.model.windows[name].visible)
-        self.select(name)
+        self.selected = selection[0]
+        self.set_selected_preview(
+            not self.model.windows[self.selected].visible)
+
+    def toggle_selected_preview(self) -> None:
+        if self.selected is not None:
+            self.set_selected_preview(self.show_var.get())
+
+    def set_selected_preview(self, visible: bool) -> None:
+        if self.selected is None:
+            return
+        self.model.set_visible(self.selected, visible)
+        self.show_var.set(visible)
+        self.select(self.selected)
         self.refresh_tree()
-        self.render()
+        self.schedule_render()
+
+    def apply_load_mode(self, _event=None) -> None:
+        if self.selected is None:
+            return
+        value = self.load_mode_var.get()
+        show = None if value == LOAD_PRESERVE else value == LOAD_SHOW
+        self.model.set_show_on_load(self.selected, show)
+        self.refresh_tree()
+
+    def center_selected(self) -> None:
+        if self.selected is None:
+            return
+        state = self.model.windows[self.selected]
+        self.model.move(
+            self.selected,
+            (self.model.screen_width - state.width) // 2,
+            (self.model.screen_height - state.height) // 2,
+        )
+        self.select(self.selected)
+        self.refresh_tree()
+        self.schedule_render()
+
+    def key_nudge(self, event) -> None:
+        if self.selected is None:
+            return
+        focus = self.root.focus_get()
+        if focus is not None and focus.winfo_class() in {
+                "Entry", "TEntry", "TCombobox", "Text"}:
+            return
+        if event.keysym == "space":
+            self.set_selected_preview(
+                not self.model.windows[self.selected].visible)
+            return
+        directions = {
+            "Left": (-1, 0), "Right": (1, 0),
+            "Up": (0, -1), "Down": (0, 1),
+        }
+        if event.keysym not in directions:
+            return
+        step = 10 if event.state & 0x0001 else 1
+        dx, dy = directions[event.keysym]
+        state = self.model.windows[self.selected]
+        self.model.move(
+            self.selected, state.x + dx * step, state.y + dy * step)
+        self.select(self.selected)
+        self.refresh_tree()
+        self.schedule_render()
 
     def canvas_point(self, event) -> tuple[int, int]:
         return round(event.x / self.scale), round(event.y / self.scale)
@@ -945,36 +1248,56 @@ class StudioApp:
     def canvas_down(self, event) -> None:
         gx, gy = self.canvas_point(event)
         chosen = None
-        for name in reversed(self.model.visible_names()):
-            x0, y0, x1, y1 = self.model.windows[name].rect()
-            if x0 <= gx < x1 and y0 <= gy < y1:
-                chosen = name
-                break
+        mode = "move"
+        if self.selected is not None:
+            selected_state = self.model.windows[self.selected]
+            x0, y0, x1, y1 = selected_state.rect()
+            handle = max(16, round(10 / max(self.scale, .05)))
+            if (selected_state.visible and selected_state.resizable
+                    and x1 - handle <= gx <= x1
+                    and y1 - handle <= gy <= y1):
+                chosen = self.selected
+                mode = "resize"
+        if chosen is None:
+            for name in reversed(self.model.visible_names()):
+                x0, y0, x1, y1 = self.model.windows[name].rect()
+                if x0 <= gx < x1 and y0 <= gy < y1:
+                    chosen = name
+                    break
         self.select(chosen)
         if chosen is not None:
             state = self.model.windows[chosen]
-            self.drag_origin = (gx, gy, state.x, state.y)
+            self.drag_origin = (
+                mode, gx, gy, state.x, state.y, state.width, state.height)
 
     def canvas_drag(self, event) -> None:
         if self.selected is None or self.drag_origin is None:
             return
         gx, gy = self.canvas_point(event)
-        start_x, start_y, window_x, window_y = self.drag_origin
-        self.model.move(
-            self.selected,
-            window_x + gx - start_x,
-            window_y + gy - start_y,
-        )
+        mode, start_x, start_y, window_x, window_y, width, height = (
+            self.drag_origin)
+        if mode == "resize":
+            self.model.resize(
+                self.selected,
+                width + gx - start_x,
+                height + gy - start_y,
+            )
+        else:
+            self.model.move(
+                self.selected,
+                window_x + gx - start_x,
+                window_y + gy - start_y,
+            )
         state = self.model.windows[self.selected]
-        self.inspector_vars["x"].set(str(state.x))
-        self.inspector_vars["y"].set(str(state.y))
+        for key in self.inspector_vars:
+            self.inspector_vars[key].set(str(getattr(state, key)))
         self.draw_selection()
 
     def canvas_up(self, _event) -> None:
         if self.drag_origin is not None:
             self.drag_origin = None
             self.refresh_tree()
-            self.render()
+            self.schedule_render()
 
     def draw_selection(self) -> None:
         self.canvas.delete("selection")
@@ -991,37 +1314,71 @@ class StudioApp:
         self.canvas.create_text(
             x0 + 5, y0 + 5, text=self.selected, anchor="nw",
             fill=GOLD_BRIGHT, font=("Segoe UI Semibold", 9), tags="selection")
+        if state.resizable:
+            self.canvas.create_rectangle(
+                max(x0, x1 - 10), max(y0, y1 - 10), x1, y1,
+                fill=GOLD_BRIGHT, outline=BG, width=1, tags="selection")
+
+    def schedule_render(self, delay: int = 30) -> None:
+        """Coalesce resize/toggle bursts into one non-reentrant render."""
+        if self.rendering:
+            self.render_pending = True
+            return
+        if self.render_after_id is not None:
+            try:
+                self.root.after_cancel(self.render_after_id)
+            except Exception:
+                pass
+        self.render_after_id = self.root.after(delay, self.render)
 
     def render(self) -> None:
-        self.model.skin_name = self.skin_var.get().strip() or DEFAULT_SKIN_NAME
-        self.model.ini_name = self.ini_var.get().strip() or DEFAULT_INI_NAME
-        self.status.set("Rendering pixel-accurate geometry…")
-        self.root.update_idletasks()
-        image = render_scene(self.model)
-        available_width = max(320, self.canvas.winfo_width())
-        available_height = max(240, self.canvas.winfo_height())
-        self.scale = min(
-            available_width / self.model.screen_width,
-            available_height / self.model.screen_height,
-        )
-        display = image.resize(
-            (max(1, round(image.width * self.scale)),
-             max(1, round(image.height * self.scale))),
-            Image.Resampling.LANCZOS,
-        )
-        from PIL import ImageTk
-        self.photo = ImageTk.PhotoImage(display)
-        self.canvas.delete("all")
-        self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
-        self.canvas.configure(
-            scrollregion=(0, 0, display.width, display.height))
-        self.draw_selection()
-        problems = self.model.validation()
-        self.status.set(
-            f"{self.model.screen_width}×{self.model.screen_height} · "
-            f"{len(self.model.visible_names())} visible · "
-            + ("no overlaps" if not problems else f"{len(problems)} overlap warning(s)")
-        )
+        if self.rendering:
+            self.render_pending = True
+            return
+        self.render_after_id = None
+        self.rendering = True
+        try:
+            self.model.skin_name = (
+                self.skin_var.get().strip() or DEFAULT_SKIN_NAME)
+            self.model.ini_name = (
+                self.ini_var.get().strip() or DEFAULT_INI_NAME)
+            self.status.set("Rendering pixel-accurate geometry…")
+            image = render_scene(self.model)
+            available_width = max(320, self.canvas.winfo_width())
+            available_height = max(240, self.canvas.winfo_height())
+            self.scale = min(
+                available_width / self.model.screen_width,
+                available_height / self.model.screen_height,
+            )
+            display = image.resize(
+                (max(1, round(image.width * self.scale)),
+                 max(1, round(image.height * self.scale))),
+                Image.Resampling.LANCZOS,
+            )
+            from PIL import ImageTk
+            new_photo = ImageTk.PhotoImage(display, master=self.root)
+            self.canvas.delete("all")
+            self.photo = new_photo
+            self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
+            self.canvas.configure(
+                scrollregion=(0, 0, display.width, display.height))
+            self.draw_selection()
+            problems = self.model.validation()
+            self.status.set(
+                f"{self.model.screen_width}×{self.model.screen_height} · "
+                f"{len(self.model.visible_names())} previewed · "
+                + ("no overlaps" if not problems
+                   else f"{len(problems)} overlap warning(s)")
+            )
+        except Exception:
+            details = traceback.format_exc()
+            log = write_crash_log(details)
+            self.status.set(f"Preview error recorded in {log}")
+        finally:
+            self.rendering = False
+            if self.render_pending:
+                self.render_pending = False
+                self.schedule_render()
 
     def apply_inspector(self) -> None:
         if self.selected is None:
@@ -1040,7 +1397,7 @@ class StudioApp:
             self.model.set_visible(self.selected, self.show_var.get())
             self.select(self.selected)
             self.refresh_tree()
-            self.render()
+            self.schedule_render()
         except Exception as exc:
             self._error(str(exc))
 
@@ -1055,23 +1412,27 @@ class StudioApp:
             try:
                 self.model.set_accent(role, selected)
                 self.refresh_swatches()
-                self.render()
+                self.schedule_render()
             except Exception as exc:
                 self._error(str(exc))
 
     def change_preset(self, _event=None) -> None:
         from tkinter import messagebox
         value = self.preset_var.get()
-        if value == self.model.preset:
+        if value == CUSTOM_PRESET_LABEL:
+            return
+        if value == self.model.preset and not self.model.preserve_imported_chat:
             return
         if not messagebox.askyesno(
                 APP_NAME, "Reset window geometry to this preset?", parent=self.root):
-            self.preset_var.set(self.model.preset)
+            self.preset_var.set(
+                CUSTOM_PRESET_LABEL if self.model.preserve_imported_chat
+                else self.model.preset)
             return
         self.model.reset_preset(value)
         self.selected = None
         self.refresh_tree()
-        self.render()
+        self.schedule_render()
 
     def open_project(self) -> None:
         from tkinter import filedialog
@@ -1083,12 +1444,14 @@ class StudioApp:
         try:
             self.model.load_project(Path(path))
             self.project_path = Path(path)
-            self.preset_var.set(self.model.preset)
+            self.preset_var.set(
+                CUSTOM_PRESET_LABEL if self.model.preserve_imported_chat
+                else self.model.preset)
             self.skin_var.set(self.model.skin_name)
             self.ini_var.set(self.model.ini_name)
             self.refresh_tree()
             self.refresh_swatches()
-            self.render()
+            self.schedule_render()
         except Exception as exc:
             self._error(str(exc))
 
@@ -1111,24 +1474,52 @@ class StudioApp:
         except Exception as exc:
             self._error(str(exc))
 
+    def offer_current_ini(self) -> None:
+        from tkinter import messagebox
+        candidates = discover_character_inis()
+        if not candidates:
+            return
+        current = candidates[0]
+        if messagebox.askyesno(
+                APP_NAME,
+                "Use your current in-game layout as the starting point?\n\n"
+                f"{current}\n\n"
+                "Studio reads this file only. It will not modify EverQuest.",
+                parent=self.root):
+            self._load_ini_path(current)
+
     def import_ini(self) -> None:
         from tkinter import filedialog
+        candidates = discover_character_inis()
+        options = {}
+        if candidates:
+            options = {
+                "initialdir": str(candidates[0].parent),
+                "initialfile": candidates[0].name,
+            }
         selected = filedialog.askopenfilename(
             parent=self.root, title="Import EverQuest character UI",
-            filetypes=(("EverQuest UI", "UI_*_LO*.ini"), ("INI files", "*.ini")))
+            filetypes=(("EverQuest UI", "UI_*_LO*.ini"), ("INI files", "*.ini")),
+            **options)
         if not selected:
             return
+        self._load_ini_path(Path(selected))
+
+    def _load_ini_path(self, path: Path) -> None:
         try:
-            self.model.import_ini(Path(selected))
+            self.model.import_ini(path)
+            self.preset_var.set(CUSTOM_PRESET_LABEL)
             self.skin_var.set(self.model.skin_name)
+            self.ini_var.set(self.model.ini_name)
             self.refresh_tree()
-            self.render()
-            self.status.set(f"Imported geometry from {selected}")
+            self.schedule_render()
+            self.status.set(
+                f"Imported exact anchors, dimensions, and start states from {path}")
         except Exception as exc:
             self._error(str(exc))
 
     def export_ini(self) -> None:
-        from tkinter import filedialog
+        from tkinter import filedialog, messagebox
         try:
             self._sync_names()
         except Exception as exc:
@@ -1141,8 +1532,24 @@ class StudioApp:
         if not selected:
             return
         try:
-            self.model.export_ini(Path(selected))
+            target = Path(selected)
+            if (target.parent / "eqgame.exe").is_file() and not messagebox.askyesno(
+                    APP_NAME,
+                    "This is an EverQuest game folder. Confirm EverQuest is "
+                    "fully closed before Studio writes the character UI.\n\n"
+                    "Continue with an automatic timestamped backup?",
+                    parent=self.root):
+                return
+            previous = target.read_bytes() if target.is_file() else None
+            self.model.export_ini(target)
             self.status.set(f"Exported game-ready INI: {selected}")
+            if previous is not None and target.read_bytes() != previous:
+                messagebox.showinfo(
+                    APP_NAME,
+                    "The INI was exported atomically. The previous file was "
+                    "preserved beside it as a timestamped .studio-backup.",
+                    parent=self.root,
+                )
         except Exception as exc:
             self._error(str(exc))
 
@@ -1192,6 +1599,22 @@ class StudioApp:
         messagebox.showerror(APP_NAME, message, parent=self.root)
         self.status.set(message)
 
+    def report_callback_exception(self, exc_type, exc_value, exc_tb) -> None:
+        details = "".join(
+            traceback.format_exception(exc_type, exc_value, exc_tb))
+        log = write_crash_log(details)
+        self.status.set(f"Recovered from an error; details: {log}")
+        try:
+            from tkinter import messagebox
+            messagebox.showerror(
+                APP_NAME,
+                "Studio recovered from an unexpected error instead of "
+                f"closing.\n\nDetails were saved to:\n{log}",
+                parent=self.root,
+            )
+        except Exception:
+            pass
+
     def run(self) -> None:
         self.root.mainloop()
 
@@ -1213,6 +1636,9 @@ def selftest() -> int:
         else:
             raise AssertionError(f"unsafe skin name accepted: {invalid!r}")
     assert safe_ini_name("UI_Spin_qeynos_LO1.ini")
+    assert reference_pixel("center", -0.21511627, 3440, 360) == 1170
+    assert reference_pixel("center", 0.20486109, 1440, 193) == 771
+    assert reference_pixel("right", 0.02238372, 3440, 230) == 3133
     custom = accent_palette(
         venom=(40, 180, 210), gold=(190, 120, 40), ember=(230, 80, 55))
     assert custom["CYAN"] == (40, 180, 210)
@@ -1259,18 +1685,88 @@ def selftest() -> int:
         clone.load_project(project)
         assert clone.accent_hex == model.accent_hex
         assert clone.windows["MainChat"].width == 640
+        assert clone.windows["MainChat"].show_on_load is None
 
         exported = root / DEFAULT_INI_NAME
         model.export_ini(exported)
         exported_text = exported.read_text(encoding="utf-8")
         assert f"UISkin={model.skin_name}" in exported_text
         assert "Width=640" in exported_text
+        exported.write_text("stale\n", encoding="utf-8")
+        model.export_ini(exported)
+        assert len(list(root.glob(
+            f"{DEFAULT_INI_NAME}.studio-backup-*"))) == 1
+        model.export_ini(exported)
+        assert len(list(root.glob(
+            f"{DEFAULT_INI_NAME}.studio-backup-*"))) == 1
+
+        # The historical Spin profile contains all three EQ anchor modes and
+        # user-scaled horizontal/vertical controls. Importing and exporting it
+        # must preserve the actual pixels, sizes, start states, and chat map.
+        live_source = model.root / "layouts" / "spin-live" / DEFAULT_INI_NAME
+        live = StudioModel()
+        live.import_ini(live_source)
+        assert (live.windows["PlayerWindow"].x,
+                live.windows["PlayerWindow"].y) == (1170, 771)
+        assert live.windows["Chat 1"].x == 713
+        assert (live.windows["CastSpellWnd"].width,
+                live.windows["CastSpellWnd"].height) == (595, 48)
+        visible_hotbars = [
+            name for name in live.ordered_names()
+            if name.startswith("HotButtonWnd") and live.windows[name].visible
+        ]
+        assert visible_hotbars == ["HotButtonWnd", "HotButtonWnd2"]
+        assert live.preserve_imported_chat
+        live.windows["PetInfoWindow"].visible = True
+        assert live.windows["PetInfoWindow"].show_on_load is False
+        live_project = root / "live-project.json"
+        live.save_project(live_project)
+        live_clone = StudioModel()
+        live_clone.load_project(live_project)
+        assert live_clone.base_ini_text == live.base_ini_text
+        assert live_clone.preserve_imported_chat
+        live_export = root / "live-export.ini"
+        live.export_ini(live_export)
+        live_roundtrip = StudioModel()
+        live_roundtrip.import_ini(live_export)
+        for name, expected in live.windows.items():
+            actual = live_roundtrip.windows[name]
+            assert (
+                actual.x, actual.y, actual.width, actual.height,
+                actual.show_on_load,
+            ) == (
+                expected.x, expected.y, expected.width, expected.height,
+                expected.show_on_load,
+            ), name
+        original_chat = dict(
+            layout.parse_ini(live_source.read_text(encoding="utf-8"))
+        )["ChatManager"]
+        exported_chat = dict(
+            layout.parse_ini(live_export.read_text(encoding="utf-8"))
+        )["ChatManager"]
+        assert exported_chat == original_chat
+        assert dict(
+            layout.parse_ini(live_export.read_text(encoding="utf-8"))
+        )["PetInfoWindow"].count("Show=0") == 1
 
         image = render_scene(model)
         assert image.size == DEFAULT_SCREEN
         image.resize((860, 360), Image.Resampling.LANCZOS).save(
             root / "preview.png")
         assert (root / "preview.png").stat().st_size > 20_000
+
+        # Exercise every selectable window independently, including all four
+        # pet variants, then together. A single bad renderer must fail CI
+        # instead of becoming a user-facing GUI crash.
+        toggle_model = StudioModel()
+        toggle_names = toggle_model.ordered_names()
+        for selected_name in toggle_names:
+            for name in toggle_names:
+                toggle_model.windows[name].visible = name == selected_name
+            assert render_scene(toggle_model).size == DEFAULT_SCREEN
+        for name in toggle_names:
+            toggle_model.windows[name].visible = True
+        assert render_scene(toggle_model).size == DEFAULT_SCREEN
 
         texture_out = root / "custom-skin"
         painted = texture_builder.generate(
@@ -1306,7 +1802,7 @@ def selftest() -> int:
 
     print(
         "SpinUI Studio selftest: ALL PASS\n"
-        "  project round-trip | INI export | palette XML/TGA | 3440 preview | bundle"
+        "  63 window toggles | exact INI round-trip | project | palette XML/TGA | bundle"
     )
     return 0
 
@@ -1316,19 +1812,43 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--selftest", action="store_true")
     parser.add_argument("--render-preview", type=Path)
     parser.add_argument("--project", type=Path)
+    parser.add_argument("--ini", type=Path,
+                        help="start from an EverQuest character UI INI")
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
     model = StudioModel()
     if args.project is not None:
         model.load_project(args.project)
+    if args.ini is not None:
+        model.import_ini(args.ini)
     if args.render_preview is not None:
         output = args.render_preview.resolve()
         output.parent.mkdir(parents=True, exist_ok=True)
         render_scene(model).convert("RGB").save(output, quality=94)
         print(f"wrote {output}")
         return 0
-    StudioApp(model, args.project).run()
+    try:
+        StudioApp(
+            model, args.project,
+            offer_import=args.project is None and args.ini is None,
+        ).run()
+    except Exception:
+        details = traceback.format_exc()
+        log = write_crash_log(details)
+        if getattr(sys, "frozen", False):
+            try:
+                import ctypes
+                ctypes.windll.user32.MessageBoxW(
+                    0,
+                    f"SpinUI Studio could not start.\n\nDetails: {log}",
+                    APP_NAME,
+                    0x10,
+                )
+            except Exception:
+                pass
+        else:
+            raise
     return 0
 
 

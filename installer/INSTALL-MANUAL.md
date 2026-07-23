@@ -28,14 +28,20 @@ INI while the game is running.
 Run `SpinUIStudio.exe` directly from the extracted package, keeping it beside
 the `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content. The
 full 3440x1440 preview uses the real SpinUI textures and the same INI geometry
-that is exported to EverQuest. Drag windows, enter exact pixel positions,
-show/hide windows, import an existing character UI INI, and customize the
-Venom, Gold, and Ember accents.
+that is exported to EverQuest. Studio detects common game installs and offers
+to import the newest character UI INI as its starting point. Drag windows,
+drag the gold corner to resize supported controls, enter exact pixel
+positions, nudge with arrow keys, and customize the Venom, Gold, and Ember
+accents. **Preview on canvas** is separate from **In-game start state**, so a
+hidden pet, bag, or inventory window can be positioned without forcing it open
+at login.
 
 Use **SAVE PROJECT** to keep an editable JSON project, **SAVE PREVIEW** for a
 full-resolution PNG, **EXPORT INI** for only the character layout, or **BUILD
 FINAL UI** for a complete custom skin and INI bundle. Studio writes to a new
-folder and never changes the live EverQuest installation.
+folder. If you explicitly export over a live character INI, confirm EverQuest
+is closed; Studio creates a timestamped byte-exact backup and performs an
+atomic replacement.
 
 Names, chat lines, buffs, gauges, items, and similar runtime values in the
 preview are deterministic samples. Their surrounding geometry and built skin

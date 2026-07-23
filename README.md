@@ -150,11 +150,20 @@ it directly; no Python installation is required.
 
 The Studio canvas is a full 3440×1440 composition driven by the same window
 geometry, real SpinUI textures, layout generator, and character-INI fields as
-the shipped game UI. Drag a visible window to reposition it, select a row to
-edit exact pixel coordinates, resize client-resizable windows, double-click a
-row to show or hide it, or begin with Combat Focus, Social Focus, or Hybrid.
-Import an existing `UI_<Character>_<server>_LO#.ini` to work from a real
-character setup.
+the shipped game UI. On startup Studio detects common EverQuest installs and
+offers to read the newest `UI_<Character>_<server>_LO#.ini`, so the canvas
+begins at the character's current in-game positions, hotbar/spell orientation,
+scale, and sizes. EverQuest's left, right, top, bottom, and half-screen
+`center` anchors are converted to exact pixels and tested through a lossless
+import/export/import round trip.
+
+Drag a previewed window to reposition it, drag the gold lower-right handle to
+resize supported windows, use the inspector for exact coordinates, or nudge
+with the arrow keys (Shift = 10px). Double-click a row to preview a normally
+hidden window such as Inventory, bags, or Pet without changing whether it
+opens at login. **Preview on canvas** and **In-game start state** are separate
+controls; the latter can preserve the imported INI, force show, or force hide.
+Combat Focus, Social Focus, and Hybrid remain available as deliberate resets.
 
 Three color controls independently tune the **Venom**, **Gold**, and **Ember**
 accents. Studio derives their complete highlight/shadow ramps, applies them to
@@ -163,13 +172,15 @@ Projects save as small JSON files for continued editing. **SAVE PREVIEW**
 writes a full-resolution PNG, **EXPORT INI** writes the game-ready character
 layout, and **BUILD FINAL UI** creates a new, self-contained bundle containing
 the custom skin, INI, project, and installation notes. Studio refuses to
-replace an existing build folder and never modifies the live game directory.
+replace an existing build folder. If a user explicitly exports over an INI in
+the live game folder, Studio first confirms EverQuest is closed, creates a
+timestamped byte-exact backup, and replaces the file atomically.
 
 ### Accuracy contract
 
 | Preview element | Offline fidelity |
 |---|---|
-| Window position, size, visibility, and 3440×1440 bounds | Authoritative: the same pixel values are exported to the EverQuest INI. |
+| Window position, size, visibility, and 3440×1440 bounds | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows. |
 | Window chrome and custom accents | Authoritative assets: built from the real SpinUI TGA/XML sources loaded by the game. |
 | Chat routing and preserved character settings | Imported from the selected INI; exported through the same audited layout transformation used by the release. |
 | Names, chat text, buffs, gauges, items, and other live state | Clearly labeled deterministic sample data; only `eqgame.exe` can supply runtime values. |
@@ -189,7 +200,11 @@ python tools/spinui_studio.py
 
 The deterministic non-GUI checks are
 `python tools/spinui_studio.py --selftest` and
-`python tools/spinui_studio.py --render-preview spinui-preview.png`.
+`python tools/spinui_studio.py --render-preview spinui-preview.png`. Use
+`--ini C:\path\to\UI_Character_server_LO1.ini` to launch or render directly
+from a current character layout. If a GUI callback ever fails, Studio remains
+open and records the traceback in
+`%LOCALAPPDATA%\SpinUIStudio\spinui-studio.log`.
 
 ---
 
