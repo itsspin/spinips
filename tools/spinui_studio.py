@@ -47,6 +47,19 @@ from spinui_theme import (DEFAULT_ACCENTS, accent_palette, hex_from_rgb,  # noqa
 APP_NAME = "SpinUI Studio"
 PROJECT_SCHEMA = 2
 DEFAULT_SCREEN = (3440, 1440)
+# Every supported canvas maps to an audited placement table in
+# generate_spinui_layout, so the offline composition is the same geometry the
+# release ships for that game resolution.
+RESOLUTIONS = {
+    (3440, 1440): "3440 × 1440 · ultrawide",
+    (2560, 1440): "2560 × 1440 · standard",
+    (3840, 2160): "3840 × 2160 · 4K",
+}
+RESOLUTION_BY_LABEL = {label: size for size, label in RESOLUTIONS.items()}
+# Presentation keys the audited tables force onto fresh presets. When the
+# base INI is the player's own imported file these stay untouched so exported
+# transparency/fade choices survive exactly.
+STYLE_KEYS = ("Alpha", "FadeToAlpha", "Fades")
 DEFAULT_SKIN_NAME = "spinui_custom"
 DEFAULT_INI_NAME = "UI_Spin_qeynos_LO1.ini"
 CUSTOM_PRESET_LABEL = "custom / imported INI"
@@ -243,8 +256,11 @@ class StudioModel:
         self.source_skin = self.root / "spinui_reloaded"
         if not (self.source_skin / "EQUI.xml").is_file():
             raise FileNotFoundError(
-                f"{APP_NAME} needs a spinui_reloaded folder beside the application: "
-                f"{self.source_skin}"
+                f"{APP_NAME} needs the release's spinui_reloaded folder beside "
+                f"it: {self.source_skin}\n\nUnpack the complete "
+                "SpinUI-Studio.zip (or run the executable from inside an "
+                "unpacked SpinUI release folder) instead of moving "
+                "SpinUIStudio.exe out on its own."
             )
         self.screen_width, self.screen_height = resolution
         self.preset = preset
@@ -261,12 +277,44 @@ class StudioModel:
         self.preserve_imported_chat = False
         self.reset_preset(preset)
 
+    def is_ultrawide(self) -> bool:
+        return (self.screen_width, self.screen_height) == DEFAULT_SCREEN
+
+    def base_placements(self) -> dict[str, dict]:
+        """Audited placement table for the current game resolution.
+
+        Chat presets only rearrange the 3440x1440 chat row; the 2560x1440 and
+        3840x2160 canvases use their separately-authored release tables.
+        """
+        size = (self.screen_width, self.screen_height)
+        if size == (2560, 1440):
+            return layout.standard_1440_placements()
+        if size == (3840, 2160):
+            return layout.standard_2160_placements()
+        return layout.preset_placements(self.preset)
+
+    def chat_font(self) -> int:
+        return (layout.CHAT_FONT_2160 if self.screen_height >= 2160
+                else layout.CHAT_FONT_1440)
+
+    def set_resolution(self, width: int, height: int) -> None:
+        if (width, height) not in RESOLUTIONS:
+            supported = ", ".join(
+                f"{w}x{h}" for w, h in RESOLUTIONS)
+            raise ValueError(
+                f"unsupported resolution {width}x{height}; "
+                f"supported: {supported}")
+        self.screen_width, self.screen_height = width, height
+        self.reset_preset(self.preset)
+
     def reset_preset(self, preset: str) -> None:
         if preset not in layout.CHAT_PRESETS:
             raise ValueError(f"unknown layout preset: {preset}")
         self.preset = preset
+        # An imported INI stays the key/value base (client settings survive);
+        # only its chat layout and geometry are replaced by the preset table.
         self.preserve_imported_chat = False
-        specs = layout.preset_placements(preset)
+        specs = self.placement_table = self.base_placements()
         windows: dict[str, WindowState] = {}
         for name, spec in specs.items():
             x, y, width, height = spec["_rect"]
@@ -282,12 +330,13 @@ class StudioModel:
                 visible, name in RESIZABLE,
                 None if show is None else show == "1",
             )
-        # EQMain is generated separately from PLACEMENTS.
+        # EQMain is generated separately from PLACEMENTS. The shipped defaults
+        # anchor it 8px from the right and 4px from the bottom edge.
         eq_width, eq_height = FALLBACK_SIZES["EQMainWnd"]
         windows["EQMainWnd"] = WindowState(
             "EQMainWnd",
             self.screen_width - 8 - eq_width,
-            self.screen_height - 8 - eq_height,
+            self.screen_height - 4 - eq_height,
             eq_width, eq_height, True, False, True,
         )
         self.windows = windows
@@ -320,7 +369,7 @@ class StudioModel:
         self.windows[name].show_on_load = value
 
     def ordered_names(self) -> list[str]:
-        preferred = list(layout.preset_placements(self.preset))
+        preferred = list(self.placement_table)
         if "EQMainWnd" not in preferred:
             preferred.append("EQMainWnd")
         return [name for name in preferred if name in self.windows]
@@ -348,10 +397,14 @@ class StudioModel:
 
     def placement_specs(self) -> tuple[dict[str, dict], dict[str, str]]:
         specs: dict[str, dict] = {}
-        original = layout.preset_placements(self.preset)
-        for name, source in original.items():
+        for name, source in self.placement_table.items():
             state = self.windows[name]
             spec = {key: value for key, value in source.items() if key != "_rect"}
+            if self.preserve_imported_chat:
+                # The base INI is the player's own file: keep their exact
+                # transparency and fade choices instead of the preset styling.
+                for key in STYLE_KEYS:
+                    spec.pop(key, None)
             spec.update({
                 "XRef": "left", "YRef": "top",
                 "XPos": percent(state.x, self.screen_width),
@@ -392,10 +445,13 @@ class StudioModel:
         specs, eqmain = self.placement_specs()
         transformed = layout.transform(
             self._default_ini_text(), self.preset, specs, eqmain,
+            chat_font=self.chat_font(),
             skin_name=self.skin_name,
             rebuild_chat=not self.preserve_imported_chat,
         )
-        default_path = self.source_skin / "default1440.ini"
+        default_name = (
+            "default4k.ini" if self.screen_height >= 2160 else "default1440.ini")
+        default_path = self.source_skin / default_name
         if default_path.is_file():
             transformed = layout.merge_missing(
                 transformed, default_path.read_text(encoding="utf-8", errors="replace"))
@@ -509,6 +565,11 @@ class StudioModel:
         if schema not in {1, PROJECT_SCHEMA}:
             raise ValueError("Unsupported SpinUI Studio project schema.")
         width, height = payload["resolution"]
+        if (int(width), int(height)) not in RESOLUTIONS:
+            supported = ", ".join(f"{w}x{h}" for w, h in RESOLUTIONS)
+            raise ValueError(
+                f"Project resolution {width}x{height} is not supported; "
+                f"supported: {supported}.")
         self.screen_width, self.screen_height = int(width), int(height)
         self.reset_preset(payload["preset"])
         self.skin_name = safe_skin_name(payload["skin_name"])
@@ -937,6 +998,8 @@ class StudioApp:
         self.rendering = False
         self.render_pending = False
         self.status = tk.StringVar(value="Ready")
+        self.resolution_var = tk.StringVar(
+            value=RESOLUTIONS[(model.screen_width, model.screen_height)])
         self.preset_var = tk.StringVar(value=model.preset)
         self.skin_var = tk.StringVar(value=model.skin_name)
         self.ini_var = tk.StringVar(value=model.ini_name)
@@ -974,14 +1037,23 @@ class StudioApp:
                 activebackground=CYAN, activeforeground=BG, relief="flat",
                 padx=10, pady=5,
             ).pack(side="left", padx=3)
-        tk.Label(toolbar, text="Preset", bg=PANEL, fg=DIM).pack(
+        tk.Label(toolbar, text="Game resolution", bg=PANEL, fg=DIM).pack(
             side="left", padx=(18, 5))
-        preset = ttk.Combobox(
+        resolution = ttk.Combobox(
+            toolbar, textvariable=self.resolution_var, state="readonly",
+            width=20, values=tuple(RESOLUTIONS.values()),
+        )
+        resolution.pack(side="left")
+        resolution.bind("<<ComboboxSelected>>", self.change_resolution)
+        tk.Label(toolbar, text="Chat preset", bg=PANEL, fg=DIM).pack(
+            side="left", padx=(14, 5))
+        self.preset_combo = ttk.Combobox(
             toolbar, textvariable=self.preset_var, state="readonly", width=14,
             values=(CUSTOM_PRESET_LABEL, *tuple(layout.CHAT_PRESETS)),
         )
-        preset.pack(side="left")
-        preset.bind("<<ComboboxSelected>>", self.change_preset)
+        self.preset_combo.pack(side="left")
+        self.preset_combo.bind("<<ComboboxSelected>>", self.change_preset)
+        self._sync_preset_availability()
 
         body = tk.PanedWindow(
             self.root, orient="horizontal", bg=BG, sashwidth=6,
@@ -1009,7 +1081,8 @@ class StudioApp:
         tk.Label(
             left,
             text="Double-click toggles preview only. Drag to move; drag the "
-                 "gold corner to resize. Arrow keys nudge 1px; Shift = 10px.",
+                 "gold corner to resize. Click the canvas, then arrow keys "
+                 "nudge 1px (Shift = 10px); in this list, arrows browse rows.",
             bg=PANEL, fg=DIM, justify="left", wraplength=270,
         ).pack(anchor="w", padx=12, pady=(0, 12))
 
@@ -1220,8 +1293,11 @@ class StudioApp:
         if self.selected is None:
             return
         focus = self.root.focus_get()
+        # Text inputs own their keystrokes; the window list owns arrow/space
+        # navigation. Nudging there would silently drag the selected window
+        # while the user is only browsing the list.
         if focus is not None and focus.winfo_class() in {
-                "Entry", "TEntry", "TCombobox", "Text"}:
+                "Entry", "TEntry", "TCombobox", "Text", "Treeview"}:
             return
         if event.keysym == "space":
             self.set_selected_preview(
@@ -1246,6 +1322,9 @@ class StudioApp:
         return round(event.x / self.scale), round(event.y / self.scale)
 
     def canvas_down(self, event) -> None:
+        # Take keyboard focus so arrow-key nudging always works after any
+        # canvas interaction, even if the window list was used beforehand.
+        self.canvas.focus_set()
         gx, gy = self.canvas_point(event)
         chosen = None
         mode = "move"
@@ -1416,6 +1495,38 @@ class StudioApp:
             except Exception as exc:
                 self._error(str(exc))
 
+    def _sync_preset_availability(self) -> None:
+        """Chat presets rearrange the 3440x1440 chat row only."""
+        self.preset_combo.configure(
+            state="readonly" if self.model.is_ultrawide() else "disabled")
+
+    def _sync_resolution_controls(self) -> None:
+        self.resolution_var.set(RESOLUTIONS[
+            (self.model.screen_width, self.model.screen_height)])
+        self._sync_preset_availability()
+
+    def change_resolution(self, _event=None) -> None:
+        from tkinter import messagebox
+        current = (self.model.screen_width, self.model.screen_height)
+        size = RESOLUTION_BY_LABEL.get(self.resolution_var.get(), current)
+        if size == current:
+            return
+        if not messagebox.askyesno(
+                APP_NAME,
+                "Switch the canvas to this game resolution?\n\n"
+                "Window geometry resets to the audited release layout for "
+                "that resolution. Import your character INI again (or open a "
+                "project) to continue from saved positions.",
+                parent=self.root):
+            self.resolution_var.set(RESOLUTIONS[current])
+            return
+        self.model.set_resolution(*size)
+        self.selected = None
+        self.preset_var.set(self.model.preset)
+        self._sync_preset_availability()
+        self.refresh_tree()
+        self.schedule_render()
+
     def change_preset(self, _event=None) -> None:
         from tkinter import messagebox
         value = self.preset_var.get()
@@ -1447,6 +1558,7 @@ class StudioApp:
             self.preset_var.set(
                 CUSTOM_PRESET_LABEL if self.model.preserve_imported_chat
                 else self.model.preset)
+            self._sync_resolution_controls()
             self.skin_var.set(self.model.skin_name)
             self.ini_var.set(self.model.ini_name)
             self.refresh_tree()
@@ -1749,6 +1861,64 @@ def selftest() -> int:
             layout.parse_ini(live_export.read_text(encoding="utf-8"))
         )["PetInfoWindow"].count("Show=0") == 1
 
+        # The player's own transparency and fade settings must survive the
+        # import → export round trip untouched; presets force styling only
+        # onto fresh, non-imported layouts.
+        original_sections = dict(
+            layout.parse_ini(live_source.read_text(encoding="utf-8")))
+        exported_sections = dict(
+            layout.parse_ini(live_export.read_text(encoding="utf-8")))
+        for section in ("MainChat", "Chat 1", "Chat 2", "MapViewWnd"):
+            for key in ("Alpha=", "FadeToAlpha=", "Fades="):
+                wanted = [line for line in original_sections[section]
+                          if line.startswith(key)]
+                got = [line for line in exported_sections[section]
+                       if line.startswith(key)]
+                assert got == wanted, (section, key, got, wanted)
+
+        # Every supported game resolution drives its audited release table,
+        # exports with the matching chat font, and round-trips exactly.
+        for size, expected_player, font in (
+                ((2560, 1440), (956, 770), layout.CHAT_FONT_1440),
+                ((3840, 2160), (1388, 1470), layout.CHAT_FONT_2160)):
+            scaled = StudioModel(resolution=size)
+            assert (scaled.screen_width, scaled.screen_height) == size
+            scaled_player = scaled.windows["PlayerWindow"]
+            assert (scaled_player.x, scaled_player.y) == expected_player, size
+            assert not [problem for problem in scaled.validation()
+                        if "off-screen" in problem], size
+            scaled_text = scaled.export_ini_text()
+            assert f"ChatWindow0_FontStyle={font}" in scaled_text
+            scaled_path = root / f"scaled-{size[0]}x{size[1]}.ini"
+            scaled.export_ini(scaled_path)
+            reimport = StudioModel(resolution=size)
+            reimport.import_ini(scaled_path)
+            for name, expected_state in scaled.windows.items():
+                actual = reimport.windows[name]
+                assert (actual.x, actual.y, actual.width, actual.height) == (
+                    expected_state.x, expected_state.y,
+                    expected_state.width, expected_state.height), (size, name)
+            scaled_project = root / f"scaled-{size[0]}x{size[1]}.json"
+            scaled.save_project(scaled_project)
+            restored = StudioModel()
+            restored.load_project(scaled_project)
+            assert (restored.screen_width, restored.screen_height) == size
+            assert restored.windows["PlayerWindow"].x == expected_player[0]
+            assert render_scene(scaled).size == size
+
+        ultra = StudioModel()
+        eq_main = ultra.windows["EQMainWnd"]
+        assert (eq_main.x, eq_main.y) == (
+            3440 - 8 - eq_main.width, 1440 - 4 - eq_main.height)
+        ultra.set_resolution(2560, 1440)
+        assert ultra.windows["PlayerWindow"].x == 956
+        try:
+            ultra.set_resolution(1920, 1080)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("unsupported resolution accepted")
+
         image = render_scene(model)
         assert image.size == DEFAULT_SCREEN
         image.resize((860, 360), Image.Resampling.LANCZOS).save(
@@ -1802,7 +1972,8 @@ def selftest() -> int:
 
     print(
         "SpinUI Studio selftest: ALL PASS\n"
-        "  63 window toggles | exact INI round-trip | project | palette XML/TGA | bundle"
+        "  63 window toggles | exact INI round-trip at 3440/2560/4K | "
+        "imported styling preserved | project | palette XML/TGA | bundle"
     )
     return 0
 
@@ -1814,26 +1985,41 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--project", type=Path)
     parser.add_argument("--ini", type=Path,
                         help="start from an EverQuest character UI INI")
+    supported = ", ".join(f"{w}x{h}" for w, h in RESOLUTIONS)
+    parser.add_argument("--resolution", metavar="WxH",
+                        help=f"canvas game resolution ({supported})")
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
-    model = StudioModel()
-    if args.project is not None:
-        model.load_project(args.project)
-    if args.ini is not None:
-        model.import_ini(args.ini)
-    if args.render_preview is not None:
-        output = args.render_preview.resolve()
-        output.parent.mkdir(parents=True, exist_ok=True)
-        render_scene(model).convert("RGB").save(output, quality=94)
-        print(f"wrote {output}")
-        return 0
     try:
+        # Everything from asset discovery onward runs inside the guard so a
+        # packaged --windowed build reports startup problems (for example a
+        # SpinUIStudio.exe moved away from its release assets) instead of
+        # exiting silently.
+        model = StudioModel()
+        if args.resolution is not None:
+            match = re.fullmatch(r"(\d{3,4})\s*[xX×]\s*(\d{3,4})",
+                                 args.resolution.strip())
+            if match is None:
+                raise ValueError(
+                    f"--resolution must look like 2560x1440, got "
+                    f"{args.resolution!r}")
+            model.set_resolution(int(match.group(1)), int(match.group(2)))
+        if args.project is not None:
+            model.load_project(args.project)
+        if args.ini is not None:
+            model.import_ini(args.ini)
+        if args.render_preview is not None:
+            output = args.render_preview.resolve()
+            output.parent.mkdir(parents=True, exist_ok=True)
+            render_scene(model).convert("RGB").save(output, quality=94)
+            print(f"wrote {output}")
+            return 0
         StudioApp(
             model, args.project,
             offer_import=args.project is None and args.ini is None,
         ).run()
-    except Exception:
+    except Exception as exc:
         details = traceback.format_exc()
         log = write_crash_log(details)
         if getattr(sys, "frozen", False):
@@ -1841,14 +2027,15 @@ def main(argv: list[str] | None = None) -> int:
                 import ctypes
                 ctypes.windll.user32.MessageBoxW(
                     0,
-                    f"SpinUI Studio could not start.\n\nDetails: {log}",
+                    f"SpinUI Studio could not start.\n\n{exc}\n\n"
+                    f"Details: {log}",
                     APP_NAME,
                     0x10,
                 )
             except Exception:
                 pass
-        else:
-            raise
+            return 1
+        raise
     return 0
 
 
