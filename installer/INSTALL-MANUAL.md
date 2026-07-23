@@ -37,7 +37,9 @@ drag the gold corner to resize supported controls, enter exact pixel
 positions, nudge with arrow keys, and customize the Venom, Gold, and Ember
 accents. **Preview on canvas** is separate from **In-game start state**, so a
 hidden pet, bag, or inventory window can be positioned without forcing it open
-at login.
+at login. **USE DOWNLOADED UI** can point Studio at any other UI folder (for
+example an EQInterface skin) to arrange a layout against that skin's true
+window footprints and export an INI targeting it.
 
 Use **SAVE PROJECT** to keep an editable JSON project, **SAVE PREVIEW** for a
 full-resolution PNG, **EXPORT INI** for only the character layout, or **BUILD

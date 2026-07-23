@@ -173,6 +173,15 @@ force show, or force hide. Combat Focus, Social Focus, and Hybrid remain
 available as deliberate resets of the ultrawide chat row, and imported
 transparency/fade settings pass through export untouched.
 
+Studio also arranges layouts for UIs other than SpinUI: **USE DOWNLOADED
+UI** points it at any skin folder (an EQInterface download, for example),
+adopts that skin's true declared window footprints from its own XML, and
+targets it on export via `UISkin=`, so the exported INI loads your offline
+layout under that UI. The canvas keeps clearly-labeled SpinUI placeholder
+art — Studio does not re-render third-party textures — and **BUILD FINAL
+UI** remains a SpinUI-only feature. The full workflow is documented in
+[`docs/SPINUI-STUDIO.md`](docs/SPINUI-STUDIO.md).
+
 Three color controls independently tune the **Venom**, **Gold**, and **Ember**
 accents. Studio derives their complete highlight/shadow ramps, applies them to
 the preview, and builds the actual XML and TGA assets that EverQuest loads.

@@ -25,6 +25,7 @@ import shutil
 import sys
 import tempfile
 import traceback
+import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
@@ -184,6 +185,70 @@ def reference_pixel(ref: str, fraction: float, total: int, size: int) -> int:
     raise ValueError(f"unsupported INI reference: {ref}")
 
 
+def _included_xml_files(skin: Path) -> list[Path]:
+    """The XML files a skin's EQUI.xml manifest actually loads.
+
+    Restricting the scan to the manifest mirrors the client and keeps
+    shipped-but-unincluded variant files (EQUI_PetInfoWindow1.xml and
+    friends) from shadowing the live window definitions. A skin without a
+    readable manifest degrades to scanning every XML file.
+    """
+    everything = sorted(skin.glob("*.xml"))
+    try:
+        root = ET.parse(skin / "EQUI.xml").getroot()
+    except (ET.ParseError, OSError):
+        return everything
+    by_folded = {path.name.casefold(): path for path in everything}
+    included = []
+    for node in root.iter("Include"):
+        if not node.text or not node.text.strip():
+            continue
+        name = Path(node.text.strip().replace("\\", "/")).name.casefold()
+        if name in by_folded:
+            included.append(by_folded[name])
+    return included or everything
+
+
+def read_skin_geometry(
+        skin: Path, targets: Iterable[str]) -> tuple[dict[str, tuple[int, int]], int]:
+    """Read declared window sizes from any EverQuest UI folder's SIDL XML.
+
+    Only files included by the skin's EQUI.xml are read, matching what the
+    client loads. INI variant sections (PetInfoWindow_1, BuffWindow_13, …)
+    map onto their base XML window. Returns matched sizes keyed by the
+    requested target names plus a count of XML files that could not be
+    parsed — third-party downloads occasionally ship malformed or
+    oddly-encoded files, and one bad file must not reject the whole skin.
+    """
+    wanted: dict[str, list[str]] = {}
+    for name in targets:
+        wanted.setdefault(re.sub(r"_\d+$", "", name), []).append(name)
+    sizes: dict[str, tuple[int, int]] = {}
+    unreadable = 0
+    for path in _included_xml_files(skin):
+        try:
+            root = ET.parse(path).getroot()
+        except (ET.ParseError, OSError):
+            unreadable += 1
+            continue
+        for screen in root.iter("Screen"):
+            item = screen.get("item")
+            if item not in wanted:
+                continue
+            size = screen.find("Size")
+            if size is None:
+                continue
+            try:
+                width = int(float((size.findtext("CX") or "").strip()))
+                height = int(float((size.findtext("CY") or "").strip()))
+            except ValueError:
+                continue
+            if width > 0 and height > 0:
+                for target in wanted[item]:
+                    sizes[target] = (width, height)
+    return sizes, unreadable
+
+
 @dataclass
 class WindowState:
     name: str
@@ -236,6 +301,12 @@ FALLBACK_SIZES = {
     "AggroMeterWnd": (220, 48),
 }
 
+# Windows the client re-sizes at runtime (menu-bar style, compass strip,
+# per-member group growth). Their SIDL <Size> is only an initial hint, so a
+# downloaded UI's declared value would misrepresent the in-game footprint;
+# they keep the curated sizes instead.
+CLIENT_RUNTIME_SIZED = {"EQMainWnd", "CompassWindow", "GroupWindow"}
+
 # EverQuest omits Show= for a few persistent windows. Optional windows also
 # commonly omit it when closed, so inheriting the Studio preset's visibility
 # produces a misleading preview (most visibly, hotbars 3-11). Keep this list
@@ -275,6 +346,11 @@ class StudioModel:
         self.windows: dict[str, WindowState] = {}
         self.base_ini_text: str | None = None
         self.preserve_imported_chat = False
+        # A downloaded third-party UI adopted for window geometry. SpinUI
+        # remains the preview art and theme-build source; the custom skin
+        # supplies each fixed window's true footprint and the UISkin= target.
+        self.custom_skin: Path | None = None
+        self.custom_skin_sizes: dict[str, tuple[int, int]] = {}
         self.reset_preset(preset)
 
     def is_ultrawide(self) -> bool:
@@ -340,6 +416,75 @@ class StudioModel:
             eq_width, eq_height, True, False, True,
         )
         self.windows = windows
+        if self.custom_skin is not None:
+            self._apply_custom_sizes()
+
+    def _default_fixed_size(self, name: str) -> tuple[int, int] | None:
+        spec = self.placement_table.get(name)
+        if spec is not None:
+            _x, _y, width, height = spec["_rect"]
+            if width is not None and height is not None:
+                return int(width), int(height)
+        return layout.XML_SIZES.get(name) or FALLBACK_SIZES.get(name)
+
+    def _apply_custom_sizes(self) -> None:
+        for name, state in self.windows.items():
+            if state.resizable:
+                continue
+            size = self.custom_skin_sizes.get(name)
+            if size is None:
+                continue
+            state.width, state.height = size
+            self.move(name, state.x, state.y)
+
+    def use_skin(self, path: Path) -> str:
+        """Adopt a downloaded UI folder's declared window geometry.
+
+        Client-fixed windows take that skin's true footprints and exports
+        target its UISkin= name. Preview chrome stays SpinUI placeholder art;
+        the third-party skin's own textures are never rendered or rebuilt.
+        """
+        path = path.resolve()
+        if not (path / "EQUI.xml").is_file():
+            raise ValueError(
+                f"{path} does not look like an EverQuest UI folder — it has "
+                "no EQUI.xml. Choose the skin folder itself (the one you "
+                "would copy into uifiles\\).")
+        if path == self.source_skin:
+            self.custom_skin = None
+            self.custom_skin_sizes = {}
+            for name, state in self.windows.items():
+                if state.resizable:
+                    continue
+                size = self._default_fixed_size(name)
+                if size is not None:
+                    state.width, state.height = size
+                    self.move(name, state.x, state.y)
+            return "Restored the bundled SpinUI window geometry."
+        fixed = [name for name, state in self.windows.items()
+                 if not state.resizable and name not in CLIENT_RUNTIME_SIZED]
+        sizes, unreadable = read_skin_geometry(path, fixed)
+        if not sizes:
+            raise ValueError(
+                f"No matching window definitions were found in {path}. "
+                "Studio looks for standard EverQuest window XML "
+                "(EQUI_PlayerWindow.xml and friends).")
+        self.custom_skin = path
+        self.custom_skin_sizes = sizes
+        self._apply_custom_sizes()
+        note = (
+            f"Using window geometry from {path.name}: {len(sizes)} windows "
+            "matched · preview shows SpinUI placeholder art")
+        try:
+            self.skin_name = safe_skin_name(path.name)
+            note += f" · exports set UISkin={self.skin_name}"
+        except ValueError:
+            note += (
+                " · folder name is not usable as UISkin=, set the skin "
+                "folder field manually")
+        if unreadable:
+            note += f" · {unreadable} unreadable XML file(s) skipped"
+        return note
 
     def set_accent(self, role: str, value: str) -> None:
         if role not in self.accent_hex:
@@ -543,6 +688,12 @@ class StudioModel:
             "accents": dict(self.accent_hex),
             "base_ini_text": self.base_ini_text,
             "preserve_imported_chat": self.preserve_imported_chat,
+            "custom_skin": (
+                None if self.custom_skin is None else str(self.custom_skin)),
+            "custom_skin_sizes": {
+                name: list(size)
+                for name, size in self.custom_skin_sizes.items()
+            },
             "windows": {
                 name: asdict(state) for name, state in self.windows.items()
             },
@@ -579,6 +730,21 @@ class StudioModel:
         self.base_ini_text = payload.get("base_ini_text")
         self.preserve_imported_chat = bool(
             payload.get("preserve_imported_chat", False))
+        # Restore a downloaded-UI association when its folder still exists.
+        # The exact per-window geometry below wins either way, so a moved
+        # folder degrades to plain SpinUI provenance without losing layout.
+        self.custom_skin = None
+        self.custom_skin_sizes = {}
+        stored_skin = payload.get("custom_skin")
+        if stored_skin:
+            stored_path = Path(stored_skin)
+            if (stored_path / "EQUI.xml").is_file():
+                self.custom_skin = stored_path.resolve()
+                self.custom_skin_sizes = {
+                    name: (int(size[0]), int(size[1]))
+                    for name, size in payload.get(
+                        "custom_skin_sizes", {}).items()
+                }
         for name, values in payload["windows"].items():
             if name not in self.windows:
                 continue
@@ -599,6 +765,12 @@ class StudioModel:
 
     def build_bundle(self, destination: Path) -> Path:
         """Build a non-destructive, ready-to-install skin + character INI."""
+        if self.custom_skin is not None:
+            raise ValueError(
+                "BUILD FINAL UI compiles the bundled SpinUI skin, but a "
+                f"downloaded UI ({self.custom_skin.name}) is active. Use "
+                "EXPORT INI and install that UI folder yourself, or choose "
+                "the bundled spinui_reloaded folder to switch back first.")
         safe_skin_name(self.skin_name)
         safe_ini_name(self.ini_name)
         destination = destination.resolve()
@@ -913,6 +1085,15 @@ def render_scene(model: StudioModel) -> Image.Image:
         preview.TEX.clear()
         _ACTIVE_PREVIEW_SKIN = model.source_skin
     canvas = studio_background(model.screen_width, model.screen_height)
+    if model.custom_skin is not None:
+        ImageDraw.Draw(canvas).text(
+            (model.screen_width // 2, model.screen_height // 2 + 58),
+            f"DOWNLOADED UI GEOMETRY · {model.custom_skin.name.upper()} · "
+            "SPINUI PLACEHOLDER ART",
+            font=preview.F(max(10, model.screen_height // 85), True),
+            fill=(255, 255, 255, 30),
+            anchor="mm",
+        )
     for name in model.visible_names():
         state = model.windows[name]
         x, y, width, height = state.x, state.y, state.width, state.height
@@ -1028,6 +1209,7 @@ class StudioApp:
             ("OPEN PROJECT", self.open_project),
             ("SAVE PROJECT", self.save_project),
             ("IMPORT CURRENT INI", self.import_ini),
+            ("USE DOWNLOADED UI", self.use_downloaded_ui),
             ("EXPORT INI", self.export_ini),
             ("SAVE PREVIEW", self.save_preview),
             ("BUILD FINAL UI", self.build_bundle),
@@ -1617,6 +1799,26 @@ class StudioApp:
             return
         self._load_ini_path(Path(selected))
 
+    def use_downloaded_ui(self) -> None:
+        from tkinter import filedialog, messagebox
+        selected = filedialog.askdirectory(
+            parent=self.root,
+            title="Choose a UI folder containing EQUI.xml "
+                  "(pick the bundled spinui_reloaded to switch back)")
+        if not selected:
+            return
+        try:
+            note = self.model.use_skin(Path(selected))
+            self.skin_var.set(self.model.skin_name)
+            self.refresh_tree()
+            if self.selected is not None:
+                self.select(self.selected)
+            self.schedule_render()
+            self.status.set(note)
+            messagebox.showinfo(APP_NAME, note, parent=self.root)
+        except Exception as exc:
+            self._error(str(exc))
+
     def _load_ini_path(self, path: Path) -> None:
         try:
             self.model.import_ini(path)
@@ -1906,6 +2108,84 @@ def selftest() -> int:
             assert restored.windows["PlayerWindow"].x == expected_player[0]
             assert render_scene(scaled).size == size
 
+        # Downloaded third-party UI support: Studio adopts the skin's declared
+        # window footprints, targets its UISkin=, survives preset/resolution
+        # resets and project round trips, and reverts cleanly to SpinUI.
+        parsed_spinui, _ = read_skin_geometry(
+            model.source_skin, ["PlayerWindow", "PetInfoWindow", "BuffWindow_13"])
+        assert parsed_spinui["PlayerWindow"] == (360, 193)
+        assert parsed_spinui["PetInfoWindow"] == (513, 181)
+        assert parsed_spinui["BuffWindow_13"] == (216, 640)  # variant mapping
+
+        third_party = root / "third_party_ui"
+        third_party.mkdir()
+        (third_party / "EQUI.xml").write_text(
+            "<XML>"
+            "<Include>EQUI_PlayerWindow.xml</Include>"
+            "<Include>EQUI_TargetWindow.xml</Include>"
+            "<Include>EQUI_GroupWindow.xml</Include>"
+            "<Include>broken.xml</Include>"
+            "</XML>",
+            encoding="utf-8")
+        (third_party / "EQUI_PlayerWindow.xml").write_text(
+            "<XML><Screen item='PlayerWindow'>"
+            "<Size><CX>300</CX><CY>150</CY></Size></Screen></XML>",
+            encoding="utf-8")
+        (third_party / "EQUI_TargetWindow.xml").write_text(
+            "<XML><Screen item='TargetWindow'>"
+            "<Size><CX>210</CX><CY>90</CY></Size></Screen></XML>",
+            encoding="utf-8")
+        # Declared but runtime-sized by the client: must NOT be adopted.
+        (third_party / "EQUI_GroupWindow.xml").write_text(
+            "<XML><Screen item='GroupWindow'>"
+            "<Size><CX>210</CX><CY>70</CY></Size></Screen></XML>",
+            encoding="utf-8")
+        (third_party / "broken.xml").write_text(
+            "<XML><unclosed>", encoding="utf-8")
+        skinned = StudioModel()
+        chat_width = skinned.windows["MainChat"].width
+        note = skinned.use_skin(third_party)
+        assert "third_party_ui" in note and "2 windows" in note
+        assert (skinned.windows["PlayerWindow"].width,
+                skinned.windows["PlayerWindow"].height) == (300, 150)
+        assert (skinned.windows["TargetWindow"].width,
+                skinned.windows["TargetWindow"].height) == (210, 90)
+        assert (skinned.windows["GroupWindow"].width,
+                skinned.windows["GroupWindow"].height) == (230, 204)
+        assert skinned.windows["MainChat"].width == chat_width  # INI-sized
+        assert skinned.skin_name == "third_party_ui"
+        skinned_text = skinned.export_ini_text()
+        assert "UISkin=third_party_ui" in skinned_text
+        assert dict(layout.parse_ini(skinned_text))[
+            "PlayerWindow"].count("Width=300") == 1
+        skinned.reset_preset("hybrid")
+        assert skinned.windows["PlayerWindow"].width == 300
+        skinned.set_resolution(2560, 1440)
+        assert skinned.windows["PlayerWindow"].width == 300
+        try:
+            skinned.build_bundle(root / "never-built")
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("build allowed with a downloaded UI active")
+        skinned_project = root / "skinned.json"
+        skinned.save_project(skinned_project)
+        skinned_clone = StudioModel()
+        skinned_clone.load_project(skinned_project)
+        assert skinned_clone.custom_skin == third_party.resolve()
+        assert skinned_clone.windows["PlayerWindow"].width == 300
+        assert render_scene(skinned_clone).size == (2560, 1440)
+        revert = skinned.use_skin(skinned.source_skin)
+        assert skinned.custom_skin is None and "SpinUI" in revert
+        assert (skinned.windows["PlayerWindow"].width,
+                skinned.windows["PlayerWindow"].height) == (360, 193)
+        try:
+            skinned.use_skin(root)  # no EQUI.xml here
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("non-UI folder accepted as a skin")
+
         ultra = StudioModel()
         eq_main = ultra.windows["EQMainWnd"]
         assert (eq_main.x, eq_main.y) == (
@@ -1973,7 +2253,8 @@ def selftest() -> int:
     print(
         "SpinUI Studio selftest: ALL PASS\n"
         "  63 window toggles | exact INI round-trip at 3440/2560/4K | "
-        "imported styling preserved | project | palette XML/TGA | bundle"
+        "imported styling preserved | downloaded-UI geometry | project | "
+        "palette XML/TGA | bundle"
     )
     return 0
 
@@ -1988,6 +2269,8 @@ def main(argv: list[str] | None = None) -> int:
     supported = ", ".join(f"{w}x{h}" for w, h in RESOLUTIONS)
     parser.add_argument("--resolution", metavar="WxH",
                         help=f"canvas game resolution ({supported})")
+    parser.add_argument("--skin", type=Path, metavar="FOLDER",
+                        help="adopt a downloaded UI folder's window geometry")
     args = parser.parse_args(argv)
     if args.selftest:
         return selftest()
@@ -2005,6 +2288,8 @@ def main(argv: list[str] | None = None) -> int:
                     f"--resolution must look like 2560x1440, got "
                     f"{args.resolution!r}")
             model.set_resolution(int(match.group(1)), int(match.group(2)))
+        if args.skin is not None:
+            print(model.use_skin(args.skin))
         if args.project is not None:
             model.load_project(args.project)
         if args.ini is not None:

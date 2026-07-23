@@ -50,7 +50,44 @@ reads them to render pixel-accurate previews and to build your custom skin.
 | Control the in-game start state | The **IN-GAME START STATE** selector writes `Show=` on export: preserve the imported INI's value, force show, or force hide. Preview and start state are deliberately separate controls. |
 | Change chat arrangement | The chat preset picker (Combat Focus / Social Focus / Hybrid) offers deliberate resets of the 3440×1440 chat row. At other resolutions the release's audited arrangement for that resolution is used. |
 | Recolor the theme | The **Venom**, **Gold**, and **Ember** swatches recolor the live preview and are baked into the real XML/TGA assets when you build. |
+| Use a downloaded UI | **USE DOWNLOADED UI** points Studio at any EverQuest UI folder (a SpinUI copy, an EQInterface skin, anything with an `EQUI.xml`). See below. |
 | Save your work | **SAVE PROJECT** writes a small JSON you can reopen later; Ctrl+S saves in place. |
+
+## Using a downloaded UI (EQInterface skins and friends)
+
+EverQuest stores window layout in the character INI independently of which
+skin is loaded, so Studio can arrange a layout for **any** UI, not just
+SpinUI. Click **USE DOWNLOADED UI** and choose the skin folder you downloaded
+(the one you would copy into `uifiles\`). Studio then:
+
+* reads that skin's own window XML — only the files its `EQUI.xml` manifest
+  actually loads — and adopts each fixed window's **true declared footprint**
+  (player/target plates, pet, inventory, bank, and so on), so silhouettes on
+  the canvas match that UI, not SpinUI;
+* targets that skin on export: the INI's `UISkin=` is set to the folder name,
+  so the client loads your layout with that UI immediately;
+* keeps rendering with clearly-labeled SpinUI placeholder art — Studio does
+  not re-implement the client's SIDL renderer, so the third-party skin's own
+  textures are never drawn or rebuilt.
+
+The complete workflow: import your character INI (or start from a preset),
+choose the downloaded UI folder, arrange everything offline, then **EXPORT
+INI**. Install the downloaded UI folder into `uifiles\` yourself, drop the
+exported INI beside `eqgame.exe`, and the layout comes up under that UI.
+
+Details worth knowing:
+
+* Windows the downloaded UI does not redefine keep their client-default
+  footprints. Windows the client re-sizes at runtime (the EQ menu bar,
+  compass strip, and the group window, which grows per member) keep Studio's
+  curated sizes, because a skin's declared value is only an initial hint.
+* Resizable windows (chat, hotbars, buffs, map…) are always your INI's
+  sizes — same as in game.
+* **BUILD FINAL UI** stays a SpinUI feature: it compiles the bundled SpinUI
+  sources and refuses to run while a downloaded UI is active. Use **EXPORT
+  INI** instead; the downloaded UI installs as-is.
+* Choosing the bundled `spinui_reloaded` folder switches back to full SpinUI
+  geometry and art.
 
 ## What transfers to the game, exactly
 
