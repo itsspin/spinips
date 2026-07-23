@@ -14,16 +14,19 @@ touched, so nothing the client references can go missing.
 Run from the repo root:  python3 tools/generate_spinui_textures.py
 """
 
+import argparse
 import io
+import json
 import struct
 import subprocess
 import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
-from spinui_theme import (BG0, BG1, BG2, BG3, CYAN, CYAN_DEEP, GOLD,
+from spinui_theme import (BG0, BG1, BG2, BG3, CYAN, CYAN_DEEP, EMBER, GOLD,
                           GOLD_BRIGHT, GOLD_DEEP, LINE, LINE_BRIGHT,
-                          LINE_SOFT, RED, TEXT, TEXT_DIM, VOID)
+                          LINE_SOFT, RED, TEXT, TEXT_DIM, VOID,
+                          palette_from_hex)
 
 REPO = Path(__file__).resolve().parent.parent
 SKIN = REPO / "spinui_reloaded"
@@ -42,10 +45,10 @@ def _run_git_show(relpath: str) -> bytes | None:
     return None
 
 
-def load_pristine(name: str) -> Image.Image:
+def load_pristine(name: str, source_skin: Path = SKIN) -> Image.Image:
     raw = _run_git_show(name)
     if raw is None:
-        raw = (SKIN / name).read_bytes()
+        raw = (source_skin / name).read_bytes()
     return Image.open(io.BytesIO(raw)).convert("RGBA")
 
 
@@ -659,9 +662,29 @@ def build_fg_pieces_black(img):
         fill(img, box, (5, 6, 9, 255))
 
 
-def main():
-    out_previews = REPO / "docs" / "previews"
-    out_previews.mkdir(parents=True, exist_ok=True)
+def generate(*, source_skin: Path = SKIN, output_skin: Path = SKIN,
+             palette: dict[str, tuple[int, int, int]] | None = None,
+             preview_dir: Path | None = REPO / "docs" / "previews",
+             quiet: bool = False) -> tuple[str, ...]:
+    """Build client-ready theme atlases into ``output_skin``.
+
+    Studio uses this entry point to build a custom skin without mutating the
+    repository. The default call preserves the historical command behavior.
+    """
+    output_skin.mkdir(parents=True, exist_ok=True)
+    if preview_dir is not None:
+        preview_dir.mkdir(parents=True, exist_ok=True)
+    palette = palette or {}
+    unknown = set(palette) - {
+        "CYAN_DEEP", "CYAN", "GOLD_DEEP", "GOLD", "GOLD_BRIGHT", "EMBER",
+    }
+    if unknown:
+        raise ValueError(f"unknown texture palette keys: {sorted(unknown)}")
+    previous = {name: globals()[name] for name in palette}
+    for name, color in palette.items():
+        if len(color) != 3 or any(not 0 <= channel <= 255 for channel in color):
+            raise ValueError(f"invalid texture palette color {name}: {color!r}")
+        globals()[name] = tuple(color)
 
     jobs = {
         "window_br_pieces.tga": build_br_pieces,
@@ -672,27 +695,61 @@ def main():
         "window_fg_pieces_black.tga": build_fg_pieces_black,
         "window_pieces02.tga": build_pieces02,
     }
-    for name, fn in jobs.items():
-        img = load_pristine(name)
-        fn(img)
-        save_tga(img, SKIN / name)
-        img.save(out_previews / (name.replace(".tga", "_after.png")))
-        print("painted", name)
+    painted: list[str] = []
+    try:
+        for name, fn in jobs.items():
+            img = load_pristine(name, source_skin)
+            fn(img)
+            save_tga(img, output_skin / name)
+            if preview_dir is not None:
+                img.save(preview_dir / (name.replace(".tga", "_after.png")))
+            painted.append(name)
+            if not quiet:
+                print("painted", name)
 
-    # Full-tile backgrounds
-    bgs = {
-        "wnd_bg_light_rock.tga": ((9, 13, 18), 2),
-        "wnd_bg_dark_rock.tga": ((5, 8, 12), 2),
-        "wnd_bg_light_rock_inner.tga": ((7, 11, 15), 2),
-        "wnd_dark_rock.tga": ((4, 7, 10), 1),
-        "wnd_fg_dark_rock.tga": ((4, 7, 10), 1),
-    }
-    for name, (base, amp) in bgs.items():
-        src = load_pristine(name)
-        img = seamless_bg(src.size, base, amp=amp)
-        save_tga(img, SKIN / name)
-        img.save(out_previews / (name.replace(".tga", "_after.png")))
-        print("painted", name)
+        # Full-tile backgrounds stay obsidian while the interaction accents
+        # are customized. This preserves text contrast across arbitrary hues.
+        bgs = {
+            "wnd_bg_light_rock.tga": ((9, 13, 18), 2),
+            "wnd_bg_dark_rock.tga": ((5, 8, 12), 2),
+            "wnd_bg_light_rock_inner.tga": ((7, 11, 15), 2),
+            "wnd_dark_rock.tga": ((4, 7, 10), 1),
+            "wnd_fg_dark_rock.tga": ((4, 7, 10), 1),
+        }
+        for name, (base, amp) in bgs.items():
+            src = load_pristine(name, source_skin)
+            img = seamless_bg(src.size, base, amp=amp)
+            save_tga(img, output_skin / name)
+            if preview_dir is not None:
+                img.save(preview_dir / (name.replace(".tga", "_after.png")))
+            painted.append(name)
+            if not quiet:
+                print("painted", name)
+    finally:
+        globals().update(previous)
+    return tuple(painted)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source-skin", type=Path, default=SKIN)
+    parser.add_argument("--output-skin", type=Path, default=SKIN)
+    parser.add_argument("--palette", type=Path,
+                        help="SpinUI Studio JSON with venom/gold/ember colors")
+    parser.add_argument("--no-previews", action="store_true")
+    args = parser.parse_args(argv)
+    palette = None
+    if args.palette is not None:
+        payload = json.loads(args.palette.read_text(encoding="utf-8"))
+        colors = payload.get("accents", payload)
+        palette = palette_from_hex(colors)
+    generate(
+        source_skin=args.source_skin,
+        output_skin=args.output_skin,
+        palette=palette,
+        preview_dir=None if args.no_previews else REPO / "docs" / "previews",
+    )
+    return 0
 
 
 if __name__ == "__main__":

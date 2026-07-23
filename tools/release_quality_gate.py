@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """One-command release quality gate for SpinUI and Loremaster.
 
-The source gate is intentionally standard-library only and safe to run from a
-dirty worktree: generated layouts are rebuilt in memory and compared without
-rewriting the player's files.  Package checks operate on staged directories so
-the workflow cannot publish a partial or stale payload.
+The source gate is safe to run from a dirty worktree: generated layouts are
+rebuilt in memory and compared without rewriting the player's files. Pillow is
+used by the Studio visual self-test. Package checks operate on staged
+directories so the workflow cannot publish a partial or stale payload.
 
 Local/CI usage::
 
@@ -87,7 +87,11 @@ SOURCE_REQUIRED = (
     "tools/audit_spinui.py",
     "tools/build_showcase_media.py",
     "tools/generate_spinui_layout.py",
+    "tools/generate_spinui_textures.py",
     "tools/render_loremaster_preview.py",
+    "tools/render_preview.py",
+    "tools/spinui_studio.py",
+    "tools/spinui_theme.py",
     ".github/workflows/build-loremaster.yml",
 )
 
@@ -111,6 +115,7 @@ COMMON_PACKAGE_TOP_LEVEL = {
     "README.md",
     "INSTALL.md",
     "Loremaster.exe",
+    "SpinUIStudio.exe",
 }
 
 
@@ -542,7 +547,11 @@ def check_generated_layout_drift() -> None:
 
 
 def run_source_selftests() -> None:
-    section("Loremaster and installer self-tests")
+    section("SpinUI Studio, Loremaster, and installer self-tests")
+    run_command(
+        "SpinUI Studio --selftest",
+        [sys.executable, str(REPO / "tools" / "spinui_studio.py"), "--selftest"],
+    )
     run_command(
         "Loremaster --selftest",
         [sys.executable, str(REPO / "loremaster" / "loremaster.py"), "--selftest"],
@@ -750,6 +759,7 @@ def check_staged_package(kind: str, package_root: Path) -> None:
         f"{kind}/INSTALL.md",
     )
     _check_windows_executable(package_root / "Loremaster.exe")
+    _check_windows_executable(package_root / "SpinUIStudio.exe")
     if kind == "installer":
         _check_windows_executable(package_root / "SpinUIInstaller.exe")
     print(

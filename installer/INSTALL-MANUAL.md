@@ -1,9 +1,9 @@
 # SpinUI manual installation
 
 This package does not require the installer. It contains the complete
-`spinui_reloaded` skin, Spin's Loremaster, the optional 3440x1440 character
-INI, and the alternate ultrawide chat presets. The skin itself includes a
-separately generated standard 2560x1440 default.
+`spinui_reloaded` skin, SpinUI Studio, Spin's Loremaster, the optional
+3440x1440 character INI, and the alternate ultrawide chat presets. The skin
+itself includes a separately generated standard 2560x1440 default.
 
 > **Safest layout option:** use `SpinUIInstaller.exe` from the guided Installer
 > package when you want an ultrawide preset without replacing character data.
@@ -23,7 +23,33 @@ separately generated standard 2560x1440 default.
 EverQuest rewrites character UI files when it exits. Do not copy or replace an
 INI while the game is running.
 
-## 2. Install the skin
+## 2. Optional: design offline with SpinUI Studio
+
+Run `SpinUIStudio.exe` directly from the extracted package, keeping it beside
+the `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content. The
+full 3440x1440 preview uses the real SpinUI textures and the same INI geometry
+that is exported to EverQuest. Studio detects common game installs and offers
+to import the newest character UI INI as its starting point. Drag windows,
+drag the gold corner to resize supported controls, enter exact pixel
+positions, nudge with arrow keys, and customize the Venom, Gold, and Ember
+accents. **Preview on canvas** is separate from **In-game start state**, so a
+hidden pet, bag, or inventory window can be positioned without forcing it open
+at login.
+
+Use **SAVE PROJECT** to keep an editable JSON project, **SAVE PREVIEW** for a
+full-resolution PNG, **EXPORT INI** for only the character layout, or **BUILD
+FINAL UI** for a complete custom skin and INI bundle. Studio writes to a new
+folder. If you explicitly export over a live character INI, confirm EverQuest
+is closed; Studio creates a timestamped byte-exact backup and performs an
+atomic replacement.
+
+Names, chat lines, buffs, gauges, items, and similar runtime values in the
+preview are deterministic samples. Their surrounding geometry and built skin
+assets are authoritative, but only `eqgame.exe` can reproduce its own font
+rasterization and supply live state. Perform one final in-game smoke test when
+the servers are available.
+
+## 3. Install the skin
 
 For a clean update, rename or remove an older `spinui_reloaded` folder first,
 then copy the complete new folder into the game's `uifiles` folder. This keeps
@@ -50,7 +76,7 @@ In game, select it with:
 
 The `1` preserves your current window positions.
 
-## 3. Optional: install a 3440x1440 layout
+## 4. Optional: install a 3440x1440 layout
 
 Skip this step if you want to keep your existing window arrangement or do not
 play at 3440x1440. Standard 2560x1440 players can use the skin's validated
@@ -97,7 +123,7 @@ filename before writing. If a manually entered name resolves to an existing
 INI, it safely merges that file rather than treating the entry as permission
 to overwrite it.
 
-## 4. Run Spin's Loremaster
+## 5. Run Spin's Loremaster
 
 Move `Loremaster.exe` anywhere you prefer, then run it. In EverQuest, type:
 

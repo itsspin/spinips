@@ -1,6 +1,6 @@
 # Spin's UI Reloaded
 
-**A complete Obsidian, Venom & Ember interface for EverQuest Legends.** SpinUI rebuilds the aging EQ presentation around a crisp combat dock, cinematic equipment screen, readable effects and spell controls, safe 2560×1440 defaults, optional 3440×1440 layouts, and **Spin's Loremaster**, a live Encounter Lab and EQL Wiki companion that never injects into the game.
+**A complete Obsidian, Venom & Ember interface for EverQuest Legends.** SpinUI rebuilds the aging EQ presentation around a crisp combat dock, cinematic equipment screen, readable effects and spell controls, safe 2560×1440 defaults, optional 3440×1440 layouts, **SpinUI Studio** for offline layout and color editing, and **Spin's Loremaster**, a live Encounter Lab and EQL Wiki companion that never injects into the game.
 
 [**Download the latest release**](https://github.com/itsspin/spinips/releases/latest) · Windows · EverQuest Legends · Log-only companion · Standard-library runtime
 
@@ -33,14 +33,15 @@
 1. [What's inside](#whats-inside)
 2. [The theme: Obsidian, Venom & Ember](#the-theme-obsidian-venom--ember)
 3. [The 3440x1440 layout](#the-3440x1440-layout)
-4. [Installation](#installation)
-5. [Chat: three windows, three presets](#chat-three-windows-three-presets)
-6. [The map](#the-map)
-7. [Bags, bank bags and the dock](#bags-bank-bags-and-the-dock)
-8. [Spin's Loremaster (log parser & DPS tracker)](#spins-loremaster)
-9. [Customizing & regenerating](#customizing--regenerating)
-10. [Troubleshooting](#troubleshooting)
-11. [Repository map](#repository-map)
+4. [SpinUI Studio: offline editor](#spinui-studio-offline-layout-and-theme-editor)
+5. [Installation](#installation)
+6. [Chat: three windows, three presets](#chat-three-windows-three-presets)
+7. [The map](#the-map)
+8. [Bags, bank bags and the dock](#bags-bank-bags-and-the-dock)
+9. [Spin's Loremaster (log parser & DPS tracker)](#spins-loremaster)
+10. [Customizing & regenerating](#customizing--regenerating)
+11. [Troubleshooting](#troubleshooting)
+12. [Repository map](#repository-map)
 
 ---
 
@@ -52,6 +53,7 @@
 | `UI_Spin_qeynos_LO1.ini` | Complete example layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (Combat Focus). Existing characters should use the installer's safe merge. |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements - pick your style. These three are the only layout folders included in release packages; `layouts/original/` and `layouts/spin-live/` are internal generator bases kept in the repository. |
 | `layouts/original/` | The author's pre-overhaul Spin profile, retained as project history, not a substitute for another player's backup. |
+| `SpinUIStudio.exe` | The offline 3440×1440 layout, visibility, and accent-color editor included in both Windows release packages. |
 | `loremaster/` | **Spin's Loremaster** - the real-time Encounter Lab, session tracker, DPS overlay, and Lore Lens item-wiki companion. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/screenshots/` | Privacy-reviewed, real in-game SpinUI and Loremaster captures used in this README. |
@@ -139,6 +141,73 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 
 ---
 
+## SpinUI Studio: offline layout and theme editor
+
+`SpinUIStudio.exe` lets you compose and build SpinUI while EverQuest or its
+servers are unavailable. Keep the executable beside the release's
+`spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content, then open
+it directly; no Python installation is required.
+
+The Studio canvas is a full 3440×1440 composition driven by the same window
+geometry, real SpinUI textures, layout generator, and character-INI fields as
+the shipped game UI. On startup Studio detects common EverQuest installs and
+offers to read the newest `UI_<Character>_<server>_LO#.ini`, so the canvas
+begins at the character's current in-game positions, hotbar/spell orientation,
+scale, and sizes. EverQuest's left, right, top, bottom, and half-screen
+`center` anchors are converted to exact pixels and tested through a lossless
+import/export/import round trip.
+
+Drag a previewed window to reposition it, drag the gold lower-right handle to
+resize supported windows, use the inspector for exact coordinates, or nudge
+with the arrow keys (Shift = 10px). Double-click a row to preview a normally
+hidden window such as Inventory, bags, or Pet without changing whether it
+opens at login. **Preview on canvas** and **In-game start state** are separate
+controls; the latter can preserve the imported INI, force show, or force hide.
+Combat Focus, Social Focus, and Hybrid remain available as deliberate resets.
+
+Three color controls independently tune the **Venom**, **Gold**, and **Ember**
+accents. Studio derives their complete highlight/shadow ramps, applies them to
+the preview, and builds the actual XML and TGA assets that EverQuest loads.
+Projects save as small JSON files for continued editing. **SAVE PREVIEW**
+writes a full-resolution PNG, **EXPORT INI** writes the game-ready character
+layout, and **BUILD FINAL UI** creates a new, self-contained bundle containing
+the custom skin, INI, project, and installation notes. Studio refuses to
+replace an existing build folder. If a user explicitly exports over an INI in
+the live game folder, Studio first confirms EverQuest is closed, creates a
+timestamped byte-exact backup, and replaces the file atomically.
+
+### Accuracy contract
+
+| Preview element | Offline fidelity |
+|---|---|
+| Window position, size, visibility, and 3440×1440 bounds | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows. |
+| Window chrome and custom accents | Authoritative assets: built from the real SpinUI TGA/XML sources loaded by the game. |
+| Chat routing and preserved character settings | Imported from the selected INI; exported through the same audited layout transformation used by the release. |
+| Names, chat text, buffs, gauges, items, and other live state | Clearly labeled deterministic sample data; only `eqgame.exe` can supply runtime values. |
+| Font rasterization, client-only scaling, and live content flow | Close visual reference, not a claim of client emulation. EverQuest remains the final renderer. |
+
+This is the strongest reliable offline workflow: the authored geometry and
+assets are the game inputs, while client-owned state is simulated rather than
+guessed. When the servers return, close EverQuest before installing the build,
+launch once, and use `/loadskin <custom_skin_name> 1` for the final client
+smoke test.
+
+From a source checkout, install Pillow and run:
+
+```text
+python tools/spinui_studio.py
+```
+
+The deterministic non-GUI checks are
+`python tools/spinui_studio.py --selftest` and
+`python tools/spinui_studio.py --render-preview spinui-preview.png`. Use
+`--ini C:\path\to\UI_Character_server_LO1.ini` to launch or render directly
+from a current character layout. If a GUI callback ever fails, Studio remains
+open and records the traceback in
+`%LOCALAPPDATA%\SpinUIStudio\spinui-studio.log`.
+
+---
+
 ## Installation
 
 > **Golden rule: edit/copy INI files while the game is fully closed.** The client rewrites UI INIs on logout - changes made while logged in are lost.
@@ -154,7 +223,7 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 
 ### Manual installation
 
-Download `SpinUI-Manual` from the same workflow run or `SpinUI-Manual.zip` from a release. It contains the UI, Loremaster, layouts, default INI, and a standalone `INSTALL.md`; there is no installer executable in this package.
+Download `SpinUI-Manual` from the same workflow run or `SpinUI-Manual.zip` from a release. It contains the UI, SpinUI Studio, Loremaster, layouts, default INI, and a standalone `INSTALL.md`; there is no installer executable in this package.
 
 1. **Install the skin**
    Copy the `spinui_reloaded` folder into your EverQuest Legends `uifiles` directory:
@@ -365,7 +434,7 @@ Advanced users can additionally add DBM-style triggers in `%LOCALAPPDATA%\SpinsL
 Everything was *generated* - change a constant, rerun, done. From the repo root:
 
 ```bash
-pip install pillow                                # only needed for the two art scripts
+pip install pillow                                # Studio and visual build tools
 python3 tools/generate_spinui_textures.py         # repaint the theme textures
 python3 tools/generate_spinui_layout.py           # rebuild all layout INIs (validates!)
 python3 tools/restyle_inventory.py                 # rebuild the native-slot Equipment composition
@@ -422,17 +491,18 @@ spinips/
 │   ├── loremaster.py           the tracker (stdlib-only)
 │   ├── windows_hotkeys.py      native Lore Lens hotkey owner
 │   └── Loremaster.bat          Windows launcher (from source)
-├── installer/
-│   ├── spinui_installer.py     auto-detecting Windows installer
-│   └── INSTALL-MANUAL.md       no-EXE installation guide
-├── .github/workflows/
-│   └── build-loremaster.yml    CI: tests, builds, and zips the Windows release
 ├── tools/
+│   ├── spinui_studio.py         offline layout + accent editor
 │   ├── generate_spinui_textures.py   theme painter
 │   ├── generate_spinui_layout.py     layout builder + validator
 │   ├── build_showcase_media.py       privacy-safe gallery builder
 │   ├── restyle_persona.py             Multiclass Loadouts composition
 │   └── render_preview.py             full-screen preview renderer
+├── installer/
+│   ├── spinui_installer.py     auto-detecting Windows installer
+│   └── INSTALL-MANUAL.md       no-EXE installation guide
+├── .github/workflows/
+│   └── build-loremaster.yml    CI: tests, builds, and zips the Windows release
 └── docs/
     ├── screenshots/             reviewed real in-game showcase media
     └── previews/                deterministic rendered references

@@ -618,14 +618,16 @@ def personal_placements(preset: str) -> dict[str, dict]:
 
 def transform(text: str, preset: str, placements: dict | None = None,
               eqmain: dict | None = None,
-              chat_font: int = CHAT_FONT_1440) -> str:
+              chat_font: int = CHAT_FONT_1440,
+              skin_name: str = "spinui_reloaded",
+              rebuild_chat: bool = True) -> str:
     sections = parse_ini(text)
     sections = apply_placements(sections, placements or preset_placements(preset), eqmain)
     for name, lines in sections:
-        if name == "ChatManager":
+        if name == "ChatManager" and rebuild_chat:
             lines[:] = rebuild_chat_manager(lines, chat_font)
         elif name == "Main":
-            set_key(lines, "UISkin", "spinui_reloaded")
+            set_key(lines, "UISkin", skin_name)
     out = emit(sections)
     # carry sections the base file lacked over from the placement table is
     # already handled by apply_placements; nothing else to do here.
