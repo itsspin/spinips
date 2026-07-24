@@ -20,10 +20,12 @@ import argparse
 import configparser
 import json
 import os
+import queue
 import re
 import shutil
 import sys
 import tempfile
+import threading
 import traceback
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
@@ -821,6 +823,31 @@ class StudioModel:
         return destination
 
 
+class RenderSnapshot:
+    """Immutable copy of everything render_scene reads.
+
+    A background thread paints from the snapshot while the Tk thread keeps
+    editing the live model, so a half-dragged window can never tear a frame
+    or race a dict mutation.
+    """
+
+    def __init__(self, model: StudioModel):
+        self.root = model.root
+        self.source_skin = model.source_skin
+        self.custom_skin = model.custom_skin
+        self.screen_width = model.screen_width
+        self.screen_height = model.screen_height
+        self.palette = dict(model.palette)
+        self.windows = {
+            name: WindowState(**asdict(state))
+            for name, state in model.windows.items()
+        }
+        self._visible = list(model.visible_names())
+
+    def visible_names(self) -> list[str]:
+        return list(self._visible)
+
+
 def apply_palette_to_xml(
         skin: Path, palette: dict[str, tuple[int, int, int]]) -> int:
     """Replace canonical accent triples only inside XML color structures."""
@@ -1077,7 +1104,18 @@ CHAT_LINES = {
 }
 
 
-def render_scene(model: StudioModel) -> Image.Image:
+_RENDER_LOCK = threading.Lock()
+
+
+def render_scene(model: StudioModel | RenderSnapshot) -> Image.Image:
+    # render_preview keeps module-level palette/texture state, so scene
+    # painting is serialized: the GUI's background render worker and any
+    # direct caller (SAVE PREVIEW, CLI) must never interleave.
+    with _RENDER_LOCK:
+        return _render_scene_locked(model)
+
+
+def _render_scene_locked(model: StudioModel | RenderSnapshot) -> Image.Image:
     global _ACTIVE_PREVIEW_SKIN
     apply_preview_palette(model.palette)
     if _ACTIVE_PREVIEW_SKIN != model.source_skin:
@@ -1178,6 +1216,14 @@ class StudioApp:
         self.render_after_id = None
         self.rendering = False
         self.render_pending = False
+        # Scene rendering happens on a worker thread; results arrive through
+        # this queue. The cached full-resolution scene and its state key let
+        # clicks, selections, and no-op events skip repainting entirely.
+        self.render_results: queue.Queue = queue.Queue()
+        self.scene_key = None
+        self.scene_image = None
+        self.rendered_key = None
+        self.rendered_target = None
         self.status = tk.StringVar(value="Ready")
         self.resolution_var = tk.StringVar(
             value=RESOLUTIONS[(model.screen_width, model.screen_height)])
@@ -1381,22 +1427,32 @@ class StudioApp:
             bg=PANEL, fg=DIM, justify="left", wraplength=245,
         ).pack(anchor="w", padx=14, pady=12)
 
+    def _tree_values(self, name: str) -> tuple[str, str, str]:
+        state = self.model.windows[name]
+        geometry = f"{name} · {state.x},{state.y} · {state.width}×{state.height}"
+        load_state = (
+            "—" if state.show_on_load is None
+            else ("●" if state.show_on_load else "○")
+        )
+        return ("●" if state.visible else "○", load_state, geometry)
+
     def refresh_tree(self) -> None:
-        selected = self.selected
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-        for name in self.model.ordered_names():
-            state = self.model.windows[name]
-            geometry = f"{name} · {state.x},{state.y} · {state.width}×{state.height}"
-            load_state = (
-                "—" if state.show_on_load is None
-                else ("●" if state.show_on_load else "○")
-            )
-            self.tree.insert(
-                "", "end", iid=name,
-                values=("●" if state.visible else "○", load_state, geometry))
-        if selected in self.model.windows:
-            self.tree.selection_set(selected)
+        # Update rows in place when the window set is unchanged. Rebuilding
+        # fires deselect/select churn through <<TreeviewSelect>> on every
+        # drag release and makes the list flicker.
+        names = self.model.ordered_names()
+        if list(self.tree.get_children()) != names:
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+            for name in names:
+                self.tree.insert(
+                    "", "end", iid=name, values=self._tree_values(name))
+        else:
+            for name in names:
+                self.tree.item(name, values=self._tree_values(name))
+        if (self.selected in self.model.windows
+                and self.tree.selection() != (self.selected,)):
+            self.tree.selection_set(self.selected)
 
     def refresh_swatches(self) -> None:
         for role, button in self.swatches.items():
@@ -1420,7 +1476,13 @@ class StudioApp:
             LOAD_PRESERVE if state.show_on_load is None
             else (LOAD_SHOW if state.show_on_load else LOAD_HIDE)
         )
-        self.tree.selection_set(name)
+        # Only touch the tree when its selection actually differs. Tk fires
+        # <<TreeviewSelect>> on every selection_set even when nothing
+        # changed, and select_tree() calls back into select(): an
+        # unconditional set here self-replenishes the event queue forever
+        # and the app stops responding after the first canvas click.
+        if self.tree.selection() != (name,):
+            self.tree.selection_set(name)
         self.tree.see(name)
         self.draw_selection()
 
@@ -1592,54 +1654,117 @@ class StudioApp:
                 pass
         self.render_after_id = self.root.after(delay, self.render)
 
+    def _scene_state_key(self):
+        model = self.model
+        return (
+            model.screen_width, model.screen_height,
+            tuple(sorted(model.palette.items())),
+            None if model.custom_skin is None else str(model.custom_skin),
+            tuple(
+                (name, state.x, state.y, state.width, state.height,
+                 state.visible)
+                for name, state in sorted(model.windows.items())
+            ),
+        )
+
     def render(self) -> None:
+        """Start a background repaint; the Tk thread never blocks on it.
+
+        Selecting or clicking a window changes no scene state, so those hit
+        the cache and skip painting entirely. Geometry, palette, and
+        visibility changes render on a worker thread and land through
+        _apply_render_result.
+        """
+        self.render_after_id = None
         if self.rendering:
             self.render_pending = True
             return
-        self.render_after_id = None
-        self.rendering = True
         try:
             self.model.skin_name = (
                 self.skin_var.get().strip() or DEFAULT_SKIN_NAME)
             self.model.ini_name = (
                 self.ini_var.get().strip() or DEFAULT_INI_NAME)
+            key = self._scene_state_key()
+            target = (max(320, self.canvas.winfo_width()),
+                      max(240, self.canvas.winfo_height()))
+            if (key == self.rendered_key and target == self.rendered_target
+                    and self.photo is not None):
+                self.draw_selection()
+                return
+            snapshot = RenderSnapshot(self.model)
+            cached_scene = self.scene_image if key == self.scene_key else None
+            self.rendering = True
             self.status.set("Rendering pixel-accurate geometry…")
-            image = render_scene(self.model)
-            available_width = max(320, self.canvas.winfo_width())
-            available_height = max(240, self.canvas.winfo_height())
-            self.scale = min(
-                available_width / self.model.screen_width,
-                available_height / self.model.screen_height,
-            )
-            display = image.resize(
-                (max(1, round(image.width * self.scale)),
-                 max(1, round(image.height * self.scale))),
-                Image.Resampling.LANCZOS,
-            )
-            from PIL import ImageTk
-            new_photo = ImageTk.PhotoImage(display, master=self.root)
-            self.canvas.delete("all")
-            self.photo = new_photo
-            self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
-            self.canvas.configure(
-                scrollregion=(0, 0, display.width, display.height))
-            self.draw_selection()
-            problems = self.model.validation()
-            self.status.set(
-                f"{self.model.screen_width}×{self.model.screen_height} · "
-                f"{len(self.model.visible_names())} previewed · "
-                + ("no overlaps" if not problems
-                   else f"{len(problems)} overlap warning(s)")
-            )
+
+            def worker():
+                try:
+                    scene = (cached_scene if cached_scene is not None
+                             else render_scene(snapshot))
+                    scale = min(target[0] / snapshot.screen_width,
+                                target[1] / snapshot.screen_height)
+                    display = scene.resize(
+                        (max(1, round(snapshot.screen_width * scale)),
+                         max(1, round(snapshot.screen_height * scale))),
+                        Image.Resampling.LANCZOS,
+                    )
+                    self.render_results.put(
+                        ("ok", key, target, scene, display, scale))
+                except Exception:
+                    self.render_results.put(
+                        ("error", traceback.format_exc()))
+
+            threading.Thread(
+                target=worker, daemon=True, name="studio-render").start()
+            self.root.after(15, self._poll_render_result)
+        except Exception:
+            details = traceback.format_exc()
+            log = write_crash_log(details)
+            self.status.set(f"Preview error recorded in {log}")
+
+    def _poll_render_result(self) -> None:
+        try:
+            result = self.render_results.get_nowait()
+        except queue.Empty:
+            self.root.after(30, self._poll_render_result)
+            return
+        self.rendering = False
+        try:
+            self._apply_render_result(result)
         except Exception:
             details = traceback.format_exc()
             log = write_crash_log(details)
             self.status.set(f"Preview error recorded in {log}")
         finally:
-            self.rendering = False
             if self.render_pending:
                 self.render_pending = False
                 self.schedule_render()
+
+    def _apply_render_result(self, result) -> None:
+        if result[0] == "error":
+            log = write_crash_log(result[1])
+            self.status.set(f"Preview error recorded in {log}")
+            return
+        _tag, key, target, scene, display, scale = result
+        self.scene_key = key
+        self.scene_image = scene
+        self.scale = scale
+        from PIL import ImageTk
+        new_photo = ImageTk.PhotoImage(display, master=self.root)
+        self.canvas.delete("all")
+        self.photo = new_photo
+        self.canvas.create_image(0, 0, image=self.photo, anchor="nw")
+        self.canvas.configure(
+            scrollregion=(0, 0, display.width, display.height))
+        self.rendered_key = key
+        self.rendered_target = target
+        self.draw_selection()
+        problems = self.model.validation()
+        self.status.set(
+            f"{self.model.screen_width}×{self.model.screen_height} · "
+            f"{len(self.model.visible_names())} previewed · "
+            + ("no overlaps" if not problems
+               else f"{len(problems)} overlap warning(s)")
+        )
 
     def apply_inspector(self) -> None:
         if self.selected is None:
@@ -2201,6 +2326,10 @@ def selftest() -> int:
 
         image = render_scene(model)
         assert image.size == DEFAULT_SCREEN
+        # The GUI paints from an immutable snapshot on a worker thread; the
+        # snapshot must render pixel-identically to the live model.
+        snapshot_image = render_scene(RenderSnapshot(model))
+        assert snapshot_image.tobytes() == image.tobytes()
         image.resize((860, 360), Image.Resampling.LANCZOS).save(
             root / "preview.png")
         assert (root / "preview.png").stat().st_size > 20_000
