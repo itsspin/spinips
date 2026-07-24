@@ -3,8 +3,8 @@
 
 The packaged executable sits beside the release payload. It discovers common
 EverQuest installations, installs the skin and Loremaster, optionally applies
-the 3440x1440 layout with a backup, and can register Loremaster to wait quietly
-for eqgame.exe at Windows sign-in.
+a validated resolution/layout profile with a backup, and can register
+Loremaster to wait quietly for eqgame.exe at Windows sign-in.
 """
 
 from __future__ import annotations
@@ -46,7 +46,7 @@ EMBER = "#e5642d"
 
 @dataclass(frozen=True)
 class LayoutPreset:
-    """One public, installer-selectable 3440x1440 layout."""
+    """One public, installer-selectable chat emphasis."""
 
     key: str
     title: str
@@ -59,17 +59,50 @@ KEEP_LAYOUT = "keep-existing"
 DEFAULT_LAYOUT_PRESET = "combat-focus"
 LAYOUT_PRESETS: dict[str, LayoutPreset] = {
     "combat-focus": LayoutPreset(
-        "combat-focus", "COMBAT FOCUS", "Three equal panes — a symmetrical chat row.",
-        (820, 820, 820),
+        "combat-focus", "COMBAT FOCUS", "Larger combat pane, matching Spin's live HUD.",
+        (700, 700, 1060),
     ),
     "social-focus": LayoutPreset(
         "social-focus", "SOCIAL FOCUS", "More room for group, guild, and raid chat.",
-        (800, 1000, 660),
+        (620, 1120, 720),
     ),
     "hybrid": LayoutPreset(
         "hybrid", "HYBRID", "A compact combat ticker with balanced chat.",
-        (900, 1000, 560), (280, 280, 200),
+        (820, 1000, 640), (280, 280, 200),
     ),
+}
+
+
+@dataclass(frozen=True)
+class ResolutionProfile:
+    key: str
+    width: int
+    height: int
+    label: str
+
+
+DEFAULT_RESOLUTION_PROFILE = "3440x1440"
+RESOLUTION_PROFILES: dict[str, ResolutionProfile] = {
+    "1920x1080": ResolutionProfile(
+        "1920x1080", 1920, 1080, "1920×1080 · Full HD"),
+    "2048x1080": ResolutionProfile(
+        "2048x1080", 2048, 1080, "2048×1080 · Wide Full HD"),
+    "2560x1080": ResolutionProfile(
+        "2560x1080", 2560, 1080, "2560×1080 · Ultrawide"),
+    "2560x1440": ResolutionProfile(
+        "2560x1440", 2560, 1440, "2560×1440 · QHD"),
+    "3440x1440": ResolutionProfile(
+        "3440x1440", 3440, 1440, "3440×1440 · Ultrawide QHD"),
+    "3840x1600": ResolutionProfile(
+        "3840x1600", 3840, 1600, "3840×1600 · Ultrawide"),
+    "3840x2160": ResolutionProfile(
+        "3840x2160", 3840, 2160, "3840×2160 · 4K"),
+}
+PROFILE_LABEL_TO_KEY = {
+    profile.label: profile.key for profile in RESOLUTION_PROFILES.values()
+}
+PROFILE_KEY_TO_LABEL = {
+    profile.key: profile.label for profile in RESOLUTION_PROFILES.values()
 }
 
 
@@ -607,7 +640,9 @@ def character_layout_label(path: Path) -> str:
     )
 
 
-def resolve_layout_source(payload: Path, preset_key: str | None) -> Path:
+def resolve_layout_source(
+        payload: Path, preset_key: str | None,
+        resolution_profile: str = DEFAULT_RESOLUTION_PROFILE) -> Path:
     """Resolve an allowlisted preset, with the old top-level file as API fallback."""
     payload = payload.resolve()
     if preset_key is None:
@@ -619,16 +654,25 @@ def resolve_layout_source(payload: Path, preset_key: str | None) -> Path:
         return legacy
     if preset_key not in LAYOUT_PRESETS:
         raise ValueError(f"Unknown layout preset: {preset_key!r}.")
+    if resolution_profile not in RESOLUTION_PROFILES:
+        raise ValueError(
+            f"Unknown resolution profile: {resolution_profile!r}.")
     layouts_root = (payload / "layouts").resolve()
-    preset_root = (layouts_root / preset_key).resolve()
-    if preset_root.parent != layouts_root:
-        raise ValueError("The selected layout escaped the release payload.")
+    profile_root = (
+        layouts_root / "profiles" / resolution_profile).resolve()
+    if profile_root.parent.parent != layouts_root:
+        raise ValueError("The selected profile escaped the release payload.")
+    preset_root = (profile_root / preset_key).resolve()
+    if preset_root.parent != profile_root:
+        raise ValueError("The selected layout escaped its profile folder.")
     source = (preset_root / LAYOUT_NAME).resolve()
     if source.parent != preset_root:
         raise ValueError("The selected layout escaped its preset folder.")
     if not source.is_file():
         raise FileNotFoundError(
-            f"Release payload is missing layouts\\{preset_key}\\{LAYOUT_NAME}."
+            "Release payload is missing "
+            f"layouts\\profiles\\{resolution_profile}\\{preset_key}\\"
+            f"{LAYOUT_NAME}."
         )
     return source
 
@@ -663,16 +707,22 @@ def validate_layout_target(eq_root: Path, target: Path | None, *,
     return candidate.resolve()
 
 
-def layout_review(choice: str, target: Path | None) -> tuple[str, str]:
+def layout_review(
+        choice: str, target: Path | None,
+        resolution_profile: str = DEFAULT_RESOLUTION_PROFILE) -> tuple[str, str]:
     """Pure review copy shared by the wizard and its selftest."""
     if choice == KEEP_LAYOUT:
         return "KEEP EXISTING", "No character INI will be changed."
     preset = LAYOUT_PRESETS.get(choice)
     if preset is None:
         raise ValueError(f"Unknown layout preset: {choice!r}.")
+    if resolution_profile not in RESOLUTION_PROFILES:
+        raise ValueError(
+            f"Unknown resolution profile: {resolution_profile!r}.")
     target_text = target.name if target is not None else "Choose a character layout"
+    profile = RESOLUTION_PROFILES[resolution_profile]
     return (
-        preset.title,
+        f"{preset.title} · {profile.width}×{profile.height}",
         f"Apply to {target_text}; each changed merge gets a timestamped backup.",
     )
 
@@ -721,26 +771,45 @@ def detect_client_resolution(eq_root: Path) -> tuple[int, int] | None:
     return max(widths)[1], max(heights)[1]
 
 
+def recommended_resolution_profile(
+        resolution: tuple[int, int] | None) -> ResolutionProfile:
+    if resolution is None:
+        return RESOLUTION_PROFILES[DEFAULT_RESOLUTION_PROFILE]
+    width, height = resolution
+    exact = RESOLUTION_PROFILES.get(f"{width}x{height}")
+    if exact is not None:
+        return exact
+    aspect = width / max(1, height)
+
+    def score(profile: ResolutionProfile) -> float:
+        profile_aspect = profile.width / profile.height
+        return (
+            abs(aspect - profile_aspect) * 3
+            + abs(height - profile.height) / max(height, profile.height) * 2
+            + abs(width - profile.width) / max(width, profile.width)
+        )
+
+    return min(RESOLUTION_PROFILES.values(), key=score)
+
+
 def resolution_note(resolution: tuple[int, int] | None) -> str:
     """Layout-page guidance for the detected display."""
     if resolution is None:
-        return ("Display not detected — SpinUI ships deliberate defaults for "
-                "1440p and 4K plus the ultrawide presets below.")
+        return (
+            "Display not detected — choose the screen profile that matches "
+            "the resolution used by EverQuest."
+        )
     width, height = resolution
-    if (width, height) == (3440, 1440):
-        return ("3440×1440 detected — the presets below are pixel-fit "
-                "for your display.")
-    if height >= 2000:
-        return (f"{width}×{height} detected — SpinUI's dedicated 4K default "
-                "layout applies automatically with the skin; the presets "
-                "below are sized for 3440×1440 ultrawide.")
-    if (width, height) == (2560, 1440):
-        return ("2560×1440 detected — SpinUI's 1440p default layout applies "
-                "automatically with the skin; the presets below are sized "
-                "for 3440×1440 ultrawide.")
-    return (f"{width}×{height} detected — the closest SpinUI resolution "
-            "default (1440p or 4K) applies automatically; the presets below "
-            "are sized for 3440×1440 ultrawide.")
+    profile = recommended_resolution_profile(resolution)
+    if (width, height) == (profile.width, profile.height):
+        return (
+            f"{width}×{height} detected — an exact, overlap-validated SpinUI "
+            "profile is ready and selected below."
+        )
+    return (
+        f"{width}×{height} detected — {profile.label} is the closest validated "
+        "profile; you can choose another before installing."
+    )
 
 
 def steam_libraries() -> list[Path]:
@@ -950,6 +1019,7 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
                     replace_running: bool = False,
                     require_eq_closed: bool = False,
                     layout_preset: str | None = None,
+                    resolution_profile: str = DEFAULT_RESOLUTION_PROFILE,
                     create_layout_target: bool = False) -> list[str]:
     payload = payload.resolve()
     eq_root = eq_root.resolve()
@@ -961,9 +1031,13 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
     target: Path | None = None
     layout_update: LayoutUpdate | None = None
     if install_layout:
+        if resolution_profile not in RESOLUTION_PROFILES:
+            raise ValueError(
+                f"Unknown resolution profile: {resolution_profile!r}.")
         # Validate both paths before changing the skin or Loremaster. The
         # installer must never report a partial success for an invalid choice.
-        layout_source = resolve_layout_source(payload, layout_preset)
+        layout_source = resolve_layout_source(
+            payload, layout_preset, resolution_profile)
         target = validate_layout_target(
             eq_root, layout_target, allow_create=create_layout_target
         )
@@ -1014,14 +1088,19 @@ def install_payload(payload: Path, eq_root: Path, *, install_layout: bool,
             LAYOUT_PRESETS[layout_preset].title.title()
             if layout_preset in LAYOUT_PRESETS else "Ultrawide"
         )
+        profile_name = RESOLUTION_PROFILES[resolution_profile].label
         if not layout_update.changed:
-            results.append(f"The {preset_name} layout already matched {target.name}")
+            results.append(
+                f"The {preset_name} · {profile_name} layout already matched "
+                f"{target.name}")
         elif layout_update.created:
-            results.append(f"Created {target.name} with the {preset_name} layout")
+            results.append(
+                f"Created {target.name} with the {preset_name} · "
+                f"{profile_name} layout")
         else:
             results.append(
-                f"Applied the {preset_name} layout (windows, visibility, "
-                f"chat routing) to {target.name}"
+                f"Applied the {preset_name} · {profile_name} layout "
+                f"(windows, visibility, chat routing) to {target.name}"
             )
         if backup is not None:
             results.append(f"Backed up the previous INI to {backup.name}")
@@ -1045,8 +1124,14 @@ def selftest() -> int:
             return exc
         raise AssertionError(f"expected {error_type.__name__}")
 
-    def preset_bytes(preset_key: str, *, newline: str = "\n") -> bytes:
-        offset = list(LAYOUT_PRESETS).index(preset_key) * 100
+    def preset_bytes(
+            preset_key: str, profile_key: str = DEFAULT_RESOLUTION_PROFILE,
+            *, newline: str = "\n") -> bytes:
+        profile_offset = (
+            0 if profile_key == DEFAULT_RESOLUTION_PROFILE
+            else (list(RESOLUTION_PROFILES).index(profile_key) + 1) * 5
+        )
+        offset = profile_offset + list(LAYOUT_PRESETS).index(preset_key) * 100
         lines = ["[Main]", f"UISkin={SKIN_NAME}", "SourceOnly=must-not-leak"]
         for index, section in enumerate(sorted(LAYOUT_GEOMETRY_SECTIONS, key=str.casefold)):
             lines.extend([
@@ -1085,10 +1170,12 @@ def selftest() -> int:
         (eq / "eqclient.ini").write_text(
             "[Defaults]\nWidth=notanumber\nSoundVolume=100\n", encoding="utf-8")
         assert detect_client_resolution(eq) is None
-    assert "pixel-fit" in resolution_note((3440, 1440))
-    assert "4K" in resolution_note((3840, 2160))
-    assert "1440p default" in resolution_note((2560, 1440))
-    assert "closest" in resolution_note((1920, 1080))
+    assert "exact" in resolution_note((3440, 1440))
+    assert "exact" in resolution_note((3840, 2160))
+    assert "exact" in resolution_note((2560, 1440))
+    assert "exact" in resolution_note((1920, 1080))
+    assert recommended_resolution_profile((2048, 1080)).key == "2048x1080"
+    assert "closest" in resolution_note((1920, 1200))
     assert "not detected" in resolution_note(None)
 
     with tempfile.TemporaryDirectory() as td:
@@ -1106,6 +1193,14 @@ def selftest() -> int:
             preset_dir = payload / "layouts" / preset_key
             preset_dir.mkdir(parents=True)
             (preset_dir / LAYOUT_NAME).write_bytes(preset_bytes(preset_key))
+        for profile_key in RESOLUTION_PROFILES:
+            for preset_key in LAYOUT_PRESETS:
+                preset_dir = (
+                    payload / "layouts" / "profiles"
+                    / profile_key / preset_key)
+                preset_dir.mkdir(parents=True)
+                (preset_dir / LAYOUT_NAME).write_bytes(
+                    preset_bytes(preset_key, profile_key))
         eq.mkdir()
         (eq / "eqgame.exe").write_bytes(b"")
         installed_skin = eq / "uifiles" / SKIN_NAME
@@ -1248,6 +1343,24 @@ def selftest() -> int:
             preset_backups = list(eq.glob(f"{preset_target.name}.spinui-backup-*"))
             assert len(preset_backups) == 1 and preset_backups[0].read_bytes() == original
 
+        # Resolution profiles are separate allowlisted sources; selecting
+        # 2048x1080 must not silently fall back to the 3440x1440 geometry.
+        wide_target = eq / "UI_Wide_qeynos_LO1.ini"
+        wide_target.write_bytes(
+            b"[Main]\nUISkin=old\n[MainChat]\nXPos=1%\n[ChatManager]\n")
+        install_payload(
+            payload, eq, install_layout=True, layout_target=wide_target,
+            layout_preset="combat-focus", resolution_profile="2048x1080",
+            run_at_startup=False, desktop_shortcut=False,
+            app_dir=root / "app-wide", startup_dir=root / "startup-wide",
+            desktop_dir=root / "desktop-wide",
+        )
+        wide_text = wide_target.read_text(encoding="utf-8")
+        wide_offset = (
+            (list(RESOLUTION_PROFILES).index("2048x1080") + 1) * 5
+            + mainchat_index)
+        assert f"XPos={wide_offset}.125000%" in wide_text
+
         collision_backup_target = eq / "UI_Backups_qeynos_LO1.ini"
         collision_backup_target.write_bytes(b"[Main]\nUISkin=old\n")
         first_original = collision_backup_target.read_bytes()
@@ -1364,8 +1477,15 @@ def selftest() -> int:
         assert character_layout_label(target) == "Test  ·  qeynos  ·  Layout 1"
         assert character_layout_label(Path("not-a-layout.ini")) == "not-a-layout.ini"
         assert layout_review(KEEP_LAYOUT, None)[0] == "KEEP EXISTING"
-        assert layout_review("hybrid", target)[0] == "HYBRID"
+        assert layout_review("hybrid", target)[0] == "HYBRID · 3440×1440"
         expect_error(ValueError, lambda: layout_review("original", target))
+        expect_error(
+            ValueError,
+            lambda: layout_review("hybrid", target, "9999x9999"))
+        expect_error(
+            ValueError,
+            lambda: resolve_layout_source(
+                payload, "combat-focus", "9999x9999"))
 
         # Duplicate audited data fails closed before any target/backup write.
         duplicate_source = root / "duplicate-source.ini"
@@ -1657,15 +1777,33 @@ def run_gui() -> int:
              font=("Segoe UI Semibold", 18)).pack(anchor="w", pady=(5, 2))
     tk.Label(
         layout_page,
-        text=("Keep Existing is recommended. Optional 3440×1440 presets set window "
-              "positions, sizes, visibility, and chat routing without replacing "
-              "other character data. "
-              "SpinUI's 1440p and 4K defaults apply automatically at any resolution."),
+        text=("Keep Existing is recommended. If you apply a layout, choose the "
+              "screen profile used by EverQuest and then the chat emphasis. "
+              "Every profile preserves Spin's live HUD hierarchy without "
+              "replacing unrelated character data."),
         bg=BG, fg=DIM, font=("Segoe UI", 10),
     ).pack(anchor="w", pady=(0, 4))
     resolution_hint = tk.Label(layout_page, text=resolution_note(None),
                                bg=BG, fg=CYAN, font=("Segoe UI", 9))
-    resolution_hint.pack(anchor="w", pady=(0, 12))
+    resolution_hint.pack(anchor="w", pady=(0, 6))
+
+    profile_row = tk.Frame(layout_page, bg=BG)
+    profile_row.pack(fill="x", pady=(0, 12))
+    tk.Label(
+        profile_row, text="SCREEN PROFILE", bg=BG, fg=GOLD,
+        font=("Segoe UI Semibold", 9),
+    ).pack(side="left", padx=(0, 8))
+    resolution_profile_var = tk.StringVar(
+        value=PROFILE_KEY_TO_LABEL[DEFAULT_RESOLUTION_PROFILE])
+    profile_combo = ttk.Combobox(
+        profile_row,
+        textvariable=resolution_profile_var,
+        state="readonly",
+        width=31,
+        values=tuple(PROFILE_LABEL_TO_KEY),
+    )
+    profile_combo.pack(side="left")
+    profile_selection_touched = {"value": False}
 
     layout_choice = tk.StringVar(value=KEEP_LAYOUT)
     keep_card = tk.Frame(
@@ -1862,6 +2000,12 @@ def run_gui() -> int:
     current_page = {"index": 0}
     installation_done = {"value": False}
 
+    def selected_resolution_profile() -> str:
+        profile_key = PROFILE_LABEL_TO_KEY.get(resolution_profile_var.get())
+        if profile_key is None:
+            raise ValueError("Choose a supported SpinUI screen profile.")
+        return profile_key
+
     def manual_target_path() -> Path:
         token = SERVER_TOKEN_BY_DISPLAY.get(manual_server.get())
         if token is None:
@@ -1940,6 +2084,12 @@ def run_gui() -> int:
                 target_panel.pack(fill="x", pady=(12, 0))
             refresh_target_mode()
 
+    def profile_selected(_event=None) -> None:
+        profile_selection_touched["value"] = True
+        refresh_layout_selection()
+        if current_page["index"] == 2:
+            update_review()
+
     def refresh_installation(*_args):
         nonlocal target_paths
         eq = Path(path_var.get().strip())
@@ -1954,8 +2104,11 @@ def run_gui() -> int:
             text=("Ready · eqgame.exe found" if valid else "Choose the folder containing eqgame.exe"),
             fg=(CYAN if valid else DIM),
         )
-        resolution_hint.configure(
-            text=resolution_note(detect_client_resolution(eq) if valid else None))
+        detected_resolution = detect_client_resolution(eq) if valid else None
+        resolution_hint.configure(text=resolution_note(detected_resolution))
+        if valid and not profile_selection_touched["value"]:
+            recommended = recommended_resolution_profile(detected_resolution)
+            resolution_profile_var.set(recommended.label)
         if labels and target_mode.get() not in {"existing", "manual"}:
             target_mode.set("existing")
         elif not labels:
@@ -1980,6 +2133,7 @@ def run_gui() -> int:
             )
             return
         preset = LAYOUT_PRESETS[choice]
+        profile = RESOLUTION_PROFILES[selected_resolution_profile()]
         try:
             requested, allow_create = selected_target_plan()
             target = validate_layout_target(eq, requested, allow_create=allow_create)
@@ -1987,12 +2141,16 @@ def run_gui() -> int:
             review_var.set(f"LAYOUT SELECTION NEEDS ATTENTION\n{exc}")
             return
         if target.exists():
-            layout_action = f"Apply the {preset.title.title()} layout to {target.name}"
+            layout_action = (
+                f"Apply {preset.title.title()} · {profile.width}×{profile.height} "
+                f"to {target.name}")
             backup_copy = "Create a timestamped byte-exact backup when values change"
             preserve_copy = "Locks · click-through · hotbar/spell data · loadouts"
             preserve_extra = "Unknown and client-added settings in every other section"
         else:
-            layout_action = f"Create {target.name} from {preset.title.title()}"
+            layout_action = (
+                f"Create {target.name} from {preset.title.title()} · "
+                f"{profile.width}×{profile.height}")
             backup_copy = "No backup needed because the character INI is new"
             preserve_copy = "All other character files, hotbuttons, and client settings"
             preserve_extra = "No existing character INI is overwritten"
@@ -2045,7 +2203,11 @@ def run_gui() -> int:
                         Path(path_var.get().strip()), requested,
                         allow_create=allow_create,
                     )
-                    source = resolve_layout_source(payload, layout_choice.get())
+                    source = resolve_layout_source(
+                        payload,
+                        layout_choice.get(),
+                        selected_resolution_profile(),
+                    )
                     prepare_layout_update(source, target, allow_create=allow_create)
                 except (ValueError, FileNotFoundError, OSError) as exc:
                     messagebox.showerror("Character layout required", str(exc))
@@ -2092,6 +2254,7 @@ def run_gui() -> int:
             return
         choice = layout_choice.get()
         should_install_layout = choice != KEEP_LAYOUT
+        chosen_resolution_profile = selected_resolution_profile()
         target = None
         create_target = False
         if should_install_layout:
@@ -2100,7 +2263,8 @@ def run_gui() -> int:
                 target = validate_layout_target(
                     eq, requested, allow_create=create_target
                 )
-                source = resolve_layout_source(payload, choice)
+                source = resolve_layout_source(
+                    payload, choice, chosen_resolution_profile)
                 prepare_layout_update(source, target, allow_create=create_target)
             except (ValueError, FileNotFoundError, OSError) as exc:
                 finish_error(exc)
@@ -2121,6 +2285,7 @@ def run_gui() -> int:
                     desktop_shortcut=should_create_desktop_shortcut,
                     replace_running=True, require_eq_closed=True,
                     layout_preset=(choice if should_install_layout else None),
+                    resolution_profile=chosen_resolution_profile,
                     create_layout_target=create_target,
                 )
             except Exception as exc:  # surfaced in a native message box
@@ -2153,6 +2318,7 @@ def run_gui() -> int:
         root.destroy()
 
     layout_choice.trace_add("write", refresh_layout_selection)
+    profile_combo.bind("<<ComboboxSelected>>", profile_selected)
     target_mode.trace_add("write", refresh_target_mode)
     manual_character.trace_add("write", refresh_manual_preview)
     manual_server.trace_add("write", refresh_manual_preview)

@@ -2,11 +2,12 @@
 
 This package does not require the installer. It contains the complete
 `spinui_reloaded` skin, SpinUI Studio, Spin's Loremaster, the optional
-3440x1440 character INI, and the alternate ultrawide chat presets. The skin
-itself includes a separately generated standard 2560x1440 default.
+character-layout profiles, and alternate chat presets. Seven validated screen
+profiles cover 1920×1080, 2048×1080, 2560×1080, 2560×1440, 3440×1440,
+3840×1600, and 3840×2160.
 
 > **Safest layout option:** use `SpinUIInstaller.exe` from the guided Installer
-> package when you want an ultrawide preset without replacing character data.
+> package when you want a resolution profile without replacing character data.
 > **Keep Existing** is its recommended default. If you opt into Combat Focus,
 > Social Focus, or Hybrid, it changes `UISkin`, audited window anchors,
 > positions, sizes, and visibility (Show, Alpha, and fade settings), and it
@@ -27,10 +28,12 @@ INI while the game is running.
 
 Run `SpinUIStudio.exe` directly from the extracted package, keeping it beside
 the `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content. The
-full 3440x1440 preview uses the real SpinUI textures and the same INI geometry
-that is exported to EverQuest. Studio detects common game installs and offers
-to import the newest character UI INI as its starting point. Drag windows,
-drag the gold corner to resize supported controls, enter exact pixel
+preview uses real SpinUI textures and the same INI geometry exported to
+EverQuest. Choose the exact screen under **Screen**; each profile closely
+preserves the submitted 3440×1440 live composition without shrinking text or
+controls. Studio detects common game installs, recommends the resolution read
+from `eqclient.ini`, and offers to import the newest character UI INI. Drag
+windows, drag the gold corner to resize supported controls, enter exact pixel
 positions, nudge with arrow keys, and customize the Venom, Gold, and Ember
 accents. **Preview on canvas** is separate from **In-game start state**, so a
 hidden pet, bag, or inventory window can be positioned without forcing it open
@@ -76,12 +79,17 @@ In game, select it with:
 
 The `1` preserves your current window positions.
 
-## 4. Optional: install a 3440x1440 layout
+## 4. Optional: install a resolution profile
 
-Skip this step if you want to keep your existing window arrangement or do not
-play at 3440x1440. Standard 2560x1440 players can use the skin's validated
-`default1440.ini`; the ultrawide character INI should not be squeezed onto a
-16:9 screen.
+Skip this step if you want to keep your existing window arrangement. Otherwise
+choose the exact resolution and chat emphasis under:
+
+```text
+layouts\profiles\<resolution>\<combat-focus|social-focus|hybrid>\
+```
+
+Do not apply a 3440×1440 character INI to a narrower screen; choose its
+validated profile instead.
 
 The Manual package cannot perform the guided installer's surgical merge.
 Copying one of its preset INIs over an existing character INI replaces that
@@ -93,11 +101,10 @@ name follows this pattern:
 UI_<Character>_<server>_LO1.ini
 ```
 
-Choose `UI_Spin_qeynos_LO1.ini` for the combat-focused layout, or choose the
-same file from `layouts\social-focus` or `layouts\hybrid`. Rename the selected
-file to match your character's **existing filename exactly**, then copy it
-beside `eqgame.exe`. Detected layouts can use `LO2`, `LO3`, and later slots;
-retain that existing suffix instead of forcing `LO1`.
+Choose `UI_Spin_qeynos_LO1.ini` from the matching resolution/preset folder.
+Rename the selected file to match your character's **existing filename
+exactly**, then copy it beside `eqgame.exe`. Detected layouts can use `LO2`,
+`LO3`, and later slots; retain that existing suffix instead of forcing `LO1`.
 
 For a genuinely new character target, preserve the character's capitalization
 and use the canonical lowercase server token. New manual targets default to

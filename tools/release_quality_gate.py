@@ -38,7 +38,6 @@ SKIN = REPO / "spinui_reloaded"
 # The generator deliberately uses this stock file as its immutable layout
 # input.  CI checks out full history so drift is never compared against an
 # already-generated worktree file.
-PRISTINE_LAYOUT_SPEC = "0eac353:default_modern/default1440.ini"
 
 BENCHMARK_LINES = 30_000
 MIN_INGEST_LINES_PER_SECOND = 1_000
@@ -483,45 +482,64 @@ def check_generated_layout_drift() -> None:
     section("Layout bounds, overlap, and generated-file drift")
     layout = import_file("spinui_release_layout", TOOLS / "generate_spinui_layout.py")
 
-    # These are the generator's own geometry checks, including every 3440
-    # chat preset plus the separately-authored 2560 profile.
+    # The generator validates every supported screen and chat-emphasis pair.
     try:
         layout.validate_all_presets()
     except SystemExit as exc:
         fail(f"generated layout validation exited with code {exc.code}")
-    standard = layout.standard_1440_placements()
-    problems = layout.validate_profile(standard, 2560, 1440)
-    if problems:
-        fail("2560x1440 layout validation failed: " + "; ".join(problems))
-
-    default_source = _git_file(PRISTINE_LAYOUT_SPEC)
-    standard_eqmain = {
-        "XRef": "right",
-        "YRef": "bottom",
-        "XPos": f"{8 / 2560 * 100:.6f}%",
-        "YPos": f"{4 / 1440 * 100:.6f}%",
-        "Show": "1",
+    expected: dict[Path, str] = {}
+    generated_defaults: dict[str, str] = {}
+    default_targets = {
+        "1920x1080": "default1080.ini",
+        "2560x1440": "default1440.ini",
+        "3840x2160": "default4k.ini",
     }
-    generated_default = layout.transform(
-        default_source, layout.DEFAULT_PRESET, standard, standard_eqmain
-    )
-    expected: dict[Path, str] = {
-        SKIN / "default1440.ini": generated_default,
-    }
+    for profile_key, filename in default_targets.items():
+        profile = layout.RESOLUTION_PROFILES[profile_key]
+        rendered = layout.transform(
+            _git_file(f"0eac353:default_modern/{filename}"),
+            layout.DEFAULT_PRESET,
+            layout.profile_placements(profile_key, layout.DEFAULT_PRESET),
+            layout.profile_eqmain(profile_key),
+            chat_font=(
+                layout.CHAT_FONT_2160
+                if profile.height >= 2000 else layout.CHAT_FONT_1440),
+        )
+        generated_defaults[profile_key] = rendered
+        expected[SKIN / filename] = rendered
 
     personal_source = (REPO / layout.PERSONAL_BASE).read_text(encoding="utf-8")
-    for preset in layout.CHAT_PRESETS:
-        text = layout.merge_missing(
-            layout.transform(
-                personal_source, preset, layout.personal_placements(preset)
-            ),
-            generated_default,
-        )
-        expected[
-            REPO / "layouts" / preset / "UI_Spin_qeynos_LO1.ini"
-        ] = text
+    for profile in layout.RESOLUTION_PROFILES.values():
+        if profile.height <= 1080:
+            default_text = generated_defaults["1920x1080"]
+        elif profile.height >= 2000:
+            default_text = generated_defaults["3840x2160"]
+        else:
+            default_text = generated_defaults["2560x1440"]
+        for preset in layout.CHAT_PRESETS:
+            text = layout.merge_missing(
+                layout.transform(
+                    personal_source,
+                    preset,
+                    layout.profile_placements(profile.key, preset),
+                    layout.profile_eqmain(profile.key),
+                    chat_font=(
+                        layout.CHAT_FONT_2160
+                        if profile.height >= 2000 else layout.CHAT_FONT_1440),
+                ),
+                default_text,
+            )
+            expected[
+                REPO / "layouts" / "profiles" / profile.key
+                / preset / "UI_Spin_qeynos_LO1.ini"
+            ] = text
+            if profile.key == layout.DEFAULT_RESOLUTION_PROFILE:
+                expected[
+                    REPO / "layouts" / preset / "UI_Spin_qeynos_LO1.ini"
+                ] = text
     expected[REPO / "UI_Spin_qeynos_LO1.ini"] = expected[
-        REPO / "layouts" / layout.DEFAULT_PRESET / "UI_Spin_qeynos_LO1.ini"
+        REPO / "layouts" / "profiles" / layout.DEFAULT_RESOLUTION_PROFILE
+        / layout.DEFAULT_PRESET / "UI_Spin_qeynos_LO1.ini"
     ]
 
     drift: list[str] = []
@@ -541,7 +559,8 @@ def check_generated_layout_drift() -> None:
         )
     print(
         f"[PASS] {len(expected)} generated layouts current | "
-        "2560x1440 + all 3440x1440 presets bounded and non-overlapping",
+        f"{len(layout.RESOLUTION_PROFILES)} resolutions × "
+        f"{len(layout.CHAT_PRESETS)} presets bounded and non-overlapping",
         flush=True,
     )
 
@@ -727,16 +746,17 @@ def check_staged_package(kind: str, package_root: Path) -> None:
     skin_files = _compare_packaged_tree(
         SKIN, package_root / "spinui_reloaded", f"{kind}/spinui_reloaded"
     )
-    # Only the public presets ship; layouts/original and layouts/spin-live are
-    # internal generator bases and must never reach a release package.
+    # Public 3440 compatibility aliases and the complete resolution-profile
+    # tree ship; layouts/original and layouts/spin-live remain internal bases.
     package_layouts = package_root / "layouts"
     if not package_layouts.is_dir():
         fail(f"{kind} package is missing the layouts directory")
     actual_presets = {path.name for path in package_layouts.iterdir()}
-    if actual_presets != set(PUBLIC_LAYOUT_PRESETS):
+    expected_layout_roots = {*PUBLIC_LAYOUT_PRESETS, "profiles"}
+    if actual_presets != expected_layout_roots:
         fail(
             f"{kind} package layouts must contain exactly "
-            f"{sorted(PUBLIC_LAYOUT_PRESETS)}, found {sorted(actual_presets)}"
+            f"{sorted(expected_layout_roots)}, found {sorted(actual_presets)}"
         )
     layout_files = 0
     for preset in PUBLIC_LAYOUT_PRESETS:
@@ -744,6 +764,11 @@ def check_staged_package(kind: str, package_root: Path) -> None:
             REPO / "layouts" / preset, package_layouts / preset,
             f"{kind}/layouts/{preset}"
         )
+    layout_files += _compare_packaged_tree(
+        REPO / "layouts" / "profiles",
+        package_layouts / "profiles",
+        f"{kind}/layouts/profiles",
+    )
     docs_files = _compare_packaged_tree(
         REPO / "docs", package_root / "docs", f"{kind}/docs"
     )

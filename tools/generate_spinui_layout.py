@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """SpinUI resolution-aware layout generator.
 
-Produces two files from pixel-exact placement tables:
-  * spinui_reloaded/default1440.ini  — safe standard 2560x1440 default
-  * UI_Spin_qeynos_LO1.ini           — drop-in personal layout for Spin @ qeynos
+Produces screenshot-matched defaults plus every resolution/chat profile:
+  * spinui_reloaded/default1080.ini, default1440.ini, default4k.ini
+  * layouts/profiles/<resolution>/<preset>/UI_Spin_qeynos_LO1.ini
+  * UI_Spin_qeynos_LO1.ini — 3440x1440 Combat Focus compatibility alias
 
 Both are derived from the shipped default1440.ini / the player's uploaded
 UI file, so every key the client expects stays present; only geometry,
 visibility and the chat routing are rewritten.
 
-The optional personal layout remains pixel-perfect at 3440x1440.  The skin's
-generic default1440.ini is separately authored for 2560x1440 so a standard
-1440p player never inherits off-screen ultrawide coordinates.
+Every profile preserves native control sizes and the submitted 3440x1440
+hierarchy while recalculating chat widths, docks, and combat geometry.
 
 The script validates: every placed window fully on-screen, and no two
 default-visible windows overlap.
@@ -19,14 +19,60 @@ default-visible windows overlap.
 Run from repo root:  python3 tools/generate_spinui_layout.py
 """
 
+from dataclasses import dataclass
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SKIN = REPO / "spinui_reloaded"
 SCREEN_W, SCREEN_H = 3440, 1440
 
-CHAT_TOP = 1152          # chat row: 1152..1432, 8px bottom margin
+CHAT_TOP = 1146          # live screenshot: 1146..1426, 14px bottom margin
 DOCK_X = 2492            # bottom-right utility dock (bags / SpinBuddy)
+
+
+@dataclass(frozen=True)
+class ResolutionProfile:
+    key: str
+    width: int
+    height: int
+    label: str
+
+
+DEFAULT_RESOLUTION_PROFILE = "3440x1440"
+RESOLUTION_PROFILES: dict[str, ResolutionProfile] = {
+    "1920x1080": ResolutionProfile(
+        "1920x1080", 1920, 1080, "1920×1080 · Full HD"),
+    "2048x1080": ResolutionProfile(
+        "2048x1080", 2048, 1080, "2048×1080 · Wide Full HD"),
+    "2560x1080": ResolutionProfile(
+        "2560x1080", 2560, 1080, "2560×1080 · Ultrawide"),
+    "2560x1440": ResolutionProfile(
+        "2560x1440", 2560, 1440, "2560×1440 · QHD"),
+    "3440x1440": ResolutionProfile(
+        "3440x1440", 3440, 1440, "3440×1440 · Ultrawide QHD"),
+    "3840x1600": ResolutionProfile(
+        "3840x1600", 3840, 1600, "3840×1600 · Ultrawide"),
+    "3840x2160": ResolutionProfile(
+        "3840x2160", 3840, 2160, "3840×2160 · 4K"),
+}
+
+
+def recommended_profile(width: int, height: int) -> ResolutionProfile:
+    """Return the closest deliberate profile, prioritizing aspect and height."""
+    exact = RESOLUTION_PROFILES.get(f"{width}x{height}")
+    if exact is not None:
+        return exact
+    aspect = width / max(1, height)
+
+    def score(profile: ResolutionProfile) -> float:
+        profile_aspect = profile.width / profile.height
+        return (
+            abs(aspect - profile_aspect) * 3
+            + abs(height - profile.height) / max(height, profile.height) * 2
+            + abs(width - profile.width) / max(width, profile.width)
+        )
+
+    return min(RESOLUTION_PROFILES.values(), key=score)
 
 
 def pct_x(px: float) -> str:
@@ -77,23 +123,24 @@ def P_for(screen_w, screen_h, x, y, w=None, h=None, show=None, extra=None):
 # Chat-row geometry per preset: (name, x, width, height, y) for the three
 # visible containers.  MainChat = Main Chat, Chat 1 = Social, Chat 2 = Combat.
 CHAT_PRESETS = {
-    # Three equal panes — a symmetrical chat row (8px gaps, flush to the dock).
+    # Matches the submitted live screenshot: Main and Social are compact,
+    # while Combat receives the larger pane.
     "combat-focus": {
-        "MainChat": (8, 820, 280, CHAT_TOP),
-        "Chat 1": (836, 820, 280, CHAT_TOP),
-        "Chat 2": (1664, 820, 280, CHAT_TOP),
+        "MainChat": (8, 700, 280, CHAT_TOP),
+        "Chat 1": (713, 700, 280, CHAT_TOP),
+        "Chat 2": (1421, 1060, 280, CHAT_TOP),
     },
     # Social pane dominates; combat stays readable.
     "social-focus": {
-        "MainChat": (8, 800, 280, CHAT_TOP),
-        "Chat 1": (816, 1000, 280, CHAT_TOP),
-        "Chat 2": (1824, 660, 280, CHAT_TOP),
+        "MainChat": (8, 620, 280, CHAT_TOP),
+        "Chat 1": (633, 1120, 280, CHAT_TOP),
+        "Chat 2": (1761, 720, 280, CHAT_TOP),
     },
     # Hybrid: big main + social, small self-combat ticker bottom-aligned.
     "hybrid": {
-        "MainChat": (8, 900, 280, CHAT_TOP),
-        "Chat 1": (916, 1000, 280, CHAT_TOP),
-        "Chat 2": (1924, 560, 200, 1232),
+        "MainChat": (8, 820, 280, CHAT_TOP),
+        "Chat 1": (833, 1000, 280, CHAT_TOP),
+        "Chat 2": (1841, 640, 200, CHAT_TOP + 80),
     },
 }
 
@@ -102,44 +149,44 @@ CHAT_ALPHA = {"Alpha": "235", "FadeToAlpha": "150", "Fades": "1"}
 PLACEMENTS: dict[str, dict] = {
     # --- chat row (geometry filled in per preset) ---------------------------
     "MainChat": P(8, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
-    "Chat 1":  P(716, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
-    "Chat 2":  P(1424, CHAT_TOP, 1060, 280, extra=CHAT_ALPHA),
+    "Chat 1":  P(713, CHAT_TOP, 700, 280, extra=CHAT_ALPHA),
+    "Chat 2":  P(1421, CHAT_TOP, 1060, 280, extra=CHAT_ALPHA),
     # Legacy fourth container is explicitly parked and hidden; the active
     # three-pane ChatManager ends at x=2484, leaving the bag dock unobstructed.
-    "Chat 3":  P(2492, CHAT_TOP, 700, 280, show=0, extra=CHAT_ALPHA),
+    "Chat 3":  P(2486, CHAT_TOP, 700, 280, show=0, extra=CHAT_ALPHA),
 
-    # --- left column: spell gems + vertical hotbars -------------------------
-    "CastSpellWnd":   P(8, 521, 52, 623, show=1),
-    "HotButtonWnd":   P(64, 877, 94, 267),
-    "HotButtonWnd11": P(162, 873, 98, 271),
+    # --- screenshot-faithful horizontal spell and two 6x2 hotbars -----------
+    "CastSpellWnd":   P(1410, 1094, 595, 48, show=1),
+    "HotButtonWnd":   P(1132, 1048, 272, 93, show=1),
+    "HotButtonWnd11": P(162, 873, 98, 271, show=0),
 
     # --- center combat cluster (above chat) ---------------------------------
     # Player and Target plates share the hotbar block's outer edges, so the
     # pair is perfectly centered over the rows beneath (block midpoint 1720).
-    "PlayerWindow":  P(1188, 770, 360, 193, show=1),
-    "TargetWindow":  P(1892, 770, 360, 193, show=1),
+    "PlayerWindow":  P(1170, 771, 360, 193, show=1),
+    "TargetWindow":  P(1898, 771, 360, 193, show=1),
     # Every pet layout preserves the historical x=1180 right edge and y=965
     # bottom baseline: 8px before PlayerWindow and 7px above the hotbar row.
     # The fixed default spends ultrawide width on a full-capacity effect rail
     # instead of stacking a dark tray overhead.
-    "PetInfoWindow": P(667, 784, 513, 181),                     # Show per base
-    "PetInfoWindow_1": P(824, 756, 356, 209, show=0),
-    "PetInfoWindow_2": P(824, 756, 356, 209, show=0),
-    "PetInfoWindow_3": P(739, 784, 441, 181, show=0),
-    "StanceWnd":     P(1188, 970, 440, 56, show=1),
-    "CastingWindow": P(1636, 978, 380, 36, show=1),
-    "AggroMeterWnd": P(2032, 974, 220, 48),
-    "HotButtonWnd4": P(1188, 1032, 528, 56),
-    "HotButtonWnd5": P(1724, 1032, 528, 56),
-    "HotButtonWnd2": P(1188, 1092, 528, 56),
-    "HotButtonWnd3": P(1724, 1092, 528, 56),
+    "PetInfoWindow": P(851, 582, 513, 181, show=0),
+    "PetInfoWindow_1": P(1008, 558, 356, 209, show=0),
+    "PetInfoWindow_2": P(1008, 558, 356, 209, show=0),
+    "PetInfoWindow_3": P(923, 586, 441, 181, show=0),
+    "StanceWnd":     P(1489, 1027, 440, 66, show=1),
+    "CastingWindow": P(1557, 966, 310, 46, show=1),
+    "AggroMeterWnd": P(2032, 976, 220, 48, show=0),
+    "HotButtonWnd4": P(1188, 1032, 528, 56, show=0),
+    "HotButtonWnd5": P(1724, 1032, 528, 56, show=0),
+    "HotButtonWnd2": P(2009, 1048, 272, 93, show=1),
+    "HotButtonWnd3": P(1724, 1092, 528, 56, show=0),
 
     # --- utility hotbars flanking the cluster -------------------------------
-    "HotButtonWnd8": P(652, 972, 528, 56),
-    "HotButtonWnd7": P(652, 1032, 528, 56),
-    "HotButtonWnd6": P(652, 1092, 528, 56),
-    "HotButtonWnd9": P(2260, 1092, 528, 56),
-    "HotButtonWnd10": P(2260, 1032, 528, 56),
+    "HotButtonWnd8": P(652, 972, 528, 56, show=0),
+    "HotButtonWnd7": P(652, 1032, 528, 56, show=0),
+    "HotButtonWnd6": P(652, 1092, 528, 56, show=0),
+    "HotButtonWnd9": P(2260, 1092, 528, 56, show=0),
+    "HotButtonWnd10": P(2260, 1032, 528, 56, show=0),
 
     # --- right column: buffs / songs / group --------------------------------
     # July Legends-native effect rows: icon + readable name, backed by the
@@ -149,14 +196,14 @@ PLACEMENTS: dict[str, dict] = {
     "BuffWindow_13":              P(3224, 8, 216, 640, show=0),
     "ShortDurationBuffWindow":    P(3008, 8, 216, 324, show=1),
     "ShortDurationBuffWindow_13": P(3008, 8, 216, 324, show=0),
-    "GroupWindow":             P(3210, 728, show=1),
-    "ExtendedTargetWnd":       P(3024, 728, 178, 300),          # Show per base
+    "GroupWindow":             P(3133, 656, show=1),
+    "ExtendedTargetWnd":       P(2946, 656, 170, 300, show=0),
     # Map: translucent glass, top-right but clear of buffs/songs, so it can
     # stay open while running without hiding the HUD or the world.
-    "MapViewWnd":              P(2280, 8, 720, 600,
+    "MapViewWnd":              P(2360, 8, 640, 520,
                                  extra={"Alpha": "235", "FadeToAlpha": "160",
                                         "Fades": "1"}),
-    "TargetOfTargetWindow":    P(2296, 616, 240, 53),
+    "TargetOfTargetWindow":    P(2360, 536, 232, 100),
 
     # --- top center / left utility ------------------------------------------
     "CompassWindow": P(1490, 8),
@@ -165,8 +212,8 @@ PLACEMENTS: dict[str, dict] = {
     # --- openable windows ---------------------------------------------------
     # Inventory clears TrackingWnd horizontally and parks 8px above the pet.
     # The bank suite forms a separate center-left workspace beside it.
-    "InventoryWindow": P(400, 2),
-    "BigBankWnd":      P(1088, 300),
+    "InventoryWindow": P(175, 203),
+    "BigBankWnd":      P(1000, 330),
     "BreathWindow":    P(1661, 700),
 }
 
@@ -181,140 +228,174 @@ for i in range(1, 9):
 # and the combat cluster.
 for i in range(1, 17):
     col, row = (i - 1) % 8, (i - 1) // 8
-    PLACEMENTS[f"BagBank{i}"] = P(1384 + col * 100, 300 + row * 204, 96, 194)
+    PLACEMENTS[f"BagBank{i}"] = P(1330 + col * 100, 330 + row * 204, 96, 194)
+
+
+CHAT_WEIGHTS = {
+    "combat-focus": (700, 700, 1060),
+    "social-focus": (620, 1120, 720),
+    "hybrid": (820, 1000, 640),
+}
+
+
+def _adaptive_chat_geometry(profile: ResolutionProfile, preset: str):
+    sw, sh = profile.width, profile.height
+    chat_height = 200 if sh <= 1080 else 300 if sh >= 2000 else 280
+    chat_top = sh - chat_height - (14 if sh == 1440 else 8)
+    aspect = sw / sh
+    # Reserve the lower-right command strip even on 16:9 screens. Ultrawide
+    # profiles expand that dock for bags and utilities, matching the live HUD.
+    dock_width = 400
+    if sw >= 3000:
+        dock_width = 951
+    elif aspect >= 2.2:
+        dock_width = round(sw * 0.275)
+    usable = sw - 16 - dock_width
+    content = usable - 16
+    weights = CHAT_WEIGHTS[preset]
+    total = sum(weights)
+    widths = [
+        round(content * weights[0] / total),
+        round(content * weights[1] / total),
+    ]
+    widths.append(content - sum(widths))
+    third_height = 160 if preset == "hybrid" and sh <= 1080 else (
+        200 if preset == "hybrid" else chat_height)
+    x0 = 8
+    x1 = x0 + widths[0] + 8
+    x2 = x1 + widths[1] + 8
+    return {
+        "MainChat": (x0, widths[0], chat_height, chat_top),
+        "Chat 1": (x1, widths[1], chat_height, chat_top),
+        "Chat 2": (
+            x2, widths[2], third_height,
+            chat_top + chat_height - third_height,
+        ),
+    }
+
+
+def adaptive_placements(profile: ResolutionProfile, preset: str) -> dict[str, dict]:
+    """Preserve the 3440 live composition at another supported resolution."""
+    if profile.key == DEFAULT_RESOLUTION_PROFILE:
+        return preset_placements(preset)
+    if preset not in CHAT_PRESETS:
+        raise ValueError(f"unknown chat preset: {preset}")
+    sw, sh = profile.width, profile.height
+
+    def q(x, y, w=None, h=None, show=None, extra=None):
+        return P_for(sw, sh, x, y, w, h, show, extra)
+
+    chat = _adaptive_chat_geometry(profile, preset)
+    chat_top = chat["MainChat"][3]
+    center = min(sw // 2, sw - 978)
+    player_x = center - 550
+    target_x = center + 178
+    player_y = chat_top - 375
+    group_y = max(656, chat_top - 502)
+    inventory_x = max(8, round(sw * 0.0509))
+    inventory_y = min(round(sh * 0.141), chat_top - 676)
+    pet_x = min(sw - 521, inventory_x + 676)
+    pet_y = max(8, player_y - 189)
+    bank_y = max(80, min(round(sh * 0.23), chat_top - 406))
+
+    placements = {
+        "Chat 3": q(8, chat_top, chat["MainChat"][1],
+                    chat["MainChat"][2], show=0, extra=CHAT_ALPHA),
+        "CastSpellWnd": q(center - 310, chat_top - 52, 595, 48, show=1),
+        "HotButtonWnd": q(center - 588, chat_top - 98, 272, 93, show=1),
+        "HotButtonWnd2": q(center + 289, chat_top - 98, 272, 93, show=1),
+        "HotButtonWnd11": q(64, max(8, chat_top - 273), 98, 271, show=0),
+        "PlayerWindow": q(player_x, player_y, 360, 193, show=1),
+        "TargetWindow": q(target_x, player_y, 360, 193, show=1),
+        "PetInfoWindow": q(pet_x, pet_y, 513, 181, show=0),
+        "PetInfoWindow_1": q(pet_x + 157, pet_y - 24,
+                             356, 209, show=0),
+        "PetInfoWindow_2": q(pet_x + 157, pet_y - 24,
+                             356, 209, show=0),
+        "PetInfoWindow_3": q(pet_x + 72, pet_y + 4,
+                             441, 181, show=0),
+        "StanceWnd": q(center - 231, chat_top - 119, 440, 66, show=1),
+        "CastingWindow": q(center - 163, chat_top - 180, 310, 46, show=1),
+        "AggroMeterWnd": q(center + 312, chat_top - 170, 220, 48, show=0),
+        "HotButtonWnd4": q(max(8, center - 532), chat_top - 114,
+                           528, 56, show=0),
+        "HotButtonWnd5": q(min(sw - 536, center + 4), chat_top - 114,
+                           528, 56, show=0),
+        "HotButtonWnd3": q(min(sw - 536, center + 4), chat_top - 56,
+                           528, 56, show=0),
+        "HotButtonWnd8": q(max(8, center - 1068), chat_top - 174,
+                           528, 56, show=0),
+        "HotButtonWnd7": q(max(8, center - 1068), chat_top - 114,
+                           528, 56, show=0),
+        "HotButtonWnd6": q(max(8, center - 1068), chat_top - 56,
+                           528, 56, show=0),
+        "HotButtonWnd10": q(min(sw - 536, center + 540), chat_top - 114,
+                            528, 56, show=0),
+        "HotButtonWnd9": q(min(sw - 536, center + 540), chat_top - 56,
+                           528, 56, show=0),
+        "BuffWindow": q(sw - 216, 8, 216, 640, show=1),
+        "BuffWindow_13": q(sw - 216, 8, 216, 640, show=0),
+        "ShortDurationBuffWindow": q(sw - 432, 8, 216, 324, show=1),
+        "ShortDurationBuffWindow_13": q(sw - 432, 8, 216, 324, show=0),
+        "GroupWindow": q(sw - 307, group_y, show=1),
+        "ExtendedTargetWnd": q(sw - 494, group_y, 170, 300, show=0),
+        "MapViewWnd": q(max(8, sw - 1080), 8, 640, 520,
+                        extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
+        "TargetOfTargetWindow": q(max(8, sw - 1080), 536, 232, 100),
+        "CompassWindow": q(center - 230, 8),
+        "TrackingWnd": q(8, 120, 340, 390),
+        "InventoryWindow": q(inventory_x, inventory_y),
+        "BigBankWnd": q(max(8, center - 720), bank_y),
+        "BreathWindow": q(center - 59, max(8, player_y - 71)),
+    }
+    for name, (x, width, height, y) in chat.items():
+        placements[name] = q(x, y, width, height, extra=CHAT_ALPHA)
+
+    if sw >= 3000 or sw / sh >= 2.2:
+        bag_x, bag_y, columns = sw - 940, chat_top + 14, 8
+    else:
+        bag_x, bag_y, columns = min(sw - 404, inventory_x + 668), inventory_y, 4
+    for i in range(1, 9):
+        col, row = (i - 1) % columns, (i - 1) // columns
+        placements[f"BagInv{i}"] = q(
+            bag_x + col * 100, bag_y + row * 204, 96, 194)
+
+    bank_bag_x = max(8, min(sw - 804, center - 400))
+    for i in range(1, 17):
+        col, row = (i - 1) % 8, (i - 1) // 8
+        placements[f"BagBank{i}"] = q(
+            bank_bag_x + col * 100, bank_y + row * 204, 96, 194)
+    return placements
+
+
+def profile_placements(profile_key: str, preset: str) -> dict[str, dict]:
+    try:
+        profile = RESOLUTION_PROFILES[profile_key]
+    except KeyError as exc:
+        raise ValueError(f"unknown resolution profile: {profile_key}") from exc
+    return adaptive_placements(profile, preset)
+
+
+def profile_eqmain(profile_key: str) -> dict[str, str]:
+    try:
+        profile = RESOLUTION_PROFILES[profile_key]
+    except KeyError as exc:
+        raise ValueError(f"unknown resolution profile: {profile_key}") from exc
+    return {
+        "XRef": "right",
+        "YRef": "bottom",
+        "XPos": f"{8 / profile.width * 100:.6f}%",
+        "YPos": f"{4 / profile.height * 100:.6f}%",
+        "Show": "1",
+    }
 
 
 def standard_1440_placements() -> dict[str, dict]:
-    """Conservative default for 2560x1440 displays.
+    return profile_placements("2560x1440", DEFAULT_PRESET)
 
-    It retains the same combat hierarchy as the ultrawide composition but
-    pulls the center cluster left, docks buffs against the real right edge,
-    and narrows the final utility hotbars so every default-visible window has
-    a deliberate non-overlapping home.
-    """
-    sw, sh = 2560, 1440
-
-    def q(x, y, w=None, h=None, show=None, extra=None):
-        return P_for(sw, sh, x, y, w, h, show, extra)
-
-    placements = {
-        "MainChat": q(8, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
-        "Chat 1": q(858, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
-        "Chat 2": q(1708, CHAT_TOP, 842, 280, extra=CHAT_ALPHA),
-        "Chat 3": q(8, CHAT_TOP, 842, 280, show=0, extra=CHAT_ALPHA),
-        "CastSpellWnd": q(8, 521, 52, 623, show=1),
-        "HotButtonWnd": q(64, 877, 94, 267),
-        "HotButtonWnd11": q(162, 873, 98, 271),
-        # Preserve the shared x=948 right edge and y=965 bottom baseline.
-        "PetInfoWindow": q(435, 784, 513, 181),
-        "PetInfoWindow_1": q(592, 756, 356, 209, show=0),
-        "PetInfoWindow_2": q(592, 756, 356, 209, show=0),
-        "PetInfoWindow_3": q(507, 784, 441, 181, show=0),
-        # Plates share the hotbar block's outer edges (midpoint 1488).
-        "PlayerWindow": q(956, 770, 360, 193, show=1),
-        "TargetWindow": q(1660, 770, 360, 193, show=1),
-        "StanceWnd": q(956, 970, 440, 56, show=1),
-        "CastingWindow": q(1404, 978, 380, 36, show=1),
-        "AggroMeterWnd": q(1800, 974, 220, 48),
-        "HotButtonWnd4": q(956, 1032, 528, 56),
-        "HotButtonWnd5": q(1492, 1032, 528, 56),
-        "HotButtonWnd2": q(956, 1092, 528, 56),
-        "HotButtonWnd3": q(1492, 1092, 528, 56),
-        "HotButtonWnd8": q(420, 972, 528, 56),
-        "HotButtonWnd7": q(420, 1032, 528, 56),
-        "HotButtonWnd6": q(420, 1092, 528, 56),
-        "HotButtonWnd10": q(2028, 1032, 266, 56),
-        "HotButtonWnd9": q(2028, 1092, 266, 56),
-        "BuffWindow": q(2344, 8, 216, 640, show=1),
-        "BuffWindow_13": q(2344, 8, 216, 640, show=0),
-        "ShortDurationBuffWindow": q(2128, 8, 216, 324, show=1),
-        "ShortDurationBuffWindow_13": q(2128, 8, 216, 324, show=0),
-        "GroupWindow": q(2330, 728, show=1),
-        "ExtendedTargetWnd": q(2144, 728, 178, 300),
-        "MapViewWnd": q(1400, 8, 720, 600,
-                        extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
-        "TargetOfTargetWindow": q(1904, 616, 240, 53),
-        "CompassWindow": q(1050, 8),
-        "TrackingWnd": q(8, 120, 340, 390),
-        "InventoryWindow": q(300, 140),
-        "BigBankWnd": q(900, 330),
-        "BreathWindow": q(1221, 700),
-    }
-    for i in range(1, 9):
-        col, row = (i - 1) % 4, (i - 1) // 4
-        placements[f"BagInv{i}"] = q(1740 + col * 100, 740 + row * 204, 96, 194)
-    for i in range(1, 17):
-        col, row = (i - 1) % 8, (i - 1) // 8
-        placements[f"BagBank{i}"] = q(1330 + col * 100, 330 + row * 204, 96, 194)
-    return placements
 
 def standard_2160_placements() -> dict[str, dict]:
-    """Deliberate 3840x2160 (4K) composition.
-
-    Same combat hierarchy as the ultrawide layout: a symmetrical three-pane
-    chat row with a bottom-right utility dock, the center cluster perfectly
-    centered on x=1920 with the player/target plates sharing the hotbar
-    block's outer edges, buffs/songs flush to the real right edge, and the
-    glass map clear of both.  Windows keep their native pixel sizes, so on a
-    4K panel the HUD reads denser; chat gets the largest client font (see
-    CHAT_FONT_2160) to stay comfortably readable.
-    """
-    sw, sh = 3840, 2160
-    chat_top = 1852          # chat row: 1852..2152, 8px bottom margin
-
-    def q(x, y, w=None, h=None, show=None, extra=None):
-        return P_for(sw, sh, x, y, w, h, show, extra)
-
-    placements = {
-        # symmetrical chat row (three 953px panes), dock at 2892..3832
-        "MainChat": q(8, chat_top, 953, 300, extra=CHAT_ALPHA),
-        "Chat 1": q(969, chat_top, 953, 300, extra=CHAT_ALPHA),
-        "Chat 2": q(1930, chat_top, 953, 300, extra=CHAT_ALPHA),
-        "Chat 3": q(8, chat_top, 953, 300, show=0, extra=CHAT_ALPHA),
-        "CastSpellWnd": q(8, 1221, 52, 623, show=1),
-        "HotButtonWnd": q(64, 1577, 94, 267),
-        "HotButtonWnd11": q(162, 1573, 98, 271),
-        # Preserve the shared x=1380 right edge and y=1665 bottom baseline.
-        "PetInfoWindow": q(867, 1484, 513, 181),
-        "PetInfoWindow_1": q(1024, 1456, 356, 209, show=0),
-        "PetInfoWindow_2": q(1024, 1456, 356, 209, show=0),
-        "PetInfoWindow_3": q(939, 1484, 441, 181, show=0),
-        # cluster centered on 1920: block 1388..2452, plates on its edges
-        "PlayerWindow": q(1388, 1470, 360, 193, show=1),
-        "TargetWindow": q(2092, 1470, 360, 193, show=1),
-        "StanceWnd": q(1388, 1670, 440, 56, show=1),
-        "CastingWindow": q(1836, 1678, 380, 36, show=1),
-        "AggroMeterWnd": q(2232, 1674, 220, 48),
-        "HotButtonWnd4": q(1388, 1732, 528, 56),
-        "HotButtonWnd5": q(1924, 1732, 528, 56),
-        "HotButtonWnd2": q(1388, 1792, 528, 56),
-        "HotButtonWnd3": q(1924, 1792, 528, 56),
-        "HotButtonWnd8": q(852, 1670, 528, 56),
-        "HotButtonWnd7": q(852, 1732, 528, 56),
-        "HotButtonWnd6": q(852, 1792, 528, 56),
-        "HotButtonWnd9": q(2460, 1792, 528, 56),
-        "HotButtonWnd10": q(2460, 1732, 528, 56),
-        "BuffWindow": q(3624, 8, 216, 640, show=1),
-        "BuffWindow_13": q(3624, 8, 216, 640, show=0),
-        "ShortDurationBuffWindow": q(3408, 8, 216, 324, show=1),
-        "ShortDurationBuffWindow_13": q(3408, 8, 216, 324, show=0),
-        "GroupWindow": q(3610, 1440, show=1),
-        "ExtendedTargetWnd": q(3424, 1440, 178, 300),
-        "MapViewWnd": q(2680, 8, 720, 600,
-                        extra={"Alpha": "235", "FadeToAlpha": "160", "Fades": "1"}),
-        "TargetOfTargetWindow": q(2696, 620, 240, 53),
-        "CompassWindow": q(1690, 8),
-        "TrackingWnd": q(8, 120, 340, 390),
-        "InventoryWindow": q(560, 240),
-        "BigBankWnd": q(1100, 430),
-        "BreathWindow": q(1861, 1050),
-    }
-    for i in range(1, 9):
-        placements[f"BagInv{i}"] = q(2900 + (i - 1) * 100, 1860, 96, 194)
-    for i in range(1, 17):
-        col, row = (i - 1) % 8, (i - 1) // 8
-        placements[f"BagBank{i}"] = q(1530 + col * 100, 430 + row * 204, 96, 194)
-    return placements
+    return profile_placements("3840x2160", DEFAULT_PRESET)
 
 
 # Chat font per generated default: 5 reads well at 1440p pixel densities; a
@@ -476,11 +557,9 @@ XML_SIZES = {
 # Windows visible in the default HUD (Show=1 or always-on) → overlap-checked.
 VISIBLE = [
     "MainChat", "Chat 1", "Chat 2",
-    "CastSpellWnd", "HotButtonWnd", "HotButtonWnd11",
+    "CastSpellWnd", "HotButtonWnd",
     "PlayerWindow", "TargetWindow", "StanceWnd", "CastingWindow",
-    "HotButtonWnd2", "HotButtonWnd3", "HotButtonWnd4", "HotButtonWnd5",
-    "HotButtonWnd6", "HotButtonWnd7", "HotButtonWnd8", "HotButtonWnd9",
-    "HotButtonWnd10", "GroupWindow", "BuffWindow", "ShortDurationBuffWindow",
+    "HotButtonWnd2", "GroupWindow", "BuffWindow", "ShortDurationBuffWindow",
 ]
 
 # PetInfoWindow is character/state dependent, so its Show flag is preserved.
@@ -497,12 +576,6 @@ OPTIONAL_VISIBLE = {
 # at login, but they are routinely used together and should still compose as
 # one intentional workspace when opened.
 OPTIONAL_VISIBLE_3440 = {
-    "inventory-pet-tracking": [
-        "InventoryWindow", "PetInfoWindow", "TrackingWnd",
-    ],
-    "inventory-pet-right-buffs": [
-        "InventoryWindow", "PetInfoWindow_3", "TrackingWnd",
-    ],
     "banking": [
         "InventoryWindow", "BigBankWnd",
         *[f"BagBank{i}" for i in range(1, 17)],
@@ -649,22 +722,22 @@ def merge_missing(personal: str, default_text: str) -> str:
 
 def validate_all_presets() -> None:
     problems = []
-    base_placements = {k: dict(v) for k, v in PLACEMENTS.items()}
-    try:
+    for profile in RESOLUTION_PROFILES.values():
         for preset in CHAT_PRESETS:
-            placements = preset_placements(preset)
-            PLACEMENTS.update(placements)  # rect_of reads PLACEMENTS
-            problems += [f"[{preset}] {p}" for p in validate()]
-    finally:
-        # Validation must not leak the final preset's chat geometry into the
-        # subsequent generation pass.
-        PLACEMENTS.clear()
-        PLACEMENTS.update(base_placements)
+            placements = profile_placements(profile.key, preset)
+            problems += [
+                f"[{profile.key}/{preset}] {problem}"
+                for problem in validate_profile(
+                    placements, profile.width, profile.height)
+            ]
     if problems:
         for p in problems:
             print("LAYOUT ERROR:", p)
         raise SystemExit(1)
-    print("layout validation: on-screen OK  no HUD overlaps OK  (all presets)")
+    print(
+        "layout validation: on-screen OK  no HUD overlaps OK  "
+        f"({len(RESOLUTION_PROFILES)} resolutions × {len(CHAT_PRESETS)} presets)"
+    )
 
 
 DEFAULT_PRESET = "combat-focus"
@@ -680,54 +753,72 @@ def main():
 
     import shutil
 
-    default_src = _pristine_default1440()
-    standard = standard_1440_placements()
-    standard_problems = validate_profile(standard, 2560, 1440)
-    if standard_problems:
-        for problem in standard_problems:
-            print("LAYOUT ERROR: [2560x1440]", problem)
-        raise SystemExit(1)
-    standard_eqmain = {
-        "XRef": "right", "YRef": "bottom",
-        "XPos": f"{8 / 2560 * 100:.6f}%",
-        "YPos": f"{4 / 1440 * 100:.6f}%", "Show": "1",
+    generated_defaults: dict[str, str] = {}
+    default_targets = {
+        "1920x1080": "default1080.ini",
+        "2560x1440": "default1440.ini",
+        "3840x2160": "default4k.ini",
     }
-    new_default = transform(default_src, DEFAULT_PRESET, standard, standard_eqmain)
-    (SKIN / "default1440.ini").write_text(new_default)
-    print("wrote spinui_reloaded/default1440.ini  (safe 2560x1440 default)")
-    print("layout validation: 2560x1440 on-screen OK  no HUD overlaps OK")
-
-    four_k = standard_2160_placements()
-    four_k_problems = validate_profile(four_k, 3840, 2160)
-    if four_k_problems:
-        for problem in four_k_problems:
-            print("LAYOUT ERROR: [3840x2160]", problem)
-        raise SystemExit(1)
-    four_k_eqmain = {
-        "XRef": "right", "YRef": "bottom",
-        "XPos": f"{8 / 3840 * 100:.6f}%",
-        "YPos": f"{4 / 2160 * 100:.6f}%", "Show": "1",
-    }
-    new_4k = transform(_pristine_default("default4k.ini"), DEFAULT_PRESET,
-                       four_k, four_k_eqmain, chat_font=CHAT_FONT_2160)
-    (SKIN / "default4k.ini").write_text(new_4k)
-    print("wrote spinui_reloaded/default4k.ini  (deliberate 3840x2160 default)")
-    print("layout validation: 3840x2160 on-screen OK  no HUD overlaps OK")
+    for profile_key, filename in default_targets.items():
+        profile = RESOLUTION_PROFILES[profile_key]
+        placements = profile_placements(profile_key, DEFAULT_PRESET)
+        rendered = transform(
+            _pristine_default(filename),
+            DEFAULT_PRESET,
+            placements,
+            profile_eqmain(profile_key),
+            chat_font=(
+                CHAT_FONT_2160 if profile.height >= 2000 else CHAT_FONT_1440),
+        )
+        (SKIN / filename).write_text(rendered)
+        generated_defaults[profile_key] = rendered
+        print(
+            f"wrote spinui_reloaded/{filename}  "
+            f"({profile.label} screenshot-matched default)"
+        )
 
     base = (REPO / PERSONAL_BASE).read_text()
-    for preset in CHAT_PRESETS:
-        out_dir = REPO / "layouts" / preset
-        out_dir.mkdir(parents=True, exist_ok=True)
-        personal = merge_missing(
-            transform(base, preset, personal_placements(preset)), new_default)
-        (out_dir / "UI_Spin_qeynos_LO1.ini").write_text(personal)
-        print(f"wrote layouts/{preset}/UI_Spin_qeynos_LO1.ini")
+    for profile in RESOLUTION_PROFILES.values():
+        if profile.height <= 1080:
+            default_text = generated_defaults["1920x1080"]
+        elif profile.height >= 2000:
+            default_text = generated_defaults["3840x2160"]
+        else:
+            default_text = generated_defaults["2560x1440"]
+        for preset in CHAT_PRESETS:
+            personal = merge_missing(
+                transform(
+                    base,
+                    preset,
+                    profile_placements(profile.key, preset),
+                    profile_eqmain(profile.key),
+                    chat_font=(
+                        CHAT_FONT_2160
+                        if profile.height >= 2000 else CHAT_FONT_1440),
+                ),
+                default_text,
+            )
+            profile_dir = REPO / "layouts" / "profiles" / profile.key / preset
+            profile_dir.mkdir(parents=True, exist_ok=True)
+            (profile_dir / "UI_Spin_qeynos_LO1.ini").write_text(personal)
+            print(
+                f"wrote layouts/profiles/{profile.key}/{preset}/"
+                "UI_Spin_qeynos_LO1.ini"
+            )
+            if profile.key == DEFAULT_RESOLUTION_PROFILE:
+                compatibility_dir = REPO / "layouts" / preset
+                compatibility_dir.mkdir(parents=True, exist_ok=True)
+                (compatibility_dir / "UI_Spin_qeynos_LO1.ini").write_text(personal)
 
     shutil.copyfile(
-        REPO / "layouts" / DEFAULT_PRESET / "UI_Spin_qeynos_LO1.ini",
+        REPO / "layouts" / "profiles" / DEFAULT_RESOLUTION_PROFILE
+        / DEFAULT_PRESET / "UI_Spin_qeynos_LO1.ini",
         REPO / "UI_Spin_qeynos_LO1.ini",
     )
-    print("wrote UI_Spin_qeynos_LO1.ini  (=%s)" % DEFAULT_PRESET)
+    print(
+        "wrote UI_Spin_qeynos_LO1.ini  "
+        f"(={DEFAULT_RESOLUTION_PROFILE}/{DEFAULT_PRESET})"
+    )
 
 
 def _pristine_default(name: str) -> str:

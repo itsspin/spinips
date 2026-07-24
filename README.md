@@ -1,6 +1,6 @@
 # Spin's UI Reloaded
 
-**A complete Obsidian, Venom & Ember interface for EverQuest Legends.** SpinUI rebuilds the aging EQ presentation around a crisp combat dock, cinematic equipment screen, readable effects and spell controls, safe 2560×1440 defaults, optional 3440×1440 layouts, **SpinUI Studio** for offline layout and color editing, and **Spin's Loremaster**, a live Encounter Lab and EQL Wiki companion that never injects into the game.
+**A complete Obsidian, Venom & Ember interface for EverQuest Legends.** SpinUI rebuilds the aging EQ presentation around a crisp combat dock, cinematic equipment screen, readable effects and spell controls, seven validated screen profiles from 1920×1080 through 4K, **SpinUI Studio** for offline layout and color editing, and **Spin's Loremaster**, a live Encounter Lab and EQL Wiki companion that never injects into the game.
 
 [**Download the latest release**](https://github.com/itsspin/spinips/releases/latest) · Windows · EverQuest Legends · Log-only companion · Standard-library runtime
 
@@ -32,7 +32,7 @@
 
 1. [What's inside](#whats-inside)
 2. [The theme: Obsidian, Venom & Ember](#the-theme-obsidian-venom--ember)
-3. [The 3440x1440 layout](#the-3440x1440-layout)
+3. [Resolution-aware layouts](#resolution-aware-layouts)
 4. [SpinUI Studio: offline editor](#spinui-studio-offline-layout-and-theme-editor)
 5. [Installation](#installation)
 6. [Chat: three windows, three presets](#chat-three-windows-three-presets)
@@ -53,7 +53,7 @@
 | `UI_Spin_qeynos_LO1.ini` | Complete example layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (Combat Focus). Existing characters should use the installer's safe merge. |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements - pick your style. These three are the only layout folders included in release packages; `layouts/original/` and `layouts/spin-live/` are internal generator bases kept in the repository. |
 | `layouts/original/` | The author's pre-overhaul Spin profile, retained as project history, not a substitute for another player's backup. |
-| `SpinUIStudio.exe` | The offline 3440×1440 layout, visibility, and accent-color editor included in both Windows release packages. |
+| `SpinUIStudio.exe` | The offline multi-resolution layout, visibility, and accent-color editor included in both Windows release packages. |
 | `loremaster/` | **Spin's Loremaster** - the real-time Encounter Lab, session tracker, DPS overlay, and Lore Lens item-wiki companion. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/screenshots/` | Privacy-reviewed, real in-game SpinUI and Loremaster captures used in this README. |
@@ -82,11 +82,13 @@ Window XML polish applied on top (133+ verified value-level edits): vivid gauge 
 
 ---
 
-## The 3440x1440 layout
+## Resolution-aware layouts
 
 Everything important lives in a band across the bottom - eyes stay near your character. The vertical center of the screen is kept clear.
 
-This is the optional character-layout preset shown in the full HUD screenshot. It is not forced by the installer. The skin's `default1440.ini` is separately generated and overlap-validated for standard **2560x1440**, so community members on a normal 16:9 1440p display receive an intentional layout instead of ultrawide coordinates squeezed onto their screen. **4K is a first-class target too:** `default4k.ini` is a separately generated, overlap-validated **3840x2160** composition - symmetrical three-pane chat row, the combat cluster perfectly centered on the screen midline, buffs/songs flush to the real right edge, and chat set to the client's largest font so text stays comfortably readable at 4K pixel density. The stock 1080p default remains included as well, and the installer detects your resolution from `eqclient.ini` (read-only) and tells you which default will apply.
+The 3440×1440 composition in the full HUD screenshot is the visual source for every profile. SpinUI preserves native control sizes and the same two-hotbar, stance, horizontal-spell, player/target, effects, group, and three-chat hierarchy while recalculating docks and spacing for **1920×1080, 2048×1080, 2560×1080, 2560×1440, 3440×1440, 3840×1600, and 3840×2160**. This avoids blurry blanket scaling and keeps EverQuest text and click targets crisp.
+
+The installer reads `eqclient.ini` without modifying it, recommends the exact or closest validated screen profile, and still lets the user choose another. Combat Focus, Social Focus, and Hybrid are chat-emphasis choices inside every resolution profile. Keep Existing remains the default and never changes a character INI.
 
 <details>
 <summary><strong>Technical 3440×1440 layout map</strong></summary>
@@ -96,13 +98,13 @@ This is the optional character-layout preset shown in the full HUD screenshot. I
 │ Tracking (toggle)        Compass                     Map (toggle)  Songs  Buffs │
 │                                                      ┌─────────┐  ┌────┐ ┌────┐│
 │  ┌────┐                                              │  glass  │  │song│ │buff││
-│  │ 14 │                                              └─────────┘  └────┘ │    ││
-│  │gem │                - clear view of the world -                       └────┘│
-│  │dock│                                                                  Group │
+│  │    │                                              └─────────┘  └────┘ │    ││
+│  │inv │                - clear view of the world -                       └────┘│
+│  │    │                                                                  Group │
 │  │    │                ┌────────┐              ┌────────┐               ┌────┐ │
 │  └────┘                │ Player │ [cast][aggro]│ Target │               │    │ │
-│     [vert 1][vert 11]  └────────┘  [stances]   └────────┘               └────┘ │
-│          [bars 8/7/6]  [bars 4+5 / 2+3]  [bars 9/10]                           │
+│                        └────────┘  [stances]   └────────┘               └────┘ │
+│                     [hotbar 1] [horizontal spells] [hotbar 2]                 │
 │ ┌───────────┬───────────┬───────────────┬──────────────────────────────┐       │
 │ │ Main Chat │  Social   │    Combat     │  LOREMASTER dock / bag row   │ [menu]│
 │ └───────────┴───────────┴───────────────┴──────────────────────────────┘       │
@@ -113,14 +115,14 @@ This is the optional character-layout preset shown in the full HUD screenshot. I
 
 Zone by zone:
 
-* **Chat row (y 1152-1432):** Main Chat, Social, and Combat side by side across the bottom - every message stream visible at once, nothing stacked or tabbed away.
-* **Center combat cluster:** Player plate (left) and Target plate (right) sit just above the hotbars; their stance/empower rails use the full plate width so long Legends labels remain readable without colliding. The low-profile Pet command center has a measured parking spot immediately left of Player, with an exact 8px side gap whenever it is enabled. Between and below the main plates sit the **twin-wing stance bar** - a `STANCE` wing in ember gold on the left and an `INVOCATION` wing in venom on the right, each carrying its active name, split by a small ember gem (the ability buttons remain one client-managed row, flowing from the gold wing toward the venom wing) - plus the centered cast bar and aggro meter. Two main hotbar rows sit directly under the plates, with utility banks flanking left and right - nine horizontal banks + two vertical banks + the 14-gem spell dock on the left edge, all preserved from your setup, just organized.
+* **Chat row (y 1146-1426 at 3440×1440):** Main Chat, Social, and the larger Combat pane sit side by side across the bottom. Narrower profiles retain all three panes and reserve a lower-right command strip instead of letting chat cover the EQ menu.
+* **Center combat cluster:** Player plate (left) and Target plate (right) sit above exactly two 6×2 hotbars. The horizontal 14-gem spell bar and twin-wing stance row remain centered between them, with the casting bar immediately above. The low-profile Pet command center parks above the cluster and immediately to the right of Inventory's reserved footprint, keeping both openable windows clear of each other at every profile.
 * **Right column:** Spell Effects and Song Effects pin top-right in slim transparent rails with 20px icons and contiguous authored rows, no oversized black backplates or artificial gutters. They use the clean **LEFT-anchored, no-numbering list style** (icons beside names, no floating number rail). Right-click either window to switch styles any time. Group sits below them; Extended Target keeps a tidy parking spot for whenever you enable it. A sparse engine-assigned effect slot can still reserve its own row, because SpinUI does not rewrite live buff-slot identity.
 * **Top-right glass:** the Map (toggleable) - see [The map](#the-map).
-* **Bottom-right dock (x 2492-3432):** deliberately left empty by the HUD - this is where **Loremaster** docks and where your **inventory bags tile** when opened.
-* **Openable windows** (inventory, bank, loot, merchant…) spawn center-left/center so they never cover the chat row or the combat cluster.
+* **Bottom-right dock:** deliberately reserved for the EQ command strip, **Loremaster**, and inventory bags. Its width adapts to the chosen screen profile.
+* **Openable windows** (inventory, bank, loot, merchant…) receive on-screen profile positions. At narrow 1080p widths, the full 660×668 Inventory intentionally overlays part of the HUD rather than being shrunk into unreadability; Pet remains parked clear beside it.
 
-The layout generator validates three distinct targets: every window fully on-screen with zero default-visible overlaps for the optional 3440x1440 presets, and the same guarantees for the standard 2560x1440 and 3840x2160 (4K) skin defaults.
+The layout generator validates all **21 resolution/preset combinations**: every managed window remains on-screen, and every default-visible HUD is overlap-free.
 
 ### Quality-of-life defaults changed vs. your old file
 
@@ -148,14 +150,15 @@ servers are unavailable. Keep the executable beside the release's
 `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content, then open
 it directly; no Python installation is required.
 
-The Studio canvas is a full 3440×1440 composition driven by the same window
-geometry, real SpinUI textures, layout generator, and character-INI fields as
-the shipped game UI. On startup Studio detects common EverQuest installs and
-offers to read the newest `UI_<Character>_<server>_LO#.ini`, so the canvas
-begins at the character's current in-game positions, hotbar/spell orientation,
-scale, and sizes. EverQuest's left, right, top, bottom, and half-screen
-`center` anchors are converted to exact pixels and tested through a lossless
-import/export/import round trip.
+The Studio canvas uses the same seven screen profiles, window geometry, real
+SpinUI textures, layout generator, and character-INI fields as the shipped
+game UI. Choose the exact resolution from **Screen** and the chat emphasis
+from **Preset**; switching screens deliberately reflows the layout instead of
+stretching the preview. On startup Studio detects common EverQuest installs,
+reads the client resolution when available, recommends the matching profile,
+and offers to import the newest `UI_<Character>_<server>_LO#.ini`. EverQuest's
+left, right, top, bottom, and half-screen `center` anchors are converted to
+exact pixels and tested through a lossless import/export/import round trip.
 
 Drag a previewed window to reposition it, drag the gold lower-right handle to
 resize supported windows, use the inspector for exact coordinates, or nudge
@@ -180,7 +183,7 @@ timestamped byte-exact backup, and replaces the file atomically.
 
 | Preview element | Offline fidelity |
 |---|---|
-| Window position, size, visibility, and 3440×1440 bounds | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows. |
+| Window position, size, visibility, and selected-profile bounds | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows. |
 | Window chrome and custom accents | Authoritative assets: built from the real SpinUI TGA/XML sources loaded by the game. |
 | Chat routing and preserved character settings | Imported from the selected INI; exported through the same audited layout transformation used by the release. |
 | Names, chat text, buffs, gauges, items, and other live state | Clearly labeled deterministic sample data; only `eqgame.exe` can supply runtime values. |
@@ -216,7 +219,7 @@ open and records the traceback in
 
 1. Download `SpinUI-Installer.zip` from the newest entry on the GitHub **Releases** page. Maintainers can also run **Actions → Build SpinUI Windows package**: leave **Publish these builds on the GitHub Releases page** enabled and choose the release tag to create or refresh.
 2. Extract the whole ZIP, close EverQuest, then run `SpinUIInstaller.exe`. It detects common Daybreak and Steam installations; **Browse** can locate any custom folder containing `eqgame.exe`. Re-running it is a supported update path: the skin is cleanly refreshed so obsolete files cannot linger, while Loremaster's saved config and records remain intact.
-3. The visual layout step defaults to **KEEP MY CURRENT LAYOUT**. Combat Focus, Social Focus, and Hybrid are opt-in 3440×1440 cards with miniature layout diagrams. Pick a detected character INI, or choose **Character not listed / create target**, enter the character name with exact capitalization, and select Erudin (European), Freeport, Halas, Neriak, Oggok, Paineel (European), Qeynos, or Rivervale. The wizard previews the exact filename (for example `UI_Spin_qeynos_LO1.ini`) before continuing.
+3. The visual layout step defaults to **KEEP MY CURRENT LAYOUT**. If you opt in, the installer detects the EverQuest resolution, recommends one of seven validated screen profiles, and lets you override it before choosing Combat Focus, Social Focus, or Hybrid. Pick a detected character INI, or choose **Character not listed / create target**, enter the character name with exact capitalization, and select Erudin (European), Freeport, Halas, Neriak, Oggok, Paineel (European), Qeynos, or Rivervale. The wizard previews the exact filename (for example `UI_Spin_qeynos_LO1.ini`) before continuing.
 4. Applying a preset to an existing character is a surgical merge, not a file replacement - and it now delivers the *complete* layout. `UISkin`, the audited window anchors/positions/sizes, each window's visibility and fade settings, and the three-window chat routing (`ChatManager`) are applied; locks, map preferences, hotbuttons/macros, spell data, loadouts, client-added sections, and unknown future settings remain untouched. A timestamped byte-exact backup is created only when the merge actually changes the file; reapplying the same preset is a no-op. A genuinely new filename can be seeded only after the review page clearly identifies it as new.
 5. **Start Loremaster with Windows** and **Create a Loremaster desktop shortcut** are enabled by default. Startup remains hidden and virtually idle until `eqgame.exe` appears; the desktop shortcut opens the HUD directly.
 6. In game, type `/log on` once and use `/loadskin spinui_reloaded 1` if the skin is not already selected.
@@ -231,8 +234,8 @@ Download `SpinUI-Manual` from the same workflow run or `SpinUI-Manual.zip` from 
    C:\Users\Public\Daybreak Game Company\Installed Games\EverQuest Legends\uifiles\spinui_reloaded\
    ```
 
-2. **Optional: install a full ultrawide layout manually**
-   The preset INIs are complete 3440×1440 UI profiles. Copying one over an existing `UI_<Character>_<server>_LO1.ini` replaces that file's window preferences and chat configuration. Use the guided installer when you want the safe audited merge described above (layout, visibility, and chat routing - nothing else). If you intentionally want a complete manual replacement, close EQ, make a byte-for-byte backup first, then choose the top-level Combat Focus file or the matching file under `layouts/social-focus/` or `layouts/hybrid/`.
+2. **Optional: install a complete layout manually**
+   Choose `layouts/profiles/<resolution>/<combat-focus|social-focus|hybrid>/UI_Spin_qeynos_LO1.ini`. Copying one over an existing `UI_<Character>_<server>_LO1.ini` replaces that file's window preferences and chat configuration. Use the guided installer when you want the safe audited merge described above (layout, visibility, and chat routing - nothing else). If you intentionally want a complete manual replacement, close EQ and make a byte-for-byte backup first.
 
 3. **Name the optional layout for the correct character**
    The filename is case-sensitive for the character portion and uses the canonical lowercase server token: `UI_<ExactCharacterName>_<server>_LO1.ini`. For example, Spin on Qeynos is `UI_Spin_qeynos_LO1.ini`. Copy it into the EverQuest Legends **root** beside `eqgame.exe`. Never rename or replace the separate `<Character>_<server>_LO1.ini` or `eqclient.ini` files.
@@ -446,7 +449,7 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 
 * **Recolor the whole UI:** edit the palette block at the top of `generate_spinui_textures.py` (and the matching hexes in `loremaster.py` / `render_preview.py`).
 * **Move a window:** edit its pixel coordinates in `PLACEMENTS` in `generate_spinui_layout.py` - the script converts to the client's percentage format and re-validates the whole screen for overlaps/off-screen.
-* **New chat preset:** add an entry to `CHAT_PRESETS` - it lands in `layouts/<name>/` automatically.
+* **New chat preset or resolution:** add it to `CHAT_PRESETS` or `RESOLUTION_PROFILES`; generation emits every validated combination under `layouts/profiles/`.
 * The texture and layout generators always start from the **pristine** stock files in git history, so reruns never compound. The two `restyle_*` scripts are staged, marker-guarded migrations (`SPIN-DECO-4` / `SPIN-PERSONA-4`) - rerunning them on an already-migrated file is a clean no-op.
 
 ---
@@ -457,13 +460,13 @@ python3 tools/release_quality_gate.py              # run every source, layout, p
 |---|---|
 | Layout didn't apply | The game was running when you copied the INI - close EQ fully, copy again, relaunch. |
 | Skin didn't load | Folder must be exactly `uifiles\spinui_reloaded\`; then `/loadskin spinui_reloaded 1`. |
-| A window is somewhere weird at 2560x1440 | `/loadskin spinui_reloaded` **without** the `1` re-applies the skin's overlap-validated standard 1440p layout (`default1440.ini`). |
+| Layout does not fit the screen | Re-run the installer and choose the exact **Screen Profile**, or choose it in SpinUI Studio and export the character INI again. |
 | Raid chat in Main instead of Social | That's the documented two-click step - see [Chat](#chat-three-windows-three-presets). |
 | Chat font too big/small | Right-click the chat window → Font. |
 | Loremaster shows "awaits your log" | Type `/log on` in game, then click **LOCATE LOG** and choose the EverQuest folder or its `Logs` folder. |
 | Time-to-level shows - | Needs XP % in log lines (Legends logs them) and a few minutes of kills to establish a rate. |
-| Playing at 2560x1440 | Leave the optional 3440x1440 character layout unchecked. The skin ships a separately generated, overlap-validated 2560x1440 default. |
-| Playing at 4K (3840x2160) | Leave the optional 3440x1440 character layout unchecked. The skin ships a dedicated, overlap-validated `default4k.ini` - centered combat cluster, symmetrical chat at the largest client font. `/loadskin spinui_reloaded` (without the `1`) applies it. |
+| Playing at 2048×1080 | Choose the exact **2048×1080 · Wide Full HD** profile in the installer or Studio. |
+| Playing at 4K (3840×2160) | Choose **3840×2160 · 4K**; it uses the largest client chat font while retaining the same HUD hierarchy. |
 | Loremaster will not move | Click **MOVE**; this means the overlay is locked. |
 | Loremaster is click-through | Press **Ctrl+Alt+L** to restore interaction. Pass-through is never saved across launches. |
 | Loremaster vanished or is behind EQ | Click the gold-and-cyan Loremaster icon beside the Windows clock. If it is not visible, open the **^** notification-area drawer; left-click restores the HUD and right-click offers Open, Hide, and Exit. |
@@ -481,11 +484,13 @@ spinips/
 ├── spinui_reloaded/            the skin (drop into uifiles/)
 │   ├── EQUI_*.xml              window definitions (themed)
 │   ├── window_*.tga, wnd_*.tga redrawn chrome textures
-│   ├── default1440.ini         safe standard 2560x1440 layout
+│   ├── default1080.ini         screenshot-matched 1920x1080 default
+│   ├── default1440.ini         screenshot-matched 2560x1440 default
 │   └── default4k.ini           deliberate 3840x2160 (4K) layout
 ├── UI_Spin_qeynos_LO1.ini      example 3440×1440 Combat Focus profile
 ├── layouts/
-│   ├── combat-focus/ social-focus/ hybrid/   optional ultrawide profiles
+│   ├── profiles/<resolution>/<preset>/       all 21 validated combinations
+│   ├── combat-focus/ social-focus/ hybrid/   3440x1440 compatibility aliases
 │   └── original/               Spin's historical pre-overhaul profile
 ├── loremaster/
 │   ├── loremaster.py           the tracker (stdlib-only)

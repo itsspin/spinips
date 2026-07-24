@@ -83,13 +83,14 @@ jobs:
           New-Item -ItemType Directory -Force -Path $installerPackage, $manualPackage | Out-Null
           foreach ($package in @($installerPackage, $manualPackage)) {
             Copy-Item -Recurse -Force spinui_reloaded (Join-Path $package 'spinui_reloaded')
-            # Only the public presets ship; layouts/original and layouts/spin-live
-            # are internal generator bases.
+            # Public aliases plus every validated resolution profile ship;
+            # layouts/original and layouts/spin-live stay internal.
             $packageLayouts = Join-Path $package 'layouts'
             New-Item -ItemType Directory -Force -Path $packageLayouts | Out-Null
             foreach ($preset in @('combat-focus', 'social-focus', 'hybrid')) {
               Copy-Item -Recurse -Force (Join-Path 'layouts' $preset) (Join-Path $packageLayouts $preset)
             }
+            Copy-Item -Recurse -Force layouts/profiles (Join-Path $packageLayouts 'profiles')
             Copy-Item -Recurse -Force docs (Join-Path $package 'docs')
             Copy-Item -Force UI_Spin_qeynos_LO1.ini $package
             Copy-Item -Force README.md $package
