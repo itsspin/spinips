@@ -53,7 +53,7 @@
 | `UI_Spin_qeynos_LO1.ini` | Complete example layout for **Spin @ qeynos**, pixel-planned for 3440x1440 (Combat Focus). Existing characters should use the installer's safe merge. |
 | `layouts/combat-focus/` `layouts/social-focus/` `layouts/hybrid/` | The same layout with three different chat-row arrangements - pick your style. These three are the only layout folders included in release packages; `layouts/original/` and `layouts/spin-live/` are internal generator bases kept in the repository. |
 | `layouts/original/` | The author's pre-overhaul Spin profile, retained as project history, not a substitute for another player's backup. |
-| `SpinUIStudio.exe` | The offline 3440×1440 layout, visibility, and accent-color editor included in both Windows release packages. |
+| `SpinUIStudio.exe` | The offline layout, visibility, and accent-color editor for 3440×1440, 2560×1440, and 3840×2160. Ships as its own standalone `SpinUI-Studio.zip` release and is also included in both full Windows packages. |
 | `loremaster/` | **Spin's Loremaster** - the real-time Encounter Lab, session tracker, DPS overlay, and Lore Lens item-wiki companion. |
 | `tools/` | The generators that built everything (textures, layout, preview). Rerunnable and hackable. |
 | `docs/screenshots/` | Privacy-reviewed, real in-game SpinUI and Loremaster captures used in this README. |
@@ -144,26 +144,43 @@ Everything else (pet window hidden, extended target hidden, etc.) respects your 
 ## SpinUI Studio: offline layout and theme editor
 
 `SpinUIStudio.exe` lets you compose and build SpinUI while EverQuest or its
-servers are unavailable. Keep the executable beside the release's
+servers are unavailable. **Studio is its own release**: download the
+standalone `SpinUI-Studio.zip` — the editor plus the skin/layout sources it
+renders, with no Loremaster and no installer — or use the copy included in
+both full Windows packages. Keep the executable beside the package's
 `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content, then open
-it directly; no Python installation is required.
+it directly; no Python installation is required. A dedicated guide ships
+inside the Studio package and in [`docs/SPINUI-STUDIO.md`](docs/SPINUI-STUDIO.md).
 
-The Studio canvas is a full 3440×1440 composition driven by the same window
-geometry, real SpinUI textures, layout generator, and character-INI fields as
-the shipped game UI. On startup Studio detects common EverQuest installs and
-offers to read the newest `UI_<Character>_<server>_LO#.ini`, so the canvas
-begins at the character's current in-game positions, hotbar/spell orientation,
-scale, and sizes. EverQuest's left, right, top, bottom, and half-screen
-`center` anchors are converted to exact pixels and tested through a lossless
-import/export/import round trip.
+The Studio canvas is a full composition at your chosen game resolution —
+3440×1440 ultrawide, 2560×1440 standard, or 3840×2160 4K — driven by the same
+window geometry, real SpinUI textures, layout generator, and character-INI
+fields as the shipped game UI. On startup Studio detects common EverQuest
+installs and offers to read the newest `UI_<Character>_<server>_LO#.ini`, so
+the canvas begins at the character's current in-game positions, hotbar/spell
+orientation, scale, and sizes. EverQuest's left, right, top, bottom, and
+half-screen `center` anchors are converted to exact pixels and tested through
+a lossless import/export/import round trip at every supported resolution.
 
 Drag a previewed window to reposition it, drag the gold lower-right handle to
-resize supported windows, use the inspector for exact coordinates, or nudge
-with the arrow keys (Shift = 10px). Double-click a row to preview a normally
-hidden window such as Inventory, bags, or Pet without changing whether it
-opens at login. **Preview on canvas** and **In-game start state** are separate
-controls; the latter can preserve the imported INI, force show, or force hide.
-Combat Focus, Social Focus, and Hybrid remain available as deliberate resets.
+resize supported windows, use the inspector for exact coordinates, or click
+the canvas and nudge with the arrow keys (Shift = 10px; inside the window
+list, arrows browse rows instead of moving windows). Double-click a row to
+preview a normally hidden window such as Inventory, bags, or Pet without
+changing whether it opens at login. **Preview on canvas** and **In-game start
+state** are separate controls; the latter can preserve the imported INI,
+force show, or force hide. Combat Focus, Social Focus, and Hybrid remain
+available as deliberate resets of the ultrawide chat row, and imported
+transparency/fade settings pass through export untouched.
+
+Studio also arranges layouts for UIs other than SpinUI: **USE DOWNLOADED
+UI** points it at any skin folder (an EQInterface download, for example),
+adopts that skin's true declared window footprints from its own XML, and
+targets it on export via `UISkin=`, so the exported INI loads your offline
+layout under that UI. The canvas keeps clearly-labeled SpinUI placeholder
+art — Studio does not re-render third-party textures — and **BUILD FINAL
+UI** remains a SpinUI-only feature. The full workflow is documented in
+[`docs/SPINUI-STUDIO.md`](docs/SPINUI-STUDIO.md).
 
 Three color controls independently tune the **Venom**, **Gold**, and **Ember**
 accents. Studio derives their complete highlight/shadow ramps, applies them to
@@ -180,7 +197,7 @@ timestamped byte-exact backup, and replaces the file atomically.
 
 | Preview element | Offline fidelity |
 |---|---|
-| Window position, size, visibility, and 3440×1440 bounds | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows. |
+| Window position, size, visibility, and screen bounds at 3440×1440, 2560×1440, and 3840×2160 | Authoritative: all EQ anchor modes resolve to the same pixels, and exported values round-trip with zero geometry differences across 63 managed windows at every supported resolution. |
 | Window chrome and custom accents | Authoritative assets: built from the real SpinUI TGA/XML sources loaded by the game. |
 | Chat routing and preserved character settings | Imported from the selected INI; exported through the same audited layout transformation used by the release. |
 | Names, chat text, buffs, gauges, items, and other live state | Clearly labeled deterministic sample data; only `eqgame.exe` can supply runtime values. |
@@ -504,6 +521,7 @@ spinips/
 ├── .github/workflows/
 │   └── build-loremaster.yml    CI: tests, builds, and zips the Windows release
 └── docs/
+    ├── SPINUI-STUDIO.md         standalone SpinUI Studio guide (Studio zip README)
     ├── screenshots/             reviewed real in-game showcase media
     └── previews/                deterministic rendered references
 ```

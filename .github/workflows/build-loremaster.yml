@@ -99,19 +99,42 @@ jobs:
           }
           Copy-Item -Force dist/SpinUIInstaller.exe $installerPackage
 
+      - name: Assemble staged standalone Studio release
+        shell: pwsh
+        run: |
+          # SpinUI Studio is its own release: the editor plus the build
+          # sources it renders and compiles - no Loremaster, no installer.
+          $studioPackage = Join-Path $PWD 'package/SpinUI-Studio'
+          New-Item -ItemType Directory -Force -Path $studioPackage | Out-Null
+          Copy-Item -Recurse -Force spinui_reloaded (Join-Path $studioPackage 'spinui_reloaded')
+          $studioLayouts = Join-Path $studioPackage 'layouts'
+          New-Item -ItemType Directory -Force -Path $studioLayouts | Out-Null
+          foreach ($preset in @('combat-focus', 'social-focus', 'hybrid')) {
+            Copy-Item -Recurse -Force (Join-Path 'layouts' $preset) (Join-Path $studioLayouts $preset)
+          }
+          $studioDocs = Join-Path $studioPackage 'docs'
+          New-Item -ItemType Directory -Force -Path $studioDocs | Out-Null
+          Copy-Item -Recurse -Force docs/previews (Join-Path $studioDocs 'previews')
+          Copy-Item -Force UI_Spin_qeynos_LO1.ini $studioPackage
+          Copy-Item -Force docs/SPINUI-STUDIO.md (Join-Path $studioPackage 'README.md')
+          Copy-Item -Force dist/SpinUIStudio.exe $studioPackage
+
       - name: Verify staged release packages
         run: >
           python tools/release_quality_gate.py --packages-only
           --package installer=package/SpinUI-Installer
           --package manual=package/SpinUI-Manual
+          --package studio=package/SpinUI-Studio
 
       - name: Compress verified release packages
         shell: pwsh
         run: |
           $installerPackage = Join-Path $PWD 'package/SpinUI-Installer'
           $manualPackage = Join-Path $PWD 'package/SpinUI-Manual'
+          $studioPackage = Join-Path $PWD 'package/SpinUI-Studio'
           Compress-Archive -Path "$installerPackage/*" -DestinationPath package/SpinUI-Installer.zip -CompressionLevel Optimal
           Compress-Archive -Path "$manualPackage/*" -DestinationPath package/SpinUI-Manual.zip -CompressionLevel Optimal
+          Compress-Archive -Path "$studioPackage/*" -DestinationPath package/SpinUI-Studio.zip -CompressionLevel Optimal
 
       - name: Upload installer package
         uses: actions/upload-artifact@v4
@@ -125,6 +148,13 @@ jobs:
         with:
           name: SpinUI-Manual
           path: package/SpinUI-Manual.zip
+          if-no-files-found: error
+
+      - name: Upload standalone Studio package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpinUI-Studio
+          path: package/SpinUI-Studio.zip
           if-no-files-found: error
 
       - name: Upload standalone executables
@@ -148,8 +178,8 @@ jobs:
           $assets = @(
             'package/SpinUI-Installer.zip',
             'package/SpinUI-Manual.zip',
+            'package/SpinUI-Studio.zip',
             'dist/Loremaster.exe',
-            'dist/SpinUIStudio.exe',
             'dist/SpinUIInstaller.exe'
           )
           gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
@@ -159,7 +189,7 @@ jobs:
             gh release create $tag @assets --repo $env:GITHUB_REPOSITORY `
               --target $env:GITHUB_SHA `
               --title "SpinUI $tag — Obsidian, Venom & Ember" `
-              --notes "Complete SpinUI Windows release. Use SpinUI-Installer.zip for guided setup or SpinUI-Manual.zip for an installer-free setup."
+              --notes "Complete SpinUI Windows release. Use SpinUI-Installer.zip for guided setup, SpinUI-Manual.zip for an installer-free setup, or the standalone SpinUI-Studio.zip for the offline layout and theme editor on its own."
           }
 
       - name: Attach package to release
@@ -169,5 +199,6 @@ jobs:
         run: >
           gh release upload "${{ github.event.release.tag_name }}"
           package/SpinUI-Installer.zip package/SpinUI-Manual.zip
-          dist/Loremaster.exe dist/SpinUIStudio.exe dist/SpinUIInstaller.exe
+          package/SpinUI-Studio.zip
+          dist/Loremaster.exe dist/SpinUIInstaller.exe
           --clobber

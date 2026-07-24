@@ -26,15 +26,20 @@ INI while the game is running.
 ## 2. Optional: design offline with SpinUI Studio
 
 Run `SpinUIStudio.exe` directly from the extracted package, keeping it beside
-the `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content. The
-full 3440x1440 preview uses the real SpinUI textures and the same INI geometry
-that is exported to EverQuest. Studio detects common game installs and offers
+the `spinui_reloaded`, `layouts`, and `UI_Spin_qeynos_LO1.ini` content.
+(Studio is also published on its own as `SpinUI-Studio.zip`, with a dedicated
+guide inside.) Pick your game resolution in the toolbar — 3440x1440,
+2560x1440, or 3840x2160 — and the preview uses the real SpinUI textures and
+the same INI geometry that is exported to EverQuest at that resolution.
+Studio detects common game installs and offers
 to import the newest character UI INI as its starting point. Drag windows,
 drag the gold corner to resize supported controls, enter exact pixel
 positions, nudge with arrow keys, and customize the Venom, Gold, and Ember
 accents. **Preview on canvas** is separate from **In-game start state**, so a
 hidden pet, bag, or inventory window can be positioned without forcing it open
-at login.
+at login. **USE DOWNLOADED UI** can point Studio at any other UI folder (for
+example an EQInterface skin) to arrange a layout against that skin's true
+window footprints and export an INI targeting it.
 
 Use **SAVE PROJECT** to keep an editable JSON project, **SAVE PREVIEW** for a
 full-resolution PNG, **EXPORT INI** for only the character layout, or **BUILD
