@@ -475,4 +475,16 @@ spinips/
 
 ---
 
+## Credits
+
+* **@Natural** (Discord) - restored the Options window controls that a Legends
+  update added, which SpinUI's copy of that window predated: **Use System
+  Cursor**, **Use Actions - Spells instead of Spellbook**, and the **Cursor
+  Scaling** selector. Their build is what `EQUI_OptionsWindow.xml` carries.
+* Gear data and the character-sheet workflow behind Loremaster's BiS Gear Path
+  come from [EQ Legends Tools](https://eqlegendstools.com/), created by
+  **FlammHammer**.
+
+---
+
 <p align="center"><em>Bound in leather or cut from midnight glass. See you in Norrath.</em></p>
