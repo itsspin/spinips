@@ -2381,6 +2381,55 @@ TEMPLATES FOR ELEMENTS
 		<TextOffsetX>20</TextOffsetX>
 	</Button>	
 
+	<!-- USE SYSTEM CURSOR CHECKBOX -->
+	<Button item="ODP_SystemCursor">
+		<ScreenID>ODP_SystemCursor</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>418</Y>
+		</Location>
+		<Size>
+			<CX>160</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Use System Cursor</Text>
+		<TooltipReference>Uses the system cursor graphic rather than one provided with the ui.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<!-- TOGGLE ACTIONS WINDOW AS DEFAULT FOR SPELLBOOK BUTTON -->
+	<Button item="ODP_SpellbookButtonToggle">
+		<ScreenID>ODP_SpellbookButtonToggle</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>400</Y>
+		</Location>
+		<Size>
+			<CX>160</CX>
+			<CY>34</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Use Actions - Spells instead of Spellbook</Text>
+		<TooltipReference>If enable, the Spellbook Icon on the Spellbar will always open directly to the Actions - Spells window.</TooltipReference>
+		<Template>BDT_CheckboxWithTextDouble</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>34</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
 	<!-- INTERFACE - GENERAL (LEFT LAYOUT) VERTICAL LAYOUT BOX -->	
 	<VerticalLayoutBox item="OIGP_LeftLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
@@ -2420,6 +2469,8 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>ODP_ShowSongCountersCheckbox</Pieces>
 		<Pieces>ODP_ShowSongLimitUseCheckbox</Pieces>
 		<Pieces>ODP_SwapMapCtrlRightClickCheckbox</Pieces>
+		<Pieces>ODP_SystemCursor</Pieces>
+		<Pieces>ODP_SpellbookButtonToggle</Pieces>
 	</VerticalLayoutBox>
 
 	<!-- INTERFACE - GENERAL (RIGHT LAYOUT) - CHECKBOXOES, SLIDERS, COMBOBOXES -->
@@ -2744,6 +2795,45 @@ TEMPLATES FOR ELEMENTS
 			<Choices>4x</Choices>
 			<Choices>5x</Choices>
 		</Combobox>			
+		<!-- CURSOR SCALING LABEL + COMBOBOX -->
+		<Label item="ODP_CursorScaleLabel">
+			<ScreenID>ODP_CursorScaleLabel</ScreenID>
+			<Size>
+				<CX>160</CX>
+				<CY>14</CY>
+			</Size>
+			<Text>Cursor Scaling</Text>
+			<NoWrap>true</NoWrap>
+			<AlignCenter>false</AlignCenter>
+			<AlignRight>false</AlignRight>
+		</Label>
+		<Combobox item="ODP_CursorScale">
+			<ScreenID>ODP_CursorScale</ScreenID>
+			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>115</CX>
+				<CY>24</CY>
+			</Size>
+			<ListHeight>100</ListHeight>
+			<Button>BDT_Combo</Button>
+			<Style_Border>true</Style_Border>
+			<Choices>1.00x</Choices>
+			<Choices>1.25x</Choices>
+			<Choices>1.50x</Choices>
+			<Choices>1.75x</Choices>
+			<Choices>2.00x</Choices>
+			<Choices>2.25x</Choices>
+			<Choices>2.50x</Choices>
+			<Choices>2.75x</Choices>
+			<Choices>3.00x</Choices>
+			<Choices>4.00x</Choices>
+			<Choices>0.75x</Choices>
+		</Combobox>
+
 	<!-- INTERFACE - GENERAL (RIGHT LAYOUT) VERTICAL LAYOUT BOX -->	
 	<VerticalLayoutBox item="OIGP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
@@ -2770,7 +2860,9 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>Screen:FontScreen</Pieces>
 		<Pieces>Screen:TextureScreen</Pieces>
 		<Pieces>ODP_UIScaleLabel</Pieces>		
-		<Pieces>ODP_UIScale</Pieces>		
+		<Pieces>ODP_UIScale</Pieces>
+		<Pieces>ODP_CursorScaleLabel</Pieces>
+		<Pieces>ODP_CursorScale</Pieces>		
 		<Pieces>ODP_TextFilteringLabel</Pieces>
 		<Pieces>ODP_TextFiltering</Pieces>
 		<Pieces>ODP_BGAlphaSlider</Pieces>
