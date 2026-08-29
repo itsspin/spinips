@@ -29,6 +29,7 @@ import {
   type SpinUISkinStatus,
   type SpinUIUpdateState,
 } from "./spinui-updater";
+import { boundedCompanionLayout, companionSurfaceSize } from "./companion-layout";
 
 const processStartedAt = performance.now();
 app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
@@ -64,13 +65,6 @@ const SEED_SIZE = { width: 128, height: 74 } as const;
 const EXPANDED_SIZE = { width: 470, height: 580 } as const;
 const ANALYSIS_SIZE = { width: 1180, height: 760 } as const;
 const ALERT_SIZE = { width: 420, height: 112 } as const;
-const CONTROL_SURFACE_WIDTH = 304;
-const CONTROL_SURFACE_HEADER_HEIGHT = 31;
-const CONTROL_SURFACE_ROW_HEIGHT = 48;
-const CONTROL_SURFACE_MAX_ROWS = 6;
-const GROUP_SURFACE_HEADER_HEIGHT = 31;
-const GROUP_SURFACE_ROW_HEIGHT = 38;
-const GROUP_SURFACE_MAX_ROWS = 5;
 const screenshotControls = [
   {
     kind: "mez", state: "active", target: "an essence carrier", count: 2,
@@ -126,6 +120,9 @@ interface DesktopSettings {
   fontScale: number;
   composition: string;
   splitCharmedPetDps: boolean;
+  seedMeterVisible: boolean;
+  seedMeterMode: "self" | "group" | "pet" | "all";
+  seedMeterOpacity: number;
   stanceAdvisorEnabled: boolean;
   itemNetworkLookups: boolean;
   seedPosition: { x: number; y: number } | null;
@@ -234,6 +231,9 @@ const defaultSettings: DesktopSettings = {
   fontScale: 1.15,
   composition: "",
   splitCharmedPetDps: false,
+  seedMeterVisible: true,
+  seedMeterMode: "all",
+  seedMeterOpacity: 0.9,
   stanceAdvisorEnabled: false,
   itemNetworkLookups: true,
   seedPosition: null,
@@ -279,6 +279,15 @@ function readSettings(): DesktopSettings {
       fontScale: clampInteger(value.fontScale === undefined ? 115 : Number(value.fontScale) * 100, 115, 90, 160) / 100,
       composition: typeof value.composition === "string" ? value.composition.slice(0, 48) : "",
       splitCharmedPetDps: boolean(value.splitCharmedPetDps, false),
+      seedMeterVisible: boolean(value.seedMeterVisible, true),
+      seedMeterMode: ["self", "group", "pet", "all"].includes(String(value.seedMeterMode))
+        ? value.seedMeterMode as DesktopSettings["seedMeterMode"]
+        : "all",
+      seedMeterOpacity: Math.round(clamp(
+        Number.isFinite(Number(value.seedMeterOpacity)) ? Number(value.seedMeterOpacity) : 0.9,
+        0.35,
+        1,
+      ) * 20) / 20,
       stanceAdvisorEnabled: boolean(value.stanceAdvisorEnabled, false),
       itemNetworkLookups: boolean(value.itemNetworkLookups, true),
       seedPosition,
@@ -691,10 +700,10 @@ class EngineSupervisor {
       this.snapshot = event;
       mainWindow?.webContents.send("engine:snapshot", event);
       alertWindow?.webContents.send("engine:snapshot", event);
+      syncControlWindow();
       if (process.env.LOREMASTER_SCREENSHOT_VIEW !== "controls") {
         controlWindow?.webContents.send("engine:snapshot", event);
       }
-      syncControlWindow();
     } else if (event.eventType === "engine.health" || event.eventType === "engine.ready") {
       const health = event.health as EngineHealth | undefined;
       if (health && typeof health.state === "string") {
@@ -806,7 +815,7 @@ class EngineSupervisor {
     this.send({ type: "engine.set-raid-difficulty", raidDifficulty });
   }
 
-  updateDesktopSettings(patch: Partial<Pick<DesktopSettings, "uiTheme" | "alwaysOnTop" | "fontScale" | "composition" | "splitCharmedPetDps" | "stanceAdvisorEnabled" | "itemNetworkLookups" | "eqRoot" | "autoCheckUpdates">> & {
+  updateDesktopSettings(patch: Partial<Pick<DesktopSettings, "uiTheme" | "alwaysOnTop" | "fontScale" | "composition" | "splitCharmedPetDps" | "seedMeterVisible" | "seedMeterMode" | "seedMeterOpacity" | "stanceAdvisorEnabled" | "itemNetworkLookups" | "eqRoot" | "autoCheckUpdates">> & {
     alerts?: Partial<AlertSettings>;
   }): DesktopSettings {
     const nextAlerts = patch.alerts ? {
@@ -829,6 +838,13 @@ class EngineSupervisor {
       seedPosition: nextSeedPosition,
       ...(typeof patch.composition === "string" ? { composition: patch.composition.trim().slice(0, 48) } : {}),
       ...(typeof patch.splitCharmedPetDps === "boolean" ? { splitCharmedPetDps: patch.splitCharmedPetDps } : {}),
+      ...(typeof patch.seedMeterVisible === "boolean" ? { seedMeterVisible: patch.seedMeterVisible } : {}),
+      ...(["self", "group", "pet", "all"].includes(String(patch.seedMeterMode))
+        ? { seedMeterMode: patch.seedMeterMode as DesktopSettings["seedMeterMode"] }
+        : {}),
+      ...(typeof patch.seedMeterOpacity === "number" && Number.isFinite(patch.seedMeterOpacity)
+        ? { seedMeterOpacity: Math.round(clamp(patch.seedMeterOpacity, 0.35, 1) * 20) / 20 }
+        : {}),
       ...(typeof patch.stanceAdvisorEnabled === "boolean" ? { stanceAdvisorEnabled: patch.stanceAdvisorEnabled } : {}),
       ...(typeof patch.itemNetworkLookups === "boolean" ? { itemNetworkLookups: patch.itemNetworkLookups } : {}),
       ...(typeof patch.autoCheckUpdates === "boolean" ? { autoCheckUpdates: patch.autoCheckUpdates } : {}),
@@ -1027,45 +1043,64 @@ function visibleSeedControls(value: unknown, settings: DesktopSettings): Record<
     if (control.kind === "mez") return settings.alerts.mezTimersEnabled;
     if (control.kind === "lull") return settings.alerts.lullTimersEnabled;
     return false;
-  }).slice(0, CONTROL_SURFACE_MAX_ROWS);
+  });
 }
 
-function visibleGroupContributors(value: unknown): Record<string, unknown>[] {
-  if (!value || typeof value !== "object") return [];
+function visibleSeedMeterRows(value: unknown, settings: DesktopSettings): Record<string, unknown>[] {
+  if (!settings.seedMeterVisible || !value || typeof value !== "object") return [];
   const snapshot = (value as { snapshot?: unknown }).snapshot;
   if (!snapshot || typeof snapshot !== "object") return [];
   const encounters = (snapshot as { encounters?: unknown }).encounters;
-  const groupMembersValue = (snapshot as { groupMembers?: unknown }).groupMembers;
-  const groupMembers = new Set(Array.isArray(groupMembersValue)
-    ? groupMembersValue.filter((name): name is string => typeof name === "string")
-      .map((name) => name.toLocaleLowerCase())
-    : []);
   if (!Array.isArray(encounters) || encounters.length === 0) return [];
   const latest = encounters[encounters.length - 1];
   if (!latest || typeof latest !== "object") return [];
-  const actors = (latest as { actors?: unknown }).actors;
-  if (!Array.isArray(actors)) return [];
-  return actors.filter((candidate): candidate is Record<string, unknown> => (
+  const encounter = latest as Record<string, unknown>;
+  const actors = Array.isArray(encounter.actors)
+    ? encounter.actors.filter((candidate): candidate is Record<string, unknown> => Boolean(candidate) && typeof candidate === "object")
+    : [];
+  const group = actors.filter((candidate) => (
     Boolean(candidate) && typeof candidate === "object" &&
-    (candidate as Record<string, unknown>).role === "group" &&
-    Number((candidate as Record<string, unknown>).encounterDamage) > 0 &&
-    groupMembers.has(String((candidate as Record<string, unknown>).name).toLocaleLowerCase())
-  )).sort((left, right) => (
+    candidate.role === "group" && Number(candidate.encounterDamage) > 0
+  ));
+  const pets = actors.filter((candidate) => (
+    (candidate.role === "charmed" || candidate.role === "summoned") &&
+    Number(candidate.encounterDamage) > 0
+  ));
+  const selfActorDamage = Number(actors.find((actor) => actor.role === "self")?.encounterDamage) || 0;
+  const personalDamage = Math.max(0, Number(encounter.personalDamage) || selfActorDamage);
+  const charmedDamage = Math.max(0, Number(encounter.charmedPetDamage) || 0);
+  const summonedDamage = Math.max(0, Number(encounter.summonedPetDamage) || 0);
+  const combinedDamage = Math.max(0, Number(encounter.damage) || personalDamage + charmedDamage + summonedDamage);
+  const synthetic = (role: string, damage: number): Record<string, unknown> => ({
+    role, encounterDamage: damage, name: role,
+  });
+  let rows: Record<string, unknown>[];
+  if (settings.seedMeterMode === "self") {
+    const sources = Array.isArray(encounter.sources)
+      ? encounter.sources.filter((candidate): candidate is Record<string, unknown> => {
+        if (!candidate || typeof candidate !== "object" || Number((candidate as Record<string, unknown>).total) <= 0) return false;
+        const category = String((candidate as Record<string, unknown>).category ?? "")
+          .toLocaleLowerCase().replace(/[\s-]+/g, "_");
+        return !["pet", "charmed", "summoned"].includes(category);
+      })
+      : [];
+    rows = sources.length > 0 ? sources : (personalDamage > 0 ? [synthetic("self", personalDamage)] : []);
+  } else if (settings.seedMeterMode === "pet") {
+    rows = [...pets];
+    if (!pets.some((actor) => actor.role === "charmed") && charmedDamage > 0) rows.push(synthetic("charmed", charmedDamage));
+    if (!pets.some((actor) => actor.role === "summoned") && summonedDamage > 0) rows.push(synthetic("summoned", summonedDamage));
+  } else if (settings.seedMeterMode === "group") {
+    rows = [...(combinedDamage > 0 ? [synthetic("self-and-pets", combinedDamage)] : []), ...group];
+  } else {
+    rows = [...(personalDamage > 0 ? [synthetic("self", personalDamage)] : []), ...pets, ...group];
+    if (!pets.some((actor) => actor.role === "charmed") && charmedDamage > 0) rows.push(synthetic("charmed", charmedDamage));
+    if (!pets.some((actor) => actor.role === "summoned") && summonedDamage > 0) rows.push(synthetic("summoned", summonedDamage));
+  }
+  rows.sort((left, right) => (
     Number(right.encounterDamage) - Number(left.encounterDamage)
-  )).slice(0, GROUP_SURFACE_MAX_ROWS);
-}
-
-function controlSurfaceSize(controlRows: number, groupRows: number, scale: number) {
-  const controlHeight = controlRows > 0
-    ? CONTROL_SURFACE_HEADER_HEIGHT + controlRows * CONTROL_SURFACE_ROW_HEIGHT
-    : 0;
-  const groupHeight = groupRows > 0
-    ? GROUP_SURFACE_HEADER_HEIGHT + groupRows * GROUP_SURFACE_ROW_HEIGHT
-    : 0;
-  return scaledSize({
-    width: CONTROL_SURFACE_WIDTH,
-    height: Math.max(1, controlHeight + groupHeight),
-  }, scale);
+    || Number(right.total) - Number(left.total)
+  ));
+  return rows;
 }
 
 function applyDisplayScale(scale: number): void {
@@ -1224,18 +1259,24 @@ function syncControlWindow(): void {
   if (!mainWindow || !controlWindow || controlWindow.isDestroyed()) return;
   if (process.env.LOREMASTER_SCREENSHOT_VIEW === "controls") return;
   const settings = engine?.getState().settings ?? defaultSettings;
-  const rows = visibleSeedControls(engine?.getState().snapshot, settings);
-  const contributors = visibleGroupContributors(engine?.getState().snapshot);
-  if (!mainWindow.isVisible() || windowExpanded || (rows.length === 0 && contributors.length === 0)) {
+  const controls = visibleSeedControls(engine?.getState().snapshot, settings);
+  const meterRows = visibleSeedMeterRows(engine?.getState().snapshot, settings);
+  if (!mainWindow.isVisible() || windowExpanded || (controls.length === 0 && meterRows.length === 0)) {
     controlWindow.hide();
     positionAlertWindow();
     return;
   }
 
-  const panelSize = controlSurfaceSize(rows.length, contributors.length, settings.fontScale);
   const anchor = mainWindow.getBounds();
   const workArea = screen.getDisplayMatching(anchor).workArea;
   const gap = Math.max(5, Math.round(6 * settings.fontScale));
+  const layout = boundedCompanionLayout(
+    meterRows.length,
+    controls.length,
+    settings.fontScale,
+    Math.max(1, workArea.height - gap * 2),
+  );
+  const panelSize = layout.panelSize;
   const spaceRight = workArea.x + workArea.width - (anchor.x + anchor.width);
   const spaceLeft = anchor.x - workArea.x;
   const spaceAbove = anchor.y - workArea.y;
@@ -1256,10 +1297,16 @@ function syncControlWindow(): void {
     x = anchor.x + Math.round((anchor.width - panelSize.width) / 2);
     y = anchor.y + anchor.height + gap;
   }
-  x = clamp(x, workArea.x, workArea.x + workArea.width - panelSize.width);
-  y = clamp(y, workArea.y, workArea.y + workArea.height - panelSize.height);
+  x = clamp(x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - panelSize.width));
+  y = clamp(y, workArea.y, Math.max(workArea.y, workArea.y + workArea.height - panelSize.height));
   controlWindow.setBounds({ x, y, ...panelSize }, false);
-  if (!controlWindow.webContents.isLoadingMainFrame()) controlWindow.showInactive();
+  if (!controlWindow.webContents.isLoadingMainFrame()) {
+    controlWindow.webContents.send("window:companion-layout", {
+      meterRows: layout.meterRows,
+      controlRows: layout.controlRows,
+    });
+    controlWindow.showInactive();
+  }
   positionAlertWindow();
 }
 
@@ -1469,7 +1516,7 @@ function createAlertWindow(): void {
 
 function createControlWindow(): void {
   const settings = engine?.getState().settings ?? defaultSettings;
-  const initialSize = controlSurfaceSize(1, 0, settings.fontScale);
+  const initialSize = companionSurfaceSize(1, 0, settings.fontScale);
   controlWindow = new BrowserWindow({
     ...initialSize,
     frame: false,
@@ -1515,7 +1562,19 @@ function createControlWindow(): void {
           groupMembers: ["Aromek", "Verdume", "Lilith"],
           encounters: [{
             active: true,
+            seconds: 117,
+            damage: 59900,
+            personalDamage: 34400,
+            charmedPetDamage: 25500,
+            summonedPetDamage: 0,
+            sources: [
+              { name: "Melee", category: "melee", total: 18100, hits: 34, maximum: 690 },
+              { name: "Flame of Light", category: "spell", total: 9700, hits: 9, maximum: 1520 },
+              { name: "Kick", category: "melee", total: 6600, hits: 18, maximum: 410 },
+            ],
             actors: [
+              { name: "Spin", role: "self", encounterDamage: 34400, encounterDps: 294 },
+              { name: "an abhorrent", role: "charmed", encounterDamage: 25500, encounterDps: 218 },
               { name: "Aromek", role: "group", encounterDamage: 48210, encounterDps: 412 },
               { name: "Verdume", role: "group", encounterDamage: 35180, encounterDps: 301 },
               { name: "Lilith", role: "group", encounterDamage: 18490, encounterDps: 158 },
@@ -1525,9 +1584,19 @@ function createControlWindow(): void {
           controls: screenshotControls,
         },
       };
-      const size = controlSurfaceSize(screenshotControls.length, 3, settings.fontScale);
-      controlWindow?.setBounds({ x: 80, y: 80, ...size }, false);
+      const screenshotMeter = visibleSeedMeterRows(fixtureEvent, settings);
+      const screenshotLayout = boundedCompanionLayout(
+        screenshotMeter.length,
+        screenshotControls.length,
+        settings.fontScale,
+        Number.POSITIVE_INFINITY,
+      );
+      controlWindow?.setBounds({ x: 80, y: 80, ...screenshotLayout.panelSize }, false);
       setTimeout(() => {
+        controlWindow?.webContents.send("window:companion-layout", {
+          meterRows: screenshotLayout.meterRows,
+          controlRows: screenshotLayout.controlRows,
+        });
         controlWindow?.webContents.send("engine:snapshot", fixtureEvent);
         controlWindow?.showInactive();
       }, 300);
@@ -1846,6 +1915,13 @@ ipcMain.handle("settings:update", (_event, value: unknown) => {
   if (Number.isFinite(Number(raw.fontScale))) patch.fontScale = clamp(Number(raw.fontScale), 0.9, 1.6);
   if (typeof raw.composition === "string") patch.composition = raw.composition.slice(0, 48);
   if (typeof raw.splitCharmedPetDps === "boolean") patch.splitCharmedPetDps = raw.splitCharmedPetDps;
+  if (typeof raw.seedMeterVisible === "boolean") patch.seedMeterVisible = raw.seedMeterVisible;
+  if (["self", "group", "pet", "all"].includes(String(raw.seedMeterMode))) {
+    patch.seedMeterMode = raw.seedMeterMode as DesktopSettings["seedMeterMode"];
+  }
+  if (Number.isFinite(Number(raw.seedMeterOpacity))) {
+    patch.seedMeterOpacity = clamp(Number(raw.seedMeterOpacity), 0.35, 1);
+  }
   if (typeof raw.stanceAdvisorEnabled === "boolean") patch.stanceAdvisorEnabled = raw.stanceAdvisorEnabled;
   if (typeof raw.itemNetworkLookups === "boolean") patch.itemNetworkLookups = raw.itemNetworkLookups;
   if (typeof raw.autoCheckUpdates === "boolean") patch.autoCheckUpdates = raw.autoCheckUpdates;

@@ -741,6 +741,190 @@ def audit_aa_window() -> None:
             fail(f"AA category {page_name} no longer maps to {tab_text}")
 
 
+def audit_august_2026_runtime_contract() -> None:
+    """Protect native controls introduced by the August 2026 client update.
+
+    EQ resolves these controls by ScreenID at runtime.  A skin can therefore
+    parse and render normally while still producing UIErrorLog failures when
+    an item is missing, renamed, or no longer mounted by its expected parent.
+    """
+
+    def require_item(
+            root: ET.Element, tag: str, name: str,
+            *, screen_id: str | None = None) -> ET.Element:
+        matches = root.findall(f".//{tag}[@item='{name}']")
+        if len(matches) != 1:
+            fail(f"{name} must define exactly one {tag}; found {len(matches)}")
+        node = matches[0]
+        expected_screen_id = name if screen_id is None else screen_id
+        actual_screen_id = (node.findtext("ScreenID") or "").strip()
+        if actual_screen_id != expected_screen_id:
+            fail(
+                f"{name} ScreenID changed: {actual_screen_id!r}, "
+                f"expected {expected_screen_id!r}"
+            )
+        return node
+
+    def require_piece(
+            parent: ET.Element, reference: str, *, context: str) -> None:
+        pieces = [(node.text or "").strip() for node in parent.findall("Pieces")]
+        if pieces.count(reference) != 1:
+            fail(f"{context} must mount {reference} exactly once")
+
+    options = ET.parse(SKIN / "EQUI_OptionsWindow.xml").getroot()
+    option_contract = (
+        ("Button", "ODP_SystemCursor", "OIGP_LeftLayout"),
+        ("Button", "ODP_SpellbookButtonToggle", "OIGP_LeftLayout"),
+        ("Label", "ODP_CursorScaleLabel", "OIGP_RightLayout"),
+        ("Combobox", "ODP_CursorScale", "OIGP_RightLayout"),
+        ("Label", "ODP_NameplateThreatLabel", "OINP_RightLayout"),
+        ("Combobox", "ODP_NameplateThreatOptions", "OINP_RightLayout"),
+    )
+    for tag, name, layout_name in option_contract:
+        require_item(options, tag, name)
+        layout = item(options, "VerticalLayoutBox", layout_name)
+        require_piece(layout, name, context=f"Options {layout_name}")
+
+    threat_choices = [
+        (choice.text or "").strip()
+        for choice in item(
+            options, "Combobox", "ODP_NameplateThreatOptions"
+        ).findall("Choices")
+    ]
+    expected_threat_choices = ["Off", "Aggro Mode", "No Aggro Mode"]
+    if threat_choices != expected_threat_choices:
+        fail(
+            "ODP_NameplateThreatOptions choices changed: "
+            f"{threat_choices}, expected {expected_threat_choices}"
+        )
+
+    spellbook_names = (
+        "EQUI_SpellBookWnd.xml",
+        "EQUI_SpellBookWnd1.xml",
+        "EQUI_SpellBookWnd2.xml",
+    )
+    for filename in spellbook_names:
+        root = ET.parse(SKIN / filename).getroot()
+        require_item(
+            root, "Button", "SBW_ActionsButton", screen_id="ActionsButton"
+        )
+        require_item(
+            root, "Button", "SBW_ActionsToggle",
+            screen_id="SBW_ActionsToggle"
+        )
+        window = item(root, "Screen", "SpellBookWnd")
+        require_piece(
+            window, "SBW_ActionsButton", context=f"{filename} SpellBookWnd"
+        )
+        require_piece(
+            window, "SBW_ActionsToggle", context=f"{filename} SpellBookWnd"
+        )
+
+    task_overlay = ET.parse(SKIN / "EQUI_TaskOverlayWnd.xml").getroot()
+    for tag, name in (
+        ("Label", "TO_NoRespawnTitle"),
+        ("Gauge", "TO_NoRespawnProgressGauge"),
+        ("Label", "TO_NoRespawnRaresLabel"),
+        ("Label", "TO_NoRespawnRaresValue"),
+        ("Label", "TO_NoRespawnRaresValuePct"),
+        ("Screen", "TO_NoRespawnProgressScreen"),
+    ):
+        require_item(task_overlay, tag, name)
+    for name, eq_type in (
+        ("TO_NoRespawnProgressGauge", 301),
+        ("TO_NoRespawnRaresValue", 417),
+        ("TO_NoRespawnRaresValuePct", 418),
+    ):
+        tag = "Gauge" if name == "TO_NoRespawnProgressGauge" else "Label"
+        if child_int(item(task_overlay, tag, name), "EQType") != eq_type:
+            fail(f"{name} lost EQType {eq_type}")
+    no_respawn_gauge = item(
+        task_overlay, "Gauge", "TO_NoRespawnProgressGauge"
+    )
+    if (
+        no_respawn_gauge.findtext("GaugeDrawTemplate/Background") or ""
+    ).strip() != "A_GaugeBackgroundDark":
+        fail("TO_NoRespawnProgressGauge lost A_GaugeBackgroundDark")
+    no_respawn_screen = item(
+        task_overlay, "Screen", "TO_NoRespawnProgressScreen"
+    )
+    for name in (
+        "TO_NoRespawnTitle",
+        "TO_NoRespawnProgressGauge",
+        "TO_NoRespawnRaresLabel",
+        "TO_NoRespawnRaresValue",
+        "TO_NoRespawnRaresValuePct",
+    ):
+        require_piece(
+            no_respawn_screen, name, context="TO_NoRespawnProgressScreen"
+        )
+    require_piece(
+        item(task_overlay, "TileLayoutBox", "TO_TaskList"),
+        "Screen:TO_NoRespawnProgressScreen",
+        context="TO_TaskList",
+    )
+
+    animations = ET.parse(SKIN / "EQUI_Animations.xml").getroot()
+    dark_gauge_matches = animations.findall(
+        ".//Ui2DAnimation[@item='A_GaugeBackgroundDark']"
+    )
+    if len(dark_gauge_matches) != 1:
+        fail(
+            "A_GaugeBackgroundDark must be defined exactly once; "
+            f"found {len(dark_gauge_matches)}"
+        )
+    dark_gauge = dark_gauge_matches[0]
+    if (dark_gauge.findtext("Cycle") or "").strip().casefold() != "true":
+        fail("A_GaugeBackgroundDark must remain cyclic")
+    dark_gauge_texture = (
+        dark_gauge.findtext("Frames/Texture") or ""
+    ).strip()
+    if dark_gauge_texture != "window_fg_pieces.tga":
+        fail("A_GaugeBackgroundDark lost its texture")
+    if (
+        child_int(dark_gauge, "Frames/Location/X"),
+        child_int(dark_gauge, "Frames/Location/Y"),
+    ) != (108, 12):
+        fail("A_GaugeBackgroundDark source location changed")
+    if (
+        child_int(dark_gauge, "Frames/Size/CX"),
+        child_int(dark_gauge, "Frames/Size/CY"),
+    ) != (100, 10):
+        fail("A_GaugeBackgroundDark source size changed")
+
+    marketplace = ET.parse(SKIN / "EQUI_MarketplaceWnd.xml").getroot()
+    require_item(
+        marketplace, "Label", "MKPW_ConfirmPurchase_AlreadyOwnedLabel"
+    )
+    require_piece(
+        item(marketplace, "Page", "MKPW_ConfirmPage"),
+        "MKPW_ConfirmPurchase_AlreadyOwnedLabel",
+        context="MKPW_ConfirmPage",
+    )
+    marketplace_window = item(marketplace, "Screen", "MarketplaceWnd")
+    if child_int(marketplace_window, "MinHSize") != 968:
+        fail("MarketplaceWnd lost its current 968-pixel minimum width")
+
+    actions = ET.parse(SKIN / "EQUI_ActionsWindow.xml").getroot()
+    actions_window = item(actions, "Screen", "ActionsWindow")
+    if child_int(actions_window, "MinVSize") != 415:
+        fail("ActionsWindow lost its current 415-pixel minimum height")
+    action_page_contract = {
+        "ACTW_MacrosPage": (
+            "ACTW_MP_MacrosList", "ACTW_MP_DescriptionStmlBox"),
+        "ActionsSpellsPage": (
+            "ASP_SpellsList", "ASP_DescriptionStmlBox"),
+        "ActionsDisciplinesPage": (
+            "ADP_SkillSelectorList", "ADP_SkillDescriptionStmlBox"),
+        "ActionsAbilitiesPage": (
+            "AAP_SkillSelectorList", "AAP_SkillDescriptionStmlBox"),
+    }
+    for page_name, references in action_page_contract.items():
+        page = item(actions, "Page", page_name)
+        for reference in references:
+            require_piece(page, reference, context=page_name)
+
+
 def audit_map_resizing() -> None:
     """Keep map resize bounds compatible with every shipped layout."""
     default_minimum = (400, 400)
@@ -1318,6 +1502,7 @@ def main() -> int:
     audit_map_resizing()
     audit_inventory_progression()
     audit_aa_window()
+    audit_august_2026_runtime_contract()
     audit_inventory_geometry()
     print("SpinUI asset audit: ALL PASS")
     print(f"  XML {len(xml_files)} | texture refs {len(texture_refs)} | "
@@ -1334,6 +1519,8 @@ def main() -> int:
     print("  inventory 660x668 | equipment 23 + pet illusion selector | "
           "AA deck 6 tabs + true progress | ledger 15/15 + 6/6 | "
           "footer 6 | persona 23 | bags 12")
+    print("  Legends Aug 2026 | Options 6 | spellbooks 3 | "
+          "task tracker + marketplace + actions")
     return 0
 
 

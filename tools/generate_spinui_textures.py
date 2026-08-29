@@ -648,6 +648,9 @@ def build_fg_pieces(img):
     d.point((12, 12), fill=GOLD_BRIGHT + (255,))
     # Gauge background 100x10 at (108,0)
     gauge_bg_strip(img, (108, 0, 208, 10))
+    # Dark gauge background 100x10 at (108,12), added by the August 2026
+    # Legends client for no-respawn zone-completion progress.
+    gauge_bg_strip(img, (108, 12, 208, 22))
     # VSB arrows 12x22
     for x, state in ((10, "normal"), (22, "flyby"), (34, "pressed"), (46, "disabled")):
         scroll_arrow_btn(img, (x, 90, x + 12, 112), "up", state)

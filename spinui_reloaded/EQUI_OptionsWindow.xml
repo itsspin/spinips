@@ -29,7 +29,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>NAME HERE</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>TEXT VALUE HERE</Text>
@@ -39,6 +39,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -46,7 +50,7 @@ TEMPLATES FOR ELEMENTS
 	*****CHECKBOX (TWO LINES OF TEXT) TEMPLATE
 
 		<Button item="NAME HERE">
-			<ScreenID>NAME HERE/ScreenID>
+			<ScreenID>NAME HERE</ScreenID>
 			<Size>
 				<CX>160</CX>
 				<CY>34</CY>
@@ -108,6 +112,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>			
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -120,7 +128,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show My Helm</Text>
@@ -130,6 +138,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -147,6 +159,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -165,6 +181,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -183,6 +203,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -201,6 +225,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -219,6 +247,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -255,6 +287,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -273,6 +309,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -291,6 +331,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -309,6 +353,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -363,6 +411,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -388,7 +440,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_ModernInputsCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Modern Chat Inputs</Text>
@@ -398,6 +450,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -405,7 +461,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_AutoAttackCombatCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Persistent Autoattack</Text>
@@ -415,6 +471,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -422,7 +482,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_ToggleFeignDeathCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Feign Death Toggle</Text>
@@ -432,6 +492,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>			
@@ -461,7 +525,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Hide UI</Text>
@@ -471,6 +535,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -483,7 +551,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Default Mode Cursor</Text>
@@ -493,6 +561,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -505,7 +577,7 @@ TEMPLATES FOR ELEMENTS
 		</Location>
 		<Size>
 			<CX>160</CX>
-			<CY>18</CY>
+			<CY>20</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<Text>Show Overlay</Text>
@@ -515,6 +587,10 @@ TEMPLATES FOR ELEMENTS
 			<CX>16</CX>
 			<CY>16</CY>
 		</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>			
 		<TextAlignCenter>false</TextAlignCenter>
 		<TextOffsetX>20</TextOffsetX>
 	</Button>	
@@ -526,7 +602,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -534,7 +614,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>				
+		<RightAnchorOffset>200</RightAnchorOffset>		 -->		
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -688,10 +768,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OGP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>		
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -699,7 +783,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>		
+		<RightAnchorOffset>10</RightAnchorOffset>	 -->	
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -732,10 +816,14 @@ TEMPLATES FOR ELEMENTS
 			<B>0</B>
 		</TabTextActiveColor>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -743,7 +831,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OGP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OGP_RightLayout</Pieces>		
@@ -765,6 +853,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -782,6 +874,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -800,6 +896,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -818,6 +918,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -836,6 +940,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -854,6 +962,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -872,6 +984,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -890,6 +1006,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -908,6 +1028,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -926,6 +1050,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -944,6 +1072,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -955,7 +1087,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -963,7 +1099,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>	
+		<RightAnchorOffset>200</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1015,10 +1151,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OAP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1026,7 +1166,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>0</RightAnchorOffset>	
+		<RightAnchorOffset>0</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1050,8 +1190,12 @@ TEMPLATES FOR ELEMENTS
 		<Location>
 			<X>0</X>
 			<Y>22</Y>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>				
 		</Location>
-		<AutoStretch>true</AutoStretch>
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1059,7 +1203,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OAP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OAP_RightLayout</Pieces>		
@@ -1072,7 +1216,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_FastItemDestroyCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Fast Item Destroy</Text>
@@ -1082,6 +1226,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1090,7 +1238,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_FastItemMergeCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Fast Item Merge</Text>
@@ -1100,6 +1248,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1108,7 +1260,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_FastItemAttuneCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Fast Item Attune</Text>
@@ -1118,6 +1270,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1126,7 +1282,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_AANoConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Fast AA Purchase</Text>
@@ -1136,6 +1292,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1144,7 +1304,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_LootAllConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Loot All</Text>
@@ -1154,6 +1314,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1162,7 +1326,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_RaidInviteConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Raid Invite</Text>
@@ -1172,6 +1336,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1180,7 +1348,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_BagSellConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Bag Sell</Text>
@@ -1190,6 +1358,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1198,7 +1370,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_BagSellContentsConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Bag Sell Contents</Text>
@@ -1208,6 +1380,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1216,7 +1392,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_LogOutOverParcelLimitConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>180</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Log Out Over Parcel Limit</Text>
@@ -1226,6 +1402,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1234,7 +1414,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_SaveSetConfirmCheckbox</ScreenID>
 			<Size>
 				<CX>180</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Save Set</Text>
@@ -1244,6 +1424,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1255,7 +1439,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1263,7 +1451,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>				
+		<RightAnchorOffset>200</RightAnchorOffset>	 -->			
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1348,10 +1536,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OCP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1359,7 +1551,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>	
+		<RightAnchorOffset>10</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1383,10 +1575,14 @@ TEMPLATES FOR ELEMENTS
 		</TabTextActiveColor>
 		<Style_Sizable>true</Style_Sizable>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1394,7 +1590,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OCP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OCP_RightLayout</Pieces>			
@@ -1664,7 +1860,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Invert Y Axis</Text>
@@ -1673,6 +1869,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1685,7 +1885,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Look Spring</Text>
@@ -1694,6 +1894,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1706,7 +1910,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Mouse Look</Text>
@@ -1715,6 +1919,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1727,7 +1935,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Mouse Wheel Zoom</Text>
@@ -1736,6 +1944,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1749,7 +1961,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Left Click Pan</Text>
@@ -1758,6 +1970,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1771,7 +1987,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Right-handed mouse</Text>
@@ -1780,6 +1996,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1789,7 +2009,7 @@ TEMPLATES FOR ELEMENTS
 			<TooltipReference>Enable this to change your players pitch while holding shift in legends cam.</TooltipReference>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Hold SHIFT pitch control</Text>
@@ -1798,6 +2018,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1807,7 +2031,7 @@ TEMPLATES FOR ELEMENTS
 			<TooltipReference>Resets your pitch to 0 when you let go of shift.</TooltipReference>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Reset pitch on release</Text>
@@ -1816,6 +2040,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1825,7 +2053,7 @@ TEMPLATES FOR ELEMENTS
 			<TooltipReference>Enable this to have all the legacy cameras to cycle through.</TooltipReference>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Legacy Cameras</Text>
@@ -1834,6 +2062,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1843,7 +2075,7 @@ TEMPLATES FOR ELEMENTS
 			<TooltipReference>Enable this to allow raw input from connected peripherals.</TooltipReference>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Raw Input</Text>
@@ -1852,6 +2084,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -1863,7 +2099,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1871,7 +2111,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>	
+		<RightAnchorOffset>200</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1939,10 +2179,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OMSP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1950,7 +2194,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>		
+		<RightAnchorOffset>10</RightAnchorOffset>		 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -1976,10 +2220,14 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>VerticalLayoutBox:OMSP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OMSP_RightLayout</Pieces>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -1987,7 +2235,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 	</Page>	
 
@@ -1998,7 +2246,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_UseTellWindowsCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Use Tell Windows</Text>
@@ -2008,6 +2256,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2016,16 +2268,20 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>OGP_BlinkChatWindowCheckbox</ScreenID>
 			<Size>
 				<CX>180</CX>
-				<CY>34</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Blink Active Chat Window</Text>
 			<TooltipReference>Toggles whether or not you want the active chat window to blink when you begin typing.</TooltipReference>
-			<Template>BDT_CheckboxWithTextDouble</Template>
+			<Template>BDT_CheckboxWithText</Template>
 			<DecalSize>
 				<CX>16</CX>
-				<CY>34</CY>
+				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2038,7 +2294,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Item Tooltips</Text>
@@ -2048,6 +2304,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2060,16 +2320,20 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>34</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Hold ALT for Item Tooltips</Text>
 			<TooltipReference>Shows an item window as a tooltip when hovering and holding the ALT key.</TooltipReference>
-			<Template>BDT_CheckboxWithTextDouble</Template>
+			<Template>BDT_CheckboxWithText</Template>
 			<DecalSize>
 				<CX>16</CX>
-				<CY>34</CY>
+				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2082,7 +2346,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Spell Tooltips</Text>
@@ -2092,6 +2356,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2104,16 +2372,20 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>34</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Hold ALT for Spell Tooltips</Text>
 			<TooltipReference>Shows a spell window as a tooltip when hovering and holding the ALT key.</TooltipReference>
-			<Template>BDT_CheckboxWithTextDouble</Template>
+			<Template>BDT_CheckboxWithText</Template>
 			<DecalSize>
 				<CX>16</CX>
-				<CY>34</CY>
+				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>	
@@ -2126,7 +2398,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Ability Tooltips</Text>
@@ -2136,6 +2408,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2148,16 +2424,20 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>34</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Hold ALT for Ability Tooltips</Text>
 			<TooltipReference>Shows an ability window as a tooltip when hovering and holding the ALT key.</TooltipReference>
-			<Template>BDT_CheckboxWithTextDouble</Template>
+			<Template>BDT_CheckboxWithText</Template>
 			<DecalSize>
 				<CX>16</CX>
-				<CY>34</CY>
+				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>Ability		</Button>
 		
@@ -2170,7 +2450,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Tooltip Hints</Text>
@@ -2180,6 +2460,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2192,7 +2476,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show 3D Target Ring</Text>
@@ -2202,6 +2486,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2214,7 +2502,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Allow window resizing</Text>
@@ -2223,6 +2511,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2235,7 +2527,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Buff Timer</Text>
@@ -2245,6 +2537,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2257,7 +2553,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Buff Counters</Text>
@@ -2267,6 +2563,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2279,7 +2579,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Buff Limit Uses</Text>
@@ -2289,6 +2589,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2301,7 +2605,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Song Timer</Text>
@@ -2311,6 +2615,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2323,7 +2631,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Song Counters</Text>
@@ -2333,6 +2641,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2345,7 +2657,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Song Limit Uses</Text>
@@ -2355,6 +2667,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2367,7 +2683,7 @@ TEMPLATES FOR ELEMENTS
 		</Location>
 		<Size>
 			<CX>160</CX>
-			<CY>34</CY>
+			<CY>20</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<Text>Swap Map Ctrl + Right Click</Text>
@@ -2377,11 +2693,13 @@ TEMPLATES FOR ELEMENTS
 			<CX>16</CX>
 			<CY>16</CY>
 		</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>			
 		<TextAlignCenter>false</TextAlignCenter>
 		<TextOffsetX>20</TextOffsetX>
 	</Button>	
-
-	<!-- USE SYSTEM CURSOR CHECKBOX -->
 	<Button item="ODP_SystemCursor">
 		<ScreenID>ODP_SystemCursor</ScreenID>
 		<Location>
@@ -2403,7 +2721,7 @@ TEMPLATES FOR ELEMENTS
 			<DecalOffset>
 				<X>0</X>
 				<Y>2</Y>
-			</DecalOffset>
+			</DecalOffset>			
 		<TextAlignCenter>false</TextAlignCenter>
 		<TextOffsetX>20</TextOffsetX>
 	</Button>
@@ -2428,8 +2746,7 @@ TEMPLATES FOR ELEMENTS
 		</DecalSize>
 		<TextAlignCenter>false</TextAlignCenter>
 		<TextOffsetX>20</TextOffsetX>
-	</Button>
-
+	</Button>		
 	<!-- INTERFACE - GENERAL (LEFT LAYOUT) VERTICAL LAYOUT BOX -->	
 	<VerticalLayoutBox item="OIGP_LeftLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
@@ -2437,7 +2754,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>500</CY>
+		</Size>		
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -2445,7 +2766,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>5</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>170</RightAnchorOffset>	
+		<RightAnchorOffset>170</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -2789,13 +3110,18 @@ TEMPLATES FOR ELEMENTS
 			<ListHeight>100</ListHeight>
 			<Button>BDT_Combo</Button>
 			<Style_Border>true</Style_Border>
-			<Choices>1x</Choices>
-			<Choices>2x</Choices>
-			<Choices>3x</Choices>
-			<Choices>4x</Choices>
-			<Choices>5x</Choices>
-		</Combobox>			
-		<!-- CURSOR SCALING LABEL + COMBOBOX -->
+			<Choices>1.00x</Choices>
+			<Choices>1.25x Experimental</Choices>
+			<Choices>1.50x Experimental</Choices>
+			<Choices>1.75x Experimental</Choices>
+			<Choices>2.00x</Choices>
+			<Choices>2.25x Experimental</Choices>
+			<Choices>2.50x Experimental</Choices>
+			<Choices>2.75x Experimental</Choices>
+			<Choices>3.00x</Choices>
+			<Choices>4.00x</Choices>
+			<Choices>0.75x</Choices>
+		</Combobox>		
 		<Label item="ODP_CursorScaleLabel">
 			<ScreenID>ODP_CursorScaleLabel</ScreenID>
 			<Size>
@@ -2806,7 +3132,7 @@ TEMPLATES FOR ELEMENTS
 			<NoWrap>true</NoWrap>
 			<AlignCenter>false</AlignCenter>
 			<AlignRight>false</AlignRight>
-		</Label>
+		</Label>		
 		<Combobox item="ODP_CursorScale">
 			<ScreenID>ODP_CursorScale</ScreenID>
 			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
@@ -2832,16 +3158,19 @@ TEMPLATES FOR ELEMENTS
 			<Choices>3.00x</Choices>
 			<Choices>4.00x</Choices>
 			<Choices>0.75x</Choices>
-		</Combobox>
-
+		</Combobox>			
 	<!-- INTERFACE - GENERAL (RIGHT LAYOUT) VERTICAL LAYOUT BOX -->	
 	<VerticalLayoutBox item="OIGP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>500</CY>
+		</Size>
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -2849,7 +3178,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>5</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>		
+		<RightAnchorOffset>10</RightAnchorOffset>		 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -2860,8 +3189,8 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>Screen:FontScreen</Pieces>
 		<Pieces>Screen:TextureScreen</Pieces>
 		<Pieces>ODP_UIScaleLabel</Pieces>		
-		<Pieces>ODP_UIScale</Pieces>
-		<Pieces>ODP_CursorScaleLabel</Pieces>
+		<Pieces>ODP_UIScale</Pieces>		
+		<Pieces>ODP_CursorScaleLabel</Pieces>		
 		<Pieces>ODP_CursorScale</Pieces>		
 		<Pieces>ODP_TextFilteringLabel</Pieces>
 		<Pieces>ODP_TextFiltering</Pieces>
@@ -2879,12 +3208,20 @@ TEMPLATES FOR ELEMENTS
 		<ScreenID>OptionsInterfaceGeneralPage</ScreenID>
 		<DrawTemplate>WDT_Def</DrawTemplate>
 		<TabText>General</TabText>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>350</CX>
+			<CY>500</CY>
+		</Size>		
 		<TabTextActiveColor>
 			<R>255</R>
 			<G>255</G>
 			<B>0</B>
 		</TabTextActiveColor>
-		<AutoStretch>true</AutoStretch>
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -2892,7 +3229,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>	
 		<Pieces>VerticalLayoutBox:OIGP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OIGP_RightLayout</Pieces>		
@@ -2905,7 +3242,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_CorpseNamesCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Corpse Names</Text>
@@ -2915,6 +3252,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2927,7 +3268,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Self Name</Text>
@@ -2937,6 +3278,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2949,7 +3294,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show PC Names</Text>
@@ -2959,6 +3304,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2971,7 +3320,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show NPC Names</Text>
@@ -2981,6 +3330,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -2993,7 +3346,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Pet Names</Text>
@@ -3003,6 +3356,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3015,7 +3372,7 @@ TEMPLATES FOR ELEMENTS
 			</Location>
 			<Size>
 				<CX>175</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Pet Owner Names</Text>
@@ -3025,6 +3382,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3037,12 +3398,16 @@ TEMPLATES FOR ELEMENTS
 			<Template>BDT_CheckboxWithText</Template>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<DecalSize>
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3051,7 +3416,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowHealthCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Target Health Bars</Text>
@@ -3061,6 +3426,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3069,7 +3438,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowCastCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Target Cast Bar</Text>
@@ -3079,6 +3448,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3087,7 +3460,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowManaCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Target Mana Bar</Text>
@@ -3097,6 +3470,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3105,7 +3482,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowSelfHealthCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Self Health Bar</Text>
@@ -3115,6 +3492,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3123,7 +3504,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowSelfManaCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Self Mana Bar</Text>
@@ -3133,6 +3514,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3141,7 +3526,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShowSelfCastCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Show Self Cast Bar</Text>
@@ -3151,6 +3536,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3159,7 +3548,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateAttachToHeadCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Attach Nameplate To Head</Text>
@@ -3169,6 +3558,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3177,7 +3570,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateShadowCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Font Drop Shadow</Text>
@@ -3187,6 +3580,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3195,7 +3592,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>ODP_NameplateOutlineCheckbox</ScreenID>
 			<Size>
 				<CX>160</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Font Outline</Text>
@@ -3205,6 +3602,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -3216,7 +3617,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3224,7 +3629,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>		
+		<RightAnchorOffset>200</RightAnchorOffset>	 -->	
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -3356,14 +3761,44 @@ TEMPLATES FOR ELEMENTS
 			<Choices>Title/First/Last</Choices>
 			<Choices>First/Guild</Choices>
 		</Combobox>	
+		<!-- THREAT COMBO BOX -->
+		<Label item="ODP_NameplateThreatLabel">
+			<ScreenID>ODP_NameplateThreatLabel</ScreenID>
+			<Size>
+				<CX>160</CX>
+				<CY>14</CY>
+			</Size>
+			<Text>Threat Indicators</Text>
+			<NoWrap>true</NoWrap>
+			<AlignCenter>false</AlignCenter>
+			<AlignRight>false</AlignRight>
+		</Label>
+		<Combobox item="ODP_NameplateThreatOptions">
+			<ScreenID>ODP_NameplateThreatOptions</ScreenID>
+			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+			<Size>
+				<CX>100</CX>
+				<CY>24</CY>
+			</Size>
+			<ListHeight>100</ListHeight>
+			<Button>BDT_Combo</Button>
+			<Style_Border>true</Style_Border>
+			<Choices>Off</Choices>
+			<Choices>Aggro Mode</Choices>
+			<Choices>No Aggro Mode</Choices>
+		</Combobox>	
 	<!-- INTERFACE - NAMEPLATES (RIGHT LAYOUT) VERTICAL LAYOUT BOX -->	
 	<VerticalLayoutBox item="OINP_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3371,7 +3806,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>			
+		<RightAnchorOffset>10</RightAnchorOffset>		 -->	
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -3384,6 +3819,8 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>ODP_NameplateFaction</Pieces>	
 		<Pieces>ODP_NameplateNameFiltersLabel</Pieces>	
 		<Pieces>ODP_NameplateNameFilters</Pieces>	
+		<Pieces>ODP_NameplateThreatLabel</Pieces>	
+		<Pieces>ODP_NameplateThreatOptions</Pieces>	
 	</VerticalLayoutBox>	
 
 	<!-- INTERFACE - NAMEPLATES (PAGE) -->	
@@ -3398,10 +3835,14 @@ TEMPLATES FOR ELEMENTS
 		</TabTextActiveColor>
 		<Style_Sizable>true</Style_Sizable>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3409,7 +3850,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OINP_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OINP_RightLayout</Pieces>	
@@ -3433,13 +3874,13 @@ TEMPLATES FOR ELEMENTS
 				<CY>34</CY>
 			</DecalSize>
 			<TextAlignCenter>false</TextAlignCenter>
-			<TextOffsetX>25</TextOffsetX>
+			<TextOffsetX>20</TextOffsetX>
 		</Button>
 		<Button item="FCT_SellToggle">
 			<ScreenID>FCT_SellToggle</ScreenID>
 			<Size>
 				<CX>210</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Sell Text</Text>
@@ -3449,14 +3890,18 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
-			<TextOffsetX>25</TextOffsetX>
+			<TextOffsetX>20</TextOffsetX>
 		</Button>
 		<Button item="FCT_LootToggle">
 			<ScreenID>FCT_LootToggle</ScreenID>
 			<Size>
 				<CX>210</CX>
-				<CY>18</CY>
+				<CY>20</CY>
 			</Size>
 			<Style_Checkbox>true</Style_Checkbox>
 			<Text>Loot Text</Text>
@@ -3466,8 +3911,12 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
-			<TextOffsetX>25</TextOffsetX>
+			<TextOffsetX>20</TextOffsetX>
 		</Button>
 		<!-- MIN VELOCITY SLIDER -->
 		<Slider item="FCT_MinVelocitySlider">
@@ -3552,7 +4001,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3560,7 +4013,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>170</RightAnchorOffset>	
+		<RightAnchorOffset>170</RightAnchorOffset>	 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -3639,7 +4092,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>FCT_YourTextCombobox</ScreenID>
 			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
 			<Size>
-				<CX>100</CX>
+				<CX>90</CX>
 				<CY>24</CY>
 			</Size>
 			<ListHeight>100</ListHeight>
@@ -3666,7 +4119,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>FCT_SelfTextCombobox</ScreenID>
 			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
 			<Size>
-				<CX>100</CX>
+				<CX>90</CX>
 				<CY>24</CY>
 			</Size>
 			<ListHeight>100</ListHeight>
@@ -3693,7 +4146,7 @@ TEMPLATES FOR ELEMENTS
 			<ScreenID>FCT_OtherTextCombobox</ScreenID>
 			<DrawTemplate>WDT_InnerSolid</DrawTemplate>
 			<Size>
-				<CX>100</CX>
+				<CX>90</CX>
 				<CY>24</CY>
 			</Size>
 			<ListHeight>100</ListHeight>
@@ -3801,10 +4254,14 @@ TEMPLATES FOR ELEMENTS
 		<TabBox item="FCT_Tabs">
 		<ScreenID>FCT_Tabs</ScreenID>
 		<Location>
-			<X>180</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>175</CX>
+			<CY>200</CY>
+		</Size>
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3812,7 +4269,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>200</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>190</LeftAnchorOffset>
-		<RightAnchorOffset>370</RightAnchorOffset>				
+		<RightAnchorOffset>370</RightAnchorOffset>	 -->			
 		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
 		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
 		<Pages>Page:FCTYouPage</Pages>
@@ -3825,12 +4282,20 @@ TEMPLATES FOR ELEMENTS
 		<ScreenID>OptionsCombatTextPage</ScreenID>
 		<DrawTemplate>WDT_Def</DrawTemplate>
 		<TabText>Combat Text</TabText>
+		<Location>
+			<X>10</X>
+			<Y>22</Y>
+		</Location>		
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
 		<TabTextActiveColor>
 			<R>255</R>
 			<G>255</G>
 			<B>0</B>
 		</TabTextActiveColor>
-		<AutoStretch>true</AutoStretch>
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -3838,7 +4303,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>TabBox:FCT_Tabs</Pieces>
 		<Pieces>VerticalLayoutBox:OICT_LeftLayout</Pieces>		
@@ -4245,15 +4710,19 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>		
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>true</RightAnchorToLeft>
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
-		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>170</RightAnchorOffset>				
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>175</RightAnchorOffset>		 -->		
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -4280,7 +4749,7 @@ TEMPLATES FOR ELEMENTS
 		<Label item="ODP_ParticlesLabel">
 			<ScreenID>ODP_ParticlesLabel</ScreenID>
 			<Location>
-				<X>185</X>
+				<X>200</X>
 				<Y>10</Y>
 			</Location>
 			<Size>
@@ -4433,6 +4902,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -4562,7 +5035,7 @@ TEMPLATES FOR ELEMENTS
 		<TabBox item="ODP_ParticlesTabs">
 			<ScreenID>ODP_ParticlesTabs</ScreenID>
 			<Location>
-				<X>185</X>
+				<X>200</X>
 				<Y>24</Y>
 			</Location>
 			<Size>
@@ -4580,7 +5053,7 @@ TEMPLATES FOR ELEMENTS
 			<Font>3</Font>
 			<RelativePosition>true</RelativePosition>
 			<Location>
-				<X>185</X>
+				<X>200</X>
 				<Y>230</Y>
 			</Location>
 			<Size>
@@ -4611,7 +5084,7 @@ TEMPLATES FOR ELEMENTS
 			<Font>3</Font>
 			<RelativePosition>true</RelativePosition>
 			<Location>
-				<X>185</X>
+				<X>200</X>
 				<Y>244</Y>
 			</Location>
 			<Size>
@@ -4633,7 +5106,7 @@ TEMPLATES FOR ELEMENTS
 			  <G>0</G>
 			  <B>0</B>
 			</TextColor>
-			<Style_VScroll>true</Style_VScroll>
+			<Style_VScroll>false</Style_VScroll>
 			<Style_HScroll>false</Style_HScroll>
 			<Style_Transparent>false</Style_Transparent>
 			<Style_Border>true</Style_Border>
@@ -4658,10 +5131,14 @@ TEMPLATES FOR ELEMENTS
 			<B>0</B>
 		</TabTextActiveColor>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>				
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4669,7 +5146,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>false</Style_VScroll>
 		<Pieces>VerticalLayoutBox:ODP_LeftLayout</Pieces>		
 		<Pieces>ODP_ParticlesLabel</Pieces>
@@ -4698,6 +5175,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -4719,6 +5200,10 @@ TEMPLATES FOR ELEMENTS
 				<CX>16</CX>
 				<CY>16</CY>
 			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>				
 			<TextAlignCenter>false</TextAlignCenter>
 			<TextOffsetX>20</TextOffsetX>
 		</Button>
@@ -4730,7 +5215,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>200</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4738,7 +5227,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>				
+		<RightAnchorOffset>200</RightAnchorOffset>		 -->		
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -4800,10 +5289,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OSA_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4811,7 +5304,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>		
+		<RightAnchorOffset>10</RightAnchorOffset>		 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -4834,10 +5327,14 @@ TEMPLATES FOR ELEMENTS
 		</TabTextActiveColor>
 		<Style_Sizable>true</Style_Sizable>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4845,26 +5342,11 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OSA_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OSA_RightLayout</Pieces>		
 	</Page>	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<!-- SYSTEM - ACCESSIBILITY (LEFT LAYOUT) - CHECKBOXOES, SLIDERS, COMBOBOXES -->
 
@@ -4876,7 +5358,11 @@ TEMPLATES FOR ELEMENTS
 			<X>10</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4884,7 +5370,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>0</LeftAnchorOffset>
-		<RightAnchorOffset>200</RightAnchorOffset>				
+		<RightAnchorOffset>200</RightAnchorOffset>		 -->		
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -4931,10 +5417,14 @@ TEMPLATES FOR ELEMENTS
 	<VerticalLayoutBox item="OSAc_RightLayout">
 		<DrawTemplate>WDT_Inner</DrawTemplate>
 		<Location>
-			<X>200</X>
+			<X>215</X>
 			<Y>10</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>160</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4942,7 +5432,7 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>10</TopAnchorOffset>
 		<LeftAnchorOffset>200</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>		
+		<RightAnchorOffset>10</RightAnchorOffset>		 -->
 		<Spacing>0</Spacing>
 		<ResizeLast>false</ResizeLast>
 		<Style_Border>false</Style_Border>
@@ -4964,10 +5454,14 @@ TEMPLATES FOR ELEMENTS
 		</TabTextActiveColor>
 		<Style_Sizable>true</Style_Sizable>
 		<Location>
-			<X>0</X>
+			<X>10</X>
 			<Y>22</Y>
 		</Location>
-		<AutoStretch>true</AutoStretch>
+		<Size>
+			<CX>350</CX>
+			<CY>400</CY>
+		</Size>			
+<!-- 		<AutoStretch>true</AutoStretch>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -4975,18 +5469,11 @@ TEMPLATES FOR ELEMENTS
 		<BottomAnchorOffset>10</BottomAnchorOffset>
 		<TopAnchorOffset>20</TopAnchorOffset>
 		<LeftAnchorOffset>10</LeftAnchorOffset>
-		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset> -->
 		<Style_VScroll>true</Style_VScroll>
 		<Pieces>VerticalLayoutBox:OSAc_LeftLayout</Pieces>
 		<Pieces>VerticalLayoutBox:OSAc_RightLayout</Pieces>		
 	</Page>	
-
-
-
-
-
-
-
 	
 	<!-- CONSTRUCT TABS, NESTED TABS, SUB AND PRIMARY WINDOW -->
 	<!-- NEW NESTED TABS MUST HAVE THEIR PAGES ADDED TO THE RESPECTIVE TOP LEVEL TABBOX BELOW -->

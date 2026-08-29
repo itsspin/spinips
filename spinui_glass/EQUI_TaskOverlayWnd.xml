@@ -151,6 +151,127 @@
 		<Pieces>Screen:TO_TaskInfo</Pieces>
 		<Pieces>TileLayoutBox:TO_TaskSteps</Pieces>
 	</Screen>
+
+	<!-- 	No respawn dynamic zone loot bonus progress tracker screen -->
+	<Label item="TO_NoRespawnTitle">
+		<ScreenID>TO_NoRespawnTitle</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Font>3</Font>
+		<Text>Zone completion progress:</Text>
+		<TooltipReference>Tracks requirements for receiving the zone clear bonus.</TooltipReference>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<FontShadow>true</FontShadow>		
+	</Label>	
+
+	<Gauge item="TO_NoRespawnProgressGauge">
+		<ScreenID>TO_NoRespawnProgressGauge</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<TextOffsetY>-1000</TextOffsetY>
+		<GaugeOffsetY>-2</GaugeOffsetY>
+		<FillTint>
+			<R>250</R>
+			<G>0</G>
+			<B>250</B>
+		</FillTint>
+		<EQType>301</EQType>
+		<GaugeDrawTemplate>
+			<Fill>A_GaugeFill</Fill>
+			<Background>A_GaugeBackgroundDark</Background>
+		</GaugeDrawTemplate>
+		<Location>
+			<X>2</X>
+			<Y>19</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>12</CY>
+		</Size>
+	</Gauge>
+
+	<Label item="TO_NoRespawnRaresLabel">
+		<ScreenID>TO_NoRespawnRaresLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<Location>
+			<X>3</X>
+			<Y>33</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Font>3</Font>
+		<Text>Remaining rare npcs:</Text>
+		<TooltipReference>Count of remaining rare npcs in the zone.</TooltipReference>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<FontShadow>true</FontShadow>		
+	</Label>
+
+	<Label item="TO_NoRespawnRaresValue">
+		<ScreenID>TO_NoRespawnRaresValue</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<Location>
+			<X>100</X>
+			<Y>33</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>16</CY>
+		</Size>
+		<Font>3</Font>
+		<Text></Text>
+		<EQType>417</EQType>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>	
+		<FontShadow>true</FontShadow>		
+	</Label>
+
+	<Label item="TO_NoRespawnRaresValuePct">
+		<ScreenID>TO_NoRespawnRaresValuePct</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<Location>
+			<X>2</X>
+			<Y>19</Y>
+		</Location>
+		<Size>
+			<CX>150</CX>
+			<CY>16</CY>
+		</Size>
+		<Font>3</Font>
+		<Text></Text>
+		<EQType>418</EQType>
+		<AlignCenter>true</AlignCenter>
+		<FontShadow>true</FontShadow>
+	</Label>
+
+	<Screen item="TO_NoRespawnProgressScreen">
+		<ScreenID>TO_NoRespawnProgressScreen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>260</CX>
+			<CY>50</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_TransparentControl>true</Style_TransparentControl>
+		<Pieces>TO_NoRespawnTitle</Pieces>
+		<Pieces>TO_NoRespawnProgressGauge</Pieces>		
+		<Pieces>TO_NoRespawnRaresLabel</Pieces>
+		<Pieces>TO_NoRespawnRaresValue</Pieces>
+		<Pieces>TO_NoRespawnRaresValuePct</Pieces>
+	</Screen>
 	
 	<TileLayoutBox item = "TO_TaskList">
 		<RelativePosition>true</RelativePosition>
@@ -168,8 +289,9 @@
 		<AnchorToLeft>true</AnchorToLeft>
 		<FirstPieceTemplate>false</FirstPieceTemplate>
 		<SnapToChildren>true</SnapToChildren>
+		<Pieces>Screen:TO_NoRespawnProgressScreen</Pieces>
 	</TileLayoutBox>
-	
+
 	<Screen item="TaskOverlayWnd">
 		<RelativePosition>false</RelativePosition>
 		<Location>
@@ -182,17 +304,22 @@
 		</Size>
 		<Style_VScroll>true</Style_VScroll>
 		<Style_HScroll>false</Style_HScroll>
-		<Style_Transparent>true</Style_Transparent>
+		<Style_Transparent>false</Style_Transparent>
 		<Text></Text>
-		<DrawTemplate>WDT_Def</DrawTemplate>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
 		<Style_ClientMovable>true</Style_ClientMovable>
 		<Style_Titlebar>true</Style_Titlebar>
 		<Style_Qmarkbox>false</Style_Qmarkbox>
 		<Style_Closebox>true</Style_Closebox>
-		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
 		<Style_Border>true</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<Escapable>false</Escapable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>		
 		<ToggleBorder>true</ToggleBorder>
 		<Pieces>TileLayoutBox:TO_TaskList</Pieces>
 		<Pieces>Screen:TO_TaskStepTemplate</Pieces>

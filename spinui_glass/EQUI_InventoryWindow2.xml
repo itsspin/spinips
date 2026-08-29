@@ -815,7 +815,7 @@
 	<Label item="IW_ACDivider">
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>95</X>
+			<X>91</X>
 			<Y>95</Y>
 		</Location>
 		<Size>
@@ -835,7 +835,7 @@
 		<EQType>403</EQType>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>100</X>
+			<X>96</X>
 			<Y>95</Y>
 		</Location>
 		<Size>

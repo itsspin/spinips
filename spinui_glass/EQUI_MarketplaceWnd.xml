@@ -52,15 +52,14 @@
 	
 	<Button item="MKPW_CancelBtn">
 		<ScreenID>MKPW_CancelBtn</ScreenID>
-		<RelativePosition>true</RelativePosition>
+		<RelativePosition>true</RelativePosition>	
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>40</TopAnchorOffset>
-		<BottomAnchorOffset>2</BottomAnchorOffset>
-		<LeftAnchorOffset>50</LeftAnchorOffset>
-		<RightAnchorOffset>50</RightAnchorOffset>
+		<TopAnchorOffset>20</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>		
 		<Text>Cancel</Text>
 		<Template>BDT_BigNormal</Template>
 	</Button>
@@ -1057,7 +1056,7 @@
 	<Label item="MKPW_WasPrice_Label">
 		<ScreenID>MKPW_WasPrice_Label</ScreenID>
 		<Text>Was</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<TextColor>
 			<R>255</R>
 			<G>0</G>
@@ -1075,7 +1074,7 @@
 	<Label item="MKPW_WasPrice">
 		<ScreenID>MKPW_WasPrice</ScreenID>
 		<Text>100</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<TextColor>
 			<R>255</R>
 			<G>0</G>
@@ -1091,10 +1090,10 @@
 	<Label item="MKPW_BuyPrice_Label">
 		<ScreenID>MKPW_BuyPrice_Label</ScreenID>
 		<Text>Price</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<Location>
 			<X>10</X>
-			<Y>13</Y>
+			<Y>15</Y>
 		</Location>
 		<Size>
 			<CX>80</CX>
@@ -1104,9 +1103,9 @@
 	<Label item="MKPW_BuyPrice">
 		<ScreenID>MKPW_BuyPrice</ScreenID>
 		<Text>100</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>12</TopAnchorOffset>
+		<TopAnchorOffset>15</TopAnchorOffset>
 		<BottomAnchorOffset>30</BottomAnchorOffset>
 		<LeftAnchorOffset>147</LeftAnchorOffset>
 		<RightAnchorOffset>5</RightAnchorOffset>
@@ -1121,7 +1120,7 @@
 		</ButtonDrawTemplate>
 		<Location>
 			<X>130</X>
-			<Y>12</Y>
+			<Y>16</Y>
 		</Location>
 		<Size>
 			<CX>15</CX>
@@ -1192,7 +1191,7 @@
 	<Label item="MKPW_BuyTotal_Label">
 		<ScreenID>MKPW_BuyTotal_Label</ScreenID>
 		<Text>Total</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>70</TopAnchorOffset>
 		<BottomAnchorOffset>87</BottomAnchorOffset>
@@ -1203,9 +1202,9 @@
 	<Label item="MKPW_BuyTotal">
 		<ScreenID>MKPW_BuyTotal</ScreenID>
 		<Text>10000</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>73</TopAnchorOffset>
+		<TopAnchorOffset>70</TopAnchorOffset>
 		<BottomAnchorOffset>87</BottomAnchorOffset>
 		<LeftAnchorOffset>147</LeftAnchorOffset>
 		<RightAnchorOffset>5</RightAnchorOffset>
@@ -1219,7 +1218,7 @@
 		</ButtonDrawTemplate>
 		<Location>
 			<X>130</X>
-			<Y>72</Y>
+			<Y>70</Y>
 		</Location>
 		<Size>
 			<CX>15</CX>
@@ -1246,10 +1245,10 @@
 	<Label item="MKPW_Qty_Label">
 		<ScreenID>MKPW_Qty_Label</ScreenID>
 		<Text>Quantity</Text>
-		<Font>2</Font>
+		<Font>4</Font>
 		<Location>
 			<X>10</X>
-			<Y>52</Y>
+			<Y>50</Y>
 		</Location>
 		<Size>
 			<CX>80</CX>
@@ -1273,7 +1272,7 @@
 			<G>255</G>
 			<B>0</B>
 		</TextColor>
-		<Template>BDT_Normal</Template>
+		<Template>BDT_SmallNormal</Template>
 	</Button>
 	<Editbox item="MKPW_QtyEdit">
 		<ScreenID>MKPW_QtyEdit</ScreenID>
@@ -1307,7 +1306,7 @@
 			<G>255</G>
 			<B>0</B>
 		</TextColor>
-		<Template>BDT_Normal</Template>
+		<Template>BDT_SmallNormal</Template>
 	</Button>
 	<Button item="MKPW_AddFundsBtn">
 		<ScreenID>MKPW_AddFundsBtn</ScreenID>
@@ -1473,16 +1472,14 @@
 	</Editbox>
 	<Button item="MKPW_TaxInfoNextButton">
 		<ScreenID>MKPW_TaxInfoNextButton</ScreenID>
-		<RelativePosition>true</RelativePosition>
+		<RelativePosition>true</RelativePosition>	
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>80</TopAnchorOffset>
-		<BottomAnchorOffset>42</BottomAnchorOffset>
-		<LeftAnchorOffset>50</LeftAnchorOffset>
-		<RightAnchorOffset>50</RightAnchorOffset>
+		<TopAnchorOffset>45</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<Style_Checkbox>false</Style_Checkbox>
 		<Text>Next</Text>
 		<Template>BDT_BigNormal</Template>
 	</Button>
@@ -1552,7 +1549,7 @@
 		<Text>200</Text>
 		<Location>
 			<X>157</X>
-			<Y>73</Y>
+			<Y>74</Y>
 		</Location>
 		<Size>
 			<CX>80</CX>
@@ -1567,7 +1564,7 @@
 		</ButtonDrawTemplate>
 		<Location>
 			<X>140</X>
-			<Y>73</Y>
+			<Y>74</Y>
 		</Location>
 		<Size>
 			<CX>15</CX>
@@ -1678,7 +1675,7 @@
 		<Text>1000</Text>
 		<Location>
 			<X>157</X>
-			<Y>133</Y>
+			<Y>135</Y>
 		</Location>
 		<Size>
 			<CX>80</CX>
@@ -1693,7 +1690,7 @@
 		</ButtonDrawTemplate>
 		<Location>
 			<X>140</X>
-			<Y>133</Y>
+			<Y>135</Y>
 		</Location>
 		<Size>
 			<CX>15</CX>
@@ -1735,6 +1732,24 @@
 			<B>99</B>
 		</TextColor>
 	</Label>
+	<Label item="MKPW_ConfirmPurchase_AlreadyOwnedLabel">
+		<ScreenID>MKPW_ConfirmPurchase_AlreadyOwnedLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>160</TopAnchorOffset>
+		<BottomAnchorOffset>182</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<AlignCenter>true</AlignCenter>
+		<Style_Transparent>true</Style_Transparent>
+		<Text>You already own this item.</Text>
+		<TextColor>
+			<R>255</R>
+			<G>140</G>
+			<B>0</B>
+		</TextColor>
+	</Label>
 	<StaticAnimation item="MKPW_ConfirmPurchase_Separator1">
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
@@ -1767,19 +1782,23 @@
 		<ScreenID>MKPW_ConfirmPurchase_ConfirmBtn</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
 			<R>0</R>
 			<G>255</G>
 			<B>0</B>
-		</TextColor>		
+		</BackgroundTextureTint>		
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>80</TopAnchorOffset>
-		<BottomAnchorOffset>42</BottomAnchorOffset>
-		<LeftAnchorOffset>50</LeftAnchorOffset>
-		<RightAnchorOffset>50</RightAnchorOffset>
+		<TopAnchorOffset>45</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<LeftAnchorOffset>120</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Text>Complete Purchase</Text>
+		<Text>Complete</Text>
 		<Template>BDT_BigNormal</Template>
 	</Button>
 	
@@ -2311,14 +2330,24 @@
 	<Button item="MKPW_CreditCardPurchase_ConfirmBtn">
 		<ScreenID>MKPW_CreditCardPurchase_ConfirmBtn</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>				
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>65</TopAnchorOffset>
+		<TopAnchorOffset>45</TopAnchorOffset>
 		<BottomAnchorOffset>25</BottomAnchorOffset>
 		<LeftAnchorOffset>120</LeftAnchorOffset>
 		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<Text>Complete Purchase</Text>
+		<Text>Complete</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
 	
@@ -2578,14 +2607,24 @@
 	<Button item="MKPW_FundConfirm_CompletionBtn">
 		<ScreenID>MKPW_FundConfirm_CompletionBtn</ScreenID>
 		<RelativePosition>true</RelativePosition>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>			
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>65</TopAnchorOffset>
+		<TopAnchorOffset>45</TopAnchorOffset>
 		<BottomAnchorOffset>25</BottomAnchorOffset>
 		<LeftAnchorOffset>120</LeftAnchorOffset>
 		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<Text>Complete Purchase</Text>
+		<Text>Complete</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
 	<Label item="MKPW_FundConfirm_ParentalLabel">
@@ -2895,6 +2934,16 @@
 	<Button item="MKPW_AmountSelectConfirmBtn">
 		<ScreenID>MKPW_AmountSelectConfirmBtn</ScreenID>
 		<RelativePosition>true</RelativePosition>	
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>				
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>45</TopAnchorOffset>
 		<BottomAnchorOffset>25</BottomAnchorOffset>
@@ -2902,7 +2951,7 @@
 		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<Text>Select</Text>
+		<Text>Complete</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
 	<Label item="MKPW_AmountSelect_Dollar_Label">
@@ -3149,6 +3198,7 @@
 		<Pieces>MKPW_ConfirmPurchase_TotalIcon</Pieces>
 		<Pieces>MKPW_ConfirmPurchase_TotalMoneyType</Pieces>
 		<Pieces>MKPW_ConfirmPurchase_MemberDiscountLabel</Pieces>
+		<Pieces>MKPW_ConfirmPurchase_AlreadyOwnedLabel</Pieces>
 		<Pieces>MKPW_ConfirmPurchase_Separator1</Pieces>
 		<Pieces>MKPW_ConfirmPurchase_ItemRestrictionLabel</Pieces>
 		<Pieces>MKPW_ConfirmPurchase_ConfirmBtn</Pieces>
@@ -3307,7 +3357,7 @@
 		<Style_Border>false</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>22</TopAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
 		<BottomAnchorOffset>5</BottomAnchorOffset>
 		<LeftAnchorOffset>5</LeftAnchorOffset>
 		<RightAnchorOffset>5</RightAnchorOffset>
@@ -3574,7 +3624,7 @@
 		<Style_Border>false</Style_Border>
 		<Style_Sizable>true</Style_Sizable>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>22</TopAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
 		<BottomAnchorOffset>5</BottomAnchorOffset>
 		<LeftAnchorOffset>5</LeftAnchorOffset>
 		<RightAnchorOffset>5</RightAnchorOffset>
@@ -3608,7 +3658,7 @@
 		<ScreenID>MKPW_AdditionalDetails</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<TopAnchorOffset>10</TopAnchorOffset>
+		<TopAnchorOffset>9</TopAnchorOffset>
 		<BottomAnchorOffset>32</BottomAnchorOffset>
 		<LeftAnchorOffset>636</LeftAnchorOffset>
 		<RightAnchorOffset>2</RightAnchorOffset>
@@ -3672,7 +3722,7 @@
 			<CX>975</CX>
 			<CY>610</CY>
 		</Size>
-		<MinHSize>890</MinHSize>
+		<MinHSize>968</MinHSize>
 		<MinVSize>610</MinVSize>
 		<Text>Marketplace</Text>
 		<DrawTemplate>WDT_Rounded</DrawTemplate>

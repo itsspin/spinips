@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   PROTOCOL_VERSION,
   isEngineHealth,
@@ -14,6 +14,8 @@ import {
   type GearPlanView,
   type LoremasterTheme,
   type RaidContextView,
+  type SeedCompanionLayout,
+  type SeedMeterMode,
   type AlertSoundKind,
   type AlertSoundPreset,
   type UpdateCenterState,
@@ -72,6 +74,7 @@ const defaultDesktopSettings: DesktopSettings = {
   raidDifficulty: null, bisBuildPath: "", inventoryPath: "",
   uiTheme: "vellum",
   alwaysOnTop: true, fontScale: 1.15, composition: "", splitCharmedPetDps: false,
+  seedMeterVisible: true, seedMeterMode: "all", seedMeterOpacity: 0.9,
   stanceAdvisorEnabled: false, itemNetworkLookups: true, seedPosition: null,
   alerts: {
     alertsEnabled: true, alertSound: true, alertSeconds: 5, alertAnchor: "auto",
@@ -147,6 +150,14 @@ function formatDps(value: number): string {
   return value >= 1000 ? `${(value / 1000).toFixed(value >= 10000 ? 0 : 1)}k` : String(Math.round(value));
 }
 
+function formatMeterValue(value: number): string {
+  const safe = Math.max(0, Number(value) || 0);
+  if (safe >= 1_000_000) return `${(safe / 1_000_000).toFixed(safe >= 10_000_000 ? 0 : 1)}m`;
+  if (safe >= 100_000) return `${Math.round(safe / 1_000)}k`;
+  if (safe >= 1_000) return `${(safe / 1_000).toFixed(1)}k`;
+  return Math.round(safe).toLocaleString();
+}
+
 function formatDuration(value: number): string {
   const seconds = Math.max(0, Math.floor(value));
   const minutes = Math.floor(seconds / 60);
@@ -203,10 +214,13 @@ function CogMark({ compact = false }: { compact?: boolean }) {
   </span>;
 }
 
-function RuneSeed({ event, health, onExpand }: {
+function RuneSeed({ event, health, settings, onExpand, onCycleMeter, onToggleMeter }: {
   event: EngineSnapshotEvent;
   health: EngineHealth;
+  settings: DesktopSettings;
   onExpand: () => void;
+  onCycleMeter: () => void;
+  onToggleMeter: () => void;
 }) {
   const { combat } = event.snapshot;
   const urgent = health.state === "error" || Boolean(event.snapshot.alerts?.length) ||
@@ -220,6 +234,19 @@ function RuneSeed({ event, health, onExpand }: {
         <CogMark compact />
         <span className="seed-metric"><strong>{formatDps(combat.fightDps)}</strong><small>DPS</small></span>
       </button>
+      <span className="seed-meter-quickbar">
+        <button type="button" onClick={onCycleMeter}
+          title={`DPS meter: ${seedMeterModeCopy[settings.seedMeterMode].label}. Click for next view.`}
+          aria-label={`Change DPS meter view. Current view: ${seedMeterModeCopy[settings.seedMeterMode].label}`}>
+          {seedMeterModeCopy[settings.seedMeterMode].short}
+        </button>
+        <button className={settings.seedMeterVisible ? "visible" : "hidden"} type="button"
+          onClick={onToggleMeter} aria-pressed={settings.seedMeterVisible}
+          title={`${settings.seedMeterVisible ? "Hide" : "Show"} the compact DPS meter`}
+          aria-label={`${settings.seedMeterVisible ? "Hide" : "Show"} compact DPS meter`}>
+          <i aria-hidden="true" />
+        </button>
+      </span>
       {urgent && <span className="seed-alert" aria-label="urgent signal">!</span>}
     </div>
   );
@@ -246,9 +273,124 @@ function SeedControlRow({ control }: { control: ControlTimerView }) {
   </article>;
 }
 
+const seedMeterModes: readonly SeedMeterMode[] = ["self", "group", "pet", "all"];
+const seedMeterModeCopy: Record<SeedMeterMode, { label: string; short: string; detail: string }> = {
+  self: { label: "SELF", short: "SELF", detail: "Your highest-damage abilities" },
+  group: { label: "GROUP", short: "GRP", detail: "You and verified group members" },
+  pet: { label: "PETS", short: "PET", detail: "Charmed and summoned pets" },
+  all: { label: "ALL", short: "ALL", detail: "Self, pets, and verified group" },
+};
+
+interface SeedMeterRowView {
+  key: string;
+  name: string;
+  detail: string;
+  damage: number;
+  dps: number;
+  style: CSSProperties;
+}
+
+interface SeedMeterView {
+  rows: readonly SeedMeterRowView[];
+  totalDamage: number;
+  totalDps: number;
+  active: boolean;
+}
+
+function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMeterView {
+  const encounter = event.snapshot.encounters?.at(-1) ?? currentEncounter(event);
+  const seconds = Math.max(1, Number(encounter.seconds) || 0);
+  const actors = [...(encounter.actors ?? [])];
+  const actorRow = (actor: CombatActorView, detail = actorRoleLabels[actor.role]): SeedMeterRowView => ({
+    key: `${actor.role}-${actor.name.toLocaleLowerCase()}`,
+    name: actor.name,
+    detail,
+    damage: Math.max(0, Number(actor.encounterDamage) || 0),
+    dps: Math.max(0, Number(actor.encounterDps) || (Number(actor.encounterDamage) || 0) / seconds),
+    style: actorIdentityStyle(actor.name),
+  });
+  const selfActor = actors.find((actor) => actor.role === "self");
+  const selfDamage = Math.max(0, Number(encounter.personalDamage) || selfActor?.encounterDamage || 0);
+  const selfRow: SeedMeterRowView = {
+    key: "self",
+    name: event.snapshot.character.name !== "?" ? event.snapshot.character.name : "YOU",
+    detail: "SELF",
+    damage: selfDamage,
+    dps: selfDamage / seconds,
+    style: actorIdentityStyle(event.snapshot.character.name || "self"),
+  };
+  const ownCombinedDamage = Math.max(0, Number(encounter.damage) ||
+    selfDamage + Math.max(0, encounter.charmedPetDamage) + Math.max(0, encounter.summonedPetDamage));
+  const combinedSelfRow: SeedMeterRowView = {
+    ...selfRow,
+    key: "self-and-pets",
+    detail: "SELF + PETS",
+    damage: ownCombinedDamage,
+    dps: ownCombinedDamage / seconds,
+  };
+  const groupRows = actors
+    .filter((actor) => actor.role === "group" && actor.encounterDamage > 0)
+    .map((actor) => actorRow(actor, "GROUP"));
+  const petActors = actors.filter((actor) =>
+    (actor.role === "charmed" || actor.role === "summoned") && actor.encounterDamage > 0);
+  const petRows = petActors.map((actor) => actorRow(actor));
+  if (!petActors.some((actor) => actor.role === "charmed") && encounter.charmedPetDamage > 0) {
+    petRows.push({
+      key: "charmed-pet", name: "Charmed pet", detail: "CHARMED PET",
+      damage: encounter.charmedPetDamage, dps: encounter.charmedPetDamage / seconds,
+      style: actorIdentityStyle("charmed pet"),
+    });
+  }
+  if (!petActors.some((actor) => actor.role === "summoned") && encounter.summonedPetDamage > 0) {
+    petRows.push({
+      key: "summoned-pet", name: "Summoned pet", detail: "SUMMONED PET",
+      damage: encounter.summonedPetDamage, dps: encounter.summonedPetDamage / seconds,
+      style: actorIdentityStyle("summoned pet"),
+    });
+  }
+
+  let rows: SeedMeterRowView[];
+  let totalDamage: number;
+  if (mode === "self") {
+    const abilityRows = (encounter.sources ?? []).filter((source) => {
+      const category = normalizeAbilityCategory(source.category, source.name);
+      return source.total > 0 && category !== "pet";
+    }).map((source) => {
+      const category = normalizeAbilityCategory(source.category, source.name);
+      return {
+        key: `ability-${source.name.toLocaleLowerCase()}`,
+        name: source.name,
+        detail: `${abilityCategoryLabel(category)} · ${source.hits} HIT${source.hits === 1 ? "" : "S"} · MAX ${source.maximum.toLocaleString()}`,
+        damage: source.total,
+        dps: source.total / seconds,
+        style: abilityIdentityStyle(category),
+      } satisfies SeedMeterRowView;
+    });
+    rows = abilityRows.length > 0 ? abilityRows : (selfDamage > 0 ? [selfRow] : []);
+    totalDamage = selfDamage;
+  } else if (mode === "pet") {
+    rows = petRows;
+    totalDamage = Math.max(0, encounter.charmedPetDamage) + Math.max(0, encounter.summonedPetDamage);
+  } else if (mode === "group") {
+    rows = [...(ownCombinedDamage > 0 ? [combinedSelfRow] : []), ...groupRows];
+    totalDamage = rows.reduce((total, row) => total + row.damage, 0);
+  } else {
+    rows = [...(selfDamage > 0 ? [selfRow] : []), ...petRows, ...groupRows];
+    totalDamage = rows.reduce((total, row) => total + row.damage, 0);
+  }
+  rows.sort((left, right) => right.damage - left.damage || left.name.localeCompare(right.name));
+  return {
+    rows,
+    totalDamage,
+    totalDps: totalDamage / seconds,
+    active: Boolean(encounter.active),
+  };
+}
+
 function SeedControlSurface() {
   const [event, setEvent] = useState(emptyEvent);
   const [settings, setSettings] = useState(defaultDesktopSettings);
+  const [layout, setLayout] = useState<SeedCompanionLayout>({ meterRows: 6, controlRows: 6 });
   useEffect(() => {
     document.body.classList.add("control-window");
     const desktop = window.loremasterDesktop;
@@ -268,39 +410,54 @@ function SeedControlSurface() {
         setSettings(next);
       }
     });
+    const removeLayout = desktop.onCompanionLayout((value) => {
+      const meterRows = Math.max(0, Math.min(6, Math.floor(Number(value?.meterRows) || 0)));
+      const controlRows = Math.max(0, Math.min(6, Math.floor(Number(value?.controlRows) || 0)));
+      setLayout({ meterRows, controlRows });
+    });
     return () => {
       removeSnapshot();
       removeSettings();
+      removeLayout();
       document.body.classList.remove("control-window");
     };
   }, []);
 
-  const controls = event.snapshot.controls.filter((control) =>
+  const availableControls = event.snapshot.controls.filter((control) =>
     control.state === "active" &&
     (control.kind === "mez" ? settings.alerts.mezTimersEnabled : settings.alerts.lullTimersEnabled),
-  ).slice(0, 6);
-  const latest = event.snapshot.encounters?.at(-1);
-  const activeGroup = new Set((event.snapshot.groupMembers ?? []).map((name) => name.toLocaleLowerCase()));
-  const group = [...(latest?.actors ?? [])]
-    .filter((actor) => actor.role === "group" && actor.encounterDamage > 0 &&
-      activeGroup.has(actor.name.toLocaleLowerCase()))
-    .sort((left, right) => right.encounterDamage - left.encounterDamage)
-    .slice(0, 5);
-  if (controls.length === 0 && group.length === 0) {
+  );
+  const controls = availableControls.slice(0, layout.controlRows);
+  const hiddenControls = Math.max(0, availableControls.length - controls.length);
+  const meter = seedMeterView(event, settings.seedMeterMode);
+  const meterRows = settings.seedMeterVisible ? meter.rows.slice(0, layout.meterRows) : [];
+  const hiddenMeterRows = Math.max(0, meter.rows.length - meterRows.length);
+  const meterVisible = settings.seedMeterVisible && meterRows.length > 0;
+  if (controls.length === 0 && !meterVisible) {
     return <div className="seed-companion-surface empty" />;
   }
-  const groupTotal = group.reduce((total, actor) => total + actor.encounterDamage, 0);
+  const maximumDamage = Math.max(1, ...meterRows.map((row) => row.damage));
   return <main className="seed-companion-surface" aria-live="polite">
-    {group.length > 0 && <section className="seed-group-surface" aria-label="Group DPS contributors">
-      <header><span><i /> GROUP DPS</span><strong>{latest?.active ? "LIVE" : "LAST FIGHT"} · {group.length} VERIFIED</strong></header>
-      <div>{group.map((actor) => <article className="seed-group-row" style={actorIdentityStyle(actor.name)} key={actor.name}>
-        <span><b><i className="actor-swatch" aria-hidden="true" />{actor.name}</b><small>{groupTotal > 0 ? Math.round(actor.encounterDamage / groupTotal * 100) : 0}% GROUP SHARE</small></span>
-        <strong>{formatDps(actor.encounterDps)}<small>DPS</small></strong>
-        <em>{actor.encounterDamage.toLocaleString()} DMG</em>
+    {meterVisible && <section className={`seed-meter-surface mode-${settings.seedMeterMode}`}
+      style={{ "--seed-meter-opacity": settings.seedMeterOpacity } as CSSProperties}
+      aria-label={`${seedMeterModeCopy[settings.seedMeterMode].label} DPS meter`}>
+      <header>
+        <span><i /> DPS · {seedMeterModeCopy[settings.seedMeterMode].label}</span>
+        <strong>{meter.active ? "LIVE" : "LAST FIGHT"} · {formatMeterValue(meter.totalDamage)} DMG · {formatDps(meter.totalDps)} DPS</strong>
+      </header>
+      <div>{meterRows.map((row, index) => <article className="seed-meter-row" style={row.style} key={row.key}>
+        <i className="seed-meter-fill" aria-hidden="true" style={{ width: `${Math.max(3, row.damage / maximumDamage * 100)}%` }} />
+        <b className="seed-meter-rank">{index + 1}</b>
+        <span><b><i className="actor-swatch" aria-hidden="true" />{row.name}</b><small>{row.detail} · {meter.totalDamage > 0 ? Math.round(row.damage / meter.totalDamage * 100) : 0}%</small></span>
+        <strong>{formatDps(row.dps)}<small>DPS</small></strong>
+        <em>{formatMeterValue(row.damage)}<small>DMG</small></em>
       </article>)}</div>
+      {hiddenMeterRows > 0 && <footer>+{hiddenMeterRows} MORE · OPEN ANALYZE FOR THE FULL TABLE</footer>}
     </section>}
     {controls.length > 0 && <section className="seed-control-surface" aria-label="Active mez and lull timers">
-      <header><span><i /> CONTROL</span><strong>{controls.length} ACTIVE · MEZ / LULL</strong></header>
+      <header><span><i /> CONTROL</span><strong>{hiddenControls > 0
+        ? `${controls.length} SHOWN · +${hiddenControls} MORE`
+        : `${controls.length} ACTIVE · MEZ / LULL`}</strong></header>
       <div>{controls.map((control, index) => <SeedControlRow
         key={`${control.kind}-${control.target}-${control.landedAt}-${index}`}
         control={control}
@@ -484,6 +641,9 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
       fontScale: draft.fontScale,
       composition: draft.composition,
       splitCharmedPetDps: draft.splitCharmedPetDps,
+      seedMeterVisible: draft.seedMeterVisible,
+      seedMeterMode: draft.seedMeterMode,
+      seedMeterOpacity: draft.seedMeterOpacity,
       stanceAdvisorEnabled: draft.stanceAdvisorEnabled,
       itemNetworkLookups: draft.itemNetworkLookups,
       autoCheckUpdates: draft.autoCheckUpdates,
@@ -506,6 +666,14 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
     setDraft((current) => ({ ...current, fontScale }));
     const saved = await window.loremasterDesktop?.updateSettings({ fontScale });
     if (saved) onSettings(saved);
+  };
+  const changeSeedMeter = async (patch: Partial<Pick<DesktopSettings, "seedMeterVisible" | "seedMeterMode" | "seedMeterOpacity">>) => {
+    patchDraft(patch);
+    const saved = await window.loremasterDesktop?.updateSettings(patch);
+    if (saved) {
+      setDraft(saved);
+      onSettings(saved);
+    }
   };
   const changeAutoCheckUpdates = async (autoCheckUpdates: boolean) => {
     patchDraft({ autoCheckUpdates });
@@ -569,6 +737,32 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
         <SettingsToggle checked={draft.splitCharmedPetDps} label="Split self and charmed-pet DPS"
           detail="Shows separate live fight rates while preserving the accurate combined total."
           onChange={(splitCharmedPetDps) => patchDraft({ splitCharmedPetDps })} />
+        <div className="seed-meter-setting">
+          <SettingsToggle checked={draft.seedMeterVisible} label="Show compact DPS meter beside the Rune Seed"
+            detail="The Seed always remains visible. Use its small view and eye controls to switch or hide this click-through meter instantly."
+            onChange={(seedMeterVisible) => void changeSeedMeter({ seedMeterVisible })} />
+          <div className={`seed-meter-preferences ${draft.seedMeterVisible ? "enabled" : "disabled"}`}>
+            <span className="setting-caption">METER VIEW</span>
+            <div className="seed-meter-mode-picker" role="radiogroup" aria-label="Compact DPS meter view">
+              {seedMeterModes.map((mode) => <button className={draft.seedMeterMode === mode ? "selected" : ""}
+                type="button" role="radio" aria-checked={draft.seedMeterMode === mode} key={mode}
+                title={seedMeterModeCopy[mode].detail}
+                onClick={() => void changeSeedMeter({ seedMeterMode: mode, seedMeterVisible: true })}>
+                <b>{seedMeterModeCopy[mode].label}</b><small>{seedMeterModeCopy[mode].detail}</small>
+              </button>)}
+            </div>
+            <label className="seed-meter-opacity" htmlFor="seed-meter-opacity">
+              <span><b>BACKGROUND OPACITY</b><small>Text and DPS bars stay crisp at every level.</small></span>
+              <input id="seed-meter-opacity" type="range" min="0.35" max="1" step="0.05"
+                value={draft.seedMeterOpacity}
+                onChange={(event) => patchDraft({ seedMeterOpacity: Number(event.target.value) })}
+                onPointerUp={(event) => void changeSeedMeter({ seedMeterOpacity: Number(event.currentTarget.value) })}
+                onKeyUp={(event) => void changeSeedMeter({ seedMeterOpacity: Number(event.currentTarget.value) })}
+                onBlur={(event) => void changeSeedMeter({ seedMeterOpacity: Number(event.currentTarget.value) })} />
+              <strong>{Math.round(draft.seedMeterOpacity * 100)}%</strong>
+            </label>
+          </div>
+        </div>
         <SettingsToggle checked={draft.stanceAdvisorEnabled} label="Enable encounter stance advisor"
           detail="Adds an evidence-based offense or defense lean. Disabled by default; logs cannot see your active stance."
           onChange={(stanceAdvisorEnabled) => patchDraft({ stanceAdvisorEnabled })} />
@@ -1082,12 +1276,30 @@ function MainApp() {
     if (saved) setSettings(saved);
   };
 
+  const toggleSeedMeter = async () => {
+    const seedMeterVisible = !settings.seedMeterVisible;
+    setSettings((current) => ({ ...current, seedMeterVisible }));
+    const saved = await window.loremasterDesktop?.updateSettings({ seedMeterVisible });
+    if (saved) setSettings(saved);
+  };
+
+  const cycleSeedMeter = async () => {
+    const index = seedMeterModes.indexOf(settings.seedMeterMode);
+    const seedMeterMode = seedMeterModes[(index + 1) % seedMeterModes.length];
+    const patch = { seedMeterMode, seedMeterVisible: true } as const;
+    setSettings((current) => ({ ...current, ...patch }));
+    const saved = await window.loremasterDesktop?.updateSettings(patch);
+    if (saved) setSettings(saved);
+  };
+
   const damageShare = useMemo(() => {
     const total = event.snapshot.combat.personalDamage + event.snapshot.combat.charmedPetDamage;
     return total > 0 ? Math.round(event.snapshot.combat.charmedPetDamage / total * 100) : 0;
   }, [event.snapshot.combat.personalDamage, event.snapshot.combat.charmedPetDamage]);
 
-  if (!expanded) return <RuneSeed event={event} health={health} onExpand={() => setMode(true)} />;
+  if (!expanded) return <RuneSeed event={event} health={health} settings={settings}
+    onExpand={() => setMode(true)} onCycleMeter={() => void cycleSeedMeter()}
+    onToggleMeter={() => void toggleSeedMeter()} />;
 
   const { snapshot } = event;
   const weekly = snapshot.weekly;

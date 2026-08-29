@@ -55,6 +55,9 @@
   --lm-seed-bg:
     radial-gradient(circle at 28% 0%, rgba(166, 130, 82, .17), transparent 45%),
     linear-gradient(145deg, rgba(30, 22, 14, .995), rgba(9, 7, 4, .998));
+  --lm-seed-meter-bg: linear-gradient(145deg, rgba(30, 22, 14, calc(var(--seed-meter-opacity) * .96)), rgba(9, 7, 4, calc(var(--seed-meter-opacity) * .98)));
+  --lm-seed-meter-header-bg: linear-gradient(105deg, rgba(38, 29, 18, calc(var(--seed-meter-opacity) * .97)), rgba(15, 11, 7, calc(var(--seed-meter-opacity) * .99)));
+  --lm-seed-meter-shadow: 0 14px 38px rgba(0, 0, 0, calc(var(--seed-meter-opacity) * .5)), inset 0 1px rgba(255, 248, 233, .055);
   --lm-header-bg: linear-gradient(105deg, rgba(38, 29, 18, .995), rgba(15, 11, 7, .997));
   --lm-card-bg: linear-gradient(145deg, rgba(30, 22, 14, .94), rgba(15, 11, 7, .96));
   --lm-card-raised-bg: linear-gradient(145deg, rgba(46, 34, 21, .9), rgba(20, 14, 9, .95));
@@ -106,6 +109,9 @@
   --lm-seed-bg:
     radial-gradient(circle at 25% 0%, rgba(105, 225, 242, .16), transparent 46%),
     linear-gradient(145deg, rgba(10, 27, 40, .995), rgba(2, 6, 11, .998));
+  --lm-seed-meter-bg: linear-gradient(145deg, rgba(10, 27, 40, calc(var(--seed-meter-opacity) * .94)), rgba(2, 6, 11, calc(var(--seed-meter-opacity) * .98)));
+  --lm-seed-meter-header-bg: linear-gradient(105deg, rgba(10, 29, 42, calc(var(--seed-meter-opacity) * .97)), rgba(3, 9, 15, calc(var(--seed-meter-opacity) * .99)));
+  --lm-seed-meter-shadow: 0 14px 38px rgba(0, 0, 0, calc(var(--seed-meter-opacity) * .52)), inset 0 1px rgba(232, 248, 252, .065);
   --lm-header-bg: linear-gradient(105deg, rgba(10, 29, 42, .995), rgba(3, 9, 15, .997));
   --lm-card-bg: linear-gradient(145deg, rgba(10, 27, 40, .94), rgba(4, 11, 18, .97));
   --lm-card-raised-bg: linear-gradient(145deg, rgba(18, 48, 66, .82), rgba(6, 16, 25, .95));
@@ -176,7 +182,8 @@ body {
 }
 
 .seed-metric small,
-.seed-group-row > strong small {
+.seed-meter-row > strong small,
+.seed-meter-row > em small {
   color: var(--lm-primary);
 }
 
@@ -193,27 +200,39 @@ body {
   background: rgba(2, 4, 7, .2);
 }
 
-.seed-group-surface,
+.seed-meter-surface,
 .seed-control-surface {
   color: var(--lm-text);
   border-color: rgba(var(--lm-line-bright-rgb), .52);
-  background: var(--lm-card-bg);
   box-shadow: var(--lm-shadow);
 }
 
-.seed-group-surface > header,
+.seed-meter-surface {
+  background: var(--lm-seed-meter-bg);
+  box-shadow: var(--lm-seed-meter-shadow);
+}
+
+.seed-control-surface {
+  background: var(--lm-card-bg);
+}
+
+.seed-meter-surface > header,
 .seed-control-surface > header {
   border-bottom-color: rgba(var(--lm-line-rgb), .38);
   background: var(--lm-header-bg);
 }
 
-.seed-group-surface > header span,
+.seed-meter-surface > header {
+  background: var(--lm-seed-meter-header-bg);
+}
+
+.seed-meter-surface > header span,
 .seed-control-surface > header span,
 .seed-control-time strong {
   color: var(--lm-primary);
 }
 
-.seed-group-surface > header span i,
+.seed-meter-surface > header span i,
 .seed-control-surface > header span i,
 .masthead small b,
 .alerts-rail i,
@@ -223,23 +242,23 @@ body {
   box-shadow: 0 0 9px rgba(var(--lm-success-rgb), .68);
 }
 
-.seed-group-surface > header strong,
-.seed-group-row > span small,
-.seed-group-row > em,
+.seed-meter-surface > header strong,
+.seed-meter-row > span small,
+.seed-meter-row > em,
 .seed-control-copy small,
 .seed-control-time small {
   color: var(--lm-dim);
 }
 
-.seed-group-row,
+.seed-meter-row,
 .seed-control-row {
   border-bottom-color: rgba(var(--lm-line-rgb), .2);
   background: rgba(3, 5, 7, .18);
 }
 
-.seed-group-row > span b,
+.seed-meter-row > span b,
 .seed-control-copy strong,
-.seed-group-row > strong {
+.seed-meter-row > strong {
   color: var(--lm-text-strong);
 }
 
