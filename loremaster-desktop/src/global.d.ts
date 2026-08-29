@@ -1,4 +1,4 @@
-import type { AlertSoundKind, DesktopSettings, EngineHealth, EngineSnapshotEvent, GearPlanView, ItemLookupView, LootQueryRequest, LootQueryResult, UpdateCenterState, UpdateComponentId } from "./protocol";
+import type { AlertSoundKind, DesktopSettings, EngineHealth, EngineSnapshotEvent, GearPlanView, ItemLookupView, LootQueryRequest, LootQueryResult, SeedCompanionLayout, UpdateCenterState, UpdateComponentId } from "./protocol";
 
 export {};
 
@@ -44,6 +44,7 @@ declare global {
       onHealth: (callback: (health: unknown) => void) => () => void;
       onGearPlan: (callback: (gearPlan: unknown) => void) => () => void;
       onSettings: (callback: (settings: unknown) => void) => () => void;
+      onCompanionLayout: (callback: (layout: SeedCompanionLayout) => void) => () => void;
       onUpdateState: (callback: (state: UpdateCenterState) => void) => () => void;
       onTestAlert: (callback: (alert: unknown) => void) => () => void;
       setExpanded: (expanded: boolean) => void;

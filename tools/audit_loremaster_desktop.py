@@ -44,6 +44,7 @@ def audit_theme_contract() -> None:
     app = read("loremaster-desktop/src/App.tsx")
     renderer = read("loremaster-desktop/src/main.tsx")
     electron = read("loremaster-desktop/electron/main.ts")
+    companion_layout = read("loremaster-desktop/electron/companion-layout.ts")
     preload = read("loremaster-desktop/electron/preload.ts")
     base_styles = read("loremaster-desktop/src/styles.css")
     themes = read("loremaster-desktop/src/themes.css")
@@ -58,12 +59,55 @@ def audit_theme_contract() -> None:
         fail("protocol must expose the exact vellum | glass theme union")
     require(protocol, ("uiTheme: LoremasterTheme",), "renderer protocol")
     require(
+        protocol,
+        (
+            'SeedMeterMode = "self" | "group" | "pet" | "all"',
+            "SeedCompanionLayout",
+            "seedMeterVisible: boolean",
+            "seedMeterMode: SeedMeterMode",
+            "seedMeterOpacity: number",
+        ),
+        "Seed meter settings protocol",
+    )
+    require(
         electron,
         ("uiTheme", '"vellum"', '"glass"', "settings:changed"),
         "Electron settings persistence",
     )
     if electron.count("uiTheme") < 6:
         fail("Electron does not normalize, persist, update, and seed the theme")
+    require(
+        electron,
+        (
+            "seedMeterVisible",
+            "seedMeterMode",
+            "seedMeterOpacity",
+            "visibleSeedMeterRows",
+            "boundedCompanionLayout",
+            '"window:companion-layout"',
+            "workArea.height - gap * 2",
+        ),
+        "Electron Seed meter persistence and sizing",
+    )
+    require(
+        companion_layout,
+        (
+            "COMPANION_MAX_METER_ROWS",
+            "COMPANION_MAX_CONTROL_ROWS",
+            "METER_FOOTER_HEIGHT",
+            "JOINED_SECTION_BORDER_HEIGHT",
+            "const meterHiddenRows = Math.max",
+            "const controlHiddenRows = Math.max",
+        ),
+        "bounded companion layout math",
+    )
+    if "controlWindow.setIgnoreMouseEvents(true)" not in electron:
+        fail("the companion meter must remain click-through over EverQuest")
+    require(
+        preload,
+        ("onCompanionLayout", '"window:companion-layout"'),
+        "bounded companion layout bridge",
+    )
     require(
         app,
         (
@@ -117,6 +161,25 @@ def audit_theme_contract() -> None:
     if app.count("applyTheme(") < 4:
         fail("theme is not applied to all main, alert, and control surfaces")
     require(
+        app,
+        (
+            "seed-meter-quickbar",
+            "seed-meter-surface",
+            "seed-meter-row",
+            "seed-meter-opacity",
+            "hiddenMeterRows",
+            "hiddenControls",
+            "onCompanionLayout",
+            'detail: "SELF + PETS"',
+            'const seedMeterModes: readonly SeedMeterMode[] = ["self", "group", "pet", "all"]',
+        ),
+        "configurable compact DPS meter",
+    )
+    if "activeGroup" in app or "groupMembers.has" in electron:
+        fail("historical group actors must trust their persisted role instead of the current roster")
+    if re.search(r"seed-meter-surface[^\n]*style=\{\{\s*opacity", app):
+        fail("Seed meter opacity must not fade its text and DPS values")
+    require(
         renderer,
         ("data", "theme", "document.documentElement"),
         "pre-render theme seed",
@@ -160,7 +223,7 @@ def audit_theme_contract() -> None:
         ".settings-card",
         ".alert-surface",
         ".seed-control-surface",
-        ".seed-group-surface",
+        ".seed-meter-surface",
         ".weekly-card",
         ".gear-card",
         ".archive-shell",
@@ -171,6 +234,16 @@ def audit_theme_contract() -> None:
     ):
         if selector not in themes:
             fail(f"theme stylesheet does not cover {selector}")
+    require(
+        base_styles,
+        (
+            ".seed-meter-quickbar",
+            ".seed-meter-surface",
+            ".seed-meter-row",
+            "--seed-meter-opacity",
+        ),
+        "compact DPS meter styling",
+    )
     if "backdrop-filter" in lowered:
         fail("transparent Electron windows must not depend on live blur")
     require(
@@ -247,6 +320,7 @@ def main() -> int:
         return 1
     print("Loremaster desktop audit: ALL PASS")
     print("  Vellum & Ember + Midnight Frost Glass | persistent cross-window themes")
+    print("  Seed meter | self abilities + whole group + pets + all | opacity + quick toggle")
     print("  verified portable + isolated skin updates | rollback-safe settings workflow")
     print("  no Instance Information OCR or reserved Ctrl+Shift+Z shortcut")
     return 0

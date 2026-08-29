@@ -93,8 +93,8 @@
 	<Label item="ACTW_MP_FilterLabel">
 		<ScreenID>ACTW_MP_FilterLabel</ScreenID>
 		<Location>
-			<X>10</X>
-			<Y>4</Y>
+			<X>2</X>
+			<Y>6</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -110,9 +110,9 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>23</BottomAnchorOffset>
-		<LeftAnchorOffset>55</LeftAnchorOffset>
-		<RightAnchorOffset>195</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorOffset>48</LeftAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -125,9 +125,9 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>22</BottomAnchorOffset>
-		<LeftAnchorOffset>225</LeftAnchorOffset>
-		<RightAnchorOffset>325</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorOffset>202</LeftAnchorOffset>
+		<RightAnchorOffset>326</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -140,20 +140,20 @@
 	<Button item="ACTW_MP_ShowBlankCheckbox">
 		<ScreenID>ACTW_MP_ShowBlankCheckbox</ScreenID>
 		<Location>
-			<X>355</X>
-			<Y>2</Y>
+			<X>328</X>
+			<Y>5</Y>
 		</Location>
 		<Size>
 			<CX>130</CX>
-			<CY>20</CY>
+			<CY>16</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<Text>Show blank</Text>
 		<TooltipReference>Toggle whether you want to show blank macro slots.</TooltipReference>
 		<Template>BDT_CheckboxWithText</Template>
 		<DecalOffset>
-			<X>2</X>
-			<Y>2</Y>
+			<X>0</X>
+			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
 			<CX>16</CX>
@@ -166,12 +166,15 @@
 	<Listbox item="ACTW_MP_MacrosList">
 		<ScreenID>ACTW_MP_MacrosList</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>380</CX>
-			<CY>180</CY>
-		</Size>
-		<MinHSize>300</MinHSize>
-		<MinVSize>180</MinVSize>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Sizable>true</Style_Sizable>
 		<Style_Border>true</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
@@ -205,13 +208,16 @@
 	<STMLbox item="ACTW_MP_DescriptionStmlBox">
 		<ScreenID>ACTW_MP_DescriptionStmlBox</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>35</CY>
-		</Size>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>113</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>	
 		<Spacing>4</Spacing>
-		<MinHSize>300</MinHSize>
-		<MinVSize>35</MinVSize>
 		<Style_VScroll>true</Style_VScroll>
 		<Style_Border>true</Style_Border>
 		<Text />
@@ -219,22 +225,6 @@
 
 	<VerticalLayoutBox item = "ACTW_MP_Layout">
 		<ScreenID>ACTW_MP_Layout</ScreenID>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<TopAnchorOffset>25</TopAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>
-		<BottomAnchorOffset>1</BottomAnchorOffset>
-		<TopAnchorToTop>true</TopAnchorToTop>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Spacing>2</Spacing>
-		<Style_Border>false</Style_Border>
-		<Style_VScroll>false</Style_VScroll>
-		<Style_Transparent>true</Style_Transparent>
-		<Pieces>ACTW_MP_MacrosList</Pieces>
-		<Pieces>ACTW_MP_DescriptionStmlBox</Pieces>
 	</VerticalLayoutBox>
 
 	<Page item = "ACTW_MacrosPage">
@@ -253,6 +243,8 @@
 		<Pieces>ACTW_MP_NewMacroBtn</Pieces>
 		<Pieces>ACTW_MP_ShowBlankCheckbox</Pieces>
 		<Pieces>VerticalLayoutBox:ACTW_MP_Layout</Pieces>
+		<Pieces>ACTW_MP_MacrosList</Pieces>
+		<Pieces>ACTW_MP_DescriptionStmlBox</Pieces>		
 	</Page>
 
 	<!-- Actions Spells Page -->
@@ -290,8 +282,8 @@
 			<Y>2</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
-			<CY>21</CY>
+			<CX>124</CX>
+			<CY>22</CY>
 		</Size>
 		<ListHeight>200</ListHeight>
 		<Button>BDT_Combo</Button>
@@ -301,8 +293,8 @@
 	<Label item="ASP_FilterLabel">
 		<ScreenID>ASP_FilterLabel</ScreenID>
 		<Location>
-			<X>161</X>
-			<Y>4</Y>
+			<X>160</X>
+			<Y>6</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -318,9 +310,9 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>23</BottomAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
 		<LeftAnchorOffset>205</LeftAnchorOffset>
-		<RightAnchorOffset>345</RightAnchorOffset>
+		<RightAnchorOffset>378</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
@@ -331,20 +323,20 @@
 	<Button item="ASP_ShowUnscribedCheckbox">
 		<ScreenID>ASP_ShowUnscribedCheckbox</ScreenID>
 		<Location>
-			<X>355</X>
-			<Y>2</Y>
+			<X>380</X>
+			<Y>5</Y>
 		</Location>
 		<Size>
 			<CX>130</CX>
-			<CY>20</CY>
+			<CY>16</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<Text>Show unscribed</Text>
 		<TooltipReference>Toggle whether you want to show unscribed instead of scribed spells.</TooltipReference>
 		<Template>BDT_CheckboxWithText</Template>
 		<DecalOffset>
-			<X>2</X>
-			<Y>2</Y>
+			<X>0</X>
+			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
 			<CX>16</CX>
@@ -357,12 +349,15 @@
 	<Listbox item="ASP_SpellsList">
 		<ScreenID>ASP_SpellsList</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>380</CX>
-			<CY>180</CY>
-		</Size>
-		<MinHSize>300</MinHSize>
-		<MinVSize>180</MinVSize>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Sizable>true</Style_Sizable>
 		<Style_Border>true</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
@@ -392,13 +387,16 @@
 	<STMLbox item="ASP_DescriptionStmlBox">
 		<ScreenID>ASP_DescriptionStmlBox</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>35</CY>
-		</Size>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>113</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>	
 		<Spacing>4</Spacing>
-		<MinHSize>300</MinHSize>
-		<MinVSize>35</MinVSize>
 		<Style_VScroll>true</Style_VScroll>
 		<Style_Border>true</Style_Border>
 		<Text />
@@ -406,22 +404,6 @@
 
 	<VerticalLayoutBox item = "ASP_Layout">
 		<ScreenID>ASP_Layout</ScreenID>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<TopAnchorOffset>25</TopAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>
-		<BottomAnchorOffset>1</BottomAnchorOffset>
-		<TopAnchorToTop>true</TopAnchorToTop>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Spacing>2</Spacing>
-		<Style_Border>false</Style_Border>
-		<Style_VScroll>false</Style_VScroll>
-		<Style_Transparent>true</Style_Transparent>
-		<Pieces>ASP_SpellsList</Pieces>
-		<Pieces>ASP_DescriptionStmlBox</Pieces>
 	</VerticalLayoutBox>
 
 	<Page item = "ActionsSpellsPage">
@@ -441,6 +423,8 @@
 		<Pieces>ASP_FilterEditBox</Pieces>
 		<Pieces>ASP_ShowUnscribedCheckbox</Pieces>
 		<Pieces>VerticalLayoutBox:ASP_Layout</Pieces>
+		<Pieces>ASP_SpellsList</Pieces>
+		<Pieces>ASP_DescriptionStmlBox</Pieces>		
 	</Page>
 
 	<!-- Actions Disciplines Page -->
@@ -448,14 +432,17 @@
 	<Listbox item="ADP_SkillSelectorList">
 		<ScreenID>ADP_SkillSelectorList</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>180</CY>
-		</Size>
-		<MinHSize>300</MinHSize>
-		<MinVSize>180</MinVSize>
-		<Style_Sizable>true</Style_Sizable>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
 		<Style_VScroll>true</Style_VScroll>
 		<RelativePosition>true</RelativePosition>
 		<Columns>
@@ -498,35 +485,22 @@
 	<STMLbox item="ADP_SkillDescriptionStmlBox">
 		<ScreenID>ADP_SkillDescriptionStmlBox</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>35</CY>
-		</Size>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>113</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>	
 		<Spacing>4</Spacing>
-		<MinHSize>300</MinHSize>
-		<MinVSize>35</MinVSize>
 		<Style_VScroll>true</Style_VScroll>
 		<Style_Border>true</Style_Border>
 		<Text />
 	</STMLbox>
 	<VerticalLayoutBox item = "ADP_Layout">
 		<ScreenID>ADP_Layout</ScreenID>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<TopAnchorOffset>1</TopAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>
-		<BottomAnchorOffset>1</BottomAnchorOffset>
-		<TopAnchorToTop>true</TopAnchorToTop>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Spacing>2</Spacing>
-		<Style_Border>false</Style_Border>
-		<Style_VScroll>false</Style_VScroll>
-		<Style_Transparent>true</Style_Transparent>
-		<Pieces>ADP_SkillSelectorList</Pieces>
-		<Pieces>ADP_SkillDescriptionStmlBox</Pieces>
 	</VerticalLayoutBox>
 
 	<Page item = "ActionsDisciplinesPage">
@@ -541,7 +515,8 @@
 		<TabIcon>A_CombatTabIcon</TabIcon>
 		<TabIconActive>A_CombatTabActiveIcon</TabIconActive>
 		<Pieces>VerticalLayoutBox:ADP_Layout</Pieces>
-
+		<Pieces>ADP_SkillSelectorList</Pieces>
+		<Pieces>ADP_SkillDescriptionStmlBox</Pieces>		
 	</Page>
 
 	<!-- Actions Abilities Page -->
@@ -600,15 +575,18 @@
 
 	<Listbox item="AAP_SkillSelectorList">
 		<ScreenID>AAP_SkillSelectorList</ScreenID>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>180</CY>
-		</Size>
-		<MinHSize>300</MinHSize>
-		<MinVSize>180</MinVSize>
-		<Style_Sizable>true</Style_Sizable>
+		<DrawTemplate>WDT_Inner</DrawTemplate>		
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
 		<Style_VScroll>true</Style_VScroll>
 		<RelativePosition>true</RelativePosition>
 		<Columns>
@@ -635,35 +613,22 @@
 	<STMLbox item="AAP_SkillDescriptionStmlBox">
 		<ScreenID>AAP_SkillDescriptionStmlBox</ScreenID>
 		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<Size>
-			<CX>300</CX>
-			<CY>35</CY>
-		</Size>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>113</TopAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>		
 		<Spacing>4</Spacing>
-		<MinHSize>300</MinHSize>
-		<MinVSize>35</MinVSize>
 		<Style_VScroll>true</Style_VScroll>
 		<Style_Border>true</Style_Border>
 		<Text />
 	</STMLbox>
 	<VerticalLayoutBox item = "AAP_Layout">
 		<ScreenID>AAP_Layout</ScreenID>
-		<DrawTemplate>WDT_Inner</DrawTemplate>
-		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>1</LeftAnchorOffset>
-		<TopAnchorOffset>25</TopAnchorOffset>
-		<RightAnchorOffset>1</RightAnchorOffset>
-		<BottomAnchorOffset>1</BottomAnchorOffset>
-		<TopAnchorToTop>true</TopAnchorToTop>
-		<BottomAnchorToTop>false</BottomAnchorToTop>
-		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<Spacing>2</Spacing>
-		<Style_Border>false</Style_Border>
-		<Style_VScroll>false</Style_VScroll>
-		<Style_Transparent>true</Style_Transparent>
-		<Pieces>AAP_SkillSelectorList</Pieces>
-		<Pieces>AAP_SkillDescriptionStmlBox</Pieces>
 	</VerticalLayoutBox>
 
 	<Page item = "ActionsAbilitiesPage">
@@ -679,6 +644,8 @@
 		<TabIconActive>A_AbilitiesTabActiveIcon</TabIconActive>
 		<Pieces>AAP_ShowBasicCheckbox</Pieces>
 		<Pieces>AAP_ShowGeneralCheckbox</Pieces>
+		<Pieces>AAP_SkillSelectorList</Pieces>
+		<Pieces>AAP_SkillDescriptionStmlBox</Pieces>		
 		<Pieces>VerticalLayoutBox:AAP_Layout</Pieces>
 	</Page>
 
@@ -708,8 +675,8 @@
 			<Y>2</Y>
 		</Location>
 		<Size>
-			<CX>120</CX>
-			<CY>21</CY>
+			<CX>124</CX>
+			<CY>22</CY>
 		</Size>
 		<ListHeight>200</ListHeight>
 		<Button>BDT_Combo</Button>
@@ -719,8 +686,8 @@
 	<Label item="ACTW_PR_FilterLabel">
 		<ScreenID>ACTW_PR_FilterLabel</ScreenID>
 		<Location>
-			<X>161</X>
-			<Y>4</Y>
+			<X>160</X>
+			<Y>6</Y>
 		</Location>
 		<Size>
 			<CX>40</CX>
@@ -736,13 +703,13 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>23</BottomAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
 		<LeftAnchorOffset>205</LeftAnchorOffset>
-		<RightAnchorOffset>345</RightAnchorOffset>
+		<RightAnchorOffset>52</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Style_Border>true</Style_Border>
 	</Editbox>
 	
@@ -752,13 +719,13 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<TopAnchorOffset>2</TopAnchorOffset>
-		<BottomAnchorOffset>22</BottomAnchorOffset>
-		<LeftAnchorOffset>350</LeftAnchorOffset>
-		<RightAnchorOffset>400</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
 		<TopAnchorToTop>true</TopAnchorToTop>
 		<BottomAnchorToTop>true</BottomAnchorToTop>
-		<LeftAnchorToLeft>true</LeftAnchorToLeft>
-		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<Text>Reset</Text>
 		<Template>BDT_SmallNormal</Template>
 	</Button>
@@ -771,10 +738,10 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<LeftAnchorToLeft>true</LeftAnchorToLeft>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
-		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
 		<TopAnchorOffset>25</TopAnchorOffset>
-		<RightAnchorOffset>2</RightAnchorOffset>
-		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<BottomAnchorOffset>1</BottomAnchorOffset>
 		<Style_Border>true</Style_Border>
 		<Style_VScroll>true</Style_VScroll>
 		<Columns>
@@ -832,7 +799,7 @@
 
 	<Screen item = "ActionsWindow">
 		<RelativePosition>false</RelativePosition>
-		<MinVSize>308</MinVSize>
+		<MinVSize>415</MinVSize>
 		<MinHSize>500</MinHSize>
 		<KeepOnScreen>true</KeepOnScreen>
 		<KeepOnScreenOffset>

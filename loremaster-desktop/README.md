@@ -73,6 +73,18 @@ All network parsing runs in Electron's main process, never in the renderer.
 Combat actors retain stable, accessible colors across the Seed, HUD, and
 Archive. Ability evidence is categorized as melee, spell, DoT, proc, pet,
 damage shield, or healing, with unknown evidence kept explicitly unknown.
+Ranger bow lines are parsed as ranged evidence, including critical,
+strikethrough, and Double Bow Shot descriptors; a single combined shot line is
+counted once, while misses, blocks, dodges, and rune absorbs remain
+zero-damage attempts.
+
+The click-through Seed companion now has four compact DPS views: Self breaks
+the player down by ability, Group combines the player and owned pets alongside
+verified party members, Pet isolates charmed and summoned damage, and All
+shows each contributor separately. The tiny view and eye buttons on the Seed
+cycle or hide the meter without hiding Loremaster itself. Settings also exposes
+the four views and background opacity; labels and bars remain fully opaque for
+readability.
 
 The Gear Path surface imports EQ Legends Tools' version-1 character-sheet JSON
 and EverQuest's `/outputfile inventory` TXT locally. It identifies goal items

@@ -179,6 +179,7 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm test:fixtures
           pnpm build
+          pnpm test:companion-layout
           pnpm test:gear
           pnpm test:items
           pnpm test:updates

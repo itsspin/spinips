@@ -336,6 +336,11 @@ export interface EngineHealth {
 
 export type AlertAnchor = "auto" | "above" | "below" | "left" | "right";
 export type LoremasterTheme = "vellum" | "glass";
+export type SeedMeterMode = "self" | "group" | "pet" | "all";
+export interface SeedCompanionLayout {
+  meterRows: number;
+  controlRows: number;
+}
 export type AlertSoundKind = "default" | "charmBreak" | "tell" | "summon" | "death" | "bigHit" | "nameCalled" | "mez" | "lull";
 export type AlertSoundPreset = "rune" | "crystal" | "ember" | "bell" | "custom" | "silent";
 
@@ -379,6 +384,9 @@ export interface DesktopSettings {
   fontScale: number;
   composition: string;
   splitCharmedPetDps: boolean;
+  seedMeterVisible: boolean;
+  seedMeterMode: SeedMeterMode;
+  seedMeterOpacity: number;
   stanceAdvisorEnabled: boolean;
   itemNetworkLookups: boolean;
   seedPosition: { x: number; y: number } | null;

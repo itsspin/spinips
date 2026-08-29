@@ -10,9 +10,9 @@ What it does
 ------------
 * Tails your EverQuest Legends log file (offset-based, 500 ms polls).
 * Auto-detects the active character and switches when you swap toons.
-* Combat-aware DPS: fights open on your (or your pet's) first action and
-  close after 10 s of silence; bystander activity only extends a fight
-  within a 20 s grace window of your own last action.
+* Combat-aware DPS: fights open on your, your pet's, or a verified group
+  member's first action and close after 10 s of silence; unverified bystander
+  activity can never open a fight and only extends one near trusted activity.
 * Encounter Lab with current/previous/session views, actor/ability/healing
   meters, multi-mob target breakdowns, and a two-second combat timeline.
 * Pet damage attribution for summoned and charmed pets, plus active pet count
@@ -698,6 +698,15 @@ MELEE_VERBS = (
     "smash(?:es)?|rends?|stings?|frenz(?:y|ies) on"
 )
 CRIT = r"(?P<crit> \((?:Critical|Crippling Blow|Lucky Critical|Finishing Blow)\))?"
+# Legends appends Ranger-only shot outcomes after the ordinary damage sentence.
+# Keep this grammar explicit so chat or unrelated parenthetical prose cannot be
+# mistaken for combat evidence. ``ranged_result`` also lets the stats model
+# count only variants that actually say Critical as critical hits.
+RANGED_RESULT = (
+    r"(?P<ranged_result> \((?:Critical|Double Bow Shot|"
+    r"Strikethrough Double Bow Shot|Critical Double Bow Shot|"
+    r"Strikethrough Critical Double Bow Shot)\))?"
+)
 
 LINE_RE = re.compile(
     r"^\[(?P<ts>[A-Za-z]{3} [A-Za-z]{3} +\d{1,2} \d{2}:\d{2}:\d{2} \d{4})\] (?P<msg>.*)$"
@@ -705,6 +714,9 @@ LINE_RE = re.compile(
 
 PATTERNS: list[tuple[str, re.Pattern]] = [
     # --- your damage ---
+    ("ranged_out", re.compile(
+        rf"^You shoot (?P<target>.+?) for (?P<dmg>\d+) points? of "
+        rf"damage\.{RANGED_RESULT}$")),
     ("melee_out", re.compile(
         rf"^You (?:{MELEE_VERBS}) (?P<target>.+?) for (?P<dmg>\d+) points? of damage\.{CRIT}$")),
     ("miss_out", re.compile(
@@ -863,6 +875,9 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     ("tell_in", re.compile(r"^(?P<sender>[A-Za-z]+) tells you, '(?P<msg>.*)'$")),
     ("summoned", re.compile(r"^You have been summoned!?$")),
     # --- bystanders (third party) ---
+    ("ranged_third", re.compile(
+        rf"^(?P<attacker>.+?) shoots? (?P<target>.+?) for (?P<dmg>\d+) "
+        rf"points? of damage\.{RANGED_RESULT}$")),
     ("melee_third", re.compile(
         rf"^(?P<attacker>.+?) (?:{MELEE_VERBS}) (?P<target>.+?) for (?P<dmg>\d+) points? of damage\.{CRIT}$")),
     ("dot_third", re.compile(
@@ -955,10 +970,11 @@ def observe_mez_log_event(tracker: MezTracker, ts: datetime,
     elif kind == "mez_awakened":
         tracker.observe_damage(groups.get("target", ""), ts)
     elif kind in {
-            "melee_out", "dot_out", "nuke_out_plain", "nuke_out_school",
-            "ds_out", "melee_third", "dot_third", "nuke_third"}:
+            "melee_out", "ranged_out", "dot_out", "nuke_out_plain",
+            "nuke_out_school", "ds_out", "melee_third", "ranged_third",
+            "dot_third", "nuke_third"}:
         tracker.observe_damage(groups.get("target", ""), ts)
-        if kind in {"melee_third", "nuke_third"}:
+        if kind in {"melee_third", "ranged_third", "nuke_third"}:
             tracker.observe_damage(groups.get("attacker", ""), ts)
     elif kind in {"melee_in", "miss_in", "nuke_in", "miss_third"}:
         # A tracked actor attacking anyone is definitive evidence it is awake,
@@ -1008,10 +1024,11 @@ def observe_lull_log_event(tracker: LullTracker, ts: datetime,
         tracker.observe_overwrite(
             groups.get("target"), ts, groups.get("spell"))
     elif kind in {
-            "melee_out", "dot_out", "nuke_out_plain", "nuke_out_school",
-            "ds_out", "melee_third", "dot_third", "nuke_third"}:
+            "melee_out", "ranged_out", "dot_out", "nuke_out_plain",
+            "nuke_out_school", "ds_out", "melee_third", "ranged_third",
+            "dot_third", "nuke_third"}:
         tracker.observe_damage(groups.get("target", ""), ts)
-        if kind in {"melee_third", "nuke_third"}:
+        if kind in {"melee_third", "ranged_third", "nuke_third"}:
             tracker.observe_damage(groups.get("attacker", ""), ts)
     elif kind in {"melee_in", "miss_in", "nuke_in", "miss_third"}:
         tracker.observe_damage(groups.get("attacker", ""), ts)
@@ -1334,6 +1351,7 @@ class SessionStats:
         self.closed_seconds = 0.0
         self.best_fight: Fight | None = None
         self.last_own_action: datetime | None = None
+        self.last_group_action: datetime | None = None
         self.last_support_action: datetime | None = None
         self.last_combat_signal: datetime | None = None
         self.damage_by_source: dict[str, dict] = defaultdict(
@@ -1496,17 +1514,27 @@ class SessionStats:
         self.last_own_action = ts
         self._combat_signal(ts, own=True)
 
-    def _combat_signal(self, ts: datetime, own: bool = False):
+    def _combat_signal(self, ts: datetime, own: bool = False,
+                       group: bool = False):
+        if group:
+            self.last_group_action = ts
+        trusted = own or group
         if self.fight is None:
-            if not own:
+            if not trusted:
                 return  # bystanders never open a fight
             self.fight = self._new_fight(ts)
         else:
-            if not own and self.last_own_action and ts - self.last_own_action > BYSTANDER_GRACE:
-                return  # too long since our own action: don't stretch the fight
+            trusted_times = tuple(
+                stamp for stamp in (
+                    self.last_own_action, self.last_group_action)
+                if stamp is not None)
+            if (not trusted and (
+                    not trusted_times
+                    or ts - max(trusted_times) > BYSTANDER_GRACE)):
+                return  # unrelated activity cannot stretch the encounter
             if ts - self.fight.end > COMBAT_GAP:
                 self._close_fight()
-                if own:
+                if trusted:
                     self.fight = self._new_fight(ts)
                 return
             self.fight.end = ts
@@ -1626,15 +1654,17 @@ class SessionStats:
     def _observe_actor_damage(self, ts: datetime, actor: str, target: str, dmg: int):
         """Add a visible player/pet contributor without polluting self DPS."""
         actor = actor.strip()
-        self._combat_signal(ts)
-        if self.fight is None or not looks_like_player_actor(actor):
+        if not looks_like_player_actor(actor):
+            return
+        group_names = {member.casefold() for member in self.group_members}
+        is_group_member = actor.casefold() in group_names
+        self._combat_signal(ts, group=is_group_member)
+        if self.fight is None:
             return
         known_targets = {name.casefold() for name in self.fight.targets}
         if normalize_mob(actor).casefold() in known_targets:
             return
-        role = "group" if actor.casefold() in {
-            member.casefold() for member in self.group_members
-        } else "observed"
+        role = "group" if is_group_member else "observed"
         self._record_actor_damage(actor, dmg, role)
         self.fight.observed_targets[normalize_mob(target)] += dmg
         self.fight.add_timeline(ts, "out", dmg)
@@ -1660,13 +1690,21 @@ class SessionStats:
                 self._close_fight()
         self._touch(ts)
         self.log_lines += 1
-        crit = bool(g.get("crit"))
+        crit = (bool(g.get("crit"))
+                or "critical" in (g.get("ranged_result") or "").casefold())
 
         if kind == "auto_attack":
             self.auto_attack = g.get("state", "").casefold() == "on"
         elif kind == "melee_out":
             self.melee_hits += 1
             self._deal(ts, g["target"], int(g["dmg"]), "Melee", crit,
+                       category="melee")
+        elif kind == "ranged_out":
+            self.melee_hits += 1
+            result = (g.get("ranged_result") or "").casefold()
+            source = ("Double Bow Shot"
+                      if "double bow shot" in result else "Ranged")
+            self._deal(ts, g["target"], int(g["dmg"]), source, crit,
                        category="melee")
         elif kind == "miss_out":
             self.melee_misses += 1
@@ -1957,7 +1995,8 @@ class SessionStats:
                         g["pet"], ts, charmed=True, charm_spell=spell)
                 self.pending_cast = None
 
-        elif kind in ("melee_third", "nuke_third", "dot_third"):
+        elif kind in (
+                "melee_third", "ranged_third", "nuke_third", "dot_third"):
             attacker = (g.get("attacker") or g.get("caster") or "").strip()
             dmg = int(g["dmg"])
             if attacker and self.is_pet(attacker):

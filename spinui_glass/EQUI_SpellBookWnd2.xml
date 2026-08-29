@@ -1019,12 +1019,12 @@
 		<ScreenID>SBW_Memorize_Gauge</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>226</X>
-			<Y>196</Y>
+			<X>24</X>
+			<Y>185</Y>
 		</Location>
 		<Size>
-			<CX>100</CX>
-			<CY>8</CY>
+			<CX>124</CX>
+			<CY>14</CY>
 		</Size>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<Style_Transparent>false</Style_Transparent>
@@ -1039,22 +1039,25 @@
 				<G>0</G>
 				<B>0</B>
 		</LinesFillTint>
+		<Font>2</Font>
+		<Text>Memorization</Text>			
 		<DrawLinesFill>false</DrawLinesFill>
 		<EQType>9</EQType>
 		<GaugeDrawTemplate>
 			<Fill>A_GaugeFill</Fill>
+			<Background>A_GaugeBackground</Background>					
 		</GaugeDrawTemplate>
 	</Gauge>
 	<Gauge item = "SBW_Scribe_Gauge">
 		<ScreenID>SBW_Memorize_Gauge</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>35</X>
-			<Y>196</Y>
+			<X>24</X>
+			<Y>201</Y>
 		</Location>
 		<Size>
-			<CX>100</CX>
-			<CY>8</CY>
+			<CX>124</CX>
+			<CY>14</CY>
 		</Size>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<Style_Transparent>false</Style_Transparent>
@@ -1069,10 +1072,13 @@
 				<G>0</G>
 				<B>0</B>
 		</LinesFillTint>
+		<Font>2</Font>
+		<Text>Scribing</Text>			
 		<DrawLinesFill>false</DrawLinesFill>
 		<EQType>10</EQType>
 		<GaugeDrawTemplate>
 			<Fill>A_GaugeFill</Fill>
+			<Background>A_GaugeBackground</Background>					
 		</GaugeDrawTemplate>
 	</Gauge>
 	<Button item = "SBW_MemPage0_Button">
@@ -1135,7 +1141,7 @@
 		<ScreenID>SBW_PageDown_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>10</X>
+			<X>2</X>
 			<Y>183</Y>
 		</Location>
 		<Size>
@@ -1162,7 +1168,7 @@
 		<ScreenID>SBW_PageUp_Button</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>334</X>
+			<X>342</X>
 			<Y>183</Y>
 		</Location>
 		<Size>
@@ -1306,6 +1312,51 @@
 		<Template>BDT_Normal</Template>
 	</Button>
 	
+    <Button item="SBW_ActionsButton">
+        <ScreenID>ActionsButton</ScreenID>
+        <RelativePosition>true</RelativePosition>
+        <Location>
+            <X>213</X>
+            <Y>190</Y>
+        </Location>
+		<Size>
+			<CX>21</CX>
+			<CY>21</CY>
+		</Size>
+		<TooltipReference>Open the Actions - Spells Window</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_EQActionsBtnNormal</Normal>
+			<Pressed>A_EQActionsBtnPressed</Pressed>
+			<Flyby>A_EQActionsBtnFlyby</Flyby>
+			<Disabled>A_EQActionsBtnPressed</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_EQActionsBtnPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+    </Button>	
+	
+		<Button item="SBW_ActionsToggle">
+			<ScreenID>SBW_ActionsToggle</ScreenID>
+        <Location>
+            <X>240</X>
+            <Y>184</Y>
+        </Location>			
+			<Size>
+				<CX>120</CX>
+				<CY>34</CY>
+			</Size>
+			<Style_Checkbox>true</Style_Checkbox>
+			<Text>Always Open to Actions</Text>
+			<Font>3</Font>
+			<TooltipReference>By default, the spellbook icon on the spellbar will open to the Actions - Spells window.</TooltipReference>
+			<Template>BDT_CheckboxWithTextDouble</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>34</CY>
+			</DecalSize>
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>
+			<NoWrap>false</NoWrap>
+		</Button>		
+		
 	<Screen item = "SpellBookWnd">
 		<RelativePosition>false</RelativePosition>
 		<MenuName>Small Spell Icons</MenuName>		
@@ -1371,11 +1422,13 @@
 		<Pieces>SBW_Scribe_Gauge</Pieces>
 		<Pieces>SBW_MemPage0_Button</Pieces>
 		<Pieces>SBW_MemPage1_Button</Pieces>
+		<Pieces>SBW_ActionsToggle</Pieces>				
 		<Pieces>SBW_PageDown_Button</Pieces>
 		<Pieces>SBW_PageUp_Button</Pieces>
 		<Pieces>SBW_LeftPageNum</Pieces>
 		<Pieces>SBW_RightPageNum</Pieces>
 		<Pieces>SBW_DoneButton</Pieces>
+		<Pieces>SBW_ActionsButton</Pieces>	
 	</Screen>
 
 </XML>

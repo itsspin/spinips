@@ -938,12 +938,12 @@
 		<ScreenID>SBW_Memorize_Gauge</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>20</X>
-			<Y>302</Y>
+			<X>5</X>
+			<Y>292</Y>
 		</Location>
 		<Size>
-			<CX>100</CX>
-			<CY>10</CY>
+			<CX>124</CX>
+			<CY>14</CY>
 		</Size>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<Style_Transparent>true</Style_Transparent>
@@ -957,10 +957,13 @@
 			<G>0</G>
 			<B>0</B>
 		</LinesFillTint>
-		<DrawLinesFill>false</DrawLinesFill>
+		<Font>2</Font>
+		<Text>Memorization</Text>		
+		<DrawLinesFill>false</DrawLinesFill>	
 		<EQType>9</EQType>
 		<GaugeDrawTemplate>
 			<Fill>A_GaugeFill</Fill>
+			<Background>A_GaugeBackground</Background>			
 		</GaugeDrawTemplate>
 		<GaugeOffsetX>-1</GaugeOffsetX>
 	</Gauge>
@@ -968,12 +971,12 @@
 		<ScreenID>SBW_Memorize_Gauge</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>278</X>
-			<Y>302</Y>
+			<X>5</X>
+			<Y>308</Y>
 		</Location>
 		<Size>
-			<CX>100</CX>
-			<CY>10</CY>
+			<CX>124</CX>
+			<CY>14</CY>
 		</Size>
 		<GaugeOffsetY>0</GaugeOffsetY>
 		<Style_Transparent>true</Style_Transparent>
@@ -987,10 +990,13 @@
 			<G>127</G>
 			<B>0</B>
 		</LinesFillTint>
+		<Font>2</Font>
+		<Text>Scribing</Text>				
 		<DrawLinesFill>true</DrawLinesFill>
 		<EQType>10</EQType>
 		<GaugeDrawTemplate>
 			<Fill>A_GaugeFill</Fill>
+			<Background>A_GaugeBackground</Background>			
 		</GaugeDrawTemplate>
 		<GaugeOffsetX>-1</GaugeOffsetX>
 	</Gauge>
@@ -1173,6 +1179,51 @@
 		<Text> Done</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
+	
+    <Button item="SBW_ActionsButton">
+        <ScreenID>ActionsButton</ScreenID>
+        <RelativePosition>true</RelativePosition>
+        <Location>
+            <X>273</X>
+            <Y>295</Y>
+        </Location>
+		<Size>
+			<CX>21</CX>
+			<CY>21</CY>
+		</Size>
+		<TooltipReference>Open the Actions - Spells Window</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_EQActionsBtnNormal</Normal>
+			<Pressed>A_EQActionsBtnPressed</Pressed>
+			<Flyby>A_EQActionsBtnFlyby</Flyby>
+			<Disabled>A_EQActionsBtnPressed</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_EQActionsBtnPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+    </Button>		
+	
+		<Button item="SBW_ActionsToggle">
+			<ScreenID>SBW_ActionsToggle</ScreenID>
+        <Location>
+            <X>300</X>
+            <Y>288</Y>
+        </Location>			
+			<Size>
+				<CX>112</CX>
+				<CY>34</CY>
+			</Size>
+			<Style_Checkbox>true</Style_Checkbox>
+			<Text>Always Open to Actions</Text>
+			<Font>3</Font>
+			<TooltipReference>By default, the spellbook icon on the spellbar will open to the Actions - Spells window.</TooltipReference>
+			<Template>BDT_CheckboxWithTextDouble</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>34</CY>
+			</DecalSize>
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>
+			<NoWrap>false</NoWrap>
+		</Button>		
 	<!-- Spellbook -->
 	<Screen item="SpellBookWnd">
 		<RelativePosition>false</RelativePosition>
@@ -1247,5 +1298,7 @@
 		<Pieces>SBW_LeftPageNum</Pieces>
 		<Pieces>SBW_RightPageNum</Pieces>
 		<Pieces>SBW_DoneButton</Pieces>
+		<Pieces>SBW_ActionsButton</Pieces>
+		<Pieces>SBW_ActionsToggle</Pieces>		
 	</Screen>
 </XML>

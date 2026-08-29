@@ -14,7 +14,8 @@
     "test:gear": "node scripts/test-gear-plan.cjs",
     "test:items": "node scripts/test-item-intelligence.cjs",
     "test:updates": "node scripts/test-portable-updater.cjs",
-    "test:skin-updates": "node scripts/test-spinui-updater.cjs"
+    "test:skin-updates": "node scripts/test-spinui-updater.cjs",
+    "test:companion-layout": "node scripts/test-companion-layout.cjs"
   },
   "dependencies": {
     "@electron-internal/extract-zip": "1.0.5",

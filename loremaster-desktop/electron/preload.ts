@@ -43,6 +43,11 @@ contextBridge.exposeInMainWorld("loremasterDesktop", {
     ipcRenderer.on("settings:changed", listener);
     return () => ipcRenderer.removeListener("settings:changed", listener);
   },
+  onCompanionLayout: (callback: (layout: unknown) => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, value: unknown) => callback(value);
+    ipcRenderer.on("window:companion-layout", listener);
+    return () => ipcRenderer.removeListener("window:companion-layout", listener);
+  },
   onUpdateState: (callback: (state: unknown) => void) => {
     const listener = (_event: Electron.IpcRendererEvent, value: unknown) => callback(value);
     ipcRenderer.on("updates:state", listener);
