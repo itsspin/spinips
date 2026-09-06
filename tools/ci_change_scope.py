@@ -24,6 +24,7 @@ UI_PREFIXES = (
     "installer/",
     "layouts/",
     "spinui_glass/",
+    "spinui_pearlescent/",
     "spinui_reloaded/",
 )
 LOREMASTER_PREFIXES = (
@@ -130,6 +131,7 @@ def write_github_outputs(path: Path, scope: ChangeScope) -> None:
 def self_test() -> None:
     cases = (
         (("spinui_reloaded/EQUI_PlayerWindow.xml",), (True, False)),
+        (("spinui_pearlescent/EQUI.xml",), (True, False)),
         (("tools/restyle_combat.py",), (True, False)),
         (("loremaster/desktop_worker.py",), (False, True)),
         (("loremaster-desktop/src/App.tsx",), (False, True)),

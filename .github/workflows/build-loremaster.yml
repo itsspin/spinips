@@ -6,6 +6,7 @@ on:
     paths:
       - "spinui_reloaded/**"
       - "spinui_glass/**"
+      - "spinui_pearlescent/**"
       - "layouts/**"
       - "loremaster/**"
       - "loremaster-desktop/**"
@@ -112,6 +113,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path $uiPackage | Out-Null
           Copy-Item -Recurse -Force spinui_reloaded (Join-Path $uiPackage 'spinui_reloaded')
           Copy-Item -Recurse -Force spinui_glass (Join-Path $uiPackage 'spinui_glass')
+          Copy-Item -Recurse -Force spinui_pearlescent (Join-Path $uiPackage 'spinui_pearlescent')
           # Public aliases plus every validated resolution profile ship;
           # layouts/original and layouts/spin-live stay internal.
           $packageLayouts = Join-Path $uiPackage 'layouts'
@@ -182,6 +184,7 @@ jobs:
           pnpm test:companion-layout
           pnpm test:gear
           pnpm test:items
+          pnpm test:spells
           pnpm test:updates
           pnpm test:skin-updates
 
@@ -349,7 +352,7 @@ jobs:
             gh release create $tag @assets --repo $env:GITHUB_REPOSITORY `
               --target $env:GITHUB_SHA `
               --title "SpinUI $tag — Vellum & Ember + Glass" `
-              --notes "Complete SpinUI Windows release. Extract SpinUI-Manual.zip for both the classic spinui_reloaded skin and optional spinui_glass skin, layout profiles, manual guide, and the portable TypeScript/Electron Loremaster. Verify downloads against SHA256SUMS.txt; the unsigned Loremaster executable can trip antivirus machine-learning heuristics (see the README's Troubleshooting section)."
+              --notes "Complete SpinUI Windows release. Extract SpinUI-Manual.zip for the spinui_reloaded, spinui_glass, and spinui_pearlescent skins, layout profiles, manual guide, and the portable TypeScript/Electron Loremaster. Verify downloads against SHA256SUMS.txt; the unsigned Loremaster executable can trip antivirus machine-learning heuristics (see the README's Troubleshooting section)."
           }
 
       - name: Attach package to release

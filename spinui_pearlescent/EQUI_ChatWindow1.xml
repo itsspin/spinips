@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Editbox item="CW_ChatInput">
+		<ScreenID>CW_ChatInput</ScreenID>
+		<DrawTemplate>WDT_DefaultInnerBottom</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>-2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>false</Style_Border>
+	</Editbox>
+	<STMLbox item="CW_ChatOutput">
+		<ScreenID>CW_ChatOutput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>3</LeftAnchorOffset>
+		<TopAnchorOffset>1</TopAnchorOffset>
+		<RightAnchorOffset>3</RightAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<Screen item="ChatWindow">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Escapable>false</Escapable>
+		<Pieces>CW_ChatOutput</Pieces>
+		<Pieces>CW_ChatInput</Pieces>
+	</Screen>
+</XML>

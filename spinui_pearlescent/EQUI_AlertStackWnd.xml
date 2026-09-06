@@ -1,0 +1,51 @@
+<?xml version = "1.0"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes"/>
+	<Button item="ALSW_AlertTemplate_Button">
+		<ScreenID>ALSW_AlertTemplate_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text>Alert</Text>
+		<Template>BDT_Square</Template>
+		<DecalOffset>
+			<X>1</X>
+			<Y>1</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>28</CX>
+			<CY>28</CY>
+		</DecalSize>
+	</Button>
+  <TileLayoutBox item="ALSW_Alerts_Box">
+		<ScreenID>ALSW_Alerts_Box</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_TransparentControl>true</Style_TransparentControl>
+		<Spacing>0</Spacing>
+		<SecondarySpacing>0</SecondarySpacing>
+		<HorizontalFirst>false</HorizontalFirst>
+		<FirstPieceTemplate>true</FirstPieceTemplate>
+	</TileLayoutBox>
+	<Screen item="AlertStackWnd">
+		<RelativePosition>false</RelativePosition>
+		<Size>
+			<CX>100</CX>
+			<CY>200</CY>
+		</Size>
+		<Text>Alerts</Text>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Style_ClientMovable>true</Style_ClientMovable>
+		<Escapable>false</Escapable>
+		<Pieces>ALSW_AlertTemplate_Button</Pieces>
+		<Pieces>ALSW_Alerts_Box</Pieces>
+	</Screen>
+</XML>

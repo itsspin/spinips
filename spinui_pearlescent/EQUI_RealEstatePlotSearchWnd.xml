@@ -1,0 +1,304 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Editbox item="REPSW_Search_EditBox">
+		<ScreenID>REPSW_Search_EditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>292</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+
+	<Button item="REPSW_Search_Btn">
+		<ScreenID>REPSW_Search_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>290</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>210</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to search for a list of plots by owner name.</TooltipReference>
+		<Text>Search</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+    
+    <Button item="REPSW_MyPlots_Btn">
+		<ScreenID>REPSW_MyPlots_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>208</LeftAnchorOffset>
+		<RightAnchorOffset>132</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to search for all plots that you own.</TooltipReference>
+		<Text>My Plots</Text>
+		<Template>BDT_Normal</Template>
+    </Button>
+    
+    <Button item="REPSW_MyItems_Btn">
+		<ScreenID>REPSW_MyItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>56</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click here to search for all plots containing items that you own.</TooltipReference>
+		<Text>My Items</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+ 
+	<Button item="REPSW_Go_Btn">
+		<ScreenID>REPSW_Go_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click here to display a wisp to the center of the selected plot.</TooltipReference>
+		<Text>Go</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Listbox item="REPSW_PlotList">
+		<ScreenID>REPSW_PlotList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Size>
+			<CX>300</CX>
+			<CY>250</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>225</Width>
+			<Heading>Address</Heading>
+		</Columns>
+		<Columns>
+			<Width>75</Width>
+			<Heading>Type</Heading>
+		</Columns>		
+		<Columns>
+			<Width>100</Width>
+			<Heading>Owner</Heading>
+		</Columns>
+	</Listbox>
+	<HorizontalLayoutBox item="REPSW_Main_Layout">
+		<ScreenID>REPSW_Main_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Pieces>Listbox:REPSW_PlotList</Pieces>
+	</HorizontalLayoutBox>
+	<Label item="REPSW_ShowLabel">
+		<ScreenID>REPSW_ShowLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Show:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="REPSW_ShowPlayer_Btn">
+		<ScreenID>REPSW_ShowPlayer_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REPSW_ShowPlayer_Label">
+		<ScreenID>REPSW_ShowPlayer_Label</ScreenID>
+		<Location>
+			<X>67</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>55</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Player</Text>
+	</Label>
+	<Button item="REPSW_ShowGuild_Btn">
+		<ScreenID>REPSW_ShowGuild_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>110</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REPSW_ShowGuild_Label">
+		<ScreenID>REPSW_ShowGuild_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>127</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>55</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Guild</Text>
+	</Label>
+	<Button item="REPSW_ShowOwned_Btn">
+		<ScreenID>REPSW_ShowOwned_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>165</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REPSW_ShowOwned_Label">
+		<ScreenID>REPSW_ShowOwned_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>182</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>55</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Owned</Text>
+	</Label>
+	<Button item="REPSW_ShowVacant_Btn">
+		<ScreenID>REPSW_ShowVacant_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>230</X>
+			<Y>4</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>	
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REPSW_ShowVacant_Label">
+		<ScreenID>REPSW_ShowVacant_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>247</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>55</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Vacant</Text>
+	</Label>
+	<Screen item="REPSW_Show_Screen">
+		<ScreenID>REPSW_Show_Layout</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Spacing>2</Spacing>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<ResizeLast>false</ResizeLast>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>		
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Pieces>REPSW_ShowLabel</Pieces>
+		<Pieces>REPSW_ShowPlayer_Btn</Pieces>
+		<Pieces>REPSW_ShowPlayer_Label</Pieces>
+		<Pieces>REPSW_ShowGuild_Btn</Pieces>
+		<Pieces>REPSW_ShowGuild_Label</Pieces>	
+		<Pieces>REPSW_ShowOwned_Btn</Pieces>
+		<Pieces>REPSW_ShowOwned_Label</Pieces>
+		<Pieces>REPSW_ShowVacant_Btn</Pieces>
+		<Pieces>REPSW_ShowVacant_Label</Pieces>	
+	</Screen>
+	<Screen item="RealEstatePlotSearchWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>500</CX>
+			<CY>235</CY>
+		</Size>
+		<MinHSize>350</MinHSize>
+		<MinVSize>150</MinVSize>
+		<Text>Plot Search</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>REPSW_Search_EditBox</Pieces>
+		<Pieces>REPSW_Search_Btn</Pieces>
+		<Pieces>REPSW_MyPlots_Btn</Pieces>
+		<Pieces>REPSW_MyItems_Btn</Pieces>		
+		<Pieces>REPSW_Go_Btn</Pieces>
+		<Pieces>HorizontalLayoutBox:REPSW_Main_Layout</Pieces>
+		<Pieces>Screen:REPSW_Show_Screen</Pieces>		
+	</Screen>
+</XML>

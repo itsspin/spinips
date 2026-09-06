@@ -224,6 +224,36 @@ class MezParserModelTests(unittest.TestCase):
         self.apply("You slash a thought spoiler for 12 points of damage.", 2)
         self.assertFalse(self.tracker.snapshot(BASE + timedelta(seconds=2)).rows)
 
+    def test_engaging_a_different_target_preserves_the_confirmed_mez(self):
+        self.apply("You begin casting Dazzle.")
+        self.apply("a thought spoiler has been mesmerized.", 1)
+        original = self.tracker.snapshot(BASE + timedelta(seconds=1)).rows[0]
+        unrelated_events = (
+            "You begin casting Flame of Light.",
+            "You hit a froglok for 15 points of magic damage by Flame of Light.",
+            "Auto attack is on.",
+            "You slash a froglok for 20 points of damage.",
+            "a froglok hits YOU for 3 points of damage.",
+            "a froglok tries to slash YOU, but misses!",
+            "Hingle slashes a froglok for 9 points of damage.",
+            "You have slain a froglok!",
+            "Your Dazzle spell has worn off of a froglok.",
+            "Your Dazzle spell on a froglok has been overwritten.",
+        )
+        for offset, message in enumerate(unrelated_events, 2):
+            with self.subTest(message=message):
+                self.apply(message, offset)
+                snapshot = self.tracker.snapshot(BASE + timedelta(seconds=offset))
+                self.assertEqual(snapshot.active_count, 1)
+                row = snapshot.rows[0]
+                self.assertEqual(row.target_name, "a thought spoiler")
+                self.assertEqual(row.landed_at, original.landed_at)
+                self.assertEqual(row.safe_expires_at, original.safe_expires_at)
+                self.assertEqual(row.expires_at, original.expires_at)
+
+        self.apply("You slash a thought spoiler for 1 point of damage.", 12)
+        self.assertFalse(self.tracker.snapshot(BASE + timedelta(seconds=12)).rows)
+
     def test_tracked_attacker_acting_retires_the_timer_even_on_a_miss(self):
         self.apply("You begin casting Mesmerize.")
         self.apply("a thought spoiler has been mesmerized.", 1)

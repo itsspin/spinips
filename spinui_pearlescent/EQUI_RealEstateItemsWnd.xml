@@ -1,0 +1,1262 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Listbox item="REIW_ItemList">
+		<ScreenID>REIW_ItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>110</BottomAnchorOffset>
+		<RightAnchorOffset>132</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>140</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>32</Width>
+			<Heading>Type</Heading>
+		</Columns>
+		<Columns>
+			<Width>28</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Location</Heading>
+		</Columns>
+		<Columns>
+			<Width>56</Width>
+			<Heading>Status</Heading>
+		</Columns>
+		<Columns>
+			<Width>95</Width>
+			<Heading>Owner Name</Heading>
+		</Columns>
+	</Listbox>
+	
+	<Label item="REIW_ShowLabel">
+		<ScreenID>REIW_ShowLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Show:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="REIW_ShowYardButton">
+		<ScreenID>REIW_ShowYardButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>18</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>	
+		<Text>Yard</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>			
+	</Button>
+	<Label item="REIW_ShowYardButtonLabel">
+		<ScreenID>REIW_ShowYardButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowHouseButton">
+		<ScreenID>REIW_ShowHouseButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>36</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>House</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowHouseButtonLabel">
+		<ScreenID>REIW_ShowHouseButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowMovingCrateButton">
+		<ScreenID>REIW_ShowMovingCrateButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>54</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Crate</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowMovingCrateButtonLabel">
+		<ScreenID>REIW_ShowMovingCrateButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowStoredButton">
+		<ScreenID>REIW_ShowStoredButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>72</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Stored</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowStoredButtonLabel">
+		<ScreenID>REIW_ShowStoredButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowPlacedButton">
+		<ScreenID>REIW_ShowPlacedButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>90</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Placed</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowPlacedButtonLabel">
+		<ScreenID>REIW_ShowPlacedButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowPlaceableButton">
+		<ScreenID>REIW_ShowPlaceableButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>108</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Placeable</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowPlaceableButtonLabel">
+		<ScreenID>REIW_ShowPlaceableButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowUnplaceableButton">
+		<ScreenID>REIW_ShowUnplaceableButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>126</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Vault</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowUnplaceableButtonLabel">
+		<ScreenID>REIW_ShowUnplaceableButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowOwnedItemsButton">
+		<ScreenID>REIW_ShowOwnedItemsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>146</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Owned</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowOwnedItemsButtonLabel">
+		<ScreenID>REIW_ShowOwnedItemsButtonLabel</ScreenID>
+	</Label>
+	<Button item="REIW_ShowUnownedItemsButton">
+		<ScreenID>REIW_ShowUnownedItemsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>166</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Unowned</Text>		
+		<Style_Checkbox>true</Style_Checkbox>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>	
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>	
+	</Button>
+	<Label item="REIW_ShowUnownedItemsButtonLabel">
+		<ScreenID>REIW_ShowUnownedItemsButtonLabel</ScreenID>
+	</Label>
+
+	<Label item="REIW_YardItemsLabel">
+		<ScreenID>REIW_YardItemsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>190</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Yard:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_YardItemsCount">
+		<ScreenID>REIW_YardItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>205</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>8 / 100</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_YardNonRealEstateItemsCount">
+		<ScreenID>REIW_YardNonRealEstateItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>220</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>*4 / 10 vault</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_YardNpcItemsCount">
+		<ScreenID>REIW_YardNpcItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>235</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>4 / 10 pets</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_HouseItemsLabel">
+		<ScreenID>REIW_HouseItemsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>255</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>House:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_HouseItemsCount">
+		<ScreenID>REIW_HouseItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>270</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>32 / 100</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_HouseNonRealEstateItemsCount">
+		<ScreenID>REIW_HouseNonRealEstateItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>285</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>*4 / 10 vault</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_MovingCrateItemsLabel">
+		<ScreenID>REIW_MovingCrateItemsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>305</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Crate:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_MovingCrateItemsCount">
+		<ScreenID>REIW_MovingCrateItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>320</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>32 / 100</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_MovingCrateNonRealEstateItemsCount">
+		<ScreenID>REIW_MovingCrateNonRealEstateItemsCount</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>335</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>*4 / 10 vault</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	
+	<Button item="REIW_SelectedItem">
+		<ScreenID>REIW_SelectedItem</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>106</TopAnchorOffset>
+		<BottomAnchorOffset>66</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>42</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Label item="REIW_SelectedItemLabel">
+		<ScreenID>REIW_SelectedItemLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>105</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>500</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Selected Item</Text>
+	</Label>
+	<Label item="REIW_SelectedItemLocation">
+		<ScreenID>REIW_SelectedItemLocation</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>82</TopAnchorOffset>
+		<BottomAnchorOffset>65</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>500</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Location</Text>
+	</Label>
+
+	<Button item="REIW_Move_Inventory_Button">
+		<ScreenID>REIW_Move_Inventory_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>62</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to move selected item into your inventory.</TooltipReference>
+		<Text>Inventory</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<ButtonDrawTemplate>
+			<Normal>A_MoveToInventoryBtn</Normal>
+			<Disabled>A_MoveToInventoryDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>		
+	</Button>
+	<Button item="REIW_Move_Shed_Button">
+		<ScreenID>REIW_Move_Shed_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>64</LeftAnchorOffset>
+		<RightAnchorOffset>124</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to move selected item into the shed (yard storage).</TooltipReference>
+		<Text>Shed</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_MoveToShedBtn</Normal>
+			<Disabled>A_MoveToShedDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Move_Closet_Button">
+		<ScreenID>REIW_Move_Closet_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>126</LeftAnchorOffset>
+		<RightAnchorOffset>186</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to move the selected item into the closet (house storage).</TooltipReference>
+		<Text>Closet</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_MoveToClosetBtn</Normal>
+			<Disabled>A_MoveToClosetDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Move_Crate_Button">
+		<ScreenID>REIW_Move_Crate_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>188</LeftAnchorOffset>
+		<RightAnchorOffset>248</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to move the selected item into the moving crate.</TooltipReference>
+		<Text>Crate</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_MoveToCrateBtn</Normal>
+			<Disabled>A_MoveToCrateDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Place_Button">
+		<ScreenID>REIW_Place_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>250</LeftAnchorOffset>
+		<RightAnchorOffset>310</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to place the selected item.</TooltipReference>
+		<Text>Place</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_PlaceBtn</Normal>
+			<Disabled>A_PlaceDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Locate_Button">
+		<ScreenID>REIW_Locate_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>312</LeftAnchorOffset>
+		<RightAnchorOffset>372</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to to start locating the selected item. If it is already being located, then clicking here again will stop locating the item.</TooltipReference>
+		<Text>Locate</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_LocateBtn</Normal>
+			<Disabled>A_LocateDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item="REIW_Trophies_Button">
+		<ScreenID>REIW_Trophies_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>374</LeftAnchorOffset>
+		<RightAnchorOffset>434</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>If you are the owner of this real estate, click here to open the trophies window.</TooltipReference>
+		<Text>Trophies</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_TrophiesBtn</Normal>
+			<Disabled>A_TrophiesDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Pack_Moving_Crate_Button">
+		<ScreenID>REIW_Pack_Moving_Crate_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>436</LeftAnchorOffset>
+		<RightAnchorOffset>496</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to pack the active moving crate with all items at your current location.</TooltipReference>
+		<Text>Pack</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_PackCrateBtn</Normal>
+			<Disabled>A_PackCrateDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Unpack_Moving_Crate_Button">
+		<ScreenID>REIW_Unpack_Moving_Crate_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>498</LeftAnchorOffset>
+		<RightAnchorOffset>558</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to unpack the active moving crate's items into your current location.</TooltipReference>
+		<Text>Unpack</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_UnpackCrateBtn</Normal>
+			<Disabled>A_UnpackCrateDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item="REIW_Stow_Placed_Button">
+		<ScreenID>REIW_Stow_Placed_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>62</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>560</LeftAnchorOffset>
+		<RightAnchorOffset>620</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TooltipReference>Click here to move all placed items in your current location to storage.</TooltipReference>
+		<Text>Store All</Text>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<UseCustomMouseoverColor>true</UseCustomMouseoverColor>
+		<MouseoverColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</MouseoverColor>
+		<UseCustomPressedColor>true</UseCustomPressedColor>
+		<PressedColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</PressedColor>
+		<UseCustomDisabledColor>true</UseCustomDisabledColor>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<TextOffsetY>5</TextOffsetY>
+		<ButtonDrawTemplate>
+			<Normal>A_MoveAllToStorageBtn</Normal>
+			<Disabled>A_MoveAllToStorageDisabledBtn</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Screen item="REIW_Summary_Screen">
+		<ScreenID>REIW_Summary_Screen</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>65</BottomAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Pieces>REIW_ShowLabel</Pieces>
+		<Pieces>REIW_ShowYardButton</Pieces>
+		<Pieces>REIW_ShowYardButtonLabel</Pieces>	
+		<Pieces>REIW_ShowHouseButton</Pieces>
+		<Pieces>REIW_ShowHouseButtonLabel</Pieces>
+		<Pieces>REIW_ShowMovingCrateButton</Pieces>
+		<Pieces>REIW_ShowMovingCrateButtonLabel</Pieces>				
+		<Pieces>REIW_ShowStoredButton</Pieces>
+		<Pieces>REIW_ShowStoredButtonLabel</Pieces>
+		<Pieces>REIW_ShowPlacedButton</Pieces>
+		<Pieces>REIW_ShowPlacedButtonLabel</Pieces>
+		<Pieces>REIW_ShowPlaceableButton</Pieces>
+		<Pieces>REIW_ShowPlaceableButtonLabel</Pieces>
+		<Pieces>REIW_ShowUnplaceableButton</Pieces>
+		<Pieces>REIW_ShowUnplaceableButtonLabel</Pieces>
+		<Pieces>REIW_ShowOwnedItemsButton</Pieces>
+		<Pieces>REIW_ShowOwnedItemsButtonLabel</Pieces>
+		<Pieces>REIW_ShowUnownedItemsButton</Pieces>
+		<Pieces>REIW_ShowUnownedItemsButtonLabel</Pieces>	
+		<Pieces>REIW_YardItemsLabel</Pieces>
+		<Pieces>REIW_YardItemsCount</Pieces>
+		<Pieces>REIW_YardNonRealEstateItemsCount</Pieces>
+		<Pieces>REIW_YardNpcItemsCount</Pieces>		
+		<Pieces>REIW_HouseItemsLabel</Pieces>
+		<Pieces>REIW_HouseItemsCount</Pieces>
+		<Pieces>REIW_HouseNonRealEstateItemsCount</Pieces>
+		<Pieces>REIW_MovingCrateItemsLabel</Pieces>
+		<Pieces>REIW_MovingCrateItemsCount</Pieces>	
+		<Pieces>REIW_MovingCrateNonRealEstateItemsCount</Pieces>	
+	</Screen>
+	
+	<Listbox item="REIW_LayoutList">
+		<ScreenID>REIW_LayoutList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>44</BottomAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>250</Width>
+			<Heading>Layout Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>120</Width>
+			<Heading>Type</Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Date</Heading>
+		</Columns>	
+	</Listbox>
+	<Editbox item="REIW_LayoutName_EditBox">
+		<ScreenID>REIW_LayoutName_EditBox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>378</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="REIW_LayoutSaveAll_Btn">
+		<ScreenID>REIW_LayoutSaveAll_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>240</LeftAnchorOffset>
+		<RightAnchorOffset>162</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Save All</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutSaveYard_Btn">
+		<ScreenID>REIW_LayoutSaveYard_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<RightAnchorOffset>82</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Save Yard</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutSaveHouse_Btn">
+		<ScreenID>REIW_LayoutSaveHouse_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Save House</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutDelete_Btn">
+		<ScreenID>REIW_LayoutDelete_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Delete Layout</Text>
+		<TooltipReference>Delete the selected layout.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutLoadAll_Btn">
+		<ScreenID>REIW_LayoutLoadAll_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>78</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Load All</Text>
+		<TooltipReference>Load all items for the selected layout.  If Used Placed Items or Store Extra Items are selected, then placed items in both the yard and the house will be used.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutLoadYard_Btn">
+		<ScreenID>REIW_LayoutLoadYard_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>82</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>78</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Load Yard</Text>
+		<TooltipReference>Load all yard items for the selected layout.  If Used Placed Items or Store Extra Items are selected, then placed items in the yard will be used.  Placed items in the house will be left alone.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutLoadHouse_Btn">
+		<ScreenID>REIW_LayoutLoadHouse_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>162</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>78</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Load House</Text>
+		<TooltipReference>Load all house items for the selected layout.  If Used Placed Items or Store Extra Items are selected, then placed items in the house will be used.  Placed items in the yard will be left alone.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutDetails_Btn">
+		<ScreenID>REIW_LayoutDetails_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>242</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>78</CX>
+			<CY>20</CY>
+		</Size>
+		<Text>Show Details</Text>
+		<TooltipReference>View all items required for this layout and whether or not you can fully load the layout with your desired settings.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="REIW_LayoutUsePlacedItems_Btn">
+		<ScreenID>REIW_LayoutUsePlacedItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Use items already placed while loading the layout.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REIW_LayoutUsePlacedItems_Label">
+		<ScreenID>REIW_LayoutUsePlacedItems_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>22</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>110</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Use Placed Items</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="REIW_LayoutUseInventoryItems_Btn">
+		<ScreenID>REIW_LayoutUseInventoryItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>135</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Use non-equipped items from your inventory while loading the layout.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REIW_LayoutUseInventoryItems_Label">
+		<ScreenID>REIW_LayoutUseInventoryItems_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>155</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>110</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Use Inventory Items</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="REIW_LayoutStoreExtraItems_Btn">
+		<ScreenID>REIW_LayoutStoreExtraItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>275</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Stores any previously placed items that are not in the layout.  This overrides the Use Placed Items option.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="REIW_LayoutStoreExtraItems_Label">
+		<ScreenID>REIW_LayoutStoreExtraItems_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>295</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>15</CY>
+		</Size>
+		<Text>Store Extra Items</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Label item="REIW_LayoutRotateYard_Label">
+		<ScreenID>REIW_LayoutRotateYard_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>425</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>70</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Rotate Yard</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Combobox item="REIW_LayoutRotateYard_Combobox">
+		<ScreenID>REIW_LayoutRotateYard_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<Location>
+			<X>495</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>15</CY>
+		</Size>
+		<TooltipReference>Select which direction you want your yard facing in when it is loaded.</TooltipReference>
+		<ListHeight>75</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Screen item="REIW_LayoutLoad_Screen">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>42</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>REIW_LayoutLoadAll_Btn</Pieces>
+		<Pieces>REIW_LayoutLoadYard_Btn</Pieces>
+		<Pieces>REIW_LayoutLoadHouse_Btn</Pieces>
+		<Pieces>REIW_LayoutDetails_Btn</Pieces>		
+		<Pieces>REIW_LayoutDelete_Btn</Pieces>
+		<Pieces>REIW_LayoutUsePlacedItems_Btn</Pieces>
+		<Pieces>REIW_LayoutUsePlacedItems_Label</Pieces>
+		<Pieces>REIW_LayoutUseInventoryItems_Btn</Pieces>
+		<Pieces>REIW_LayoutUseInventoryItems_Label</Pieces>
+		<Pieces>REIW_LayoutStoreExtraItems_Btn</Pieces>
+		<Pieces>REIW_LayoutStoreExtraItems_Label</Pieces>
+		<Pieces>REIW_LayoutRotateYard_Label</Pieces>
+		<Pieces>REIW_LayoutRotateYard_Combobox</Pieces>
+	</Screen>
+	
+	<Page item="REIW_ItemsPage">
+		<ScreenID>REIW_ItemsPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Items</TabText>
+    <TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REIW_Pack_Moving_Crate_Button</Pieces>
+		<Pieces>REIW_Unpack_Moving_Crate_Button</Pieces>	
+		<Pieces>REIW_Stow_Placed_Button</Pieces>
+		<Pieces>REIW_Trophies_Button</Pieces>
+		<Pieces>Screen:REIW_Summary_Screen</Pieces>
+		<Pieces>REIW_Move_Inventory_Button</Pieces>
+		<Pieces>REIW_Move_Closet_Button</Pieces>
+		<Pieces>REIW_Move_Shed_Button</Pieces>
+		<Pieces>REIW_Move_Crate_Button</Pieces>
+		<Pieces>REIW_Place_Button</Pieces>
+		<Pieces>REIW_Locate_Button</Pieces>
+		<Pieces>REIW_SelectedItemLabel</Pieces>
+		<Pieces>REIW_SelectedItemLocation</Pieces>
+		<Pieces>REIW_SelectedItem</Pieces>
+		<Pieces>REIW_ItemList</Pieces>
+  </Page>
+	<Page item="REIW_LayoutPage">
+		<ScreenID>REIW_LayoutPage</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Layouts</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>REIW_LayoutList</Pieces>
+		<Pieces>REIW_LayoutName_EditBox</Pieces>
+		<Pieces>REIW_LayoutSaveAll_Btn</Pieces>
+		<Pieces>REIW_LayoutSaveYard_Btn</Pieces>	
+		<Pieces>REIW_LayoutSaveHouse_Btn</Pieces>	
+		<Pieces>Screen:REIW_LayoutLoad_Screen</Pieces>
+  </Page>
+	<TabBox item="REIW_Subwindows">
+		<ScreenID>REIW_Subwindows</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<TabStyle>1</TabStyle>
+		<TabWidth>150</TabWidth>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>Page:REIW_ItemsPage</Pages>
+		<Pages>Page:REIW_LayoutPage</Pages>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+	</TabBox>
+	<Screen item="RealEstateItemsWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>400</X>
+			<Y>400</Y>
+		</Location>
+		<Size>
+			<CX>660</CX>
+			<CY>560</CY>
+		</Size>
+		<MinHSize>630</MinHSize>
+		<MinVSize>452</MinVSize>
+		<Text>Real Estate Items</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>TabBox:REIW_Subwindows</Pieces>
+	</Screen>
+</XML>

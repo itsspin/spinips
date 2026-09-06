@@ -100,6 +100,36 @@ class LullParserModelTests(unittest.TestCase):
         self.assertEqual(self.lull.snapshot(
             BASE + timedelta(seconds=3)).active_count, 1)
 
+    def test_engaging_a_different_target_preserves_the_confirmed_lull(self):
+        self.apply("You begin casting Calm.")
+        self.apply("a soul carrier looks less aggressive.", 2)
+        original = self.lull.snapshot(BASE + timedelta(seconds=2)).rows[0]
+        unrelated_events = (
+            "You begin casting Flame of Light.",
+            "You hit a froglok for 15 points of magic damage by Flame of Light.",
+            "Auto attack is on.",
+            "You shoot a froglok for 20 points of damage.",
+            "a froglok hits YOU for 3 points of damage.",
+            "a froglok tries to slash YOU, but misses!",
+            "Hingle slashes a froglok for 9 points of damage.",
+            "You have slain a froglok!",
+            "Your Calm spell has worn off of a froglok.",
+            "Your Calm spell on a froglok has been overwritten.",
+        )
+        for offset, message in enumerate(unrelated_events, 3):
+            with self.subTest(message=message):
+                self.apply(message, offset)
+                snapshot = self.lull.snapshot(BASE + timedelta(seconds=offset))
+                self.assertEqual(snapshot.active_count, 1)
+                row = snapshot.rows[0]
+                self.assertEqual(row.target_name, "a soul carrier")
+                self.assertEqual(row.landed_at, original.landed_at)
+                self.assertEqual(row.safe_expires_at, original.safe_expires_at)
+                self.assertEqual(row.expires_at, original.expires_at)
+
+        self.apply("a soul carrier tries to slash YOU, but misses!", 13)
+        self.assertFalse(self.lull.snapshot(BASE + timedelta(seconds=13)).rows)
+
     def test_lull_result_prose_does_not_change_session_stats(self):
         before = self.stats.snapshot(BASE)
         self.apply("a soul carrier looks less aggressive.", 1)

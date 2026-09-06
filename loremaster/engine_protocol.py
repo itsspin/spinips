@@ -16,6 +16,7 @@ from typing import Any, Literal, TypeAlias
 
 
 PROTOCOL_VERSION = 1
+MAX_ACTOR_SOURCE_ROWS = 24
 
 CombatAbilityCategory: TypeAlias = Literal[
     "melee",
@@ -159,6 +160,9 @@ class CombatActorView:
     session_dps: int
     session_hits: int
     session_maximum: int
+    # Additive protocol-v1 detail. Older consumers can ignore this field;
+    # source rows are bounded when snapshots are built.
+    sources: tuple[CombatMetricView, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -523,6 +527,7 @@ def build_engine_snapshot(*, sequence: int, observed_at: datetime,
         charmed = int(value_from(value, "charmed_pet_damage", 0) or 0)
         summoned = int(value_from(value, "summoned_pet_damage", 0) or 0)
         actor_values = metric_values(value_from(value, "actor_damage", {}))
+        actor_source_values = value_from(value, "actor_sources", {}) or {}
         actor_roles = {
             str(name): str(role) for name, role in
             (value_from(value, "actor_roles", {}) or {}).items()
@@ -543,6 +548,10 @@ def build_engine_snapshot(*, sequence: int, observed_at: datetime,
                 session_dps=int(round(session_row["t"] / session_seconds)),
                 session_hits=session_row["h"],
                 session_maximum=session_row["max"],
+                sources=metric_rows(
+                    actor_source_values.get(actor_name, {})
+                    if isinstance(actor_source_values, dict) else {},
+                    abilities=True, limit=MAX_ACTOR_SOURCE_ROWS),
             ))
         actors.sort(key=lambda row: (-row.encounter_damage, row.name.casefold()))
         bucket_seconds = max(

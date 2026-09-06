@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Editbox item="NCMW_NameEdit">
+    <ScreenID>NCMW_NameEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+    <Location>
+      <X>150</X>
+      <Y>160</Y>
+    </Location>
+    <Size>
+      <CX>130</CX>
+      <CY>24</CY>
+    </Size>
+  </Editbox>
+  <Label item="NCMW_Prompt">
+    <ScreenID>NCMW_Prompt</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>5</Y>
+    </Location>
+    <Size>
+      <CX>420</CX>
+      <CY>150</CY>
+    </Size>
+    <Text>Please enter your desired new mercenary name into the text field and click "Submit Name". </Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Button item="NCMW_DisableReminderButton">
+    <ScreenID>NCMW_DisableReminderButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>18</X>
+      <Y>200</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Disable Reminder</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="NCMW_SubmitButton">
+    <ScreenID>NCMW_SubmitButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>166</X>
+      <Y>195</Y>
+    </Location>
+    <Size>
+      <CX>100</CX>
+      <CY>46</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Submit Name</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="NCMW_CloseButton">
+    <ScreenID>NCMW_CloseButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>323</X>
+      <Y>200</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Remind Me Later</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Screen item="NameChangeMercWnd">
+    <!--<ScreenID/>-->
+    <!--<Font/>-->
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>280</X>
+      <Y>180</Y>
+    </Location>
+    <Size>
+      <CX>440</CX>
+      <CY>280</CY>
+    </Size>
+    <Text>Change Mercenary Name</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>NCMW_NameEdit</Pieces>
+    <Pieces>NCMW_SubmitButton</Pieces>
+    <Pieces>NCMW_DisableReminderButton</Pieces>
+    <Pieces>NCMW_CloseButton</Pieces>
+    <Pieces>NCMW_Prompt</Pieces>
+  </Screen>
+</XML>

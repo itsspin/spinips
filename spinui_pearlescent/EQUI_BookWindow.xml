@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+	<Button item="BOOK_DoneButton">
+		<ScreenID>DoneButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>184</X>
+			<Y>268</Y>
+		</Location>
+		<Size>
+			<CX>68</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+
+	<Button item="BOOK_CastSpellButton">
+		<ScreenID>CastSpellButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>114</X>
+			<Y>268</Y>
+		</Location>
+		<Size>
+			<CX>68</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Cast</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+
+	<Button item="BOOK_ScribeButton">
+		<ScreenID>ScribeButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>254</X>
+			<Y>268</Y>
+		</Location>
+		<Size>
+			<CX>68</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Scribe</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+
+
+	<Button item="BOOK_RightButton">
+		<ScreenID>RightButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>412</X>
+			<Y>120</Y>
+		</Location>
+		<Size>
+			<CX>20</CX>
+			<CY>33</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text />
+		<ButtonDrawTemplate>
+			<Normal>A_RightArrowBtnNormal</Normal>
+			<Pressed>A_RightArrowBtnPressed</Pressed>
+			<Flyby>A_RightArrowBtnFlyby</Flyby>
+			<Disabled>A_RightArrowBtnDisabled</Disabled>
+			<PressedFlyby>A_RightArrowBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+
+	<Button item="BOOK_LeftButton">
+		<ScreenID>LeftButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>120</Y>
+		</Location>
+		<Size>
+			<CX>20</CX>
+			<CY>33</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text />
+		<ButtonDrawTemplate>
+			<Normal>A_LeftArrowBtnNormal</Normal>
+			<Pressed>A_LeftArrowBtnPressed</Pressed>
+			<Flyby>A_LeftArrowBtnFlyby</Flyby>
+			<Disabled>A_LeftArrowBtnDisabled</Disabled>
+			<PressedFlyby>A_LeftArrowBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+
+	<StaticText item="BOOK_Page0Number">
+		<ScreenID>Page0Number</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>26</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>190</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>0</Text>
+		<TextColor>
+			<R>250</R>
+			<G>250</G>
+			<B>250</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+
+	<StaticText item="BOOK_Page1Number">
+		<ScreenID>Page1Number</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>220</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>190</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>1</Text>
+		<TextColor>
+			<R>250</R>
+			<G>250</G>
+			<B>250</B>
+		</TextColor>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+
+	<Editbox item="BOOK_Page0">
+		<ScreenID>Page0</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>26</X>
+			<Y>20</Y>
+		</Location>
+		<Size>
+			<CX>190</CX>
+			<CY>246</CY>
+		</Size>
+		<TextColor>
+			<R>250</R>
+			<G>250</G>
+			<B>250</B>
+		</TextColor>
+		<Style_Multiline>true</Style_Multiline>
+	</Editbox>
+
+
+	<Editbox item="BOOK_Page1">
+		<ScreenID>Page1</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>220</X>
+			<Y>20</Y>
+		</Location>
+		<Size>
+			<CX>190</CX>
+			<CY>246</CY>
+		</Size>
+		<TextColor>
+			<R>250</R>
+			<G>250</G>
+			<B>250</B>
+		</TextColor>
+		<Style_Multiline>true</Style_Multiline>
+	</Editbox>
+
+
+	<StaticAnimation item="BOOK_BookBG1">
+		<ScreenID>BookBG1</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>3</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>		
+		</Size>
+		<Animation>A_book1</Animation>
+	</StaticAnimation>
+
+
+	<StaticAnimation item="BOOK_BookBG2">
+		<ScreenID>BookBG2</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>255</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>				
+		</Size>
+		<Animation>A_book2</Animation>
+	</StaticAnimation>
+
+
+	<StaticAnimation item="BOOK_BookBG3">
+		<ScreenID>BookBG3</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>1</X>
+			<Y>259</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>			
+		</Size>
+		<Animation>A_book3</Animation>
+	</StaticAnimation>
+
+
+	<StaticAnimation item="BOOK_BookBG4">
+		<ScreenID>BookBG4</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>255</X>
+			<Y>259</Y>
+		</Location>
+		<Size>
+			<CX>0</CX>
+			<CY>0</CY>				
+		</Size>
+		<Animation>A_book4</Animation>
+	</StaticAnimation>
+
+
+	<Screen item="BookWindow">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>120</X>
+			<Y>20</Y>
+		</Location>
+		<Size>
+			<CX>444</CX>
+			<CY>300</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>BOOK_BookBG1</Pieces>
+		<Pieces>BOOK_BookBG2</Pieces>
+		<Pieces>BOOK_BookBG3</Pieces>
+		<Pieces>BOOK_BookBG4</Pieces>
+		<Pieces>BOOK_RightButton</Pieces>
+		<Pieces>BOOK_LeftButton</Pieces>
+		<Pieces>BOOK_Page0</Pieces>
+		<Pieces>BOOK_Page1</Pieces>
+		<Pieces>BOOK_Page0Number</Pieces>
+		<Pieces>BOOK_Page1Number</Pieces>
+		<Pieces>BOOK_DoneButton</Pieces>
+		<Pieces>BOOK_CastSpellButton</Pieces>
+		<Pieces>BOOK_ScribeButton</Pieces>
+	</Screen>
+
+
+</XML>

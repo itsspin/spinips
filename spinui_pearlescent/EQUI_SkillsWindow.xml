@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Listbox item="SKLW_SkillList">
+		<ScreenID>SkillList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>130</Width>
+			<Heading>Skill Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>80</Width>
+			<Heading>Rank</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Value</Heading>
+		</Columns>
+	</Listbox>
+	<Button item="SKLW_DoneButton">
+		<ScreenID>DoneButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>102</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="SKLW_MakeHotKeyButton">
+		<ScreenID>MakeHotKeyButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>202</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>106</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Make Hotkey</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="SkillsWindow">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>120</X>
+			<Y>445</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>200</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference />
+		<Text>Skills</Text>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>SKLW_SkillList</Pieces>
+		<Pieces>SKLW_DoneButton</Pieces>
+		<Pieces>SKLW_MakeHotKeyButton</Pieces>
+	</Screen>
+</XML>

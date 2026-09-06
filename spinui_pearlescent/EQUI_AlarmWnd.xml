@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Label item="ALRW_ReminderLabel">
+		<ScreenID>ALRW_ReminderLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>105</CX>
+			<CY>50</CY>
+		</Size>
+		<Text>Please warn me after this time passes:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>50</G>
+			<B>50</B>
+		</TextColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item="ALRW_HoursLabel">
+		<ScreenID>ALRW_HoursLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>104</X>
+			<Y>9</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>22</CY>
+		</Size>
+		<Text>Hours</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+	</Label>
+	<Editbox item="ALRW_HoursEditbox">
+		<ScreenID>ALRW_HoursEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>175</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>34</CX>
+			<CY>22</CY>
+		</Size>
+		<Text>0</Text>
+	</Editbox>
+	<Label item="ALRW_MinutesLabel">
+		<ScreenID>ALRW_MinutesLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>104</X>
+			<Y>33</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>22</CY>
+		</Size>
+		<Text>Minutes</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+	</Label>
+	<Editbox item="ALRW_MinutesEditbox">
+		<ScreenID>ALRW_MinutesEditbox</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>175</X>
+			<Y>30</Y>
+		</Location>
+		<Size>
+			<CX>34</CX>
+			<CY>22</CY>
+		</Size>
+		<Text>0</Text>
+	</Editbox>
+	<Button item="ALRW_CancelButton">
+		<ScreenID>ALRW_CancelButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>30</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>75</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Cancel</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ALRW_OkButton">
+		<ScreenID>ALRW_OkButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>107</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>75</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Set Time</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="AlarmWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>150</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>220</CX>
+			<CY>98</CY>
+		</Size>
+		<Text>Alarm Window</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>ALRW_ReminderLabel</Pieces>
+		<Pieces>ALRW_HoursLabel</Pieces>
+		<Pieces>ALRW_HoursEditbox</Pieces>
+		<Pieces>ALRW_MinutesLabel</Pieces>
+		<Pieces>ALRW_MinutesEditbox</Pieces>
+		<Pieces>ALRW_CancelButton</Pieces>
+		<Pieces>ALRW_OkButton</Pieces>
+	</Screen>
+</XML>

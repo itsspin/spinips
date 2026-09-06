@@ -1,0 +1,99 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+	<Button item="AH_Open_Alert_Btn">
+		<ScreenID>AH_Open_Alert_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>83</CX>
+			<CY>20</CY>
+		</Size>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Text>Open Alert</Text>
+		<TooltipReference>Opens selected alert.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Listbox item="AH_Closed_Alert_List">
+		<ScreenID>AH_Closed_Alert_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>	
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_HScroll>true</Style_HScroll>
+		<Style_AutoHScroll>true</Style_AutoHScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Title</Heading>
+		</Columns>
+		<Columns>
+			<Width>350</Width>
+			<Heading>Alert Text</Heading>
+		</Columns>
+		<Columns>
+			<Width>10</Width>
+			<Heading></Heading>
+		</Columns>
+	</Listbox>
+	<Screen item="AH_Top_Screen">
+		<ScreenID>AH_Top_Screen</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>175</CX>
+			<CY>175</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>AH_Open_Alert_Btn</Pieces>
+		<Pieces>Listbox:AH_Closed_Alert_List</Pieces>
+	</Screen>
+	<VerticalLayoutBox item="AH_Main_Layout">
+		<ScreenID>AH_Main_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>false</Style_Border>
+		<Spacing>10</Spacing>
+		<Pieces>Screen:AH_Top_Screen</Pieces>
+	</VerticalLayoutBox>
+	<Screen item="AlertHistoryWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>500</CX>
+			<CY>500</CY>
+		</Size>
+		<MinHSize>300</MinHSize>
+		<MinVSize>100</MinVSize>
+		<Text>Alert History</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>AH_Main_Layout</Pieces>
+	</Screen>
+</XML>

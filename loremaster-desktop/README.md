@@ -26,7 +26,7 @@ exposes only versioned state, folder selection, reset, and window commands.
 
 ## Native Loremaster themes
 
-Loremaster includes two complete presentation systems using the same parser,
+Loremaster includes three complete presentation systems using the same parser,
 layout and accessibility behavior:
 
 - **Vellum & Ember** is the default and matches `spinui_reloaded` with oiled
@@ -34,6 +34,14 @@ layout and accessibility behavior:
   selections.
 - **Midnight Frost Glass** matches `spinui_glass` with deep translucent panes,
   ice-blue edges, mint actions and violet selections.
+- **Pearlescent** matches `spinui_pearlescent` with black-pearl surfaces, ivory
+  text, champagne edges, seafoam actions and rose-lilac accents.
+
+**The Ascent** (HUD → ASCENT) adds bounded session XP history, percentage/hour,
+AA/hour, and an estimated next level when the evidence supports it. Optional
+same-level checkpoints cover logs without XP quantities. Upcoming spells use
+the selected game's `spells_us.txt`: multi-class filtering, search, 20-row
+pages, and wiki links. No extra download is required for the spell catalog.
 
 The theme picker in Settings applies immediately to the Seed, expanded HUD,
 Settings, alerts, crowd-control timers and Combat Archive. The selection is
@@ -78,13 +86,34 @@ strikethrough, and Double Bow Shot descriptors; a single combined shot line is
 counted once, while misses, blocks, dodges, and rune absorbs remain
 zero-damage attempts.
 
-The click-through Seed companion now has four compact DPS views: Self breaks
-the player down by ability, Group combines the player and owned pets alongside
-verified party members, Pet isolates charmed and summoned damage, and All
-shows each contributor separately. The tiny view and eye buttons on the Seed
-cycle or hide the meter without hiding Loremaster itself. Settings also exposes
-the four views and background opacity; labels and bars remain fully opaque for
-readability.
+The DPS overlay has four content views: Self isolates the player, Group combines
+the player and owned pets alongside verified party members, Pet isolates charmed
+and summoned damage, and All shows each contributor separately. Choose the
+layout in **Settings → HUD Behavior → DPS Overlay Appearance**:
+
+- **Seed Only** keeps the Rune Seed without the DPS companion.
+- **Auto** puts the companion where it fits best; **Above** prefers a stacked
+  layout and **Right / Sidecar** prefers the Seed's right edge, flipping at the
+  monitor edge when necessary.
+- **Meter Only** replaces the Seed with the interactive meter, including a
+  draggable header and direct HUD, Analyze, and Seed controls. Its position is
+  remembered separately and it remains visible even before combat data arrives.
+
+Use **DETAIL** on the Rune Seed to enter temporary **Inspect** mode, then click
+your name, a pet, or a party member for evidence-backed ability damage, DPS,
+hits, and maximum hit. Escape, Done, losing focus, or the idle timeout restores
+click-through. Meter Only is always interactive. Per-actor sources come from
+the log; older summaries or ambiguous non-melee evidence are labeled honestly
+instead of inventing spell names. Detail pages browse up to the 24 top recorded
+abilities per actor while preserving the full damage total. The Seed's view and eye controls still cycle
+or hide the companion, and background opacity remains adjustable without
+dimming labels, values, or bars.
+
+Active mez/lull timers follow their controlled targets, not the current DPS
+encounter. Starting a different fight does not dismiss them. The compact
+companion reserves space for control timers before extra DPS rows; when both
+sections cannot fit, it keeps the timers visible and temporarily omits the
+meter. Hidden timer counts remain explicit on unusually crowded displays.
 
 The Gear Path surface imports EQ Legends Tools' version-1 character-sheet JSON
 and EverQuest's `/outputfile inventory` TXT locally. It identifies goal items
@@ -110,3 +139,10 @@ remain explicit.
 
 See [milestone 2](../docs/LOREMASTER_MILESTONE_2.md) for the live scope and
 release validation gates.
+
+The development-only overlay integration probe exercises real Electron window
+placement, contributor clicks, pagination, scaling, material opacity, and
+position recovery. Set `LOREMASTER_DESKTOP_DATA_DIR` to an isolated temporary
+profile and `LOREMASTER_OVERLAY_PROBE_PATH` to its JSON report path before
+running `pnpm preview`; it writes sanitized screenshots beside the report and
+closes itself. It does not run in packaged releases.

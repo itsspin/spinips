@@ -138,6 +138,13 @@ class CharmedPetAttributionTests(unittest.TestCase):
         self.assertEqual(stats.fight.damage, 80)
         self.assertEqual(stats.fight.charmed_pet_damage, 80)
         self.assertEqual(stats.fight.sources["Pet (A rock golem)"]["h"], 2)
+        pet_sources = stats.fight.actor_sources["A rock golem (pet)"]
+        self.assertEqual(pet_sources["Non-melee: Stone Bite"], {
+            "t": 50, "h": 1, "max": 50, "category": "unknown",
+        })
+        self.assertEqual(pet_sources["DoT: Burning"], {
+            "t": 30, "h": 1, "max": 30, "category": "dot",
+        })
 
     def test_summoned_and_charmed_pet_damage_have_separate_totals(self):
         stats = SessionStats("Spin")
@@ -154,6 +161,13 @@ class CharmedPetAttributionTests(unittest.TestCase):
         self.assertEqual(stats.fight.charmed_pet_damage, 60)
         self.assertEqual(stats.fight.actor_roles["Gann (pet)"], "summoned")
         self.assertEqual(stats.fight.actor_roles["A rock golem (pet)"], "charmed")
+        self.assertEqual(stats.fight.actor_sources["Gann (pet)"]["Melee"], {
+            "t": 40, "h": 1, "max": 40, "category": "melee",
+        })
+        self.assertEqual(
+            stats.fight.actor_sources["A rock golem (pet)"]["Melee"],
+            {"t": 60, "h": 1, "max": 60, "category": "melee"},
+        )
 
 
 class CharmedPetOwnershipSafetyTests(unittest.TestCase):

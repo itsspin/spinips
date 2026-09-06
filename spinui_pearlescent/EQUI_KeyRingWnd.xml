@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="us-ascii" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Button item="KRW_ItemBtnTemplate">
+		<ScreenID>KRW_ItemBtnTemplate</ScreenID>
+		<Size>
+			<CX>30</CX>
+			<CY>30</CY>
+		</Size>
+		<Text></Text>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>30</CX>
+			<CY>30</CY>
+		</DecalSize>
+		<Template>BDT_LootWndIcon</Template>
+	</Button>
+	<!-- Mounts Tab -->
+	<Listbox item="KRW_Mounts_List">
+		<ScreenID>KRW_Mounts_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>	
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop a mount item here to add it to the Mount Key Ring, or left click and hold on a selected mount to remove it from the Mount Key Ring.</TooltipReference>
+	</Listbox>
+	<Label item="KRW_Mounts_StatLabel">
+		<ScreenID>KRW_Mounts_StatLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<Text>Stat Mount</Text>
+	</Label>
+	<Button item = "KRW_Mounts_Selected">
+		<ScreenID>KRW_Mounts_Selected</ScreenID>		
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>64</RightAnchorOffset>
+		<BottomAnchorOffset>8</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+		<TooltipReference>The Stats of the mount item here will be used whenever mounted, regardless of the visual appearance of the mount.</TooltipReference>
+	</Button>
+	<Label item ="KRW_Mounts_CountLabel">
+		<ScreenID>KRW_Mounts_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Mounts In Key Ring:</Text>
+	</Label>
+	<Button item="KRW_Mounts_SlotButton">
+		<ScreenID>KRW_Mounts_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Mount Key Ring slots.</TooltipReference>
+	</Button>
+	<Label item ="KRW_Mounts_StatNameLabel">
+		<ScreenID>KRW_Mounts_StatNameLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<Text>Mount Name</Text>
+	</Label>
+	<Page item="KRW_Mounts_Page">
+		<ScreenID>KRW_Mounts_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Mounts</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_Mounts_List</Pieces>
+		<Pieces>KRW_Mounts_StatLabel</Pieces>
+		<Pieces>KRW_Mounts_Selected</Pieces>
+		<Pieces>KRW_Mounts_StatNameLabel</Pieces>
+		<Pieces>KRW_Mounts_CountLabel</Pieces>
+		<Pieces>KRW_Mounts_SlotButton</Pieces>
+		<Location>
+		<X>0</X>
+		<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<!-- Illusions Tab -->
+	<Listbox item="KRW_Illusions_List">
+		<ScreenID>KRW_Illusions_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>	
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop an illusion item here to add it to the Illusion Key Ring, or left click and hold on a selected illusion to remove it from the Illusion Key Ring.</TooltipReference>
+	</Listbox>
+	<Label item="KRW_Illusions_StatLabel">
+		<ScreenID>KRW_Illusions_StatLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<Text>Stat Illusion</Text>
+	</Label>
+	<Button item = "KRW_Illusions_Selected">
+		<ScreenID>KRW_Illusions_Selected</ScreenID>		
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>64</RightAnchorOffset>
+		<BottomAnchorOffset>8</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+		<TooltipReference>The Stats of the illusion item here will be used whenever you have changed form, regardless of the visual appearance of the illusion.</TooltipReference>
+	</Button>
+	<Label item ="KRW_Illusions_CountLabel">
+		<ScreenID>KRW_Illusions_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Illusions In Key Ring:</Text>
+	</Label>
+	<Button item="KRW_Illusions_SlotButton">
+		<ScreenID>KRW_Illusions_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Illusion Key Ring slots.</TooltipReference>
+	</Button>
+	<Label item ="KRW_Illusions_StatNameLabel">
+		<ScreenID>KRW_Illusions_StatNameLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<Text>Illusion Name</Text>
+	</Label>
+	<Page item="KRW_Illusions_Page">
+		<ScreenID>KRW_Illusions_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Illusions</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_Illusions_List</Pieces>
+		<Pieces>KRW_Illusions_StatLabel</Pieces>
+		<Pieces>KRW_Illusions_Selected</Pieces>
+		<Pieces>KRW_Illusions_StatNameLabel</Pieces>
+		<Pieces>KRW_Illusions_CountLabel</Pieces>
+		<Pieces>KRW_Illusions_SlotButton</Pieces>
+		<Location>
+		<X>0</X>
+		<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<!-- Familiars Tab -->
+	<Listbox item="KRW_Familiars_List">
+		<ScreenID>KRW_Familiars_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>	
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop a familiar item here to add it to the Familiar Key Ring, or left click and hold on a selected familiar to remove it from the Familiar Key Ring.</TooltipReference>
+	</Listbox>
+	<Label item="KRW_Familiars_StatLabel">
+		<ScreenID>KRW_Familiars_StatLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<Text>Stat Familiar</Text>
+	</Label>
+	<Button item = "KRW_Familiars_Selected">
+		<ScreenID>KRW_Familiars_Selected</ScreenID>		
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<LeftAnchorOffset>22</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>64</RightAnchorOffset>
+		<BottomAnchorOffset>8</BottomAnchorOffset>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+		<TooltipReference>The Stats of the familiar item here will be used whenever you summon a familiar, regardless of the visual appearance of the familiar.</TooltipReference>
+	</Button>
+	<Button item = "KRW_Familiars_LeaveButton">
+		<ScreenID>KRW_Familiars_LeaveButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>49</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<TooltipReference>Click to make familiar leave.</TooltipReference>
+		<Text>Leave</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+	<Button item = "KRW_Familiars_AutoLeaveButton">
+		<ScreenID>KRW_Familiars_AutoLeaveButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>160</LeftAnchorOffset>
+		<TopAnchorOffset>69</TopAnchorOffset>
+		<RightAnchorOffset>60</RightAnchorOffset>
+		<BottomAnchorOffset>49</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>When checked, familiars automatically leave.</TooltipReference>
+		<Text>Auto Leave</Text>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextOffsetX>20</TextOffsetX>
+		<Template>BDT_CheckboxWithText</Template>
+	</Button>
+	<Label item ="KRW_Familiars_CountLabel">
+		<ScreenID>KRW_Familiars_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Familiars In Key Ring:</Text>
+	</Label>
+	<Button item="KRW_Familiars_SlotButton">
+		<ScreenID>KRW_Familiars_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Familiar Key Ring slots.</TooltipReference>
+	</Button>
+	<Label item ="KRW_Familiars_StatNameLabel">
+		<ScreenID>KRW_Familiars_StatNameLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<Text>Familiar Name</Text>
+	</Label>
+	<Page item="KRW_Familiars_Page">
+		<ScreenID>KRW_Familiars_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Familiars</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_Familiars_List</Pieces>
+		<Pieces>KRW_Familiars_StatLabel</Pieces>
+		<Pieces>KRW_Familiars_Selected</Pieces>
+		<Pieces>KRW_Familiars_StatNameLabel</Pieces>
+		<Pieces>KRW_Familiars_CountLabel</Pieces>
+		<Pieces>KRW_Familiars_SlotButton</Pieces>
+		<Pieces>KRW_Familiars_LeaveButton</Pieces>
+		<Pieces>KRW_Familiars_AutoLeaveButton</Pieces>
+		<Location>
+		<X>0</X>
+		<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<!-- HeroForge Tab -->
+	<Listbox item="KRW_HeroForge_List">
+		<ScreenID>KRW_HeroForge_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>	
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop an augmentation here to add it to the Augmentation Storage, or left click and hold on a selected Augmentation to remove it from the Augmentation Storage.</TooltipReference>
+	</Listbox>
+	<Label item ="KRW_HeroForge_CountLabel">
+		<ScreenID>KRW_HeroForge_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Augmentation Pieces in storage:</Text>
+	</Label>
+	<Button item="KRW_HeroForge_SlotButton">
+		<ScreenID>KRW_HeroForge_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Augmentation Storage slots.</TooltipReference>
+	</Button>
+	<Page item="KRW_HeroForge_Page">
+		<ScreenID>KRW_HeroForge_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Augmentation</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_HeroForge_List</Pieces>
+		<Pieces>KRW_HeroForge_CountLabel</Pieces>
+		<Pieces>KRW_HeroForge_SlotButton</Pieces>
+		<Location>
+		<X>0</X>
+		<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<!-- Teleportation Items Tab -->
+	<Listbox item="KRW_TeleportationItems_List">
+		<ScreenID>KRW_TeleportationItems_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>	
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>	
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop a teleportation item here to add it to the Teleportation Item Key Ring, or left click and hold on a selected item to remove it from the Teleportation Item Key Ring.</TooltipReference>
+	</Listbox>
+	<Label item ="KRW_TeleportationItems_CountLabel">
+		<ScreenID>KRW_TeleportationItems_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>10</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Teleportation Items In Key Ring:</Text>
+	</Label>
+	<Button item="KRW_TeleportationItems_SlotButton">
+		<ScreenID>KRW_TeleportationItems_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>4</RightAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Teleportation Item Key Ring slots.</TooltipReference>
+	</Button>
+	<Page item="KRW_TeleportationItems_Page">
+		<ScreenID>KRW_TeleportationItems_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Teleportation Items</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_TeleportationItems_List</Pieces>
+		<Pieces>KRW_TeleportationItems_CountLabel</Pieces>
+		<Pieces>KRW_TeleportationItems_SlotButton</Pieces>
+		<Location>
+		<X>0</X>
+		<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<!-- Activated Items Tab -->
+	<Listbox item="KRW_ActivatedItems_List">
+		<ScreenID>KRW_ActivatedItems_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop an activated item here to add it to the Activated Item Storage, or left click and hold on a selected item to remove it from the Activated Item Storage.</TooltipReference>
+	</Listbox>
+	<Label item ="KRW_ActivatedItems_CountLabel">
+		<ScreenID>KRW_ActivatedItems_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Activated Items in storage:</Text>
+	</Label>
+	<Button item="KRW_ActivatedItems_SlotButton">
+		<ScreenID>KRW_ActivatedItems_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Activated Item Storage slots.</TooltipReference>
+	</Button>
+	<Page item="KRW_ActivatedItems_Page">
+		<ScreenID>KRW_ActivatedItems_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Activated Items</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_ActivatedItems_List</Pieces>
+		<Pieces>KRW_ActivatedItems_CountLabel</Pieces>
+		<Pieces>KRW_ActivatedItems_SlotButton</Pieces>
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	<!-- End Activated Items -->
+	
+	<!-- Equipment Items Tab -->
+	<Listbox item="KRW_Equipment_List">
+		<ScreenID>KRW_Equipment_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Icon</Heading>
+		</Columns>
+		<Columns>
+			<Width>20</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>300</Width>
+			<Heading>Name</Heading>
+		</Columns>
+		<TooltipReference>Drop a piece of equipment here to add it to the Equipment Storage, or left click and hold on a selected item to remove it from the Equipment Storage. Equipment items are items that can be equipped, aren't stackable, and aren't expendable.</TooltipReference>
+	</Listbox>
+	<Label item="KRW_Equipment_CountLabel">
+		<ScreenID>KRW_Equipment_CountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>4</LeftAnchorOffset>
+		<TopAnchorOffset>8</TopAnchorOffset>
+		<BottomAnchorOffset>34</BottomAnchorOffset>
+		<Text>Equipment in storage:</Text>
+	</Label>
+	<Button item="KRW_Equipment_SlotButton">
+		<ScreenID>KRW_Equipment_SlotButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<Text>Buy Slots</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+		<TooltipReference>Click here to go to the Marketplace to purchase additional Equipment Storage slots.</TooltipReference>
+	</Button>
+	<Button item="KRW_Equipment_StoreEquipmentSetsButton">
+		<ScreenID>KRW_Equipment_StoreEquipmentSetsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>276</LeftAnchorOffset>
+		<TopAnchorOffset>7</TopAnchorOffset>
+		<RightAnchorOffset>85</RightAnchorOffset>
+		<BottomAnchorOffset>29</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>When checked, equipment that would normally go into your bags when loading an equipment set will be added to the Equipment Key Ring instead.</TooltipReference>
+		<Text>Store Equipment Set Items</Text>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignVCenter>false</TextAlignVCenter>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextOffsetX>22</TextOffsetX>
+		<TextOffsetY>1</TextOffsetY>
+		<Template>BDT_CheckboxWithText</Template>
+	</Button>
+	<Page item="KRW_Equipment_Page">
+		<ScreenID>KRW_Equipment_Page</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Equipment</TabText>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_Equipment_List</Pieces>
+		<Pieces>KRW_Equipment_CountLabel</Pieces>
+		<Pieces>KRW_Equipment_SlotButton</Pieces>
+		<!-- <Pieces>KRW_Equipment_StoreEquipmentSetsButton</Pieces> -->
+		<Location>
+			<X>0</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>388</CX>
+			<CY>401</CY>
+		</Size>
+	</Page>
+	
+	<TabBox item="KRW_Subwindows">
+		<ScreenID>KRW_Subwindows</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<!-- <Pages>Page:KRW_Mounts_Page</Pages> -->
+		<!-- <Pages>Page:KRW_Illusions_Page</Pages> -->
+		<!-- <Pages>Page:KRW_Familiars_Page</Pages> -->
+		<Pages>Page:KRW_HeroForge_Page</Pages>
+		<!-- <Pages>Page:KRW_TeleportationItems_Page</Pages> -->
+		<Pages>Page:KRW_ActivatedItems_Page</Pages>
+		<Pages>Page:KRW_Equipment_Page</Pages>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+	</TabBox>
+	<Screen item="KeyRingWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>517</CX>
+			<CY>510</CY>
+		</Size>
+		<Text>Alternate Storage</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<MinHSize>300</MinHSize>
+		<MinVSize>340</MinVSize>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>KRW_Subwindows</Pieces>
+		<Pieces>KRW_ItemBtnTemplate</Pieces>
+	</Screen>
+</XML>

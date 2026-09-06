@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	
+	<!-- Upper Available Funds -->
+	<Label item="PCW_AvailableFundsLabel">
+		<ScreenID>PCW_AvailableFundsLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>25</CY>
+		</Size>
+		<Text>Current Funds:</Text>
+		<Font>2</Font>
+	</Label>
+	<Label item="PCW_AvailableFunds">
+		<ScreenID>PCW_AvailableFunds</ScreenID>
+		<Location>
+			<X>110</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>25</CY>
+		</Size>
+		<Text>...</Text>
+		<Font>2</Font>
+	</Label>
+	<Button item="PCW_AvailableFundsIcon">
+		<ScreenID>PCW_AvailableFundsIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<Location>
+			<X>92</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>15</CX>
+			<CY>15</CY>
+		</Size>
+		<DecalSize>
+			<CX>15</CX>
+			<CY>15</CY>
+		</DecalSize>
+	</Button>
+	
+	<!-- Confirmation Page -->
+	<Label item="PCW_ProductName">
+		<ScreenID>PCW_ProductName</ScreenID>
+		<Text>Item</Text>
+		<Font>3</Font>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>45</TopAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<LeftAnchorOffset>48</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Label>
+	<STMLbox item="PCW_ProductDescription">
+		<ScreenID>PCW_ProductDescription</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>90</TopAnchorOffset>
+		<BottomAnchorOffset>180</BottomAnchorOffset>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<Button item="PCW_ProductIcon">
+		<ScreenID>PCW_ProductIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_DragItem</Normal>
+		</ButtonDrawTemplate>
+		<Location>
+			<X>5</X>
+			<Y>40</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Label item="PCW_TimeLeftLabel">
+		<ScreenID>PCW_TimeLeftLabel</ScreenID>
+		<Text>Time Left:</Text>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>170</TopAnchorOffset>
+		<BottomAnchorOffset>155</BottomAnchorOffset>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_AvailableTimeLeftLabel">
+		<ScreenID>PCW_AvailableTimeLeftLabel</ScreenID>
+		<Text>00:00:00:00</Text>
+		<TooltipReference>Time Left to Purchase This</TooltipReference>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>155</TopAnchorOffset>
+		<BottomAnchorOffset>135</BottomAnchorOffset>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_OnSaleForLabel">
+		<ScreenID>PCW_OnSaleForLabel</ScreenID>
+		<Text>Sale Left:</Text>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>170</TopAnchorOffset>
+		<BottomAnchorOffset>155</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>190</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<AlignRight>true</AlignRight>
+	</Label>
+	<Label item="PCW_SaleTimeLeft">
+		<ScreenID>PCW_SaleTimeLeft</ScreenID>
+		<Text>00:00:00:00</Text>
+		<TooltipReference>Time Left On Sale</TooltipReference>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>155</TopAnchorOffset>
+		<BottomAnchorOffset>135</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>190</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<AlignRight>true</AlignRight>
+	</Label>
+	<Button item="PCW_ProductWasPriceIcon">
+		<ScreenID>PCW_ProductWasPriceIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<DecalSize>
+			<CX>35</CX>
+			<CY>35</CY>
+		</DecalSize>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>140</TopAnchorOffset>
+		<BottomAnchorOffset>125</BottomAnchorOffset>
+		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<RightAnchorOffset>153</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Button>
+	<Label item="PCW_ProductWasPriceLabel">
+		<ScreenID>PCW_ProductWasPriceLabel</ScreenID>
+		<Text>Was Price Each:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>140</TopAnchorOffset>
+		<BottomAnchorOffset>120</BottomAnchorOffset>
+		<LeftAnchorOffset>20</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_ProductWasPrice">
+		<ScreenID>PCW_ProductWasPrice</ScreenID>
+		<Text>200</Text>
+		<TextColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>140</TopAnchorOffset>
+		<BottomAnchorOffset>120</BottomAnchorOffset>
+		<LeftAnchorOffset>155</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>  
+	</Label>
+	<Label item="PCW_ProductPriceLabel">
+		<ScreenID>PCW_ProductPriceLabel</ScreenID>
+		<Text>Price Each:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>120</TopAnchorOffset>
+		<BottomAnchorOffset>100</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_ProductPrice">
+		<ScreenID>PCW_ProductPrice</ScreenID>
+		<Text>200</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>120</TopAnchorOffset>
+		<BottomAnchorOffset>100</BottomAnchorOffset>
+		<LeftAnchorOffset>155</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>  
+	</Label>
+	<Button item="PCW_ProductPriceIcon">
+		<ScreenID>PCW_ProductPriceIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<DecalSize>
+			<CX>35</CX>
+			<CY>35</CY>
+		</DecalSize>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>120</TopAnchorOffset>
+		<BottomAnchorOffset>105</BottomAnchorOffset>
+		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<RightAnchorOffset>153</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Button>
+	<Label item="PCW_MemberDiscount">
+		<ScreenID>PCW_MemberDiscount</ScreenID>
+		<Text>Membership Discount:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_Discount">
+		<ScreenID>PCW_Discount</ScreenID>
+		<Text>1000</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>155</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>  
+	</Label>
+	<Button item="PCW_DiscountIcon">
+		<ScreenID>PCW_DiscountIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<DecalSize>
+			<CX>35</CX>
+			<CY>35</CY>
+		</DecalSize>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>85</BottomAnchorOffset>
+		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<RightAnchorOffset>153</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Button>
+	<Label item="PCW_QtyLabel">
+		<ScreenID>PCW_QtyLabel</ScreenID>
+		<Text>Quantity:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>80</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+		<LeftAnchorOffset>85</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_Qty">
+		<ScreenID>PCW_Qty</ScreenID>
+		<Text>5</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>80</TopAnchorOffset>
+		<BottomAnchorOffset>60</BottomAnchorOffset>
+		<LeftAnchorOffset>140</LeftAnchorOffset>
+		<RightAnchorOffset>190</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_TotalLabel">
+		<ScreenID>PCW_TotalLabel</ScreenID>
+		<Text>Total Price:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>40</BottomAnchorOffset>
+		<LeftAnchorOffset>55</LeftAnchorOffset>
+		<RightAnchorOffset>135</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+	</Label>
+	<Label item="PCW_Total">
+		<ScreenID>PCW_Total</ScreenID>
+		<Text>1000</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>40</BottomAnchorOffset>
+		<LeftAnchorOffset>155</LeftAnchorOffset>
+		<RightAnchorOffset>225</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>   
+	</Label>
+	<Button item="PCW_TotalIcon">
+		<ScreenID>PCW_TotalIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<DecalSize>
+			<CX>35</CX>
+			<CY>35</CY>
+		</DecalSize>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>45</BottomAnchorOffset>
+		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<RightAnchorOffset>153</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>        
+	</Button>
+	<Label item="PCW_TotalMoneyType">
+		<ScreenID>PCW_TotalMoneyType</ScreenID>
+		<Text>$</Text>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>60</TopAnchorOffset>
+		<BottomAnchorOffset>40</BottomAnchorOffset>
+		<LeftAnchorOffset>149</LeftAnchorOffset>
+		<RightAnchorOffset>154</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop> 
+	</Label>
+	<Label item="PCW_MemberDiscountLabel">
+		<ScreenID>PCW_MemberDiscountLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>65</TopAnchorOffset>
+		<BottomAnchorOffset>45</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>    
+		<RightAnchorToLeft>false</RightAnchorToLeft>  
+		<AlignCenter>true</AlignCenter>
+		<Style_Transparent>true</Style_Transparent>
+		<Text>You save XDB (Y%) for being a member.</Text>
+		<TextColor>
+			<R>66</R>
+			<G>222</G>
+			<B>99</B>
+		</TextColor>
+	</Label>
+	<StaticAnimation item="PCW_Separator1">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>178</TopAnchorOffset>
+		<BottomAnchorOffset>174</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop> 
+		<Animation>A_DividerMiddle</Animation>
+	</StaticAnimation>
+	
+	<!-- Complete/Cancel/Add funds for purchase buttons -->
+	<Button item="PCW_CompleteBtn">
+		<ScreenID>PCW_CompleteBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Complete Purchase</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="PCW_CancelBtn">
+		<ScreenID>PCW_CancelBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>40</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>80</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Cancel</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="PCW_AddFundsBtn">
+		<ScreenID>PCW_AddFundsBtn</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>30</BottomAnchorOffset>
+		<LeftAnchorOffset>75</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Add Funds</Text>
+		<TextColor>
+			<R>255</R>
+			<G>233</G>
+			<B>129</B>
+		</TextColor>
+		<BackgroundTextureTint>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</BackgroundTextureTint>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Screen item="PurchaseWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>275</CX>
+			<CY>400</CY>
+		</Size>
+		<MinHSize>275</MinHSize>
+		<MinVSize>400</MinVSize>
+		<Text>Purchase</Text>
+		<DrawTemplate>WDT_Marketplace</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<DisabledColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</DisabledColor>
+		<Pieces>PCW_AvailableFundsLabel</Pieces>
+		<Pieces>PCW_AvailableFunds</Pieces>
+		<Pieces>PCW_AvailableFundsIcon</Pieces>
+		<Pieces>PCW_TimeLeftLabel</Pieces>
+		<Pieces>PCW_AvailableTimeLeftLabel</Pieces>
+		<Pieces>PCW_OnSaleForLabel</Pieces>
+		<Pieces>PCW_SaleTimeLeft</Pieces>
+		<Pieces>PCW_ProductName</Pieces>
+		<Pieces>PCW_ProductDescription</Pieces>
+		<Pieces>PCW_ProductIcon</Pieces>
+		<Pieces>PCW_ProductPriceLabel</Pieces>
+		<Pieces>PCW_ProductPrice</Pieces>
+		<Pieces>PCW_ProductPriceIcon</Pieces>
+		<Pieces>PCW_ProductWasPrice</Pieces>
+		<Pieces>PCW_ProductWasPriceLabel</Pieces>
+		<Pieces>PCW_ProductWasPriceIcon</Pieces>
+		<Pieces>PCW_MemberDiscount</Pieces>
+		<Pieces>PCW_MemberDiscountLabel</Pieces>
+		<Pieces>PCW_Discount</Pieces>
+		<Pieces>PCW_DiscountIcon</Pieces>
+		<Pieces>PCW_QtyLabel</Pieces>
+		<Pieces>PCW_Qty</Pieces>
+		<Pieces>PCW_TotalLabel</Pieces>
+		<Pieces>PCW_Total</Pieces>
+		<Pieces>PCW_TotalIcon</Pieces>
+		<Pieces>PCW_Separator1</Pieces>
+		<Pieces>PCW_CancelBtn</Pieces>
+		<Pieces>PCW_CompleteBtn</Pieces>
+		<Pieces>PCW_AddFundsBtn</Pieces>
+	</Screen>
+</XML>

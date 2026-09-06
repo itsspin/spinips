@@ -1,0 +1,576 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+  <Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+  <STMLbox item ="TRDW_OtherName">
+    <ScreenID>TRDW_OtherName</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>95</CX>
+      <CY>40</CY>
+    </Size>
+    <Text>Trader Name</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </STMLbox>
+
+  <InvSlot item = "TRDW_TradeSlot8">
+    <ScreenID>TRDW_TradeSlot8</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>32</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 8</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot9">
+    <ScreenID>TRDW_TradeSlot9</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>76</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 9</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot10">
+    <ScreenID>TRDW_TradeSlot10</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>120</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 10</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot11">
+    <ScreenID>TRDW_TradeSlot11</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>164</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 11</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot12">
+    <ScreenID>TRDW_TradeSlot12</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>50</X>
+      <Y>32</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 12</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot13">
+    <ScreenID>TRDW_TradeSlot13</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>50</X>
+      <Y>76</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 13</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot14">
+    <ScreenID>TRDW_TradeSlot14</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>50</X>
+      <Y>120</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 14</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot15">
+    <ScreenID>TRDW_TradeSlot15</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>50</X>
+      <Y>164</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 15</EQType>
+  </InvSlot>
+
+
+  <Button item = "TRDW_HisMoney0">
+    <ScreenID>TRDW_HisMoney0</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>209</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>	
+    <Template>BDT_PlatinumCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_HisMoney1">
+    <ScreenID>TRDW_HisMoney1</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>229</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>
+    <Template>BDT_GoldCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_HisMoney2">
+    <ScreenID>TRDW_HisMoney2</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>249</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>	
+    <Template>BDT_SilverCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_HisMoney3">
+    <ScreenID>TRDW_HisMoney3</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>269</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>
+    <Template>BDT_CopperCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+
+
+  <STMLbox item ="TRDW_SelfName">
+    <ScreenID>TRDW_SelfName</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>125</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>95</CX>
+      <CY>40</CY>
+    </Size>
+    <Text>My Name</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </STMLbox>
+  <InvSlot item = "TRDW_TradeSlot0">
+    <ScreenID>TRDW_TradeSlot0</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>32</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 0</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot1">
+    <ScreenID>TRDW_TradeSlot1</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>76</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 1</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot2">
+    <ScreenID>TRDW_TradeSlot2</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>120</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 2</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot3">
+    <ScreenID>TRDW_TradeSlot3</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>164</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 3</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot4">
+    <ScreenID>TRDW_TradeSlot4</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>175</X>
+      <Y>32</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 4</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot5">
+    <ScreenID>TRDW_TradeSlot5</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>175</X>
+      <Y>76</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 5</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot6">
+    <ScreenID>TRDW_TradeSlot6</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>175</X>
+      <Y>120</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 6</EQType>
+  </InvSlot>
+  <InvSlot item = "TRDW_TradeSlot7">
+    <ScreenID>TRDW_TradeSlot7</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>175</X>
+      <Y>164</Y>
+    </Location>
+    <Size>
+      <CX>40</CX>
+      <CY>40</CY>
+    </Size>
+    <Background>A_RecessedBox</Background>
+    <EQType>inventory/Trade 7</EQType>
+  </InvSlot>
+
+
+  <Button item = "TRDW_MyMoney0">
+    <ScreenID>TRDW_MyMoney0</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>209</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Drop coins here</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>
+    <Template>BDT_PlatinumCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_MyMoney1">
+    <ScreenID>TRDW_MyMoney1</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>229</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Drop coins here</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>
+    <Template>BDT_GoldCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_MyMoney2">
+    <ScreenID>TRDW_MyMoney2</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>249</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Drop coins here</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+ 		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+	<Text>60000</Text>
+    <Template>BDT_SilverCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+  <Button item = "TRDW_MyMoney3">
+    <ScreenID>TRDW_MyMoney3</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>130</X>
+      <Y>269</Y>
+    </Location>
+    <Size>
+      <CX>94</CX>
+      <CY>24</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>Drop coins here</TooltipReference>
+    <Style_Checkbox>false</Style_Checkbox>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<TextOffsetX>10</TextOffsetX>
+    <Text>60000</Text>
+    <Template>BDT_CopperCoin</Template>
+    <DecalOffset>
+      <X>2</X>
+      <Y>2</Y>
+    </DecalOffset>
+    <DecalSize>
+      <CX>18</CX>
+      <CY>18</CY>
+    </DecalSize>
+  </Button>
+
+  <Button item = "TRDW_Trade_Button">
+    <ScreenID>TRDW_Trade_Button</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>34</TopAnchorOffset>
+    <RightAnchorOffset>90</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Trade</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+  <Button item = "TRDW_Cancel_Button">
+    <ScreenID>TRDW_Cancel_Button</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+	<RightAnchorToLeft>false</RightAnchorToLeft>	
+    <LeftAnchorOffset>130</LeftAnchorOffset>
+    <TopAnchorOffset>34</TopAnchorOffset>
+	<LeftAnchorOffset>140</LeftAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Cancel</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+
+
+  <Screen item = "TradeWnd">
+    <ScreenID>TradeWnd</ScreenID>
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>230</CX>
+      <CY>350</CY>
+    </Size>
+    <Text>Trade</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Qmarkbox>true</Style_Qmarkbox>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>TRDW_OtherName</Pieces>
+    <Pieces>TRDW_TradeSlot8</Pieces>
+    <Pieces>TRDW_TradeSlot9</Pieces>
+    <Pieces>TRDW_TradeSlot10</Pieces>
+    <Pieces>TRDW_TradeSlot11</Pieces>
+    <Pieces>TRDW_TradeSlot12</Pieces>
+    <Pieces>TRDW_TradeSlot13</Pieces>
+    <Pieces>TRDW_TradeSlot14</Pieces>
+    <Pieces>TRDW_TradeSlot15</Pieces>
+    <Pieces>TRDW_HisMoney0</Pieces>
+    <Pieces>TRDW_HisMoney1</Pieces>
+    <Pieces>TRDW_HisMoney2</Pieces>
+    <Pieces>TRDW_HisMoney3</Pieces>
+    <Pieces>TRDW_SelfName</Pieces>
+    <Pieces>TRDW_TradeSlot0</Pieces>
+    <Pieces>TRDW_TradeSlot1</Pieces>
+    <Pieces>TRDW_TradeSlot2</Pieces>
+    <Pieces>TRDW_TradeSlot3</Pieces>
+    <Pieces>TRDW_TradeSlot4</Pieces>
+    <Pieces>TRDW_TradeSlot5</Pieces>
+    <Pieces>TRDW_TradeSlot6</Pieces>
+    <Pieces>TRDW_TradeSlot7</Pieces>
+    <Pieces>TRDW_MyMoney0</Pieces>
+    <Pieces>TRDW_MyMoney1</Pieces>
+    <Pieces>TRDW_MyMoney2</Pieces>
+    <Pieces>TRDW_MyMoney3</Pieces>
+    <Pieces>TRDW_Trade_Button</Pieces>
+    <Pieces>TRDW_Cancel_Button</Pieces>
+  </Screen>
+
+</XML>

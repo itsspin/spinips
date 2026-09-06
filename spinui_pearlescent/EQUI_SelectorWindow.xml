@@ -1,0 +1,689 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Button item = "SELW_ActionsToggleButton">
+		<ScreenID>SELW_ActionsToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Actions</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_ActionsBtnNormal</Normal>
+			<Pressed>A_ActionsBtnPressed</Pressed>
+			<Flyby>A_ActionsBtnFlyby</Flyby>
+			<Disabled>A_ActionsBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_ActionsBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_InventoryToggleButton">
+		<ScreenID>SELW_InventoryToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>27</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Inventory</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_InventoryBtnNormal</Normal>
+			<Pressed>A_InventoryBtnPressed</Pressed>
+			<Flyby>A_InventoryBtnFlyby</Flyby>
+			<Disabled>A_InventoryBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_InventoryBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_OptionsToggleButton">
+		<ScreenID>SELW_OptionsToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>54</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Options</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_OptionsBtnNormal</Normal>
+			<Pressed>A_OptionsBtnPressed</Pressed>
+			<Flyby>A_OptionsBtnFlyby</Flyby>
+			<Disabled>A_OptionsBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_OptionsBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_FriendsToggleButton">
+		<ScreenID>SELW_FriendsToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>81</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Friends</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_FriendsBtnNormal</Normal>
+			<Pressed>A_FriendsBtnPressed</Pressed>
+			<Flyby>A_FriendsBtnFlyby</Flyby>
+			<Disabled>A_FriendsBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_FriendsBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_HotboxToggleButton">
+		<ScreenID>SELW_HotboxToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>108</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Hotbuttons</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_HotboxBtnNormal</Normal>
+			<Pressed>A_HotboxBtnPressed</Pressed>
+			<Flyby>A_HotboxBtnFlyby</Flyby>
+			<Disabled>A_HotboxBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_HotboxBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_CastSpellToggleButton">
+		<ScreenID>SELW_CastSpellToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>150</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Spells</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_CastSpellBtnNormal</Normal>
+			<Pressed>A_CastSpellBtnPressed</Pressed>
+			<Flyby>A_CastSpellBtnFlyby</Flyby>
+			<Disabled>A_CastSpellBtnNormal</Disabled>  Will never be disabled
+			<PressedFlyby>A_CastSpellBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+
+	<Button item = "SELW_CombatSkillsToggleButton">
+		<ScreenID>SELW_CombatSkillsToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>135</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Combat Abilities</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_CombatSkillBtnNormal</Normal>
+			<Pressed>A_CombatSkillBtnPressed</Pressed>
+			<Flyby>A_CombatSkillBtnFlyby</Flyby>
+			<Disabled>A_CombatSkillBtnDisabled</Disabled>
+			<PressedFlyby>A_CombatSkillBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_PetInfoToggleButton">
+		<ScreenID>SELW_PetInfoToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>162</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Pet Info</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_PetInfoBtnNormal</Normal>
+			<Pressed>A_PetInfoBtnPressed</Pressed>
+			<Flyby>A_PetInfoBtnFlyby</Flyby>
+			<Disabled>A_PetInfoBtnNormal</Disabled>  Will never be disabled
+			<PressedFlyby>A_PetInfoBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_BuffToggleButton">
+		<ScreenID>SELW_BuffToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>240</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Effects</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_BuffBtnNormal</Normal>
+			<Pressed>A_BuffBtnPressed</Pressed>
+			<Flyby>A_BuffBtnFlyby</Flyby>
+			<Disabled>A_BuffBtnNormal</Disabled>  Will never be disabled
+			<PressedFlyby>A_BuffBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+
+	<Button item = "SELW_SDBuffToggleButton">
+		<ScreenID>SELW_SDBuffToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>270</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Songs</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_SongBtnNormal</Normal>
+			<Pressed>A_SongBtnPressed</Pressed>
+			<Flyby>A_SongBtnFlyby</Flyby>
+			<Disabled>A_SongBtnNormal</Disabled>  Will never be disabled
+			<PressedFlyby>A_SongBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+
+	<Button item = "SELW_GuildToggleButton">
+		<ScreenID>SELW_GuildToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>189</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Guild Manager</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_GuildBtnNormal</Normal>
+			<Pressed>A_GuildBtnPressed</Pressed>
+			<Flyby>A_GuildBtnFlyby</Flyby>
+			<Disabled>A_GuildBtnNormal</Disabled>  
+			<PressedFlyby>A_GuildBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_MapToggleButton">
+		<ScreenID>SELW_MapToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>216</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Map</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_MapBtnNormal</Normal>
+			<Pressed>A_MapBtnPressed</Pressed>
+			<Flyby>A_MapBtnFlyby</Flyby>
+			<Disabled>A_MapBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_MapBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_StoryToggleButton">
+		<ScreenID>SELW_StoryToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>360</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Storyline</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_StoryBtnNormal</Normal>
+			<Pressed>A_StoryBtnPressed</Pressed>
+			<Flyby>A_StoryBtnFlyby</Flyby>
+			<Disabled>A_StoryBtnNormal</Disabled>  
+			<PressedFlyby>A_StoryBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+
+	<Button item = "SELW_JournalToggleButton">
+		<ScreenID>SELW_JournalToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>390</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Quest Journal</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_JournalBtnNormal</Normal>
+			<Pressed>A_JournalBtnPressed</Pressed>
+			<Flyby>A_JournalBtnFlyby</Flyby>
+			<Disabled>A_JournalBtnNormal</Disabled>
+			<PressedFlyby>A_JournalBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+
+	<Button item = "SELW_MercenariesToggleButton">
+		<ScreenID>SELW_MercenariesToggleButton</ScreenID>
+<!-- 		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>472</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>26</CX>
+			<CY>26</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Mercenary</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_MercenaryBtnNormal</Normal>
+			<Pressed>A_MercenaryBtnPressed</Pressed>
+			<Flyby>A_MercenaryBtnFlyby</Flyby>
+			<Disabled>A_MercenaryBtnNormal</Disabled>
+			<PressedFlyby>A_MercenaryBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate> -->
+	</Button>
+	
+	<!-- Mail Icons    DO NOT CHANGE THE SCREENID NAMES -->
+
+	<Ui2DAnimation item = "A_MailBtnNormal">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>88</X>
+				<Y>178</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_MailBtnFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>114</X>
+				<Y>178</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_MailBtnPressed">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>140</X>
+				<Y>178</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_MailBtnPressedFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>166</X>
+				<Y>178</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_MailBtnDisabled">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>192</X>
+				<Y>178</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+
+	<Ui2DAnimation item = "A_GotMailBtnNormal">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>88</X>
+				<Y>204</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_GotMailBtnFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>114</X>
+				<Y>204</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_GotMailBtnPressed">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>140</X>
+				<Y>204</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_GotMailBtnPressedFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>166</X>
+				<Y>204</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+
+	<Ui2DAnimation item = "A_RedMailBtnNormal">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>192</X>
+				<Y>100</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_RedMailBtnFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>218</X>
+				<Y>100</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_RedMailBtnPressed">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>192</X>
+				<Y>126</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item = "A_RedMailBtnPressedFlyby">
+		<Frames>
+			<Texture>window_pieces04.tga</Texture>
+			<Location>
+				<X>218</X>
+				<Y>126</Y>
+			</Location>
+			<Size>
+				<CX>26</CX>
+				<CY>26</CY>
+			</Size>
+			<Hotspot>
+				<X>0</X>
+				<Y>0</Y>
+			</Hotspot>
+		</Frames>
+	</Ui2DAnimation>
+
+	<!-- Mail Button -->
+
+	<Button item = "SELW_MailToggleButton">
+		<ScreenID>SELW_MailToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>243</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Mail</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_GotMailBtnNormal</Normal>
+			<Pressed>A_GotMailBtnPressed</Pressed>
+			<Flyby>A_GotMailBtnFlyby</Flyby>
+			<PressedFlyby>A_GotMailBtnPressedFlyby</PressedFlyby>
+			<Disabled>A_MailBtnDisabled</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+	<Button item = "SELW_MailNewToggleButton">
+		<ScreenID>SELW_MailNewToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>243</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Mail</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_GotMailBtnNormal</Normal>
+			<Pressed>A_GotMailBtnPressed</Pressed>
+			<Flyby>A_GotMailBtnFlyby</Flyby>
+			<PressedFlyby>A_GotMailBtnPressedFlyby</PressedFlyby>
+			<Disabled>A_MailBtnDisabled</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_MailRedToggleButton">
+		<ScreenID>SELW_MailRedToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>243</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Mail</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_GotMailBtnNormal</Normal>
+			<Pressed>A_GotMailBtnPressed</Pressed>
+			<Flyby>A_GotMailBtnFlyby</Flyby>
+			<PressedFlyby>A_GotMailBtnPressedFlyby</PressedFlyby>
+			<Disabled>A_MailBtnDisabled</Disabled>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Button item = "SELW_HelpToggleButton">
+		<ScreenID>SELW_HelpToggleButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>270</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>25</CX>
+			<CY>25</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Help</TooltipReference>
+		<ButtonDrawTemplate>
+			<Normal>A_HelpBtnNormal</Normal>
+			<Pressed>A_HelpBtnPressed</Pressed>
+			<Flyby>A_HelpBtnFlyby</Flyby>
+			<Disabled>A_HelpBtnNormal</Disabled>  <!-- Will never be disabled -->
+			<PressedFlyby>A_HelpBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Screen item = "SelectorWindow">
+		<!--<ScreenID/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>135</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>305</CX>
+			<CY>47</CY>
+		</Size>
+		<Text>Window Selector</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+			<Pieces>SELW_ActionsToggleButton</Pieces>
+			<Pieces>SELW_InventoryToggleButton</Pieces>
+			<Pieces>SELW_OptionsToggleButton</Pieces>
+			<Pieces>SELW_FriendsToggleButton</Pieces>
+			<Pieces>SELW_HotboxToggleButton</Pieces>
+			<Pieces>SELW_CastSpellToggleButton</Pieces>
+			<Pieces>SELW_CombatSkillsToggleButton</Pieces>
+			<Pieces>SELW_PetInfoToggleButton</Pieces>
+			<Pieces>SELW_BuffToggleButton</Pieces>
+			<Pieces>SELW_SDBuffToggleButton</Pieces>
+			<Pieces>SELW_GuildToggleButton</Pieces>
+			<Pieces>SELW_MapToggleButton</Pieces>
+			<Pieces>SELW_StoryToggleButton</Pieces>
+			<Pieces>SELW_JournalToggleButton</Pieces>
+			<Pieces>SELW_MercenariesToggleButton</Pieces>
+			<Pieces>SELW_MailToggleButton</Pieces>
+			<Pieces>SELW_MailNewToggleButton</Pieces>
+			<Pieces>SELW_MailRedToggleButton</Pieces>
+			<Pieces>SELW_HelpToggleButton</Pieces>
+	</Screen>
+
+</XML>

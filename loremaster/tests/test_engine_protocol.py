@@ -1,6 +1,7 @@
 import json
 import sys
 import unittest
+from dataclasses import FrozenInstanceError
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -60,6 +61,16 @@ class EngineProtocolTests(unittest.TestCase):
             "targets": runtime["fight_targets"],
             "actor_damage": runtime["actor_damage"],
             "actor_roles": runtime["actor_roles"],
+            "actor_sources": {
+                "Spin": {"Melee": {
+                    "t": 1000, "h": 5, "max": 240,
+                    "category": "melee",
+                }},
+                "an abhorrent (pet)": {"Melee": {
+                    "t": 700, "h": 4, "max": 190,
+                    "category": "melee",
+                }},
+            },
             "healing_done": 450, "heals_received": 320,
             "healing_sources": {
                 "Superior Healing": {"t": 450, "h": 2, "max": 260, "over": 55},
@@ -120,8 +131,16 @@ class EngineProtocolTests(unittest.TestCase):
         self.assertEqual(encounter["personalDamage"], 1000)
         pet = next(row for row in encounter["actors"]
                    if row["role"] == "charmed")
+        self_actor = next(row for row in encounter["actors"]
+                          if row["role"] == "self")
+        self.assertEqual(self_actor["sources"][0]["name"], "Melee")
+        self.assertEqual(self_actor["sources"][0]["total"], 1000)
         self.assertEqual(pet["encounterDps"], 117)
         self.assertEqual(pet["sessionDamage"], 700)
+        self.assertEqual(pet["sources"], [{
+            "name": "Melee", "total": 700, "hits": 4,
+            "maximum": 190, "category": "melee",
+        }])
         self.assertEqual(encounter["healsReceived"], 320)
         self.assertEqual(encounter["healingSources"][0]["overheal"], 55)
         self.assertEqual(encounter["healingSources"][0]["category"],
@@ -134,6 +153,105 @@ class EngineProtocolTests(unittest.TestCase):
         self.assertEqual(decoded["snapshot"]["loot"][0]["raidTier"], 3)
         self.assertEqual(decoded["snapshot"]["loot"][0]["itemInfo"]["stats"],
                          ["AC: 10"])
+
+    def test_actor_source_rows_are_bounded_without_changing_actor_totals(self):
+        controls = merge_control_snapshots(
+            MezTracker().snapshot(NOW), LullTracker().snapshot(NOW))
+        actor_sources = {
+            f"Ability {index:02d}": {
+                "t": index + 1, "h": 1, "max": index + 1,
+                "category": "spell",
+            }
+            for index in range(30)
+        }
+        actor_total = sum(row["t"] for row in actor_sources.values())
+        fight = {
+            "name": "bounded source fight", "damage": actor_total,
+            "seconds": 10, "start": NOW, "end": NOW,
+            "actor_damage": {
+                "Spin": {"t": actor_total, "h": 30, "max": 30},
+            },
+            "actor_roles": {"Spin": "self"},
+            "actor_sources": {"Spin": actor_sources},
+        }
+
+        snapshot = build_engine_snapshot(
+            sequence=1, observed_at=NOW,
+            stats_snapshot={
+                "character": "Spin", "fights": [fight],
+                "actor_damage": fight["actor_damage"],
+                "actor_roles": fight["actor_roles"],
+                "combat_seconds": 10,
+            },
+            control_snapshot=controls,
+        )
+        actor = snapshot.encounters[0].actors[0]
+
+        self.assertEqual(PROTOCOL_VERSION, 1)
+        self.assertEqual(actor.encounter_damage, actor_total)
+        self.assertEqual(actor.encounter_hits, 30)
+        self.assertEqual(len(actor.sources), 24)
+        self.assertEqual(actor.sources[0].name, "Ability 29")
+        self.assertEqual(actor.sources[-1].name, "Ability 06")
+
+    def test_legacy_actor_without_source_detail_remains_protocol_v1_compatible(self):
+        controls = merge_control_snapshots(
+            MezTracker().snapshot(NOW), LullTracker().snapshot(NOW))
+        fight = {
+            "name": "legacy fight", "damage": 55, "seconds": 5,
+            "start": NOW, "end": NOW,
+            "actor_damage": {"Spin": {"t": 55, "h": 2, "max": 35}},
+            "actor_roles": {"Spin": "self"},
+        }
+        snapshot = build_engine_snapshot(
+            sequence=1, observed_at=NOW,
+            stats_snapshot={"character": "Spin", "fights": [fight]},
+            control_snapshot=controls,
+        )
+        actor = snapshot.encounters[0].actors[0]
+
+        self.assertEqual(actor.sources, ())
+        self.assertEqual(actor.encounter_damage, 55)
+        self.assertEqual(actor.encounter_hits, 2)
+        self.assertEqual(actor.encounter_maximum, 35)
+        self.assertEqual(actor.role, "self")
+        decoded = json.loads(snapshot_event(snapshot).to_json())
+        self.assertEqual(decoded["protocolVersion"], 1)
+        self.assertEqual(
+            decoded["snapshot"]["encounters"][0]["actors"][0]["sources"], [])
+
+    def test_actor_source_boundary_copies_nested_metrics_and_is_immutable(self):
+        controls = merge_control_snapshots(
+            MezTracker().snapshot(NOW), LullTracker().snapshot(NOW))
+        source = {"t": 75, "h": 3, "max": 30, "category": "melee"}
+        sources = {"Melee": source}
+        actor_sources = {"Spin": sources}
+        fight = {
+            "name": "immutable source fight", "damage": 75, "seconds": 5,
+            "start": NOW, "end": NOW,
+            "actor_damage": {"Spin": {"t": 75, "h": 3, "max": 30}},
+            "actor_roles": {"Spin": "self"},
+            "actor_sources": actor_sources,
+        }
+        snapshot = build_engine_snapshot(
+            sequence=1, observed_at=NOW,
+            stats_snapshot={"character": "Spin", "fights": [fight]},
+            control_snapshot=controls,
+        )
+        serialized = snapshot_event(snapshot).to_json()
+        copied_source = snapshot.encounters[0].actors[0].sources[0]
+
+        source.update(t=999, h=99, max=999, category="spell")
+        sources["Injected ability"] = {"t": 500, "h": 1, "max": 500}
+        actor_sources["Spin"] = {}
+        self.assertEqual(snapshot_event(snapshot).to_json(), serialized)
+        self.assertEqual(
+            (copied_source.name, copied_source.total, copied_source.hits,
+             copied_source.maximum, copied_source.category),
+            ("Melee", 75, 3, 30, "melee"),
+        )
+        with self.assertRaises(FrozenInstanceError):
+            copied_source.total = 1000
 
     def test_desktop_boundary_retains_sixty_fights(self):
         controls = merge_control_snapshots(

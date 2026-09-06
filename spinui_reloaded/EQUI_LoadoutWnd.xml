@@ -38,11 +38,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -59,8 +59,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Dark Elf_Button">
@@ -69,11 +69,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -90,8 +90,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Dwarf_Button">
@@ -100,11 +100,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -121,8 +121,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Erudite_Button">
@@ -131,11 +131,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -152,8 +152,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Gnome_Button">
@@ -162,11 +162,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -183,8 +183,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Half Elf_Button">
@@ -193,11 +193,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -214,8 +214,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Halfling_Button">
@@ -224,11 +224,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -245,8 +245,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_High Elf_Button">
@@ -255,11 +255,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -276,8 +276,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Human_Button">
@@ -286,11 +286,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -307,8 +307,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Iksar_Button">
@@ -317,11 +317,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -338,8 +338,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Ogre_Button">
@@ -348,11 +348,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -369,8 +369,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Troll_Button">
@@ -379,11 +379,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -400,8 +400,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Kerran_Button">
@@ -410,11 +410,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -431,8 +431,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Wood Elf_Button">
@@ -441,11 +441,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -462,8 +462,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Froglok_Button">
@@ -472,11 +472,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -493,8 +493,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Male_Race_Drakkin_Button">
@@ -503,11 +503,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -524,8 +524,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Barbarian_Button">
@@ -534,11 +534,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -555,8 +555,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Dark Elf_Button">
@@ -565,11 +565,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -586,8 +586,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Dwarf_Button">
@@ -596,11 +596,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -617,8 +617,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Erudite_Button">
@@ -627,11 +627,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>48</Y>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -648,8 +648,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Gnome_Button">
@@ -658,11 +658,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -679,8 +679,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Half Elf_Button">
@@ -689,11 +689,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -710,8 +710,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Halfling_Button">
@@ -720,11 +720,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -741,8 +741,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_High Elf_Button">
@@ -751,11 +751,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>112</Y>
+			<Y>54</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -772,8 +772,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Human_Button">
@@ -782,11 +782,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -803,8 +803,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Iksar_Button">
@@ -813,11 +813,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -834,8 +834,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Ogre_Button">
@@ -844,11 +844,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -865,8 +865,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Troll_Button">
@@ -875,11 +875,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>176</Y>
+			<Y>108</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -896,8 +896,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Kerran_Button">
@@ -906,11 +906,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -927,8 +927,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Wood Elf_Button">
@@ -937,11 +937,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>48</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -958,8 +958,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Froglok_Button">
@@ -968,11 +968,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>96</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -989,8 +989,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Female_Race_Drakkin_Button">
@@ -999,11 +999,11 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>144</X>
-			<Y>240</Y>
+			<Y>162</Y>
 		</Location>
 		<Size>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</Size>
 		<Style_Checkbox>true</Style_Checkbox>
 		<ButtonDrawTemplate>
@@ -1020,8 +1020,8 @@
 			<Y>0</Y>
 		</DecalOffset>
 		<DecalSize>
-			<CX>48</CX>
-			<CY>48</CY>
+			<CX>46</CX>
+			<CY>46</CY>
 		</DecalSize>
 	</Button>
 	<Button item="LOW_Race_Barbarian_Overlay_Button">
@@ -2672,6 +2672,89 @@
 		<Pages>LOW_Class_Primary_Page</Pages>
 		<Pages>LOW_Class_Secondary_Page</Pages>
 	</TabBox>
+	<Page item="LOW_Race_Male_Page">
+		<ScreenID>LOW_Race_Male_Page</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Male</TabText>
+		<TabTextColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextColor>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>LOW_Male_Race_Barbarian_Button</Pieces>
+		<Pieces>LOW_Male_Race_Dark Elf_Button</Pieces>
+		<Pieces>LOW_Male_Race_Dwarf_Button</Pieces>
+		<Pieces>LOW_Male_Race_Erudite_Button</Pieces>
+		<Pieces>LOW_Male_Race_Gnome_Button</Pieces>
+		<Pieces>LOW_Male_Race_Half Elf_Button</Pieces>
+		<Pieces>LOW_Male_Race_Halfling_Button</Pieces>
+		<Pieces>LOW_Male_Race_High Elf_Button</Pieces>
+		<Pieces>LOW_Male_Race_Human_Button</Pieces>
+		<Pieces>LOW_Male_Race_Iksar_Button</Pieces>
+		<Pieces>LOW_Male_Race_Ogre_Button</Pieces>
+		<Pieces>LOW_Male_Race_Troll_Button</Pieces>
+		<Pieces>LOW_Male_Race_Kerran_Button</Pieces>
+		<Pieces>LOW_Male_Race_Wood Elf_Button</Pieces>
+		<Pieces>LOW_Male_Race_Froglok_Button</Pieces>
+		<Pieces>LOW_Male_Race_Drakkin_Button</Pieces>
+	</Page>
+	<Page item="LOW_Race_Female_Page">
+		<ScreenID>LOW_Race_Female_Page</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<TabText>Female</TabText>
+		<TabTextColor>
+			<R>0</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextColor>
+		<TabTextActiveColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TabTextActiveColor>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>LOW_Female_Race_Barbarian_Button</Pieces>
+		<Pieces>LOW_Female_Race_Dark Elf_Button</Pieces>
+		<Pieces>LOW_Female_Race_Dwarf_Button</Pieces>
+		<Pieces>LOW_Female_Race_Erudite_Button</Pieces>
+		<Pieces>LOW_Female_Race_Gnome_Button</Pieces>
+		<Pieces>LOW_Female_Race_Half Elf_Button</Pieces>
+		<Pieces>LOW_Female_Race_Halfling_Button</Pieces>
+		<Pieces>LOW_Female_Race_High Elf_Button</Pieces>
+		<Pieces>LOW_Female_Race_Human_Button</Pieces>
+		<Pieces>LOW_Female_Race_Iksar_Button</Pieces>
+		<Pieces>LOW_Female_Race_Ogre_Button</Pieces>
+		<Pieces>LOW_Female_Race_Troll_Button</Pieces>
+		<Pieces>LOW_Female_Race_Kerran_Button</Pieces>
+		<Pieces>LOW_Female_Race_Wood Elf_Button</Pieces>
+		<Pieces>LOW_Female_Race_Froglok_Button</Pieces>
+		<Pieces>LOW_Female_Race_Drakkin_Button</Pieces>
+	</Page>
+	<TabBox item="LOW_Race_Subwindows">
+		<ScreenID>LOW_Race_Subwindows</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>48</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>32</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TabBorderTemplate>FT_DefTabBorder</TabBorderTemplate>
+		<PageBorderTemplate>FT_DefPageBorder</PageBorderTemplate>
+		<Pages>LOW_Race_Male_Page</Pages>
+		<Pages>LOW_Race_Female_Page</Pages>
+	</TabBox>
 	<Label item="LOW_SelectRace_Label">
 		<ScreenID>LOW_SelectRace_Label</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -2780,38 +2863,10 @@
 		<Style_Minimizebox>false</Style_Minimizebox>
 		<Style_Border>true</Style_Border>
 		<Style_Sizable>false</Style_Sizable>
-		<Pieces>LOW_Male_Race_Human_Button</Pieces>
-		<Pieces>LOW_Male_Race_Barbarian_Button</Pieces>
-		<Pieces>LOW_Male_Race_Erudite_Button</Pieces>
-		<Pieces>LOW_Male_Race_Wood Elf_Button</Pieces>
-		<Pieces>LOW_Male_Race_High Elf_Button</Pieces>
-		<Pieces>LOW_Male_Race_Dark Elf_Button</Pieces>
-		<Pieces>LOW_Male_Race_Half Elf_Button</Pieces>
-		<Pieces>LOW_Male_Race_Dwarf_Button</Pieces>
-		<Pieces>LOW_Male_Race_Troll_Button</Pieces>
-		<Pieces>LOW_Male_Race_Ogre_Button</Pieces>
-		<Pieces>LOW_Male_Race_Halfling_Button</Pieces>
-		<Pieces>LOW_Male_Race_Gnome_Button</Pieces>
-		<Pieces>LOW_Male_Race_Iksar_Button</Pieces>
-		<Pieces>LOW_Male_Race_Kerran_Button</Pieces>
-		<Pieces>LOW_Male_Race_Froglok_Button</Pieces>
-		<Pieces>LOW_Male_Race_Drakkin_Button</Pieces>
-		<Pieces>LOW_Female_Race_Human_Button</Pieces>
-		<Pieces>LOW_Female_Race_Barbarian_Button</Pieces>
-		<Pieces>LOW_Female_Race_Erudite_Button</Pieces>
-		<Pieces>LOW_Female_Race_Wood Elf_Button</Pieces>
-		<Pieces>LOW_Female_Race_High Elf_Button</Pieces>
-		<Pieces>LOW_Female_Race_Dark Elf_Button</Pieces>
-		<Pieces>LOW_Female_Race_Half Elf_Button</Pieces>
-		<Pieces>LOW_Female_Race_Dwarf_Button</Pieces>
-		<Pieces>LOW_Female_Race_Troll_Button</Pieces>
-		<Pieces>LOW_Female_Race_Ogre_Button</Pieces>
-		<Pieces>LOW_Female_Race_Halfling_Button</Pieces>
-		<Pieces>LOW_Female_Race_Gnome_Button</Pieces>
-		<Pieces>LOW_Female_Race_Iksar_Button</Pieces>
-		<Pieces>LOW_Female_Race_Kerran_Button</Pieces>
-		<Pieces>LOW_Female_Race_Froglok_Button</Pieces>
-		<Pieces>LOW_Female_Race_Drakkin_Button</Pieces>
+		<Pieces>LOW_RaceAnim</Pieces>
+		<Pieces>LOW_Race_Subwindows</Pieces>
+		<Pieces>LOW_SelectRace_Label</Pieces>
+		<!--
 		<Pieces>LOW_Race_Human_Overlay_Button</Pieces>
 		<Pieces>LOW_Race_Barbarian_Overlay_Button</Pieces>
 		<Pieces>LOW_Race_Erudite_Overlay_Button</Pieces>
@@ -2828,8 +2883,7 @@
 		<Pieces>LOW_Race_Kerran_Overlay_Button</Pieces>
 		<Pieces>LOW_Race_Froglok_Overlay_Button</Pieces>
 		<Pieces>LOW_Race_Drakkin_Overlay_Button</Pieces>
-		<Pieces>LOW_RaceAnim</Pieces>
-		<Pieces>LOW_SelectRace_Label</Pieces>
+		-->
 	</Screen>
 	<Label item="LOW_StatsLabel">
 		<RelativePosition>true</RelativePosition>

@@ -14,6 +14,8 @@ contextBridge.exposeInMainWorld("loremasterDesktop", {
   refreshGearData: () => ipcRenderer.invoke("gear:refresh"),
   openExternal: (value: string) => ipcRenderer.invoke("external:open", value),
   lookupItem: (name: string) => ipcRenderer.invoke("items:lookup", name),
+  getSpellCatalog: () => ipcRenderer.invoke("progression:spells"),
+  setXpCheckpoint: (level: number, percent: number) => ipcRenderer.invoke("progression:checkpoint", level, percent),
   queryLoot: (request: unknown) => ipcRenderer.invoke("journal:query-loot", request),
   getUpdateState: () => ipcRenderer.invoke("updates:get-state"),
   checkForUpdates: () => ipcRenderer.invoke("updates:check"),
@@ -48,6 +50,11 @@ contextBridge.exposeInMainWorld("loremasterDesktop", {
     ipcRenderer.on("window:companion-layout", listener);
     return () => ipcRenderer.removeListener("window:companion-layout", listener);
   },
+  onCompanionInteraction: (callback: (state: unknown) => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, value: unknown) => callback(value);
+    ipcRenderer.on("window:companion-interaction", listener);
+    return () => ipcRenderer.removeListener("window:companion-interaction", listener);
+  },
   onUpdateState: (callback: (state: unknown) => void) => {
     const listener = (_event: Electron.IpcRendererEvent, value: unknown) => callback(value);
     ipcRenderer.on("updates:state", listener);
@@ -60,6 +67,8 @@ contextBridge.exposeInMainWorld("loremasterDesktop", {
   },
   setExpanded: (expanded: boolean) => ipcRenderer.send("window:set-mode", expanded),
   setAnalysis: (active: boolean) => ipcRenderer.send("window:set-analysis", active),
+  setCompanionInspecting: (active: boolean) => ipcRenderer.send("window:companion-inspect", active),
+  setCompanionDetailRows: (count: number) => ipcRenderer.send("window:companion-detail-rows", count),
   minimizeWindow: () => ipcRenderer.send("window:minimize"),
   closeWindow: () => ipcRenderer.send("window:close"),
 });

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<STMLbox item="FLW_NoneFoundLabel">
+		<ScreenID>FLW_NoneFoundLabel</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Font>3</Font>
+		<Text>There is nothing easily found in this zone.</Text>
+		<Size>
+			<CX>100</CX>
+			<CY>100</CY>
+		</Size>
+		<AlignCenter>true</AlignCenter>
+		<Location>
+			<X>7</X>
+			<Y>23</Y>
+		</Location>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>165</BottomAnchorOffset>
+	</STMLbox>
+	<Listbox item="FLW_FindLocationList">
+		<ScreenID>FLW_FindLocationList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>40</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Columns>
+			<Width>100</Width>
+			<Heading>Category</Heading>
+		</Columns>
+		<Columns>
+			<Width>125</Width>
+			<Heading>Description</Heading>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+	<Button item="FLW_FilterLocationsCheckbox">
+		<ScreenID>FLW_FilterLocationsCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>38</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Only show destinations I can use</Text>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="FLW_FilterGroupCheckbox">
+		<ScreenID>FLW_FilterGroupCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show Group</Text>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Button item="FLW_FilterRaidCheckbox">
+		<ScreenID>FLW_FilterRaidCheckbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>122</LeftAnchorOffset>
+		<TopAnchorOffset>18</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Show Raid</Text>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+	<Screen item="FindLocationWnd">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>200</X>
+			<Y>200</Y>
+		</Location>
+		<Size>
+			<CX>250</CX>
+			<CY>240</CY>
+		</Size>
+		<MinHSize>225</MinHSize>
+		<MinVSize>325</MinVSize>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Text>Find Window</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>FLW_FindLocationList</Pieces>
+		<Pieces>FLW_FilterLocationsCheckbox</Pieces>
+		<Pieces>FLW_FilterGroupCheckbox</Pieces>
+		<Pieces>FLW_FilterRaidCheckbox</Pieces>
+		<Pieces>FLW_NoneFoundLabel</Pieces>
+	</Screen>
+</XML>

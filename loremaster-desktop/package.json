@@ -13,6 +13,7 @@
     "test:fixtures": "node scripts/validate-fixture.mjs",
     "test:gear": "node scripts/test-gear-plan.cjs",
     "test:items": "node scripts/test-item-intelligence.cjs",
+    "test:spells": "node scripts/test-spell-catalog.cjs",
     "test:updates": "node scripts/test-portable-updater.cjs",
     "test:skin-updates": "node scripts/test-spinui-updater.cjs",
     "test:companion-layout": "node scripts/test-companion-layout.cjs"

@@ -43,7 +43,7 @@ const OFFICIAL_DOWNLOAD_HOSTS = new Set([
   "release-assets.githubusercontent.com",
 ]);
 
-export const SPINUI_SKINS = ["spinui_reloaded", "spinui_glass"] as const;
+export const SPINUI_SKINS = ["spinui_reloaded", "spinui_glass", "spinui_pearlescent"] as const;
 export type SpinUISkinName = (typeof SPINUI_SKINS)[number];
 
 export type SpinUISkinPhase =
@@ -125,7 +125,7 @@ interface SpinUIManifest {
     size: number;
     sha256: string;
   };
-  themes: Record<SpinUISkinName, SpinUIManifestTheme>;
+  themes: Partial<Record<SpinUISkinName, SpinUIManifestTheme>>;
 }
 
 interface ReceiptEntry {
@@ -185,6 +185,7 @@ function initialState(eqRoot: string | null): SpinUIUpdateState {
     themes: {
       spinui_reloaded: status("spinui_reloaded"),
       spinui_glass: status("spinui_glass"),
+      spinui_pearlescent: status("spinui_pearlescent"),
     },
   };
 }
@@ -195,6 +196,7 @@ function cloneState(state: SpinUIUpdateState): SpinUIUpdateState {
     themes: {
       spinui_reloaded: { ...state.themes.spinui_reloaded },
       spinui_glass: { ...state.themes.spinui_glass },
+      spinui_pearlescent: { ...state.themes.spinui_pearlescent },
     },
   };
 }
@@ -315,8 +317,9 @@ export function parseSpinUIManifest(value: unknown): SpinUIManifest {
   if (!isSha256(value.archive.sha256)) throw new Error("The SpinUI archive checksum is invalid.");
   if (!isRecord(value.themes)) throw new Error("The SpinUI manifest has no theme inventories.");
   const themeKeys = Object.keys(value.themes).sort();
-  if (themeKeys.join("|") !== [...SPINUI_SKINS].sort().join("|")) {
-    throw new Error("The SpinUI manifest must contain exactly the Reloaded and Glass themes.");
+  if (!themeKeys.includes("spinui_reloaded") || !themeKeys.includes("spinui_glass")
+      || themeKeys.some((key) => !SPINUI_SKINS.includes(key as SpinUISkinName))) {
+    throw new Error("The SpinUI manifest must contain the supported theme inventories.");
   }
   return {
     schemaVersion: 1,
@@ -330,6 +333,8 @@ export function parseSpinUIManifest(value: unknown): SpinUIManifest {
     themes: {
       spinui_reloaded: parseTheme(value.themes.spinui_reloaded, "spinui_reloaded"),
       spinui_glass: parseTheme(value.themes.spinui_glass, "spinui_glass"),
+      ...(value.themes.spinui_pearlescent !== undefined
+        ? { spinui_pearlescent: parseTheme(value.themes.spinui_pearlescent, "spinui_pearlescent") } : {}),
     },
   };
 }
@@ -821,6 +826,12 @@ export class SpinUISkinUpdateService {
     const uiFiles = await realpath(path.join(root, "uifiles"));
     const target = directChild(uiFiles, theme);
     const latestVersion = release.version;
+    const expected = release.manifest.themes[theme];
+    if (!expected) {
+      this.patchTheme(theme, { phase: "idle", installed: await isRealDirectory(target), latestVersion: null,
+        percent: 0, detail: "This theme is not included in the latest published release yet.", modified: false });
+      return;
+    }
     if (!await isRealDirectory(target)) {
       this.patchTheme(theme, {
         phase: "missing", installed: false, installedVersion: null, latestVersion,
@@ -830,7 +841,6 @@ export class SpinUISkinUpdateService {
     }
     try {
       const actual = await scanTheme(target);
-      const expected = release.manifest.themes[theme];
       if (treeMatches(actual, expected)) {
         this.patchTheme(theme, {
           phase: "current", installed: true, installedVersion: latestVersion, latestVersion,
@@ -893,6 +903,9 @@ export class SpinUISkinUpdateService {
       this.checkedRelease = release;
       this.state.latestVersion = release.version;
       this.state.releaseUrl = release.releaseUrl;
+      if (selected.some((theme) => !release.manifest.themes[theme])) {
+        throw new Error("A selected theme is not included in the published release yet.");
+      }
       const archivePath = await this.ensureArchive(release, selected);
       if (await this.eqProcessCheck()) {
         for (const theme of selected) this.patchTheme(theme, {
@@ -912,6 +925,8 @@ export class SpinUISkinUpdateService {
     release: SpinUIRelease,
     preparedArchive?: string,
   ): Promise<SpinUISkinInstallResult> {
+    const expected = release.manifest.themes[theme];
+    if (!expected) throw new Error("This theme is not included in the published release yet.");
     const archivePath = preparedArchive ?? await this.ensureArchive(release, [theme]);
     if (await this.eqProcessCheck()) {
       this.patchTheme(theme, {
@@ -937,7 +952,7 @@ export class SpinUISkinUpdateService {
       await this.extractImpl(archivePath, stage);
       const extractedTheme = directChild(stage, theme);
       const extracted = await scanTheme(extractedTheme);
-      if (!treeMatches(extracted, release.manifest.themes[theme])) {
+      if (!treeMatches(extracted, expected)) {
         throw new Error(`The extracted ${theme} tree does not match the authenticated release manifest.`);
       }
       if (await this.eqProcessCheck()) throw new EverQuestRunningError();
@@ -957,7 +972,7 @@ export class SpinUISkinUpdateService {
       await rename(extractedTheme, target);
       newTargetMoved = true;
       const installed = await scanTheme(target);
-      if (!treeMatches(installed, release.manifest.themes[theme])) {
+      if (!treeMatches(installed, expected)) {
         throw new Error(`The installed ${theme} tree failed its final verification.`);
       }
       const receipts = await this.readReceipts();
@@ -966,7 +981,7 @@ export class SpinUISkinUpdateService {
         targetPath: target,
         theme,
         version: release.version,
-        treeSha256: release.manifest.themes[theme].treeSha256,
+        treeSha256: expected.treeSha256,
         installedAt: new Date().toISOString(),
       });
       await this.writeReceipts(receipts);

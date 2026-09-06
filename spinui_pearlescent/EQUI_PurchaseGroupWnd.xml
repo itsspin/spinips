@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	
+	<STMLbox item="PGW_WindowText">
+		<ScreenID>PGW_WindowText</ScreenID>
+		<Text></Text>
+		<Font>5</Font>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>95</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</STMLbox>
+	<Label item="PGW_AvailableTimeLeftLabel">
+		<ScreenID>PGW_AvailableTimeLeftLabel</ScreenID>
+		<Text>Time Left:</Text>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Label item="PGW_AvailableTimeLeft">
+		<ScreenID>PGW_AvailableTimeLeft</ScreenID>
+		<Text>00:00:00:00</Text>
+		<TooltipReference>Time Left to Purchase This</TooltipReference>
+		<Font>2</Font>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	
+	<!-- Confirmation Page -->
+	<Label item="PGW_ProductName">
+		<ScreenID>PGW_ProductName</ScreenID>
+		<Text>Item</Text>
+		<Font>3</Font>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Label>
+	<STMLbox item="PGW_ProductDescription">
+		<ScreenID>PGW_ProductDescription</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>62</LeftAnchorOffset>
+		<RightAnchorOffset>155</RightAnchorOffset>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+	</STMLbox>
+	<Button item="PGW_ProductIcon">
+		<ScreenID>PGW_ProductIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_DragItem</Normal>
+		</ButtonDrawTemplate>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Label item="PGW_ProductWasPriceLabel">
+		<ScreenID>PGW_ProductWasPriceLabel</ScreenID>
+		<Text>Was Price:</Text>
+		<TextColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<LeftAnchorOffset>145</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Button item="PGW_ProductWasPriceIcon">
+		<ScreenID>PGW_ProductWasPriceIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>55</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Button>
+	<Label item="PGW_ProductWasPrice">
+		<ScreenID>PGW_ProductWasPrice</ScreenID>
+		<Text>200</Text>
+		<TextColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</TextColor>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Label item="PGW_ProductPriceLabel">
+		<ScreenID>PGW_ProductPriceLabel</ScreenID>
+		<Text>Item Price:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>50</BottomAnchorOffset>
+		<LeftAnchorOffset>145</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Button item="PGW_ProductPriceIcon">
+		<ScreenID>PGW_ProductPriceIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>45</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>55</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Button>
+	<Label item="PGW_ProductPrice">
+		<ScreenID>PGW_ProductPrice</ScreenID>
+		<Text>200</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>50</BottomAnchorOffset>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Label item="PGW_DiscountLabel">
+		<ScreenID>PGW_DiscountLabel</ScreenID>
+		<Text>Member Discount:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<BottomAnchorOffset>85</BottomAnchorOffset>
+		<LeftAnchorOffset>145</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Button item="PGW_DiscountIcon">
+		<ScreenID>PGW_DiscountIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>70</TopAnchorOffset>
+		<BottomAnchorOffset>85</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>55</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Button>
+	<Label item="PGW_Discount">
+		<ScreenID>PGW_Discount</ScreenID>
+		<Text>1000</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>70</TopAnchorOffset>
+		<BottomAnchorOffset>90</BottomAnchorOffset>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Label item="PGW_TotalLabel">
+		<ScreenID>PGW_TotalLabel</ScreenID>
+		<Text>Total Price:</Text>
+		<AlignRight>true</AlignRight>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>95</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>145</LeftAnchorOffset>
+		<RightAnchorOffset>75</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<Button item="PGW_TotalIcon">
+		<ScreenID>PGW_TotalIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<ButtonDrawTemplate>
+			<Normal>A_Station</Normal>
+		</ButtonDrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>95</TopAnchorOffset>
+		<BottomAnchorOffset>110</BottomAnchorOffset>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<RightAnchorOffset>55</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Button>
+	<Label item="PGW_Total">
+		<ScreenID>PGW_Total</ScreenID>
+		<Text>1000</Text>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>95</TopAnchorOffset>
+		<BottomAnchorOffset>115</BottomAnchorOffset>
+		<LeftAnchorOffset>54</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<StaticAnimation item="PGW_Separator1">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>152</LeftAnchorOffset>
+		<RightAnchorOffset>150</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<Animation>A_DividerVertical</Animation>
+	</StaticAnimation>
+	
+	<Button item="PGW_ChooseBtn">
+		<ScreenID>PGW_ChooseBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>45</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>55</RightAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Text>Choose This</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Screen item="PGW_Item_Screen">
+		<ScreenID>PGW_Item_Screen</ScreenID>
+		<DrawTemplate>WDT_InnerGray</DrawTemplate>
+		<Size>
+			<CX>465</CX>
+			<CY>120</CY>
+		</Size>
+		<Style_Border>true</Style_Border>
+		<Pieces>PGW_ProductName</Pieces>
+		<Pieces>PGW_ProductDescription</Pieces>
+		<Pieces>PGW_ProductIcon</Pieces>
+		<Pieces>PGW_ProductPriceLabel</Pieces>
+		<Pieces>PGW_ProductPrice</Pieces>
+		<Pieces>PGW_ProductPriceIcon</Pieces>
+		<Pieces>PGW_ProductWasPrice</Pieces>
+		<Pieces>PGW_ProductWasPriceLabel</Pieces>
+		<Pieces>PGW_ProductWasPriceIcon</Pieces>
+		<Pieces>PGW_DiscountLabel</Pieces>
+		<Pieces>PGW_Discount</Pieces>
+		<Pieces>PGW_DiscountIcon</Pieces>
+		<Pieces>PGW_Total</Pieces>
+		<Pieces>PGW_TotalLabel</Pieces>
+		<Pieces>PGW_TotalIcon</Pieces>
+		<Pieces>PGW_Separator1</Pieces>
+		<Pieces>PGW_ChooseBtn</Pieces>
+	</Screen>
+	
+	<TileLayoutBox item="PGW_Items">
+		<ScreenID>PGW_Items</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>120</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>5</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>5</Spacing>
+		<SecondarySpacing>5</SecondarySpacing>
+		<HorizontalFirst>true</HorizontalFirst>
+		<AnchorToTop>true</AnchorToTop>
+		<AnchorToLeft>true</AnchorToLeft>
+		<FirstPieceTemplate>false</FirstPieceTemplate>
+		<Pieces>Screen:PGW_Item_Screen</Pieces>
+	</TileLayoutBox>
+	
+	<Screen item="PurchaseGroupWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>100</X>
+			<Y>100</Y>
+		</Location>
+		<Size>
+			<CX>500</CX>
+			<CY>530</CY>
+		</Size>
+		<Text>DBC Offers</Text>
+		<DrawTemplate>WDT_Marketplace</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<DisabledColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</DisabledColor>
+		<Pieces>PGW_AvailableTimeLeft</Pieces>
+		<Pieces>PGW_AvailableTimeLeftLabel</Pieces>
+		<Pieces>PGW_WindowText</Pieces>
+		<Pieces>PGW_Items</Pieces>
+	</Screen>
+</XML>

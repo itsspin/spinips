@@ -1,0 +1,270 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+	<Button item = "BW_AddButton">
+		<ScreenID>AddButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>140</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Save</Text>
+		<Template>BDT_Square</Template>
+	</Button>
+	
+	<Button item = "BW_DeleteButton">
+		<ScreenID>DeleteButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>140</X>
+			<Y>44</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Delete</Text>
+		<Template>BDT_Square</Template>
+	</Button>
+
+	<Button item = "BW_UseButton">
+		<ScreenID>UseButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>140</X>
+			<Y>86</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Activate</Text>
+		<Template>BDT_Square</Template>
+	</Button>
+	
+	<Button item = "BW_MakeHotkeyButton">
+		<ScreenID>MkHotButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>140</X>
+			<Y>128</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Hot Button</Text>
+		<Template>BDT_Square</Template>
+	</Button>
+		
+	<Button item = "BW_AutoSwapButton">
+		<ScreenID>AutoSwapButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>46</X>
+			<Y>152</Y>
+		</Location>
+		<Size>
+			<CX>100</CX>
+			<CY>16</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Swap</Text>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+	</Button>
+	
+	<Button item = "BW_DisplayButton0">
+		<ScreenID>DisplayButton0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text></Text>
+		<ButtonDrawTemplate>
+			<Normal>A_InvPrimary</Normal>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Button item = "BW_DisplayButton1">
+		<ScreenID>DisplayButton1</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>44</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text></Text>
+		<ButtonDrawTemplate>
+			<Normal>A_InvSecondary</Normal>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Button item = "BW_DisplayButton2">
+		<ScreenID>DisplayButton2</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>86</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text></Text>
+		<ButtonDrawTemplate>
+			<Normal>A_InvRange</Normal>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+	<Button item = "BW_DisplayButton3">
+		<ScreenID>DisplayButton3</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>128</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text></Text>
+		<ButtonDrawTemplate>
+			<Normal>A_InvAmmo</Normal>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+			
+	<Listbox item = "BW_WeaponSetList">
+		<ScreenID>WeaponSetList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>44</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>145</CY>
+		</Size>
+		<Columns>
+			<Width>150</Width>
+
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+
+	<Screen item = "BandolierWnd">
+		<ScreenID>BandolierWnd</ScreenID>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>196</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>201</CX>
+			<CY>192</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Text>Bandolier</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>BW_AddButton</Pieces>
+		<Pieces>BW_DeleteButton</Pieces>
+		<Pieces>BW_UseButton</Pieces>
+		<Pieces>BW_MakeHotkeyButton</Pieces>
+		<Pieces>BW_AutoSwapButton</Pieces>
+		<Pieces>BW_DisplayButton0</Pieces>
+		<Pieces>BW_DisplayButton1</Pieces>
+		<Pieces>BW_DisplayButton2</Pieces>
+		<Pieces>BW_DisplayButton3</Pieces>
+		<Pieces>BW_WeaponSetList</Pieces>
+	</Screen>
+
+</XML>
