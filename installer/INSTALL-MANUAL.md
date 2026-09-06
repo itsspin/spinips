@@ -1,13 +1,13 @@
 # SpinUI manual installation
 
-This package does not require the installer. It contains both complete skins:
+This package does not require the installer. It contains three complete skins:
 the classic **Vellum & Ember** `spinui_reloaded` skin and the optional
-**Midnight Frost** `spinui_glass` skin, plus Spin's Loremaster, the optional
+**Midnight Frost** `spinui_glass` and **Pearlescent** `spinui_pearlescent` skins, plus Spin's Loremaster, the optional
 character-layout profiles, and alternate chat presets. Seven validated screen
 profiles cover 1920×1080, 2048×1080, 2560×1080, 2560×1440, 3440×1440,
 3840×1600, and 3840×2160.
 
-> **Safest layout option:** install either skin and keep your current
+> **Safest layout option:** install any skin and keep your current
 > character UI INI. Combat Focus, Social Focus, and Hybrid are
 > optional full-file profiles: they replace the selected character UI file,
 > including its window and chat preferences. Make a byte-exact backup before
@@ -27,16 +27,17 @@ INI while the game is running.
 
 ## 2. Install the skin
 
-Choose **Vellum & Ember** (`spinui_reloaded`) or **Midnight Frost Glass**
-(`spinui_glass`). You may install both and switch between them in game. For a
+Choose **Vellum & Ember** (`spinui_reloaded`), **Midnight Frost Glass**
+(`spinui_glass`), or **Pearlescent** (`spinui_pearlescent`). You may install all three and switch between them in game. For a
 clean update, rename or remove the older folder with that same name first,
 then copy the complete new folder into the game's `uifiles` folder. Do not
 merge a release into an older skin tree; retired files can otherwise linger.
-The final path should look like either or both of these:
+The final path should look like one or more of these:
 
 ```text
 <EverQuest folder>\uifiles\spinui_reloaded\EQUI.xml
 <EverQuest folder>\uifiles\spinui_glass\EQUI.xml
+<EverQuest folder>\uifiles\spinui_pearlescent\EQUI.xml
 ```
 
 Common EverQuest folders include:
@@ -52,6 +53,7 @@ In game, select the look you want with one of:
 ```text
 /loadskin spinui_reloaded 1
 /loadskin spinui_glass 1
+/loadskin spinui_pearlescent 1
 ```
 
 The `1` preserves your current window positions. Both variants retain the

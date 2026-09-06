@@ -69,6 +69,7 @@ from log_ingest import (
 )
 from mez_timer import MezTracker, format_mez_remaining
 from lull_timer import LullTracker
+from progression import ProgressionTracker
 from sky_intel import (SOURCE_URL as SKY_SOURCE_URL, inventory_names_from_text,
                        load_bundled_catalog, write_map_marker)
 from windows_hotkeys import (
@@ -1282,6 +1283,12 @@ class Fight:
         lambda: {"t": 0, "h": 0, "max": 0, "over": 0}))
     actor_damage: dict = field(default_factory=lambda: defaultdict(
         lambda: {"t": 0, "h": 0, "max": 0}))
+    # Per-contributor sources power the desktop drill-down without changing
+    # the conservative actor totals above. Categories are attached only when
+    # the log grammar proves them (for example melee, ranged, or a DoT).
+    actor_sources: dict = field(default_factory=lambda: defaultdict(
+        lambda: defaultdict(
+            lambda: {"t": 0, "h": 0, "max": 0, "category": "unknown"})))
     actor_roles: dict = field(default_factory=dict)
     actor_healing: dict = field(default_factory=lambda: defaultdict(
         lambda: {"t": 0, "h": 0, "max": 0}))
@@ -1408,6 +1415,7 @@ class SessionStats:
         self.interrupts = 0
         # xp
         self.xp_events = 0
+        self.progression = ProgressionTracker()
         self.xp_pct = 0.0
         self.xp_pct_known = False
         self.level: int | None = None
@@ -1497,6 +1505,9 @@ class SessionStats:
                         retag_active: bool = True) -> str:
         """Set the exact active EQL class trio and optionally retag combat."""
         canonical = normalize_composition(composition)
+        if self.composition and canonical != self.composition:
+            # A new loadout can have a different level/XP requirement.
+            self.progression = ProgressionTracker()
         self.composition = canonical
         self.composition_source = source if canonical else "unset"
         if retag_active and getattr(self, "fight", None) is not None:
@@ -1574,11 +1585,19 @@ class SessionStats:
             row["over"] += overheal
 
     def _record_actor_damage(self, actor: str, dmg: int,
-                             role: str = "observed"):
+                             role: str = "observed", *,
+                             source: str = "Unattributed damage",
+                             category: str = "unknown"):
         if self.fight is None:
             return
         self._add_metric(self.fight.actor_damage, actor, dmg)
         self._add_metric(self.actor_damage, actor, dmg)
+        actor_source = self.fight.actor_sources[actor][source]
+        actor_source["t"] += dmg
+        actor_source["h"] += 1
+        actor_source["max"] = max(actor_source["max"], dmg)
+        if category != "unknown":
+            actor_source["category"] = category
         # Preserve ownership with the fight. Charmed aliases are deliberately
         # removed when charm breaks, so classifying historical rows from the
         # current pet-name set would silently turn old pet damage into an
@@ -1604,13 +1623,18 @@ class SessionStats:
 
     def _deal(self, ts: datetime, target: str, dmg: int, source: str,
               crit: bool = False, actor: str | None = None,
-              actor_role: str | None = None, category: str = "unknown"):
+              actor_role: str | None = None, category: str = "unknown",
+              actor_source: str | None = None,
+              actor_source_category: str | None = None):
         self._own_combat(ts)
         if self.fight is None:
             self.fight = self._new_fight(ts)
         self._record_actor_damage(
             actor or self.character or "You", dmg,
-            actor_role or ("self" if actor is None else "observed"))
+            actor_role or ("self" if actor is None else "observed"),
+            source=actor_source or source,
+            category=(actor_source_category
+                      if actor_source_category is not None else category))
         self.fight.damage += dmg
         normalized_target = normalize_mob(target)
         self.fight.targets[normalized_target] += dmg
@@ -1651,7 +1675,9 @@ class SessionStats:
                 return cast_spell
         return None
 
-    def _observe_actor_damage(self, ts: datetime, actor: str, target: str, dmg: int):
+    def _observe_actor_damage(self, ts: datetime, actor: str, target: str,
+                              dmg: int, *, source: str,
+                              category: str = "unknown"):
         """Add a visible player/pet contributor without polluting self DPS."""
         actor = actor.strip()
         if not looks_like_player_actor(actor):
@@ -1665,9 +1691,28 @@ class SessionStats:
         if normalize_mob(actor).casefold() in known_targets:
             return
         role = "group" if is_group_member else "observed"
-        self._record_actor_damage(actor, dmg, role)
+        self._record_actor_damage(
+            actor, dmg, role, source=source, category=category)
         self.fight.observed_targets[normalize_mob(target)] += dmg
         self.fight.add_timeline(ts, "out", dmg)
+
+    @staticmethod
+    def _third_party_damage_source(kind: str, groups: dict) -> tuple[str, str]:
+        """Return only the source/category directly proven by a combat line."""
+        if kind == "melee_third":
+            return "Melee", "melee"
+        if kind == "ranged_third":
+            result = (groups.get("ranged_result") or "").casefold()
+            return ("Double Bow Shot" if "double bow shot" in result
+                    else "Ranged"), "melee"
+        if kind == "dot_third":
+            spell = (groups.get("spell") or "Unknown DoT").strip()
+            return f"DoT: {spell}", "dot"
+        spell = (groups.get("spell") or "Unknown source").strip()
+        # Third-party direct-damage lines do not reveal whether the named
+        # effect was a cast spell, item click, or proc. Retain the useful
+        # label while deliberately leaving its category unknown.
+        return f"Non-melee: {spell}", "unknown"
 
     def _count_motes(self, g: dict) -> None:
         """Add one acquisition line's motes to the session tally."""
@@ -1689,6 +1734,7 @@ class SessionStats:
             if ts - ref > COMBAT_GAP:
                 self._close_fight()
         self._touch(ts)
+        self.progression.observe(ts, kind, g)
         self.log_lines += 1
         crit = (bool(g.get("crit"))
                 or "critical" in (g.get("ranged_result") or "").casefold())
@@ -1999,6 +2045,8 @@ class SessionStats:
                 "melee_third", "ranged_third", "nuke_third", "dot_third"):
             attacker = (g.get("attacker") or g.get("caster") or "").strip()
             dmg = int(g["dmg"])
+            actor_source, actor_category = self._third_party_damage_source(
+                kind, g)
             if attacker and self.is_pet(attacker):
                 pet = self._pet_display_name(attacker) or normalize_mob(attacker)
                 is_charmed = self.is_charmed_pet(attacker)
@@ -2007,7 +2055,8 @@ class SessionStats:
                 self._deal(ts, g["target"], dmg, f"Pet ({pet})",
                            actor=f"{pet} (pet)",
                            actor_role="charmed" if is_charmed else "summoned",
-                           category="pet")
+                           category="pet", actor_source=actor_source,
+                           actor_source_category=actor_category)
                 if is_charmed:
                     self.charmed_pet_damage += dmg
                     if self.fight:
@@ -2023,7 +2072,9 @@ class SessionStats:
                         self.fight.ambiguous_pet_damage += dmg
                 self.melee_hits += 0  # pet swings tracked via source hits
             else:
-                self._observe_actor_damage(ts, attacker, g["target"], dmg)
+                self._observe_actor_damage(
+                    ts, attacker, g["target"], dmg,
+                    source=actor_source, category=actor_category)
         elif kind == "miss_third":
             attacker = (g.get("attacker") or "").strip()
             if attacker and self.is_pet(attacker):
@@ -2123,6 +2174,11 @@ class SessionStats:
             "fight_actor_damage": (
                 {k: dict(v) for k, v in shown_fight.actor_damage.items()}
                 if shown_fight else {}),
+            "fight_actor_sources": ({
+                actor: {source: dict(metric)
+                        for source, metric in sources.items()}
+                for actor, sources in shown_fight.actor_sources.items()
+            } if shown_fight else {}),
             "fight_actor_roles": (
                 dict(shown_fight.actor_roles) if shown_fight else {}),
             "fight_actor_healing": (

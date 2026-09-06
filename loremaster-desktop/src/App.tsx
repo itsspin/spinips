@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import Leveling from "./Leveling";
 import {
   PROTOCOL_VERSION,
   isEngineHealth,
@@ -7,6 +8,7 @@ import {
   type ControlTimerView,
   type CombatActorRole,
   type CombatActorView,
+  type CombatMetricView,
   type DesktopSettings,
   type EncounterView,
   type EngineHealth,
@@ -16,6 +18,7 @@ import {
   type RaidContextView,
   type SeedCompanionLayout,
   type SeedMeterMode,
+  type SeedMeterPlacement,
   type AlertSoundKind,
   type AlertSoundPreset,
   type UpdateCenterState,
@@ -60,7 +63,7 @@ const defaultSoundProfiles: DesktopSettings["alerts"]["soundProfiles"] = {
 };
 
 function normalizeTheme(value: unknown): LoremasterTheme {
-  return value === "glass" ? "glass" : "vellum";
+  return value === "glass" || value === "pearlescent" ? value : "vellum";
 }
 
 function applyTheme(value: unknown): LoremasterTheme {
@@ -74,8 +77,8 @@ const defaultDesktopSettings: DesktopSettings = {
   raidDifficulty: null, bisBuildPath: "", inventoryPath: "",
   uiTheme: "vellum",
   alwaysOnTop: true, fontScale: 1.15, composition: "", splitCharmedPetDps: false,
-  seedMeterVisible: true, seedMeterMode: "all", seedMeterOpacity: 0.9,
-  stanceAdvisorEnabled: false, itemNetworkLookups: true, seedPosition: null,
+  seedMeterVisible: true, seedMeterMode: "all", seedMeterPlacement: "auto", seedMeterOpacity: 0.9,
+  stanceAdvisorEnabled: false, itemNetworkLookups: true, seedPosition: null, seedMeterPosition: null,
   alerts: {
     alertsEnabled: true, alertSound: true, alertSeconds: 5, alertAnchor: "auto",
     alertCharmBreak: true, alertTells: true, alertSummon: true, alertDeath: true,
@@ -86,11 +89,12 @@ const defaultDesktopSettings: DesktopSettings = {
   },
 };
 
-const updateComponentIds: readonly UpdateComponentId[] = ["loremaster", "spinui_reloaded", "spinui_glass"];
+const updateComponentIds: readonly UpdateComponentId[] = ["loremaster", "spinui_reloaded", "spinui_glass", "spinui_pearlescent"];
 const updateComponentLabels: Record<UpdateComponentId, { name: string; eyebrow: string }> = {
   loremaster: { name: "Loremaster", eyebrow: "DESKTOP OVERLAY" },
   spinui_reloaded: { name: "SpinUI Reloaded", eyebrow: "VELLUM SKIN" },
   spinui_glass: { name: "SpinUI Glass", eyebrow: "FROST SKIN" },
+  spinui_pearlescent: { name: "SpinUI Pearlescent", eyebrow: "BLACK PEARL SKIN" },
 };
 const emptyUpdateState: UpdateCenterState = {
   currentVersion: "",
@@ -102,6 +106,7 @@ const emptyUpdateState: UpdateCenterState = {
     loremaster: { id: "loremaster", phase: "idle", currentVersion: "", latestVersion: "", progress: null, detail: "Ready to check" },
     spinui_reloaded: { id: "spinui_reloaded", phase: "idle", currentVersion: "", latestVersion: "", progress: null, detail: "Select your EverQuest folder to check this skin" },
     spinui_glass: { id: "spinui_glass", phase: "idle", currentVersion: "", latestVersion: "", progress: null, detail: "Select your EverQuest folder to check this skin" },
+    spinui_pearlescent: { id: "spinui_pearlescent", phase: "idle", currentVersion: "", latestVersion: "", progress: null, detail: "Select your EverQuest folder to check this skin" },
   },
 };
 
@@ -214,13 +219,14 @@ function CogMark({ compact = false }: { compact?: boolean }) {
   </span>;
 }
 
-function RuneSeed({ event, health, settings, onExpand, onCycleMeter, onToggleMeter }: {
+function RuneSeed({ event, health, settings, onExpand, onCycleMeter, onToggleMeter, onInspectMeter }: {
   event: EngineSnapshotEvent;
   health: EngineHealth;
   settings: DesktopSettings;
   onExpand: () => void;
   onCycleMeter: () => void;
   onToggleMeter: () => void;
+  onInspectMeter: () => void;
 }) {
   const { combat } = event.snapshot;
   const urgent = health.state === "error" || Boolean(event.snapshot.alerts?.length) ||
@@ -240,12 +246,15 @@ function RuneSeed({ event, health, settings, onExpand, onCycleMeter, onToggleMet
           aria-label={`Change DPS meter view. Current view: ${seedMeterModeCopy[settings.seedMeterMode].label}`}>
           {seedMeterModeCopy[settings.seedMeterMode].short}
         </button>
-        <button className={settings.seedMeterVisible ? "visible" : "hidden"} type="button"
-          onClick={onToggleMeter} aria-pressed={settings.seedMeterVisible}
-          title={`${settings.seedMeterVisible ? "Hide" : "Show"} the compact DPS meter`}
-          aria-label={`${settings.seedMeterVisible ? "Hide" : "Show"} compact DPS meter`}>
+        <button className={settings.seedMeterPlacement !== "seed-only" ? "visible" : "hidden"} type="button"
+          onClick={onToggleMeter} aria-pressed={settings.seedMeterPlacement !== "seed-only"}
+          title={`${settings.seedMeterPlacement === "seed-only" ? "Show" : "Hide"} the compact DPS meter`}
+          aria-label={`${settings.seedMeterPlacement === "seed-only" ? "Show" : "Hide"} compact DPS meter`}>
           <i aria-hidden="true" />
         </button>
+        {settings.seedMeterPlacement !== "seed-only" && <button className="seed-inspect" type="button"
+          onClick={onInspectMeter} title="Inspect DPS contributors and abilities"
+          aria-label="Inspect DPS contributors and abilities">DETAIL</button>}
       </span>
       {urgent && <span className="seed-alert" aria-label="urgent signal">!</span>}
     </div>
@@ -275,11 +284,24 @@ function SeedControlRow({ control }: { control: ControlTimerView }) {
 
 const seedMeterModes: readonly SeedMeterMode[] = ["self", "group", "pet", "all"];
 const seedMeterModeCopy: Record<SeedMeterMode, { label: string; short: string; detail: string }> = {
-  self: { label: "SELF", short: "SELF", detail: "Your highest-damage abilities" },
-  group: { label: "GROUP", short: "GRP", detail: "You and verified group members" },
-  pet: { label: "PETS", short: "PET", detail: "Charmed and summoned pets" },
-  all: { label: "ALL", short: "ALL", detail: "Self, pets, and verified group" },
+  self: { label: "SELF", short: "SELF", detail: "Player only" },
+  group: { label: "GROUP", short: "GRP", detail: "You + party" },
+  pet: { label: "PETS", short: "PET", detail: "Your pets" },
+  all: { label: "ALL", short: "ALL", detail: "Each contributor" },
 };
+
+const seedMeterPlacements: readonly {
+  id: SeedMeterPlacement;
+  label: string;
+  short: string;
+  detail: string;
+}[] = [
+  { id: "seed-only", label: "SEED ONLY", short: "SEED", detail: "Keep only the compact Rune Seed on screen." },
+  { id: "auto", label: "AUTO", short: "AUTO", detail: "Place the meter where it fits best around the Seed." },
+  { id: "above", label: "ABOVE", short: "TOP", detail: "Prefer the meter directly above the Seed." },
+  { id: "right", label: "RIGHT / SIDECAR", short: "SIDE", detail: "Prefer a sidecar meter to the right of the Seed." },
+  { id: "meter-only", label: "METER ONLY", short: "METER", detail: "Replace the Seed with the interactive DPS meter." },
+];
 
 interface SeedMeterRowView {
   key: string;
@@ -287,6 +309,10 @@ interface SeedMeterRowView {
   detail: string;
   damage: number;
   dps: number;
+  hits: number;
+  maximum: number;
+  sources: readonly CombatMetricView[];
+  role: CombatActorRole | "combined";
   style: CSSProperties;
 }
 
@@ -295,6 +321,26 @@ interface SeedMeterView {
   totalDamage: number;
   totalDps: number;
   active: boolean;
+}
+
+function mergeCombatSources(groups: readonly (readonly CombatMetricView[])[]): readonly CombatMetricView[] {
+  const merged = new Map<string, CombatMetricView>();
+  groups.flat().forEach((source) => {
+    const key = `${normalizeAbilityCategory(source.category, source.name)}\u0000${source.name.toLocaleLowerCase()}`;
+    const current = merged.get(key);
+    merged.set(key, current ? {
+      ...current,
+      total: current.total + Math.max(0, Number(source.total) || 0),
+      hits: current.hits + Math.max(0, Number(source.hits) || 0),
+      maximum: Math.max(current.maximum, Math.max(0, Number(source.maximum) || 0)),
+    } : {
+      ...source,
+      total: Math.max(0, Number(source.total) || 0),
+      hits: Math.max(0, Number(source.hits) || 0),
+      maximum: Math.max(0, Number(source.maximum) || 0),
+    });
+  });
+  return [...merged.values()].sort((left, right) => right.total - left.total || left.name.localeCompare(right.name));
 }
 
 function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMeterView {
@@ -307,16 +353,27 @@ function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMet
     detail,
     damage: Math.max(0, Number(actor.encounterDamage) || 0),
     dps: Math.max(0, Number(actor.encounterDps) || (Number(actor.encounterDamage) || 0) / seconds),
+    hits: Math.max(0, Number(actor.encounterHits) || 0),
+    maximum: Math.max(0, Number(actor.encounterMaximum) || 0),
+    sources: actor.sources ?? [],
+    role: actor.role,
     style: actorIdentityStyle(actor.name),
   });
   const selfActor = actors.find((actor) => actor.role === "self");
   const selfDamage = Math.max(0, Number(encounter.personalDamage) || selfActor?.encounterDamage || 0);
+  const selfSources = selfActor?.sources?.length
+    ? selfActor.sources
+    : encounter.sources.filter((source) => normalizeAbilityCategory(source.category, source.name) !== "pet");
   const selfRow: SeedMeterRowView = {
     key: "self",
     name: event.snapshot.character.name !== "?" ? event.snapshot.character.name : "YOU",
     detail: "SELF",
     damage: selfDamage,
     dps: selfDamage / seconds,
+    hits: selfActor?.encounterHits ?? selfSources.reduce((total, source) => total + source.hits, 0),
+    maximum: selfActor?.encounterMaximum ?? Math.max(0, ...selfSources.map((source) => source.maximum)),
+    sources: selfSources,
+    role: "self",
     style: actorIdentityStyle(event.snapshot.character.name || "self"),
   };
   const ownCombinedDamage = Math.max(0, Number(encounter.damage) ||
@@ -327,6 +384,10 @@ function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMet
     detail: "SELF + PETS",
     damage: ownCombinedDamage,
     dps: ownCombinedDamage / seconds,
+    hits: 0,
+    maximum: 0,
+    sources: [],
+    role: "combined",
   };
   const groupRows = actors
     .filter((actor) => actor.role === "group" && actor.encounterDamage > 0)
@@ -338,6 +399,7 @@ function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMet
     petRows.push({
       key: "charmed-pet", name: "Charmed pet", detail: "CHARMED PET",
       damage: encounter.charmedPetDamage, dps: encounter.charmedPetDamage / seconds,
+      hits: 0, maximum: 0, sources: [], role: "charmed",
       style: actorIdentityStyle("charmed pet"),
     });
   }
@@ -345,28 +407,19 @@ function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMet
     petRows.push({
       key: "summoned-pet", name: "Summoned pet", detail: "SUMMONED PET",
       damage: encounter.summonedPetDamage, dps: encounter.summonedPetDamage / seconds,
+      hits: 0, maximum: 0, sources: [], role: "summoned",
       style: actorIdentityStyle("summoned pet"),
     });
   }
+  const ownActors = [selfActor, ...petActors].filter((actor): actor is CombatActorView => Boolean(actor));
+  combinedSelfRow.sources = mergeCombatSources([selfSources, ...petActors.map((actor) => actor.sources ?? [])]);
+  combinedSelfRow.hits = selfRow.hits + petActors.reduce((total, actor) => total + Math.max(0, actor.encounterHits), 0);
+  combinedSelfRow.maximum = Math.max(selfRow.maximum, ...petActors.map((actor) => actor.encounterMaximum));
 
   let rows: SeedMeterRowView[];
   let totalDamage: number;
   if (mode === "self") {
-    const abilityRows = (encounter.sources ?? []).filter((source) => {
-      const category = normalizeAbilityCategory(source.category, source.name);
-      return source.total > 0 && category !== "pet";
-    }).map((source) => {
-      const category = normalizeAbilityCategory(source.category, source.name);
-      return {
-        key: `ability-${source.name.toLocaleLowerCase()}`,
-        name: source.name,
-        detail: `${abilityCategoryLabel(category)} · ${source.hits} HIT${source.hits === 1 ? "" : "S"} · MAX ${source.maximum.toLocaleString()}`,
-        damage: source.total,
-        dps: source.total / seconds,
-        style: abilityIdentityStyle(category),
-      } satisfies SeedMeterRowView;
-    });
-    rows = abilityRows.length > 0 ? abilityRows : (selfDamage > 0 ? [selfRow] : []);
+    rows = selfDamage > 0 ? [selfRow] : [];
     totalDamage = selfDamage;
   } else if (mode === "pet") {
     rows = petRows;
@@ -387,10 +440,153 @@ function seedMeterView(event: EngineSnapshotEvent, mode: SeedMeterMode): SeedMet
   };
 }
 
+function seedSignalIsUrgent(event: EngineSnapshotEvent, health?: EngineHealth): boolean {
+  return health?.state === "error" || Boolean(event.snapshot.alerts?.length) ||
+    Boolean(event.snapshot.weekly?.pendingRaidTarget) || event.snapshot.controls.some((control) =>
+    control.state !== "active" || control.urgency !== "safe");
+}
+
+interface SeedMeterSurfaceProps {
+  event: EngineSnapshotEvent;
+  settings: DesktopSettings;
+  rowLimit: number;
+  interactive: boolean;
+  standalone?: boolean;
+  health?: EngineHealth;
+  onCycleMode?: () => void;
+  onAnalyze?: () => void;
+  onHud?: () => void;
+  onRestoreSeed?: () => void;
+  onDoneInspecting?: () => void;
+  onDetailRowsChange?: (count: number) => void;
+}
+
+function SeedMeterPager({ page, pages, label, onChange }: {
+  page: number; pages: number; label: string; onChange: (page: number) => void;
+}) {
+  return <footer className="seed-meter-pages">
+    <button type="button" disabled={page === 0} onClick={() => onChange(page - 1)}
+      aria-label={`Previous ${label.toLowerCase()}`}>‹</button>
+    <span>{label} · {page + 1} / {pages}</span>
+    <button type="button" disabled={page >= pages - 1} onClick={() => onChange(page + 1)}
+      aria-label={`Next ${label.toLowerCase()}`}>›</button>
+  </footer>;
+}
+
+function SeedMeterSurface({ event, settings, rowLimit, interactive, standalone = false, health,
+  onCycleMode, onAnalyze, onHud, onRestoreSeed, onDoneInspecting, onDetailRowsChange }: SeedMeterSurfaceProps) {
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [contributorPage, setContributorPage] = useState(0);
+  const [detailPage, setDetailPage] = useState(0);
+  const meter = seedMeterView(event, settings.seedMeterMode);
+  const pageSize = Math.max(1, rowLimit);
+  const contributorPages = Math.max(1, Math.ceil(meter.rows.length / pageSize));
+  const shownContributorPage = Math.min(contributorPage, contributorPages - 1);
+  const visibleRows = meter.rows.slice(shownContributorPage * pageSize, (shownContributorPage + 1) * pageSize);
+  const hiddenRows = Math.max(0, meter.rows.length - visibleRows.length);
+  const selected = selectedKey ? meter.rows.find((row) => row.key === selectedKey) ?? null : null;
+  const allDetailSources = selected
+    ? [...selected.sources].filter((source) => source.total > 0)
+      .sort((left, right) => right.total - left.total || left.name.localeCompare(right.name))
+    : [];
+  const detailPages = Math.max(1, Math.ceil(allDetailSources.length / pageSize));
+  const shownDetailPage = Math.min(detailPage, detailPages - 1);
+  const detailSources = allDetailSources.slice(shownDetailPage * pageSize, (shownDetailPage + 1) * pageSize);
+  const hiddenSources = Math.max(0, allDetailSources.length - detailSources.length);
+  const urgent = seedSignalIsUrgent(event, health);
+  const maximumDamage = Math.max(1, ...visibleRows.map((row) => row.damage));
+  const maximumSource = Math.max(1, ...detailSources.map((source) => source.total));
+  const reportedDetailRows = selected ? Math.max(1, allDetailSources.length) : 0;
+
+  useEffect(() => {
+    if (selectedKey && !meter.rows.some((row) => row.key === selectedKey)) setSelectedKey(null);
+  }, [meter.rows, selectedKey]);
+  useEffect(() => {
+    if (!interactive) {
+      if (selectedKey) setSelectedKey(null);
+      setContributorPage(0);
+      setDetailPage(0);
+    }
+  }, [interactive, selectedKey]);
+  useEffect(() => {
+    setContributorPage(0);
+    setDetailPage(0);
+    setSelectedKey(null);
+  }, [settings.seedMeterMode]);
+  useEffect(() => {
+    onDetailRowsChange?.(reportedDetailRows);
+    // The bridge callback is intentionally excluded: renderer parents create a
+    // lightweight closure per render, while native resizing depends only on the row contract.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reportedDetailRows]);
+
+  const status = meter.active ? "LIVE" : meter.totalDamage > 0 ? "LAST FIGHT" : "READY";
+  return <section className={`seed-meter-surface mode-${settings.seedMeterMode} ${standalone ? "standalone" : "compact"} ${interactive ? "interactive" : "locked"} ${event.snapshot.combat.autoAttack ? "attacking" : ""} ${urgent ? "urgent" : ""}`}
+    style={{
+      "--seed-meter-opacity": settings.seedMeterOpacity,
+      "--seed-meter-row-slots": Math.min(pageSize, selected ? Math.max(1, allDetailSources.length) : meter.rows.length),
+    } as CSSProperties}
+    aria-label={`${seedMeterModeCopy[settings.seedMeterMode].label} DPS meter`}>
+    <header className={standalone ? "meter-drag-header" : undefined}>
+      <span><i /> DPS · {seedMeterModeCopy[settings.seedMeterMode].label}</span>
+      {standalone ? <nav className="seed-meter-actions" aria-label="DPS meter controls">
+        <button type="button" onClick={onCycleMode} title="Cycle meter content">{seedMeterModeCopy[settings.seedMeterMode].short}</button>
+        <button type="button" onClick={onAnalyze}>ANALYZE</button>
+        <button type="button" onClick={onHud}>HUD</button>
+        <button type="button" onClick={onRestoreSeed}>SEED</button>
+      </nav> : interactive && onDoneInspecting ? <button className="meter-inspect-done" type="button"
+        onClick={onDoneInspecting}>DONE</button> : <strong>{status} · {formatMeterValue(meter.totalDamage)} DMG · {formatDps(meter.totalDps)} DPS</strong>}
+    </header>
+    {standalone && <div className="seed-meter-status"><span>{status}</span><strong>{formatMeterValue(meter.totalDamage)} DMG · {formatDps(meter.totalDps)} DPS</strong></div>}
+    {selected ? <div className="seed-meter-detail">
+      <nav className="seed-meter-breadcrumb" aria-label="Contributor ability detail">
+        <button type="button" onClick={() => setSelectedKey(null)}>‹ {seedMeterModeCopy[settings.seedMeterMode].label}</button>
+        <span title={`Top recorded abilities for ${selected.name}`}>{selected.name}</span>
+        <small>ABILITIES</small>
+      </nav>
+      <div className="seed-meter-facts">
+        <span><small>DPS</small><b>{formatDps(selected.dps)}</b></span>
+        <span><small>DAMAGE</small><b>{formatMeterValue(selected.damage)}</b></span>
+        <span><small>HITS</small><b>{selected.hits.toLocaleString()}</b></span>
+        <span><small>MAX</small><b>{formatMeterValue(selected.maximum)}</b></span>
+      </div>
+      {detailSources.length > 0 ? <div className="seed-meter-abilities">{detailSources.map((source) => {
+        const category = normalizeAbilityCategory(source.category, source.name);
+        return <article className="seed-meter-ability" style={abilityIdentityStyle(category)} key={`${category}-${source.name}`}>
+          <i aria-hidden="true" style={{ width: `${Math.max(3, source.total / maximumSource * 100)}%` }} />
+          <span><b><i className="actor-swatch" aria-hidden="true" />{source.name}</b><small>{abilityCategoryLabel(category)} · {source.hits} HIT{source.hits === 1 ? "" : "S"} · MAX {formatMeterValue(source.maximum)}</small></span>
+          <strong>{formatMeterValue(source.total)}<small>DMG</small></strong>
+        </article>;
+      })}</div> : <p className="seed-meter-no-evidence">The damage total is proven, but this log segment does not contain per-ability evidence for {selected.name}.</p>}
+      {hiddenSources > 0 && <SeedMeterPager page={shownDetailPage} pages={detailPages}
+        label="RECORDED ABILITIES" onChange={setDetailPage} />}
+    </div> : visibleRows.length > 0 ? <div className="seed-meter-contributors">{visibleRows.map((row, index) => <button
+      className="seed-meter-row" style={row.style} key={row.key} type="button"
+      tabIndex={interactive ? 0 : -1} aria-disabled={!interactive}
+      aria-label={`${row.name}, ${formatDps(row.dps)} DPS, ${formatMeterValue(row.damage)} damage. ${interactive ? "Open ability detail." : "Use Inspect on the Rune Seed to open ability detail."}`}
+      onClick={() => { if (interactive) { setDetailPage(0); setSelectedKey(row.key); } }}>
+      <i className="seed-meter-fill" aria-hidden="true" style={{ width: `${Math.max(3, row.damage / maximumDamage * 100)}%` }} />
+      <b className="seed-meter-rank">{shownContributorPage * pageSize + index + 1}</b>
+      <span><b><i className="actor-swatch" aria-hidden="true" />{row.name}</b><small>{row.detail} · {meter.totalDamage > 0 ? Math.round(row.damage / meter.totalDamage * 100) : 0}%</small></span>
+      <strong>{formatDps(row.dps)}<small>DPS</small></strong>
+      <em>{formatMeterValue(row.damage)}<small>DMG</small></em>
+    </button>)}</div> : <div className="seed-meter-idle">
+      <CogMark compact />
+      <span><b>{health?.state === "error" ? "PARSER NEEDS ATTENTION" : "READY FOR COMBAT"}</b>
+        <small>{health?.state === "error" ? health.detail : "Damage contributors and abilities will appear with the next fight."}</small></span>
+    </div>}
+    {!selected && hiddenRows > 0 && (interactive
+      ? <SeedMeterPager page={shownContributorPage} pages={contributorPages}
+        label="CONTRIBUTORS" onChange={setContributorPage} />
+      : <footer>+{hiddenRows} MORE · USE DETAIL TO BROWSE</footer>)}
+  </section>;
+}
+
 function SeedControlSurface() {
   const [event, setEvent] = useState(emptyEvent);
   const [settings, setSettings] = useState(defaultDesktopSettings);
   const [layout, setLayout] = useState<SeedCompanionLayout>({ meterRows: 6, controlRows: 6 });
+  const [inspecting, setInspecting] = useState(false);
   useEffect(() => {
     document.body.classList.add("control-window");
     const desktop = window.loremasterDesktop;
@@ -415,10 +611,19 @@ function SeedControlSurface() {
       const controlRows = Math.max(0, Math.min(6, Math.floor(Number(value?.controlRows) || 0)));
       setLayout({ meterRows, controlRows });
     });
+    const removeInteraction = desktop.onCompanionInteraction((value) => {
+      setInspecting(Boolean(value?.inspecting));
+    });
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") desktop.setCompanionInspecting(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
     return () => {
       removeSnapshot();
       removeSettings();
       removeLayout();
+      removeInteraction();
+      window.removeEventListener("keydown", onKeyDown);
       document.body.classList.remove("control-window");
     };
   }, []);
@@ -430,30 +635,22 @@ function SeedControlSurface() {
   const controls = availableControls.slice(0, layout.controlRows);
   const hiddenControls = Math.max(0, availableControls.length - controls.length);
   const meter = seedMeterView(event, settings.seedMeterMode);
-  const meterRows = settings.seedMeterVisible ? meter.rows.slice(0, layout.meterRows) : [];
-  const hiddenMeterRows = Math.max(0, meter.rows.length - meterRows.length);
-  const meterVisible = settings.seedMeterVisible && meterRows.length > 0;
+  const meterEnabled = settings.seedMeterPlacement === "auto" || settings.seedMeterPlacement === "above" || settings.seedMeterPlacement === "right";
+  const meterVisible = meterEnabled && layout.meterRows > 0 && meter.rows.length > 0;
   if (controls.length === 0 && !meterVisible) {
     return <div className="seed-companion-surface empty" />;
   }
-  const maximumDamage = Math.max(1, ...meterRows.map((row) => row.damage));
-  return <main className="seed-companion-surface" aria-live="polite">
-    {meterVisible && <section className={`seed-meter-surface mode-${settings.seedMeterMode}`}
-      style={{ "--seed-meter-opacity": settings.seedMeterOpacity } as CSSProperties}
-      aria-label={`${seedMeterModeCopy[settings.seedMeterMode].label} DPS meter`}>
-      <header>
-        <span><i /> DPS · {seedMeterModeCopy[settings.seedMeterMode].label}</span>
-        <strong>{meter.active ? "LIVE" : "LAST FIGHT"} · {formatMeterValue(meter.totalDamage)} DMG · {formatDps(meter.totalDps)} DPS</strong>
-      </header>
-      <div>{meterRows.map((row, index) => <article className="seed-meter-row" style={row.style} key={row.key}>
-        <i className="seed-meter-fill" aria-hidden="true" style={{ width: `${Math.max(3, row.damage / maximumDamage * 100)}%` }} />
-        <b className="seed-meter-rank">{index + 1}</b>
-        <span><b><i className="actor-swatch" aria-hidden="true" />{row.name}</b><small>{row.detail} · {meter.totalDamage > 0 ? Math.round(row.damage / meter.totalDamage * 100) : 0}%</small></span>
-        <strong>{formatDps(row.dps)}<small>DPS</small></strong>
-        <em>{formatMeterValue(row.damage)}<small>DMG</small></em>
-      </article>)}</div>
-      {hiddenMeterRows > 0 && <footer>+{hiddenMeterRows} MORE · OPEN ANALYZE FOR THE FULL TABLE</footer>}
-    </section>}
+  const cycleMode = async () => {
+    const index = seedMeterModes.indexOf(settings.seedMeterMode);
+    const seedMeterMode = seedMeterModes[(index + 1) % seedMeterModes.length];
+    const saved = await window.loremasterDesktop?.updateSettings({ seedMeterMode });
+    if (saved) setSettings(saved);
+  };
+  return <main className={`seed-companion-surface ${inspecting ? "inspecting" : "locked"}`}>
+    {meterVisible && <SeedMeterSurface event={event} settings={settings} rowLimit={layout.meterRows}
+      interactive={inspecting} onCycleMode={() => void cycleMode()}
+      onDoneInspecting={() => window.loremasterDesktop?.setCompanionInspecting(false)}
+      onDetailRowsChange={(count) => window.loremasterDesktop?.setCompanionDetailRows(count)} />}
     {controls.length > 0 && <section className="seed-control-surface" aria-label="Active mez and lull timers">
       <header><span><i /> CONTROL</span><strong>{hiddenControls > 0
         ? `${controls.length} SHOWN · +${hiddenControls} MORE`
@@ -641,8 +838,9 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
       fontScale: draft.fontScale,
       composition: draft.composition,
       splitCharmedPetDps: draft.splitCharmedPetDps,
-      seedMeterVisible: draft.seedMeterVisible,
+      seedMeterVisible: draft.seedMeterPlacement !== "seed-only",
       seedMeterMode: draft.seedMeterMode,
+      seedMeterPlacement: draft.seedMeterPlacement,
       seedMeterOpacity: draft.seedMeterOpacity,
       stanceAdvisorEnabled: draft.stanceAdvisorEnabled,
       itemNetworkLookups: draft.itemNetworkLookups,
@@ -667,7 +865,7 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
     const saved = await window.loremasterDesktop?.updateSettings({ fontScale });
     if (saved) onSettings(saved);
   };
-  const changeSeedMeter = async (patch: Partial<Pick<DesktopSettings, "seedMeterVisible" | "seedMeterMode" | "seedMeterOpacity">>) => {
+  const changeSeedMeter = async (patch: Partial<Pick<DesktopSettings, "seedMeterVisible" | "seedMeterMode" | "seedMeterPlacement" | "seedMeterOpacity">>) => {
     patchDraft(patch);
     const saved = await window.loremasterDesktop?.updateSettings(patch);
     if (saved) {
@@ -695,6 +893,7 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
           {([
             { id: "vellum", name: "VELLUM & EMBER", detail: "Matches SpinUI Reloaded" },
             { id: "glass", name: "MIDNIGHT FROST GLASS", detail: "Matches SpinUI Glass" },
+            { id: "pearlescent", name: "PEARLESCENT", detail: "Ivory · seafoam · rose" },
           ] as const).map((option) => <button
             className={`theme-option ${option.id} ${draft.uiTheme === option.id ? "selected" : ""}`}
             type="button"
@@ -738,16 +937,28 @@ function SettingsPanel({ health, raidContext, raidDifficulty, settings, onSettin
           detail="Shows separate live fight rates while preserving the accurate combined total."
           onChange={(splitCharmedPetDps) => patchDraft({ splitCharmedPetDps })} />
         <div className="seed-meter-setting">
-          <SettingsToggle checked={draft.seedMeterVisible} label="Show compact DPS meter beside the Rune Seed"
-            detail="The Seed always remains visible. Use its small view and eye controls to switch or hide this click-through meter instantly."
-            onChange={(seedMeterVisible) => void changeSeedMeter({ seedMeterVisible })} />
-          <div className={`seed-meter-preferences ${draft.seedMeterVisible ? "enabled" : "disabled"}`}>
+          <span className="setting-caption">DPS OVERLAY APPEARANCE</span>
+          <div className="seed-meter-placement-picker" role="radiogroup" aria-label="DPS overlay appearance">
+            {seedMeterPlacements.map((placement) => <button
+              className={draft.seedMeterPlacement === placement.id ? "selected" : ""}
+              type="button" role="radio" aria-checked={draft.seedMeterPlacement === placement.id}
+              title={placement.detail} key={placement.id}
+              onClick={() => void changeSeedMeter({
+                seedMeterPlacement: placement.id,
+                seedMeterVisible: placement.id !== "seed-only",
+              })}>
+              <span className={`seed-meter-placement-icon layout-${placement.id}`} aria-hidden="true"><i /><i /></span>
+              <b>{placement.label}</b>
+            </button>)}
+          </div>
+          <p className="seed-meter-placement-note">{seedMeterPlacements.find((placement) => placement.id === draft.seedMeterPlacement)?.detail} Meter Only is clickable; choose Detail on the Seed to inspect other layouts.</p>
+          <div className="seed-meter-preferences enabled">
             <span className="setting-caption">METER VIEW</span>
             <div className="seed-meter-mode-picker" role="radiogroup" aria-label="Compact DPS meter view">
               {seedMeterModes.map((mode) => <button className={draft.seedMeterMode === mode ? "selected" : ""}
                 type="button" role="radio" aria-checked={draft.seedMeterMode === mode} key={mode}
                 title={seedMeterModeCopy[mode].detail}
-                onClick={() => void changeSeedMeter({ seedMeterMode: mode, seedMeterVisible: true })}>
+                onClick={() => void changeSeedMeter({ seedMeterMode: mode })}>
                 <b>{seedMeterModeCopy[mode].label}</b><small>{seedMeterModeCopy[mode].detail}</small>
               </button>)}
             </div>
@@ -1115,6 +1326,7 @@ function currentEncounter(event: EngineSnapshotEvent): EncounterView {
       encounterHits: actor.hits, encounterMaximum: actor.maximum,
       sessionDamage: actor.total, sessionDps: 0,
       sessionHits: actor.hits, sessionMaximum: actor.maximum,
+      sources: [],
     })),
     healingSources: [],
     timeline: [],
@@ -1186,10 +1398,12 @@ function MainApp() {
   const [expanded, setExpanded] = useState(false);
   const [analysisOpen, setAnalysisOpen] = useState(false);
   const [lootOpen, setLootOpen] = useState(false);
+  const [levelingOpen, setLevelingOpen] = useState(false);
   const [lootInitialEventId, setLootInitialEventId] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [raidDifficulty, setRaidDifficulty] = useState<number | null>(null);
   const [settings, setSettings] = useState<DesktopSettings>(defaultDesktopSettings);
+  const [companionLayout, setCompanionLayout] = useState<SeedCompanionLayout>({ meterRows: 6, controlRows: 6 });
   const [runtime, setRuntime] = useState({ coldStartMs: 0, residentMemoryMb: 0, platform: "", version: "" });
   const [gearPlan, setGearPlan] = useState<GearPlanView>(emptyGearPlan);
   const [selectedEncounterId, setSelectedEncounterId] = useState<string | null>(null);
@@ -1226,10 +1440,17 @@ function MainApp() {
         setSettings(next);
       }
     });
-    return () => { removeSnapshot(); removeHealth(); removeGearPlan(); removeSettings(); };
+    const removeCompanionLayout = desktop.onCompanionLayout((value) => {
+      setCompanionLayout({
+        meterRows: Math.max(0, Math.min(6, Math.floor(Number(value?.meterRows) || 0))),
+        controlRows: Math.max(0, Math.min(6, Math.floor(Number(value?.controlRows) || 0))),
+      });
+    });
+    return () => { removeSnapshot(); removeHealth(); removeGearPlan(); removeSettings(); removeCompanionLayout(); };
   }, []);
 
   const setMode = (next: boolean) => {
+    setLevelingOpen(false);
     setExpanded(next);
     setAnalysisOpen(false);
     setLootOpen(false);
@@ -1238,6 +1459,7 @@ function MainApp() {
   };
 
   const showAnalysis = () => {
+    setLevelingOpen(false);
     setExpanded(true);
     setSettingsOpen(false);
     setLootOpen(false);
@@ -1246,6 +1468,7 @@ function MainApp() {
   };
 
   const showHud = () => {
+    setLevelingOpen(false);
     setExpanded(true);
     setAnalysisOpen(false);
     setLootOpen(false);
@@ -1253,6 +1476,7 @@ function MainApp() {
   };
 
   const showSpoils = (initialEventId?: string) => {
+    setLevelingOpen(false);
     setExpanded(true);
     setSettingsOpen(false);
     setAnalysisOpen(false);
@@ -1277,16 +1501,17 @@ function MainApp() {
   };
 
   const toggleSeedMeter = async () => {
-    const seedMeterVisible = !settings.seedMeterVisible;
-    setSettings((current) => ({ ...current, seedMeterVisible }));
-    const saved = await window.loremasterDesktop?.updateSettings({ seedMeterVisible });
+    const seedMeterPlacement: SeedMeterPlacement = settings.seedMeterPlacement === "seed-only" ? "auto" : "seed-only";
+    const seedMeterVisible = seedMeterPlacement !== "seed-only";
+    setSettings((current) => ({ ...current, seedMeterPlacement, seedMeterVisible }));
+    const saved = await window.loremasterDesktop?.updateSettings({ seedMeterPlacement, seedMeterVisible });
     if (saved) setSettings(saved);
   };
 
   const cycleSeedMeter = async () => {
     const index = seedMeterModes.indexOf(settings.seedMeterMode);
     const seedMeterMode = seedMeterModes[(index + 1) % seedMeterModes.length];
-    const patch = { seedMeterMode, seedMeterVisible: true } as const;
+    const patch = { seedMeterMode } as const;
     setSettings((current) => ({ ...current, ...patch }));
     const saved = await window.loremasterDesktop?.updateSettings(patch);
     if (saved) setSettings(saved);
@@ -1297,11 +1522,26 @@ function MainApp() {
     return total > 0 ? Math.round(event.snapshot.combat.charmedPetDamage / total * 100) : 0;
   }, [event.snapshot.combat.personalDamage, event.snapshot.combat.charmedPetDamage]);
 
+  const restoreRuneSeed = async () => {
+    const patch = { seedMeterPlacement: "auto", seedMeterVisible: true } as const;
+    setSettings((current) => ({ ...current, ...patch }));
+    const saved = await window.loremasterDesktop?.updateSettings(patch);
+    if (saved) setSettings(saved);
+  };
+
+  if (!expanded && settings.seedMeterPlacement === "meter-only") return <SeedMeterSurface
+    event={event} settings={settings} health={health} rowLimit={Math.max(1, companionLayout.meterRows)}
+    interactive standalone onCycleMode={() => void cycleSeedMeter()}
+    onAnalyze={showAnalysis} onHud={showHud} onRestoreSeed={() => void restoreRuneSeed()}
+    onDetailRowsChange={(count) => window.loremasterDesktop?.setCompanionDetailRows(count)} />;
+
   if (!expanded) return <RuneSeed event={event} health={health} settings={settings}
     onExpand={() => setMode(true)} onCycleMeter={() => void cycleSeedMeter()}
-    onToggleMeter={() => void toggleSeedMeter()} />;
+    onToggleMeter={() => void toggleSeedMeter()}
+    onInspectMeter={() => window.loremasterDesktop?.setCompanionInspecting(true)} />;
 
   const { snapshot } = event;
+  if (levelingOpen) return <Leveling event={event} onHud={showHud} onSeed={() => setMode(false)} />;
   const weekly = snapshot.weekly;
   if (lootOpen) return <LootChronicle event={event} health={health} gearPlan={gearPlan} initialEventId={lootInitialEventId}
     onAnalyze={showAnalysis} onHud={showHud} onSeed={() => setMode(false)}
@@ -1365,6 +1605,9 @@ function MainApp() {
             onClick={() => changeRaidDifficulty(difficulty)}>D{difficulty}</button>)}</div>
         </section>}
 
+        <button className="ascent-entry" onClick={() => { setLevelingOpen(true); setSettingsOpen(false); window.loremasterDesktop?.setAnalysis(true); }}>
+          <b>THE ASCENT</b><span>Leveling, XP pace &amp; upcoming spells</span><strong>↗</strong>
+        </button>
         <nav className="encounter-nav" aria-label="Encounter history">
           <button type="button" disabled={encounterIndex <= 0}
             onClick={() => setSelectedEncounterId(encounters[Math.max(0, encounterIndex - 1)].encounterId)}>‹ PREV</button>

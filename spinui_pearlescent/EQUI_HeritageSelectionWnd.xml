@@ -1,0 +1,209 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+	
+	<StaticAnimation item="HSW_Inv_Seperator1">
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>164</CX>
+			<CY>4</CY>
+		</Size>
+		<Animation>A_DividerMiddle</Animation>
+	</StaticAnimation>
+
+	<StaticAnimation item="HSW_Inv_Seperator2">
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>43</Y>
+		</Location>
+		<Size>
+			<CX>164</CX>
+			<CY>4</CY>
+		</Size>
+		<Animation>A_DividerMiddle</Animation>
+	</StaticAnimation>
+
+	<StaticText item="HSW_Heritage_Text">
+		<ScreenID>Heritage_Text</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>8</Y>
+		</Location>
+		<Size>
+			<CX>178</CX>
+			<CY>50</CY>
+		</Size>
+		<Text>Heritage</Text>
+		<TextColor>
+			<R>182</R>
+			<G>253</G>
+			<B>130</B>
+		</TextColor>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "HSW_ParentId_Down_Button">
+		<ScreenID>ParentId_Down_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>29</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBLeft</Template>
+	</Button>
+
+	<StaticText item ="HSW_ParentId_Text">
+		<ScreenID>ParentId_Text</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>28</X>
+			<Y>27</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>PARENT ID</Text>
+		<TextColor>
+			<R>182</R>
+			<G>253</G>
+			<B>130</B>
+		</TextColor>
+		<DisabledColor>
+			<R>128</R>
+			<G>128</G>
+			<B>128</B>
+		</DisabledColor>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</StaticText>
+
+	<Button item = "HSW_ParentId_Up_Button">
+		<ScreenID>ParentId_Up_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>147</X>
+			<Y>29</Y>
+		</Location>
+		<Size>
+			<CX>22</CX>
+			<CY>12</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Template>BDT_HSBRight</Template>
+		<SoundPressed/>
+		<SoundUp/>
+		<SoundFlyby/>
+	</Button>
+
+	<Button item = "HSW_Accept_Button">
+		<ScreenID>Accept_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>15</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>64</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Accept</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "HSW_Cancel_Button">
+		<ScreenID>Cancel_Button</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>89</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>64</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Cancel</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+
+	<Screen item = "HeritageSelectionWnd">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<Text>Choose Your Heritage</Text>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>300</X>
+			<Y>120</Y>
+		</Location>
+		<Size>
+			<CX>185</CX>
+			<CY>110</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>HSW_Inv_Seperator1</Pieces>
+		<Pieces>HSW_Heritage_Text</Pieces>
+		<Pieces>HSW_ParentId_Down_Button</Pieces>
+		<Pieces>HSW_ParentId_Text</Pieces>
+		<Pieces>HSW_ParentId_Up_Button</Pieces>
+		<Pieces>HSW_Inv_Seperator2</Pieces>
+		<Pieces>HSW_Accept_Button</Pieces>
+		<Pieces>HSW_Cancel_Button</Pieces>
+	</Screen>
+
+</XML>

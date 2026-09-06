@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+	<LayoutStrategy item="ACHI_Layout">
+		<Padding>0</Padding>
+		<ResizeVertical>true</ResizeVertical>
+		<ResizeHorizontal>false</ResizeHorizontal>
+	</LayoutStrategy>
+
+	<Label item="ACHI_AchievementDescription_Label">
+		<ScreenID>ACHI_AchievementDescription_Label</ScreenID>
+		<Text>[Description]</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>248</R>
+			<G>189</G>
+			<B>33</B>
+		</TextColor>
+		<Size>
+			<CX>100</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+
+	<Label item="ACHI_AchievementPath_Label">
+		<ScreenID>ACHI_AchievementPath_Label</ScreenID>
+		<Text>[Category -> Branch]</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>248</R>
+			<G>189</G>
+			<B>33</B>
+		</TextColor>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+	
+	<Label item="ACHI_AchievementTimeStamp_Label">
+		<ScreenID>ACHI_AchievementTimeStamp_Label</ScreenID>
+		<Text>[Timestamp]</Text>
+		<Font>3</Font>
+		<TextColor>
+			<R>248</R>
+			<G>189</G>
+			<B>33</B>
+		</TextColor>
+		<Size>
+			<CX>100</CX>
+			<CY>15</CY>
+		</Size>
+		<Style_Transparent>true</Style_Transparent>
+		<ResizeHeightToText>true</ResizeHeightToText>
+	</Label>
+	
+	<Label item="ACHI_AchievementSub_Spacer">
+		<ScreenID>ACHI_AchievementSub_Spacer</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>10</CX>
+			<CY>20</CY>
+		</Size>
+	</Label>
+	
+	<Button item="ACHI_AchievementSub_CompletedButton">
+		<ScreenID>ACHI_AchievementSub_CompletedButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>11</CX>
+			<CY>11</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Style_Transparent>true</Style_Transparent>
+		<Text />
+		<ButtonDrawTemplate>
+			<Normal>A_TransparentCheckBoxNormal</Normal>
+			<Disabled>A_TransparentCheckBoxNormal</Disabled>
+			<PressedDisabled>A_TransparentCheckBoxPressed</PressedDisabled>
+		</ButtonDrawTemplate>
+	</Button>
+	
+	<Label item="ACHI_AchievementSub_Label">
+		<ScreenID>ACHI_AchievementSub_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>23</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>50</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Text>[Sub Achievement]</Text>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<TextColor>
+			<R>176</R>
+			<G>141</G>
+			<B>66</B>
+		</TextColor>
+	</Label>
+
+  <Label item="ACHI_AchievementSub_CountLabel">
+    <ScreenID>ACHI_AchievementSub_CountLabel</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>45</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>5</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>true</Style_Transparent>
+    <AlignRight>true</AlignRight>
+    <Text>0 / 100</Text>
+    <ResizeHeightToText>true</ResizeHeightToText>
+    <TextColor>
+      <R>176</R>
+      <G>141</G>
+      <B>66</B>
+    </TextColor>
+  </Label>
+	
+	<Label item="ACHI_Spacer">
+		<ScreenID>ACHI_Spacer</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>10</CX>
+			<CY>1</CY>
+		</Size>
+	</Label>
+	
+	<Screen item="ACHI_SubAchievement">
+		<ScreenID>ACHI_SubAchievement</ScreenID>
+		<Layout>ACHI_Layout</Layout>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>100</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>5</Spacing>
+		<Pieces>ACHI_AchievementSub_CompletedButton</Pieces>
+		<Pieces>ACHI_AchievementSub_Label</Pieces>
+		<Pieces>ACHI_AchievementSub_CountLabel</Pieces>
+		<Pieces>ACHI_AchievementSub_Spacer</Pieces>
+		<NoWrap>true</NoWrap>
+	</Screen>
+	
+	<Button item="ACHI_AchievementSub_CompletedButtonIndirect">
+		<ScreenID>ACHI_AchievementSub_CompletedButtonIndirect</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>17</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>11</CX>
+			<CY>11</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Style_Transparent>true</Style_Transparent>
+		<Text />
+		<ButtonDrawTemplate>
+			<Normal>A_TransparentCheckBoxNormal</Normal>
+			<Disabled>A_TransparentCheckBoxNormal</Disabled>
+			<PressedDisabled>A_TransparentCheckBoxPressed</PressedDisabled>
+		</ButtonDrawTemplate>
+	</Button>
+	
+	<Label item="ACHI_AchievementSub_LabelIndirect">
+		<ScreenID>ACHI_AchievementSub_LabelIndirect</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>50</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<Text>[Sub Achievement]</Text>
+		<ResizeHeightToText>true</ResizeHeightToText>
+		<TextColor>
+			<R>176</R>
+			<G>141</G>
+			<B>66</B>
+		</TextColor>
+	</Label>
+	
+	<Screen item="ACHI_SubAchievementIndirect">
+		<ScreenID>ACHI_SubAchievementIndirect</ScreenID>
+		<Layout>ACHI_Layout</Layout>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>100</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>5</Spacing>
+		<Pieces>ACHI_AchievementSub_CompletedButtonIndirect</Pieces>
+		<Pieces>ACHI_AchievementSub_LabelIndirect</Pieces>
+    <Pieces>ACHI_AchievementSub_CountLabel</Pieces>
+    <Pieces>ACHI_AchievementSub_Spacer</Pieces>
+		<NoWrap>true</NoWrap>
+	</Screen>
+	
+	<Button item ="ACHI_AchievementViewRewardButton">
+		<ScreenID>ACHI_AchievementViewRewardButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<Text>View Reward</Text>
+		<LeftAnchorOffset>100</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>true</Style_Transparent>
+		<ButtonDrawTemplate>
+			<Normal>A_BigBtnNormal</Normal>
+			<Pressed>A_BigBtnPressed</Pressed>
+			<Flyby>A_BigBtnFlyby</Flyby>
+			<Disabled>A_BigBtnDisabled</Disabled>
+			<PressedFlyby>A_BigBtnPressedFlyby</PressedFlyby>
+		</ButtonDrawTemplate>
+	</Button>
+	
+	<Screen item="ACHI_AchievementViewRewardScreen">
+		<ScreenID>ACHI_AchievementViewRewardScreen</ScreenID>
+		<Layout>ACHI_Layout</Layout>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Size>
+			<CX>100</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Spacing>5</Spacing>
+		<Pieces>ACHI_AchievementViewRewardButton</Pieces>
+		<NoWrap>true</NoWrap>
+	</Screen>
+	
+	<!-- Create an automatically laid out containter to allow for repeating of items -->
+	<VerticalLayoutBox item="ACHI_SubAchievements">
+		<ScreenID>ACHI_SubAchievements</ScreenID>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ResizeLast>false</ResizeLast>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_AutoVScroll>true</Style_AutoVScroll>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Dividers>false</Style_Dividers>
+		<Spacing>5</Spacing>
+		<PaddingLeft>15</PaddingLeft>
+		<PaddingRight>15</PaddingRight>
+		<Pieces>ACHI_Spacer</Pieces>
+		<Pieces>ACHI_AchievementPath_Label</Pieces>
+		<Pieces>ACHI_AchievementTimeStamp_Label</Pieces>
+		<Pieces>ACHI_Spacer</Pieces>
+		<Pieces>ACHI_AchievementDescription_Label</Pieces>
+		<Pieces>ACHI_Spacer</Pieces>
+		<Pieces>Screen:ACHI_SubAchievement</Pieces>
+		<Pieces>Screen:ACHI_SubAchievementIndirect</Pieces>
+		<Pieces>Screen:ACHI_AchievementViewRewardScreen</Pieces>
+	</VerticalLayoutBox>
+	
+	<Screen item="ACHI_Achievement_Screen">
+		<ScreenID>ACHI_Achievement_Screen</ScreenID>
+		<DrawTemplate>WDT_AchievementOpen</DrawTemplate>
+		<Font>5</Font>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>6</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Style_Sizable>false</Style_Sizable>
+		<Style_Closebox>false</Style_Closebox>
+		<Pieces>VerticalLayoutBox:ACHI_SubAchievements</Pieces>
+	</Screen>
+
+	<StaticTintedBlendAnimation item="ACHI_AchievementIcon">
+		<ScreenID>ACHI_AchievementIcon</ScreenID>
+		<Location>
+			<X>10</X>
+			<Y>10</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<AutoDraw>false</AutoDraw>
+		<Texture1>A_DragItem</Texture1>
+		<Texture2>A_UnlockBtn</Texture2>
+		<Tint1>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</Tint1>
+		<Tint2>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</Tint2>
+		<MaxLayerOneTextures>0</MaxLayerOneTextures>
+		<MaxLayerTwoTextures>0</MaxLayerTwoTextures>
+		<LayerOneTextureIndex>0</LayerOneTextureIndex>
+		<LayerTwoTextureIndex>0</LayerTwoTextureIndex>
+	</StaticTintedBlendAnimation>
+	
+	<Button item="ACHI_ViewMineButton">
+		<ScreenID>ACHI_ViewMineButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>104</LeftAnchorOffset>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<RightAnchorOffset>25</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<Text>View Mine</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Screen item="AchievementWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>500</CX>
+			<CY>250</CY>
+		</Size>
+		<Text>Achievement: [Player]</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Escapable>true</Escapable>		
+		<DisabledColor>
+			<R>255</R>
+			<G>0</G>
+			<B>0</B>
+		</DisabledColor>
+		<Pieces>Screen:ACHI_Achievement_Screen</Pieces>
+		<Pieces>ACHI_AchievementIcon</Pieces>
+		<Pieces>ACHI_ViewMineButton</Pieces>
+	</Screen>
+</XML>

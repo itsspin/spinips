@@ -1,0 +1,340 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item="MIW_PurchaseCostLabel">
+		<ScreenID>PurchaseCostLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>57</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Purchase:</Text>
+	</Label>
+
+	<Label item="MIW_PurchaseCostPlatText">
+		<ScreenID>PurchaseCostPlatText</ScreenID>
+		<EQType>mercenary/InfoWnd/PurchaseCostPlatText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>70</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>42</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+	
+	<Button item="MIW_PurchaseCostPlatIcon">
+		<ScreenID>PurchaseCostPlatIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/PurchaseCostPlatIcon</EQType>
+		<Location>
+			<X>115</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_PlatinumCoin</Normal>
+			<NormalDecal>A_PlatinumCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_PurchaseCostGoldText">
+		<ScreenID>PurchaseCostGoldText</ScreenID>
+		<EQType>mercenary/InfoWnd/PurchaseCostGoldText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>132</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MIW_PurchaseCostGoldIcon">
+		<ScreenID>PurchaseCostGoldIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/PurchaseCostGoldIcon</EQType>
+		<Location>
+			<X>145</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_AltPurchaseCostText">
+		<ScreenID>AltPurchaseCostText</ScreenID>
+		<EQType>mercenary/InfoWnd/AltPurchaseCostText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>173</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>36</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MIW_AltPurchaseCostIcon">
+		<ScreenID>AltPurchaseCostIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/AltPurchaseCostIcon</EQType>
+		<Location>
+			<X>215</X>
+			<Y>1</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_UpkeepCostLabel">
+		<ScreenID>UpkeepCostLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<NoWrap>true</NoWrap>
+		<Location>
+			<X>5</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Upkeep:</Text>
+	</Label>
+
+	<Label item="MIW_UpkeepCostPlatText">
+		<ScreenID>UpkeepCostPlatText</ScreenID>
+		<EQType>mercenary/InfoWnd/UpkeepCostPlatText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>70</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>42</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MIW_UpkeepCostPlatIcon">
+		<ScreenID>UpkeepCostPlatIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/UpkeepCostPlatIcon</EQType>
+		<Location>
+			<X>115</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_PlatinumCoin</Normal>
+			<NormalDecal>A_PlatinumCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_UpkeepCostGoldText">
+		<ScreenID>UpkeepCostGoldText</ScreenID>
+		<EQType>mercenary/InfoWnd/UpkeepCostGoldText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>132</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MIW_UpkeepCostGoldIcon">
+		<ScreenID>UpkeepCostGoldIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/UpkeepCostGoldIcon</EQType>
+		<Location>
+			<X>145</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_AltUpkeepCostText">
+		<ScreenID>AltUpkeepCostText</ScreenID>
+		<EQType>mercenary/InfoWnd/AltUpkeepCostText</EQType>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>173</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>36</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>123</Text>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Button item="MIW_AltUpkeepCostIcon">
+		<ScreenID>AltUpkeepCostIcon</ScreenID>
+		<EQType>mercenary/InfoWnd/AltUpkeepCostIcon</EQType>
+		<Location>
+			<X>215</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>18</CX>
+			<CY>18</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GoldCoin</Normal>
+			<NormalDecal>A_GoldCoin</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+
+	<Label item="MIW_AltCurrencyDividerText">
+		<ScreenID>AltCurrencyDividerText</ScreenID>
+		<EQType>mercenary/InfoWnd/AltCurrencyDividerText</EQType>
+		<Location>
+			<X>168</X>
+			<Y>13</Y>
+		</Location>
+		<Size>
+			<CX>15</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>or</Text>
+	</Label>
+	
+	<STMLbox item="MIW_InfoText">
+		<ScreenID>InfoText</ScreenID>
+		<EQType>mercenary/InfoWnd/InfoText</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>100</CY>
+		</Size>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>Mercenary Description</TooltipReference>
+	</STMLbox>
+
+	<STMLbox item="MIW_StanceInfoText">
+		<ScreenID>StanceInfoText</ScreenID>
+		<EQType>mercenary/InfoWnd/StanceInfoText</EQType>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>10</CX>
+			<CY>10</CY>
+		</Size>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Border>true</Style_Border>
+		<TooltipReference>Stance Description</TooltipReference>
+	</STMLbox>
+
+	<VerticalLayoutBox item ="MIW_InfoVerticalLayout">
+		<ScreenID>InfoVerticalLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>6</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>STMLbox:MIW_InfoText</Pieces>
+		<Pieces>STMLbox:MIW_StanceInfoText</Pieces>
+  </VerticalLayoutBox>
+
+	<Screen item = "MIW_InfoWnd">
+		<ScreenID>InfoWnd</ScreenID>
+		<EQType>mercenary/InfoWnd</EQType>
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>196</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>249</CX>
+			<CY>225</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text>Mercenary Info</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>Label:MIW_PurchaseCostLabel</Pieces>
+		<Pieces>Label:MIW_PurchaseCostPlatText</Pieces>
+		<Pieces>Button:MIW_PurchaseCostPlatIcon</Pieces>
+		<Pieces>Label:MIW_PurchaseCostGoldText</Pieces>
+		<Pieces>Button:MIW_PurchaseCostGoldIcon</Pieces>
+		<Pieces>Label:MIW_AltPurchaseCostText</Pieces>
+		<Pieces>Button:MIW_AltPurchaseCostIcon</Pieces>
+		<Pieces>Label:MIW_UpkeepCostPlatText</Pieces>
+		<Pieces>Button:MIW_UpkeepCostPlatIcon</Pieces>
+		<Pieces>Label:MIW_UpkeepCostGoldText</Pieces>
+		<Pieces>Button:MIW_UpkeepCostGoldIcon</Pieces>
+		<Pieces>Label:MIW_UpkeepCostLabel</Pieces>
+		<Pieces>Label:MIW_AltUpkeepCostText</Pieces>
+		<Pieces>Button:MIW_AltUpkeepCostIcon</Pieces>
+		<Pieces>Label:MIW_AltCurrencyDividerText</Pieces>
+		<Pieces>VerticalLayoutBox:MIW_InfoVerticalLayout</Pieces>
+	</Screen>
+</XML>

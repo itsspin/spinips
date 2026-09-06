@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Button item="SL_RefreshButton">
+    <ScreenID>SL_RefreshButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>311</X>
+      <Y>254</Y>
+    </Location>
+    <Size>
+      <CX>82</CX>
+      <CY>26</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <Text>Refresh</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Editbox item="SL_DestNameEdit">
+    <ScreenID>SL_DestNameEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Size>
+      <CX>156</CX>
+      <CY>24</CY>
+    </Size>
+    <Location>
+      <X>129</X>
+      <Y>251</Y>
+    </Location>
+    <Style_Border>true</Style_Border>
+  </Editbox>
+  <Label item="SL_DestNameLabel">
+    <ScreenID>SL_DestNameLabel</ScreenID>
+    <Font>3</Font>
+    <Text>Alternate name:</Text>
+    <Size>
+      <CX>108</CX>
+      <CY>20</CY>
+    </Size>
+    <AlignCenter>false</AlignCenter>
+    <Location>
+      <X>18</X>
+      <Y>254</Y>
+    </Location>
+  </Label>
+  <Label item="SL_ServerListPrompt">
+    <ScreenID>SL_ServerListPrompt</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>5</Y>
+    </Location>
+    <Size>
+      <CX>400</CX>
+      <CY>110</CY>
+    </Size>
+    <Text>Please select a server</Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Listbox item="SL_ServerList">
+    <ScreenID>SL_ServerList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <TooltipReference>List of available servers, including whether your name is in use on that server.</TooltipReference>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+    <Location>
+      <X>18</X>
+      <Y>120</Y>
+    </Location>
+    <Size>
+      <CX>375</CX>
+      <CY>120</CY>
+    </Size>
+    <Columns>
+      <Width>130</Width>
+      <Heading>Server</Heading>
+    </Columns>
+    <Columns>
+      <Width>150</Width>
+      <Heading>Character Name In Use?</Heading>
+    </Columns>
+    <Columns>
+		<Width>100</Width>
+		<Heading>Free Transfer</Heading>
+    </Columns>
+  </Listbox>
+  <Button item="SL_DisableReminderButton">
+    <ScreenID>SL_DisableReminderButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>18</X>
+      <Y>295</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Disable Reminder</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="SL_TransferButton">
+    <ScreenID>SL_TransferButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>156</X>
+      <Y>290</Y>
+    </Location>
+    <Size>
+      <CX>100</CX>
+      <CY>46</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Transfer</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="SL_CloseButton">
+    <ScreenID>SL_CloseButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>303</X>
+      <Y>295</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Remind Me Later</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Screen item="ServerListWnd">
+    <!--<ScreenID/>-->
+    <!--<Font/>-->
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>280</X>
+      <Y>180</Y>
+    </Location>
+    <Size>
+      <CX>420</CX>
+      <CY>365</CY>
+    </Size>
+    <Text>Server Transfer List</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>SL_ServerListPrompt</Pieces>
+    <Pieces>SL_ServerList</Pieces>
+    <Pieces>SL_TransferButton</Pieces>
+    <Pieces>SL_DisableReminderButton</Pieces>
+    <Pieces>SL_CloseButton</Pieces>
+    <Pieces>SL_DestNameLabel</Pieces>
+    <Pieces>SL_DestNameEdit</Pieces>
+    <Pieces>SL_RefreshButton</Pieces>
+  </Screen>
+</XML>

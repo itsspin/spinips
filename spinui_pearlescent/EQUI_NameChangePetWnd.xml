@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Editbox item="NCPW_NameEdit">
+    <ScreenID>NCPW_NameEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+    <Location>
+      <X>140</X>
+      <Y>145</Y>
+    </Location>
+    <Size>
+      <CX>130</CX>
+      <CY>24</CY>
+    </Size>
+  </Editbox>
+  <Label item="NCPW_Prompt">
+    <ScreenID>NCPW_Prompt</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>5</X>
+      <Y>5</Y>
+    </Location>
+    <Size>
+      <CX>400</CX>
+      <CY>135</CY>
+    </Size>
+    <Text>Please enter your desired new Pet name into the text field and click "Submit Name". </Text>
+    <NoWrap>false</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Button item="NCPW_DisableReminderButton">
+    <ScreenID>NCPW_DisableReminderButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>18</X>
+      <Y>190</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Disable Reminder</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="NCPW_SubmitButton">
+    <ScreenID>NCPW_SubmitButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>156</X>
+      <Y>185</Y>
+    </Location>
+    <Size>
+      <CX>100</CX>
+      <CY>46</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Submit Name</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="NCPW_CloseButton">
+    <ScreenID>NCPW_CloseButton</ScreenID>
+    <!--<Font>3</Font>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>303</X>
+      <Y>190</Y>
+    </Location>
+    <Size>
+      <CX>90</CX>
+      <CY>36</CY>
+    </Size>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <Style_Checkbox>false</Style_Checkbox>
+    <!--<RadioGroup/>-->
+    <Text>Remind Me Later</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Screen item="NameChangePetWnd">
+    <!--<ScreenID/>-->
+    <!--<Font/>-->
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>280</X>
+      <Y>180</Y>
+    </Location>
+    <Size>
+      <CX>420</CX>
+      <CY>270</CY>
+    </Size>
+    <Text>Change Pet Name</Text>
+    <Style_Transparent>false</Style_Transparent>
+    <!--<TooltipReference/>-->
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>NCPW_NameEdit</Pieces>
+    <Pieces>NCPW_SubmitButton</Pieces>
+    <Pieces>NCPW_DisableReminderButton</Pieces>
+    <Pieces>NCPW_CloseButton</Pieces>
+    <Pieces>NCPW_Prompt</Pieces>
+  </Screen>
+</XML>

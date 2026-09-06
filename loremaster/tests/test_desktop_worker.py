@@ -1,7 +1,7 @@
 import sys
 import tempfile
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -12,6 +12,24 @@ from desktop_worker import HeadlessEngine  # noqa: E402
 
 
 class DesktopWorkerTests(unittest.TestCase):
+    def test_progression_evidence_reaches_desktop(self):
+        with tempfile.TemporaryDirectory() as root:
+            engine = HeadlessEngine(data_dir=root)
+            try:
+                engine.process_line("[Tue Aug 25 12:00:00 2026] You have gained a level! Welcome to level 40!")
+                engine.process_line("[Tue Aug 25 12:00:30 2026] You gain experience! (2.5%)")
+                engine.process_line("[Tue Aug 25 12:01:00 2026] You have gained an ability point!")
+                view = engine.snapshot_event(datetime(2026, 8, 25, 12, 2))["snapshot"]["progression"]
+                self.assertEqual(view["percentPerHour"], 75)
+                self.assertEqual(view["currentPercent"], 2.5)
+                self.assertEqual(view["level"], 40)
+                self.assertEqual(view["aaEarned"], 1)
+                engine.stats.set_composition("PAL/MNK/ENC")
+                engine.stats.set_composition("WAR/CLR/MAG")
+                self.assertIsNone(engine.stats.progression.snapshot(datetime(2026, 8, 25, 12, 3))["currentPercent"])
+            finally:
+                engine.close()
+
     def test_loot_chronicle_captures_safe_formats_and_survives_restart(self):
         with tempfile.TemporaryDirectory() as root:
             lines = (
@@ -207,6 +225,82 @@ class DesktopWorkerTests(unittest.TestCase):
             nagafen = next(row for row in weekly["raids"]
                            if row["target"] == "Lord Nagafen")
             self.assertTrue(nagafen["difficulties"][2])
+
+    def test_controls_survive_other_target_encounter_transitions_until_expiry(self):
+        with tempfile.TemporaryDirectory() as root:
+            engine = HeadlessEngine(data_dir=root)
+            base = datetime(2026, 8, 29, 12, 0, 0)
+
+            def apply(message, offset):
+                stamp = (base + timedelta(seconds=offset)).strftime(
+                    "%a %b %d %H:%M:%S %Y")
+                self.assertTrue(engine.process_line(f"[{stamp}] {message}"))
+
+            def control_identity(snapshot):
+                return {
+                    row["kind"]: (
+                        row["target"], row["landedAt"],
+                        row["safeExpiresAt"], row["expiresAt"],
+                    )
+                    for row in snapshot["controls"]
+                    if row["state"] == "active"
+                }
+
+            try:
+                engine.stats.character = "Spin"
+                engine.stats.level = 50
+                apply("You begin casting Dazzle.", 0)
+                apply("a thought spoiler has been mesmerized.", 1)
+                apply("You begin casting Calm.", 2)
+                apply("a soul carrier looks less aggressive.", 4)
+                initial = engine.snapshot_event(base + timedelta(seconds=4))["snapshot"]
+                original = control_identity(initial)
+                self.assertEqual(set(original), {"mez", "lull"})
+
+                for offset, message in (
+                    (5, "You begin casting Flame of Light."),
+                    (6, "You hit a froglok for 15 points of magic damage by Flame of Light."),
+                    (7, "Auto attack is on."),
+                    (8, "You slash a froglok for 20 points of damage."),
+                    (9, "You have slain a froglok!"),
+                ):
+                    apply(message, offset)
+                    snapshot = engine.snapshot_event(
+                        base + timedelta(seconds=offset))["snapshot"]
+                    self.assertEqual(control_identity(snapshot), original)
+
+                idle = engine.snapshot_event(base + timedelta(seconds=23))["snapshot"]
+                self.assertFalse(idle["combat"]["active"])
+                self.assertEqual(control_identity(idle), original)
+
+                apply("You shoot a goblin for 10 points of damage.", 24)
+                next_fight = engine.snapshot_event(base + timedelta(seconds=24))["snapshot"]
+                self.assertTrue(next_fight["combat"]["active"])
+                self.assertEqual(len(next_fight["encounters"]), 2)
+                self.assertEqual(control_identity(next_fight), original)
+
+                lull_expiry = engine.lull.snapshot(
+                    base + timedelta(seconds=24)).rows[0].expires_at
+                mez_expiry = engine.mez.snapshot(
+                    base + timedelta(seconds=24)).rows[0].expires_at
+                mez_prune_at = mez_expiry + timedelta(
+                    seconds=engine.mez.expiry_grace_seconds)
+                before_lull_expiry = engine.snapshot_event(
+                    lull_expiry - timedelta(milliseconds=1))["snapshot"]
+                self.assertEqual(control_identity(before_lull_expiry), original)
+                after_lull_expiry = engine.snapshot_event(lull_expiry)["snapshot"]
+                self.assertEqual(control_identity(after_lull_expiry), {
+                    "mez": original["mez"],
+                })
+                before_mez_expiry = engine.snapshot_event(
+                    mez_prune_at - timedelta(milliseconds=1))["snapshot"]
+                self.assertEqual(control_identity(before_mez_expiry), {
+                    "mez": original["mez"],
+                })
+                after_mez_expiry = engine.snapshot_event(mez_prune_at)["snapshot"]
+                self.assertEqual(control_identity(after_mez_expiry), {})
+            finally:
+                engine.close()
 
     def test_log_instance_context_overrides_manual_fallback_and_records_evidence(self):
         with tempfile.TemporaryDirectory() as root:

@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+	<Label item="BW_BankerName">
+		<ScreenID>BW_BankerName</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>-11</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>200</CX>
+			<CY>40</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>			
+		</Size>
+		<Text>Banker Name</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<InvSlot item="BW_BankSlot0">
+		<ScreenID>BW_BankSlot0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>0</X>
+			<Y>31</Y> -->
+			<X>2</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 0</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot1">
+		<ScreenID>BW_BankSlot1</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>0</X>
+			<Y>71</Y> -->
+			<X>2</X>
+			<Y>42</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 1</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot2">
+		<ScreenID>BW_BankSlot2</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>0</X>
+			<Y>111</Y> -->
+			<X>2</X>
+			<Y>84</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 2</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot3">
+		<ScreenID>BW_BankSlot3</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>0</X>
+			<Y>151</Y> -->
+			<X>2</X>
+			<Y>126</Y>			
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 3</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot4">
+		<ScreenID>BW_BankSlot4</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>40</X>
+			<Y>31</Y> -->
+			<X>44</X>
+			<Y>0</Y>			
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 4</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot5">
+		<ScreenID>BW_BankSlot5</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>40</X>
+			<Y>71</Y> -->
+			<X>44</X>
+			<Y>42</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 5</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot6">
+		<ScreenID>BW_BankSlot6</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>40</X>
+			<Y>111</Y> -->
+			<X>44</X>
+			<Y>84</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 6</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot7">
+		<ScreenID>BW_BankSlot7</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>40</X>
+			<Y>151</Y> -->
+			<X>44</X>
+			<Y>126</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 7</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot8">
+		<ScreenID>BW_BankSlot8</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>99</X>
+			<Y>31</Y> -->
+			<X>86</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 8</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot9">
+		<ScreenID>BW_BankSlot9</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>99</X>
+			<Y>71</Y> -->
+			<X>86</X>
+			<Y>42</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 9</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot10">
+		<ScreenID>BW_BankSlot10</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>99</X>
+			<Y>111</Y> -->
+			<X>86</X>
+			<Y>84</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 10</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot11">
+		<ScreenID>BW_BankSlot11</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>99</X>
+			<Y>151</Y> -->
+			<X>86</X>
+			<Y>126</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 11</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot12">
+		<ScreenID>BW_BankSlot12</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>139</X>
+			<Y>31</Y> -->
+			<X>128</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 12</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot13">
+		<ScreenID>BW_BankSlot13</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>139</X>
+			<Y>71</Y> -->
+			<X>128</X>
+			<Y>42</Y>			
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 13</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot14">
+		<ScreenID>BW_BankSlot14</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>139</X>
+			<Y>111</Y> -->
+			<X>128</X>
+			<Y>84</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 14</EQType>
+	</InvSlot>
+	<InvSlot item="BW_BankSlot15">
+		<ScreenID>BW_BankSlot15</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>139</X>
+			<Y>151</Y> -->
+			<X>128</X>
+			<Y>126</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/Bank 15</EQType>
+	</InvSlot>
+	<Label item="BW_SharedBankLabel">
+		<ScreenID>BW_SharedBankLabel</ScreenID>
+		<Font>3</Font>
+		<Text>Shared Bank</Text>
+		<Size>
+<!-- 			<CX>80</CX>
+			<CY>17</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>			
+		</Size>
+		<AlignCenter>true</AlignCenter>
+		<Location>
+			<X>0</X>
+			<Y>216</Y>
+		</Location>
+	</Label>
+	<InvSlot item="BW_SharedBankSlot0">
+		<ScreenID>BW_SharedBankSlot0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>234</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>40</CX>
+			<CY>40</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>			
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/SharedBank 0</EQType>
+	</InvSlot>
+	<InvSlot item="BW_SharedBankSlot1">
+		<ScreenID>BW_SharedBankSlot1</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>40</X>
+			<Y>234</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>40</CX>
+			<CY>40</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>			
+		</Size>
+		<Background>A_RecessedBox</Background>
+		<EQType>inventory/SharedBank 1</EQType>
+	</InvSlot>
+	<Button item="BW_SharedMoney0">
+		<ScreenID>BW_SharedMoney0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>274</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>85</CX>
+			<CY>24</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here or click to pick up Platinum</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>60000</Text>
+		<Template>BDT_PlatinumCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+<!-- 			<CX>18</CX>
+			<CY>20</CY> -->
+			<CX>0</CX>
+			<CY>0</CY>
+		</DecalSize>
+	</Button>
+	<Button item="BW_AltStorageButton">
+		<ScreenID>AltStorageButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>170</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click on this button to open the Alt Storage access window.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Shrouds</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_DragonHoard">
+		<ScreenID>DragonHoard</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>170</X>
+			<Y>22</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>34</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click on this button to open your Dragon's Hoard.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Dragon's Hoard</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_TradeskillDepot">
+		<ScreenID>TradeskillDepot</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>170</X>
+			<Y>58</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>34</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click on this button to open your personal Tradeskill Depot.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Tradeskill Depot</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_Money0">
+		<ScreenID>BW_Money0</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>166</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here or click to pick up Platinum</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>60000</Text>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<Template>BDT_PlatinumCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>4</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+	<Button item="BW_Money1">
+		<ScreenID>BW_Money1</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>184</Y>			
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here or click to pick up Gold</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>60000</Text>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<Template>BDT_GoldCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>4</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+	<Button item="BW_Money2">
+		<ScreenID>BW_Money2</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>88</X>
+			<Y>166</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here or click to pick up Silver</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>60000</Text>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>
+		<Template>BDT_SilverCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>4</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+	<Button item="BW_Money3">
+		<ScreenID>BW_Money3</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>88</X>
+			<Y>184</Y>		
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Drop coins here or click to pick up Copper</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>60000</Text>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextAlignRight>true</TextAlignRight>		
+		<Template>BDT_CopperCoin</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>4</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+	<Button item="BW_ChangeButton">
+		<ScreenID>ChangeButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>96</X>
+			<Y>295</Y> -->
+			<X>170</X>
+			<Y>118</Y>			
+		</Location>
+		<Size>
+<!-- 			<CX>85</CX>
+			<CY>20</CY> -->
+			<CX>76</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Change</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_DoneButton">
+		<ScreenID>DoneButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>96</X>
+			<Y>351</Y> -->
+			<X>170</X>
+			<Y>170</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>85</CX> -->
+			<CX>76</CX>
+			<CY>34</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Done</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_AutoButton">
+		<ScreenID>AutoButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+<!-- 			<X>0</X>
+			<Y>192</Y> -->
+			<X>170</X>
+			<Y>140</Y>
+		</Location>
+		<Size>
+<!-- 			<CX>80</CX>
+			<CY>20</CY> -->
+			<CX>76</CX>
+			<CY>28</CY>		
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click on this button with an item on your cursor, and it will be placed in your non-shared bank, if possible.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>Auto-Bank</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="BW_FindItemButton">
+		<ScreenID>FindItemButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>170</X>
+			<Y>94</Y>
+		</Location>
+		<Size>
+			<CX>76</CX>
+			<CY>22</CY>
+		</Size>
+		<TooltipReference>Toggle the Find Item window.</TooltipReference>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Find Item</Text>
+		<NoWrap>true</NoWrap>
+		<TextAlignCenter>true</TextAlignCenter>
+		<TextAlignVCenter>true</TextAlignVCenter>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Screen item="BankWnd">
+		<!--<ScreenID/>-->
+		<!--<Font/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>257</CX>
+			<CY>227</CY>
+		</Size>
+		<Text>Bank</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>BW_BankerName</Pieces>
+		<Pieces>BW_BankSlot0</Pieces>
+		<Pieces>BW_BankSlot1</Pieces>
+		<Pieces>BW_BankSlot2</Pieces>
+		<Pieces>BW_BankSlot3</Pieces>
+		<Pieces>BW_BankSlot4</Pieces>
+		<Pieces>BW_BankSlot5</Pieces>
+		<Pieces>BW_BankSlot6</Pieces>
+		<Pieces>BW_BankSlot7</Pieces>
+		<Pieces>BW_BankSlot8</Pieces>
+		<Pieces>BW_BankSlot9</Pieces>
+		<Pieces>BW_BankSlot10</Pieces>
+		<Pieces>BW_BankSlot11</Pieces>
+		<Pieces>BW_BankSlot12</Pieces>
+		<Pieces>BW_BankSlot13</Pieces>
+		<Pieces>BW_BankSlot14</Pieces>
+		<Pieces>BW_BankSlot15</Pieces>
+		<Pieces>BW_AutoButton</Pieces>
+		<Pieces>BW_SharedBankSlot0</Pieces>
+		<Pieces>BW_SharedBankSlot1</Pieces>
+		<Pieces>BW_SharedMoney0</Pieces>
+		<Pieces>BW_Money0</Pieces>
+		<Pieces>BW_Money1</Pieces>
+		<Pieces>BW_Money2</Pieces>
+		<Pieces>BW_Money3</Pieces>
+		<Pieces>BW_DoneButton</Pieces>
+		<Pieces>BW_ChangeButton</Pieces>
+		<Pieces>BW_SharedBankLabel</Pieces>
+		<Pieces>BW_AltStorageButton</Pieces>
+		<Pieces>BW_DragonHoard</Pieces>
+		<Pieces>BW_TradeskillDepot</Pieces>
+		<Pieces>BW_FindItemButton</Pieces>
+	</Screen>
+</XML>

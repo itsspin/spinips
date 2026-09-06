@@ -35,6 +35,7 @@ REPO = Path(__file__).resolve().parent.parent
 TOOLS = REPO / "tools"
 SKIN = REPO / "spinui_reloaded"
 GLASS_SKIN = REPO / "spinui_glass"
+PEARL_SKIN = REPO / "spinui_pearlescent"
 
 # The generator deliberately uses this stock file as its immutable layout
 # input.  CI checks out full history so drift is never compared against an
@@ -62,6 +63,18 @@ SOURCE_REQUIRED = (
     "spinui_reloaded/default1440.ini",
     "spinui_reloaded/default4k.ini",
     "spinui_glass/EQUI.xml",
+    "spinui_pearlescent/EQUI.xml",
+    "spinui_pearlescent/PEARLESCENT_THEME.md",
+    "spinui_pearlescent/spin_pearl_controls.tga",
+    "docs/previews/spinui_pearlescent_equipment.png",
+    "loremaster/progression.py",
+    "loremaster-desktop/electron/spell-catalog.ts",
+    "loremaster-desktop/src/Leveling.tsx",
+    "loremaster-desktop/src/leveling.css",
+    "loremaster-desktop/scripts/test-spell-catalog.cjs",
+    "tools/build_spinui_pearlescent.py",
+    "tools/audit_spinui_pearlescent.py",
+    "tools/audit_loadout.py",
     "spinui_glass/GLASS_THEME.md",
     "spinui_glass/spin_glass_controls.tga",
     "layouts/profiles/1920x1080/combat-focus/UI_Spin_qeynos_LO1.ini",
@@ -218,6 +231,7 @@ PUBLIC_LAYOUT_PRESETS = ("combat-focus", "social-focus", "hybrid")
 COMMON_PACKAGE_TOP_LEVEL = {
     "docs",
     "spinui_glass",
+    "spinui_pearlescent",
     "spinui_reloaded",
     "layouts",
     "UI_Spin_qeynos_LO1.ini",
@@ -292,7 +306,7 @@ def check_source_manifest() -> None:
         fail("empty required source files: " + ", ".join(empty_required))
 
     summaries = []
-    for skin in (SKIN, GLASS_SKIN):
+    for skin in (SKIN, GLASS_SKIN, PEARL_SKIN):
         xml_count = len(list(skin.glob("*.xml")))
         texture_count = sum(
             len(list(skin.glob(pattern)))
@@ -922,6 +936,7 @@ def check_staged_package(kind: str, package_root: Path) -> None:
     glass_skin_files = _compare_packaged_tree(
         GLASS_SKIN, package_root / "spinui_glass", f"{kind}/spinui_glass"
     )
+    _compare_packaged_tree(PEARL_SKIN, package_root / "spinui_pearlescent", f"{kind}/spinui_pearlescent")
     # Public 3440 compatibility aliases and the complete resolution-profile
     # tree ship; layouts/original and layouts/spin-live remain internal bases.
     package_layouts = package_root / "layouts"

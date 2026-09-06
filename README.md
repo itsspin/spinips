@@ -64,7 +64,37 @@ SpinUI is more than a recolor. It re-composes EverQuest's native XML, textures, 
 
 <p align="center"><em>The Glass character sheet and purpose-built Glass Codex use the same surface hierarchy as the combat HUD.</em></p>
 
-Both skins ship together. Use `/loadskin spinui_glass 1` for Midnight Frost or `/loadskin spinui_reloaded 1` for Vellum & Ember; the `1` preserves the current window positions.
+All three skins ship together. Use `/loadskin spinui_glass 1` for Midnight Frost, `/loadskin spinui_reloaded 1` for Vellum & Ember, or `/loadskin spinui_pearlescent 1` for Pearlescent; the `1` preserves the current window positions.
+
+### Pearlescent — black pearl, ivory & seafoam
+
+The third complete skin combines quiet black-pearl surfaces, champagne edges,
+ivory typography, seafoam interactions, and rose-lilac selection accents.
+Health, mana, endurance, and the red/white attack perimeter retain their
+gameplay colors. A matching **Pearlescent** option in Loremaster Settings
+applies to the HUD, Seed, DPS meter, control timers, and notifications.
+
+![Pearlescent inventory preview](docs/previews/spinui_pearlescent_equipment.png)
+
+All three skins share the updated **Male/Female loadout tabs** and native race
+selection bindings. The generated variants are checked against Reloaded's
+complete XML hierarchy to prevent missing controls.
+
+### Loremaster: The Ascent
+
+Open **ASCENT** from the HUD for session XP gains, XP/hour, estimated time to
+the next level, AA earned and AA/hour. When logs omit XP quantities, record
+two current-level XP checkpoints at least a minute apart. Unknown values
+remain blank; checkpoint rates expire after 30 minutes.
+
+Plan upcoming spells for any combination of classes, search by name, browse
+all levels, and open the wiki for details. Requirements come from your local
+`spells_us.txt` and indicate eligibility—not whether a spell is learned.
+History is bounded and session-local; the spell catalog is cached and paginated.
+
+[Ascent preview](docs/previews/loremaster_ascent_pearlescent.png) ·
+[Spell-path preview](docs/previews/loremaster_spell_path.png) ·
+[Three-theme settings](docs/previews/loremaster_three_themes.png)
 
 ## The HUD, rebuilt around the fight
 
@@ -122,7 +152,7 @@ Loremaster turns the text log EverQuest already writes into a live **Adventurer'
 | **Pets and charms** | Credits summoned pets and conservatively claimed charmed creatures; same-name charm totals are included but clearly labeled as estimates when the text log cannot distinguish actor IDs. |
 | **Optional DPS attribution** | Keeps total personal DPS unchanged while optionally exposing separate Self, Charmed pet, and Summoned pet damage/DPS rows for both the current encounter and session. |
 | **Mez control** | Starts a sleek target countdown only after your own recognized mez actually lands. Ranked durations use EQL's whole-tick scaling; identical mob names group honestly, and `LAST TICK` exposes the server-tick uncertainty instead of inventing an exact wake-up second. |
-| **Rune Seed HUD** | A compact combat capsule pairs the SpinUI brass cog with a click-through ranked DPS companion. Cycle Self abilities, Group, Pet, or All directly from the Seed, hide only the meter with its eye control, and tune the panel background opacity without dimming text or bars. LIVE, READY, STALE, and ALERT use restrained trim motion; click to unfold the full parser, drag when unlocked, or right-click for settings. |
+| **Rune Seed HUD** | Choose Seed Only, Auto, Above, Right / Sidecar, or an interactive Meter Only layout. Cycle Self, Group, Pet, or All, click a contributor in Inspect mode to see their ability damage, and adjust background opacity without dimming text or bars. The meter-only position is remembered separately from the Seed, with direct HUD, Analyze, and Seed controls. |
 | **Lore Lens** | One-shot hovered-item OCR, exact EQL Wiki validation, cached results, and a configurable `Ctrl+Shift+E` shortcut. |
 | **Plane of Sky journey planner** | Optionally recognizes looted turn-ins, privately imports `/outputfile inventory`, shows reward/class use, tracks missing pieces, recommends the remaining islands or bosses, and can place the selected island on EQ map layer 3. |
 | **Alerts** | Opt-in banners and sound for tells, summons, deaths, charm breaks, big hits, name calls, and fight completion. Compact banners stay beside the Rune Seed with edge-safe Auto, Right, Left, Above, and Below placement choices. |
@@ -275,7 +305,7 @@ EverQuest draws a countdown and a beneficial/detrimental plate on the same buff 
 ### Release package
 
 1. Download and extract **`SpinUI-Manual.zip`** from the [latest release](https://github.com/itsspin/spinips/releases/latest).
-2. Fully close EverQuest, then copy `spinui_reloaded`, `spinui_glass`, or both included folders to `<EverQuest>\uifiles\`.
+2. Fully close EverQuest, then copy any of the included `spinui_reloaded`, `spinui_glass`, and `spinui_pearlescent` folders to `<EverQuest>\uifiles\`.
 3. Keep your existing character UI INI for a skin-only update. If you want a complete layout, select the matching resolution and Combat Focus, Social Focus, or Hybrid profile and back up the existing character UI file before replacing it.
 4. Run the included **`Loremaster.exe`**, select **`/loadskin spinui_glass 1`** or **`/loadskin spinui_reloaded 1`**, and type **`/log on`** once in game.
 
@@ -291,7 +321,7 @@ Packaged releases require no Python installation. Running Loremaster from source
 Download **`SpinUI-Manual.zip`** from the same release. It contains both UI skins, Loremaster, layouts, and a standalone [manual guide](installer/INSTALL-MANUAL.md).
 
 1. If the skin folder you are updating already exists, rename or move it out of the way; do not merge a new release into a retired file tree.
-2. Copy `spinui_glass`, `spinui_reloaded`, or both into `<EverQuest>\uifiles\` so each installed folder contains its own `EQUI.xml`.
+2. Copy any of `spinui_glass`, `spinui_reloaded`, and `spinui_pearlescent` into `<EverQuest>\uifiles\` so each installed folder contains its own `EQUI.xml`.
 3. Optional full layout: choose `layouts/profiles/<resolution>/<combat-focus|social-focus|hybrid>/UI_Spin_qeynos_LO1.ini`.
 4. With EverQuest fully closed, make a byte-for-byte backup of the character UI file you intend to replace.
 5. A manual profile replaces that entire character UI INI, including its window and chat preferences. Apply one only after making the backup in the previous step.
@@ -326,7 +356,7 @@ This architecture supports a transparent non-injecting workflow. As with any com
 1. Take `Loremaster.exe` from `SpinUI-Manual.zip`, download the standalone release executable, or run it from source.
 2. Type `/log on` in game. Loremaster follows the newest standard EQ log it can find; **Settings → Change EverQuest Folder** or **CHANGE / LOCATE LOG** can point it to an EverQuest root or `Logs` directory.
 3. Click the **Rune Seed** to unfold the full ledger; use **SEED** in the masthead to collapse it again. The transition fades the current surface, performs one atomic geometry/layout swap, then reveals the destination—avoiding a frame-by-frame child-widget reflow. Reduced motion switches instantly. Full and compact positions are remembered separately.
-4. Use the small **SELF / GRP / PET / ALL** Seed control to cycle the click-through DPS companion, or its eye control to hide only that companion. Settings exposes the same four modes plus background opacity; hiding it never hides the recoverable Rune Seed.
+4. Use the small **SELF / GRP / PET / ALL** Seed control to cycle the DPS companion, its eye control to hide it, and **DETAIL** to temporarily inspect a player or pet's ability damage. **Settings → HUD Behavior → DPS Overlay Appearance** adds Seed Only, Auto, Above, Right / Sidecar, and Meter Only layouts plus background opacity. Meter Only replaces the Seed with a clickable meter; its header can return to the Seed or open HUD and Analyze. Inspect mode relocks automatically on Escape, Done, blur, or timeout.
 5. Confirmed mez and lull timers appear beside either HUD state. Settings control each family's visibility, optional one-shot sound, and independent 3–30 second warning threshold; uncertain results are visibly labeled instead of timed.
 6. Use **TOP / SHOW TOP** in Details to reclaim vertical space without changing the saved window size.
 7. **LOCK** freezes movement. Detailed mode's **CLICK-THRU** enables only when Loremaster owns the `Ctrl+Alt+L` recovery shortcut; click-through always starts off after relaunch.
@@ -465,6 +495,7 @@ python3 tools/release_quality_gate.py
 spinips/
 ├── spinui_reloaded/          themed SIDL XML, textures, and skin defaults
 ├── spinui_glass/             generated Midnight Frost alternate skin
+├── spinui_pearlescent/       generated black-pearl alternate skin
 ├── layouts/profiles/         seven resolutions × three play styles
 ├── loremaster/               encounter tracker, Lore Lens, alerts, and tests
 ├── installer/                legacy installer source and manual-install guide

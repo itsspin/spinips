@@ -30,6 +30,8 @@ from spinui_glass_theme import (FROST, FROST_DIM, ICE, ICE_BRIGHT, MINT,
 REPO = Path(__file__).resolve().parent.parent
 SOURCE = REPO / "spinui_reloaded"
 OUTPUT = REPO / "spinui_glass"
+THEME_README_NAME = "GLASS_THEME.md"
+SPELLBOOK_MENU_NAME = "Glass Codex - Large Spell Icons"
 ANIMATIONS = SOURCE / "EQUI_Animations.xml"
 CONTROL_ATLAS = "spin_glass_controls.tga"
 TEXT_SUFFIXES = {".xml", ".ini", ".md", ".txt"}
@@ -113,7 +115,7 @@ def add_spellbook_text_colors(text: str) -> str:
     text = wanted.sub(replacement, text)
     return text.replace(
         "<MenuName>Large Spell Icons, Classic Layout</MenuName>",
-        "<MenuName>Glass Codex - Large Spell Icons</MenuName>",
+        f"<MenuName>{SPELLBOOK_MENU_NAME}</MenuName>",
     )
 
 
@@ -451,7 +453,7 @@ def expected_payloads(override_dir: Path) -> dict[str, bytes]:
         else:
             expected[relative] = path.read_bytes()
     expected[CONTROL_ATLAS] = (override_dir / CONTROL_ATLAS).read_bytes()
-    expected["GLASS_THEME.md"] = GLASS_README.encode("utf-8")
+    expected[THEME_README_NAME] = GLASS_README.encode("utf-8")
     return expected
 
 

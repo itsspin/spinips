@@ -2127,6 +2127,7 @@ TEMPLATES FOR ELEMENTS
 		<Pieces>OMP_LegendsCameraShiftPitchSpring</Pieces>
 		<Pieces>OMP_LegacyCameras</Pieces>
 		<Pieces>OMP_RawInput</Pieces>
+		<Pieces>OMP_SmoothCameraMotion</Pieces>
 	</VerticalLayoutBox>
 
 	<!-- CONTROLS - CAMERA AND MOUSE (RIGHT LAYOUT) - CHECKBOXOES, SLIDERS, COMBOBOXES -->
@@ -5662,4 +5663,25 @@ TEMPLATES FOR ELEMENTS
 		<Style_SizableBorderBottomRight>false</Style_SizableBorderBottomRight>
 		<Pieces>OPTW_OptionsSubwindows</Pieces>
 	</Screen>
+<Button item="OMP_SmoothCameraMotion">
+			<ScreenID>OMP_SmoothCameraMotion</ScreenID>
+			<TooltipReference>Smooths the camera movement while in first person camera.</TooltipReference>
+			<Size>
+				<CX>160</CX>
+				<CY>40</CY>
+			</Size>
+			<Style_Checkbox>true</Style_Checkbox>
+			<Text>Smooth First Person Camera Animations</Text>
+			<Template>BDT_CheckboxWithText</Template>
+			<DecalSize>
+				<CX>16</CX>
+				<CY>16</CY>
+			</DecalSize>
+			<DecalOffset>
+				<X>0</X>
+				<Y>2</Y>
+			</DecalOffset>
+			<TextAlignCenter>false</TextAlignCenter>
+			<TextOffsetX>20</TextOffsetX>
+		</Button>
 </XML>

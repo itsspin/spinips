@@ -56,22 +56,29 @@ def audit_theme_contract() -> None:
         r'type\s+LoremasterTheme\s*=\s*["\']vellum["\']\s*\|\s*["\']glass["\']',
         protocol,
     ):
-        fail("protocol must expose the exact vellum | glass theme union")
+        fail("protocol must expose the vellum and glass themes")
+    require(protocol, ('"pearlescent"', "progression?: ProgressionView"), "Pearlescent and leveling protocol")
+    require(electron, ("progression:spells", "progression:checkpoint", '"pearlescent"'), "leveling bridge and theme persistence")
+    require(themes, (':root[data-theme="pearlescent"]',), "Pearlescent material tokens")
     require(protocol, ("uiTheme: LoremasterTheme",), "renderer protocol")
     require(
         protocol,
         (
             'SeedMeterMode = "self" | "group" | "pet" | "all"',
+            'SeedMeterPlacement = "seed-only" | "auto" | "above" | "right" | "meter-only"',
             "SeedCompanionLayout",
             "seedMeterVisible: boolean",
             "seedMeterMode: SeedMeterMode",
+            "seedMeterPlacement: SeedMeterPlacement",
+            "seedMeterPosition: { x: number; y: number } | null",
             "seedMeterOpacity: number",
+            "sources?: readonly CombatMetricView[]",
         ),
-        "Seed meter settings protocol",
+        "DPS overlay settings and actor-evidence protocol",
     )
     require(
         electron,
-        ("uiTheme", '"vellum"', '"glass"', "settings:changed"),
+        ("uiTheme", '"vellum"', '"glass"', '"pearlescent"', "settings:changed"),
         "Electron settings persistence",
     )
     if electron.count("uiTheme") < 6:
@@ -81,13 +88,20 @@ def audit_theme_contract() -> None:
         (
             "seedMeterVisible",
             "seedMeterMode",
+            "seedMeterPlacement",
+            "seedMeterPosition",
             "seedMeterOpacity",
             "visibleSeedMeterRows",
             "boundedCompanionLayout",
+            "placeCompanionSurface",
+            "saveSeedMeterPosition",
+            "activeCollapsedAnchor",
             '"window:companion-layout"',
+            '"window:companion-inspect"',
+            '"window:companion-detail-rows"',
             "workArea.height - gap * 2",
         ),
-        "Electron Seed meter persistence and sizing",
+        "Electron DPS overlay persistence, placement, and sizing",
     )
     require(
         companion_layout,
@@ -95,18 +109,38 @@ def audit_theme_contract() -> None:
             "COMPANION_MAX_METER_ROWS",
             "COMPANION_MAX_CONTROL_ROWS",
             "METER_FOOTER_HEIGHT",
+            "METER_DETAIL_CHROME_HEIGHT",
+            "METER_STANDALONE_CHROME_HEIGHT",
             "JOINED_SECTION_BORDER_HEIGHT",
+            "placeCompanionSurface",
+            "decoratedCompanionSize",
             "const meterHiddenRows = Math.max",
             "const controlHiddenRows = Math.max",
         ),
         "bounded companion layout math",
     )
     if "controlWindow.setIgnoreMouseEvents(true)" not in electron:
-        fail("the companion meter must remain click-through over EverQuest")
+        fail("the companion meter needs an explicit click-through default over EverQuest")
+    require(
+        electron,
+        (
+            "setCompanionInspecting",
+            "controlWindow.setIgnoreMouseEvents(!companionInteractive",
+            'controlWindow.on("blur"',
+            "companionInspectTimer",
+        ),
+        "temporary inspect mode and automatic click-through recovery",
+    )
     require(
         preload,
-        ("onCompanionLayout", '"window:companion-layout"'),
-        "bounded companion layout bridge",
+        (
+            "onCompanionLayout",
+            "onCompanionInteraction",
+            "setCompanionInspecting",
+            "setCompanionDetailRows",
+            '"window:companion-layout"',
+        ),
+        "bounded companion layout and inspect bridge",
     )
     require(
         app,
@@ -167,13 +201,25 @@ def audit_theme_contract() -> None:
             "seed-meter-surface",
             "seed-meter-row",
             "seed-meter-opacity",
-            "hiddenMeterRows",
+            "hiddenRows",
             "hiddenControls",
             "onCompanionLayout",
             'detail: "SELF + PETS"',
             'const seedMeterModes: readonly SeedMeterMode[] = ["self", "group", "pet", "all"]',
+            "seedMeterPlacements",
+            'id: "seed-only"',
+            'id: "above"',
+            'id: "right"',
+            'id: "meter-only"',
+            "SeedMeterSurface",
+            "seed-meter-breadcrumb",
+            "seed-meter-abilities",
+            "SeedMeterPager",
+            "allDetailSources.length",
+            "setCompanionInspecting",
+            "setCompanionDetailRows",
         ),
-        "configurable compact DPS meter",
+        "configurable DPS overlay and contributor drill-down",
     )
     if "activeGroup" in app or "groupMembers.has" in electron:
         fail("historical group actors must trust their persisted role instead of the current roster")
@@ -246,9 +292,20 @@ def audit_theme_contract() -> None:
     )
     if "backdrop-filter" in lowered:
         fail("transparent Electron windows must not depend on live blur")
+    if not re.search(r"\.seed-meter-surface\s*\{[^}]*--lm-seed-meter-bg:", themes):
+        fail("meter material opacity must resolve locally instead of inheriting an invalid root variable")
     require(
         readme,
-        ("Vellum & Ember", "Midnight Frost Glass", "spinui_reloaded", "spinui_glass", "Alert Sound Studio"),
+        (
+            "Vellum & Ember",
+            "Midnight Frost Glass",
+            "spinui_reloaded",
+            "spinui_glass",
+            "Alert Sound Studio",
+            "Meter Only",
+            "Sidecar",
+            "Inspect",
+        ),
         "Loremaster desktop documentation",
     )
     require(
@@ -319,8 +376,8 @@ def main() -> int:
         print(f"Loremaster desktop audit: FAIL\n  {exc}", file=sys.stderr)
         return 1
     print("Loremaster desktop audit: ALL PASS")
-    print("  Vellum & Ember + Midnight Frost Glass | persistent cross-window themes")
-    print("  Seed meter | self abilities + whole group + pets + all | opacity + quick toggle")
+    print("  Vellum & Ember + Midnight Frost Glass + Pearlescent | persistent cross-window themes")
+    print("  DPS overlay | Seed, stacked, sidecar, or meter-only | evidence-backed actor drill-down")
     print("  verified portable + isolated skin updates | rollback-safe settings workflow")
     print("  no Instance Information OCR or reserved Ctrl+Shift+Z shortcut")
     return 0

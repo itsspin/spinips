@@ -1,0 +1,384 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Button item = "ATW_Apply">
+		<ScreenID>ATW_Apply</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Apply</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "ATW_Create">
+		<ScreenID>ATW_Create</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>64</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Create</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "ATW_Delete">
+		<ScreenID>ATW_Delete</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>126</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Delete</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "ATW_Play">
+		<ScreenID>ATW_Play</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>188</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Play</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "ATW_MoveUp">
+		<ScreenID>ATW_MoveUp</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>250</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Move Up</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item = "ATW_MoveDown">
+		<ScreenID>ATW_MoveDown</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>312</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>80</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Move Down</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Label item ="ATW_SkinLabel">
+		<ScreenID>ATW_SkinLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>444</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>70</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Trigger Set</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Combobox item = "ATW_Skin">
+		<ScreenID>ATW_Skin</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<Location>
+			<X>510</X>
+			<Y>0</Y> 
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>120</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Label item ="ATW_PatternLabel">
+		<ScreenID>ATW_PatternLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>26</Y>
+		</Location>
+		<Size>
+			<CX>45</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Pattern</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "ATW_Pattern">
+		<ScreenID>ATW_Pattern</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>When this text is detected in the chat window, the associated audio will be played.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>60</X>
+			<Y>24</Y>
+		</Location>
+		<Size>
+			<CX>370</CX>
+			<CY>24</CY>
+		</Size>
+	</Editbox>
+	
+	<Label item ="ATW_SoundLabel">
+		<ScreenID>ATW_SoundLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>440</X>
+			<Y>26</Y>
+		</Location>
+		<Size>
+			<CX>65</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Sound</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Combobox item = "ATW_Sound">
+		<ScreenID>ATW_Sound</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretchList>true</AutoStretchList>
+		<Location>
+			<X>510</X>
+			<Y>24</Y> 
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>24</CY>
+		</Size>
+		<ListHeight>400</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+	
+	<Label item ="ATW_NoteLabel">
+		<ScreenID>ATW_NoteLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>10</X>
+			<Y>52</Y>
+		</Location>
+		<Size>
+			<CX>45</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Note</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Editbox item = "ATW_Note">
+		<ScreenID>ATW_Note</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<TooltipReference>Enter a note about this Audio Trigger.</TooltipReference>
+		<Style_Border>true</Style_Border>
+		<Location>
+			<X>60</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>370</CX>
+			<CY>24</CY>
+		</Size>
+	</Editbox>
+	
+	<Label item="ATW_VolumeLabel">
+		<ScreenID>ATW_VolumeLabel</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>410</X>
+			<Y>52</Y>
+		</Location>
+		<Size>
+			<CX>95</CX>
+			<CY>17</CY>
+		</Size>
+		<Text>Volume</Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+		<Style_Tooltip>false</Style_Tooltip>
+	</Label>
+	
+	<Slider item="ATW_Volume">
+		<ScreenID>ATW_Volume</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>510</X>
+			<Y>50</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>20</CY>
+		</Size>
+		<SliderArt>SDT_DefSlider</SliderArt>
+		<DrawValue>true</DrawValue>
+	</Slider>
+	
+	<Listbox item = "ATW_List">
+		<ScreenID>ATW_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<TooltipReference>List of Audio Triggers.</TooltipReference>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>76</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>180</Width>
+			<Heading>Pattern</Heading>
+		</Columns>
+		<Columns>
+			<Width>180</Width>
+			<Heading>Note</Heading>
+		</Columns>
+		<Columns>
+			<Width>140</Width>
+			<Heading>Audio</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Enabled</Heading>
+		</Columns>
+	</Listbox>
+	<Button item="ATW_Checkbox">
+		<ScreenID>ATW_Checkbox</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Screen item = "AudioTriggersWindow">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>320</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>641</CX>
+			<CY>400</CY>
+		</Size>
+		<Text>Audio Triggers</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>ATW_List</Pieces>
+		<Pieces>ATW_Apply</Pieces>
+		<Pieces>ATW_Create</Pieces>
+		<Pieces>ATW_Delete</Pieces>
+		<Pieces>ATW_Play</Pieces>
+		<Pieces>ATW_MoveUp</Pieces>
+		<Pieces>ATW_MoveDown</Pieces>
+		<Pieces>ATW_PatternLabel</Pieces>
+		<Pieces>ATW_Pattern</Pieces>
+		<Pieces>ATW_SoundLabel</Pieces>
+		<Pieces>ATW_Sound</Pieces>
+		<Pieces>ATW_NoteLabel</Pieces>
+		<Pieces>ATW_Note</Pieces>
+		<Pieces>ATW_VolumeLabel</Pieces>
+		<Pieces>ATW_Volume</Pieces>
+		<Pieces>ATW_SkinLabel</Pieces>
+		<Pieces>ATW_Skin</Pieces>
+		<Pieces>ATW_Checkbox</Pieces>
+	</Screen>
+</XML>

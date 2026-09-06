@@ -55,9 +55,10 @@
   --lm-seed-bg:
     radial-gradient(circle at 28% 0%, rgba(166, 130, 82, .17), transparent 45%),
     linear-gradient(145deg, rgba(30, 22, 14, .995), rgba(9, 7, 4, .998));
-  --lm-seed-meter-bg: linear-gradient(145deg, rgba(30, 22, 14, calc(var(--seed-meter-opacity) * .96)), rgba(9, 7, 4, calc(var(--seed-meter-opacity) * .98)));
-  --lm-seed-meter-header-bg: linear-gradient(105deg, rgba(38, 29, 18, calc(var(--seed-meter-opacity) * .97)), rgba(15, 11, 7, calc(var(--seed-meter-opacity) * .99)));
-  --lm-seed-meter-shadow: 0 14px 38px rgba(0, 0, 0, calc(var(--seed-meter-opacity) * .5)), inset 0 1px rgba(255, 248, 233, .055);
+  --lm-meter-top-rgb: 30, 22, 14;
+  --lm-meter-bottom-rgb: 9, 7, 4;
+  --lm-meter-header-top-rgb: 38, 29, 18;
+  --lm-meter-header-bottom-rgb: 15, 11, 7;
   --lm-header-bg: linear-gradient(105deg, rgba(38, 29, 18, .995), rgba(15, 11, 7, .997));
   --lm-card-bg: linear-gradient(145deg, rgba(30, 22, 14, .94), rgba(15, 11, 7, .96));
   --lm-card-raised-bg: linear-gradient(145deg, rgba(46, 34, 21, .9), rgba(20, 14, 9, .95));
@@ -109,9 +110,10 @@
   --lm-seed-bg:
     radial-gradient(circle at 25% 0%, rgba(105, 225, 242, .16), transparent 46%),
     linear-gradient(145deg, rgba(10, 27, 40, .995), rgba(2, 6, 11, .998));
-  --lm-seed-meter-bg: linear-gradient(145deg, rgba(10, 27, 40, calc(var(--seed-meter-opacity) * .94)), rgba(2, 6, 11, calc(var(--seed-meter-opacity) * .98)));
-  --lm-seed-meter-header-bg: linear-gradient(105deg, rgba(10, 29, 42, calc(var(--seed-meter-opacity) * .97)), rgba(3, 9, 15, calc(var(--seed-meter-opacity) * .99)));
-  --lm-seed-meter-shadow: 0 14px 38px rgba(0, 0, 0, calc(var(--seed-meter-opacity) * .52)), inset 0 1px rgba(232, 248, 252, .065);
+  --lm-meter-top-rgb: 10, 27, 40;
+  --lm-meter-bottom-rgb: 2, 6, 11;
+  --lm-meter-header-top-rgb: 10, 29, 42;
+  --lm-meter-header-bottom-rgb: 3, 9, 15;
   --lm-header-bg: linear-gradient(105deg, rgba(10, 29, 42, .995), rgba(3, 9, 15, .997));
   --lm-card-bg: linear-gradient(145deg, rgba(10, 27, 40, .94), rgba(4, 11, 18, .97));
   --lm-card-raised-bg: linear-gradient(145deg, rgba(18, 48, 66, .82), rgba(6, 16, 25, .95));
@@ -119,6 +121,64 @@
   --lm-selected-bg: linear-gradient(145deg, rgba(36, 97, 116, .5), rgba(8, 24, 35, .92));
   --lm-shadow: 0 14px 38px rgba(0, 0, 0, .5), inset 0 1px rgba(232, 248, 252, .065);
 }
+
+:root[data-theme="pearlescent"] {
+  --lm-void: #0c0b11;
+  --lm-surface-0: #100e17;
+  --lm-panel: #15131d;
+  --lm-raised: #221e2c;
+  --lm-surface-3: #332c3d;
+  --lm-line-soft: #342e3e;
+  --lm-line: #756987;
+  --lm-line-bright: #e3d9ed;
+  --lm-text: #f5eff6;
+  --lm-text-strong: #fff5e7;
+  --lm-dim: #b8b1c7;
+  --lm-muted: #9d94aa;
+  --lm-heading: #fff5e7;
+  --lm-primary: #d8cff4;
+  --lm-primary-deep: #594b6a;
+  --lm-secondary: #e5aecd;
+  --lm-secondary-deep: #56354f;
+  --lm-action: #9ee1d8;
+  --lm-success: #70e3b0;
+  --lm-danger: #ff586c;
+  --lm-warning: #f2ce8a;
+  --lm-meter: #302739;
+  --lm-meter-edge: #ac98ba;
+  --lm-primary-rgb: 216, 207, 244;
+  --lm-secondary-rgb: 229, 174, 205;
+  --lm-action-rgb: 158, 225, 216;
+  --lm-success-rgb: 112, 227, 176;
+  --lm-danger-rgb: 255, 88, 108;
+  --lm-warning-rgb: 242, 206, 138;
+  --lm-line-rgb: 117, 105, 135;
+  --lm-line-bright-rgb: 227, 217, 237;
+  --lm-meter-edge-rgb: 172, 152, 186;
+  --lm-text-rgb: 245, 239, 246;
+  --lm-shell-bg:
+    radial-gradient(ellipse at 0% 0%, rgba(158,225,216,.12), transparent 37%),
+    radial-gradient(ellipse at 100% 0%, rgba(229,174,205,.15), transparent 42%),
+    linear-gradient(152deg, #221e2c, #100e17 72%);
+  --lm-seed-bg: linear-gradient(125deg, #2b333b, #2d2435 55%, #15131d);
+  --lm-meter-top-rgb: 34,30,44;
+  --lm-meter-bottom-rgb: 12,11,17;
+  --lm-meter-header-top-rgb: 49,44,57;
+  --lm-meter-header-bottom-rgb: 21,19,29;
+  --lm-header-bg: linear-gradient(110deg, #2b333b, #322b3e 62%, #362b35);
+  --lm-card-bg: linear-gradient(145deg, #292433, #191620);
+  --lm-card-raised-bg: linear-gradient(115deg, #30383f, #352c3e 65%, #3c2f3c);
+  --lm-inset-bg: rgba(12,11,17,.86);
+  --lm-selected-bg: linear-gradient(125deg, rgba(158,225,216,.16), rgba(216,207,244,.2), rgba(229,174,205,.14));
+  --lm-shadow: 0 14px 38px rgba(0,0,0,.48), inset 0 1px rgba(255,245,231,.1);
+}
+
+.theme-option.pearlescent .theme-preview {
+  background: linear-gradient(115deg, #33504f, #655372 60%, #815768);
+  border-color: #e3d9ed;
+}
+.theme-option.pearlescent .theme-preview > i { background: #fff5e7; }
+.theme-option.pearlescent .theme-preview > i:nth-child(2) { background: #9ee1d8; }
 
 /* Backwards-compatible aliases used by the existing component stylesheet. */
 :root {
@@ -208,6 +268,11 @@ body {
 }
 
 .seed-meter-surface {
+  /* Resolve opacity on the surface, not :root: inherited custom properties
+     cannot see an opacity value introduced later by this element. */
+  --lm-seed-meter-bg: linear-gradient(145deg, rgba(var(--lm-meter-top-rgb), calc(var(--seed-meter-opacity) * .96)), rgba(var(--lm-meter-bottom-rgb), calc(var(--seed-meter-opacity) * .98)));
+  --lm-seed-meter-header-bg: linear-gradient(105deg, rgba(var(--lm-meter-header-top-rgb), calc(var(--seed-meter-opacity) * .97)), rgba(var(--lm-meter-header-bottom-rgb), calc(var(--seed-meter-opacity) * .99)));
+  --lm-seed-meter-shadow: 0 14px 38px rgba(0, 0, 0, calc(var(--seed-meter-opacity) * .5)), inset 0 1px rgba(var(--lm-text-rgb), .06);
   background: var(--lm-seed-meter-bg);
   box-shadow: var(--lm-seed-meter-shadow);
 }
@@ -260,6 +325,48 @@ body {
 .seed-control-copy strong,
 .seed-meter-row > strong {
   color: var(--lm-text-strong);
+}
+
+.seed-meter-surface.interactive {
+  border-color: rgba(var(--lm-primary-rgb), .88);
+  box-shadow: var(--lm-seed-meter-shadow), 0 0 16px rgba(var(--lm-primary-rgb), .12);
+}
+
+.seed-meter-status,
+.seed-meter-breadcrumb,
+.seed-meter-facts {
+  border-color: rgba(var(--lm-line-rgb), .28);
+  background: rgba(var(--lm-text-rgb), .018);
+}
+
+.seed-meter-status > span,
+.seed-meter-breadcrumb button,
+.seed-meter-actions button,
+.meter-inspect-done {
+  color: var(--lm-primary);
+}
+
+.seed-meter-idle b,
+.seed-meter-breadcrumb span,
+.seed-meter-facts b,
+.seed-meter-ability > span > b,
+.seed-meter-ability > strong {
+  color: var(--lm-text-strong);
+}
+
+.seed-meter-idle small,
+.seed-meter-facts small,
+.seed-meter-ability > span > small,
+.seed-meter-no-evidence {
+  color: var(--lm-dim);
+}
+
+.seed-meter-placement-picker button.selected,
+.seed-meter-mode-picker button.selected {
+  color: var(--lm-primary);
+  border-color: rgba(var(--lm-primary-rgb), .68);
+  background: var(--lm-selected-bg);
+  box-shadow: inset 0 1px rgba(var(--lm-text-rgb), .05), 0 0 11px rgba(var(--lm-primary-rgb), .08);
 }
 
 .seed-control-accent,

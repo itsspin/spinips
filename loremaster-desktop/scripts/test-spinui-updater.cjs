@@ -37,6 +37,10 @@ function themeManifest(files) {
 function makeFixtureRelease(overrides = {}) {
   const archive = Buffer.from("PK\x03\x04authenticated-spinui-fixture");
   const themeFiles = {
+    spinui_pearlescent: {
+      "EQUI.xml": Buffer.from("<XML>pearl-2.0.0</XML>\n"),
+      "art/frame.tga": Buffer.from("TGA-pearl-2.0.0"),
+    },
     spinui_reloaded: {
       "EQUI.xml": Buffer.from("<XML>reloaded-2.0.0</XML>\n"),
       "art/frame.tga": Buffer.from("TGA-reloaded-2.0.0"),
@@ -56,6 +60,7 @@ function makeFixtureRelease(overrides = {}) {
       sha256: sha256(archive),
     },
     themes: {
+      ...(overrides.legacy ? {} : { spinui_pearlescent: themeManifest(themeFiles.spinui_pearlescent) }),
       spinui_reloaded: themeManifest(themeFiles.spinui_reloaded),
       spinui_glass: themeManifest(themeFiles.spinui_glass),
     },
@@ -124,7 +129,7 @@ async function writeTree(root, files, extraFile = null) {
 function extractorFor(fixture, options = {}) {
   return async (archivePath, destination) => {
     assert.deepEqual(await readFile(archivePath), fixture.archive, "only the authenticated archive may be extracted");
-    for (const theme of ["spinui_reloaded", "spinui_glass"]) {
+    for (const theme of Object.keys(fixture.manifest.themes)) {
       await writeTree(
         path.join(destination, theme),
         fixture.themeFiles[theme],
@@ -136,6 +141,8 @@ function extractorFor(fixture, options = {}) {
 }
 
 async function main() {
+  assert.ok(parseSpinUIManifest(makeFixtureRelease().manifest).themes.spinui_pearlescent);
+  assert.equal(parseSpinUIManifest(makeFixtureRelease({legacy: true}).manifest).themes.spinui_pearlescent, undefined);
   const extractorPackage = await import("@electron-internal/extract-zip");
   assert.equal(typeof extractorPackage.default, "function", "the hardened native ZIP extractor must be loadable");
 
@@ -204,6 +211,8 @@ async function main() {
     assert.equal(existsSync(path.join(uiFiles, "spinui_glass")), false);
     eqRunning = false;
     await service.install("spinui_glass");
+    await service.install("spinui_pearlescent");
+    assert.equal(readFileSync(path.join(uiFiles, "spinui_pearlescent", "EQUI.xml"), "utf8"), "<XML>pearl-2.0.0</XML>\n");
     assert.equal(readFileSync(path.join(uiFiles, "spinui_glass", "EQUI.xml"), "utf8"), "<XML>glass-2.0.0</XML>\n");
 
     await writeFile(path.join(oldReloaded, "user-modification.txt"), "modified");

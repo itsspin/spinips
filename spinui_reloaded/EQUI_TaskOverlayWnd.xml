@@ -267,6 +267,7 @@
 		<Style_Transparent>true</Style_Transparent>
 		<Style_TransparentControl>true</Style_TransparentControl>
 		<Pieces>TO_NoRespawnTitle</Pieces>
+		<Pieces>TO_NoRespawnProgressLabel</Pieces>
 		<Pieces>TO_NoRespawnProgressGauge</Pieces>		
 		<Pieces>TO_NoRespawnRaresLabel</Pieces>
 		<Pieces>TO_NoRespawnRaresValue</Pieces>
@@ -325,4 +326,23 @@
 		<Pieces>Screen:TO_TaskStepTemplate</Pieces>
 		<Pieces>Screen:TO_TaskTemplate</Pieces>
 	</Screen>
+	<Label item="TO_NoRespawnProgressLabel">
+		<ScreenID>TO_NoRespawnProgressLabel</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Style_Transparent>true</Style_Transparent>
+		<Location>
+			<X>4</X>
+			<Y>16</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>16</CY>
+		</Size>
+		<Font>3</Font>
+		<Text>Dungeon Crawl Progress</Text>
+		<TooltipReference>Tracks the requirements for completing this Dungeon Crawl.</TooltipReference>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<FontShadow>true</FontShadow>
+	</Label>
 </XML>

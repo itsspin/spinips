@@ -27,6 +27,8 @@ declare global {
       refreshGearData: () => Promise<boolean>;
       openExternal: (value: string) => Promise<boolean>;
       lookupItem: (name: string) => Promise<ItemLookupView>;
+      getSpellCatalog: () => Promise<import("./protocol").SpellCatalog>;
+      setXpCheckpoint: (level: number, percent: number) => Promise<boolean>;
       queryLoot: (request: LootQueryRequest) => Promise<LootQueryResult>;
       getUpdateState: () => Promise<UpdateCenterState>;
       checkForUpdates: () => Promise<UpdateCenterState>;
@@ -45,10 +47,13 @@ declare global {
       onGearPlan: (callback: (gearPlan: unknown) => void) => () => void;
       onSettings: (callback: (settings: unknown) => void) => () => void;
       onCompanionLayout: (callback: (layout: SeedCompanionLayout) => void) => () => void;
+      onCompanionInteraction: (callback: (state: { inspecting: boolean }) => void) => () => void;
       onUpdateState: (callback: (state: UpdateCenterState) => void) => () => void;
       onTestAlert: (callback: (alert: unknown) => void) => () => void;
       setExpanded: (expanded: boolean) => void;
       setAnalysis: (active: boolean) => void;
+      setCompanionInspecting: (active: boolean) => void;
+      setCompanionDetailRows: (count: number) => void;
       minimizeWindow: () => void;
       closeWindow: () => void;
     };

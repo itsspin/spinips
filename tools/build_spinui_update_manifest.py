@@ -21,7 +21,7 @@ from typing import BinaryIO, Iterable
 
 
 REPO = Path(__file__).resolve().parent.parent
-THEMES = ("spinui_reloaded", "spinui_glass")
+THEMES = ("spinui_reloaded", "spinui_glass", "spinui_pearlescent")
 SCHEMA_VERSION = 1
 TREE_HASH_ALGORITHM = "sha256-path-size-content-v1"
 VERSION_RE = re.compile(
@@ -241,6 +241,8 @@ def self_test() -> None:
         fixtures = {
             "spinui_reloaded/EQUI.xml": b"<XML>reload</XML>\n",
             "spinui_reloaded/art/frame.tga": b"TGA\x00reload",
+            "spinui_pearlescent/EQUI.xml": b"<XML>pearl</XML>\n",
+            "spinui_pearlescent/art/frame.tga": b"TGA\x00pearl",
             "spinui_glass/EQUI.xml": b"<XML>glass</XML>\n",
             "spinui_glass/art/frame.tga": b"TGA\x00glass",
         }

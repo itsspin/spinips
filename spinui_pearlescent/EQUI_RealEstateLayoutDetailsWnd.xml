@@ -1,0 +1,175 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Listbox item = "RELDW_ItemList">
+		<ScreenID>RELDW_ItemList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>77</Width>
+			<Heading>Transformed</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Required</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Available</Heading>
+		</Columns>
+		<Columns>
+			<Width>60</Width>
+			<Heading>Shortage</Heading>
+		</Columns>
+	</Listbox>
+	
+	<Label item="RELDW_Load_Label">
+		<ScreenID>RELDW_Load_Label</ScreenID>
+		<Location>
+			<X>6</X>
+			<Y>3</Y>
+		</Location>
+		<Size>
+			<CX>50</CX>
+			<CY>16</CY>
+		</Size>
+		<Text>Load:</Text>
+	</Label>
+	<Combobox item="RELDW_Load_Combobox">
+		<ScreenID>RELDW_Load_Combobox</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorOffset>42</LeftAnchorOffset>
+		<RightAnchorOffset>115</RightAnchorOffset>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>For a specific load option, view the layout's required items and their availability.</TooltipReference>
+		<ListHeight>75</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+		<Choices>All</Choices>
+		<Choices>Yard</Choices>
+		<Choices>House</Choices>
+	</Combobox>
+	<Button item="RELDW_UsePlacedItems_Btn">
+		<ScreenID>RELDW_UsePlacedItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>266</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<RightAnchorOffset>250</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Use items already placed while calculating item availability for this layout.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RELDW_UsePlacedItems_Label">
+		<ScreenID>RELDW_UsePlacedItems_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>246</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<RightAnchorOffset>136</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Use Placed Items</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	<Button item="RELDW_UseInventoryItems_Btn">
+		<ScreenID>RELDW_UseInventoryItems_Btn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>136</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<RightAnchorOffset>120</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Checkbox>true</Style_Checkbox>
+		<TooltipReference>Use non-equipped items from your inventory while calculating item availability for this layout.</TooltipReference>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	<Label item="RELDW_UseInventoryItems_Label">
+		<ScreenID>RELDW_UseInventoryItems_Label</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>116</LeftAnchorOffset>
+		<TopAnchorOffset>4</TopAnchorOffset>
+		<BottomAnchorOffset>20</BottomAnchorOffset>
+		<RightAnchorOffset>6</RightAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Use Inventory Items</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+	
+	<Screen item="RELDW_Options_Screen">
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<DrawTemplate>WDT_RoundedNoTitle</DrawTemplate>
+		<Style_Border>false</Style_Border>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>RELDW_Load_Label</Pieces>
+		<Pieces>RELDW_Load_Combobox</Pieces>
+		<Pieces>RELDW_UsePlacedItems_Btn</Pieces>
+		<Pieces>RELDW_UsePlacedItems_Label</Pieces>
+		<Pieces>RELDW_UseInventoryItems_Btn</Pieces>
+		<Pieces>RELDW_UseInventoryItems_Label</Pieces>
+	</Screen>
+
+	<Screen item = "RealEstateLayoutDetailsWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>400</X>
+			<Y>400</Y>
+		</Location>
+		<Size>
+			<CX>462</CX>
+			<CY>520</CY>
+		</Size>
+		<Text>Layout Info</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>	
+		<Pieces>RELDW_ItemList</Pieces>
+		<Pieces>RELDW_Options_Screen</Pieces>
+	</Screen>
+
+
+</XML>

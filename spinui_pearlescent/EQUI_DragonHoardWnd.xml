@@ -1,0 +1,225 @@
+<?xml version = "1.0"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes"/>
+
+	<Label item="DH_Item_Count_Label">
+		<ScreenID>DH_Item_Count_Label</ScreenID>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>128</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>Total Count:</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+
+	<Label item="DH_Item_Count_Number">
+		<ScreenID>DH_Item_Count_Number</ScreenID>
+		<Location>
+			<X>75</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>64</CX>
+			<CY>14</CY>
+		</Size>
+		<Text>0 / 0</Text>
+		<NoWrap>true</NoWrap>
+	</Label>
+
+	<Editbox item="DH_SearchItem_Input">
+		<ScreenID>DH_SearchItem_Input</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TooltipReference>Search by partial item name.</TooltipReference>
+		<LeftAnchorOffset>220</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>82</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+	<Button item="DH_SearchItem_Button">
+		<ScreenID>DH_SearchItem_Button</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Style_Transparent>false</Style_Transparent>	
+		<LeftAnchorOffset>80</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<Text>Search</Text>
+		<NoWrap>true</NoWrap>
+		<TextAlignCenter>true</TextAlignCenter>
+		<TextOffsetX>0</TextOffsetX>
+		<Template>BDT_FindItem</Template>
+	</Button>
+	<Listbox item="DH_Item_List">
+		<ScreenID>DH_Item_List</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<BottomAnchorOffset>38</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>24</Width>
+			<Heading></Heading>
+		</Columns>
+		<Columns>
+			<Width>260</Width>
+			<Heading>Item Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>35</Width>
+			<Heading>Qty</Heading>
+		</Columns>
+	</Listbox>
+
+	<Button item="DH_Retrieve_Button">
+		<ScreenID>DH_Retrieve_Button</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<RightAnchorOffset>69</RightAnchorOffset>
+		<TooltipReference>Click here to retrieve your item</TooltipReference>
+		<Text>Retrieve</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="DH_Selected_Item_Slot">
+		<ScreenID>DH_Selected_Item_Slot</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>72</LeftAnchorOffset>
+		<RightAnchorOffset>106</RightAnchorOffset>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>34</CX>
+			<CY>34</CY>
+		</DecalSize>
+	</Button>
+	
+	<Label item="DH_Selected_Item_Label">
+		<ScreenID>DH_Selected_Item_Label</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>34</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>110</LeftAnchorOffset>
+		<RightAnchorOffset>145</RightAnchorOffset>
+		<Text>Item Being Considered</Text>
+		<TextAlignCenter>false</TextAlignCenter>		
+	</Label>
+	
+	<Button item="DH_Inspect_Button">
+		<ScreenID>DH_Inspect_Button</ScreenID>
+<!-- 		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
+		<LeftAnchorOffset>207</LeftAnchorOffset>
+		<RightAnchorOffset>143</RightAnchorOffset>
+		<TooltipReference>Click here to inspect the selected item (R-Click)</TooltipReference>
+		<Text>Inspect</Text>
+		<Template>BDT_Normal</Template> -->
+	</Button>
+	
+	<Button item="DH_Preview_Button">
+		<ScreenID>DH_Preview_Button</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<RightAnchorOffset>71</RightAnchorOffset>
+		<TooltipReference>Click here to preview the selected item (Alt R-Click)</TooltipReference>
+		<Text>Preview</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Button item="DH_Exit_Button">
+		<ScreenID>DH_Exit_Button</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TopAnchorOffset>36</TopAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<LeftAnchorOffset>69</LeftAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<TooltipReference>Click here to close the Dragon's Hoard window</TooltipReference>
+		<Text>Exit</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Screen item="DragonHoardWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>450</CX>
+			<CY>400</CY>
+		</Size>
+		<Text>Dragon's Hoard</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<MinHSize>360</MinHSize>
+		<MinVSize>300</MinVSize>	
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Pieces>DH_Item_Count_Label</Pieces>
+		<Pieces>DH_Item_Count_Number</Pieces>
+		<Pieces>DH_SearchItem_Input</Pieces>
+		<Pieces>DH_SearchItem_Button</Pieces>
+		<Pieces>DH_Item_List</Pieces>
+		<Pieces>DH_Retrieve_Button</Pieces>
+		<Pieces>DH_Selected_Item_Label</Pieces>
+		<Pieces>DH_Selected_Item_Slot</Pieces>
+		<Pieces>DH_Inspect_Button</Pieces>
+		<Pieces>DH_Preview_Button</Pieces>
+		<Pieces>DH_Exit_Button</Pieces>
+	</Screen>
+
+</XML>

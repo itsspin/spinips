@@ -81,6 +81,7 @@ export interface CombatActorView {
   sessionDps: number;
   sessionHits: number;
   sessionMaximum: number;
+  sources?: readonly CombatMetricView[];
 }
 
 export interface EncounterView {
@@ -212,12 +213,28 @@ export interface EngineSnapshot {
   lootTotalCount?: number;
   lootUniqueCount?: number;
   journalEncounters?: readonly JournalEncounterView[];
+  progression?: ProgressionView;
   controls: readonly ControlTimerView[];
   hiddenControlRows: number;
   controlNoticeCount: number;
   controlAmbiguityCount: number;
   weekly?: WeeklyProgressView;
   alerts?: readonly AlertView[];
+}
+
+export interface ProgressionView {
+  sessionSeconds: number; xpEvents: number; measuredEvents: number; gainedPercent: number;
+  percentPerHour: number | null; rateSource: "log" | "waiting" | "checkpoints";
+  currentPercent: number | null; level: number; secondsToLevel: number | null;
+  levelsGained: number; aaEarned: number; aaPerHour: number | null;
+  history: readonly { at: string; percent: number }[];
+}
+export interface SpellEntry {
+  id: number; name: string; levels: Record<string, number>;
+  mana: number; castSeconds: number; beneficial: boolean;
+}
+export interface SpellCatalog {
+  status: "ready" | "missing" | "error"; spells: SpellEntry[]; detail: string; updatedAt: string;
 }
 
 export interface AlertView {
@@ -335,8 +352,9 @@ export interface EngineHealth {
 }
 
 export type AlertAnchor = "auto" | "above" | "below" | "left" | "right";
-export type LoremasterTheme = "vellum" | "glass";
+export type LoremasterTheme = "vellum" | "glass" | "pearlescent";
 export type SeedMeterMode = "self" | "group" | "pet" | "all";
+export type SeedMeterPlacement = "seed-only" | "auto" | "above" | "right" | "meter-only";
 export interface SeedCompanionLayout {
   meterRows: number;
   controlRows: number;
@@ -386,14 +404,16 @@ export interface DesktopSettings {
   splitCharmedPetDps: boolean;
   seedMeterVisible: boolean;
   seedMeterMode: SeedMeterMode;
+  seedMeterPlacement: SeedMeterPlacement;
   seedMeterOpacity: number;
   stanceAdvisorEnabled: boolean;
   itemNetworkLookups: boolean;
   seedPosition: { x: number; y: number } | null;
+  seedMeterPosition: { x: number; y: number } | null;
   alerts: AlertSettings;
 }
 
-export type UpdateComponentId = "loremaster" | "spinui_reloaded" | "spinui_glass";
+export type UpdateComponentId = "loremaster" | "spinui_reloaded" | "spinui_glass" | "spinui_pearlescent";
 
 export type UpdateComponentPhase =
   | "idle"

@@ -34,7 +34,7 @@ from restyle_combat import (ATTACK_PERIMETER_TEXTURE, ATTACK_RAIL_TEXTURE,
 REPO = Path(__file__).resolve().parent.parent
 SKIN = REPO / "spinui_reloaded"
 GLASS_SKIN = REPO / "spinui_glass"
-COMBAT_SKINS = (SKIN, GLASS_SKIN)
+COMBAT_SKINS = (SKIN, GLASS_SKIN, REPO / "spinui_pearlescent")
 STOCK = Path(r"C:\EQLegends\uifiles\default")
 
 # Pin the client-native attack contract independently of the generator. The
@@ -1336,7 +1336,7 @@ def main() -> int:
     print("Combat Command Center audit: ALL PASS")
     print("  Player/Target/ToT | Group 1..11 | XTarget 0..22 | Raid groups 1..12")
     print("  buffs 30 | songs 15 | spell gems 14 | hotbars 11 x 12 | stance + invocation")
-    print("  52 compatibility aliases + 14 foreground native attack perimeters + spell ledger")
+    print("  52 compatibility aliases + 21 foreground native attack perimeters + spell ledger")
     print("  contrast AAA/AA | July stock parity " + ("PASS" if stock_checked else "not available"))
     return 0
 

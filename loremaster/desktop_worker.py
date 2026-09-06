@@ -694,6 +694,7 @@ class HeadlessEngine:
             journal_encounters=journal_encounters,
             loot_summary=loot_summary)
         event = snapshot_event(snapshot).to_dict()
+        event["snapshot"]["progression"] = self.stats.progression.snapshot(observed_at)
         weekly_character = (self.stats.character or "").strip()
         weekly = self.weekly.snapshot(
             observed_at,
@@ -761,6 +762,9 @@ class JsonLineWorker:
                 raise ValueError("raidDifficulty must be null or an integer from 0 to 4")
         elif kind == "engine.set-alert-config":
             self.engine.set_alert_config(command.get("alertConfig"))
+        elif kind == "engine.xp-checkpoint":
+            self.engine.stats.progression.checkpoint(
+                datetime.now(), command.get("level"), command.get("percent"))
         elif kind == "engine.set-composition":
             if not self.engine.set_composition(str(command.get("composition") or "")):
                 raise ValueError("composition must contain exactly three valid classes")

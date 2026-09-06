@@ -14,6 +14,7 @@ import {
   type InventoryEntry,
 } from "./gear-plan";
 import { ItemIntelligenceService } from "./item-intelligence";
+import { SpellCatalogService } from "./spell-catalog";
 import {
   acknowledgePortableUpdateRelaunch,
   PortableUpdateService,
@@ -29,7 +30,14 @@ import {
   type SpinUISkinStatus,
   type SpinUIUpdateState,
 } from "./spinui-updater";
-import { boundedCompanionLayout, companionSurfaceSize } from "./companion-layout";
+import {
+  availableCompanionHeight,
+  boundedCompanionLayout,
+  companionChromeHeight,
+  companionSurfaceSize,
+  decoratedCompanionSize,
+  placeCompanionSurface,
+} from "./companion-layout";
 
 const processStartedAt = performance.now();
 app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
@@ -44,6 +52,10 @@ let controlWindow: BrowserWindow | null = null;
 let engine: EngineSupervisor | null = null;
 let windowExpanded = false;
 let windowAnalysis = false;
+let companionInspecting = false;
+let companionDetailRows = 0;
+let companionInspectTimer: NodeJS.Timeout | null = null;
+let compactMeterBounds: Electron.Rectangle | null = null;
 let expansionDirection: "up" | "down" = "down";
 let movingWindowProgrammatically = false;
 let tray: Tray | null = null;
@@ -51,6 +63,7 @@ let trayMinimizeNoticeShown = false;
 let topmostReassertTimers: NodeJS.Timeout[] = [];
 let topmostHeartbeatTimer: NodeJS.Timeout | null = null;
 let itemIntelligence: ItemIntelligenceService | null = null;
+const spellCatalog = new SpellCatalogService();
 let portableUpdater: PortableUpdateService | null = null;
 let spinUISkinUpdater: SpinUISkinUpdateService | null = null;
 let stagedPortableUpdate: StagedPortableUpdate | null = null;
@@ -115,21 +128,23 @@ interface DesktopSettings {
   raidDifficulty: number | null;
   bisBuildPath: string;
   inventoryPath: string;
-  uiTheme: "vellum" | "glass";
+  uiTheme: "vellum" | "glass" | "pearlescent";
   alwaysOnTop: boolean;
   fontScale: number;
   composition: string;
   splitCharmedPetDps: boolean;
   seedMeterVisible: boolean;
   seedMeterMode: "self" | "group" | "pet" | "all";
+  seedMeterPlacement: "seed-only" | "auto" | "above" | "right" | "meter-only";
   seedMeterOpacity: number;
   stanceAdvisorEnabled: boolean;
   itemNetworkLookups: boolean;
   seedPosition: { x: number; y: number } | null;
+  seedMeterPosition: { x: number; y: number } | null;
   alerts: AlertSettings;
 }
 
-type UpdateComponentId = "loremaster" | "spinui_reloaded" | "spinui_glass";
+type UpdateComponentId = "loremaster" | "spinui_reloaded" | "spinui_glass" | "spinui_pearlescent";
 type UpdateComponentPhase =
   | "idle" | "checking" | "current" | "available" | "not-installed" | "modified"
   | "downloading" | "verifying" | "ready" | "waiting-for-eq" | "installing"
@@ -233,10 +248,12 @@ const defaultSettings: DesktopSettings = {
   splitCharmedPetDps: false,
   seedMeterVisible: true,
   seedMeterMode: "all",
+  seedMeterPlacement: "auto",
   seedMeterOpacity: 0.9,
   stanceAdvisorEnabled: false,
   itemNetworkLookups: true,
   seedPosition: null,
+  seedMeterPosition: null,
   alerts: defaultAlertSettings,
 };
 
@@ -259,6 +276,9 @@ function readSettings(): DesktopSettings {
     const seedPosition = value.seedPosition && Number.isFinite(value.seedPosition.x) && Number.isFinite(value.seedPosition.y)
       ? { x: Math.round(value.seedPosition.x), y: Math.round(value.seedPosition.y) }
       : null;
+    const seedMeterPosition = value.seedMeterPosition && Number.isFinite(value.seedMeterPosition.x) && Number.isFinite(value.seedMeterPosition.y)
+      ? { x: Math.round(value.seedMeterPosition.x), y: Math.round(value.seedMeterPosition.y) }
+      : null;
     const clampInteger = (candidate: unknown, fallback: number, low: number, high: number) => {
       const numeric = Number(candidate);
       return Number.isFinite(numeric) ? Math.max(low, Math.min(high, Math.round(numeric))) : fallback;
@@ -267,6 +287,9 @@ function readSettings(): DesktopSettings {
     const logPath = typeof value.logPath === "string" ? value.logPath : "";
     const eqRoot = resolveEqRoot(typeof value.eqRoot === "string" ? value.eqRoot : "")
       || resolveEqRoot(logPath);
+    const seedMeterPlacement = ["seed-only", "auto", "above", "right", "meter-only"].includes(String(value.seedMeterPlacement))
+      ? value.seedMeterPlacement as DesktopSettings["seedMeterPlacement"]
+      : boolean(value.seedMeterVisible, true) ? "auto" : "seed-only";
     return {
       logPath,
       eqRoot,
@@ -274,15 +297,16 @@ function readSettings(): DesktopSettings {
       raidDifficulty,
       bisBuildPath: typeof value.bisBuildPath === "string" ? value.bisBuildPath : "",
       inventoryPath: typeof value.inventoryPath === "string" ? value.inventoryPath : "",
-      uiTheme: value.uiTheme === "glass" ? "glass" : "vellum",
+      uiTheme: value.uiTheme === "glass" || value.uiTheme === "pearlescent" ? value.uiTheme : "vellum",
       alwaysOnTop: boolean(value.alwaysOnTop, true),
       fontScale: clampInteger(value.fontScale === undefined ? 115 : Number(value.fontScale) * 100, 115, 90, 160) / 100,
       composition: typeof value.composition === "string" ? value.composition.slice(0, 48) : "",
       splitCharmedPetDps: boolean(value.splitCharmedPetDps, false),
-      seedMeterVisible: boolean(value.seedMeterVisible, true),
+      seedMeterVisible: seedMeterPlacement !== "seed-only",
       seedMeterMode: ["self", "group", "pet", "all"].includes(String(value.seedMeterMode))
         ? value.seedMeterMode as DesktopSettings["seedMeterMode"]
         : "all",
+      seedMeterPlacement,
       seedMeterOpacity: Math.round(clamp(
         Number.isFinite(Number(value.seedMeterOpacity)) ? Number(value.seedMeterOpacity) : 0.9,
         0.35,
@@ -291,6 +315,7 @@ function readSettings(): DesktopSettings {
       stanceAdvisorEnabled: boolean(value.stanceAdvisorEnabled, false),
       itemNetworkLookups: boolean(value.itemNetworkLookups, true),
       seedPosition,
+      seedMeterPosition,
       alerts: {
         alertsEnabled: boolean(alertValue.alertsEnabled, defaultAlertSettings.alertsEnabled),
         alertSound: boolean(alertValue.alertSound, defaultAlertSettings.alertSound),
@@ -395,6 +420,7 @@ function initialUpdateCenterState(settings = readSettings()): UpdateCenterState 
       loremaster: component("loremaster", "Ready to check the official SpinUI release."),
       spinui_reloaded: component("spinui_reloaded", settings.eqRoot ? "Ready to verify SpinUI Reloaded." : "Select your EverQuest folder to check this skin."),
       spinui_glass: component("spinui_glass", settings.eqRoot ? "Ready to verify SpinUI Glass." : "Select your EverQuest folder to check this skin."),
+      spinui_pearlescent: component("spinui_pearlescent", "Ready to verify SpinUI Pearlescent."),
     },
   };
 }
@@ -697,13 +723,7 @@ class EngineSupervisor {
         pending.resolve(event.result);
       }
     } else if (event.eventType === "engine.snapshot" && event.snapshot) {
-      this.snapshot = event;
-      mainWindow?.webContents.send("engine:snapshot", event);
-      alertWindow?.webContents.send("engine:snapshot", event);
-      syncControlWindow();
-      if (process.env.LOREMASTER_SCREENSHOT_VIEW !== "controls") {
-        controlWindow?.webContents.send("engine:snapshot", event);
-      }
+      if (!this.stopping) this.publishSnapshot(event);
     } else if (event.eventType === "engine.health" || event.eventType === "engine.ready") {
       const health = event.health as EngineHealth | undefined;
       if (health && typeof health.state === "string") {
@@ -717,6 +737,22 @@ class EngineSupervisor {
         detail: typeof event.message === "string" ? event.message : "Parser engine error",
       });
     }
+  }
+
+  publishSnapshot(event: Record<string, unknown>): void {
+    this.snapshot = event;
+    mainWindow?.webContents.send("engine:snapshot", event);
+    alertWindow?.webContents.send("engine:snapshot", event);
+    syncControlWindow();
+    if (process.env.LOREMASTER_SCREENSHOT_VIEW !== "controls") {
+      controlWindow?.webContents.send("engine:snapshot", event);
+    }
+  }
+
+  setXpCheckpoint(level: number, percent: number): boolean {
+    if (!this.child || this.stopping) return false;
+    this.send({ type: "engine.xp-checkpoint", level, percent });
+    return true;
   }
 
   private send(command: Record<string, unknown>): void {
@@ -815,7 +851,7 @@ class EngineSupervisor {
     this.send({ type: "engine.set-raid-difficulty", raidDifficulty });
   }
 
-  updateDesktopSettings(patch: Partial<Pick<DesktopSettings, "uiTheme" | "alwaysOnTop" | "fontScale" | "composition" | "splitCharmedPetDps" | "seedMeterVisible" | "seedMeterMode" | "seedMeterOpacity" | "stanceAdvisorEnabled" | "itemNetworkLookups" | "eqRoot" | "autoCheckUpdates">> & {
+  updateDesktopSettings(patch: Partial<Pick<DesktopSettings, "uiTheme" | "alwaysOnTop" | "fontScale" | "composition" | "splitCharmedPetDps" | "seedMeterVisible" | "seedMeterMode" | "seedMeterPlacement" | "seedMeterOpacity" | "stanceAdvisorEnabled" | "itemNetworkLookups" | "eqRoot" | "autoCheckUpdates">> & {
     alerts?: Partial<AlertSettings>;
   }): DesktopSettings {
     const nextAlerts = patch.alerts ? {
@@ -826,19 +862,28 @@ class EngineSupervisor {
         : this.settings.alerts.soundProfiles,
     } : this.settings.alerts;
     const previousScale = this.settings.fontScale;
+    const previousPlacement = this.settings.seedMeterPlacement;
     const nextScale = typeof patch.fontScale === "number" ? clamp(patch.fontScale, 0.9, 1.6) : previousScale;
     const nextSeedPosition = nextScale !== previousScale
       ? scaledSeedPosition(this.settings.seedPosition, previousScale, nextScale)
       : this.settings.seedPosition;
+    const requestedPlacement = ["seed-only", "auto", "above", "right", "meter-only"].includes(String(patch.seedMeterPlacement))
+      ? patch.seedMeterPlacement as DesktopSettings["seedMeterPlacement"]
+      : typeof patch.seedMeterVisible === "boolean"
+        ? patch.seedMeterVisible
+          ? this.settings.seedMeterPlacement === "seed-only" ? "auto" : this.settings.seedMeterPlacement
+          : "seed-only"
+        : this.settings.seedMeterPlacement;
     this.settings = {
       ...this.settings,
-      ...(patch.uiTheme === "vellum" || patch.uiTheme === "glass" ? { uiTheme: patch.uiTheme } : {}),
+      ...(patch.uiTheme === "vellum" || patch.uiTheme === "glass" || patch.uiTheme === "pearlescent" ? { uiTheme: patch.uiTheme } : {}),
       ...(typeof patch.alwaysOnTop === "boolean" ? { alwaysOnTop: patch.alwaysOnTop } : {}),
       fontScale: nextScale,
       seedPosition: nextSeedPosition,
+      seedMeterVisible: requestedPlacement !== "seed-only",
+      seedMeterPlacement: requestedPlacement,
       ...(typeof patch.composition === "string" ? { composition: patch.composition.trim().slice(0, 48) } : {}),
       ...(typeof patch.splitCharmedPetDps === "boolean" ? { splitCharmedPetDps: patch.splitCharmedPetDps } : {}),
-      ...(typeof patch.seedMeterVisible === "boolean" ? { seedMeterVisible: patch.seedMeterVisible } : {}),
       ...(["self", "group", "pet", "all"].includes(String(patch.seedMeterMode))
         ? { seedMeterMode: patch.seedMeterMode as DesktopSettings["seedMeterMode"] }
         : {}),
@@ -852,6 +897,9 @@ class EngineSupervisor {
       alerts: nextAlerts,
     };
     saveSettings(this.settings);
+    if (this.settings.seedMeterPlacement !== previousPlacement || patch.seedMeterMode) {
+      setCompanionInspecting(false);
+    }
     this.send({ type: "engine.set-alert-config", alertConfig: this.settings.alerts });
     if (typeof patch.composition === "string") {
       this.send({ type: "engine.set-composition", composition: this.settings.composition });
@@ -868,6 +916,11 @@ class EngineSupervisor {
 
   saveSeedPosition(position: { x: number; y: number }): void {
     this.settings = { ...this.settings, seedPosition: position };
+    saveSettings(this.settings);
+  }
+
+  saveSeedMeterPosition(position: { x: number; y: number }): void {
+    this.settings = { ...this.settings, seedMeterPosition: position };
     saveSettings(this.settings);
   }
 
@@ -1076,15 +1129,8 @@ function visibleSeedMeterRows(value: unknown, settings: DesktopSettings): Record
   });
   let rows: Record<string, unknown>[];
   if (settings.seedMeterMode === "self") {
-    const sources = Array.isArray(encounter.sources)
-      ? encounter.sources.filter((candidate): candidate is Record<string, unknown> => {
-        if (!candidate || typeof candidate !== "object" || Number((candidate as Record<string, unknown>).total) <= 0) return false;
-        const category = String((candidate as Record<string, unknown>).category ?? "")
-          .toLocaleLowerCase().replace(/[\s-]+/g, "_");
-        return !["pet", "charmed", "summoned"].includes(category);
-      })
-      : [];
-    rows = sources.length > 0 ? sources : (personalDamage > 0 ? [synthetic("self", personalDamage)] : []);
+    const selfActor = actors.find((actor) => actor.role === "self");
+    rows = personalDamage > 0 ? [selfActor ?? synthetic("self", personalDamage)] : [];
   } else if (settings.seedMeterMode === "pet") {
     rows = [...pets];
     if (!pets.some((actor) => actor.role === "charmed") && charmedDamage > 0) rows.push(synthetic("charmed", charmedDamage));
@@ -1185,6 +1231,7 @@ function ensureTray(): boolean {
 function minimizeLoremasterWindow(): void {
   const window = mainWindow;
   if (!window || window.isDestroyed()) return;
+  setCompanionInspecting(false);
   if (ensureTray()) {
     alertWindow?.hide();
     controlWindow?.hide();
@@ -1255,51 +1302,174 @@ function startTopmostHeartbeat(): void {
   topmostHeartbeatTimer.unref();
 }
 
+function publishCompanionInteraction(): void {
+  const meterOnly = !windowExpanded &&
+    (engine?.getState().settings.seedMeterPlacement ?? defaultSettings.seedMeterPlacement) === "meter-only";
+  const payload = { inspecting: meterOnly || companionInspecting, meterOnly };
+  mainWindow?.webContents.send("window:companion-interaction", payload);
+  controlWindow?.webContents.send("window:companion-interaction", payload);
+}
+
+function setCompanionInspecting(active: boolean): void {
+  if (companionInspectTimer) clearTimeout(companionInspectTimer);
+  companionInspectTimer = null;
+  companionInspecting = Boolean(active) && !windowExpanded;
+  const meterOnly = !windowExpanded &&
+    (engine?.getState().settings.seedMeterPlacement ?? defaultSettings.seedMeterPlacement) === "meter-only";
+  const companionInteractive = companionInspecting && !meterOnly;
+  if (controlWindow && !controlWindow.isDestroyed()) {
+    controlWindow.setFocusable(companionInteractive);
+    controlWindow.setIgnoreMouseEvents(!companionInteractive, { forward: !companionInteractive });
+    if (companionInteractive && controlWindow.isVisible()) {
+      controlWindow.focus();
+    }
+  }
+  if (companionInteractive) {
+    companionInspectTimer = setTimeout(() => setCompanionInspecting(false), 20_000);
+    companionInspectTimer.unref();
+  } else if (!meterOnly) {
+    companionDetailRows = 0;
+  }
+  publishCompanionInteraction();
+  syncControlWindow();
+}
+
 function syncControlWindow(): void {
   if (!mainWindow || !controlWindow || controlWindow.isDestroyed()) return;
   if (process.env.LOREMASTER_SCREENSHOT_VIEW === "controls") return;
   const settings = engine?.getState().settings ?? defaultSettings;
   const controls = visibleSeedControls(engine?.getState().snapshot, settings);
   const meterRows = visibleSeedMeterRows(engine?.getState().snapshot, settings);
-  if (!mainWindow.isVisible() || windowExpanded || (controls.length === 0 && meterRows.length === 0)) {
+  const meterOnly = settings.seedMeterPlacement === "meter-only" && !windowExpanded;
+  if (!mainWindow.isVisible() || windowExpanded) {
     controlWindow.hide();
     positionAlertWindow();
     return;
   }
 
+  const gap = Math.max(5, Math.round(6 * settings.fontScale));
+  if (meterOnly) {
+    const fallback = canonicalSeedAnchor(settings, mainWindow.getBounds()).bounds;
+    const desiredPosition = settings.seedMeterPosition ?? { x: fallback.x, y: fallback.y };
+    const display = screen.getDisplayNearestPoint(desiredPosition);
+    const workArea = display.workArea;
+    const requestedRows = Math.max(1, companionDetailRows || meterRows.length);
+    let availableHeight = Math.max(1, workArea.height - gap * 2);
+    const meterWidth = companionSurfaceSize(0, 1, settings.fontScale).width;
+    const meterX = clamp(desiredPosition.x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - meterWidth));
+    const horizontalRoom = Math.max(meterX - workArea.x, workArea.x + workArea.width - (meterX + meterWidth));
+    if (controls.length > 0 && horizontalRoom < meterWidth + gap) {
+      const minimumControlHeight = companionSurfaceSize(1, 0, settings.fontScale).height;
+      availableHeight = Math.max(1, availableHeight - (minimumControlHeight + gap) * 2);
+    }
+    const detailActive = companionDetailRows > 0;
+    const chromeHeight = companionChromeHeight(settings.fontScale, detailActive, true);
+    const meterLayout = boundedCompanionLayout(
+      requestedRows,
+      0,
+      settings.fontScale,
+      Math.max(1, availableHeight - chromeHeight),
+    );
+    const requestedMeterSize = decoratedCompanionSize(
+      meterLayout.panelSize,
+      settings.fontScale,
+      detailActive,
+      true,
+      meterRows.length === 0,
+    );
+    const meterSize = { ...requestedMeterSize, height: Math.min(availableHeight, requestedMeterSize.height) };
+    const meterBounds = {
+      x: clamp(desiredPosition.x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - meterSize.width)),
+      y: clamp(desiredPosition.y, workArea.y, Math.max(workArea.y, workArea.y + workArea.height - meterSize.height)),
+      ...meterSize,
+    };
+    compactMeterBounds = meterBounds;
+    mainWindow.setMinimumSize(1, 1);
+    const currentBounds = mainWindow.getBounds();
+    if (currentBounds.x !== meterBounds.x || currentBounds.y !== meterBounds.y ||
+      currentBounds.width !== meterBounds.width || currentBounds.height !== meterBounds.height) {
+      movingWindowProgrammatically = true;
+      mainWindow.setBounds(meterBounds, false);
+      setImmediate(() => { movingWindowProgrammatically = false; });
+    }
+    mainWindow.setIgnoreMouseEvents(false);
+    mainWindow.webContents.send("window:companion-layout", {
+      meterRows: meterLayout.meterRows,
+      controlRows: 0,
+    });
+    publishCompanionInteraction();
+
+    if (controls.length === 0) {
+      controlWindow.hide();
+      positionAlertWindow();
+      return;
+    }
+    const controlLayout = boundedCompanionLayout(
+      0,
+      controls.length,
+      settings.fontScale,
+      availableCompanionHeight(meterBounds, meterWidth, workArea, gap),
+    );
+    const positioned = placeCompanionSurface(
+      meterBounds,
+      controlLayout.panelSize,
+      workArea,
+      gap,
+      "auto",
+    );
+    controlWindow.setBounds({ x: positioned.x, y: positioned.y, ...controlLayout.panelSize }, false);
+    if (!controlWindow.webContents.isLoadingMainFrame()) {
+      controlWindow.webContents.send("window:companion-layout", {
+        meterRows: 0,
+        controlRows: controlLayout.controlRows,
+      });
+      controlWindow.showInactive();
+    }
+    positionAlertWindow();
+    return;
+  }
+
+  const requestedMeterRows = settings.seedMeterPlacement === "seed-only"
+    ? 0
+    : companionDetailRows || meterRows.length;
+  if (controls.length === 0 && requestedMeterRows === 0) {
+    controlWindow.hide();
+    positionAlertWindow();
+    return;
+  }
   const anchor = mainWindow.getBounds();
   const workArea = screen.getDisplayMatching(anchor).workArea;
-  const gap = Math.max(5, Math.round(6 * settings.fontScale));
+  const availableHeight = availableCompanionHeight(
+    anchor,
+    companionSurfaceSize(0, 1, settings.fontScale).width,
+    workArea,
+    gap,
+  );
+  const detailActive = companionDetailRows > 0 && requestedMeterRows > 0;
+  const chromeHeight = companionChromeHeight(settings.fontScale, detailActive, false);
   const layout = boundedCompanionLayout(
-    meterRows.length,
+    requestedMeterRows,
     controls.length,
     settings.fontScale,
-    Math.max(1, workArea.height - gap * 2),
+    availableHeight,
+    chromeHeight,
   );
-  const panelSize = layout.panelSize;
-  const spaceRight = workArea.x + workArea.width - (anchor.x + anchor.width);
-  const spaceLeft = anchor.x - workArea.x;
-  const spaceAbove = anchor.y - workArea.y;
-  const spaceBelow = workArea.y + workArea.height - (anchor.y + anchor.height);
-
-  let x: number;
-  let y: number;
-  if (spaceAbove >= panelSize.height + gap) {
-    x = anchor.x + Math.round((anchor.width - panelSize.width) / 2);
-    y = anchor.y - panelSize.height - gap;
-  } else if (spaceRight >= panelSize.width + gap) {
-    x = anchor.x + anchor.width + gap;
-    y = anchor.y + Math.round((anchor.height - panelSize.height) / 2);
-  } else if (spaceLeft >= panelSize.width + gap) {
-    x = anchor.x - panelSize.width - gap;
-    y = anchor.y + Math.round((anchor.height - panelSize.height) / 2);
-  } else {
-    x = anchor.x + Math.round((anchor.width - panelSize.width) / 2);
-    y = anchor.y + anchor.height + gap;
-  }
-  x = clamp(x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - panelSize.width));
-  y = clamp(y, workArea.y, Math.max(workArea.y, workArea.y + workArea.height - panelSize.height));
-  controlWindow.setBounds({ x, y, ...panelSize }, false);
+  // The detail component unmounts when controls take the entire slot. Do not
+  // retain its old row/chrome request after that detail is no longer visible.
+  if (layout.meterRows === 0) companionDetailRows = 0;
+  const decoratedSize = decoratedCompanionSize(
+    layout.panelSize,
+    settings.fontScale,
+    detailActive && layout.meterRows > 0,
+    false,
+    false,
+  );
+  const panelSize = { ...decoratedSize, height: Math.min(availableHeight, decoratedSize.height) };
+  const placement = settings.seedMeterPlacement === "above" || settings.seedMeterPlacement === "right"
+    ? settings.seedMeterPlacement
+    : "auto";
+  const positioned = placeCompanionSurface(anchor, panelSize, workArea, gap, placement);
+  controlWindow.setBounds({ x: positioned.x, y: positioned.y, ...panelSize }, false);
   if (!controlWindow.webContents.isLoadingMainFrame()) {
     controlWindow.webContents.send("window:companion-layout", {
       meterRows: layout.meterRows,
@@ -1307,6 +1477,7 @@ function syncControlWindow(): void {
     });
     controlWindow.showInactive();
   }
+  publishCompanionInteraction();
   positionAlertWindow();
 }
 
@@ -1328,57 +1499,84 @@ function canonicalSeedAnchor(settings: DesktopSettings, fallback: Electron.Recta
   };
 }
 
+function activeCollapsedAnchor(settings: DesktopSettings, fallback: Electron.Rectangle) {
+  if (settings.seedMeterPlacement !== "meter-only") return canonicalSeedAnchor(settings, fallback);
+  const seedAnchor = canonicalSeedAnchor(settings, fallback);
+  const size = compactMeterBounds ?? scaledSize({ width: 340, height: 134 }, settings.fontScale);
+  const position = settings.seedMeterPosition ?? compactMeterBounds ?? seedAnchor.bounds;
+  const workArea = screen.getDisplayNearestPoint({
+    x: position.x + Math.round(size.width / 2),
+    y: position.y + Math.round(size.height / 2),
+  }).workArea;
+  return {
+    workArea,
+    bounds: {
+      x: clamp(position.x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - size.width)),
+      y: clamp(position.y, workArea.y, Math.max(workArea.y, workArea.y + workArea.height - size.height)),
+      width: size.width,
+      height: size.height,
+    },
+  };
+}
+
 function positionAlertWindow(): void {
   if (!mainWindow || !alertWindow || alertWindow.isDestroyed()) return;
   const settings = engine?.getState().settings ?? defaultSettings;
   const alertSize = scaledSize(ALERT_SIZE, settings.fontScale);
   const anchorBounds = mainWindow.getBounds();
   const companionBounds = controlWindow?.isVisible() ? controlWindow.getBounds() : null;
-  const companionAbove = Boolean(
-    companionBounds && companionBounds.y + companionBounds.height <= anchorBounds.y);
   const workArea = screen.getDisplayMatching(anchorBounds).workArea;
   const gap = 10;
+  const occupied = companionBounds ? {
+    x: Math.min(anchorBounds.x, companionBounds.x),
+    y: Math.min(anchorBounds.y, companionBounds.y),
+    width: Math.max(anchorBounds.x + anchorBounds.width, companionBounds.x + companionBounds.width)
+      - Math.min(anchorBounds.x, companionBounds.x),
+    height: Math.max(anchorBounds.y + anchorBounds.height, companionBounds.y + companionBounds.height)
+      - Math.min(anchorBounds.y, companionBounds.y),
+  } : anchorBounds;
   let anchor = settings.alerts.alertAnchor;
   if (anchor === "auto") {
-    const aboveEdge = companionAbove && companionBounds
-      ? companionBounds.y
-      : anchorBounds.y;
-    const above = aboveEdge - workArea.y;
-    const below = workArea.y + workArea.height - (anchorBounds.y + anchorBounds.height);
-    const right = workArea.x + workArea.width - (anchorBounds.x + anchorBounds.width);
+    const above = occupied.y - workArea.y;
+    const below = workArea.y + workArea.height - (occupied.y + occupied.height);
+    const right = workArea.x + workArea.width - (occupied.x + occupied.width);
     anchor = above >= alertSize.height + gap && above >= below
       ? "above"
       : right >= alertSize.width + gap ? "right"
         : below >= alertSize.height + gap ? "below" : "left";
   }
-  let x = anchorBounds.x + Math.round((anchorBounds.width - alertSize.width) / 2);
-  let y = (companionAbove && companionBounds ? companionBounds.y : anchorBounds.y)
-    - alertSize.height - gap;
-  if (anchor === "below") y = anchorBounds.y + anchorBounds.height + gap;
+  let x = occupied.x + Math.round((occupied.width - alertSize.width) / 2);
+  let y = occupied.y - alertSize.height - gap;
+  if (anchor === "below") y = occupied.y + occupied.height + gap;
   if (anchor === "left") {
-    x = anchorBounds.x - alertSize.width - gap;
-    y = anchorBounds.y + Math.round((anchorBounds.height - alertSize.height) / 2);
+    x = occupied.x - alertSize.width - gap;
+    y = occupied.y + Math.round((occupied.height - alertSize.height) / 2);
   }
   if (anchor === "right") {
-    x = anchorBounds.x + anchorBounds.width + gap;
-    y = anchorBounds.y + Math.round((anchorBounds.height - alertSize.height) / 2);
+    x = occupied.x + occupied.width + gap;
+    y = occupied.y + Math.round((occupied.height - alertSize.height) / 2);
   }
-  x = clamp(x, workArea.x, workArea.x + workArea.width - alertSize.width);
-  y = clamp(y, workArea.y, workArea.y + workArea.height - alertSize.height);
+  x = clamp(x, workArea.x, Math.max(workArea.x, workArea.x + workArea.width - alertSize.width));
+  y = clamp(y, workArea.y, Math.max(workArea.y, workArea.y + workArea.height - alertSize.height));
   alertWindow.setBounds({ x, y, ...alertSize }, false);
 }
 
 function setWindowMode(expanded: boolean, preserveAnchor = false): void {
   if (!mainWindow) return;
+  if (expanded) {
+    setCompanionInspecting(false);
+    companionDetailRows = 0;
+  }
   const current = mainWindow.getBounds();
   const settings = engine?.getState().settings ?? defaultSettings;
-  const anchor = canonicalSeedAnchor(settings, current);
+  const anchor = expanded ? activeCollapsedAnchor(settings, current) : canonicalSeedAnchor(settings, current);
   const workArea = anchor.workArea;
   const seedBounds = anchor.bounds;
   const expandedSize = scaledSize(EXPANDED_SIZE, settings.fontScale);
   movingWindowProgrammatically = true;
   windowExpanded = expanded;
   windowAnalysis = false;
+  mainWindow.setIgnoreMouseEvents(false);
   if (expanded) {
     const spaceBelow = workArea.y + workArea.height - (seedBounds.y + seedBounds.height);
     const spaceAbove = seedBounds.y - workArea.y;
@@ -1415,9 +1613,11 @@ function setAnalysisMode(active: boolean, preserveAnchor = false): void {
     return;
   }
   if (!mainWindow) return;
+  setCompanionInspecting(false);
+  companionDetailRows = 0;
   const current = mainWindow.getBounds();
   const settings = engine?.getState().settings ?? defaultSettings;
-  const anchor = canonicalSeedAnchor(settings, current);
+  const anchor = activeCollapsedAnchor(settings, current);
   const workArea = anchor.workArea;
   const seedBounds = anchor.bounds;
   const requested = scaledSize(ANALYSIS_SIZE, Math.min(settings.fontScale, 1.35));
@@ -1547,6 +1747,30 @@ function createControlWindow(): void {
     controlWindow?.webContents.setZoomFactor(settings.fontScale);
     syncControlWindow();
     scheduleTopmostReassertion();
+    const overlayProbePath = process.env.LOREMASTER_OVERLAY_PROBE_PATH;
+    if (overlayProbePath && !app.isPackaged && mainWindow && controlWindow && engine) {
+      engine.stop();
+      setTimeout(() => {
+        const { runOverlayProbe } = require(path.join(app.getAppPath(), "scripts", "probe-overlay.cjs"));
+        void runOverlayProbe({
+          mainWindow,
+          controlWindow,
+          getSettings: () => engine!.getState().settings,
+          updateSettings: (patch: Parameters<EngineSupervisor["updateDesktopSettings"]>[0]) => engine!.updateDesktopSettings(patch),
+          publishSnapshot: (event: Record<string, unknown>) => engine!.publishSnapshot(event),
+          saveSeedPosition: (position: { x: number; y: number }) => engine!.saveSeedPosition(position),
+          setWindowMode,
+          setCompanionInspecting,
+          isInspecting: () => companionInspecting,
+          syncControlWindow,
+          workArea: screen.getDisplayMatching(mainWindow!.getBounds()).workArea,
+          outputPath: overlayProbePath,
+        }).then(() => app.quit()).catch((error: unknown) => {
+          console.error("Loremaster overlay probe failed", error);
+          app.exit(1);
+        });
+      }, 350);
+    }
     if (process.env.LOREMASTER_SCREENSHOT_VIEW === "controls" && process.env.LOREMASTER_SCREENSHOT_PATH) {
       const fixtureEvent = {
         protocolVersion: 1,
@@ -1609,6 +1833,11 @@ function createControlWindow(): void {
         });
       }, 800);
     }
+  });
+  controlWindow.on("blur", () => {
+    const meterOnly = !windowExpanded &&
+      (engine?.getState().settings.seedMeterPlacement ?? defaultSettings.seedMeterPlacement) === "meter-only";
+    if (!meterOnly && companionInspecting) setCompanionInspecting(false);
   });
   controlWindow.on("closed", () => { controlWindow = null; });
 }
@@ -1793,12 +2022,16 @@ function createWindow(): void {
   mainWindow.on("blur", scheduleTopmostReassertion);
   mainWindow.on("resize", scheduleTopmostReassertion);
   mainWindow.on("move", () => {
-    positionAlertWindow();
-    syncControlWindow();
     if (!windowExpanded && !movingWindowProgrammatically && mainWindow) {
       const bounds = mainWindow.getBounds();
-      engine?.saveSeedPosition({ x: bounds.x, y: bounds.y });
+      if ((engine?.getState().settings.seedMeterPlacement ?? defaultSettings.seedMeterPlacement) === "meter-only") {
+        engine?.saveSeedMeterPosition({ x: bounds.x, y: bounds.y });
+      } else {
+        engine?.saveSeedPosition({ x: bounds.x, y: bounds.y });
+      }
     }
+    positionAlertWindow();
+    syncControlWindow();
   });
 }
 
@@ -1833,6 +2066,15 @@ ipcMain.handle("engine:set-raid-difficulty", (_event, value: unknown) => {
   if (value !== null && (!Number.isInteger(value) || Number(value) < 0 || Number(value) > 4)) return false;
   engine?.setRaidDifficulty(value === null ? null : Number(value));
   return true;
+});
+ipcMain.handle("progression:spells", () => {
+  const settings = engine?.getState().settings ?? defaultSettings;
+  return spellCatalog.load(settings.eqRoot || resolveEqRoot(settings.logPath));
+});
+ipcMain.handle("progression:checkpoint", (_event, level: unknown, percent: unknown) => {
+  if (typeof level !== "number" || !Number.isInteger(level) || level < 1 || level > 125 ||
+    typeof percent !== "number" || !Number.isFinite(percent) || percent < 0 || percent >= 100) return false;
+  return engine?.setXpCheckpoint(level, percent) ?? false;
 });
 ipcMain.handle("engine:set-raid-completion", (_event, target: unknown, difficulty: unknown, completed: unknown) => {
   if (typeof target !== "string" || target.length > 128 || !Number.isInteger(difficulty) || Number(difficulty) < 0 || Number(difficulty) > 4 || typeof completed !== "boolean") return false;
@@ -1910,7 +2152,7 @@ ipcMain.handle("settings:update", (_event, value: unknown) => {
   if (!value || typeof value !== "object" || !engine) return null;
   const raw = value as Record<string, unknown>;
   const patch: Parameters<EngineSupervisor["updateDesktopSettings"]>[0] = {};
-  if (raw.uiTheme === "vellum" || raw.uiTheme === "glass") patch.uiTheme = raw.uiTheme;
+  if (raw.uiTheme === "vellum" || raw.uiTheme === "glass" || raw.uiTheme === "pearlescent") patch.uiTheme = raw.uiTheme;
   if (typeof raw.alwaysOnTop === "boolean") patch.alwaysOnTop = raw.alwaysOnTop;
   if (Number.isFinite(Number(raw.fontScale))) patch.fontScale = clamp(Number(raw.fontScale), 0.9, 1.6);
   if (typeof raw.composition === "string") patch.composition = raw.composition.slice(0, 48);
@@ -1918,6 +2160,9 @@ ipcMain.handle("settings:update", (_event, value: unknown) => {
   if (typeof raw.seedMeterVisible === "boolean") patch.seedMeterVisible = raw.seedMeterVisible;
   if (["self", "group", "pet", "all"].includes(String(raw.seedMeterMode))) {
     patch.seedMeterMode = raw.seedMeterMode as DesktopSettings["seedMeterMode"];
+  }
+  if (["seed-only", "auto", "above", "right", "meter-only"].includes(String(raw.seedMeterPlacement))) {
+    patch.seedMeterPlacement = raw.seedMeterPlacement as DesktopSettings["seedMeterPlacement"];
   }
   if (Number.isFinite(Number(raw.seedMeterOpacity))) {
     patch.seedMeterOpacity = clamp(Number(raw.seedMeterOpacity), 0.35, 1);
@@ -2044,7 +2289,7 @@ ipcMain.handle("updates:choose-eq-root", async () => {
   }
 });
 ipcMain.handle("updates:install", async (_event, value: unknown) => {
-  const allowed: readonly UpdateComponentId[] = ["loremaster", "spinui_reloaded", "spinui_glass"];
+  const allowed: readonly UpdateComponentId[] = ["loremaster", "spinui_reloaded", "spinui_glass", "spinui_pearlescent"];
   if (!Array.isArray(value) || value.length < 1 || value.length > allowed.length) return publishUpdateCenter();
   const ids = [...new Set(value)].filter((id): id is UpdateComponentId => allowed.includes(id as UpdateComponentId));
   if (!ids.length || ids.length !== new Set(value).size) return publishUpdateCenter();
@@ -2117,6 +2362,17 @@ ipcMain.on("window:set-mode", (_event, expanded: boolean) => {
 ipcMain.on("window:set-analysis", (_event, active: boolean) => {
   setAnalysisMode(Boolean(active));
 });
+ipcMain.on("window:companion-inspect", (_event, active: boolean) => {
+  setCompanionInspecting(Boolean(active));
+});
+ipcMain.on("window:companion-detail-rows", (_event, value: unknown) => {
+  const numeric = Number(value);
+  companionDetailRows = Number.isFinite(numeric)
+    ? clamp(Math.round(numeric), 0, 32)
+    : 0;
+  if (companionInspecting) setCompanionInspecting(true);
+  else syncControlWindow();
+});
 
 ipcMain.on("window:minimize", minimizeLoremasterWindow);
 ipcMain.on("window:close", quitLoremaster);
@@ -2129,7 +2385,15 @@ app.whenReady().then(() => {
   createWindow();
   ensureTray();
   startTopmostHeartbeat();
-  screen.on("display-metrics-changed", scheduleTopmostReassertion);
+  const resyncDisplays = () => {
+    scheduleTopmostReassertion();
+    if (!mainWindow) return;
+    if (windowAnalysis) setAnalysisMode(true, true);
+    else setWindowMode(windowExpanded, true);
+  };
+  screen.on("display-metrics-changed", resyncDisplays);
+  screen.on("display-added", resyncDisplays);
+  screen.on("display-removed", resyncDisplays);
   const updateSettings = engine.getState().settings;
   const lastCheck = readUpdateMetadata().lastCheckedAt;
   const lastCheckMs = Date.parse(lastCheck);

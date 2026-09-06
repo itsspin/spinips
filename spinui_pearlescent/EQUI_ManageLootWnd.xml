@@ -1,0 +1,310 @@
+<?xml version="1.0" ?>
+<XML ID="EQInterfaceDefinitionLanguage">
+	<Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+
+	<Button item="ML_ItemIcon">
+		<ScreenID>ML_ItemIcon</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>5</Y>
+		</Location>
+		<Size>
+			<CX>44</CX>
+			<CY>44</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Text />
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+		<ButtonDrawTemplate>
+			<Normal>RedIconBackground</Normal>
+			<NormalDecal>BuffIcons</NormalDecal>
+		</ButtonDrawTemplate>
+	</Button>
+	
+	<Label item="ML_ItemName">
+		<ScreenID>ML_ItemName</ScreenID>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>53</BottomAnchorOffset>
+		<LeftAnchorOffset>50</LeftAnchorOffset>
+		<RightAnchorOffset>110</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Item Name</Text>
+	</Label>
+	
+	<Slider item="ML_QtySlider">
+		<ScreenID>ML_QtySlider</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>5</TopAnchorOffset>
+		<BottomAnchorOffset>25</BottomAnchorOffset>
+		<LeftAnchorOffset>105</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<SliderArt>SDT_DefSlider</SliderArt>
+	</Slider>
+	
+	<Label item="ML_QtyLbl">
+		<ScreenID>ML_QtyLbl</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>32</TopAnchorOffset>
+		<BottomAnchorOffset>50</BottomAnchorOffset>
+		<LeftAnchorOffset>65</LeftAnchorOffset>
+		<RightAnchorOffset>45</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Qty</Text>
+	</Label>
+	
+	<Editbox item = "ML_QtySliderInput">
+		<ScreenID>ML_QtySliderInput</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>30</TopAnchorOffset>
+		<BottomAnchorOffset>50</BottomAnchorOffset>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>true</Style_Border>
+	</Editbox>
+
+	<Button item="ML_LeaveOnCorpse">
+		<ScreenID>ML_LeaveOnCorpse</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>55</Y>
+		</Location>
+		<Size>
+			<CX>120</CX>
+			<CY>25</CY>
+		</Size>
+		<Text>Leave On Corpse</Text>
+		<TooltipReference>Leave this item on the corpse.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Combobox item="ML_GiveSelection">
+		<ScreenID>ML_GiveSelection</ScreenID>
+		<DrawTemplate>WDT_InnerSolid</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorOffset>50</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<ListHeight>100</ListHeight>
+		<Button>BDT_Combo</Button>
+		<Style_Border>true</Style_Border>
+	</Combobox>
+
+	<Button item="ML_GiveButton">
+		<ScreenID>ML_GiveButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<BottomAnchorOffset>80</BottomAnchorOffset>
+		<LeftAnchorOffset>45</LeftAnchorOffset>
+		<RightAnchorOffset>5</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Text>Give</Text>
+		<TooltipReference>Give this item to the selected player.</TooltipReference>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ML_ActionButton">
+		<ScreenID>ML_ActionButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>5</X>
+			<Y>85</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<Template>BDT_Question</Template>
+	</Button>
+
+	<Button item="ML_RollButton">
+		<ScreenID>ML_RollButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>130</X>
+			<Y>85</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_RollNormal</Normal>
+			<Pressed>A_RollPressed</Pressed>
+			<Flyby>A_RollFlyby</Flyby>
+			<PressedFlyby>A_RollPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+		<TooltipReference>Roll for the item once the Ask action has been completed.</TooltipReference>
+	</Button>
+
+	<Button item="ML_FreeGrabButton">
+		<ScreenID>ML_FreeGrabButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>130</X>
+			<Y>85</Y>
+		</Location>
+		<Size>
+			<CX>40</CX>
+			<CY>40</CY>
+		</Size>
+		<ButtonDrawTemplate>
+			<Normal>A_GrabNormal</Normal>
+			<Pressed>A_GrabPressed</Pressed>
+			<Flyby>A_GrabFlyby</Flyby>
+			<PressedFlyby>A_GrabPressed</PressedFlyby>
+		</ButtonDrawTemplate>
+		<TooltipReference>Free grab - All players can move this item from the shared list to their personal list.</TooltipReference>
+	</Button>
+
+	<Button item="ML_AutoRoll">
+		<ScreenID>ML_AutoRoll</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>50</X>
+			<Y>85</Y>
+		</Location>
+		<Size>
+			<CX>90</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Auto Roll</Text>
+		<TooltipReference>Automatically Roll for the item after an Ask action completes.</TooltipReference>
+		<Template>BDT_CheckboxWithText</Template>
+		<DecalSize>
+			<CX>16</CX>
+			<CY>16</CY>
+		</DecalSize>
+		<TextAlignCenter>false</TextAlignCenter>
+		<TextOffsetX>20</TextOffsetX>
+	</Button>
+
+	<Listbox item="ML_PlayerList">
+		<ScreenID>ML_PlayerList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>10</LeftAnchorOffset>
+		<TopAnchorOffset>130</TopAnchorOffset>
+		<RightAnchorOffset>10</RightAnchorOffset>
+		<BottomAnchorOffset>10</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<TextColor>
+			<R>0</R>
+			<G>148</G>
+			<B>255</B>
+		</TextColor>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+		<Columns>
+			<Width>160</Width>
+			<Heading>Player</Heading>
+		</Columns>	
+		<Columns>
+			<Width>25</Width>
+			<Heading>ND</Heading>
+		</Columns>	
+		<Columns>
+			<Width>25</Width>
+			<Heading>GD</Heading>
+		</Columns>	
+		<TooltipReference>List of players responding to an Ask action.</TooltipReference>
+	</Listbox>
+
+	<Button item="ML_CheckBoxTemplate">
+		<ScreenID>ML_CheckBoxTemplate</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>7</Y>
+		</Location>
+		<Size>
+			<CX>16</CX>
+			<CY>16</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text />
+		<Template>BDT_Checkbox</Template>
+	</Button>
+
+	<Screen item="ManageLootWnd">
+		<!--<ScreenID/>-->
+		<Location>
+			<X>500</X>
+			<Y>300</Y>
+		</Location>
+		<Size>
+			<CX>300</CX>
+			<CY>300</CY>
+		</Size>
+		<Text>Manage Loot</Text>
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<MinHSize>250</MinHSize>
+		<MinVSize>218</MinVSize>
+		<Pieces>ML_ItemIcon</Pieces>
+		<Pieces>ML_QtySlider</Pieces>
+		<Pieces>ML_QtyLbl</Pieces>
+		<Pieces>ML_QtySliderInput</Pieces>
+		<Pieces>ML_ItemName</Pieces>
+		<Pieces>ML_LeaveOnCorpse</Pieces>
+		<Pieces>ML_GiveSelection</Pieces>
+		<Pieces>ML_GiveButton</Pieces>
+		<Pieces>ML_ActionButton</Pieces>
+		<Pieces>ML_RollButton</Pieces>
+		<Pieces>ML_FreeGrabButton</Pieces>
+		<Pieces>ML_AutoRoll</Pieces>
+		<Pieces>ML_PlayerList</Pieces>
+		<Pieces>ML_CheckBoxTemplate</Pieces>
+	</Screen>
+</XML>

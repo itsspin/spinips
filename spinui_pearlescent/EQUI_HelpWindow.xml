@@ -1,0 +1,155 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Button item = "HELP_BackButton">
+		<ScreenID>BackButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>2</X>
+			<Y>2</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Back</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "HELP_CustomerService">
+		<ScreenID>CustomerServiceButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>294</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>170</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Size>
+			<CX>120</CX>
+			<CY>24</CY>
+		</Size>
+		<TooltipReference>Bring up the Customer Service window.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Customer Service</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item = "HELP_Tips">
+		<ScreenID>TipsButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>168</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>84</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Size>
+			<CX>40</CX>
+			<CY>24</CY>
+		</Size>
+		<TooltipReference>Bring up the Tip of the Day window</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Reset Tips</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item = "HELP_Contents">
+		<ScreenID>Contents</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>82</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<Size>
+			<CX>40</CX>
+			<CY>24</CY>
+		</Size>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Contents</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Label item ="HELP_Title">
+		<ScreenID>Title</ScreenID>
+		<Font>5</Font>
+		<RelativePosition>true</RelativePosition>
+		<Text></Text>
+		<NoWrap>true</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>44</LeftAnchorOffset>
+		<TopAnchorOffset>2</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>26</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+	</Label>
+	<STMLbox item = "HELP_Display">
+		<ScreenID>Display</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>true</Style_VScroll>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>2</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>2</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Border>true</Style_Border>
+	</STMLbox>
+	<Screen item = "HelpWindow">
+		<!--<ScreenID/>-->
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>120</X>
+			<Y>90</Y>
+		</Location>
+		<Size>
+			<CX>400</CX>
+			<CY>300</CY>
+		</Size>
+		<KeepOnScreen>true</KeepOnScreen>
+		<KeepOnScreenOffset>
+			<X>-3</X>
+			<Y>-3</Y>
+		</KeepOnScreenOffset>			
+		<Text>Help</Text>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<DrawTemplate>WDT_Rounded</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>true</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>HELP_Display</Pieces>
+		<Pieces>HELP_BackButton</Pieces>
+		<Pieces>HELP_Title</Pieces>
+		<Pieces>HELP_Tips</Pieces>
+		<Pieces>HELP_CustomerService</Pieces>
+		<Pieces>HELP_Contents</Pieces>
+	</Screen>
+
+</XML>

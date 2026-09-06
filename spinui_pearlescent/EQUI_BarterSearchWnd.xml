@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<XML ID="EQInterfaceDefinitionLanguage">
+  <Schema xmlns="EverQuestData" xmlns:dt="EverQuestDataTypes" />
+  <Label item="BTRSRCH_InventoryLabel">
+    <ScreenID />
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>4</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>22</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Text>Inventory</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>false</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Button item="BTRSRCH_RefreshInventoryButton">
+    <ScreenID>RefreshInventoryButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>70</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>22</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <TooltipReference>Click this button to Refresh your Inventory List below.</TooltipReference>
+    <Text>Refresh</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Listbox item="BTRSRCH_InventoryList">
+    <ScreenID>InventoryList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>45</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>This is a list of items available in your inventory to offer as compensation.</TooltipReference>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+    <Columns>
+      <Width>24</Width>
+      <Heading />
+    </Columns>
+    <Columns>
+      <Width>120</Width>
+      <Heading>Item Name</Heading>
+    </Columns>
+    <Columns>
+      <Width>30</Width>
+      <Heading>Qty</Heading>
+    </Columns>
+  </Listbox>
+  <Editbox item="BTRSRCH_ItemSearchEdit">
+    <ScreenID>ItemSearchEdit</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>47</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>25</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Enter a partial name of the item you wish to find a Buyer for.</TooltipReference>
+  </Editbox>
+  <Combobox item="BTRSRCH_PlayerCombo">
+    <ScreenID>PlayerCombo</ScreenID>
+    <DrawTemplate>WDT_InnerSolid</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <Style_Border>true</Style_Border>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>24</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Enter a partial name of the item you wish to find a Buyer for.</TooltipReference>
+    <Text>Test</Text>
+    <ListHeight>100</ListHeight>
+    <Button>BDT_Combo</Button>
+  </Combobox>
+  <Button item="BTRSRCH_SearchButton">
+    <ScreenID>SearchButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>61</LeftAnchorOffset>
+    <TopAnchorOffset>45</TopAnchorOffset>
+    <RightAnchorOffset>3</RightAnchorOffset>
+    <BottomAnchorOffset>26</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <TooltipReference>Click here to search the current Buyers for ones who want items that match the substring entered.</TooltipReference>
+    <Text>Search</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Button item="BTRSRCH_ResetButton">
+		<ScreenID>ResetButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>61</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+    <RightAnchorOffset>3</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>Resets search criteria.</TooltipReference>
+		<Text>Reset</Text>
+		<Template>BDT_SmallNormal</Template>
+		<!--<SoundPressed/>-->
+		<!--<SoundUp/>-->
+		<!--<SoundFlyby/>-->
+	</Button>
+  <Screen item="BTRSRCH_SearchWnd">
+    <ScreenID>SearchWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>190</CX>
+      <CY>400</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>BTRSRCH_InventoryLabel</Pieces>
+    <Pieces>BTRSRCH_InventoryList</Pieces>
+    <Pieces>BTRSRCH_ItemSearchEdit</Pieces>
+    <Pieces>BTRSRCH_PlayerCombo</Pieces>
+    <Pieces>BTRSRCH_RefreshInventoryButton</Pieces>
+    <Pieces>BTRSRCH_SearchButton</Pieces>
+    <Pieces>BTRSRCH_ResetButton</Pieces>
+  </Screen>
+  <Label item="BTRSRCH_BuyLineLabel">
+    <ScreenID />
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Text>Matching Buy Lines</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>true</AlignCenter>
+  </Label>
+  <Button item="BTRSRCH_BuyLineInspectButton">
+    <ScreenID>BuyLineInspectButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <TooltipReference>Press to inspect the selected buy line item.</TooltipReference>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>60</LeftAnchorOffset>
+    <TopAnchorOffset>3</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Location>
+      <X>0</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>50</CX>
+      <CY>17</CY>
+    </Size>
+    <Text>Inspect</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Listbox item="BTRSRCH_BuyLineList">
+    <ScreenID>BuyLineList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+    <Columns>
+      <Width>20</Width>
+      <Heading />
+    </Columns>
+    <Columns>
+      <Width>120</Width>
+      <Heading>Item Name</Heading>
+    </Columns>
+    <Columns>
+      <Width>40</Width>
+      <Heading>Qty</Heading>
+    </Columns>
+    <Columns>
+      <Width>100</Width>
+      <Heading>Price</Heading>
+    </Columns>
+    <Columns>
+      <Width>120</Width>
+      <Heading>Buyer</Heading>
+    </Columns>
+    <Columns>
+      <Width>35</Width>
+    </Columns>   
+  </Listbox>
+  <Screen item="BTRSRCH_BuyLineWnd">
+    <ScreenID>BuyLineWnd</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>250</CY>
+    </Size>
+	<MinVSize>60</MinVSize>	
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>BTRSRCH_BuyLineLabel</Pieces>
+    <Pieces>BTRSRCH_BuyLineList</Pieces>
+    <Pieces>BTRSRCH_BuyLineInspectButton</Pieces>
+  </Screen>
+  <Label item="BTRSRCH_DetailsLabel">
+    <ScreenID />
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>2</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>20</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Text>Item Compensation for Buy Line</Text>
+    <NoWrap>true</NoWrap>
+    <AlignCenter>true</AlignCenter>
+    <AlignRight>false</AlignRight>
+  </Label>
+  <Button item="BTRSRCH_CompensationInspectButton">
+    <ScreenID>CompensationInspectButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <TooltipReference>Press to inspect the selected compensation item.</TooltipReference>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>120</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>62</RightAnchorOffset>
+    <BottomAnchorOffset>18</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Location>
+      <X>0</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>50</CX>
+      <CY>17</CY>
+    </Size>
+    <Text>Inspect</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Button item="BTRSRCH_CompensationPreviewButton">
+    <ScreenID>CompensationPreviewButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <TooltipReference>Press to preview the selected compensation item.</TooltipReference>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>60</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>2</RightAnchorOffset>
+    <BottomAnchorOffset>18</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>true</BottomAnchorToTop>
+    <LeftAnchorToLeft>false</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Location>
+      <X>0</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>50</CX>
+      <CY>17</CY>
+    </Size>
+    <Text>Preview</Text>
+    <Template>BDT_Normal</Template>
+  </Button>
+  <Listbox item="BTRSRCH_DetailsList">
+    <ScreenID>DetailsList</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <TooltipReference>This list contains the items that you'll receive if you sell the selected item to this Buyer.</TooltipReference>
+    <Style_Border>true</Style_Border>
+    <Style_VScroll>true</Style_VScroll>
+    <Columns>
+      <Width>24</Width>
+      <Heading />
+    </Columns>
+    <Columns>
+      <Width>180</Width>
+      <Heading>Item Name</Heading>
+    </Columns>
+    <Columns>
+      <Width>30</Width>
+      <Heading>Qty</Heading>
+    </Columns>
+  </Listbox>
+  <Screen item="BTRSRCH_DetailsWnd">
+    <ScreenID>DetailsWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>250</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>100</CY>
+    </Size>
+	<MinVSize>60</MinVSize>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>BTRSRCH_DetailsLabel</Pieces>
+    <Pieces>BTRSRCH_DetailsList</Pieces>
+    <Pieces>BTRSRCH_CompensationInspectButton</Pieces>
+    <Pieces>BTRSRCH_CompensationPreviewButton</Pieces>   
+  </Screen>
+  <VerticalLayoutBox item="BTRSRCH_BuyLineLayout">
+    <ScreenID>BuyLineLayout</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>24</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Spacing>4</Spacing>
+    <Style_Border>false</Style_Border>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <Pieces>Screen:BTRSRCH_BuyLineWnd</Pieces>
+    <Pieces>Screen:BTRSRCH_DetailsWnd</Pieces>
+  </VerticalLayoutBox>
+  <Button item="BTRSRCH_WelcomeButton">
+    <ScreenID>WelcomeButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>2</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>72</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <TooltipReference>Click here to see the Welcome text for the Bartering Quarter.</TooltipReference>
+    <Text>Welcome</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Button item="BTRSRCH_GreetingButton">
+    <ScreenID>GreetingButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>124</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>194</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <TooltipReference>Click here to receive a greeting from your currently selected buyer.</TooltipReference>
+    <Text>Greeting</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Button item="BTRSRCH_FindButton">
+    <ScreenID>FindButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>196</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>276</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <Style_Checkbox>false</Style_Checkbox>
+    <TooltipReference>Select a Buy Line and click here to get a path to the Buyer.</TooltipReference>
+    <Text>Find Buyer</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Button item="BTRSRCH_HideButton">
+    <ScreenID>HideButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>328</LeftAnchorOffset>
+    <TopAnchorOffset>22</TopAnchorOffset>
+    <RightAnchorOffset>410</RightAnchorOffset>
+    <BottomAnchorOffset>2</BottomAnchorOffset>
+    <TopAnchorToTop>false</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>true</RightAnchorToLeft>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>This toggle button hides or shows all current Buyers.</TooltipReference>
+    <Style_Checkbox>true</Style_Checkbox>
+    <Text>Hide Buyers</Text>
+    <Template>BDT_SmallNormal</Template>
+  </Button>
+  <Screen item="BTRSRCH_MatchWnd">
+    <ScreenID>MatchWnd</ScreenID>
+    <!--<Font/>-->
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>190</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <CX>300</CX>
+      <CY>400</CY>
+    </Size>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <Style_Titlebar>false</Style_Titlebar>
+    <Style_Closebox>false</Style_Closebox>
+    <Style_Minimizebox>false</Style_Minimizebox>
+    <Style_Border>false</Style_Border>
+    <Style_Sizable>false</Style_Sizable>
+    <Pieces>VerticalLayoutBox:BTRSRCH_BuyLineLayout</Pieces>
+    <Pieces>Button:BTRSRCH_WelcomeButton</Pieces>
+    <Pieces>Button:BTRSRCH_GreetingButton</Pieces>
+    <Pieces>Button:BTRSRCH_FindButton</Pieces>
+    <Pieces>Button:BTRSRCH_HideButton</Pieces>
+  </Screen>
+  <HorizontalLayoutBox item="BTRSRCH_Layout">
+    <ScreenID>Layout</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+    <AutoStretch>true</AutoStretch>
+    <LeftAnchorOffset>0</LeftAnchorOffset>
+    <TopAnchorOffset>0</TopAnchorOffset>
+    <RightAnchorOffset>0</RightAnchorOffset>
+    <BottomAnchorOffset>0</BottomAnchorOffset>
+    <TopAnchorToTop>true</TopAnchorToTop>
+    <BottomAnchorToTop>false</BottomAnchorToTop>
+    <LeftAnchorToLeft>true</LeftAnchorToLeft>
+    <RightAnchorToLeft>false</RightAnchorToLeft>
+    <Spacing>4</Spacing>
+    <Style_Border>false</Style_Border>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_Transparent>true</Style_Transparent>
+    <Pieces>Screen:BTRSRCH_SearchWnd</Pieces>
+    <Pieces>Screen:BTRSRCH_MatchWnd</Pieces>
+  </HorizontalLayoutBox>
+  <Button item="BTRSRCH_SellButton">
+    <ScreenID>SellButton</ScreenID>
+    <RelativePosition>true</RelativePosition>
+    <Location>
+      <X>0</X>
+      <Y>1</Y>
+    </Location>
+    <Size>
+      <CX>35</CX>
+      <CY>22</CY>
+    </Size>
+    <Text>Sell</Text>
+    <Template>BDT_Blue</Template>
+  </Button>
+  <Screen item="BarterSearchWnd">
+    <ScreenID />
+    <RelativePosition>false</RelativePosition>
+    <Location>
+      <X>50</X>
+      <Y>50</Y>
+    </Location>
+    <Size>
+      <CX>660</CX>
+      <CY>430</CY>
+    </Size>
+    <Text>Barter Window</Text>
+    <Style_VScroll>false</Style_VScroll>
+    <Style_HScroll>false</Style_HScroll>
+    <Style_Transparent>false</Style_Transparent>
+    <TooltipReference>This window allows you to search for a Buyer for your items.</TooltipReference>
+    <DrawTemplate>WDT_Rounded</DrawTemplate>
+    <Style_Titlebar>true</Style_Titlebar>
+    <Style_Qmarkbox>true</Style_Qmarkbox>
+    <Style_Closebox>true</Style_Closebox>
+    <Style_Minimizebox>true</Style_Minimizebox>
+    <Style_Border>true</Style_Border>
+    <Style_Sizable>true</Style_Sizable>
+    <Pieces>HorizontalLayoutBox:BTRSRCH_Layout</Pieces>
+    <Pieces>BTRSRCH_SellButton</Pieces>    
+  </Screen>
+</XML>

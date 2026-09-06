@@ -1,0 +1,757 @@
+<?xml version = "1.0"?>
+<XML ID = "EQInterfaceDefinitionLanguage">
+	<Schema xmlns = "EverQuestData" xmlns:dt = "EverQuestDataTypes"/>
+
+	<Label item ="TMW_TimeText">
+		<ScreenID>TMW_TimeText</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>60</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Time Left:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_TimeLabel">
+		<ScreenID>TMW_TimeLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>116</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_GuildTimeLabel">
+		<ScreenID>TMW_GuildTimeLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>121</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_CostText">
+		<ScreenID>TMW_CostText</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>60</RightAnchorOffset>
+		<BottomAnchorOffset>49</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Active Cost:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_CostLabel">
+		<ScreenID>TMW_CostLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>49</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>119</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_GuildCostLabel">
+		<ScreenID>TMW_GuildCostLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>25</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>49</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>123</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_CurrentPointsText">
+		<ScreenID>TMW_CurrentPointsText</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>60</RightAnchorOffset>
+		<BottomAnchorOffset>74</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Current Favor:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_CurrentPointsLabel">
+		<ScreenID>TMW_CurrentPointsLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>74</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>117</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_GuildCurrentPointsLabel">
+		<ScreenID>TMW_GuildCurrentPointsLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>70</LeftAnchorOffset>
+		<TopAnchorOffset>50</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>74</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>122</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_TotalPointsText">
+		<ScreenID>TMW_TotalPointsText</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>75</TopAnchorOffset>
+		<RightAnchorOffset>60</RightAnchorOffset>
+		<BottomAnchorOffset>99</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Career Favor:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	<Label item ="TMW_TotalPointsLabel">
+		<ScreenID>TMW_TotalPointsLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
+		<TopAnchorOffset>75</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>99</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<EQType>118</EQType>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+
+	<Screen item = "TMW_LabelWnd">
+		<ScreenID>TMW_LabelWnd</ScreenID>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TMW_CostText</Pieces>
+		<Pieces>TMW_CostLabel</Pieces>
+		<Pieces>TMW_GuildCostLabel</Pieces>		
+		<Pieces>TMW_TimeText</Pieces>
+		<Pieces>TMW_TimeLabel</Pieces>
+		<Pieces>TMW_GuildTimeLabel</Pieces>
+		<Pieces>TMW_CurrentPointsText</Pieces>
+		<Pieces>TMW_CurrentPointsLabel</Pieces>
+		<Pieces>TMW_GuildCurrentPointsLabel</Pieces>
+		<Pieces>TMW_TotalPointsText</Pieces>
+		<Pieces>TMW_TotalPointsLabel</Pieces>
+	</Screen>
+
+	<Label item ="TMW_ActiveLabel">
+		<ScreenID/>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Active Benefits</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Listbox item = "TMW_ActiveBenefitList">
+		<ScreenID>TMW_ActiveBenefitList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Benefit Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Tier</Heading>
+		</Columns>
+		<Columns>
+			<Width>50</Width>
+			<Heading>Cost</Heading>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+
+	<Button item = "TMW_DowngradeButton">
+		<ScreenID>TMW_DowngradeButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>40</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to deactivate/downgrade the selected benefit.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Downgrade</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+
+	<Screen item = "TMW_ActiveBenefitArea">
+		<ScreenID/>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>290</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>200</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>200</MinHSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TMW_ActiveBenefitList</Pieces>
+		<Pieces>TMW_ActiveLabel</Pieces>
+		<Pieces>TMW_DowngradeButton</Pieces>
+	</Screen>
+
+	<Label item ="TMW_AvailableBenefitLabel">
+		<ScreenID/>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<Text>Available Benefits</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>true</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Listbox item = "TMW_AvailableBenefitList">
+		<ScreenID>TMW_AvailableBenefitList</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>26</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>24</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Columns>
+			<Width>150</Width>
+			<Heading>Benefit Name</Heading>
+		</Columns>
+		<Columns>
+			<Width>30</Width>
+			<Heading>Tier</Heading>
+		</Columns>
+		<Columns>
+			<Width>50</Width>
+			<Heading>Level</Heading>
+		</Columns>
+		<Columns>
+			<Width>50</Width>
+			<Heading>Cost</Heading>
+		</Columns>
+		<Style_Border>true</Style_Border>
+		<Style_VScroll>true</Style_VScroll>
+	</Listbox>
+
+	<Button item = "TMW_UpgradeButton">
+		<ScreenID>TMW_UpgradeButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>40</LeftAnchorOffset>
+		<TopAnchorOffset>22</TopAnchorOffset>
+		<RightAnchorOffset>40</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Click this button to activate/upgrade the selected benefit.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Upgrade</Text>
+		<Template>BDT_SmallNormal</Template>
+	</Button>
+
+	<Screen item = "TMW_BenefitMasterArea">
+		<ScreenID/>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>290</CX>
+			<CY>180</CY>
+		</Size>
+		<MinHSize>200</MinHSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TMW_AvailableBenefitList</Pieces>
+		<Pieces>TMW_AvailableBenefitLabel</Pieces>
+		<Pieces>TMW_UpgradeButton</Pieces>
+	</Screen>
+	
+	<HorizontalLayoutBox item = "TMW_Layout">
+		<ScreenID>TMW_Layout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>4</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Screen:TMW_BenefitMasterArea</Pieces>
+		<Pieces>Screen:TMW_ActiveBenefitArea</Pieces>
+	</HorizontalLayoutBox>
+
+
+	<STMLbox item = "TMW_Description">
+		<ScreenID>TMW_Description</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<RelativePosition>true</RelativePosition>
+		<Style_VScroll>true</Style_VScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Border>false</Style_Border>
+		<Text>Description Area</Text>
+	</STMLbox>
+
+	<Button item = "TMW_SelectedItem">
+		<ScreenID>TMW_SelectedItem</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>29</X>
+			<Y>20</Y>
+		</Location>
+		<Size>
+			<CX>42</CX>
+			<CY>42</CY>
+		</Size>
+		<TooltipReference>This is the item you will donate when you press the Donate button</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Template>BDT_DragItem</Template>
+		<DecalOffset>
+			<X>2</X>
+			<Y>2</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>40</CX>
+			<CY>40</CY>
+		</DecalSize>
+	</Button>
+
+	<Label item ="TMW_ValueText">
+		<ScreenID/>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>68</Y>
+		</Location>
+		<Size>
+			<CX>52</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>Value:</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>true</AlignRight>
+	</Label>
+
+	<Label item ="TMW_ValueLabel">
+		<ScreenID>TMW_ValueLabel</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>56</X>
+			<Y>68</Y>
+		</Location>
+		<Size>
+			<CX>44</CX>
+			<CY>24</CY>
+		</Size>
+		<Text>0</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+	<Button item = "TMW_CoinButton">
+		<ScreenID>TMW_CoinButton</ScreenID>
+		<!--<Font>3</Font>-->
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>115</X>
+			<Y>18</Y>
+		</Location>
+		<Size>
+			<CX>70</CX>
+			<CY>24</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<!--<TooltipReference/>-->
+		<Style_Checkbox>false</Style_Checkbox>
+		<!--<RadioGroup/>-->
+		<Text>9999</Text>
+		<Template>BDT_PlatinumCoin</Template>
+		<DecalOffset>
+			<X>1</X>
+			<Y>3</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>18</CX>
+			<CY>18</CY>
+		</DecalSize>
+	</Button>
+
+	<Button item = "TMW_DonateButton">
+		<ScreenID>TMW_DonateButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>120</X>
+			<Y>60</Y>
+		</Location>
+		<Size>
+			<CX>60</CX>
+			<CY>20</CY>
+		</Size>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Press this button to donate the selected item or coin.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Donate</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Screen item = "TMW_DonateWnd">
+		<ScreenID>TMW_DonateWnd</ScreenID>
+		<!--<Font/>-->
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>100</TopAnchorOffset>
+		<RightAnchorOffset>200</RightAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>false</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TMW_ValueText</Pieces>
+		<Pieces>TMW_ValueLabel</Pieces>
+		<Pieces>TMW_SelectedItem</Pieces>
+		<Pieces>TMW_DonateButton</Pieces>
+		<Pieces>TMW_CoinButton</Pieces>
+	</Screen>
+	
+	<Label item ="TMW_StatusText">
+		<ScreenID>TMW_StatusText</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>255</LeftAnchorOffset>
+		<TopAnchorOffset>91</TopAnchorOffset>
+		<RightAnchorOffset>330</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Text>Opted In</Text>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+	
+	<Button item = "TMW_StatusButton">
+		<ScreenID>TMW_StatusButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>235</LeftAnchorOffset>
+		<TopAnchorOffset>91</TopAnchorOffset>
+		<RightAnchorOffset>251</RightAnchorOffset>
+		<BottomAnchorOffset>75</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text></Text>
+		<Template>BDT_Checkbox</Template>
+	</Button>
+	
+	<Button item = "TMW_LockButton">
+		<ScreenID>TMW_LockButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>235</LeftAnchorOffset>
+		<TopAnchorOffset>55</TopAnchorOffset>
+		<RightAnchorOffset>305</RightAnchorOffset>
+		<BottomAnchorOffset>15</BottomAnchorOffset>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Press this button to begin changing active benefits.  Requires "Tribute: Change Active Benefit" access.</TooltipReference>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Modify Benefits</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	
+	<Screen item = "TributeMasterUpperPane">
+		<ScreenID>TributeMasterUpperPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<CX>550</CX>
+			<CY>220</CY>
+		</Size>
+		<MinVSize>160</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>TMW_Layout</Pieces>
+	</Screen>
+	
+	<Screen item = "TributeMasterLowerPane">
+		<ScreenID>TributeMasterLowerPane</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>220</Y>
+		</Location>
+		<Size>
+			<CX>550</CX>
+			<CY>80</CY>
+		</Size>
+		<MinVSize>80</MinVSize>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<Style_Titlebar>false</Style_Titlebar>
+		<Style_Closebox>false</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>false</Style_Sizable>
+		<Pieces>STMLbox:TMW_Description</Pieces>
+	</Screen>
+	
+	<VerticalLayoutBox item = "TMW_VerticalLayout">
+		<ScreenID>TMW_VerticalLayout</ScreenID>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<DrawTemplate>WDT_Inner</DrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<BottomAnchorOffset>100</BottomAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Spacing>2</Spacing>
+		<Style_Border>false</Style_Border>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_Transparent>true</Style_Transparent>
+		<Pieces>Screen:TributeMasterUpperPane</Pieces>
+		<Pieces>Screen:TributeMasterLowerPane</Pieces>
+	</VerticalLayoutBox>
+	
+	<Screen item = "TributeMasterWnd">
+		<RelativePosition>false</RelativePosition>
+		<Location>
+			<X>20</X>
+			<Y>25</Y>
+		</Location>
+		<Size>
+			<CX>550</CX>
+			<CY>430</CY>
+		</Size>
+		<MinHSize>510</MinHSize>
+		<MinVSize>430</MinVSize>
+		<Text>Tribute Master</Text>
+		<Style_Transparent>false</Style_Transparent>
+		<DrawTemplate>WDT_Def</DrawTemplate>
+		<Style_Titlebar>true</Style_Titlebar>
+		<Style_Qmarkbox>true</Style_Qmarkbox>
+		<Style_Closebox>true</Style_Closebox>
+		<Style_Minimizebox>false</Style_Minimizebox>
+		<Style_Border>true</Style_Border>
+		<Style_Sizable>true</Style_Sizable>
+		<Pieces>VerticalLayoutBox:TMW_VerticalLayout</Pieces>
+		<Pieces>TMW_LabelWnd</Pieces>
+		<Pieces>TMW_DonateWnd</Pieces>
+		<Pieces>TMW_StatusText</Pieces>
+		<Pieces>TMW_StatusButton</Pieces>
+		<Pieces>TMW_LockButton</Pieces>
+	</Screen>
+
+
+</XML>
