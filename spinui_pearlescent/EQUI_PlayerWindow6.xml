@@ -519,8 +519,8 @@
 		<NoWrap>true</NoWrap>
 		<AutoStretch>true</AutoStretch>
 		<AlignRight>false</AlignRight>
-		<TopAnchorOffset>96</TopAnchorOffset>
-		<BottomAnchorOffset>112</BottomAnchorOffset>
+		<TopAnchorOffset>93</TopAnchorOffset>
+		<BottomAnchorOffset>109</BottomAnchorOffset>
 		<LeftAnchorOffset>6</LeftAnchorOffset>
 		<RightAnchorOffset>132</RightAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
@@ -552,8 +552,8 @@
 		<NoWrap>true</NoWrap>
 		<AutoStretch>true</AutoStretch>
 		<AlignRight>true</AlignRight>
-		<TopAnchorOffset>96</TopAnchorOffset>
-		<BottomAnchorOffset>112</BottomAnchorOffset>
+		<TopAnchorOffset>93</TopAnchorOffset>
+		<BottomAnchorOffset>109</BottomAnchorOffset>
 		<LeftAnchorOffset>232</LeftAnchorOffset>
 		<RightAnchorOffset>6</RightAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
@@ -589,6 +589,49 @@
 		<LeftAnchorOffset>1</LeftAnchorOffset>
 		<RightAnchorOffset>1</RightAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
+	</Gauge>
+
+	<!-- Rune absorb gauges looked up by the Legends client -->
+	<Gauge item="PW_Rune_Underlay">
+		<ScreenID>PW_Rune_Underlay</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<FillTint>
+			<R>96</R>
+			<G>140</G>
+			<B>200</B>
+		</FillTint>
+		<GaugeDrawTemplate>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>35</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Tooltip>false</Style_Tooltip>
+	</Gauge>
+
+	<Gauge item="PW_Rune_Overlay">
+		<ScreenID>PW_Rune_Overlay</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<GaugeOffsetY>0</GaugeOffsetY>
+		<FillTint>
+			<R>150</R>
+			<G>205</G>
+			<B>255</B>
+		</FillTint>
+		<GaugeDrawTemplate>
+			<Fill>A_GaugeFill</Fill>
+		</GaugeDrawTemplate>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>15</TopAnchorOffset>
+		<BottomAnchorOffset>19</BottomAnchorOffset>
+		<LeftAnchorOffset>1</LeftAnchorOffset>
+		<RightAnchorOffset>1</RightAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<Style_Tooltip>false</Style_Tooltip>
 	</Gauge>
 
 	<Label item="Player_HPLabel">
@@ -1305,10 +1348,12 @@
 		<BottomAnchorToTop>false</BottomAnchorToTop>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<TopAnchorOffset>70</TopAnchorOffset>
-		<BottomAnchorOffset>9</BottomAnchorOffset>
+		<BottomAnchorOffset>5</BottomAnchorOffset>
 		<LeftAnchorOffset>3</LeftAnchorOffset>
 		<RightAnchorOffset>3</RightAnchorOffset>
+		<Pieces>PW_Rune_Underlay</Pieces>
 		<Pieces>Player_HP</Pieces>
+		<Pieces>PW_Rune_Overlay</Pieces>
 		<Pieces>Pet_HP</Pieces>
 		<Pieces>Player_Mana</Pieces>
 		<Pieces>PW_MPNumbers</Pieces>

@@ -731,6 +731,12 @@
 			<CY>256</CY>
 		</Size>
 	</TextureInfo>
+	<TextureInfo item="HalfDarkElfRace.tga">
+		<Size>
+			<CX>128</CX>
+			<CY>128</CY>
+		</Size>
+	</TextureInfo>
 	<TextureInfo item="MaleRace.tga">
 		<Size>
 			<CX>256</CX>
@@ -15391,6 +15397,68 @@
 			<Location>
 				<X>192</X>
 				<Y>96</Y>
+			</Location>
+			<Size>
+				<CX>48</CX>
+				<CY>48</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+
+	<!-- Half Dark Elf (Ayr'Haeth) race portraits -->
+	<Ui2DAnimation item="RCW_Half Dark ElfMaleIcon">
+		<Cycle>false</Cycle>
+		<Grid>false</Grid>
+		<Frames>
+			<Texture>HalfDarkElfRace.tga</Texture>
+			<Location>
+				<X>0</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>48</CX>
+				<CY>48</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="RCW_Half Dark ElfFemaleIcon">
+		<Cycle>false</Cycle>
+		<Grid>false</Grid>
+		<Frames>
+			<Texture>HalfDarkElfRace.tga</Texture>
+			<Location>
+				<X>48</X>
+				<Y>0</Y>
+			</Location>
+			<Size>
+				<CX>48</CX>
+				<CY>48</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="RCW_Half Dark ElfMaleIconDisabled">
+		<Cycle>false</Cycle>
+		<Grid>false</Grid>
+		<Frames>
+			<Texture>HalfDarkElfRace.tga</Texture>
+			<Location>
+				<X>0</X>
+				<Y>48</Y>
+			</Location>
+			<Size>
+				<CX>48</CX>
+				<CY>48</CY>
+			</Size>
+		</Frames>
+	</Ui2DAnimation>
+	<Ui2DAnimation item="RCW_Half Dark ElfFemaleIconDisabled">
+		<Cycle>false</Cycle>
+		<Grid>false</Grid>
+		<Frames>
+			<Texture>HalfDarkElfRace.tga</Texture>
+			<Location>
+				<X>48</X>
+				<Y>48</Y>
 			</Location>
 			<Size>
 				<CX>48</CX>

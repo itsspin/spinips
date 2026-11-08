@@ -3564,6 +3564,61 @@
 	<Pieces>IDW_Socket_Slot_10_Item</Pieces>
 	<Pieces>IDW_Socket_Slot_10_Description</Pieces>
   </Screen>
+  <Button item="IDW_Socket_Slot_11_Item">
+	<ScreenID>IDW_Socket_Slot_11_Item</ScreenID>
+	<Location>
+		<X>10</X>
+		<Y>0</Y>
+	</Location>
+	<Size>
+		<CX>20</CX>
+		<CY>20</CY>
+	</Size>
+	<Template>BDT_DragItem_aug</Template>
+	<DecalOffset>
+		<X>0</X>
+		<Y>0</Y>
+	</DecalOffset>
+	<DecalSize>
+		<CX>20</CX>
+		<CY>20</CY>
+	</DecalSize>
+  </Button>
+  <STMLbox item="IDW_Socket_Slot_11_Description">
+    <ScreenID>IDW_Socket_Slot_11_Description</ScreenID>
+    <DrawTemplate>WDT_Inner</DrawTemplate>
+	<Location>
+		<X>38</X>
+		<Y>2</Y>
+	</Location>
+	<Size>
+		<CX>700</CX>
+		<CY>20</CY>
+	</Size>
+	<Style_Border>false</Style_Border>
+	<Style_Transparent>true</Style_Transparent>
+	<Text>Socket Description</Text>
+  </STMLbox>
+  <Screen item="IDW_Socket_Slot_11_Screen">
+	<ScreenID>IDW_Socket_Slot_11_Screen</ScreenID>
+	<Location>
+		<X>0</X>
+		<Y>0</Y>
+	</Location>
+	<Size>
+		<CX>700</CX>
+		<CY>24</CY>
+	</Size>
+	<Style_VScroll>false</Style_VScroll>
+	<Style_Transparent>true</Style_Transparent>
+	<DrawTemplate>WDT_Inner</DrawTemplate>
+	<Style_Titlebar>false</Style_Titlebar>
+	<Style_Closebox>false</Style_Closebox>
+	<Style_Minimizebox>false</Style_Minimizebox>
+	<Style_Border>false</Style_Border>
+	<Pieces>IDW_Socket_Slot_11_Item</Pieces>
+	<Pieces>IDW_Socket_Slot_11_Description</Pieces>
+  </Screen>
   
   <STMLbox item="IDW_ItemDescription">
     <ScreenID>ItemDescription</ScreenID>
@@ -3676,6 +3731,7 @@
 	<Pieces>Screen:IDW_Socket_Slot_8_Screen</Pieces>
 	<Pieces>Screen:IDW_Socket_Slot_9_Screen</Pieces>
 	<Pieces>Screen:IDW_Socket_Slot_10_Screen</Pieces>
+	<Pieces>Screen:IDW_Socket_Slot_11_Screen</Pieces>
 	<Pieces>IDW_CollectedLabel</Pieces>
 	<Pieces>IDW_ScribedLabel</Pieces>
     <Pieces>IDW_ModButton</Pieces>
