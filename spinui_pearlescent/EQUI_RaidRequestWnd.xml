@@ -148,7 +148,7 @@
 		<ScreenID>RaidRqst_EnterButton</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>138</LeftAnchorOffset>
+		<LeftAnchorOffset>104</LeftAnchorOffset>
 		<TopAnchorOffset>24</TopAnchorOffset>
 		<RightAnchorOffset>2</RightAnchorOffset>
 		<BottomAnchorOffset>2</BottomAnchorOffset>
@@ -182,9 +182,9 @@
 		<ScreenID>RaidRqst_QuitButton</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
-		<LeftAnchorOffset>140</LeftAnchorOffset>
+		<LeftAnchorOffset>106</LeftAnchorOffset>
 		<TopAnchorOffset>24</TopAnchorOffset>
-		<RightAnchorOffset>276</RightAnchorOffset>
+		<RightAnchorOffset>206</RightAnchorOffset>
 		<BottomAnchorOffset>2</BottomAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
 		<BottomAnchorToTop>false</BottomAnchorToTop>
@@ -200,7 +200,7 @@
 		<RelativePosition>true</RelativePosition>
 		<AutoStretch>true</AutoStretch>
 		<LeftAnchorOffset>2</LeftAnchorOffset>
-		<RightAnchorOffset>138</RightAnchorOffset>
+		<RightAnchorOffset>104</RightAnchorOffset>
 		<TopAnchorOffset>24</TopAnchorOffset>
 		<BottomAnchorOffset>2</BottomAnchorOffset>
 		<TopAnchorToTop>false</TopAnchorToTop>
@@ -210,6 +210,23 @@
 		<Style_Transparent>false</Style_Transparent>
 		<Style_Checkbox>false</Style_Checkbox>
 		<Text>Cancel</Text>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="RaidRqst_ResumeButton">
+		<ScreenID>RaidRqst_ResumeButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<LeftAnchorOffset>208</LeftAnchorOffset>
+		<TopAnchorOffset>24</TopAnchorOffset>
+		<RightAnchorOffset>310</RightAnchorOffset>
+		<BottomAnchorOffset>2</BottomAnchorOffset>
+		<TopAnchorToTop>false</TopAnchorToTop>
+		<BottomAnchorToTop>false</BottomAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>false</Style_Checkbox>
+		<Text>Resume</Text>
 		<Template>BDT_Normal</Template>
 	</Button>
 	<Screen item="RaidRequestWnd">
@@ -252,5 +269,6 @@
 		<Pieces>RaidRqst_TimerList</Pieces>
 		<Pieces>RaidRqst_Filter</Pieces>
 		<Pieces>RaidRqst_QuitButton</Pieces>
+		<Pieces>RaidRqst_ResumeButton</Pieces>
 	</Screen>
 </XML>

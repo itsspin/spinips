@@ -1298,6 +1298,86 @@
 			<CY>48</CY>
 		</DecalSize>
 	</Button>
+	<Button item="RCW_Male_Race_Half Dark Elf_Button">
+		<ScreenID>RCW_Male_Race_Half Dark Elf_Button</ScreenID>
+		<RadioGroup>RCW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half Dark ElfMaleIcon</Normal>
+			<Pressed>RCW_Half Dark ElfMaleIcon</Pressed>
+			<Flyby>RCW_Half Dark ElfMaleIcon</Flyby>
+			<Disabled>RCW_Half Dark ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half Dark ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Female_Race_Half Dark Elf_Button">
+		<ScreenID>RCW_Female_Race_Half Dark Elf_Button</ScreenID>
+		<RadioGroup>RCW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half Dark ElfFemaleIcon</Normal>
+			<Pressed>RCW_Half Dark ElfFemaleIcon</Pressed>
+			<Flyby>RCW_Half Dark ElfFemaleIcon</Flyby>
+			<Disabled>RCW_Half Dark ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half Dark ElfFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
+	<Button item="RCW_Race_Half Dark Elf_Overlay_Button">
+		<ScreenID>RCW_Race_Half Dark Elf_Overlay_Button</ScreenID>
+		<RadioGroup>RCWRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>144</X>
+			<Y>240</Y>
+		</Location>
+		<Size>
+			<CX>48</CX>
+			<CY>48</CY>
+		</Size>
+		<Template>RCW_BDT_RaceClassOverlay</Template>
+		<DecalSize>
+			<CX>48</CX>
+			<CY>48</CY>
+		</DecalSize>
+	</Button>
 
 	<Screen item="RCW_RaceScreen">
 		<ScreenID>RCW_RaceScreen</ScreenID>
@@ -1335,6 +1415,7 @@
 		<Pieces>RCW_Male_Race_Kerran_Button</Pieces>
 		<Pieces>RCW_Male_Race_Froglok_Button</Pieces>
 		<Pieces>RCW_Male_Race_Drakkin_Button</Pieces>
+		<Pieces>RCW_Male_Race_Half Dark Elf_Button</Pieces>
 		<Pieces>RCW_Female_Race_Human_Button</Pieces>
 		<Pieces>RCW_Female_Race_Barbarian_Button</Pieces>
 		<Pieces>RCW_Female_Race_Erudite_Button</Pieces>
@@ -1351,6 +1432,7 @@
 		<Pieces>RCW_Female_Race_Kerran_Button</Pieces>
 		<Pieces>RCW_Female_Race_Froglok_Button</Pieces>
 		<Pieces>RCW_Female_Race_Drakkin_Button</Pieces>
+		<Pieces>RCW_Female_Race_Half Dark Elf_Button</Pieces>
 		<Pieces>RCW_Race_Human_Overlay_Button</Pieces>
 		<Pieces>RCW_Race_Barbarian_Overlay_Button</Pieces>
 		<Pieces>RCW_Race_Erudite_Overlay_Button</Pieces>
@@ -1367,6 +1449,7 @@
 		<Pieces>RCW_Race_Kerran_Overlay_Button</Pieces>
 		<Pieces>RCW_Race_Froglok_Overlay_Button</Pieces>
 		<Pieces>RCW_Race_Drakkin_Overlay_Button</Pieces>
+		<Pieces>RCW_Race_Half Dark Elf_Overlay_Button</Pieces>
 		<Pieces>RCW_RaceAnim</Pieces>
 	</Screen>
 

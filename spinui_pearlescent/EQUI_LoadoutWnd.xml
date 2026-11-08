@@ -68,7 +68,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -99,7 +99,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -130,7 +130,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -192,7 +192,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -223,7 +223,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -254,7 +254,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -316,7 +316,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -347,7 +347,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -378,7 +378,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -440,7 +440,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -471,7 +471,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -502,7 +502,7 @@
 		<RadioGroup>LOW_MaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -564,7 +564,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -595,7 +595,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -626,7 +626,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -688,7 +688,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -719,7 +719,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -750,7 +750,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>54</Y>
 		</Location>
 		<Size>
@@ -812,7 +812,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -843,7 +843,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -874,7 +874,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>108</Y>
 		</Location>
 		<Size>
@@ -936,7 +936,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>48</X>
+			<X>44</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -967,7 +967,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>96</X>
+			<X>88</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -998,7 +998,7 @@
 		<RadioGroup>LOW_FemaleRace</RadioGroup>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>144</X>
+			<X>132</X>
 			<Y>162</Y>
 		</Location>
 		<Size>
@@ -1014,6 +1014,68 @@
 			<Flyby>RCW_DrakkinFemaleIcon</Flyby>
 			<Disabled>RCW_DrakkinFemaleIconDisabled</Disabled>
 			<PressedFlyby>RCW_DrakkinFemaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>46</CX>
+			<CY>46</CY>
+		</DecalSize>
+	</Button>
+	<Button item="LOW_Male_Race_Half Dark Elf_Button">
+		<ScreenID>LOW_Male_Race_Half Dark Elf_Button</ScreenID>
+		<RadioGroup>LOW_MaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>132</X>
+			<Y>162</Y>
+		</Location>
+		<Size>
+			<CX>46</CX>
+			<CY>46</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half Dark ElfMaleIcon</Normal>
+			<Pressed>RCW_Half Dark ElfMaleIcon</Pressed>
+			<Flyby>RCW_Half Dark ElfMaleIcon</Flyby>
+			<Disabled>RCW_Half Dark ElfMaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half Dark ElfMaleIcon</PressedFlyby>
+		</ButtonDrawTemplate>
+		<DecalOffset>
+			<X>0</X>
+			<Y>0</Y>
+		</DecalOffset>
+		<DecalSize>
+			<CX>46</CX>
+			<CY>46</CY>
+		</DecalSize>
+	</Button>
+	<Button item="LOW_Female_Race_Half Dark Elf_Button">
+		<ScreenID>LOW_Female_Race_Half Dark Elf_Button</ScreenID>
+		<RadioGroup>LOW_FemaleRace</RadioGroup>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>132</X>
+			<Y>162</Y>
+		</Location>
+		<Size>
+			<CX>46</CX>
+			<CY>46</CY>
+		</Size>
+		<Style_Checkbox>true</Style_Checkbox>
+		<ButtonDrawTemplate>
+			<PressedDecal>RCW_SelectIcon</PressedDecal>
+			<FlybyDecal>RCW_HoverIcon</FlybyDecal>
+			<Normal>RCW_Half Dark ElfFemaleIcon</Normal>
+			<Pressed>RCW_Half Dark ElfFemaleIcon</Pressed>
+			<Flyby>RCW_Half Dark ElfFemaleIcon</Flyby>
+			<Disabled>RCW_Half Dark ElfFemaleIconDisabled</Disabled>
+			<PressedFlyby>RCW_Half Dark ElfFemaleIcon</PressedFlyby>
 		</ButtonDrawTemplate>
 		<DecalOffset>
 			<X>0</X>
@@ -2704,6 +2766,7 @@
 		<Pieces>LOW_Male_Race_Wood Elf_Button</Pieces>
 		<Pieces>LOW_Male_Race_Froglok_Button</Pieces>
 		<Pieces>LOW_Male_Race_Drakkin_Button</Pieces>
+		<Pieces>LOW_Male_Race_Half Dark Elf_Button</Pieces>
 	</Page>
 	<Page item="LOW_Race_Female_Page">
 		<ScreenID>LOW_Race_Female_Page</ScreenID>
@@ -2737,6 +2800,7 @@
 		<Pieces>LOW_Female_Race_Wood Elf_Button</Pieces>
 		<Pieces>LOW_Female_Race_Froglok_Button</Pieces>
 		<Pieces>LOW_Female_Race_Drakkin_Button</Pieces>
+		<Pieces>LOW_Female_Race_Half Dark Elf_Button</Pieces>
 	</Page>
 	<TabBox item="LOW_Race_Subwindows">
 		<ScreenID>LOW_Race_Subwindows</ScreenID>
